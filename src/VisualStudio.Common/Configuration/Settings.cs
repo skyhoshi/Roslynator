@@ -29,7 +29,7 @@ namespace Roslynator.Configuration
                 CodeFixes[kvp.Key] = kvp.Value;
         }
 
-        internal void ApplyTo(RefactoringSettings settings)
+        public void ApplyTo(RefactoringSettings settings)
         {
             settings.PrefixFieldIdentifierWithUnderscore = PrefixFieldIdentifierWithUnderscore;
 
