@@ -14,6 +14,13 @@ namespace Roslynator.CSharp
     /// </summary>
     public static class ModifierList
     {
+        /// <summary>
+        /// Returns an index the specified token should be inserted at.
+        /// </summary>
+        /// <param name="tokens"></param>
+        /// <param name="token"></param>
+        /// <param name="comparer"></param>
+        /// <returns></returns>
         public static int GetInsertIndex(SyntaxTokenList tokens, SyntaxToken token, IComparer<SyntaxToken> comparer = null)
         {
             if (comparer == null)
@@ -42,6 +49,13 @@ namespace Roslynator.CSharp
             return index;
         }
 
+        /// <summary>
+        /// Returns an index a token with the specified kind should be inserted at.
+        /// </summary>
+        /// <param name="tokens"></param>
+        /// <param name="kind"></param>
+        /// <param name="comparer"></param>
+        /// <returns></returns>
         public static int GetInsertIndex(SyntaxTokenList tokens, SyntaxKind kind, IComparer<SyntaxKind> comparer = null)
         {
             if (comparer == null)

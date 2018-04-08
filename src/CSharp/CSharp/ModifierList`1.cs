@@ -12,6 +12,7 @@ namespace Roslynator.CSharp
     /// <summary>
     /// Represents a list of modifiers.
     /// </summary>
+    /// <typeparam name="TNode"></typeparam>
     public abstract class ModifierList<TNode> where TNode : SyntaxNode
     {
         internal ModifierList()

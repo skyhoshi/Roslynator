@@ -79,7 +79,7 @@ namespace Roslynator.CodeGeneration
                 XmlGenerator.CreateDefaultConfigFile(Refactorings, CodeFixes));
 
             WriteAllText(
-                "DefaultRuleSet.xml",
+                "DefaultRuleSet.ruleset",
                 XmlGenerator.CreateDefaultRuleSet(Analyzers));
         }
 

@@ -54,39 +54,6 @@ namespace Roslynator.CodeGeneration.Xml
             return WriteDocument(doc, _regexForDefaultConfigFile);
         }
 
-        private static string WriteDocument(XDocument doc, Regex regex)
-        {
-            var xmlWriterSettings = new XmlWriterSettings()
-            {
-                OmitXmlDeclaration = false,
-                NewLineChars = "\r\n",
-                IndentChars = "  ",
-                Indent = true
-            };
-
-            using (var sw = new Utf8StringWriter())
-            {
-                using (XmlWriter xmlWriter = XmlWriter.Create(sw, xmlWriterSettings))
-                    doc.WriteTo(xmlWriter);
-
-                string s = sw.ToString();
-
-                return regex.Replace(s, "${grp} ${comment}");
-            }
-        }
-
-        private static readonly Regex _regexForDefaultConfigFile = new Regex(@"
-            (?<grp><(Refactoring|CodeFix)\ Id=""(RR|RCF)[0-9]{4}""\ IsEnabled=""(true|false)""\ />)
-            \s+
-            (?<comment><!--\ [a-zA-Z0-9 (),]+\ -->)
-            ", RegexOptions.IgnorePatternWhitespace);
-
-        private static readonly Regex _regexForDefaultRuleSet = new Regex(@"
-            (?<grp><Rule\ Id=""RCS[0-9]{4}(FadeOut)?""\ Action=""\w+""\ />)
-            \s+
-            (?<comment><!--\ .+?\ -->)
-            ", RegexOptions.IgnorePatternWhitespace);
-
         public static string CreateDefaultRuleSet(IEnumerable<AnalyzerDescriptor> analyzers)
         {
             var doc = new XDocument(
@@ -124,5 +91,38 @@ namespace Roslynator.CodeGeneration.Xml
                     new XAttribute("Action", (analyzer.IsEnabledByDefault) ? analyzer.DefaultSeverity : "None"));
             }
         }
+
+        private static string WriteDocument(XDocument doc, Regex regex)
+        {
+            var xmlWriterSettings = new XmlWriterSettings()
+            {
+                OmitXmlDeclaration = false,
+                NewLineChars = "\r\n",
+                IndentChars = "  ",
+                Indent = true
+            };
+
+            using (var sw = new Utf8StringWriter())
+            {
+                using (XmlWriter xmlWriter = XmlWriter.Create(sw, xmlWriterSettings))
+                    doc.WriteTo(xmlWriter);
+
+                string s = sw.ToString();
+
+                return regex.Replace(s, "${grp} ${comment}");
+            }
+        }
+
+        private static readonly Regex _regexForDefaultConfigFile = new Regex(@"
+            (?<grp><(Refactoring|CodeFix)\ Id=""(RR|RCF)[0-9]{4}""\ IsEnabled=""(true|false)""\ />)
+            \s+
+            (?<comment><!--\ [a-zA-Z0-9 (),]+\ -->)
+            ", RegexOptions.IgnorePatternWhitespace);
+
+        private static readonly Regex _regexForDefaultRuleSet = new Regex(@"
+            (?<grp><Rule\ Id=""RCS[0-9]{4}(FadeOut)?""\ Action=""\w+""\ />)
+            \s+
+            (?<comment><!--\ .+?\ -->)
+            ", RegexOptions.IgnorePatternWhitespace);
     }
 }

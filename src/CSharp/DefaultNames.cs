@@ -4,14 +4,14 @@ namespace Roslynator
 {
     internal static class DefaultNames
     {
-        public const string Variable = "x";
-        public const string ForVariable = "i";
-        public const string ForEachVariable = "item";
+        public const string EnumMember = "EnumMember";
         public const string EventArgsVariable = "e";
         public const string EventHandlerVariable = "handler";
-        public const string StringBuilderVariable = "sb";
+        public const string ForEachVariable = "item";
+        public const string ForVariable = "i";
         public const string Namespace = "Namespace";
-        public const string EnumMember = "EnumMember";
+        public const string StringBuilderVariable = "sb";
         public const string TypeParameter = "T";
+        public const string Variable = "x";
     }
 }

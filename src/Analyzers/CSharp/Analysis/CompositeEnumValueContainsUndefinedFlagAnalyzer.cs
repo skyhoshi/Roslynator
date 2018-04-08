@@ -58,9 +58,9 @@ namespace Roslynator.CSharp.Analysis
                         for (int i = 0; i < values.Length; i++)
                         {
                             if (values[i] != 0
-                                && FlagsUtility.IsComposite(values[i]))
+                                && FlagsUtility<sbyte>.Instance.IsComposite(values[i]))
                             {
-                                foreach (sbyte value in FlagsUtility.Decompose(values[i]))
+                                foreach (sbyte value in FlagsUtility<sbyte>.Instance.Decompose(values[i]))
                                 {
                                     if (values.IndexOf(value) == -1)
                                         ReportDiagnostic(context, fields[i], value.ToString());
@@ -77,9 +77,9 @@ namespace Roslynator.CSharp.Analysis
                         for (int i = 0; i < values.Length; i++)
                         {
                             if (values[i] != 0
-                                && FlagsUtility.IsComposite(values[i]))
+                                && FlagsUtility<byte>.Instance.IsComposite(values[i]))
                             {
-                                foreach (byte value in FlagsUtility.Decompose(values[i]))
+                                foreach (byte value in FlagsUtility<byte>.Instance.Decompose(values[i]))
                                 {
                                     if (values.IndexOf(value) == -1)
                                         ReportDiagnostic(context, fields[i], value.ToString());
@@ -96,9 +96,9 @@ namespace Roslynator.CSharp.Analysis
                         for (int i = 0; i < values.Length; i++)
                         {
                             if (values[i] != 0
-                                && FlagsUtility.IsComposite(values[i]))
+                                && FlagsUtility<short>.Instance.IsComposite(values[i]))
                             {
-                                foreach (short value in FlagsUtility.Decompose(values[i]))
+                                foreach (short value in FlagsUtility<short>.Instance.Decompose(values[i]))
                                 {
                                     if (values.IndexOf(value) == -1)
                                         ReportDiagnostic(context, fields[i], value.ToString());
@@ -115,9 +115,9 @@ namespace Roslynator.CSharp.Analysis
                         for (int i = 0; i < values.Length; i++)
                         {
                             if (values[i] != 0
-                                && FlagsUtility.IsComposite(values[i]))
+                                && FlagsUtility<ushort>.Instance.IsComposite(values[i]))
                             {
-                                foreach (ushort value in FlagsUtility.Decompose(values[i]))
+                                foreach (ushort value in FlagsUtility<ushort>.Instance.Decompose(values[i]))
                                 {
                                     if (values.IndexOf(value) == -1)
                                         ReportDiagnostic(context, fields[i], value.ToString());
@@ -134,9 +134,9 @@ namespace Roslynator.CSharp.Analysis
                         for (int i = 0; i < values.Length; i++)
                         {
                             if (values[i] != 0
-                                && FlagsUtility.IsComposite(values[i]))
+                                && FlagsUtility<int>.Instance.IsComposite(values[i]))
                             {
-                                foreach (int value in FlagsUtility.Decompose(values[i]))
+                                foreach (int value in FlagsUtility<int>.Instance.Decompose(values[i]))
                                 {
                                     if (values.IndexOf(value) == -1)
                                         ReportDiagnostic(context, fields[i], value.ToString());
@@ -153,9 +153,9 @@ namespace Roslynator.CSharp.Analysis
                         for (int i = 0; i < values.Length; i++)
                         {
                             if (values[i] != 0
-                                && FlagsUtility.IsComposite(values[i]))
+                                && FlagsUtility<uint>.Instance.IsComposite(values[i]))
                             {
-                                foreach (uint value in FlagsUtility.Decompose(values[i]))
+                                foreach (uint value in FlagsUtility<uint>.Instance.Decompose(values[i]))
                                 {
                                     if (values.IndexOf(value) == -1)
                                         ReportDiagnostic(context, fields[i], value.ToString());
@@ -172,9 +172,9 @@ namespace Roslynator.CSharp.Analysis
                         for (int i = 0; i < values.Length; i++)
                         {
                             if (values[i] != 0
-                                && FlagsUtility.IsComposite(values[i]))
+                                && FlagsUtility<long>.Instance.IsComposite(values[i]))
                             {
-                                foreach (long value in FlagsUtility.Decompose(values[i]))
+                                foreach (long value in FlagsUtility<long>.Instance.Decompose(values[i]))
                                 {
                                     if (values.IndexOf(value) == -1)
                                         ReportDiagnostic(context, fields[i], value.ToString());
@@ -191,9 +191,9 @@ namespace Roslynator.CSharp.Analysis
                         for (int i = 0; i < values.Length; i++)
                         {
                             if (values[i] != 0
-                                && FlagsUtility.IsComposite(values[i]))
+                                && FlagsUtility<ulong>.Instance.IsComposite(values[i]))
                             {
-                                foreach (ulong value in FlagsUtility.Decompose(values[i]))
+                                foreach (ulong value in FlagsUtility<ulong>.Instance.Decompose(values[i]))
                                 {
                                     if (values.IndexOf(value) == -1)
                                         ReportDiagnostic(context, fields[i], value.ToString());
