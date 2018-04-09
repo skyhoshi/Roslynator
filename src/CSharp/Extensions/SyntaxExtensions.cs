@@ -149,6 +149,14 @@ namespace Roslynator
             return (list.Count > 1) ? list.LastButOne() : default(TNode);
         }
 
+        /// <summary>
+        /// Creates a new separated list with both leading and trailing trivia of the specified node.
+        /// If the list contains more than one item, first item is updated with leading trivia and last item is updated with trailing trivia.
+        /// </summary>
+        /// <typeparam name="TNode"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public static SeparatedSyntaxList<TNode> WithTriviaFrom<TNode>(this SeparatedSyntaxList<TNode> list, SyntaxNode node) where TNode : SyntaxNode
         {
             if (node == null)
@@ -189,47 +197,6 @@ namespace Roslynator
                     SyntaxToken separator = list.GetSeparator(separatorCount - 1);
 
                     return list.ReplaceSeparator(separator, separator.WithTrailingTrivia(node.GetTrailingTrivia()));
-                }
-            }
-        }
-
-        public static SeparatedSyntaxList<TNode> WithTriviaFrom<TNode>(this SeparatedSyntaxList<TNode> list, SyntaxToken token) where TNode : SyntaxNode
-        {
-            int count = list.Count;
-
-            if (count == 0)
-                return list;
-
-            int separatorCount = list.SeparatorCount;
-
-            if (count == 1)
-            {
-                if (separatorCount == 0)
-                {
-                    return list.ReplaceAt(0, list[0].WithTriviaFrom(token));
-                }
-                else
-                {
-                    list = list.ReplaceAt(0, list[0].WithLeadingTrivia(token.LeadingTrivia));
-
-                    SyntaxToken separator = list.GetSeparator(0);
-
-                    return list.ReplaceSeparator(separator, separator.WithTrailingTrivia(token.TrailingTrivia));
-                }
-            }
-            else
-            {
-                list = list.ReplaceAt(0, list[0].WithLeadingTrivia(token.LeadingTrivia));
-
-                if (separatorCount == count - 1)
-                {
-                    return list.ReplaceAt(1, list[1].WithTrailingTrivia(token.TrailingTrivia));
-                }
-                else
-                {
-                    SyntaxToken separator = list.GetSeparator(separatorCount - 1);
-
-                    return list.ReplaceSeparator(separator, separator.WithTrailingTrivia(token.TrailingTrivia));
                 }
             }
         }
@@ -390,6 +357,14 @@ namespace Roslynator
             return (list.Count > 1) ? list.LastButOne() : default(TNode);
         }
 
+        /// <summary>
+        /// Creates a new list with both leading and trailing trivia of the specified node.
+        /// If the list contains more than one item, first item is updated with leading trivia and last item is updated with trailing trivia.
+        /// </summary>
+        /// <typeparam name="TNode"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public static SyntaxList<TNode> WithTriviaFrom<TNode>(this SyntaxList<TNode> list, SyntaxNode node) where TNode : SyntaxNode
         {
             if (node == null)
@@ -406,21 +381,6 @@ namespace Roslynator
             return list
                 .ReplaceAt(0, list[0].WithLeadingTrivia(node.GetLeadingTrivia()))
                 .ReplaceAt(1, list[1].WithTrailingTrivia(node.GetTrailingTrivia()));
-        }
-
-        public static SyntaxList<TNode> WithTriviaFrom<TNode>(this SyntaxList<TNode> list, SyntaxToken token) where TNode : SyntaxNode
-        {
-            int count = list.Count;
-
-            if (count == 0)
-                return list;
-
-            if (count == 1)
-                return list.ReplaceAt(0, list[0].WithTriviaFrom(token));
-
-            return list
-                .ReplaceAt(0, list[0].WithLeadingTrivia(token.LeadingTrivia))
-                .ReplaceAt(1, list[1].WithTrailingTrivia(token.TrailingTrivia));
         }
         #endregion SyntaxList<T>
 

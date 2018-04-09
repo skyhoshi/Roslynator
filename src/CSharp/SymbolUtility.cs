@@ -299,7 +299,7 @@ namespace Roslynator
             if (methodSymbol.DeclaredAccessibility != Accessibility.Public)
                 return false;
 
-            if (!methodSymbol.ReturnType.IsConstructedFromIEnumerableOfT())
+            if (!methodSymbol.ReturnType.OriginalDefinition.IsIEnumerableOfT())
                 return false;
 
             if (!methodSymbol.IsName("Select"))
@@ -318,7 +318,7 @@ namespace Roslynator
                 ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
 
                 return parameters.Length == 2
-                    && parameters[0].Type.IsConstructedFromIEnumerableOfT()
+                    && parameters[0].Type.OriginalDefinition.IsIEnumerableOfT()
                     && IsFunc(parameters[1].Type, methodSymbol.TypeArguments[0], methodSymbol.TypeArguments[1], semanticModel);
             }
             else if (allowImmutableArrayExtension
@@ -327,7 +327,7 @@ namespace Roslynator
                 ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
 
                 return parameters.Length == 2
-                    && parameters[0].Type.IsConstructedFromImmutableArrayOfT(semanticModel)
+                    && IsImmutableArrayOfT(parameters[0].Type, semanticModel)
                     && IsFunc(parameters[1].Type, methodSymbol.TypeArguments[0], methodSymbol.TypeArguments[1], semanticModel);
             }
 
@@ -337,7 +337,7 @@ namespace Roslynator
         internal static bool IsLinqCast(IMethodSymbol methodSymbol, SemanticModel semanticModel)
         {
             return methodSymbol.DeclaredAccessibility == Accessibility.Public
-                && methodSymbol.ReturnType.IsConstructedFromIEnumerableOfT()
+                && methodSymbol.ReturnType.OriginalDefinition.IsIEnumerableOfT()
                 && methodSymbol.IsName("Cast")
                 && methodSymbol.Arity == 1
                 && methodSymbol.HasSingleParameter(SpecialType.System_Collections_IEnumerable)
@@ -369,7 +369,7 @@ namespace Roslynator
                 ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
 
                 return (parameterCount == -1 || parameters.Length == parameterCount)
-                    && parameters[0].Type.IsConstructedFromIEnumerableOfT();
+                    && parameters[0].Type.OriginalDefinition.IsIEnumerableOfT();
             }
             else if (allowImmutableArrayExtension
                 && containingType.Equals(semanticModel.GetTypeByMetadataName(MetadataNames.System_Linq_ImmutableArrayExtensions)))
@@ -377,7 +377,7 @@ namespace Roslynator
                 ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
 
                 return (parameterCount == -1 || parameters.Length == parameterCount)
-                    && parameters[0].Type.IsConstructedFromImmutableArrayOfT(semanticModel);
+                    && IsImmutableArrayOfT(parameters[0].Type, semanticModel);
             }
 
             return false;
@@ -415,7 +415,7 @@ namespace Roslynator
                 ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
 
                 return parameters.Length == parameterCount
-                    && parameters[0].Type.IsConstructedFromIEnumerableOfT()
+                    && parameters[0].Type.OriginalDefinition.IsIEnumerableOfT()
                     && IsPredicateFunc(parameters[1].Type, methodSymbol.TypeArguments[0], semanticModel);
             }
             else if (allowImmutableArrayExtension
@@ -424,11 +424,16 @@ namespace Roslynator
                 ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
 
                 return parameters.Length == parameterCount
-                    && parameters[0].Type.IsConstructedFromImmutableArrayOfT(semanticModel)
+                    && IsImmutableArrayOfT(parameters[0].Type, semanticModel)
                     && IsPredicateFunc(parameters[1].Type, methodSymbol.TypeArguments[0], semanticModel);
             }
 
             return false;
+        }
+
+        public static bool IsImmutableArrayOfT(ITypeSymbol typeSymbol, SemanticModel semanticModel)
+        {
+            return typeSymbol?.OriginalDefinition.Equals(semanticModel.GetTypeByMetadataName(MetadataNames.System_Collections_Immutable_ImmutableArray_T)) == true;
         }
 
         public static bool SupportsSwitchExpression(ITypeSymbol typeSymbol)
@@ -458,7 +463,7 @@ namespace Roslynator
             }
 
             if ((typeSymbol is INamedTypeSymbol namedTypeSymbol)
-                && namedTypeSymbol.ConstructedFrom.SpecialType == SpecialType.System_Nullable_T)
+                && namedTypeSymbol.IsNullableType())
             {
                 switch (namedTypeSymbol.TypeArguments[0].SpecialType)
                 {
