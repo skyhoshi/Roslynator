@@ -52,21 +52,33 @@ namespace Cleaner
             if (!Directory.Exists(directory))
                 return;
 
-            foreach (string item in Directory.EnumerateDirectories(directory, "*", SearchOption.TopDirectoryOnly))
-                DeleteDirectory(item);
-        }
+            if (!Directory.EnumerateFileSystemEntries(directory).Any())
+                return;
 
-        private static void DeleteDirectory(string path)
-        {
-            Console.WriteLine(path);
+            Console.WriteLine(directory);
 
-            try
+            foreach (string path in Directory.EnumerateFiles(directory, "*", SearchOption.TopDirectoryOnly))
             {
-                Directory.Delete(path, recursive: true);
+                try
+                {
+                    File.Delete(path);
+                }
+                catch (IOException ex)
+                {
+                    Console.WriteLine(ex.GetBaseException().Message);
+                }
             }
-            catch (IOException ex)
+
+            foreach (string path in Directory.EnumerateDirectories(directory, "*", SearchOption.TopDirectoryOnly))
             {
-                Console.WriteLine(ex.GetBaseException().Message);
+                try
+                {
+                    Directory.Delete(path, recursive: true);
+                }
+                catch (IOException ex)
+                {
+                    Console.WriteLine(ex.GetBaseException().Message);
+                }
             }
         }
     }

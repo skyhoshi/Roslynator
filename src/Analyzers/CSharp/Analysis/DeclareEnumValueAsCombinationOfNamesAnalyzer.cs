@@ -111,25 +111,24 @@ namespace Roslynator.CSharp.Analysis
 
             public bool IsComposite()
             {
-                if (UnderlyingType == SpecialType.System_Int32)
-                    return FlagsUtility.IsComposite((int)Value);
-
                 switch (UnderlyingType)
                 {
                     case SpecialType.System_SByte:
-                        return FlagsUtility.IsComposite((sbyte)Value);
+                        return FlagsUtility<sbyte>.Instance.IsComposite((sbyte)Value);
                     case SpecialType.System_Byte:
-                        return FlagsUtility.IsComposite((byte)Value);
+                        return FlagsUtility<byte>.Instance.IsComposite((byte)Value);
                     case SpecialType.System_Int16:
-                        return FlagsUtility.IsComposite((short)Value);
+                        return FlagsUtility<short>.Instance.IsComposite((short)Value);
                     case SpecialType.System_UInt16:
-                        return FlagsUtility.IsComposite((ushort)Value);
+                        return FlagsUtility<ushort>.Instance.IsComposite((ushort)Value);
+                    case SpecialType.System_Int32:
+                        return FlagsUtility<int>.Instance.IsComposite((int)Value);
                     case SpecialType.System_UInt32:
-                        return FlagsUtility.IsComposite((uint)Value);
+                        return FlagsUtility<uint>.Instance.IsComposite((uint)Value);
                     case SpecialType.System_Int64:
-                        return FlagsUtility.IsComposite((long)Value);
+                        return FlagsUtility<long>.Instance.IsComposite((long)Value);
                     case SpecialType.System_UInt64:
-                        return FlagsUtility.IsComposite((ulong)Value);
+                        return FlagsUtility<ulong>.Instance.IsComposite((ulong)Value);
                 }
 
                 return false;
