@@ -341,28 +341,39 @@ namespace Roslynator
         }
 
         /// <summary>
-        /// Get a value indicating whether the symbol has specified attribute.
+        /// Returns the attribute for the symbol that matches the specified attribute class.
+        /// </summary>
+        /// <param name="symbol"></param>
+        /// <param name="attributeClass"></param>
+        /// <returns></returns>
+        public static AttributeData GetAttribute(this ISymbol symbol, INamedTypeSymbol attributeClass)
+        {
+            if (symbol == null)
+                throw new ArgumentNullException(nameof(symbol));
+
+            if (attributeClass != null)
+            {
+                ImmutableArray<AttributeData> attributes = symbol.GetAttributes();
+
+                for (int i = 0; i < attributes.Length; i++)
+                {
+                    if (attributes[i].AttributeClass.Equals(attributeClass))
+                        return attributes[i];
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns true if the symbol has the specified attribute.
         /// </summary>
         /// <param name="symbol"></param>
         /// <param name="attributeSymbol"></param>
         /// <returns></returns>
         public static bool HasAttribute(this ISymbol symbol, INamedTypeSymbol attributeSymbol)
         {
-            if (symbol == null)
-                throw new ArgumentNullException(nameof(symbol));
-
-            if (attributeSymbol != null)
-            {
-                ImmutableArray<AttributeData> attributes = symbol.GetAttributes();
-
-                for (int i = 0; i < attributes.Length; i++)
-                {
-                    if (attributes[i].AttributeClass.Equals(attributeSymbol))
-                        return true;
-                }
-            }
-
-            return false;
+            return GetAttribute(symbol, attributeSymbol) != null;
         }
 
         internal static AttributeData GetAttributeByMetadataName(this INamedTypeSymbol typeSymbol, string fullyQualifiedMetadataName, Compilation compilation)
