@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
 using System.Collections.Immutable;
 using System.Composition;
-using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -69,7 +67,7 @@ namespace Roslynator.CSharp.CodeFixes
                 .Value
                 .ToString();
 
-            ExpressionSyntax returnExpression = GetReturnExpression(value);
+            ExpressionSyntax returnExpression = GetReturnExpression(value, SyntaxInfo.StringLiteralExpressionInfo(argument.Expression).IsVerbatim);
 
             PropertyDeclarationSyntax propertyDeclaration = PropertyDeclaration(
                 SingletonList(
@@ -100,13 +98,16 @@ namespace Roslynator.CSharp.CodeFixes
             return await document.ReplaceNodeAsync(typeDeclaration, newTypeDeclaration, cancellationToken).ConfigureAwait(false);
         }
 
-        private static ExpressionSyntax GetReturnExpression(string value)
+        private static ExpressionSyntax GetReturnExpression(string value, bool isVerbatim)
         {
-            bool isVerbatim = value.StartsWith("@", StringComparison.Ordinal);
+            StringBuilder sb = StringBuilderCache.GetInstance(capacity: value.Length);
 
-            StringBuilder sb = StringBuilderCache.GetInstance();
+            sb.Append('$');
 
-            sb.Append("$\"");
+            if (isVerbatim)
+                sb.Append('@');
+
+            sb.Append('"');
 
             int length = value.Length;
 
@@ -169,14 +170,14 @@ namespace Roslynator.CSharp.CodeFixes
                                     }
                                 }
 
-                                sb.Append("\\\\");
+                                sb.Append((isVerbatim) ? "\\" : "\\\\");
                                 lastPos = i;
                                 continue;
                             }
                         case '"':
                             {
                                 sb.Append(value, lastPos, i - lastPos);
-                                sb.Append("\\\"");
+                                sb.Append((isVerbatim) ? "\"\"" : "\\\"");
                                 i++;
                                 lastPos = i;
                                 continue;
@@ -189,26 +190,22 @@ namespace Roslynator.CSharp.CodeFixes
 
             void AppendInterpolation()
             {
-                int endIndex = -1;
-
                 while (i < length)
                 {
                     switch (value[i])
                     {
                         case '}':
                             {
-                                if (endIndex == -1)
-                                    endIndex = i;
-
-                                sb.Append("\\\"{");
-                                sb.Append(value, lastPos, endIndex - lastPos);
-                                sb.Append("}\\\"");
+                                sb.Append((isVerbatim) ? "\"\"" : "\\\"");
+                                sb.Append('{');
+                                sb.Append(value, lastPos, i - lastPos);
+                                sb.Append('}');
+                                sb.Append((isVerbatim) ? "\"\"" : "\\\"");
                                 return;
                             }
                         case '(':
                             {
                                 i++;
-                                endIndex = i;
                                 break;
                             }
                         case ',':

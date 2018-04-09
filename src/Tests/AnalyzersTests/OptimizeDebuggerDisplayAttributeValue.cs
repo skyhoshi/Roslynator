@@ -2,7 +2,7 @@
 
 using System.Diagnostics;
 
-#pragma warning disable RCS1016, RCS1181
+#pragma warning disable RCS1016, RCS1024, RCS1181
 
 namespace Roslynator.CSharp.Analyzers.Tests
 {
@@ -21,15 +21,9 @@ namespace Roslynator.CSharp.Analyzers.Tests
         [DebuggerDisplay(@" \{\} Value1: {GetValue1(),nq} Value2: {GetValue2()} "" \\ ")]
         private class Foo2
         {
-            public string GetValue1()
-            {
-                return "";
-            }
+            public string GetValue1() => "";
 
-            public string GetValue2()
-            {
-                return "";
-            }
+            public string GetValue2() => "";
         }
     }
 }

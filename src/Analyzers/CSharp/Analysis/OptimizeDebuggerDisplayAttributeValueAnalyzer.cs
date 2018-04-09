@@ -65,7 +65,7 @@ namespace Roslynator.CSharp.Analysis
 
             var attribute = (AttributeSyntax)attributeData.ApplicationSyntaxReference.GetSyntax(context.CancellationToken);
 
-            ExpressionSyntax expression = attribute.ArgumentList.Arguments.First().Expression;
+            ExpressionSyntax expression = attribute.ArgumentList.Arguments.First().Expression.WalkDownParentheses();
 
             Debug.Assert(expression.IsKind(SyntaxKind.StringLiteralExpression), expression.Kind().ToString());
 
@@ -131,7 +131,23 @@ namespace Roslynator.CSharp.Analysis
                         case '\\':
                             {
                                 i++;
-                                break;
+
+                                if (i < length)
+                                {
+                                    char ch = value[i];
+
+                                    if (ch == '{'
+                                        || ch == '}')
+                                    {
+                                        i++;
+                                    }
+
+                                    continue;
+                                }
+                                else
+                                {
+                                    return;
+                                }
                             }
                     }
 
