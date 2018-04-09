@@ -36,6 +36,7 @@ namespace Roslynator.CSharp.Analysis.UnusedMember
                 switch (Node.Kind())
                 {
                     case SyntaxKind.PropertyDeclaration:
+                    case SyntaxKind.FieldDeclaration:
                         {
                             return true;
                         }
