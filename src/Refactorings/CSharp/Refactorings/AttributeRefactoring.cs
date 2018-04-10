@@ -5,8 +5,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Roslynator.CSharp.Refactorings
 {
-    //TODO: ren AttributeRefactoring
-    internal static class AttributeRefactoring2
+    internal static class AttributeRefactoring
     {
         public static async Task ComputeRefactoringAsync(RefactoringContext context, AttributeSyntax attribute)
         {

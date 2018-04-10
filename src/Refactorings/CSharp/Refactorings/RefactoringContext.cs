@@ -525,7 +525,7 @@ namespace Roslynator.CSharp.Refactorings
                     if (!fAttribute
                         && kind == SyntaxKind.Attribute)
                     {
-                        await AttributeRefactoring2.ComputeRefactoringAsync(this, (AttributeSyntax)node).ConfigureAwait(false);
+                        await AttributeRefactoring.ComputeRefactoringAsync(this, (AttributeSyntax)node).ConfigureAwait(false);
                         fAttribute = true;
                         continue;
                     }
