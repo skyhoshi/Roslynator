@@ -1,45 +1,187 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Collections.Immutable;
-using System.Composition;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeActions;
-using Microsoft.CodeAnalysis.CodeFixes;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Roslynator.CodeFixes;
 using Roslynator.Text;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Roslynator.CSharp.CSharpFactory;
 
-namespace Roslynator.CSharp.CodeFixes
+namespace Roslynator.CSharp.Refactorings
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(OptimizeDebuggerDisplayAttributeValueCodeFixProvider))]
-    [Shared]
-    public class OptimizeDebuggerDisplayAttributeValueCodeFixProvider : BaseCodeFixProvider
+    internal static class GeneratePropertyForDebuggerDisplayAttributeRefactoring
     {
-        public sealed override ImmutableArray<string> FixableDiagnosticIds
+        public static async Task ComputeRefactoringAsync(RefactoringContext context, AttributeSyntax attribute)
         {
-            get { return ImmutableArray.Create(DiagnosticIdentifiers.OptimizeDebuggerDisplayAttributeValue); }
-        }
-
-        public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
-        {
-            SyntaxNode root = await context.GetSyntaxRootAsync().ConfigureAwait(false);
-
-            if (!TryFindFirstAncestorOrSelf(root, context.Span, out AttributeSyntax attribute))
+            if (attribute.ArgumentList?.Arguments.Count(f => f.NameEquals == null) != 1)
                 return;
 
-            Diagnostic diagnostic = context.Diagnostics[0];
+            if (!attribute.IsParentKind(SyntaxKind.AttributeList))
+                return;
 
-            CodeAction codeAction = CodeAction.Create(
-                "Add property 'DebuggerDisplay'",
-                cancellationToken => RefactorAsync(context.Document, attribute, cancellationToken),
-                GetEquivalenceKey(diagnostic));
+            if (!attribute.Parent.IsParentKind(SyntaxKind.ClassDeclaration, SyntaxKind.StructDeclaration))
+                return;
 
-            context.RegisterCodeFix(codeAction, diagnostic);
+            SemanticModel semanticModel = await context.GetSemanticModelAsync().ConfigureAwait(false);
+
+            string value = semanticModel
+                .GetDeclaredSymbol((TypeDeclarationSyntax)attribute.Parent.Parent, context.CancellationToken)
+                .GetAttribute(semanticModel.GetTypeByMetadataName(MetadataNames.System_Diagnostics_DebuggerDisplayAttribute))?
+                .ConstructorArguments
+                .SingleOrDefault(shouldThrow: false)
+                .Value?
+                .ToString();
+
+            if (value == null)
+                return;
+
+            if (!CanRefactor(value))
+                return;
+
+            context.RegisterRefactoring(
+                "Generate property 'DebuggerDisplay'",
+                cancellationToken => RefactorAsync(context.Document, attribute, cancellationToken));
+        }
+
+        private static bool CanRefactor(string value)
+        {
+            int length = value.Length;
+
+            if (length == 0)
+                return false;
+
+            int count = 0;
+
+            int i = 0;
+
+            while (true)
+            {
+                FindOpenBrace();
+
+                if (i == -1)
+                    return false;
+
+                if (i == length)
+                    break;
+
+                i++;
+
+                FindCloseBrace();
+
+                if (i == -1)
+                    return false;
+
+                if (i == length)
+                    break;
+
+                i++;
+
+                count++;
+            }
+
+            return count > 1;
+
+            void FindOpenBrace()
+            {
+                while (i < length)
+                {
+                    switch (value[i])
+                    {
+                        case '{':
+                            {
+                                return;
+                            }
+                        case '}':
+                            {
+                                i = -1;
+                                return;
+                            }
+                        case '\\':
+                            {
+                                i++;
+
+                                if (i < length)
+                                {
+                                    char ch = value[i];
+
+                                    if (ch == '{'
+                                        || ch == '}')
+                                    {
+                                        i++;
+                                    }
+
+                                    continue;
+                                }
+                                else
+                                {
+                                    return;
+                                }
+                            }
+                    }
+
+                    i++;
+                }
+            }
+
+            void FindCloseBrace()
+            {
+                while (i < length)
+                {
+                    switch (value[i])
+                    {
+                        case '{':
+                            {
+                                i = -1;
+                                return;
+                            }
+                        case '}':
+                            {
+                                return;
+                            }
+                        case '(':
+                            {
+                                i++;
+
+                                if (i < length
+                                    && value[i] == ')')
+                                {
+                                    break;
+                                }
+
+                                i = -1;
+                                return;
+                            }
+                        case ',':
+                            {
+                                i++;
+                                if (i < length
+                                    && value[i] == 'n')
+                                {
+                                    i++;
+                                    if (i < length
+                                        && value[i] == 'q')
+                                    {
+                                        i++;
+                                        if (i < length
+                                            && value[i] == '}')
+                                        {
+                                            return;
+                                        }
+                                    }
+                                }
+
+                                i = -1;
+                                return;
+                            }
+                    }
+
+                    i++;
+                }
+            }
         }
 
         private static async Task<Document> RefactorAsync(
@@ -85,7 +227,7 @@ namespace Roslynator.CSharp.CodeFixes
                 Modifiers.Private(),
                 CSharpTypeFactory.StringType(),
                 default(ExplicitInterfaceSpecifierSyntax),
-                Identifier(propertyName),
+                Identifier(propertyName).WithRenameAnnotation(),
                 AccessorList(
                     GetAccessorDeclaration(
                         Block(
@@ -196,11 +338,9 @@ namespace Roslynator.CSharp.CodeFixes
                     {
                         case '}':
                             {
-                                sb.Append((isVerbatim) ? "\"\"" : "\\\"");
                                 sb.Append('{');
                                 sb.Append(value, lastPos, i - lastPos);
                                 sb.Append('}');
-                                sb.Append((isVerbatim) ? "\"\"" : "\\\"");
                                 return;
                             }
                         case '(':

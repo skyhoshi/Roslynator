@@ -4577,47 +4577,4 @@ string y = $"{x}{x}{x}";]]></Before>
       </Sample>
     </Samples>
   </Analyzer>
-  <Analyzer Identifier="OptimizeDebuggerDisplayAttributeValue">
-    <Id>RCS1218</Id>
-    <Title>Optimize DebuggerDisplayAttribute value.</Title>
-    <MessageFormat>Optimize DebuggerDisplayAttribute value.</MessageFormat>
-    <Category>Performance</Category>
-    <DefaultSeverity>Info</DefaultSeverity>
-    <IsEnabledByDefault>true</IsEnabledByDefault>
-    <SupportsFadeOut>false</SupportsFadeOut>
-    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
-    <Links>
-      <Link>
-        <Url>https://docs.microsoft.com/en-us/visualstudio/debugger/using-the-debuggerdisplay-attribute#using-expressions-in-debuggerdisplay</Url>
-        <Text>Using Expressions in DebuggerDisplay</Text>
-      </Link>
-      <Link>
-        <Url>https://blogs.msdn.microsoft.com/jaredpar/2011/03/18/debuggerdisplay-attribute-best-practices/</Url>
-        <Text>DebuggerDisplay attribute best practices</Text>
-      </Link>
-    </Links>
-    <Samples>
-      <Sample>
-        <Before>
-          <![CDATA[[DebuggerDisplay("FirstName: {FirstName} SecondName: {SecondName}")]
-public class Foo
-{
-    public string FirstName { get; }
-    public string SecondName { get; }
-}]]></Before>
-        <After><![CDATA[DebuggerDisplay("{DebuggerDisplay,nq}")]
-public class Foo
-{
-    public string FirstName { get; }
-    public string SecondName { get; }
-
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private string DebuggerDisplay
-    {
-        get { return $"FirstName: {FirstName} SecondName: {SecondName}"; }
-    }
-}]]></After>
-      </Sample>
-    </Samples>
-  </Analyzer>
 </Analyzers>

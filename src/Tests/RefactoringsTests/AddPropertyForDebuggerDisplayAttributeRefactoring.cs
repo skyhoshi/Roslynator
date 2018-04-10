@@ -4,9 +4,9 @@ using System.Diagnostics;
 
 #pragma warning disable RCS1016, RCS1024, RCS1181
 
-namespace Roslynator.CSharp.Analyzers.Tests
+namespace Roslynator.CSharp.Refactorings.Tests
 {
-    internal static class OptimizeDebuggerDisplayAttributeValue
+    internal static class AddPropertyForDebuggerDisplayAttributeRefactoring
     {
         //" \\{\\} Value1: {Value1,nq} Value2: {Value2} \" \\"
         [DebuggerDisplay(" \\{\\} Value1: {Value1,nq} Value2: {Value2} \" \\")]

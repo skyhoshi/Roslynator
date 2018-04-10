@@ -10,6 +10,7 @@ namespace Roslynator.CSharp.Refactorings
 {
     internal static class AttributeRefactoring
     {
+        //TODO: mov RefactoringUtility
         public static IEnumerable<AttributeListSyntax> SplitAttributes(AttributeListSyntax attributeList)
         {
             SeparatedSyntaxList<AttributeSyntax> attributes = attributeList.Attributes;

@@ -2435,17 +2435,5 @@ namespace Roslynator.CSharp
 
         public static readonly DiagnosticDescriptor ReplaceInterpolatedStringWithConcatenationFadeOut = ReplaceInterpolatedStringWithConcatenation.CreateFadeOut();
 
-        /// <summary>RCS1218</summary>
-        public static readonly DiagnosticDescriptor OptimizeDebuggerDisplayAttributeValue = new DiagnosticDescriptor(
-            id:                 DiagnosticIdentifiers.OptimizeDebuggerDisplayAttributeValue, 
-            title:              "Optimize DebuggerDisplayAttribute value.", 
-            messageFormat:      "Optimize DebuggerDisplayAttribute value.", 
-            category:           DiagnosticCategories.Performance, 
-            defaultSeverity:    DiagnosticSeverity.Info, 
-            isEnabledByDefault: true, 
-            description:        null, 
-            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.OptimizeDebuggerDisplayAttributeValue}", 
-            customTags:         Array.Empty<string>());
-
     }
 }
