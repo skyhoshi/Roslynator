@@ -161,16 +161,10 @@ namespace Roslynator.CodeGeneration.Markdown
 
         private static IEnumerable<MElement> GetLinks(IEnumerable<LinkDescriptor> links)
         {
-            using (IEnumerator<LinkDescriptor> en = links.GetEnumerator())
+            if (links.Any())
             {
-                if (en.MoveNext())
-                {
-                    yield return Heading2("Related Links");
-                    yield return BulletItem(GetContent(en.Current));
-
-                    while (en.MoveNext())
-                        yield return BulletItem(GetContent(en.Current));
-                }
+                yield return Heading2("Related Links");
+                yield return BulletList(links.Select(GetContent));
             }
 
             MElement GetContent(LinkDescriptor link)
@@ -201,6 +195,7 @@ namespace Roslynator.CodeGeneration.Markdown
                 (!string.IsNullOrEmpty(refactoring.Summary)) ? Raw(refactoring.Summary) : null,
                 Heading3("Usage"),
                 GetRefactoringSamples(refactoring),
+                GetLinks(refactoring.Links),
                 Link("full list of refactorings", "Refactorings.md"),
                 NewLine);
 
