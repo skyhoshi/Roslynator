@@ -38,7 +38,7 @@ namespace Roslynator.CSharp.Syntax
         public ExpressionSyntax Expression { get; }
 
         /// <summary>
-        /// The style of this null check. Always returns only a single value from the <see cref="NullCheckStyles"/> enumeration.
+        /// The style of this null check.
         /// </summary>
         public NullCheckStyles Style { get; }
 
