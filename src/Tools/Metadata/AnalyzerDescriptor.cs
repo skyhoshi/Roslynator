@@ -19,7 +19,8 @@ namespace Roslynator.Metadata
             bool supportsFadeOut,
             bool supportsFadeOutAnalyzer,
             string summary,
-            IList<SampleDescriptor> samples)
+            IList<SampleDescriptor> samples,
+            IList<LinkDescriptor> links)
         {
             Id = id;
             Identifier = identifier;
@@ -33,6 +34,7 @@ namespace Roslynator.Metadata
             SupportsFadeOutAnalyzer = supportsFadeOutAnalyzer;
             Summary = summary;
             Samples = new ReadOnlyCollection<SampleDescriptor>(samples);
+            Links = new ReadOnlyCollection<LinkDescriptor>(links);
         }
 
         public string Id { get; }
@@ -58,5 +60,7 @@ namespace Roslynator.Metadata
         public string Summary { get; }
 
         public ReadOnlyCollection<SampleDescriptor> Samples { get; }
+
+        public ReadOnlyCollection<LinkDescriptor> Links { get; }
     }
 }

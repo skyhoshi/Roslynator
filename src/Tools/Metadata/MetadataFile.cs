@@ -40,7 +40,13 @@ namespace Roslynator.Metadata
                             .Elements("Sample")
                             .Select(f => new SampleDescriptor(f.Element("Before").Value, f.Element("After")?.Value))
                             .ToList()
-                        : new List<SampleDescriptor>());
+                        : new List<SampleDescriptor>(),
+                    (element.Element("Links") != null)
+                        ? element.Element("Links")?
+                            .Elements("Link")
+                            .Select(f => new LinkDescriptor(f.Element("Url").Value, f.Element("Text")?.Value, f.Element("Title")?.Value))
+                            .ToList()
+                        : new List<LinkDescriptor>());
             }
         }
 

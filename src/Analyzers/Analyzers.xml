@@ -4586,6 +4586,16 @@ string y = $"{x}{x}{x}";]]></Before>
     <IsEnabledByDefault>true</IsEnabledByDefault>
     <SupportsFadeOut>false</SupportsFadeOut>
     <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Links>
+      <Link>
+        <Url>https://docs.microsoft.com/en-us/visualstudio/debugger/using-the-debuggerdisplay-attribute#using-expressions-in-debuggerdisplay</Url>
+        <Text>Using Expressions in DebuggerDisplay</Text>
+      </Link>
+      <Link>
+        <Url>https://blogs.msdn.microsoft.com/jaredpar/2011/03/18/debuggerdisplay-attribute-best-practices/</Url>
+        <Text>DebuggerDisplay attribute best practices</Text>
+      </Link>
+    </Links>
     <Samples>
       <Sample>
         <Before>
