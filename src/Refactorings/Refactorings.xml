@@ -1668,6 +1668,7 @@ void OnChanged(object sender, EventArgs e)
     <Syntaxes>
       <Syntax>foreach statement</Syntax>
     </Syntaxes>
+    <Span>foreach keyword</Span>
     <Samples>
       <Sample>
         <Before>
