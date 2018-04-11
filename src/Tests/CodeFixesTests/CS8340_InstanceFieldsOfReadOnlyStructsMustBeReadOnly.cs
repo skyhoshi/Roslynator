@@ -12,6 +12,8 @@ namespace Roslynator.CSharp.CodeFixes.Tests
         {
             public string Field;
 
+            public string Field2;
+
             public readonly string ReadOnlyField;
         }
     }

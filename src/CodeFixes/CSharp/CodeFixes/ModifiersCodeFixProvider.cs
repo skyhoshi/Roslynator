@@ -451,18 +451,6 @@ namespace Roslynator.CSharp.CodeFixes
                         }
                     case CompilerDiagnosticIdentifiers.NewVirtualMemberInSealedClass:
                         {
-                            if (Settings.IsCodeFixEnabled(CodeFixIdentifiers.MakeContainingClassUnsealed)
-                                && node.Parent is ClassDeclarationSyntax classDeclaration)
-                            {
-                                ModifiersCodeFixRegistrator.RemoveModifier(
-                                    context,
-                                    diagnostic,
-                                    classDeclaration,
-                                    SyntaxKind.SealedKeyword,
-                                    title: "Unseal containing class",
-                                    additionalKey: CodeFixIdentifiers.MakeContainingClassUnsealed);
-                            }
-
                             if (Settings.IsCodeFixEnabled(CodeFixIdentifiers.RemoveVirtualModifier))
                             {
                                 ModifiersCodeFixRegistrator.RemoveModifier(
@@ -471,6 +459,18 @@ namespace Roslynator.CSharp.CodeFixes
                                     node,
                                     SyntaxKind.VirtualKeyword,
                                     additionalKey: CodeFixIdentifiers.RemoveVirtualModifier);
+                            }
+
+                            if (Settings.IsCodeFixEnabled(CodeFixIdentifiers.MakeContainingClassUnsealed)
+                                && node.Parent is ClassDeclarationSyntax classDeclaration)
+                            {
+                                ModifiersCodeFixRegistrator.RemoveModifier(
+                                    context,
+                                    diagnostic,
+                                    classDeclaration,
+                                    SyntaxKind.SealedKeyword,
+                                    title: "Make containing class unsealed",
+                                    additionalKey: CodeFixIdentifiers.MakeContainingClassUnsealed);
                             }
 
                             break;
