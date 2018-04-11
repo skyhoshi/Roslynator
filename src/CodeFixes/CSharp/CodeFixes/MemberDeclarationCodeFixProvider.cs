@@ -31,7 +31,8 @@ namespace Roslynator.CSharp.CodeFixes
                     CompilerDiagnosticIdentifiers.MemberIsAbstractButItIsContainedInNonAbstractClass,
                     CompilerDiagnosticIdentifiers.StaticConstructorMustBeParameterless,
                     CompilerDiagnosticIdentifiers.PartialMethodsMustHaveVoidReturnType,
-                    CompilerDiagnosticIdentifiers.ExplicitInterfaceDeclarationCanOnlyBeDeclaredInClassOrStruct);
+                    CompilerDiagnosticIdentifiers.ExplicitInterfaceDeclarationCanOnlyBeDeclaredInClassOrStruct,
+                    CompilerDiagnosticIdentifiers.InstanceFieldsOfReadOnlyStructsMustBeReadOnly);
             }
         }
 
@@ -43,7 +44,8 @@ namespace Roslynator.CSharp.CodeFixes
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.AddPartialModifier)
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.MakeContainingClassAbstract)
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.RemoveParametersFromStaticConstructor)
-                && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.RemoveMemberDeclaration))
+                && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.RemoveMemberDeclaration)
+                && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.MakeMemberReadOnly))
             {
                 return;
             }
@@ -263,6 +265,14 @@ namespace Roslynator.CSharp.CodeFixes
                                 break;
 
                             CodeFixRegistrator.RemoveMember(context, diagnostic, memberDeclaration);
+                            break;
+                        }
+                    case CompilerDiagnosticIdentifiers.InstanceFieldsOfReadOnlyStructsMustBeReadOnly:
+                        {
+                            if (!Settings.IsCodeFixEnabled(CodeFixIdentifiers.MakeMemberReadOnly))
+                                break;
+
+                            ModifiersCodeFixRegistrator.AddModifier(context, diagnostic, memberDeclaration, SyntaxKind.ReadOnlyKeyword);
                             break;
                         }
                 }

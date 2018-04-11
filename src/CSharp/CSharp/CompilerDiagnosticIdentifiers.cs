@@ -136,5 +136,6 @@ namespace Roslynator.CSharp
         public const string SinceMethodIsAsyncMethodThatReturnsTaskReturnKeywordMustNotBeFollowedByObjectExpression = "CS1997";
         public const string ControlCannotFallOutOfSwitchFromFinalCaseLabel = "CS8070";
         public const string LocalFunctionMustAlwaysHaveBody = "CS8112";
+        public const string InstanceFieldsOfReadOnlyStructsMustBeReadOnly = "CS8340";
     }
 }

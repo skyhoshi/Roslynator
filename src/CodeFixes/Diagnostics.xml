@@ -910,4 +910,11 @@
     Title="'function' is a local function and must therefore always have a body."
     Message="'{0}' is a local function and must therefore always have a body."
     HelpUrl="" />
+  <Diagnostic
+    Id="CS8340"
+    Identifier="InstanceFieldsOfReadOnlyStructsMustBeReadOnly"
+    Severity="Error"
+    Title="Instance fields of read-only structs must be read-only."
+    Message="Instance fields of readonly structs must be readonly."
+    HelpUrl="" />
 </Diagnostics>

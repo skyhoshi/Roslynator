@@ -544,4 +544,9 @@
       <Id>CS0501</Id>
     </FixableDiagnosticIds>
   </CodeFix>
+  <CodeFix Id="RCF0099" Identifier="MakeMemberReadOnly" Title="Make member read-only'">
+    <FixableDiagnosticIds>
+      <Id>CS8340</Id>
+    </FixableDiagnosticIds>
+  </CodeFix>
 </CodeFixes>
