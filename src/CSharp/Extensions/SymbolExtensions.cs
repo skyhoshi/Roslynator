@@ -341,7 +341,7 @@ namespace Roslynator
         }
 
         /// <summary>
-        /// Returns the attribute for the symbol that matches the specified attribute class.
+        /// Returns the attribute for the symbol that matches the specified attribute class, or null if the symbol does not have the specified attribute.
         /// </summary>
         /// <param name="symbol"></param>
         /// <param name="attributeClass"></param>
@@ -369,11 +369,11 @@ namespace Roslynator
         /// Returns true if the symbol has the specified attribute.
         /// </summary>
         /// <param name="symbol"></param>
-        /// <param name="attributeSymbol"></param>
+        /// <param name="attributeClass"></param>
         /// <returns></returns>
-        public static bool HasAttribute(this ISymbol symbol, INamedTypeSymbol attributeSymbol)
+        public static bool HasAttribute(this ISymbol symbol, INamedTypeSymbol attributeClass)
         {
-            return GetAttribute(symbol, attributeSymbol) != null;
+            return GetAttribute(symbol, attributeClass) != null;
         }
 
         internal static AttributeData GetAttributeByMetadataName(this INamedTypeSymbol typeSymbol, string fullyQualifiedMetadataName, Compilation compilation)
