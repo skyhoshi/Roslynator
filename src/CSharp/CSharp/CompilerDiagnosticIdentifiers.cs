@@ -132,6 +132,7 @@ namespace Roslynator.CSharp
         public const string MemberTypeMustMatchOverriddenMemberType = "CS1715";
         public const string AssignmentMadeToSameVariable = "CS1717";
         public const string BaseClassMustComeBeforeAnyInterface = "CS1722";
+        public const string CannotSpecifyDefaultValueForThisParameter = "CS1743";
         public const string ValueCannotBeUsedAsDefaultParameter = "CS1750";
         public const string CannotSpecifyDefaultValueForParameterArray = "CS1751";
         public const string NonInvocableMemberCannotBeUsedLikeMethod = "CS1955";

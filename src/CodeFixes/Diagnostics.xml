@@ -883,6 +883,13 @@
     Message="Base class '{0}' must come before any interfaces"
     HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs1722" />
   <Diagnostic
+    Id="CS1743"
+    Identifier="CannotSpecifyDefaultValueForThisParameter"
+    Severity="Error"
+    Title="Cannot specify a default value for the 'this' parameter."
+    Message="Cannot specify a default value for the 'this' parameter"
+    HelpUrl="" />
+  <Diagnostic
     Id="CS1750"
     Identifier="ValueCannotBeUsedAsDefaultParameter"
     Severity="Error"

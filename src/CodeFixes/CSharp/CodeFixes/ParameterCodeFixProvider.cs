@@ -22,7 +22,8 @@ namespace Roslynator.CSharp.CodeFixes
             {
                 return ImmutableArray.Create(
                     CompilerDiagnosticIdentifiers.ParamsParameterMustBeSingleDimensionalArray,
-                    CompilerDiagnosticIdentifiers.CannotSpecifyDefaultValueForParameterArray);
+                    CompilerDiagnosticIdentifiers.CannotSpecifyDefaultValueForParameterArray,
+                    CompilerDiagnosticIdentifiers.CannotSpecifyDefaultValueForThisParameter);
             }
         }
 
@@ -72,6 +73,7 @@ namespace Roslynator.CSharp.CodeFixes
                             break;
                         }
                     case CompilerDiagnosticIdentifiers.CannotSpecifyDefaultValueForParameterArray:
+                    case CompilerDiagnosticIdentifiers.CannotSpecifyDefaultValueForThisParameter:
                         {
                             EqualsValueClauseSyntax defaultValue = parameter.Default;
 
