@@ -311,6 +311,8 @@
     <FixableDiagnosticIds>
       <Id>CS0114</Id>
       <Id>CS0541</Id>
+      <Id>CS0525</Id>
+      <Id>CS0567</Id>
     </FixableDiagnosticIds>
   </CodeFix>
   <CodeFix Id="RCF0057" Identifier="RemoveReturnExpression" Title="Remove return expression" IsEnabledByDefault="false">

@@ -75,10 +75,13 @@ namespace Roslynator.CSharp
         public const string MethodReturnTypeMustMatchOverriddenMethodReturnType = "CS0508";
         public const string MemberIsAbstractButItIsContainedInNonAbstractClass = "CS0513";
         public const string AccessModifiersAreNotAllowedOnStaticConstructors = "CS0515";
+        public const string InterfacesCannotDeclareTypes = "CS0524";
+        public const string InterfacesCannotContainFields = "CS0525";
         public const string TypeInInterfaceListIsNotInterface = "CS0527";
         public const string InterfaceMembersCannotHaveDefinition = "CS0531";
         public const string ExplicitInterfaceDeclarationCanOnlyBeDeclaredInClassOrStruct = "CS0541";
         public const string UserDefinedOperatorMustBeDeclaredStaticAndPublic = "CS0558";
+        public const string InterfacesCannotContainOperators = "CS0567";
         public const string CannotHaveInstancePropertyOrFieldInitializersInStruct = "CS0573";
         public const string DuplicateAttribute = "CS0579";
         public const string AttributeIsNotValidOnThisDeclarationType = "CS0592";

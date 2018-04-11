@@ -306,7 +306,7 @@
     Identifier="MemberCannotBeSealedBecauseItIsNotOverride"
     Severity="Error"
     Title="'identifier' cannot be sealed because it is not an override."
-    Message="'{0}' cannot be sealed because it is not an override."
+    Message="'{0}' cannot be sealed because it is not an override"
     HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0238" />
   <Diagnostic
     Id="CS0246"
@@ -484,6 +484,20 @@
     Message="'{0}': access modifiers are not allowed on static constructors"
     HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0515" />
   <Diagnostic
+    Id="CS0524"
+    Identifier="InterfacesCannotDeclareTypes"
+    Severity="Error"
+    Title="'identifier': interfaces cannot declare types."
+    Message="'{0}': interfaces cannot declare types"
+    HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0524" />
+  <Diagnostic
+    Id="CS0525"
+    Identifier="InterfacesCannotContainFields"
+    Severity="Error"
+    Title="Interfaces cannot contain fields."
+    Message="Interfaces cannot contain fields"
+    HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0525" />
+  <Diagnostic
     Id="CS0527"
     Identifier="TypeInInterfaceListIsNotInterface"
     Severity="Error"
@@ -511,6 +525,13 @@
     Title="User-defined operator 'operator' must be declared static and public."
     Message="User-defined operator '{0}' must be declared static and public"
     HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0558" />
+  <Diagnostic
+    Id="CS0567"
+    Identifier="InterfacesCannotContainOperators"
+    Severity="Error"
+    Title="Interfaces cannot contain operators."
+    Message="Interfaces cannot contain operators"
+    HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0567" />
   <Diagnostic
     Id="CS0573"
     Identifier="CannotHaveInstancePropertyOrFieldInitializersInStruct"
@@ -922,6 +943,6 @@
     Identifier="InstanceFieldsOfReadOnlyStructsMustBeReadOnly"
     Severity="Error"
     Title="Instance fields of read-only structs must be read-only."
-    Message="Instance fields of readonly structs must be readonly."
+    Message="Instance fields of readonly structs must be readonly"
     HelpUrl="" />
 </Diagnostics>

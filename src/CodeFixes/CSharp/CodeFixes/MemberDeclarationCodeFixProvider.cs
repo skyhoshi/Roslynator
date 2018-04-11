@@ -19,8 +19,6 @@ namespace Roslynator.CSharp.CodeFixes
     [Shared]
     public class MemberDeclarationCodeFixProvider : BaseCodeFixProvider
     {
-        private readonly CancellationToken cancellationToken;
-
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
             get
@@ -36,7 +34,10 @@ namespace Roslynator.CSharp.CodeFixes
                     CompilerDiagnosticIdentifiers.PartialMethodsMustHaveVoidReturnType,
                     CompilerDiagnosticIdentifiers.ExplicitInterfaceDeclarationCanOnlyBeDeclaredInClassOrStruct,
                     CompilerDiagnosticIdentifiers.InstanceFieldsOfReadOnlyStructsMustBeReadOnly,
-                    CompilerDiagnosticIdentifiers.MemberCannotBeSealedBecauseItIsNotOverride);
+                    CompilerDiagnosticIdentifiers.MemberCannotBeSealedBecauseItIsNotOverride,
+                    CompilerDiagnosticIdentifiers.InterfacesCannotContainFields,
+                    CompilerDiagnosticIdentifiers.InterfacesCannotContainOperators,
+                    CompilerDiagnosticIdentifiers.InterfacesCannotDeclareTypes);
             }
         }
 
@@ -265,6 +266,9 @@ namespace Roslynator.CSharp.CodeFixes
                             break;
                         }
                     case CompilerDiagnosticIdentifiers.ExplicitInterfaceDeclarationCanOnlyBeDeclaredInClassOrStruct:
+                    case CompilerDiagnosticIdentifiers.InterfacesCannotContainFields:
+                    case CompilerDiagnosticIdentifiers.InterfacesCannotContainOperators:
+                    case CompilerDiagnosticIdentifiers.InterfacesCannotDeclareTypes:
                         {
                             if (!Settings.IsCodeFixEnabled(CodeFixIdentifiers.RemoveMemberDeclaration))
                                 break;
@@ -290,7 +294,7 @@ namespace Roslynator.CSharp.CodeFixes
                             if (semanticModel.GetDiagnostic(
                                 CompilerDiagnosticIdentifiers.MemberHidesInheritedMemberToMakeCurrentMethodOverrideThatImplementationAddOverrideKeyword,
                                 CSharpUtility.GetIdentifier(memberDeclaration).Span,
-                                cancellationToken) != null)
+                                context.CancellationToken) != null)
                             {
                                 break;
                             }
