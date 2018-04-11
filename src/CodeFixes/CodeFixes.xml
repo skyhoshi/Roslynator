@@ -557,4 +557,14 @@
       <Id>CS0238</Id>
     </FixableDiagnosticIds>
   </CodeFix>
+  <CodeFix Id="RCF0101" Identifier="RemoveVirtualModifier" Title="Remove 'virtual' modifier">
+    <FixableDiagnosticIds>
+      <Id>CS0549</Id>
+    </FixableDiagnosticIds>
+  </CodeFix>
+  <CodeFix Id="RCF0102" Identifier="MakeContainingClassUnsealed" Title="Make containing class unsealed">
+    <FixableDiagnosticIds>
+      <Id>CS0549</Id>
+    </FixableDiagnosticIds>
+  </CodeFix>
 </CodeFixes>

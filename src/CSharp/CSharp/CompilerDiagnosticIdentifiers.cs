@@ -80,6 +80,7 @@ namespace Roslynator.CSharp
         public const string TypeInInterfaceListIsNotInterface = "CS0527";
         public const string InterfaceMembersCannotHaveDefinition = "CS0531";
         public const string ExplicitInterfaceDeclarationCanOnlyBeDeclaredInClassOrStruct = "CS0541";
+        public const string NewVirtualMemberInSealedClass = "CS0549";
         public const string UserDefinedOperatorMustBeDeclaredStaticAndPublic = "CS0558";
         public const string InterfacesCannotContainOperators = "CS0567";
         public const string CannotHaveInstancePropertyOrFieldInitializersInStruct = "CS0573";

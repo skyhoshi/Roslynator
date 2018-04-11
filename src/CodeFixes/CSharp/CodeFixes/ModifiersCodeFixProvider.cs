@@ -72,7 +72,8 @@ namespace Roslynator.CSharp.CodeFixes
                     CompilerDiagnosticIdentifiers.IteratorsCannotHaveRefOrOutParameters,
                     CompilerDiagnosticIdentifiers.CannotHaveInstancePropertyOrFieldInitializersInStruct,
                     CompilerDiagnosticIdentifiers.ReadOnlyFieldCannotBePassedAsRefOrOutValue,
-                    CompilerDiagnosticIdentifiers.MemberMustDeclareBodyBecauseItIsNotMarkedAbstractExternOrPartial);
+                    CompilerDiagnosticIdentifiers.MemberMustDeclareBodyBecauseItIsNotMarkedAbstractExternOrPartial,
+                    CompilerDiagnosticIdentifiers.NewVirtualMemberInSealedClass);
             }
         }
 
@@ -86,6 +87,8 @@ namespace Roslynator.CSharp.CodeFixes
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.AddPartialModifier)
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.RemoveOutModifier)
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.RemoveRefModifier)
+                && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.RemoveVirtualModifier)
+                && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.MakeContainingClassUnsealed)
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.AddModifierAbstract))
             {
                 return;
@@ -438,6 +441,32 @@ namespace Roslynator.CSharp.CodeFixes
                                 && (node.Parent as ClassDeclarationSyntax)?.Modifiers.Contains(SyntaxKind.AbstractKeyword) == true)
                             {
                                 ModifiersCodeFixRegistrator.AddModifier(context, diagnostic, node, SyntaxKind.AbstractKeyword);
+                            }
+
+                            break;
+                        }
+                    case CompilerDiagnosticIdentifiers.NewVirtualMemberInSealedClass:
+                        {
+                            if (Settings.IsCodeFixEnabled(CodeFixIdentifiers.MakeContainingClassUnsealed)
+                                && node.Parent is ClassDeclarationSyntax classDeclaration)
+                            {
+                                ModifiersCodeFixRegistrator.RemoveModifier(
+                                    context,
+                                    diagnostic,
+                                    classDeclaration,
+                                    SyntaxKind.SealedKeyword,
+                                    title: "Unseal containing class",
+                                    additionalKey: CodeFixIdentifiers.MakeContainingClassUnsealed);
+                            }
+
+                            if (Settings.IsCodeFixEnabled(CodeFixIdentifiers.RemoveVirtualModifier))
+                            {
+                                ModifiersCodeFixRegistrator.RemoveModifier(
+                                    context,
+                                    diagnostic,
+                                    node,
+                                    SyntaxKind.VirtualKeyword,
+                                    additionalKey: CodeFixIdentifiers.RemoveVirtualModifier);
                             }
 
                             break;

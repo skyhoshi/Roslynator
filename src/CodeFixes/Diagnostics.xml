@@ -519,6 +519,13 @@
     Message="'{0}': explicit interface declaration can only be declared in a class or struct"
     HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0541" />
   <Diagnostic
+    Id="CS0549"
+    Identifier="NewVirtualMemberInSealedClass"
+    Severity="Error"
+    Title="New virtual member in sealed class."
+    Message="'{0}' is a new virtual member in sealed class '{1}'"
+    HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0549" />
+  <Diagnostic
     Id="CS0558"
     Identifier="UserDefinedOperatorMustBeDeclaredStaticAndPublic"
     Severity="Error"

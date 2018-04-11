@@ -104,5 +104,7 @@ namespace Roslynator.CSharp
         public const string AddModifierAbstract = Prefix + "0098";
         public const string MakeMemberReadOnly = Prefix + "0099";
         public const string RemoveSealedModifier = Prefix + "0100";
+        public const string RemoveVirtualModifier = Prefix + "0101";
+        public const string MakeContainingClassUnsealed = Prefix + "0102";
     }
 }
