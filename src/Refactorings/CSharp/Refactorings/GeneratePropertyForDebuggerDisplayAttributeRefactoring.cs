@@ -52,9 +52,7 @@ namespace Roslynator.CSharp.Refactorings
             int length = value.Length;
 
             if (length == 0)
-                return false;
-
-            int count = 0;
+                return true;
 
             int i = 0;
 
@@ -79,11 +77,9 @@ namespace Roslynator.CSharp.Refactorings
                     break;
 
                 i++;
-
-                count++;
             }
 
-            return count > 1;
+            return true;
 
             void FindOpenBrace()
             {
