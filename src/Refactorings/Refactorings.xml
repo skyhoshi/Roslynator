@@ -1705,4 +1705,21 @@ public class Foo
       </Sample>
     </Samples>
   </Refactoring>
+  <Refactoring Id="RR0205" Identifier="AddEmptyLineBetweenDeclarations" Title="Add empty line between declarations">
+    <Syntaxes>
+      <Syntax>selected declarations</Syntax>
+    </Syntaxes>
+    <Samples>
+      <Sample>
+        <Before><![CDATA[private object x;
+private object y;
+private object z;]]></Before>
+        <After><![CDATA[private object x;
+
+private object y;
+
+private object z;]]></After>
+      </Sample>
+    </Samples>
+  </Refactoring>
 </Refactorings>
