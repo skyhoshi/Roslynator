@@ -16,12 +16,20 @@ namespace Roslynator.CSharp.Refactorings.Tests
                     int x = item;
                 }
 
+                foreach (int item in Enumerable.Range(0, 1))
+                    Bar(item);
+
                 SyntaxList<SyntaxNode> nodes;
 
                 foreach (var node in nodes)
                 {
                     SyntaxNode x = node;
                 }
+            }
+
+            private static int Bar(int value)
+            {
+                return value;
             }
         }
     }
