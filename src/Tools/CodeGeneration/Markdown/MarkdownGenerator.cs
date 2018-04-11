@@ -235,7 +235,7 @@ namespace Roslynator.CodeGeneration.Markdown
 
             IEnumerable<MElement> Samples()
             {
-                ReadOnlyCollection<SampleDescriptor> samples = analyzer.Samples;
+                IReadOnlyList<SampleDescriptor> samples = analyzer.Samples;
 
                 if (samples.Count > 0)
                 {

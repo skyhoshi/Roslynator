@@ -31,6 +31,6 @@ namespace Roslynator.Metadata
 
         public bool IsEnabledByDefault { get; }
 
-        public ReadOnlyCollection<string> FixableDiagnosticIds { get; }
+        public IReadOnlyList<string> FixableDiagnosticIds { get; }
     }
 }
