@@ -1722,4 +1722,23 @@ private object z;]]></After>
       </Sample>
     </Samples>
   </Refactoring>
+  <Refactoring Id="RR0206" Identifier="ReplaceForEachWithEnumerator" Title="Replace foreach with enumerator">
+    <Syntaxes>
+      <Syntax>foreach statement</Syntax>
+    </Syntaxes>
+    <Samples>
+      <Sample>
+        <Before>
+          <![CDATA[foreach (var item in items)
+{
+}]]></Before>
+        <After><![CDATA[using (var en = items.GetEnumerator())
+{
+    while (en.MoveNext())
+    {
+    }
+}]]></After>
+      </Sample>
+    </Samples>
+  </Refactoring>
 </Refactorings>
