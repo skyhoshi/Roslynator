@@ -37,7 +37,7 @@
       <Refactoring Id="RR0031" IsEnabled="true" /> <!-- DuplicateMember -->
       <Refactoring Id="RR0032" IsEnabled="true" /> <!-- DuplicateParameter -->
       <Refactoring Id="RR0033" IsEnabled="true" /> <!-- DuplicateStatement -->
-      <Refactoring Id="RR0034" IsEnabled="true" /> <!-- ExpandAssignmentExpression -->
+      <Refactoring Id="RR0034" IsEnabled="true" /> <!-- ExpandCompoundAssignmentOperator -->
       <Refactoring Id="RR0035" IsEnabled="true" /> <!-- ExpandCoalesceExpression -->
       <Refactoring Id="RR0036" IsEnabled="true" /> <!-- ExpandEvent -->
       <Refactoring Id="RR0037" IsEnabled="true" /> <!-- ExpandExpressionBody -->
@@ -200,6 +200,8 @@
       <Refactoring Id="RR0199" IsEnabled="true" /> <!-- RemoveEnumMemberValue -->
       <Refactoring Id="RR0200" IsEnabled="true" /> <!-- UncommentMultiLineComment -->
       <Refactoring Id="RR0201" IsEnabled="true" /> <!-- ReplaceInterpolatedStringWithStringFormat -->
+      <Refactoring Id="RR0202" IsEnabled="true" /> <!-- MoveUnsafeContextToContainingDeclaration -->
+      <Refactoring Id="RR0203" IsEnabled="true" /> <!-- ExtractEventHandlerMethod -->
     </Refactorings>
     <CodeFixes>
       <CodeFix Id="RCF0001" IsEnabled="true" /> <!-- RemoveUnusedVariable (fixes CS0168, CS0219) -->
@@ -298,6 +300,7 @@
       <CodeFix Id="RCF0096" IsEnabled="true" /> <!-- ReplaceYieldReturnWithForEach (fixes CS0029) -->
       <CodeFix Id="RCF0097" IsEnabled="true" /> <!-- ReplaceComparisonWithAssignment (fixes CS0201) -->
       <CodeFix Id="RCF0098" IsEnabled="true" /> <!-- AddModifierAbstract (fixes CS0501) -->
+      <CodeFix Id="RCF0099" IsEnabled="true" /> <!-- MakeMemberReadOnly (fixes CS8340) -->
     </CodeFixes>
   </Settings>
 </Roslynator>
