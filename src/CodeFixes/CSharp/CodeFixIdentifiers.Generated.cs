@@ -103,5 +103,6 @@ namespace Roslynator.CSharp
         public const string ReplaceComparisonWithAssignment = Prefix + "0097";
         public const string AddModifierAbstract = Prefix + "0098";
         public const string MakeMemberReadOnly = Prefix + "0099";
+        public const string RemoveSealedModifier = Prefix + "0100";
     }
 }

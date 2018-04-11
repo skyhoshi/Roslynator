@@ -549,4 +549,9 @@
       <Id>CS8340</Id>
     </FixableDiagnosticIds>
   </CodeFix>
+  <CodeFix Id="RCF0100" Identifier="RemoveSealedModifier" Title="Remove 'sealed' modifier">
+    <FixableDiagnosticIds>
+      <Id>CS0238</Id>
+    </FixableDiagnosticIds>
+  </CodeFix>
 </CodeFixes>

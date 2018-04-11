@@ -302,6 +302,13 @@
     Message="The params parameter must be a single dimensional array"
     HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0225" />
   <Diagnostic
+    Id="CS0238"
+    Identifier="MemberCannotBeSealedBecauseItIsNotOverride"
+    Severity="Error"
+    Title="'identifier' cannot be sealed because it is not an override."
+    Message="'{0}' cannot be sealed because it is not an override."
+    HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0238" />
+  <Diagnostic
     Id="CS0246"
     Identifier="TypeOrNamespaceNameCouldNotBeFound"
     Severity="Error"
