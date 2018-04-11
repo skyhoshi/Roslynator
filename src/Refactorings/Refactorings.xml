@@ -1664,4 +1664,23 @@ void OnChanged(object sender, EventArgs e)
       </Sample>
     </Samples>
   </Refactoring>
+  <Refactoring Id="RR0204" Identifier="ReplaceForEachWithEnumerator" Title="Replace foreach with enumerator">
+    <Syntaxes>
+      <Syntax>foreach statement</Syntax>
+    </Syntaxes>
+    <Samples>
+      <Sample>
+        <Before>
+          <![CDATA[foreach (var item in items)
+{
+}]]></Before>
+        <After><![CDATA[using (var en = items.GetEnumerator())
+{
+    while (en.MoveNext())
+    {
+    }
+}]]></After>
+      </Sample>
+    </Samples>
+  </Refactoring>
 </Refactorings>
