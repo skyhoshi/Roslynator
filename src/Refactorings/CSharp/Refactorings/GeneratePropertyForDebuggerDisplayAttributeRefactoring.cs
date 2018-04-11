@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -15,6 +16,8 @@ namespace Roslynator.CSharp.Refactorings
 {
     internal static class GeneratePropertyForDebuggerDisplayAttributeRefactoring
     {
+        private const string PropertyName = "DebuggerDisplay";
+
         public static async Task ComputeRefactoringAsync(RefactoringContext context, AttributeSyntax attribute)
         {
             if (attribute.ArgumentList?.Arguments.Count(f => f.NameEquals == null) != 1)
@@ -39,11 +42,14 @@ namespace Roslynator.CSharp.Refactorings
             if (value == null)
                 return;
 
+            if (string.Equals(value, $"{{{PropertyName},nq}}", StringComparison.Ordinal))
+                return;
+
             if (!CanRefactor(value))
                 return;
 
             context.RegisterRefactoring(
-                "Generate property 'DebuggerDisplay'",
+                $"Generate property '{PropertyName}'",
                 cancellationToken => RefactorAsync(context.Document, attribute, cancellationToken));
         }
 
@@ -189,7 +195,7 @@ namespace Roslynator.CSharp.Refactorings
 
             SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
 
-            string propertyName = NameGenerator.Default.EnsureUniqueMemberName("DebuggerDisplay", semanticModel, typeDeclaration.OpenBraceToken.Span.End, cancellationToken: cancellationToken);
+            string propertyName = NameGenerator.Default.EnsureUniqueMemberName(PropertyName, semanticModel, typeDeclaration.OpenBraceToken.Span.End, cancellationToken: cancellationToken);
 
             AttributeArgumentSyntax argument = attribute.ArgumentList.Arguments.First();
 
