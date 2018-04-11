@@ -106,5 +106,9 @@ namespace Roslynator.CSharp
         public const string RemoveSealedModifier = Prefix + "0100";
         public const string RemoveVirtualModifier = Prefix + "0101";
         public const string MakeContainingClassUnsealed = Prefix + "0102";
+        public const string RemoveSwitchLabel = Prefix + "0103";
+        public const string RenameDestructorToMatchClassName = Prefix + "0104";
+        public const string RemoveBaseList = Prefix + "0105";
+        public const string AddDefaultValueToParameter = Prefix + "0106";
     }
 }

@@ -3,7 +3,6 @@
 using System.Collections.Immutable;
 using System.Composition;
 using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
@@ -35,7 +34,10 @@ namespace Roslynator.CSharp.CodeFixes
                     CompilerDiagnosticIdentifiers.ExplicitInterfaceDeclarationCanOnlyBeDeclaredInClassOrStruct,
                     CompilerDiagnosticIdentifiers.InterfacesCannotContainFields,
                     CompilerDiagnosticIdentifiers.InterfacesCannotContainOperators,
-                    CompilerDiagnosticIdentifiers.InterfacesCannotDeclareTypes);
+                    CompilerDiagnosticIdentifiers.InterfacesCannotDeclareTypes,
+                    CompilerDiagnosticIdentifiers.OnlyClassTypesCanContainDestructors,
+                    CompilerDiagnosticIdentifiers.StructsCannotContainExplicitParameterlessConstructors,
+                    CompilerDiagnosticIdentifiers.NameOfDestructorMustMatchNameOfClass);
             }
         }
 
@@ -47,7 +49,8 @@ namespace Roslynator.CSharp.CodeFixes
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.AddPartialModifier)
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.MakeContainingClassAbstract)
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.RemoveParametersFromStaticConstructor)
-                && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.RemoveMemberDeclaration))
+                && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.RemoveMemberDeclaration)
+                && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.RenameDestructorToMatchClassName))
             {
                 return;
             }
@@ -265,11 +268,40 @@ namespace Roslynator.CSharp.CodeFixes
                     case CompilerDiagnosticIdentifiers.InterfacesCannotContainFields:
                     case CompilerDiagnosticIdentifiers.InterfacesCannotContainOperators:
                     case CompilerDiagnosticIdentifiers.InterfacesCannotDeclareTypes:
+                    case CompilerDiagnosticIdentifiers.OnlyClassTypesCanContainDestructors:
+                    case CompilerDiagnosticIdentifiers.StructsCannotContainExplicitParameterlessConstructors:
                         {
                             if (!Settings.IsCodeFixEnabled(CodeFixIdentifiers.RemoveMemberDeclaration))
                                 break;
 
                             CodeFixRegistrator.RemoveMember(context, diagnostic, memberDeclaration);
+                            break;
+                        }
+                    case CompilerDiagnosticIdentifiers.NameOfDestructorMustMatchNameOfClass:
+                        {
+                            if (!Settings.IsCodeFixEnabled(CodeFixIdentifiers.RenameDestructorToMatchClassName))
+                                break;
+
+                            if (!(memberDeclaration is DestructorDeclarationSyntax destructorDeclaration))
+                                break;
+
+                            if (!(memberDeclaration.Parent is ClassDeclarationSyntax classDeclaration))
+                                break;
+
+                            if (classDeclaration.Identifier.ValueText.Length == 0)
+                                break;
+
+                            CodeAction codeAction = CodeAction.Create(
+                                "Rename destructor to match class name",
+                                cancellationToken =>
+                                {
+                                    DestructorDeclarationSyntax newNode = destructorDeclaration.WithIdentifier(classDeclaration.Identifier.WithTriviaFrom(destructorDeclaration.Identifier));
+
+                                    return context.Document.ReplaceNodeAsync(destructorDeclaration, newNode, cancellationToken);
+                                },
+                                GetEquivalenceKey(diagnostic));
+
+                            context.RegisterCodeFix(codeAction, diagnostic);
                             break;
                         }
                 }

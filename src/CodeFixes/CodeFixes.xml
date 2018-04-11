@@ -313,6 +313,8 @@
       <Id>CS0541</Id>
       <Id>CS0525</Id>
       <Id>CS0567</Id>
+      <Id>CS0568</Id>
+      <Id>CS0575</Id>
     </FixableDiagnosticIds>
   </CodeFix>
   <CodeFix Id="RCF0057" Identifier="RemoveReturnExpression" Title="Remove return expression" IsEnabledByDefault="false">
@@ -369,6 +371,7 @@
       <Id>CS0405</Id>
       <Id>CS0450</Id>
       <Id>CS0451</Id>
+      <Id>CS0714</Id>
     </FixableDiagnosticIds>
   </CodeFix>
   <CodeFix Id="RCF0066" Identifier="CombineConstraintClauses" Title="Combine constraint clauses">
@@ -384,6 +387,7 @@
   <CodeFix Id="RCF0068" Identifier="MakeClassNonStatic" Title="Make class non-static">
     <FixableDiagnosticIds>
       <Id>CS0713</Id>
+      <Id>CS0714</Id>
       <Id>CS0718</Id>
     </FixableDiagnosticIds>
   </CodeFix>
@@ -565,6 +569,27 @@
   <CodeFix Id="RCF0102" Identifier="MakeContainingClassUnsealed" Title="Make containing class unsealed">
     <FixableDiagnosticIds>
       <Id>CS0549</Id>
+    </FixableDiagnosticIds>
+  </CodeFix>
+  <CodeFix Id="RCF0103" Identifier="RemoveSwitchLabel" Title="RemoveSwitchLabel">
+    <FixableDiagnosticIds>
+      <Id>CS0152</Id>
+    </FixableDiagnosticIds>
+  </CodeFix>
+  <CodeFix Id="RCF0104" Identifier="RenameDestructorToMatchClassName" Title="Rename destructor to match class name">
+    <FixableDiagnosticIds>
+      <Id>CS0574</Id>
+    </FixableDiagnosticIds>
+  </CodeFix>
+  <CodeFix Id="RCF0105" Identifier="RemoveBaseList" Title="Remove base list">
+    <FixableDiagnosticIds>
+      <Id>CS0713</Id>
+      <Id>CS0714</Id>
+    </FixableDiagnosticIds>
+  </CodeFix>
+  <CodeFix Id="RCF0106" Identifier="AddDefaultValueToParameter" Title="Add default value to parameter">
+    <FixableDiagnosticIds>
+      <Id>CS1737</Id>
     </FixableDiagnosticIds>
   </CodeFix>
 </CodeFixes>

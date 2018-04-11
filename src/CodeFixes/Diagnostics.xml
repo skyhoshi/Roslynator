@@ -197,6 +197,13 @@
     Message="No enclosing loop out of which to break or continue"
     HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0139" />
   <Diagnostic
+    Id="CS0152"
+    Identifier="SwitchStatementContainsMultipleCasesWithSameLabelValue"
+    Severity="Error"
+    Title="The switch statement contains multiple cases with same label value."
+    Message="The switch statement contains multiple cases with the label value '{0}'"
+    HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0152" />
+    <Diagnostic
     Id="CS0161"
     Identifier="NotAllCodePathsReturnValue"
     Severity="Error"
@@ -540,12 +547,33 @@
     Message="Interfaces cannot contain operators"
     HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0567" />
   <Diagnostic
+    Id="CS0568"
+    Identifier="StructsCannotContainExplicitParameterlessConstructors"
+    Severity="Error"
+    Title="Structs cannot contain explicit parameterless constructors."
+    Message="Structs cannot contain explicit parameterless constructors"
+    HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0568" />
+  <Diagnostic
     Id="CS0573"
     Identifier="CannotHaveInstancePropertyOrFieldInitializersInStruct"
     Severity="Error"
     Title="'field declaration': cannot have instance field initializers in structs."
     Message="'{0}': cannot have instance property or field initializers in structs"
     HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0573" />
+  <Diagnostic
+    Id="CS0574"
+    Identifier="NameOfDestructorMustMatchNameOfClass"
+    Severity="Error"
+    Title="Name of destructor must match name of class."
+    Message="Name of destructor must match name of class"
+    HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0574" />
+  <Diagnostic
+    Id="CS0575"
+    Identifier="OnlyClassTypesCanContainDestructors"
+    Severity="Error"
+    Title="Only class types can contain destructors."
+    Message="Only class types can contain destructors"
+    HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0575" />
   <Diagnostic
     Id="CS0579"
     Identifier="DuplicateAttribute"
@@ -630,6 +658,13 @@
     Title="Static class 'static type' cannot derive from type 'type'. Static classes must derive from object."
     Message="Static class '{0}' cannot derive from type '{1}'. Static classes must derive from object."
     HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0713" />
+  <Diagnostic
+    Id="CS0714"
+    Identifier="StaticClassCannotImplementInterfaces"
+    Severity="Error"
+    Title="Static class cannot implement interfaces."
+    Message="'{0}': static classes cannot implement interfaces"
+    HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0714" />
   <Diagnostic
     Id="CS0718"
     Identifier="StaticTypesCannotBeUsedAsTypeArguments"
@@ -889,6 +924,13 @@
     Title="Base class 'class' must come before any interfaces."
     Message="Base class '{0}' must come before any interfaces"
     HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs1722" />
+  <Diagnostic
+    Id="CS1737"
+    Identifier="OptionalParametersMustAppearAfterAllRequiredParameters"
+    Severity="Error"
+    Title="Optional parameters must appear after all required parameters."
+    Message="Optional parameters must appear after all required parameters"
+    HelpUrl="" />
   <Diagnostic
     Id="CS1743"
     Identifier="CannotSpecifyDefaultValueForThisParameter"

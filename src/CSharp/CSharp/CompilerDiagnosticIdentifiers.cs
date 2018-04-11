@@ -34,6 +34,7 @@ namespace Roslynator.CSharp
         public const string ExpressionBeingAssignedMustBeConstant = "CS0133";
         public const string LocalOrParameterCannotBeDeclaredInThisScopeBecauseThatNameIsUsedInEnclosingScopeToDefineLocalOrParameter = "CS0136";
         public const string NoEnclosingLoopOutOfWhichToBreakOrContinue = "CS0139";
+        public const string SwitchStatementContainsMultipleCasesWithSameLabelValue = "CS0152";
         public const string NotAllCodePathsReturnValue = "CS0161";
         public const string UnreachableCodeDetected = "CS0162";
         public const string ControlCannotFallThroughFromOneCaseLabelToAnother = "CS0163";
@@ -83,7 +84,10 @@ namespace Roslynator.CSharp
         public const string NewVirtualMemberInSealedClass = "CS0549";
         public const string UserDefinedOperatorMustBeDeclaredStaticAndPublic = "CS0558";
         public const string InterfacesCannotContainOperators = "CS0567";
+        public const string StructsCannotContainExplicitParameterlessConstructors = "CS0568";
         public const string CannotHaveInstancePropertyOrFieldInitializersInStruct = "CS0573";
+        public const string NameOfDestructorMustMatchNameOfClass = "CS0574";
+        public const string OnlyClassTypesCanContainDestructors = "CS0575";
         public const string DuplicateAttribute = "CS0579";
         public const string AttributeIsNotValidOnThisDeclarationType = "CS0592";
         public const string VirtualOrAbstractmembersCannotBePrivate  = "CS0621";
@@ -96,6 +100,7 @@ namespace Roslynator.CSharp
         public const string CannotDeclareInstanceMembersInStaticClass = "CS0708";
         public const string StaticClassesCannotHaveInstanceConstructors = "CS0710";
         public const string StaticClassCannotDeriveFromType = "CS0713";
+        public const string StaticClassCannotImplementInterfaces = "CS0714";
         public const string StaticTypesCannotBeUsedAsTypeArguments = "CS0718";
         public const string PartialMethodCannotHaveAccessModifiersOrVirtualAbstractOverrideNewSealedOrExternModifiers = "CS0750";
         public const string PartialMethodMustBeDeclaredInPartialClassOrPartialStruct = "CS0751";
@@ -133,6 +138,7 @@ namespace Roslynator.CSharp
         public const string MemberTypeMustMatchOverriddenMemberType = "CS1715";
         public const string AssignmentMadeToSameVariable = "CS1717";
         public const string BaseClassMustComeBeforeAnyInterface = "CS1722";
+        public const string OptionalParametersMustAppearAfterAllRequiredParameters = "CS1737";
         public const string CannotSpecifyDefaultValueForThisParameter = "CS1743";
         public const string ValueCannotBeUsedAsDefaultParameter = "CS1750";
         public const string CannotSpecifyDefaultValueForParameterArray = "CS1751";

@@ -4,6 +4,17 @@ namespace Roslynator.CSharp.CodeFixes.Tests
 {
     internal static class RemoveMemberDeclaration
     {
+        private struct FooStruct
+        {
+            public FooStruct()
+            {
+            }
+
+            ~FooStruct()
+            {
+            }
+        }
+
         private interface IFoo
         {
             private readonly string _field;
@@ -21,6 +32,10 @@ namespace Roslynator.CSharp.CodeFixes.Tests
             public static explicit operator object(IFoo value)
             {
                 return null;
+            }
+
+            ~IFoo()
+            {
             }
 
             private class ClassName
