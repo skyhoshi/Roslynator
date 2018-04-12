@@ -1726,6 +1726,7 @@ private object z;]]></After>
     <Syntaxes>
       <Syntax>foreach statement</Syntax>
     </Syntaxes>
+    <Span>foreach keyword</Span>
     <Samples>
       <Sample>
         <Before>
