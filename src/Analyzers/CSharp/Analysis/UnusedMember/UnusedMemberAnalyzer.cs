@@ -73,7 +73,7 @@ namespace Roslynator.CSharp.Analysis.UnusedMember
                                 if (walker == null)
                                     walker = UnusedMemberWalkerCache.GetInstance(context.SemanticModel, context.CancellationToken);
 
-                                walker.AddNode(declaration.Identifier.ValueText, declaration);
+                                walker.AddDelegate(declaration.Identifier.ValueText, declaration);
                             }
 
                             break;
@@ -167,6 +167,7 @@ namespace Roslynator.CSharp.Analysis.UnusedMember
                 return;
 
             if (debuggerDisplayAttribute != null
+                && walker.Nodes.Any(f => f.CanBeInDebuggerDisplayAttribute)
                 && ShouldAnalyzeDebuggerDisplayAttribute())
             {
                 string value = context.SemanticModel
