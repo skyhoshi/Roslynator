@@ -61,8 +61,8 @@ namespace Roslynator.Metadata
 
         public string Summary { get; }
 
-        public ReadOnlyCollection<SampleDescriptor> Samples { get; }
+        public IReadOnlyList<SampleDescriptor> Samples { get; }
 
-        public ReadOnlyCollection<LinkDescriptor> Links { get; }
+        public IReadOnlyList<LinkDescriptor> Links { get; }
     }
 }
