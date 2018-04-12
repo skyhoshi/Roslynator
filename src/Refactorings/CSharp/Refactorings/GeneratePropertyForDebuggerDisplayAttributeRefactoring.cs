@@ -274,6 +274,9 @@ namespace Roslynator.CSharp.Refactorings
 
                 AppendInterpolation();
 
+                if (i == length)
+                    break;
+
                 i++;
             }
 

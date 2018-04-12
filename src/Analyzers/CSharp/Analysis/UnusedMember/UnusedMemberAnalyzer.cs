@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
