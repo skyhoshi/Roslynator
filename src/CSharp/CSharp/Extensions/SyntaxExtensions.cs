@@ -238,6 +238,39 @@ namespace Roslynator.CSharp
                 classDeclaration.OpenBraceToken.SpanStart,
                 classDeclaration.CloseBraceToken.Span.End);
         }
+
+        public static ClassDeclarationSyntax AddAttributeLists(
+            this ClassDeclarationSyntax classDeclaration,
+            bool keepDocumentationCommentOnTop,
+            params AttributeListSyntax[] attributeLists)
+        {
+            if (classDeclaration == null)
+                throw new ArgumentNullException(nameof(classDeclaration));
+
+            if (attributeLists == null)
+                throw new ArgumentNullException(nameof(attributeLists));
+
+            if (keepDocumentationCommentOnTop
+                && !classDeclaration.AttributeLists.Any()
+                && attributeLists.Length > 0)
+            {
+                SyntaxTriviaList leadingTrivia = classDeclaration.GetLeadingTrivia();
+
+                for (int i = 0; i < leadingTrivia.Count; i++)
+                {
+                    if (leadingTrivia[i].IsDocumentationCommentTrivia())
+                    {
+                        attributeLists[0] = attributeLists[0].PrependToLeadingTrivia(leadingTrivia.Take(i + 1));
+
+                        return classDeclaration
+                            .WithLeadingTrivia(leadingTrivia.Skip(i + 1))
+                            .WithAttributeLists(List(attributeLists));
+                    }
+                }
+            }
+
+            return classDeclaration.AddAttributeLists(attributeLists);
+        }
         #endregion ClassDeclarationSyntax
 
         #region CommonForEachStatementSyntax
@@ -1751,6 +1784,39 @@ namespace Roslynator.CSharp
             return TextSpan.FromBounds(
                 structDeclaration.OpenBraceToken.SpanStart,
                 structDeclaration.CloseBraceToken.Span.End);
+        }
+
+        public static StructDeclarationSyntax AddAttributeLists(
+            this StructDeclarationSyntax structDeclaration,
+            bool keepDocumentationCommentOnTop,
+            params AttributeListSyntax[] attributeLists)
+        {
+            if (structDeclaration == null)
+                throw new ArgumentNullException(nameof(structDeclaration));
+
+            if (attributeLists == null)
+                throw new ArgumentNullException(nameof(attributeLists));
+
+            if (keepDocumentationCommentOnTop
+                && !structDeclaration.AttributeLists.Any()
+                && attributeLists.Length > 0)
+            {
+                SyntaxTriviaList leadingTrivia = structDeclaration.GetLeadingTrivia();
+
+                for (int i = 0; i < leadingTrivia.Count; i++)
+                {
+                    if (leadingTrivia[i].IsDocumentationCommentTrivia())
+                    {
+                        attributeLists[0] = attributeLists[0].PrependToLeadingTrivia(leadingTrivia.Take(i + 1));
+
+                        return structDeclaration
+                            .WithLeadingTrivia(leadingTrivia.Skip(i + 1))
+                            .WithAttributeLists(List(attributeLists));
+                    }
+                }
+            }
+
+            return structDeclaration.AddAttributeLists(attributeLists);
         }
         #endregion StructDeclarationSyntax
 
