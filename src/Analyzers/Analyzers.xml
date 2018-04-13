@@ -4577,4 +4577,30 @@ string y = $"{x}{x}{x}";]]></Before>
       </Sample>
     </Samples>
   </Analyzer>
+  <Analyzer Identifier="UseDebuggerDisplayAttribute">
+    <Id>RCS1218</Id>
+    <Title>Use DebuggerDisplay attribute for publicly visible type.</Title>
+    <MessageFormat>Use DebuggerDisplay attribute for publicly visible type.</MessageFormat>
+    <Category>Usage</Category>
+    <DefaultSeverity>Info</DefaultSeverity>
+    <IsEnabledByDefault>true</IsEnabledByDefault>
+    <SupportsFadeOut>false</SupportsFadeOut>
+    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Samples>
+      <Sample>
+        <Before><![CDATA[public class Foo
+{
+}]]></Before>
+        <After><![CDATA[DebuggerDisplay("{DebuggerDisplay,nq}")]
+public class Foo
+{
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private string DebuggerDisplay
+    {
+        get { return ToString(); }
+    }
+}]]></After>
+      </Sample>
+    </Samples>
+  </Analyzer>
 </Analyzers>
