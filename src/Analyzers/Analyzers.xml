@@ -4572,7 +4572,7 @@ if (items.Count < 0) // RCS1213
           <![CDATA[string x = null;
 // ...
 
-string y = $"{x}{x}{x}";]]></Before>
+string y = $"{x}{x}{x}"; // RCS1217]]></Before>
         <After><![CDATA[string y = x + x + x;]]></After>
       </Sample>
     </Samples>
@@ -4588,7 +4588,7 @@ string y = $"{x}{x}{x}";]]></Before>
     <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
     <Samples>
       <Sample>
-        <Before><![CDATA[if (x)
+        <Before><![CDATA[if (x) // RCS1218
 {
 }
 else
@@ -4602,7 +4602,7 @@ else
       <Sample>
         <Before><![CDATA[while (true)
 {
-  if (x)
+  if (x)  // RCS1218
   {
     Foo();
   }
@@ -4619,7 +4619,7 @@ else
       <Sample>
         <Before><![CDATA[while (true)
 {
-  if (x)
+  if (x)  // RCS1218
   {
     break;
   }
@@ -4637,7 +4637,7 @@ else
 {
   Foo();
 
-  if (x)
+  if (x)  // RCS1218
   {
     break;
   }
@@ -4651,8 +4651,28 @@ else
       </Sample>
     </Samples>
   </Analyzer>
-  <Analyzer Identifier="AddCommaAfterLastEnumMember">
+  <Analyzer Identifier="CallSkipAndAnyInsteadOfCount">
     <Id>RCS1219</Id>
+    <Title>Call 'Enumerable.Skip' and 'Enumerable.Any' instead of 'Enumerable.Count'.</Title>
+    <MessageFormat>Call 'Enumerable.Skip' and 'Enumerable.Any' instead of 'Enumerable.Count'.</MessageFormat>
+    <Category>Performance</Category>
+    <DefaultSeverity>Info</DefaultSeverity>
+    <IsEnabledByDefault>false</IsEnabledByDefault>
+    <SupportsFadeOut>false</SupportsFadeOut>
+    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Samples>
+      <Sample>
+        <Before><![CDATA[if (enumerable.Count() > x) // RCS1219
+{
+}]]></Before>
+        <After><![CDATA[if (enumerable.Skip(x).Any())
+{
+}]]></After>
+      </Sample>
+    </Samples>
+  </Analyzer>
+  <Analyzer Identifier="AddCommaAfterLastEnumMember">
+    <Id>RCS1220</Id>
     <Title>Add comma after last enum member.</Title>
     <MessageFormat>Add comma after last enum member.</MessageFormat>
     <Category>Maintainability</Category>
@@ -4681,7 +4701,7 @@ Also when new enum member is added, previous line will not show up in file compa
     </Samples>
   </Analyzer>
   <Analyzer Identifier="UseDebuggerDisplayAttribute">
-    <Id>RCS1220</Id>
+    <Id>RCS1221</Id>
     <Title>Use DebuggerDisplay attribute for publicly visible type.</Title>
     <MessageFormat>Use DebuggerDisplay attribute for publicly visible type.</MessageFormat>
     <Category>Usage</Category>

@@ -2448,6 +2448,18 @@ namespace Roslynator.CSharp
             customTags:         Array.Empty<string>());
 
         /// <summary>RCS1219</summary>
+        public static readonly DiagnosticDescriptor CallSkipAndAnyInsteadOfCount = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.CallSkipAndAnyInsteadOfCount, 
+            title:              "Call 'Enumerable.Skip' and 'Enumerable.Any' instead of 'Enumerable.Count'.", 
+            messageFormat:      "Call 'Enumerable.Skip' and 'Enumerable.Any' instead of 'Enumerable.Count'.", 
+            category:           DiagnosticCategories.Performance, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: false, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.CallSkipAndAnyInsteadOfCount}", 
+            customTags:         Array.Empty<string>());
+
+        /// <summary>RCS1220</summary>
         public static readonly DiagnosticDescriptor AddCommaAfterLastEnumMember = new DiagnosticDescriptor(
             id:                 DiagnosticIdentifiers.AddCommaAfterLastEnumMember, 
             title:              "Add comma after last enum member.", 
@@ -2459,15 +2471,17 @@ namespace Roslynator.CSharp
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.AddCommaAfterLastEnumMember}", 
             customTags:         Array.Empty<string>());
 
+        /// <summary>RCS1221</summary>
         public static readonly DiagnosticDescriptor UseDebuggerDisplayAttribute = new DiagnosticDescriptor(
             id:                 DiagnosticIdentifiers.UseDebuggerDisplayAttribute, 
-            title:              "Use DebuggerDisplay attribute to publicly visible type.", 
-            messageFormat:      "Use DebuggerDisplay attribute to publicly visible type.", 
+            title:              "Use DebuggerDisplay attribute for publicly visible type.", 
+            messageFormat:      "Use DebuggerDisplay attribute for publicly visible type.", 
             category:           DiagnosticCategories.Usage, 
             defaultSeverity:    DiagnosticSeverity.Info, 
             isEnabledByDefault: true, 
             description:        null, 
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UseDebuggerDisplayAttribute}", 
             customTags:         Array.Empty<string>());
+
     }
 }

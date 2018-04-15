@@ -14,7 +14,7 @@ namespace Roslynator.CSharp.Refactorings
         public const string AddBracesToSwitchSections = Prefix + "0005";
         public const string AddCastExpression = Prefix + "0006";
         public const string AddDefaultValueToParameter = Prefix + "0007";
-        public const string AddEmptyLineBetweenDeclarations = Prefix + "0204";
+        public const string AddEmptyLineBetweenDeclarations = Prefix + "0205";
         public const string AddExceptionToDocumentationComment = Prefix + "0009";
         public const string AddIdentifierToVariableDeclaration = Prefix + "0010";
         public const string AddMemberToInterface = Prefix + "0195";
@@ -143,7 +143,7 @@ namespace Roslynator.CSharp.Refactorings
         public const string ReplaceEqualsExpressionWithStringIsNullOrEmpty = Prefix + "0125";
         public const string ReplaceEqualsExpressionWithStringIsNullOrWhiteSpace = Prefix + "0126";
         public const string ReplaceExpressionWithConstantValue = Prefix + "0127";
-        public const string ReplaceForEachWithEnumerator = Prefix + "0204";
+        public const string ReplaceForEachWithEnumerator = Prefix + "0206";
         public const string ReplaceForEachWithFor = Prefix + "0129";
         public const string ReplaceForEachWithForAndReverseLoop = Prefix + "0188";
         public const string ReplaceForWithForEach = Prefix + "0130";
