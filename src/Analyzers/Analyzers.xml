@@ -4677,7 +4677,7 @@ else
     <MessageFormat>Use DebuggerDisplay attribute for publicly visible type.</MessageFormat>
     <Category>Usage</Category>
     <DefaultSeverity>Info</DefaultSeverity>
-    <IsEnabledByDefault>true</IsEnabledByDefault>
+    <IsEnabledByDefault>false</IsEnabledByDefault>
     <SupportsFadeOut>false</SupportsFadeOut>
     <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
     <Samples>
