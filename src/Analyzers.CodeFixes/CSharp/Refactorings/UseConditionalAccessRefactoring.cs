@@ -43,17 +43,13 @@ namespace Roslynator.CSharp.Refactorings
 
             var builder = new SyntaxNodeTextBuilder(logicalAnd, StringBuilderCache.GetInstance(logicalAnd.FullSpan.Length));
 
-            builder.Append(TextSpan.FromBounds(logicalAnd.FullSpan.Start, expression.Span.End));
+            builder.Append(TextSpan.FromBounds(logicalAnd.FullSpan.Start, left.Span.Start));
+            builder.AppendSpan(expression);
             builder.Append("?");
             builder.Append(TextSpan.FromBounds(expression2.Span.End, right.Span.End));
 
             switch (right.Kind())
             {
-                case SyntaxKind.LogicalNotExpression:
-                    {
-                        builder.Append(" == false");
-                        break;
-                    }
                 case SyntaxKind.LogicalOrExpression:
                 case SyntaxKind.LogicalAndExpression:
                 case SyntaxKind.BitwiseOrExpression:
@@ -69,6 +65,11 @@ namespace Roslynator.CSharp.Refactorings
                 case SyntaxKind.AsExpression:
                 case SyntaxKind.IsPatternExpression:
                     {
+                        break;
+                    }
+                case SyntaxKind.LogicalNotExpression:
+                    {
+                        builder.Append(" == false");
                         break;
                     }
                 default:

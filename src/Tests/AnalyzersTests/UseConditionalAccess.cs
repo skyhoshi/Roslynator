@@ -4,36 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-#pragma warning disable CS0472, RCS1002, RCS1007, RCS1016, RCS1023, RCS1029, RCS1098, RCS1118, RCS1163, RCS1166, RCS1176
+#pragma warning disable CS0472, RCS1002, RCS1007, RCS1016, RCS1023, RCS1029, RCS1097, RCS1098, RCS1118, RCS1163, RCS1166, RCS1176
 
 namespace Roslynator.CSharp.Analyzers.Tests
 {
     public static class UseConditionalAccess
     {
-        private class A
-        {
-            public B Value { get; }
-
-            public void MethodName()
-            {
-                A a = null;
-
-                if (a != null
-                    && a.Value != null
-                    && a.Value.Value2 != null
-                    && a.Value.Value2.Value != null
-                    && a.Value.Value2.Value.Value2 != null
-                    && a.Value.Value2.Value.Value2.Value != null)
-                {
-                }
-            }
-
-            public class B
-            {
-                public A Value2 { get; }
-            }
-        }
-
         private class Foo
         {
             private const string NonNullConst = "x";
@@ -87,8 +63,6 @@ namespace Roslynator.CSharp.Analyzers.Tests
                     x.Method();
                 }
 
-                //y
-
                 if (x != null && x.Value == "x" && x.IsFoo) { }
 
                 if (x != null && x.Value == NonNullConst && x.IsFoo) { }
@@ -106,6 +80,8 @@ namespace Roslynator.CSharp.Analyzers.Tests
                 if ((x != null) && (x.Value == (NonNullConst)) && x.IsFoo) { }
 
                 if ((x != null) && (x.Value != (null)) && x.IsFoo) { }
+
+                if (x != null && x.ToString() != null && x.ToString().ToString() != null && x.IsFoo) { }
             }
         }
 
@@ -174,6 +150,8 @@ namespace Roslynator.CSharp.Analyzers.Tests
                 if ((x != null) && (x.Value.Value2 != (null)) && x.Value.IsFoo) { }
 
                 if (x != null && !x.Value.IsFoo && x.Value.IsFoo) { }
+
+                if (x != null && x.Value.ToString() != null && x.Value.ToString().ToString() != null && x.Value.IsFoo) { }
             }
         }
 

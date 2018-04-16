@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -108,34 +109,32 @@ namespace Roslynator.CSharp.Analysis
             if (logicalAnd.IsInExpressionTree(expressionOfTSymbol, context.SemanticModel, context.CancellationToken))
                 return;
 
-            ExpressionSyntax left = logicalAnd.Left;
-            ExpressionSyntax right = logicalAnd.Right?.WalkDownParentheses();
-
-            if (left.IsKind(SyntaxKind.LogicalAndExpression))
+            while (true)
             {
-                var childLogicalAnd = (BinaryExpressionSyntax)left;
+                ExpressionSyntax left = logicalAnd.Left;
+                ExpressionSyntax right = logicalAnd.Right?.WalkDownParentheses();
 
-                do
+                if (!left.IsKind(SyntaxKind.LogicalAndExpression))
                 {
-                    left = childLogicalAnd.Right;
-                    right = logicalAnd.Right?.WalkDownParentheses();
-
                     if (IsFixable(left, right, context.SemanticModel, context.CancellationToken))
                     {
-                        context.ReportDiagnostic(DiagnosticDescriptors.UseConditionalAccess, Location.Create(logicalAnd.SyntaxTree, TextSpan.FromBounds(left.SpanStart, right.Span.End)));
-                        return;
+                        context.ReportDiagnostic(DiagnosticDescriptors.UseConditionalAccess, logicalAnd);
                     }
 
-                    logicalAnd = childLogicalAnd;
+                    return;
+                }
 
-                    left = logicalAnd.Left;
+                var leftLogicalAnd = (BinaryExpressionSyntax)left;
 
-                } while (left.IsKind(SyntaxKind.LogicalAndExpression));
-            }
+                left = leftLogicalAnd.Right;
 
-            if (IsFixable(left, right, context.SemanticModel, context.CancellationToken))
-            {
-                context.ReportDiagnostic(DiagnosticDescriptors.UseConditionalAccess, logicalAnd);
+                if (IsFixable(left, right, context.SemanticModel, context.CancellationToken))
+                {
+                    context.ReportDiagnostic(DiagnosticDescriptors.UseConditionalAccess, Location.Create(logicalAnd.SyntaxTree, TextSpan.FromBounds(left.SpanStart, right.Span.End)));
+                    return;
+                }
+
+                logicalAnd = leftLogicalAnd;
             }
         }
 
