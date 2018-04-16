@@ -10,6 +10,30 @@ namespace Roslynator.CSharp.Analyzers.Tests
 {
     public static class UseConditionalAccess
     {
+        private class A
+        {
+            public B Value { get; }
+
+            public void MethodName()
+            {
+                A a = null;
+
+                if (a != null
+                    && a.Value != null
+                    && a.Value.Value2 != null
+                    && a.Value.Value2.Value != null
+                    && a.Value.Value2.Value.Value2 != null
+                    && a.Value.Value2.Value.Value2.Value != null)
+                {
+                }
+            }
+
+            public class B
+            {
+                public A Value2 { get; }
+            }
+        }
+
         private class Foo
         {
             private const string NonNullConst = "x";
