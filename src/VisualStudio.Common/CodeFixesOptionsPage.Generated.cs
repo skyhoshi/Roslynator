@@ -40,7 +40,7 @@ namespace Roslynator.VisualStudio
             codeFixes.Add(new BaseModel(CodeFixIdentifiers.RemoveUnusedLabel, "Remove unused label (fixes CS0164)", IsEnabled(CodeFixIdentifiers.RemoveUnusedLabel)));
             codeFixes.Add(new BaseModel(CodeFixIdentifiers.AddDocumentationComment, "Add documentation comment (fixes CS1591)", IsEnabled(CodeFixIdentifiers.AddDocumentationComment)));
             codeFixes.Add(new BaseModel(CodeFixIdentifiers.RemoveUnreachableCode, "Unreachable code detected (fixes CS0162)", IsEnabled(CodeFixIdentifiers.RemoveUnreachableCode)));
-            codeFixes.Add(new BaseModel(CodeFixIdentifiers.ChangeMethodReturnType, "Change method return type (fixes CS0508, CS0766)", IsEnabled(CodeFixIdentifiers.ChangeMethodReturnType)));
+            codeFixes.Add(new BaseModel(CodeFixIdentifiers.ChangeMethodReturnType, "Change method return type (fixes CS0508, CS0766, CS1983)", IsEnabled(CodeFixIdentifiers.ChangeMethodReturnType)));
             codeFixes.Add(new BaseModel(CodeFixIdentifiers.MemberTypeMustMatchOverriddenMemberType, "Member type must match overridden member type (fixes CS1715)", IsEnabled(CodeFixIdentifiers.MemberTypeMustMatchOverriddenMemberType)));
             codeFixes.Add(new BaseModel(CodeFixIdentifiers.AddReturnStatementThatReturnsDefaultValue, "Add return statement that returns default value (fixes CS0161, CS1643)", IsEnabled(CodeFixIdentifiers.AddReturnStatementThatReturnsDefaultValue)));
             codeFixes.Add(new BaseModel(CodeFixIdentifiers.UseYieldReturnInsteadOfReturn, "Use yield return instead of return (fixes CS0029, CS1622)", IsEnabled(CodeFixIdentifiers.UseYieldReturnInsteadOfReturn)));

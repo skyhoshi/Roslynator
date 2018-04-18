@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Roslynator.CSharp;
-using Roslynator.CSharp.Analysis;
 using Roslynator.CSharp.CodeFixes;
 using Xunit;
 using static Roslynator.Tests.CSharpCompilerCodeFixVerifier;
@@ -31,8 +30,9 @@ class C
 ",
 @"
 ",
+                diagnosticId: CompilerDiagnosticIdentifiers.Zero,
                 codeFixProvider: default,
-                equivalenceKey: default);
+                equivalenceKey: EquivalenceKey.Create(CompilerDiagnosticIdentifiers.Zero, additionalKey1: null));
         }
 
         [InlineData("", "")]
@@ -42,8 +42,9 @@ class C
                 SourceTemplate,
                 fixableCode,
                 fixedCode,
+                diagnosticId: CompilerDiagnosticIdentifiers.Zero,
                 codeFixProvider: default,
-                equivalenceKey: default);
+                equivalenceKey: EquivalenceKey.Create(CompilerDiagnosticIdentifiers.Zero, additionalKey1: null));
         }
 
         public static void TestNoCodeFix()
@@ -52,7 +53,7 @@ class C
 @"
 ",
                 codeFixProvider: default,
-                equivalenceKey: default);
+                equivalenceKey: EquivalenceKey.Create(CompilerDiagnosticIdentifiers.Zero, additionalKey1: null));
         }
     }
 }

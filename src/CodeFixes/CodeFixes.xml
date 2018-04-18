@@ -86,6 +86,7 @@
     <FixableDiagnosticIds>
       <Id>CS0508</Id>
       <Id>CS0766</Id>
+      <Id>CS1983</Id>
     </FixableDiagnosticIds>
   </CodeFix>
   <CodeFix Id="RCF0019" Identifier="MemberTypeMustMatchOverriddenMemberType" Title="Member type must match overridden member type">
