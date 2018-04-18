@@ -593,4 +593,9 @@
       <Id>CS1737</Id>
     </FixableDiagnosticIds>
   </CodeFix>
+  <CodeFix Id="RCF0107" Identifier="AddMissingComma" Title="Add missing comma">
+    <FixableDiagnosticIds>
+      <Id>CS1003</Id>
+    </FixableDiagnosticIds>
+  </CodeFix>
 </CodeFixes>

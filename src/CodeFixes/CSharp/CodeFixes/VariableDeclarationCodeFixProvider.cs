@@ -45,12 +45,12 @@ namespace Roslynator.CSharp.CodeFixes
                 root,
                 context.Span,
                 out SyntaxNode node,
-                predicate: f => f.IsKind(SyntaxKind.VariableDeclaration, SyntaxKind.ForEachStatement, SyntaxKind.Parameter, SyntaxKind.DeclarationPattern)))
+                predicate: f => f.IsKind(SyntaxKind.VariableDeclaration, SyntaxKind.ForEachStatement, SyntaxKind.Parameter, SyntaxKind.DeclarationPattern, SyntaxKind.DeclarationExpression)))
             {
                 return;
             }
 
-            if (node.IsKind(SyntaxKind.Parameter, SyntaxKind.DeclarationPattern))
+            if (node.IsKind(SyntaxKind.Parameter, SyntaxKind.DeclarationPattern, SyntaxKind.DeclarationExpression))
                 return;
 
             if (!(node is VariableDeclarationSyntax variableDeclaration))

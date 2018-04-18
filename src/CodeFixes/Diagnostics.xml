@@ -743,6 +743,13 @@
     Message="; expected"
     HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs1002" />
   <Diagnostic
+    Id="CS1003"
+    Identifier="SyntaxErrorCharExpected"
+    Severity="Error"
+    Title="Syntax error, 'char' expected."
+    Message="Syntax error, '{0}' expected"
+    HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs1003" />
+  <Diagnostic
     Id="CS1004"
     Identifier="DuplicateModifier"
     Severity="Error"

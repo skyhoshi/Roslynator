@@ -20,7 +20,7 @@ namespace Roslynator.VisualStudio
             get;
         }
 
-        = CodeFixIdentifiers.AddDefaultValueToParameter;
+        = CodeFixIdentifiers.AddMissingComma;
         protected override void Fill(ICollection<BaseModel> codeFixes)
         {
             codeFixes.Clear();
@@ -128,6 +128,7 @@ namespace Roslynator.VisualStudio
             codeFixes.Add(new BaseModel(CodeFixIdentifiers.RenameDestructorToMatchClassName, "Rename destructor to match class name (fixes CS0574)", IsEnabled(CodeFixIdentifiers.RenameDestructorToMatchClassName)));
             codeFixes.Add(new BaseModel(CodeFixIdentifiers.RemoveBaseList, "Remove base list (fixes CS0713, CS0714)", IsEnabled(CodeFixIdentifiers.RemoveBaseList)));
             codeFixes.Add(new BaseModel(CodeFixIdentifiers.AddDefaultValueToParameter, "Add default value to parameter (fixes CS1737)", IsEnabled(CodeFixIdentifiers.AddDefaultValueToParameter)));
+            codeFixes.Add(new BaseModel(CodeFixIdentifiers.AddMissingComma, "Add missing comma (fixes CS1003)", IsEnabled(CodeFixIdentifiers.AddMissingComma)));
         }
     }
 }

@@ -4,7 +4,7 @@
 
 namespace Roslynator.CSharp
 {
-    internal static class CompilerDiagnosticIdentifiers
+    internal static partial class CompilerDiagnosticIdentifiers
     {
         public const string OperatorCannotBeAppliedToOperands = "CS0019";
         public const string CannotApplyIndexingToExpression = "CS0021";
@@ -112,6 +112,7 @@ namespace Roslynator.CSharp
         public const string ImplicitlyTypedVariablesCannotHaveMultipleDeclarators = "CS0819";
         public const string ImplicitlyTypedVariablesCannotBeConstant = "CS0822";
         public const string SemicolonExpected = "CS1002";
+        public const string SyntaxErrorCharExpected = "CS1003";
         public const string DuplicateModifier = "CS1004";
         public const string EmbeddedStatementCannotBeDeclarationOrLabeledStatement = "CS1023";
         public const string TypeExpected = "CS1031";

@@ -19,7 +19,7 @@ namespace Roslynator.CodeGeneration.CSharp
                 NamespaceDeclaration(
                     "Roslynator.CSharp",
                     ClassDeclaration(
-                        Modifiers.InternalStaticPartial(),
+                        Modifiers.InternalStatic(),
                         "CompilerDiagnosticIdentifiers",
                         descriptors
                             .OrderBy(f => f.Id, comparer)
