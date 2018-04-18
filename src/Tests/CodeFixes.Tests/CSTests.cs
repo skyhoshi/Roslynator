@@ -11,6 +11,8 @@ namespace Roslynator.CodeFixes.Tests
 {
     public static class CSTests
     {
+        private const string DiagnosticId = CompilerDiagnosticIdentifiers.OperatorCannotBeAppliedToOperands;
+
         private const string SourceTemplate = @"
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +32,9 @@ class C
 ",
 @"
 ",
-                diagnosticId: CompilerDiagnosticIdentifiers.Zero,
+                diagnosticId: DiagnosticId,
                 codeFixProvider: default,
-                equivalenceKey: EquivalenceKey.Create(CompilerDiagnosticIdentifiers.Zero, additionalKey1: null));
+                equivalenceKey: EquivalenceKey.Create(DiagnosticId));
         }
 
         [InlineData("", "")]
@@ -42,9 +44,9 @@ class C
                 SourceTemplate,
                 fixableCode,
                 fixedCode,
-                diagnosticId: CompilerDiagnosticIdentifiers.Zero,
+                diagnosticId: DiagnosticId,
                 codeFixProvider: default,
-                equivalenceKey: EquivalenceKey.Create(CompilerDiagnosticIdentifiers.Zero, additionalKey1: null));
+                equivalenceKey: EquivalenceKey.Create(DiagnosticId));
         }
 
         public static void TestNoCodeFix()
@@ -53,7 +55,7 @@ class C
 @"
 ",
                 codeFixProvider: default,
-                equivalenceKey: EquivalenceKey.Create(CompilerDiagnosticIdentifiers.Zero, additionalKey1: null));
+                equivalenceKey: EquivalenceKey.Create(DiagnosticId));
         }
     }
 }

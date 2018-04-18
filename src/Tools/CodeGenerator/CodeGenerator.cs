@@ -56,7 +56,7 @@ namespace Roslynator.CodeGeneration
                 CodeFixesOptionsPageGenerator.Generate(CodeFixes, Comparer));
 
             WriteCompilationUnit(
-                @"CSharp\CSharp\CompilerDiagnosticIdentifiers.Generated.cs",
+                @"CSharp\CSharp\CompilerDiagnosticIdentifiers.cs",
                 CompilerDiagnosticIdentifiersGenerator.Generate(CompilerDiagnostics, Comparer));
         }
 

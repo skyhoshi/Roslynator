@@ -127,6 +127,9 @@ namespace Roslynator.CSharp.CodeFixes
                             if (Settings.IsCodeFixEnabled(CodeFixIdentifiers.AddCastExpression))
                                 CodeFixRegistrator.AddCastExpression(context, diagnostic, expression, convertedType, semanticModel);
 
+                            if (Settings.IsCodeFixEnabled(CodeFixIdentifiers.ChangeTypeAccordingToInitializer))
+                                ChangeTypeAccordingToInitializerRefactoring.ComputeCodeFix(context, diagnostic, expression, semanticModel);
+
                             if (Settings.IsCodeFixEnabled(CodeFixIdentifiers.CreateSingletonArray)
                                 && type?.IsErrorType() == false
                                 && !type.Equals(convertedType)
