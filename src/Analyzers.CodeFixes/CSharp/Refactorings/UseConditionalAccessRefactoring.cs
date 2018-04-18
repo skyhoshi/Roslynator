@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
@@ -12,108 +11,114 @@ using Microsoft.CodeAnalysis.Text;
 using Roslynator.CSharp;
 using Roslynator.CSharp.Analysis;
 using Roslynator.CSharp.Syntax;
+using Roslynator.Text;
 
 namespace Roslynator.CSharp.Refactorings
 {
     internal static class UseConditionalAccessRefactoring
     {
-        public static Task<Document> RefactorAsync(
+        public static async Task<Document> RefactorAsync(
             Document document,
             BinaryExpressionSyntax logicalAnd,
             CancellationToken cancellationToken)
         {
-            ExpressionSyntax newNode = CreateExpressionWithConditionalAccess(logicalAnd)
-                .WithLeadingTrivia(logicalAnd.GetLeadingTrivia())
-                .WithFormatterAnnotation()
-                .Parenthesize();
+            ExpressionSyntax left = logicalAnd.Left;
+            ExpressionSyntax right = logicalAnd.Right.WalkDownParentheses();
 
-            return document.ReplaceNodeAsync(logicalAnd, newNode, cancellationToken);
-        }
+            if (logicalAnd.Left.IsKind(SyntaxKind.LogicalAndExpression))
+                left = ((BinaryExpressionSyntax)logicalAnd.Left).Right;
 
-        private static ExpressionSyntax CreateExpressionWithConditionalAccess(BinaryExpressionSyntax logicalAnd)
-        {
-            ExpressionSyntax expression = SyntaxInfo.NullCheckExpressionInfo(logicalAnd.Left, allowedStyles: NullCheckStyles.NotEqualsToNull).Expression;
+            NullCheckExpressionInfo nullCheck = SyntaxInfo.NullCheckExpressionInfo(left, allowedStyles: NullCheckStyles.NotEqualsToNull);
 
-            ExpressionSyntax right = logicalAnd.Right?.WalkDownParentheses();
+            SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
+
+            ExpressionSyntax expression = nullCheck.Expression;
+
+            bool isNullable = semanticModel.GetTypeSymbol(expression, cancellationToken).IsNullableType();
 
             ExpressionSyntax expression2 = UseConditionalAccessAnalyzer.FindExpressionThatCanBeConditionallyAccessed(
                 expression,
-                right);
+                right,
+                isNullable: isNullable);
 
-            SyntaxKind kind = right.Kind();
+            var builder = new SyntaxNodeTextBuilder(logicalAnd, StringBuilderCache.GetInstance(logicalAnd.FullSpan.Length));
 
-            if (kind == SyntaxKind.LogicalNotExpression)
+            builder.Append(TextSpan.FromBounds(logicalAnd.FullSpan.Start, left.Span.Start));
+            builder.AppendSpan(expression);
+            builder.Append("?");
+            builder.Append(TextSpan.FromBounds(expression2.Span.End, right.Span.End));
+
+            switch (right.Kind())
             {
-                var logicalNot = (PrefixUnaryExpressionSyntax)right;
-                ExpressionSyntax operand = logicalNot.Operand;
-
-                string s = operand.ToFullString();
-
-                int length = expression2.Span.End - operand.FullSpan.Start;
-                int trailingLength = operand.GetTrailingTrivia().Span.Length;
-
-                var sb = new StringBuilder();
-                sb.Append(s, 0, length);
-                sb.Append("?");
-                sb.Append(s, length, s.Length - length - trailingLength);
-                sb.Append(" == false");
-                sb.Append(s, s.Length - trailingLength, trailingLength);
-
-                return SyntaxFactory.ParseExpression(sb.ToString());
-            }
-            else
-            {
-                string s = right.ToFullString();
-
-                int length = expression2.Span.End - right.FullSpan.Start;
-                int trailingLength = right.GetTrailingTrivia().Span.Length;
-
-                var sb = new StringBuilder();
-                sb.Append(s, 0, length);
-                sb.Append("?");
-                sb.Append(s, length, s.Length - length - trailingLength);
-
-                switch (kind)
-                {
-                    case SyntaxKind.LogicalOrExpression:
-                    case SyntaxKind.LogicalAndExpression:
-                    case SyntaxKind.BitwiseOrExpression:
-                    case SyntaxKind.BitwiseAndExpression:
-                    case SyntaxKind.ExclusiveOrExpression:
-                    case SyntaxKind.EqualsExpression:
-                    case SyntaxKind.NotEqualsExpression:
-                    case SyntaxKind.LessThanExpression:
-                    case SyntaxKind.LessThanOrEqualExpression:
-                    case SyntaxKind.GreaterThanExpression:
-                    case SyntaxKind.GreaterThanOrEqualExpression:
-                    case SyntaxKind.IsExpression:
-                    case SyntaxKind.AsExpression:
-                    case SyntaxKind.IsPatternExpression:
+                case SyntaxKind.LogicalOrExpression:
+                case SyntaxKind.LogicalAndExpression:
+                case SyntaxKind.BitwiseOrExpression:
+                case SyntaxKind.BitwiseAndExpression:
+                case SyntaxKind.ExclusiveOrExpression:
+                case SyntaxKind.EqualsExpression:
+                case SyntaxKind.NotEqualsExpression:
+                case SyntaxKind.LessThanExpression:
+                case SyntaxKind.LessThanOrEqualExpression:
+                case SyntaxKind.GreaterThanExpression:
+                case SyntaxKind.GreaterThanOrEqualExpression:
+                case SyntaxKind.IsExpression:
+                case SyntaxKind.AsExpression:
+                case SyntaxKind.IsPatternExpression:
+                    {
                         break;
-                    default:
-                        {
-                            sb.Append(" == true");
-                            break;
-                        }
-                }
-
-                sb.Append(s, s.Length - trailingLength, trailingLength);
-
-                return SyntaxFactory.ParseExpression(sb.ToString());
+                    }
+                case SyntaxKind.LogicalNotExpression:
+                    {
+                        builder.Append(" == false");
+                        break;
+                    }
+                default:
+                    {
+                        builder.Append(" == true");
+                        break;
+                    }
             }
+
+            builder.AppendTrailingTrivia();
+
+            string text = StringBuilderCache.GetStringAndFree(builder.StringBuilder);
+
+            ParenthesizedExpressionSyntax newNode = SyntaxFactory.ParseExpression(text)
+                .WithFormatterAnnotation()
+                .Parenthesize();
+
+            return await document.ReplaceNodeAsync(logicalAnd, newNode, cancellationToken).ConfigureAwait(false);
         }
 
-        public static Task<Document> RefactorAsync(
+        public static async Task<Document> RefactorAsync(
             Document document,
             IfStatementSyntax ifStatement,
             CancellationToken cancellationToken)
         {
             var statement = (ExpressionStatementSyntax)ifStatement.SingleNonBlockStatementOrDefault();
 
+            StatementSyntax newStatement = statement;
+
+            NullCheckExpressionInfo nullCheck = SyntaxInfo.NullCheckExpressionInfo(ifStatement.Condition, NullCheckStyles.NotEqualsToNull);
+
             SimpleMemberInvocationStatementInfo invocationInfo = SyntaxInfo.SimpleMemberInvocationStatementInfo(statement);
 
-            int insertIndex = invocationInfo.Expression.Span.End - statement.FullSpan.Start;
-            StatementSyntax newStatement = SyntaxFactory.ParseStatement(statement.ToFullString().Insert(insertIndex, "?"));
+            ExpressionSyntax expression = invocationInfo.Expression;
+
+            SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
+
+            if (semanticModel.GetTypeSymbol(nullCheck.Expression, cancellationToken).IsNullableType())
+            {
+                var memberAccess = (MemberAccessExpressionSyntax)invocationInfo.Expression;
+
+                newStatement = statement.ReplaceNode(memberAccess, memberAccess.Expression.WithTrailingTrivia(memberAccess.GetTrailingTrivia()));
+
+                expression = memberAccess.Expression;
+            }
+
+            int insertIndex = expression.Span.End - statement.FullSpan.Start;
+
+            newStatement = SyntaxFactory.ParseStatement(newStatement.ToFullString().Insert(insertIndex, "?"));
 
             IEnumerable<SyntaxTrivia> leading = ifStatement.DescendantTrivia(TextSpan.FromBounds(ifStatement.SpanStart, statement.SpanStart));
 
@@ -127,7 +132,7 @@ namespace Roslynator.CSharp.Refactorings
                 ? newStatement.WithTrailingTrivia(ifStatement.GetTrailingTrivia())
                 : newStatement.WithTrailingTrivia(trailing.Concat(ifStatement.GetTrailingTrivia()));
 
-            return document.ReplaceNodeAsync(ifStatement, newStatement, cancellationToken);
+            return await document.ReplaceNodeAsync(ifStatement, newStatement, cancellationToken).ConfigureAwait(false);
         }
     }
 }
