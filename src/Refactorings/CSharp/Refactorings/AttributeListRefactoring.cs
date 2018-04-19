@@ -27,7 +27,8 @@ namespace Roslynator.CSharp.Refactorings
                 {
                     context.RegisterRefactoring(
                         "Split attributes",
-                        ct => SplitAsync(context.Document, member, selectedAttributeLists.ToArray(), ct));
+                        ct => SplitAsync(context.Document, member, selectedAttributeLists.ToArray(), ct),
+                        RefactoringIdentifiers.SplitAttributes);
                 }
 
                 if (context.IsRefactoringEnabled(RefactoringIdentifiers.MergeAttributes)
@@ -35,7 +36,8 @@ namespace Roslynator.CSharp.Refactorings
                 {
                     context.RegisterRefactoring(
                         "Merge attributes",
-                        ct => MergeAsync(context.Document, member, selectedAttributeLists.ToArray(), ct));
+                        ct => MergeAsync(context.Document, member, selectedAttributeLists.ToArray(), ct),
+                        RefactoringIdentifiers.MergeAttributes);
                 }
             }
         }
@@ -55,7 +57,7 @@ namespace Roslynator.CSharp.Refactorings
             for (int i = 0; i < index; i++)
                 newLists.Add(lists[i]);
 
-            newLists.AddRange(attributeLists.SelectMany(AttributeRefactoring.SplitAttributes));
+            newLists.AddRange(attributeLists.SelectMany(RefactoringUtility.SplitAttributes).Select(f => f.WithFormatterAnnotation()));
 
             for (int i = index + attributeLists.Length; i < lists.Count; i++)
                 newLists.Add(lists[i]);
@@ -81,7 +83,7 @@ namespace Roslynator.CSharp.Refactorings
             for (int i = 0; i < index; i++)
                 newLists.Add(lists[i]);
 
-            newLists.Add(AttributeRefactoring.MergeAttributes(attributeLists));
+            newLists.Add(RefactoringUtility.MergeAttributes(attributeLists).WithFormatterAnnotation());
 
             for (int i = index + attributeLists.Length; i < lists.Count; i++)
                 newLists.Add(lists[i]);

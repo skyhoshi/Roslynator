@@ -23,10 +23,13 @@ namespace Roslynator.CSharp.Analysis.UnusedMember
 
         public bool IsAnyNodeConst { get; private set; }
 
+        public bool IsAnyNodeDelegate { get; private set; }
+
         public void Reset()
         {
             Nodes.Clear();
             IsAnyNodeConst = false;
+            IsAnyNodeDelegate = false;
             _isEmpty = false;
             _containingMethodSymbol = null;
         }
@@ -73,6 +76,13 @@ namespace Roslynator.CSharp.Analysis.UnusedMember
             }
         }
 
+        public void AddDelegate(string name, SyntaxNode node)
+        {
+            AddNode(name, node);
+
+            IsAnyNodeDelegate = true;
+        }
+
         public void AddNode(string name, SyntaxNode node)
         {
             Nodes.Add(new NodeSymbolInfo(name, node));
@@ -115,9 +125,6 @@ namespace Roslynator.CSharp.Analysis.UnusedMember
 
         private void VisitAttributeLists(SyntaxList<AttributeListSyntax> attributeLists)
         {
-            if (!IsAnyNodeConst)
-                return;
-
             foreach (AttributeListSyntax attributeList in attributeLists)
                 Visit(attributeList);
         }
@@ -259,8 +266,7 @@ namespace Roslynator.CSharp.Analysis.UnusedMember
 
         public override void VisitBracketedParameterList(BracketedParameterListSyntax node)
         {
-            if (IsAnyNodeConst)
-                base.VisitBracketedParameterList(node);
+            base.VisitBracketedParameterList(node);
         }
 
         public override void VisitBreakStatement(BreakStatementSyntax node)
@@ -881,16 +887,16 @@ namespace Roslynator.CSharp.Analysis.UnusedMember
             VisitAttributeLists(node.AttributeLists);
             Visit(node.Default);
 
+            if (IsAnyNodeDelegate)
+                Visit(node.Type);
+
             //base.VisitParameter(node);
         }
 
-        public override void VisitParameterList(ParameterListSyntax node)
-        {
-            if (IsAnyNodeConst)
-                base.VisitParameterList(node);
-
-            //base.VisitParameterList(node);
-        }
+        //public override void VisitParameterList(ParameterListSyntax node)
+        //{
+        //    base.VisitParameterList(node);
+        //}
 
         //public override void VisitParenthesizedExpression(ParenthesizedExpressionSyntax node)
         //{

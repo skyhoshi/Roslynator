@@ -61,7 +61,8 @@ namespace Roslynator.CSharp.Refactorings
 
             context.RegisterRefactoring(
                 $"Replace {invocation.Expression} with interpolated string",
-                cancellationToken => RefactorAsync(context.Document, invocation, semanticModel, cancellationToken));
+                cancellationToken => RefactorAsync(context.Document, invocation, semanticModel, cancellationToken),
+                RefactoringIdentifiers.ReplaceStringFormatWithInterpolatedString);
         }
 
         private static ImmutableArray<ISymbol> GetFormatMethods(SemanticModel semanticModel)
@@ -110,6 +111,10 @@ namespace Roslynator.CSharp.Refactorings
             var rewriter = new InterpolatedStringSyntaxRewriter(interpolationExpressions);
 
             var newNode = (InterpolatedStringExpressionSyntax)rewriter.Visit(interpolatedString);
+
+            newNode = newNode
+                .WithTriviaFrom(invocation)
+                .WithFormatterAnnotation();
 
             return document.ReplaceNodeAsync(invocation, newNode, cancellationToken);
         }
@@ -215,7 +220,9 @@ namespace Roslynator.CSharp.Refactorings
                         .WithSimplifierAnnotation();
                 }
 
-                yield return expression.Parenthesize();
+                yield return expression
+                    .TrimTrivia()
+                    .Parenthesize();
             }
         }
 

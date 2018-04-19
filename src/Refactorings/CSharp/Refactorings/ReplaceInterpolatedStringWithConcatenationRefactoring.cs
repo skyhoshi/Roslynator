@@ -35,7 +35,8 @@ namespace Roslynator.CSharp.Refactorings
 
             context.RegisterRefactoring(
                 "Replace interpolated string with concatenation",
-                cancellationToken => RefactorAsync(context.Document, interpolatedString, cancellationToken));
+                cancellationToken => RefactorAsync(context.Document, interpolatedString, cancellationToken),
+                RefactoringIdentifiers.ReplaceInterpolatedStringWithConcatenation);
         }
 
         private static async Task<Document> RefactorAsync(
@@ -93,7 +94,10 @@ namespace Roslynator.CSharp.Refactorings
                 newNode = CreateAddExpression(newNode, expression, position, isLeft: false, semanticModel: semanticModel, cancellationToken: cancellationToken);
             }
 
-            newNode = newNode.Parenthesize().WithFormatterAnnotation();
+            newNode = newNode
+                .WithTriviaFrom(interpolatedString)
+                .Parenthesize()
+                .WithFormatterAnnotation();
 
             return await document.ReplaceNodeAsync(interpolatedString, newNode, cancellationToken).ConfigureAwait(false);
         }

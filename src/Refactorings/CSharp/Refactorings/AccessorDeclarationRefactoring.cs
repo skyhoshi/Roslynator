@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -25,18 +26,21 @@ namespace Roslynator.CSharp.Refactorings
                         {
                             context.RegisterRefactoring(
                                 "Format braces on separate lines",
-                                ct => SyntaxFormatter.ToMultiLineAsync(context.Document, accessor, ct));
+                                ct => SyntaxFormatter.ToMultiLineAsync(context.Document, accessor, ct),
+                                RefactoringIdentifiers.FormatAccessorBraces);
                         }
                     }
                     else
                     {
                         SyntaxList<StatementSyntax> statements = body.Statements;
 
-                        if (body.Statements.SingleOrDefault(shouldThrow: false)?.IsSingleLine() == true)
+                        if (body.Statements.SingleOrDefault(shouldThrow: false)?.IsSingleLine() == true
+                            && accessor.DescendantTrivia(accessor.Span).All(f => f.IsWhitespaceOrEndOfLineTrivia()))
                         {
                             context.RegisterRefactoring(
                                 "Format braces on a single line",
-                                ct => SyntaxFormatter.ToSingleLineAsync(context.Document, accessor, ct));
+                                ct => SyntaxFormatter.ToSingleLineAsync(context.Document, accessor, ct),
+                                RefactoringIdentifiers.FormatAccessorBraces);
                         }
                     }
                 }
@@ -58,7 +62,8 @@ namespace Roslynator.CSharp.Refactorings
 
                 context.RegisterRefactoring(
                     "Use expression-bodied member",
-                    ct => UseExpressionBodiedMemberRefactoring.RefactorAsync(context.Document, node, ct));
+                    ct => UseExpressionBodiedMemberRefactoring.RefactorAsync(context.Document, node, ct),
+                    RefactoringIdentifiers.UseExpressionBodiedMember);
             }
         }
     }
