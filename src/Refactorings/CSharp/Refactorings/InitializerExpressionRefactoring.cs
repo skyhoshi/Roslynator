@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -38,16 +39,19 @@ namespace Roslynator.CSharp.Refactorings
                             cancellationToken => SyntaxFormatter.ToMultiLineAsync(
                                 context.Document,
                                 initializer,
-                                cancellationToken));
+                                cancellationToken),
+                            RefactoringIdentifiers.FormatInitializer);
                     }
-                    else if (expressions.All(expression => expression.IsSingleLine()))
+                    else if (expressions.All(expression => expression.IsSingleLine())
+                        && initializer.DescendantTrivia(initializer.Span).All(f => f.IsWhitespaceOrEndOfLineTrivia()))
                     {
                         context.RegisterRefactoring(
                             "Format initializer on a single line",
                             cancellationToken => SyntaxFormatter.ToSingleLineAsync(
                                 context.Document,
                                 initializer,
-                                cancellationToken));
+                                cancellationToken),
+                            RefactoringIdentifiers.FormatInitializer);
                     }
                 }
 

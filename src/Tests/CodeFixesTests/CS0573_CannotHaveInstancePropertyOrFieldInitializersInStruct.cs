@@ -10,6 +10,5 @@ namespace Roslynator.CSharp.CodeFixes.Tests
 
             public string PropertyName { get; set; } = "";
         }
-
     }
 }

@@ -10,7 +10,7 @@ using static Roslynator.CSharp.CSharpFactory;
 
 namespace Roslynator.CSharp.Refactorings
 {
-    internal static class ReplaceStringContainsWithStringIndexOfRefactoring
+    internal static class CallIndexOfInsteadOfContainsRefactoring
     {
         public static async Task ComputeRefactoringAsync(RefactoringContext context, InvocationExpressionSyntax invocation)
         {
@@ -23,8 +23,9 @@ namespace Roslynator.CSharp.Refactorings
                 && methodSymbol.HasSingleParameter(SpecialType.System_String))
             {
                 context.RegisterRefactoring(
-                    "Replace Contains with IndexOf", //Call 'IndexOf' instead of 'Replace'
-                    cancellationToken => RefactorAsync(context.Document, invocation, cancellationToken));
+                    "Call 'IndexOf' instead of 'Contains'",
+                    cancellationToken => RefactorAsync(context.Document, invocation, cancellationToken),
+                    RefactoringIdentifiers.CallIndexOfInsteadOfContains);
             }
         }
 

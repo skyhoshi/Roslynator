@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Linq;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
@@ -22,13 +23,15 @@ namespace Roslynator.CSharp.Refactorings
             {
                 context.RegisterRefactoring(
                     "Format binary expression on multiple lines",
-                    cancellationToken => SyntaxFormatter.ToMultiLineAsync(context.Document, binaryExpression, cancellationToken));
+                    cancellationToken => SyntaxFormatter.ToMultiLineAsync(context.Document, binaryExpression, cancellationToken),
+                    RefactoringIdentifiers.FormatBinaryExpression);
             }
-            else
+            else if (binaryExpression.DescendantTrivia(binaryExpression.Span).All(f => f.IsWhitespaceOrEndOfLineTrivia()))
             {
                 context.RegisterRefactoring(
                     "Format binary expression on a single line",
-                    cancellationToken => SyntaxFormatter.ToSingleLineAsync(context.Document, binaryExpression, cancellationToken));
+                    cancellationToken => SyntaxFormatter.ToSingleLineAsync(context.Document, binaryExpression, cancellationToken),
+                    RefactoringIdentifiers.FormatBinaryExpression);
             }
         }
 

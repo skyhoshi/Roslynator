@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Roslynator.CSharp.CSharpFactory;
+using System.Collections.Immutable;
 
 namespace Roslynator.CSharp.Refactorings
 {
@@ -44,15 +45,15 @@ namespace Roslynator.CSharp.Refactorings
             if (methodSymbol == null)
                 return;
 
-            if (methodSymbol.IsImplicitlyDeclared)
-                return;
-
             if (methodSymbol.PartialDefinitionPart != null)
                 return;
 
-            Debug.Assert(methodSymbol.DeclaringSyntaxReferences.Any());
+            ImmutableArray<SyntaxReference> syntaxReferences = methodSymbol.DeclaringSyntaxReferences;
 
-            SyntaxNode node = methodSymbol.GetSyntaxOrDefault(context.CancellationToken);
+            if (!syntaxReferences.Any())
+                return;
+
+            SyntaxNode node = syntaxReferences[0].GetSyntax(context.CancellationToken);
 
             switch (node)
             {
@@ -69,7 +70,8 @@ namespace Roslynator.CSharp.Refactorings
                                 methodDeclaration.Modifiers,
                                 methodDeclaration.ParameterList,
                                 methodDeclaration.BodyOrExpressionBody(),
-                                cancellationToken));
+                                cancellationToken),
+                            RefactoringIdentifiers.ReplaceMethodGroupWithLambda);
 
                         break;
                     }
@@ -86,13 +88,14 @@ namespace Roslynator.CSharp.Refactorings
                                 localFunction.Modifiers,
                                 localFunction.ParameterList,
                                 localFunction.BodyOrExpressionBody(),
-                                cancellationToken));
+                                cancellationToken),
+                            RefactoringIdentifiers.ReplaceMethodGroupWithLambda);
 
                         break;
                     }
                 default:
                     {
-                        Debug.Assert(node == null, node.Kind().ToString());
+                        Debug.Fail(node.Kind().ToString());
                         break;
                     }
             }
