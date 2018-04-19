@@ -210,5 +210,6 @@ namespace Roslynator.CSharp
         public const string CallSkipAndAnyInsteadOfCount = "RCS1219";
         public const string AddCommaAfterLastItemInList = "RCS1220";
         public const string UseDebuggerDisplayAttribute = "RCS1221";
+        public const string UsePatternMatchingInsteadOfIsAndCast = "RCS1222";
     }
 }
