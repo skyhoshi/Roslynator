@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.Text;
 using Roslynator.CSharp;
 using Roslynator.CSharp.Syntax;
 
@@ -30,14 +31,14 @@ namespace Roslynator.CSharp.Analysis
 
             context.RegisterCompilationStartAction(startContext =>
             {
-                INamedTypeSymbol expressionType = startContext.Compilation.GetTypeByMetadataName(MetadataNames.System_Linq_Expressions_Expression_1);
+                INamedTypeSymbol expressionOfTSymbol = startContext.Compilation.GetTypeByMetadataName(MetadataNames.System_Linq_Expressions_Expression_1);
 
-                startContext.RegisterSyntaxNodeAction(nodeContext => AnalyzeLogicalAndExpression(nodeContext, expressionType), SyntaxKind.LogicalAndExpression);
-                startContext.RegisterSyntaxNodeAction(nodeContext => AnalyzeIfStatement(nodeContext, expressionType), SyntaxKind.IfStatement);
+                startContext.RegisterSyntaxNodeAction(nodeContext => AnalyzeIfStatement(nodeContext, expressionOfTSymbol), SyntaxKind.IfStatement);
+                startContext.RegisterSyntaxNodeAction(nodeContext => AnalyzeLogicalAndExpression(nodeContext, expressionOfTSymbol), SyntaxKind.LogicalAndExpression);
             });
         }
 
-        public static void AnalyzeIfStatement(SyntaxNodeAnalysisContext context, INamedTypeSymbol expressionType)
+        public static void AnalyzeIfStatement(SyntaxNodeAnalysisContext context, INamedTypeSymbol expressionOfTSymbol)
         {
             var ifStatement = (IfStatementSyntax)context.Node;
 
@@ -52,65 +53,126 @@ namespace Roslynator.CSharp.Analysis
 
             NullCheckExpressionInfo nullCheck = SyntaxInfo.NullCheckExpressionInfo(ifStatement.Condition, allowedStyles: NullCheckStyles.NotEqualsToNull);
 
-            if (!nullCheck.Success)
+            ExpressionSyntax expression = nullCheck.Expression;
+
+            if (expression == null)
                 return;
 
             SimpleMemberInvocationStatementInfo invocationInfo = SyntaxInfo.SimpleMemberInvocationStatementInfo(ifStatement.SingleNonBlockStatementOrDefault());
 
-            if (!invocationInfo.Success)
+            ExpressionSyntax expression2 = invocationInfo.Expression;
+
+            if (expression2 == null)
                 return;
 
-            if (!CSharpFactory.AreEquivalent(nullCheck.Expression, invocationInfo.Expression))
+            ITypeSymbol typeSymbol = context.SemanticModel.GetTypeSymbol(expression);
+
+            if (typeSymbol == null)
                 return;
 
-            if (ifStatement.IsInExpressionTree(expressionType, context.SemanticModel, context.CancellationToken))
+            if (typeSymbol.IsNullableType())
+            {
+                if (!expression2.IsKind(SyntaxKind.SimpleMemberAccessExpression))
+                    return;
+
+                var memberAccess = (MemberAccessExpressionSyntax)expression2;
+
+                if (!(memberAccess.Name is IdentifierNameSyntax identifierName))
+                    return;
+
+                if (!string.Equals(identifierName.Identifier.ValueText, "Value", StringComparison.Ordinal))
+                    return;
+
+                expression2 = memberAccess.Expression;
+            }
+
+            if (!CSharpFactory.AreEquivalent(expression, expression2))
+                return;
+
+            if (ifStatement.IsInExpressionTree(expressionOfTSymbol, context.SemanticModel, context.CancellationToken))
                 return;
 
             context.ReportDiagnostic(DiagnosticDescriptors.UseConditionalAccess, ifStatement);
         }
 
-        public static void AnalyzeLogicalAndExpression(SyntaxNodeAnalysisContext context, INamedTypeSymbol expressionType)
+        public static void AnalyzeLogicalAndExpression(SyntaxNodeAnalysisContext context, INamedTypeSymbol expressionOfTSymbol)
         {
-            var logicalAndExpression = (BinaryExpressionSyntax)context.Node;
+            var logicalAnd = (BinaryExpressionSyntax)context.Node;
 
-            if (logicalAndExpression.ContainsDiagnostics)
+            if (logicalAnd.ContainsDiagnostics)
                 return;
 
-            ExpressionSyntax expression = SyntaxInfo.NullCheckExpressionInfo(logicalAndExpression.Left, allowedStyles: NullCheckStyles.NotEqualsToNull).Expression;
-
-            if (expression == null)
+            if (logicalAnd.IsParentKind(SyntaxKind.LogicalAndExpression))
                 return;
 
-            if (context.SemanticModel
-                .GetTypeSymbol(expression, context.CancellationToken)?
-                .IsReferenceType != true)
+            if (logicalAnd.IsInExpressionTree(expressionOfTSymbol, context.SemanticModel, context.CancellationToken))
+                return;
+
+            while (true)
             {
-                return;
+                ExpressionSyntax left = logicalAnd.Left;
+                ExpressionSyntax right = logicalAnd.Right?.WalkDownParentheses();
+
+                if (!left.IsKind(SyntaxKind.LogicalAndExpression))
+                {
+                    if (IsFixable(left, right, context.SemanticModel, context.CancellationToken))
+                    {
+                        context.ReportDiagnostic(DiagnosticDescriptors.UseConditionalAccess, logicalAnd);
+                    }
+
+                    return;
+                }
+
+                var leftLogicalAnd = (BinaryExpressionSyntax)left;
+
+                left = leftLogicalAnd.Right;
+
+                if (IsFixable(left, right, context.SemanticModel, context.CancellationToken))
+                {
+                    context.ReportDiagnostic(DiagnosticDescriptors.UseConditionalAccess, Location.Create(logicalAnd.SyntaxTree, TextSpan.FromBounds(left.SpanStart, right.Span.End)));
+                    return;
+                }
+
+                logicalAnd = leftLogicalAnd;
             }
-
-            ExpressionSyntax right = logicalAndExpression.Right?.WalkDownParentheses();
-
-            if (right == null)
-                return;
-
-            if (!ValidateRightExpression(right, context.SemanticModel, context.CancellationToken))
-                return;
-
-            if (RefactoringUtility.ContainsOutArgumentWithLocal(right, context.SemanticModel, context.CancellationToken))
-                return;
-
-            ExpressionSyntax expression2 = FindExpressionThatCanBeConditionallyAccessed(expression, right);
-
-            if (expression2?.SpanContainsDirectives() != false)
-                return;
-
-            if (logicalAndExpression.IsInExpressionTree(expressionType, context.SemanticModel, context.CancellationToken))
-                return;
-
-            context.ReportDiagnostic(DiagnosticDescriptors.UseConditionalAccess, logicalAndExpression);
         }
 
-        internal static ExpressionSyntax FindExpressionThatCanBeConditionallyAccessed(ExpressionSyntax expressionToFind, ExpressionSyntax expression)
+        private static bool IsFixable(
+            ExpressionSyntax left,
+            ExpressionSyntax right,
+            SemanticModel semanticModel,
+            CancellationToken cancellationToken)
+        {
+            NullCheckExpressionInfo nullCheck = SyntaxInfo.NullCheckExpressionInfo(left, allowedStyles: NullCheckStyles.NotEqualsToNull);
+
+            ExpressionSyntax expression = nullCheck.Expression;
+
+            if (expression == null)
+                return false;
+
+            ITypeSymbol typeSymbol = semanticModel.GetTypeSymbol(expression, cancellationToken);
+
+            if (typeSymbol == null)
+                return false;
+
+            if (!typeSymbol.IsReferenceTypeOrNullableType())
+                return false;
+
+            if (right == null)
+                return false;
+
+            if (!ValidateRightExpression(right, semanticModel, cancellationToken))
+                return false;
+
+            if (RefactoringUtility.ContainsOutArgumentWithLocal(right, semanticModel, cancellationToken))
+                return false;
+
+            ExpressionSyntax expression2 = FindExpressionThatCanBeConditionallyAccessed(expression, right, isNullable: !typeSymbol.IsReferenceType);
+
+            return expression2?.SpanContainsDirectives() == false;
+        }
+
+        internal static ExpressionSyntax FindExpressionThatCanBeConditionallyAccessed(ExpressionSyntax expressionToFind, ExpressionSyntax expression, bool isNullable = false)
         {
             if (expression.IsKind(SyntaxKind.LogicalNotExpression))
                 expression = ((PrefixUnaryExpressionSyntax)expression).Operand;
@@ -129,7 +191,18 @@ namespace Roslynator.CSharp.Analysis
                     && node.IsParentKind(SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.ElementAccessExpression)
                     && CSharpFactory.AreEquivalent(expressionToFind, node))
                 {
-                    return (ExpressionSyntax)node;
+                    if (!isNullable)
+                        return (ExpressionSyntax)node;
+
+                    if (node.IsParentKind(SyntaxKind.SimpleMemberAccessExpression)
+                        && (((MemberAccessExpressionSyntax)node.Parent).Name is IdentifierNameSyntax identifierName)
+                        && string.Equals(identifierName.Identifier.ValueText, "Value", StringComparison.Ordinal)
+                        && node.Parent.IsParentKind(SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.ElementAccessExpression))
+                    {
+                        return (ExpressionSyntax)node.Parent;
+                    }
+
+                    return null;
                 }
 
                 node = node.Parent;

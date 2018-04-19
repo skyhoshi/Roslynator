@@ -47,7 +47,8 @@ namespace Roslynator.CSharp.Refactorings
 
             context.RegisterRefactoring(
                 $"Generate property '{DefaultNames.DebuggerDisplayPropertyName}'",
-                cancellationToken => RefactorAsync(context.Document, attribute, cancellationToken));
+                cancellationToken => RefactorAsync(context.Document, attribute, cancellationToken),
+                RefactoringIdentifiers.GeneratePropertyForDebuggerDisplayAttribute);
         }
 
         private static bool CanRefactor(string value)

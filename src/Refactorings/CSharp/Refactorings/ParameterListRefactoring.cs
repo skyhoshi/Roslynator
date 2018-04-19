@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -19,7 +20,7 @@ namespace Roslynator.CSharp.Refactorings
                 if (context.IsRefactoringEnabled(RefactoringIdentifiers.DuplicateParameter))
                 {
                     var refactoring = new DuplicateParameterRefactoring(parameterList);
-                    refactoring.ComputeRefactoring(context);
+                    refactoring.ComputeRefactoring(context, RefactoringIdentifiers.DuplicateParameter);
                 }
 
                 if (context.IsRefactoringEnabled(RefactoringIdentifiers.CheckParameterForNull))
@@ -41,14 +42,16 @@ namespace Roslynator.CSharp.Refactorings
                         {
                             context.RegisterRefactoring(
                                 "Format parameters on separate lines",
-                                cancellationToken => SyntaxFormatter.ToMultiLineAsync(context.Document, parameterList, cancellationToken));
+                                cancellationToken => SyntaxFormatter.ToMultiLineAsync(context.Document, parameterList, cancellationToken),
+                                RefactoringIdentifiers.FormatParameterList);
                         }
                     }
-                    else
+                    else if (parameterList.DescendantTrivia(parameterList.Span).All(f => f.IsWhitespaceOrEndOfLineTrivia()))
                     {
                         context.RegisterRefactoring(
                             "Format parameters on a single line",
-                            cancellationToken => SyntaxFormatter.ToSingleLineAsync(context.Document, parameterList, cancellationToken));
+                            cancellationToken => SyntaxFormatter.ToSingleLineAsync(context.Document, parameterList, cancellationToken),
+                            RefactoringIdentifiers.FormatParameterList);
                     }
                 }
             }
