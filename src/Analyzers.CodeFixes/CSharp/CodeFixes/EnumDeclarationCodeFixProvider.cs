@@ -22,8 +22,7 @@ namespace Roslynator.CSharp.CodeFixes
             {
                 return ImmutableArray.Create(
                     DiagnosticIdentifiers.FormatEachEnumMemberOnSeparateLine,
-                    DiagnosticIdentifiers.SortEnumMembers,
-                    DiagnosticIdentifiers.AddCommaAfterLastItemInList);
+                    DiagnosticIdentifiers.SortEnumMembers);
             }
         }
 
@@ -53,16 +52,6 @@ namespace Roslynator.CSharp.CodeFixes
                             CodeAction codeAction = CodeAction.Create(
                                 $"Sort '{enumDeclaration.Identifier}' members",
                                 cancellationToken => SortEnumMembersRefactoring.RefactorAsync(context.Document, enumDeclaration, cancellationToken),
-                                GetEquivalenceKey(diagnostic));
-
-                            context.RegisterCodeFix(codeAction, diagnostic);
-                            break;
-                        }
-                    case DiagnosticIdentifiers.AddCommaAfterLastItemInList:
-                        {
-                            CodeAction codeAction = CodeAction.Create(
-                                "Add comma",
-                                cancellationToken => AddCommaAfterLastItemInListRefactoring.RefactorAsync(context.Document, enumDeclaration, cancellationToken),
                                 GetEquivalenceKey(diagnostic));
 
                             context.RegisterCodeFix(codeAction, diagnostic);
