@@ -67,7 +67,7 @@ namespace Roslynator.CSharp.Analysis
 
             int count = members.Count;
 
-            if (count == 0)
+            if (count <= 1)
                 return;
 
             if (count - members.SeparatorCount != 1)
