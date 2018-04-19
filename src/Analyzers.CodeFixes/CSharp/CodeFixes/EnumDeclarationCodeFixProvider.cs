@@ -23,7 +23,7 @@ namespace Roslynator.CSharp.CodeFixes
                 return ImmutableArray.Create(
                     DiagnosticIdentifiers.FormatEachEnumMemberOnSeparateLine,
                     DiagnosticIdentifiers.SortEnumMembers,
-                    DiagnosticIdentifiers.AddCommaAfterLastEnumMember);
+                    DiagnosticIdentifiers.AddCommaAfterLastItemInList);
             }
         }
 
@@ -58,11 +58,11 @@ namespace Roslynator.CSharp.CodeFixes
                             context.RegisterCodeFix(codeAction, diagnostic);
                             break;
                         }
-                    case DiagnosticIdentifiers.AddCommaAfterLastEnumMember:
+                    case DiagnosticIdentifiers.AddCommaAfterLastItemInList:
                         {
                             CodeAction codeAction = CodeAction.Create(
                                 "Add comma",
-                                cancellationToken => AddCommaAfterLastEnumMemberRefactoring.RefactorAsync(context.Document, enumDeclaration, cancellationToken),
+                                cancellationToken => AddCommaAfterLastItemInListRefactoring.RefactorAsync(context.Document, enumDeclaration, cancellationToken),
                                 GetEquivalenceKey(diagnostic));
 
                             context.RegisterCodeFix(codeAction, diagnostic);

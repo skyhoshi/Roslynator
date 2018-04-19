@@ -4722,31 +4722,29 @@ else
       </Sample>
     </Samples>
   </Analyzer>
-  <Analyzer Identifier="AddCommaAfterLastEnumMember">
+  <Analyzer Identifier="AddCommaAfterLastItemInList">
     <Id>RCS1220</Id>
-    <Title>Add comma after last enum member.</Title>
-    <MessageFormat>Add comma after last enum member.</MessageFormat>
+    <Title>Add comma after last item in list.</Title>
+    <MessageFormat>Add comma after last item in list.</MessageFormat>
     <Category>Maintainability</Category>
     <DefaultSeverity>Info</DefaultSeverity>
     <IsEnabledByDefault>true</IsEnabledByDefault>
     <SupportsFadeOut>false</SupportsFadeOut>
     <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
-    <Summary>Having comma after last enum member allows easily reorder members.
-Also when new enum member is added, previous line will not show up in file comparison.</Summary>
+    <Summary>Having comma after last item in list allows easily reorder members.
+Also when new item is added, previous line will not show up in file comparison.</Summary>
     <Samples>
       <Sample>
         <Before>
           <![CDATA[public enum Foo
 {
   A,
-  B,
-  C // RCS0218
+  B // RCS1220
 }]]></Before>
         <After><![CDATA[public enum Foo
 {
   A,
   B,
-  C,
 }]]></After>
       </Sample>
     </Samples>
