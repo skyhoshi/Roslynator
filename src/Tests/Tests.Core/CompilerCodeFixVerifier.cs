@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
@@ -42,6 +43,8 @@ namespace Roslynator.Tests
             string language,
             string equivalenceKey = null)
         {
+            Debug.Assert(codeFixProvider.FixableDiagnosticIds.Contains(diagnosticId), $"Code fix provider '{codeFixProvider.GetType().Name}' cannot fix diagnostic '{diagnosticId}'.");
+
             Document document = WorkspaceUtility.CreateDocument(source, language);
 
             ImmutableArray<Diagnostic> compilerDiagnostics = DiagnosticUtility.GetCompilerDiagnostics(document);

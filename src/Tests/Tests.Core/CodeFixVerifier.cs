@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
@@ -49,6 +50,8 @@ namespace Roslynator.Tests
             string language,
             bool allowNewCompilerDiagnostics = false)
         {
+            Debug.Assert(codeFixProvider.FixableDiagnosticIds.Intersect(analyzer.SupportedDiagnostics.Select(f => f.Id)).Any(), $"Code fix provider '{codeFixProvider.GetType().Name}' cannot fix any diagnostic supported by analyzer '{analyzer}'.");
+
             Document document = WorkspaceUtility.CreateDocument(source, language);
 
             Diagnostic[] analyzerDiagnostics = DiagnosticUtility.GetSortedDiagnostics(document, analyzer);
