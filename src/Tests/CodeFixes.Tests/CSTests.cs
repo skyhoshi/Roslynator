@@ -1,17 +1,18 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.CodeAnalysis.CodeFixes;
 using Roslynator.CSharp;
 using Roslynator.CSharp.CodeFixes;
 using Xunit;
 using static Roslynator.Tests.CSharpCompilerCodeFixVerifier;
-
-#pragma warning disable xUnit1008
 
 namespace Roslynator.CodeFixes.Tests
 {
     public static class CSTests
     {
         private const string DiagnosticId = CompilerDiagnosticIdentifiers.OperatorCannotBeAppliedToOperands;
+
+        private static CodeFixProvider CodeFixProvider { get; }
 
         private const string SourceTemplate = @"
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ class C
 }
 ";
 
+        //[Fact]
         public static void TestCodeFix()
         {
             VerifyCodeFix(
@@ -33,11 +35,12 @@ class C
 @"
 ",
                 diagnosticId: DiagnosticId,
-                codeFixProvider: default,
+                codeFixProvider: CodeFixProvider,
                 equivalenceKey: EquivalenceKey.Create(DiagnosticId));
         }
 
-        [InlineData("", "")]
+        //[Theory]
+        //[InlineData("", "")]
         public static void TestCodeFix2(string fixableCode, string fixedCode)
         {
             VerifyCodeFix(
@@ -45,16 +48,17 @@ class C
                 fixableCode,
                 fixedCode,
                 diagnosticId: DiagnosticId,
-                codeFixProvider: default,
+                codeFixProvider: CodeFixProvider,
                 equivalenceKey: EquivalenceKey.Create(DiagnosticId));
         }
 
+        //[Fact]
         public static void TestNoCodeFix()
         {
             VerifyNoCodeFix(
 @"
 ",
-                codeFixProvider: default,
+                codeFixProvider: CodeFixProvider,
                 equivalenceKey: EquivalenceKey.Create(DiagnosticId));
         }
     }
