@@ -2460,15 +2460,15 @@ namespace Roslynator.CSharp
             customTags:         Array.Empty<string>());
 
         /// <summary>RCS1220</summary>
-        public static readonly DiagnosticDescriptor AddCommaAfterLastEnumMember = new DiagnosticDescriptor(
-            id:                 DiagnosticIdentifiers.AddCommaAfterLastEnumMember, 
-            title:              "Add comma after last enum member.", 
-            messageFormat:      "Add comma after last enum member.", 
+        public static readonly DiagnosticDescriptor AddCommaAfterLastItemInList = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.AddCommaAfterLastItemInList, 
+            title:              "Add comma after last item in list.", 
+            messageFormat:      "Add comma after last item in list.", 
             category:           DiagnosticCategories.Maintainability, 
             defaultSeverity:    DiagnosticSeverity.Info, 
             isEnabledByDefault: true, 
             description:        null, 
-            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.AddCommaAfterLastEnumMember}", 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.AddCommaAfterLastItemInList}", 
             customTags:         Array.Empty<string>());
 
     }

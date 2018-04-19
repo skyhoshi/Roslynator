@@ -208,6 +208,6 @@ namespace Roslynator.CSharp
         public const string ReplaceInterpolatedStringWithConcatenation = "RCS1217";
         public const string SimplifyCodeBranching = "RCS1218";
         public const string CallSkipAndAnyInsteadOfCount = "RCS1219";
-        public const string AddCommaAfterLastEnumMember = "RCS1220";
+        public const string AddCommaAfterLastItemInList = "RCS1220";
     }
 }

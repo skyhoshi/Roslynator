@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Roslynator.CSharp.Refactorings
 {
-    internal static class AddCommaAfterLastEnumMemberRefactoring
+    internal static class AddCommaAfterLastItemInListRefactoring
     {
         public static Task<Document> RefactorAsync(
             Document document,
