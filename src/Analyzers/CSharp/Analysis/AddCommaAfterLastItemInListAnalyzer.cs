@@ -73,6 +73,16 @@ namespace Roslynator.CSharp.Analysis
             if (count - members.SeparatorCount != 1)
                 return;
 
+            if (count == 1)
+            {
+                if (enumDeclaration.SyntaxTree.IsSingleLineSpan(enumDeclaration.BracesSpan(), context.CancellationToken))
+                    return;
+            }
+            else if (!members.GetSeparator(count - 2).TrailingTrivia.Contains(SyntaxKind.EndOfLineTrivia))
+            {
+                return;
+            }
+
             context.ReportDiagnostic(DiagnosticDescriptors.AddCommaAfterLastItemInList, Location.Create(enumDeclaration.SyntaxTree, new TextSpan(members.Last().Span.End, 0)));
         }
     }
