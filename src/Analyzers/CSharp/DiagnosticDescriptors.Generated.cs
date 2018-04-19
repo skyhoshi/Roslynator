@@ -2478,7 +2478,7 @@ namespace Roslynator.CSharp
             messageFormat:      "Use DebuggerDisplay attribute for publicly visible type.", 
             category:           DiagnosticCategories.Usage, 
             defaultSeverity:    DiagnosticSeverity.Info, 
-            isEnabledByDefault: true, 
+            isEnabledByDefault: false, 
             description:        null, 
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UseDebuggerDisplayAttribute}", 
             customTags:         Array.Empty<string>());

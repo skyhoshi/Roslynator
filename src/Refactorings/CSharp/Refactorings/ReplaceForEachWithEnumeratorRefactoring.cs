@@ -23,7 +23,8 @@ namespace Roslynator.CSharp.Refactorings
 
             context.RegisterRefactoring(
                 "Replace foreach with enumerator",
-                ct => RefactorAsync(context.Document, forEachStatement, ct));
+                ct => RefactorAsync(context.Document, forEachStatement, ct),
+                RefactoringIdentifiers.ReplaceForEachWithEnumerator);
         }
 
         private static async Task<Document> RefactorAsync(
