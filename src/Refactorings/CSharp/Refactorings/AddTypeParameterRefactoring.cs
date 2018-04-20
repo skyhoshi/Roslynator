@@ -184,7 +184,7 @@ namespace Roslynator.CSharp.Refactorings
             context.RegisterRefactoring(
                 "Add type parameter with type constraint",
                 ct => RefactorAsync(context.Document, node, ConstraintKind.Type, ct),
-                EquivalenceKey.Join(RefactoringIdentifiers.AddTypeParameter, "WithConstraint"));
+                EquivalenceKey.Join(RefactoringIdentifiers.AddTypeParameter, "WithTypeConstraint"));
         }
 
         private static async Task<Document> RefactorAsync(
