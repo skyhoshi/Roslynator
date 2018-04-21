@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
 using Roslynator.CodeFixes;
 using Roslynator.CSharp.Refactorings;
 using Roslynator.CSharp.Syntax;
@@ -32,7 +33,8 @@ namespace Roslynator.CSharp.CodeFixes
                     CompilerDiagnosticIdentifiers.ResultOfExpressionIsAlwaysConstantSinceValueIsNeverEqualToNull,
                     CompilerDiagnosticIdentifiers.CannotConvertNullToTypeParameterBecauseItCouldBeNonNullableValueType,
                     CompilerDiagnosticIdentifiers.OnlyAssignmentCallIncrementDecrementAndNewObjectExpressionsCanBeUsedAsStatement,
-                    CompilerDiagnosticIdentifiers.CannotImplicitlyConvertType);
+                    CompilerDiagnosticIdentifiers.CannotImplicitlyConvertType,
+                    CompilerDiagnosticIdentifiers.SyntaxErrorCharExpected);
             }
         }
 
@@ -55,7 +57,8 @@ namespace Roslynator.CSharp.CodeFixes
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.ReplaceConstantWithField)
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.ChangeTypeAccordingToInitializer)
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.ReplaceYieldReturnWithForEach)
-                && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.ReplaceComparisonWithAssignment))
+                && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.ReplaceComparisonWithAssignment)
+                && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.AddMissingComma))
             {
                 return;
             }
@@ -126,6 +129,9 @@ namespace Roslynator.CSharp.CodeFixes
 
                             if (Settings.IsCodeFixEnabled(CodeFixIdentifiers.AddCastExpression))
                                 CodeFixRegistrator.AddCastExpression(context, diagnostic, expression, convertedType, semanticModel);
+
+                            if (Settings.IsCodeFixEnabled(CodeFixIdentifiers.ChangeTypeAccordingToInitializer))
+                                ChangeTypeAccordingToInitializerRefactoring.ComputeCodeFix(context, diagnostic, expression, semanticModel);
 
                             if (Settings.IsCodeFixEnabled(CodeFixIdentifiers.CreateSingletonArray)
                                 && type?.IsErrorType() == false
@@ -446,6 +452,40 @@ namespace Roslynator.CSharp.CodeFixes
                                 }
                             }
 
+                            break;
+                        }
+                    case CompilerDiagnosticIdentifiers.SyntaxErrorCharExpected:
+                        {
+                            if (!Settings.IsCodeFixEnabled(CodeFixIdentifiers.AddMissingComma))
+                                break;
+
+                            if (!expression.IsParentKind(SyntaxKind.ArrayInitializerExpression))
+                                break;
+
+                            var initializer = (InitializerExpressionSyntax)expression.Parent;
+
+                            SeparatedSyntaxList<ExpressionSyntax> expressions = initializer.Expressions;
+
+                            int index = expressions.IndexOf(expression);
+
+                            SyntaxToken comma = expressions.GetSeparator(index);
+
+                            if (comma.Kind() != SyntaxKind.CommaToken)
+                                break;
+
+                            if (!comma.IsMissing)
+                                break;
+
+                            CodeAction codeAction = CodeAction.Create(
+                                "Add missing comma",
+                                cancellationToken =>
+                                {
+                                    var textChange = new TextChange(new TextSpan(expression.Span.End, 0), ",");
+                                    return context.Document.WithTextChangeAsync(textChange, cancellationToken);
+                                },
+                                GetEquivalenceKey(diagnostic));
+
+                            context.RegisterCodeFix(codeAction, diagnostic);
                             break;
                         }
                 }
