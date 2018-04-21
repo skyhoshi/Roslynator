@@ -5,11 +5,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Xunit;
 
 namespace Roslynator
 {
@@ -167,29 +165,5 @@ namespace Roslynator
                 }
             }
         }
-
-        public static ImmutableArray<Diagnostic> GetCompilerDiagnostics(Document document, CancellationToken cancellation = default(CancellationToken))
-        {
-            return document.GetSemanticModelAsync(cancellation).Result.GetDiagnostics();
-        }
-
-        public static void VerifyNoCompilerError(IEnumerable<Document> documents)
-        {
-            foreach (Document document in documents)
-                VerifyNoCompilerError(document);
-        }
-
-        public static void VerifyNoCompilerError(Document document)
-        {
-            ImmutableArray<Diagnostic> compilerDiagnostics = GetCompilerDiagnostics(document);
-
-            if (compilerDiagnostics.Any(f => f.Severity == DiagnosticSeverity.Error))
-            {
-                compilerDiagnostics = compilerDiagnostics.Where(f => f.Severity == DiagnosticSeverity.Error).ToImmutableArray();
-
-                Assert.True(false,
-                    $"No compiler error expected\r\n\r\nDiagnostics:\r\n{compilerDiagnostics.ToMultilineString()}");
-            }
-        }
-    }
+     }
 }

@@ -22,7 +22,7 @@ namespace Roslynator.Tests
         {
             Document document = WorkspaceUtility.CreateDocument(source, language);
 
-            foreach (Diagnostic compilerDiagnostic in DiagnosticUtility.GetCompilerDiagnostics(document))
+            foreach (Diagnostic compilerDiagnostic in document.GetCompilerDiagnostics())
             {
                 var context = new CodeFixContext(
                     document,
@@ -42,9 +42,11 @@ namespace Roslynator.Tests
             string language,
             string equivalenceKey = null)
         {
+            Assert.True(codeFixProvider.FixableDiagnosticIds.Contains(diagnosticId), $"Code fix provider '{codeFixProvider.GetType().Name}' cannot fix diagnostic '{diagnosticId}'.");
+
             Document document = WorkspaceUtility.CreateDocument(source, language);
 
-            ImmutableArray<Diagnostic> compilerDiagnostics = DiagnosticUtility.GetCompilerDiagnostics(document);
+            ImmutableArray<Diagnostic> compilerDiagnostics = document.GetCompilerDiagnostics();
 
             while (compilerDiagnostics.Length > 0)
             {
@@ -66,7 +68,7 @@ namespace Roslynator.Tests
 
                 var context = new CodeFixContext(
                     document,
-                    compilerDiagnostics.First(f => string.Equals(f.Id, diagnosticId, StringComparison.Ordinal)),
+                    diagnostic,
                     (a, _) =>
                     {
                         if (equivalenceKey == null
@@ -82,12 +84,12 @@ namespace Roslynator.Tests
                 if (actions == null)
                     break;
 
-                document = WorkspaceUtility.ApplyCodeAction(document, actions[0]);
+                document = document.ApplyCodeAction(actions[0]);
 
-                compilerDiagnostics = DiagnosticUtility.GetCompilerDiagnostics(document);
+                compilerDiagnostics = document.GetCompilerDiagnostics();
             }
 
-            string actual = WorkspaceUtility.GetSimplifiedAndFormattedText(document);
+            string actual = document.GetSimplifiedAndFormattedText();
 
             Assert.Equal(newSource, actual);
         }
