@@ -2,12 +2,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeActions;
-using Microsoft.CodeAnalysis.Formatting;
-using Microsoft.CodeAnalysis.Simplification;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
 
 namespace Roslynator
@@ -75,7 +71,7 @@ namespace Roslynator
         {
             ProjectId projectId = ProjectId.CreateNewId(debugName: TestProjectName);
 
-            return new AdhocWorkspace()
+            Project project = new AdhocWorkspace()
                 .CurrentSolution
                 .AddProject(projectId, TestProjectName, TestProjectName, language)
                 .AddMetadataReferences(
@@ -91,6 +87,19 @@ namespace Roslynator
                         RuntimeMetadataReference.CreateFromAssemblyName("Microsoft.CodeAnalysis.CSharp.dll"),
                     })
                 .GetProject(projectId);
+
+            if (language == LanguageNames.CSharp)
+            {
+                var compilationOptions = (CSharpCompilationOptions)project.CompilationOptions;
+
+                var parseOptions = (CSharpParseOptions)project.ParseOptions;
+
+                project = project
+                    .WithCompilationOptions(compilationOptions.WithAllowUnsafe(true))
+                    .WithParseOptions(parseOptions.WithLanguageVersion(LanguageVersion.Latest));
+            }
+
+            return project;
         }
 
         public static string CreateDefaultFileName(string language)
@@ -103,33 +112,6 @@ namespace Roslynator
             string extension = ((language == LanguageNames.CSharp) ? CSharpFileExtension : VisualBasicFileExtension);
 
             return $"{fileName}{suffix}.{extension}";
-        }
-
-        public static string GetSimplifiedAndFormattedText(Document document)
-        {
-            return GetSimplifiedAndFormattedTextAsync(document).Result;
-        }
-
-        public static async Task<string> GetSimplifiedAndFormattedTextAsync(Document document)
-        {
-            Document simplifiedDocument = await Simplifier.ReduceAsync(document, Simplifier.Annotation).ConfigureAwait(false);
-
-            SyntaxNode root = await simplifiedDocument.GetSyntaxRootAsync().ConfigureAwait(false);
-
-            root = Formatter.Format(root, Formatter.Annotation, simplifiedDocument.Project.Solution.Workspace);
-
-            return root.ToFullString();
-        }
-
-        internal static Document ApplyCodeAction(Document document, CodeAction codeAction)
-        {
-            return codeAction
-                .GetOperationsAsync(CancellationToken.None)
-                .Result
-                .OfType<ApplyChangesOperation>()
-                .Single()
-                .ChangedSolution
-                .GetDocument(document.Id);
         }
     }
 }
