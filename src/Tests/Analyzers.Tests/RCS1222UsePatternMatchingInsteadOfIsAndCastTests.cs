@@ -5,9 +5,10 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Roslynator.CSharp;
 using Roslynator.CSharp.Analysis;
+using Roslynator.CSharp.Analysis.UsePatternMatching;
 using Roslynator.CSharp.CodeFixes;
 using Xunit;
-using static Roslynator.Tests.CSharpDiagnosticVerifier;
+using static Roslynator.Tests.CSharp.CSharpDiagnosticVerifier;
 
 namespace Roslynator.Analyzers.Tests
 {
@@ -20,7 +21,7 @@ namespace Roslynator.Analyzers.Tests
         private static CodeFixProvider CodeFixProvider { get; } = new UsePatternMatchingInsteadOfIsAndCastCodeFixProvider();
 
         [Fact]
-        public static void TestDiagnosticWithCodeFix()
+        public static void TestDiagnosticWithCodeFix_LogicalAndExpression()
         {
             VerifyDiagnosticAndCodeFix(
 @"
@@ -83,7 +84,112 @@ class C
         }
 
         [Fact]
-        public static void TestNoDiagnostic()
+        public static void TestDiagnosticWithCodeFix_IfStatement()
+        {
+            VerifyDiagnosticAndCodeFix(
+@"
+class C
+{
+    private readonly object _f;
+
+    public void M()
+    {
+        string s = null;
+
+        object x = null;
+
+        if (<<<x is string>>>)
+        {
+            if (((string)x) == s) { }
+        }
+
+        if (<<<x is string>>>)
+        {
+            if (((string)x).Equals((string)x)) { }
+        }
+
+        if (<<<_f is string>>>)
+        {
+            if ((string)_f == s) { }
+        }
+
+        if (<<<this._f is string>>>)
+        {
+            if ((string)this._f == s) { }
+        }
+
+        if (<<<_f is string>>>)
+        {
+            if ((string)this._f == s) { }
+        }
+
+        if (<<<this._f is string>>>)
+        {
+            if ((string)_f == s) { }
+        }
+
+        if (<<<this._f is string>>>)
+        {
+            if (((string)_f).Equals((string)this._f)) { }
+        }
+    }
+}
+",
+@"
+class C
+{
+    private readonly object _f;
+
+    public void M()
+    {
+        string s = null;
+
+        object x = null;
+
+        if (x is string x2)
+        {
+            if ((x2) == s) { }
+        }
+
+        if (x is string x3)
+        {
+            if ((x3).Equals(x3)) { }
+        }
+
+        if (_f is string x4)
+        {
+            if (x4 == s) { }
+        }
+
+        if (this._f is string x5)
+        {
+            if (x5 == s) { }
+        }
+
+        if (_f is string x6)
+        {
+            if (x6 == s) { }
+        }
+
+        if (this._f is string x7)
+        {
+            if (x7 == s) { }
+        }
+
+        if (this._f is string x8)
+        {
+            if ((x8).Equals(x8)) { }
+        }
+    }
+}
+",
+                descriptor: Descriptor,
+                analyzer: Analyzer,
+                codeFixProvider: CodeFixProvider);
+        }
+
+        [Fact]
+        public static void TestNoDiagnostic_LogicalAndExpression()
         {
             VerifyNoDiagnostic(
 @"
@@ -102,6 +208,42 @@ class C
         if (x is string && ((string)x2) == s) { }
 
         if (x is string && x == s) { }
+    }
+}
+",
+                descriptor: Descriptor,
+                analyzer: Analyzer);
+        }
+
+        [Fact]
+        public static void TestNoDiagnostic_IfStatement()
+        {
+            VerifyNoDiagnostic(
+@"
+class C
+{
+    private readonly object _f;
+
+    public void M()
+    {
+        string s = null;
+        object x = null;
+        object x2 = null;
+
+        if (x is string)
+        {
+            if (((string)x) == x) { }
+        }
+
+        if (x is string)
+        {
+            if (((string)x2) == s) { }
+        }
+
+        if (x is string)
+        {
+            if (x == s) { }
+        }
     }
 }
 ",
