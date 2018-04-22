@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Roslynator.CSharp.Refactorings;
 using Xunit;
-using static Roslynator.Tests.CSharpCodeRefactoringVerifier;
+using static Roslynator.Tests.CSharp.CSharpCodeRefactoringVerifier;
 
 namespace Roslynator.Refactorings.Tests
 {
@@ -34,7 +34,6 @@ class C
 ",
 @"
 ",
-                span: default,
                 codeRefactoringProvider: CodeRefactoringProvider,
                 equivalenceKey: RefactoringId);
         }
@@ -57,7 +56,6 @@ class C
             VerifyNoCodeRefactoring(
 @"
 ",
-                span: default,
                 codeRefactoringProvider: CodeRefactoringProvider,
                 equivalenceKey: RefactoringId);
         }

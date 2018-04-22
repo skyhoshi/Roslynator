@@ -8,7 +8,6 @@ using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeRefactorings;
-using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.Text;
 using Xunit;
 
@@ -18,6 +17,24 @@ namespace Roslynator.Tests
     {
         public static void VerifyNoCodeRefactoring(
             string source,
+            IEnumerable<TextSpan> spans,
+            CodeRefactoringProvider codeRefactoringProvider,
+            string language,
+            string equivalenceKey = null)
+        {
+            foreach (TextSpan span in spans)
+            {
+                VerifyNoCodeRefactoring(
+                    source: source,
+                    span: span,
+                    codeRefactoringProvider: codeRefactoringProvider,
+                    language: language,
+                    equivalenceKey: equivalenceKey);
+            }
+        }
+
+        public static void VerifyNoCodeRefactoring(
+            string source,
             TextSpan span,
             CodeRefactoringProvider codeRefactoringProvider,
             string language,
@@ -25,7 +42,7 @@ namespace Roslynator.Tests
         {
             Document document = WorkspaceUtility.CreateDocument(source, language);
 
-            DiagnosticUtility.VerifyNoCompilerError(document);
+            DiagnosticVerifier.VerifyNoCompilerError(document);
 
             List<CodeAction> actions = null;
 
@@ -50,6 +67,32 @@ namespace Roslynator.Tests
         public static void VerifyCodeRefactoring(
             string source,
             string newSource,
+            IEnumerable<TextSpan> spans,
+            CodeRefactoringProvider codeRefactoringProvider,
+            string language,
+            string equivalenceKey = null,
+            bool allowNewCompilerDiagnostics = false)
+        {
+            Document document = WorkspaceUtility.CreateDocument(source, language);
+
+            foreach (TextSpan span in spans.OrderByDescending(f => f.Start))
+            {
+                document = VerifyCodeRefactoring(
+                    document: document,
+                    span: span,
+                    codeRefactoringProvider: codeRefactoringProvider,
+                    equivalenceKey: equivalenceKey,
+                    allowNewCompilerDiagnostics: allowNewCompilerDiagnostics);
+            }
+
+            string actual = document.GetSimplifiedAndFormattedText();
+
+            Assert.Equal(newSource, actual);
+        }
+
+        public static void VerifyCodeRefactoring(
+            string source,
+            string newSource,
             TextSpan span,
             CodeRefactoringProvider codeRefactoringProvider,
             string language,
@@ -58,9 +101,30 @@ namespace Roslynator.Tests
         {
             Document document = WorkspaceUtility.CreateDocument(source, language);
 
-            ImmutableArray<Diagnostic> compilerDiagnostics = DiagnosticUtility.GetCompilerDiagnostics(document);
+            document = VerifyCodeRefactoring(
+                document: document,
+                span: span,
+                codeRefactoringProvider: codeRefactoringProvider,
+                equivalenceKey: equivalenceKey,
+                allowNewCompilerDiagnostics: allowNewCompilerDiagnostics);
 
-            var actions = new List<CodeAction>();
+            string actual = document.GetSimplifiedAndFormattedText();
+
+            Assert.Equal(newSource, actual);
+        }
+
+        private static Document VerifyCodeRefactoring(
+            Document document,
+            TextSpan span,
+            CodeRefactoringProvider codeRefactoringProvider,
+            string equivalenceKey,
+            bool allowNewCompilerDiagnostics)
+        {
+            ImmutableArray<Diagnostic> compilerDiagnostics = document.GetCompilerDiagnostics();
+
+            DiagnosticVerifier.VerifyNoCompilerError(compilerDiagnostics);
+
+            List<CodeAction> actions = null;
 
             var context = new CodeRefactoringContext(
                 document,
@@ -70,30 +134,21 @@ namespace Roslynator.Tests
                     if (equivalenceKey == null
                         || string.Equals(a.EquivalenceKey, equivalenceKey, StringComparison.Ordinal))
                     {
-                        actions.Add(a);
+                        (actions ?? (actions = new List<CodeAction>())).Add(a);
                     }
                 },
                 CancellationToken.None);
 
             codeRefactoringProvider.ComputeRefactoringsAsync(context).Wait();
 
-            document = WorkspaceUtility.ApplyCodeAction(document, actions[0]);
+            Assert.True(actions != null, "No code refactoring has been registered.");
 
-            IEnumerable<Diagnostic> newCompilerDiagnostics = DiagnosticUtility.GetNewDiagnostics(compilerDiagnostics, DiagnosticUtility.GetCompilerDiagnostics(document));
+            document = document.ApplyCodeAction(actions[0]);
 
-            if (!allowNewCompilerDiagnostics
-                && newCompilerDiagnostics.Any())
-            {
-                document = document.WithSyntaxRoot(Formatter.Format(document.GetSyntaxRootAsync().Result, Formatter.Annotation, document.Project.Solution.Workspace));
-                newCompilerDiagnostics = DiagnosticUtility.GetNewDiagnostics(compilerDiagnostics, DiagnosticUtility.GetCompilerDiagnostics(document));
+            if (!allowNewCompilerDiagnostics)
+                DiagnosticVerifier.VerifyNoNewCompilerDiagnostics(document, compilerDiagnostics);
 
-                Assert.True(false,
-                    $"Fix introduced new compiler diagnostics\r\n\r\nDiagnostics:\r\n{newCompilerDiagnostics.ToMultilineString()}\r\n\r\nNew document:\r\n{document.ToFullString()}\r\n");
-            }
-
-            string actual = WorkspaceUtility.GetSimplifiedAndFormattedText(document);
-
-            Assert.Equal(newSource, actual);
+            return document;
         }
     }
 }
