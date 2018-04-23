@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,168 +11,112 @@ namespace Roslynator.CSharp.Refactorings
 {
     internal static class FormatExpressionChainRefactoring
     {
-        public static async Task ComputeRefactoringsAsync(RefactoringContext context, MemberAccessExpressionSyntax memberAccessExpression)
+        public static Task ComputeRefactoringsAsync(RefactoringContext context, MemberBindingExpressionSyntax memberBindingExpression)
+        {
+            return ComputeRefactoringsAsync(context, (ExpressionSyntax)memberBindingExpression);
+        }
+
+        public static Task ComputeRefactoringsAsync(RefactoringContext context, MemberAccessExpressionSyntax memberAccessExpression)
+        {
+            return ComputeRefactoringsAsync(context, (ExpressionSyntax)memberAccessExpression);
+        }
+
+        private static async Task ComputeRefactoringsAsync(RefactoringContext context, ExpressionSyntax expression)
         {
             if (!context.Span.IsEmpty)
                 return;
 
-            if (!memberAccessExpression.Span.Contains(context.Span))
-                return;
-
-            if (!memberAccessExpression.IsKind(SyntaxKind.SimpleMemberAccessExpression))
+            if (!expression.Span.Contains(context.Span))
                 return;
 
             SemanticModel semanticModel = await context.GetSemanticModelAsync().ConfigureAwait(false);
 
-            List<MemberAccessExpressionSyntax> expressions = GetChain(memberAccessExpression, semanticModel, context.CancellationToken);
+            expression = GetTopExpression(expression);
 
-            if (expressions == null)
+            if (!IsFormattable(expression, semanticModel, context.CancellationToken))
                 return;
 
-            if (expressions.Count <= 1)
-                return;
-
-            if (expressions[0].IsSingleLine(includeExteriorTrivia: false))
+            if (expression.IsSingleLine(includeExteriorTrivia: false))
             {
                 context.RegisterRefactoring(
                     "Format expression chain on multiple lines",
-                    ct => SyntaxFormatter.ToMultiLineAsync(context.Document, expressions.ToArray(), ct),
+                    ct => SyntaxFormatter.ToMultiLineAsync(context.Document, expression, semanticModel, ct),
                     RefactoringIdentifiers.FormatExpressionChain);
             }
-            else if (expressions[0].DescendantTrivia(expressions[0].Span).All(f => f.IsWhitespaceOrEndOfLineTrivia()))
+            else if (expression.DescendantTrivia(expression.Span).All(f => f.IsWhitespaceOrEndOfLineTrivia()))
             {
                 context.RegisterRefactoring(
                     "Format expression chain on a single line",
-                    ct => SyntaxFormatter.ToSingleLineAsync(context.Document, expressions[0], ct),
+                    ct => SyntaxFormatter.ToSingleLineAsync(context.Document, expression, ct),
                     RefactoringIdentifiers.FormatExpressionChain);
             }
         }
 
-        private static List<MemberAccessExpressionSyntax> GetChain(
-            MemberAccessExpressionSyntax expression,
+        private static bool IsFormattable(
+            ExpressionSyntax expression,
             SemanticModel semanticModel,
             CancellationToken cancellationToken)
         {
-            List<MemberAccessExpressionSyntax> expressions = null;
+            int levels = 0;
 
-            expression = GetTopExpression(expression);
-
-            while (expression != null)
+            foreach (SyntaxNode node in CSharpUtility.EnumerateExpressionChain(expression))
             {
-                (expressions ?? (expressions = new List<MemberAccessExpressionSyntax>())).Add(expression);
+                switch (node.Kind())
+                {
+                    case SyntaxKind.SimpleMemberAccessExpression:
+                        {
+                            var memberAccess = (MemberAccessExpressionSyntax)node;
 
-                expression = GetExpression(expression, semanticModel, cancellationToken);
+                            if (memberAccess.Expression.IsKind(SyntaxKind.ThisExpression))
+                                return levels == 2;
+
+                            if (semanticModel
+                                .GetSymbol(memberAccess.Expression, cancellationToken)?
+                                .Kind == SymbolKind.Namespace)
+                            {
+                                return levels == 2;
+                            }
+
+                            if (++levels == 2)
+                                return true;
+
+                            break;
+                        }
+                    case SyntaxKind.MemberBindingExpression:
+                        {
+                            if (++levels == 2)
+                                return true;
+
+                            break;
+                        }
+                }
             }
 
-            return expressions;
+            return false;
         }
 
-        private static MemberAccessExpressionSyntax GetExpression(
-            MemberAccessExpressionSyntax expression,
-            SemanticModel semanticModel,
-            CancellationToken cancellationToken)
-        {
-            switch (expression.Expression.Kind())
-            {
-                case SyntaxKind.SimpleMemberAccessExpression:
-                    {
-                        var memberAccess = (MemberAccessExpressionSyntax)expression.Expression;
-
-                        if (memberAccess.IsParentKind(SyntaxKind.SimpleMemberAccessExpression)
-                            && memberAccess.Expression?.Kind() == SyntaxKind.SimpleMemberAccessExpression)
-                        {
-                            ISymbol symbol = semanticModel.GetSymbol(memberAccess.Expression, cancellationToken);
-
-                            if (symbol?.Kind == SymbolKind.Namespace)
-                                return null;
-                        }
-
-                        return memberAccess;
-                    }
-                case SyntaxKind.ElementAccessExpression:
-                    {
-                        var elementAccess = (ElementAccessExpressionSyntax)expression.Expression;
-
-                        switch (elementAccess.Expression?.Kind())
-                        {
-                            case SyntaxKind.SimpleMemberAccessExpression:
-                                {
-                                    return (MemberAccessExpressionSyntax)elementAccess.Expression;
-                                }
-                            case SyntaxKind.InvocationExpression:
-                                {
-                                    var invocationExpression = (InvocationExpressionSyntax)elementAccess.Expression;
-                                    if (invocationExpression.Expression.IsKind(SyntaxKind.SimpleMemberAccessExpression))
-                                        return (MemberAccessExpressionSyntax)invocationExpression.Expression;
-
-                                    break;
-                                }
-                        }
-
-                        break;
-                    }
-                case SyntaxKind.InvocationExpression:
-                    {
-                        var invocationExpression = (InvocationExpressionSyntax)expression.Expression;
-                        if (invocationExpression.Expression.IsKind(SyntaxKind.SimpleMemberAccessExpression))
-                            return (MemberAccessExpressionSyntax)invocationExpression.Expression;
-
-                        break;
-                    }
-            }
-
-            return null;
-        }
-
-        private static MemberAccessExpressionSyntax GetTopExpression(MemberAccessExpressionSyntax expression)
+        private static ExpressionSyntax GetTopExpression(ExpressionSyntax expression)
         {
             while (true)
             {
-                MemberAccessExpressionSyntax parent = GetAncestor(expression);
+                SyntaxNode parent = expression.Parent;
 
-                if (parent != null)
+                if (parent.IsKind(
+                    SyntaxKind.ConditionalAccessExpression,
+                    SyntaxKind.SimpleMemberAccessExpression,
+                    SyntaxKind.ElementAccessExpression,
+                    SyntaxKind.MemberBindingExpression,
+                    SyntaxKind.InvocationExpression))
                 {
-                    expression = parent;
+                    expression = (ExpressionSyntax)parent;
                 }
                 else
                 {
-                    return expression;
+                    break;
                 }
             }
-        }
 
-        private static MemberAccessExpressionSyntax GetAncestor(MemberAccessExpressionSyntax expression)
-        {
-            switch (expression.Parent?.Kind())
-            {
-                case SyntaxKind.SimpleMemberAccessExpression:
-                    {
-                        return (MemberAccessExpressionSyntax)expression.Parent;
-                    }
-                case SyntaxKind.InvocationExpression:
-                    {
-                        SyntaxNode node = expression.Parent.Parent;
-
-                        if (node?.Kind() == SyntaxKind.ElementAccessExpression)
-                            node = node.Parent;
-
-                        if (node?.Kind() == SyntaxKind.SimpleMemberAccessExpression)
-                            return (MemberAccessExpressionSyntax)node;
-
-                        break;
-                    }
-                case SyntaxKind.ElementAccessExpression:
-                    {
-                        var elementAccess = (ElementAccessExpressionSyntax)expression.Parent;
-
-                        if (elementAccess.IsParentKind(SyntaxKind.SimpleMemberAccessExpression))
-                            return (MemberAccessExpressionSyntax)elementAccess.Parent;
-
-                        break;
-                    }
-            }
-
-            return null;
+            return expression;
         }
     }
 }

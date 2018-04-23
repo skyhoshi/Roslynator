@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,6 +11,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using Roslynator.CSharp.SyntaxRewriters;
+using Roslynator.Text;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Roslynator.CSharp.CSharpFactory;
 
@@ -19,12 +21,12 @@ namespace Roslynator.CSharp
     {
         public static Task<Document> ToSingleLineAsync<TNode>(
             Document document,
-            TNode condition,
+            TNode node,
             CancellationToken cancellationToken = default(CancellationToken)) where TNode : SyntaxNode
         {
-            TNode newNode = ToSingleLine(condition);
+            TNode newNode = ToSingleLine(node);
 
-            return document.ReplaceNodeAsync(condition, newNode, cancellationToken);
+            return document.ReplaceNodeAsync(node, newNode, cancellationToken);
         }
 
         private static TNode ToSingleLine<TNode>(TNode node) where TNode : SyntaxNode
@@ -240,32 +242,64 @@ namespace Roslynator.CSharp
 
         public static Task<Document> ToMultiLineAsync(
             Document document,
-            MemberAccessExpressionSyntax[] expressions,
+            ExpressionSyntax expression,
+            SemanticModel semanticModel,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            MemberAccessExpressionSyntax expression = expressions[0];
+            string trivia = Environment.NewLine + expression.GetIncreasedIndentation(cancellationToken).ToString();
 
-            SyntaxTriviaList leadingTrivia = expression.GetIncreasedIndentation(cancellationToken);
+            var builder = new SyntaxNodeTextBuilder(expression, StringBuilderCache.GetInstance());
 
-            leadingTrivia = leadingTrivia.Insert(0, NewLine());
+            int lastPos = builder.FullSpan.Start;
 
-            MemberAccessExpressionSyntax newNode = expression.ReplaceNodes(expressions, (node, node2) =>
+            foreach (SyntaxNode node in CSharpUtility.EnumerateExpressionChain(expression).Reverse())
             {
-                SyntaxToken operatorToken = node.OperatorToken;
-
-                if (!operatorToken.HasLeadingTrivia)
+                switch (node.Kind())
                 {
-                    return node2.WithOperatorToken(operatorToken.WithLeadingTrivia(leadingTrivia));
-                }
-                else
-                {
-                    return node2;
-                }
-            });
+                    case SyntaxKind.SimpleMemberAccessExpression:
+                        {
+                            var memberAccess = (MemberAccessExpressionSyntax)node;
 
-            newNode = newNode.WithFormatterAnnotation();
+                            if (memberAccess.Expression.IsKind(SyntaxKind.ThisExpression))
+                                break;
 
-            return document.ReplaceNodeAsync(expression, newNode, cancellationToken);
+                            if (semanticModel
+                                .GetSymbol(memberAccess.Expression, cancellationToken)?
+                                .Kind == SymbolKind.Namespace)
+                            {
+                                break;
+                            }
+
+                            int index = memberAccess.OperatorToken.SpanStart;
+
+                            builder.Append(TextSpan.FromBounds(lastPos, index));
+                            builder.Append(trivia);
+
+                            lastPos = index;
+                            break;
+                        }
+                    case SyntaxKind.MemberBindingExpression:
+                        {
+                            var memberBinding = (MemberBindingExpressionSyntax)node;
+
+                            int index = memberBinding.OperatorToken.SpanStart;
+
+                            builder.Append(TextSpan.FromBounds(lastPos, index));
+                            builder.Append(trivia);
+
+                            lastPos = index;
+                            break;
+                        }
+                }
+            }
+
+            builder.Append(TextSpan.FromBounds(lastPos, builder.FullSpan.End));
+
+            string text = StringBuilderCache.GetStringAndFree(builder.StringBuilder);
+
+            ExpressionSyntax newExpression = ParseExpression(text);
+
+            return document.ReplaceNodeAsync(expression, newExpression, cancellationToken);
         }
 
         public static Task<Document> ToMultiLineAsync(
