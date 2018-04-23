@@ -33,7 +33,6 @@ namespace Roslynator.CSharp.Analysis.UnusedMember
 
         public static void Free(UnusedMemberWalker walker)
         {
-            walker.Clear();
             _cachedInstance = walker;
         }
 
