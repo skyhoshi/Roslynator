@@ -19,21 +19,21 @@ namespace Roslynator.CSharp.Analysis.UnusedMember
             if (walker != null)
             {
                 _cachedInstance = null;
-                walker.Reset();
+                walker.Clear();
             }
             else
             {
                 walker = new UnusedMemberWalker();
             }
 
-            walker.SemanticModel = semanticModel;
-            walker.CancellationToken = cancellationToken;
+            walker.SetValues(semanticModel, cancellationToken);
 
             return walker;
         }
 
         public static void Free(UnusedMemberWalker walker)
         {
+            walker.Clear();
             _cachedInstance = walker;
         }
 
