@@ -347,6 +347,7 @@ namespace Roslynator.CSharp.Refactorings
             bool fLambdaExpression = false;
             bool fLiteralExpression = false;
             bool fSimpleMemberAccessExpression = false;
+            bool fConditionalAccess = false;
             bool fParenthesizedExpression = false;
             bool fPostfixUnaryExpression = false;
             bool fPrefixUnaryExpression = false;
@@ -629,6 +630,13 @@ namespace Roslynator.CSharp.Refactorings
                         {
                             await SimpleMemberAccessExpressionRefactoring.ComputeRefactoringAsync(this, (MemberAccessExpressionSyntax)node).ConfigureAwait(false);
                             fSimpleMemberAccessExpression = true;
+                        }
+
+                        if (!fConditionalAccess
+                            && kind == SyntaxKind.ConditionalAccessExpression)
+                        {
+                            await ConditionalAccessExpressionRefactoring.ComputeRefactoringAsync(this, (ConditionalAccessExpressionSyntax)node).ConfigureAwait(false);
+                            fConditionalAccess = true;
                         }
 
                         if (!fParenthesizedExpression

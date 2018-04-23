@@ -9,20 +9,18 @@ namespace Roslynator.Text
 {
     internal class SyntaxNodeTextBuilder
     {
-        private readonly string _text;
-
         public SyntaxNodeTextBuilder(SyntaxNode node)
             : this(node, new StringBuilder())
         {
         }
 
-        public SyntaxNodeTextBuilder(SyntaxNode node, StringBuilder stringBuilder)
+        public SyntaxNodeTextBuilder(SyntaxNode node, StringBuilder sb)
         {
             Node = node ?? throw new ArgumentNullException(nameof(node));
-            StringBuilder = stringBuilder ?? throw new ArgumentNullException(nameof(stringBuilder));
+            StringBuilder = sb ?? throw new ArgumentNullException(nameof(sb));
 
             FullSpan = Node.FullSpan;
-            _text = node.ToFullString();
+            FullString = node.ToFullString();
         }
 
         public SyntaxNode Node { get; }
@@ -30,6 +28,8 @@ namespace Roslynator.Text
         public StringBuilder StringBuilder { get; }
 
         public TextSpan FullSpan { get; }
+
+        public string FullString { get; }
 
         public override string ToString()
         {
@@ -223,7 +223,7 @@ namespace Roslynator.Text
 
         private void AppendImpl(TextSpan span)
         {
-            StringBuilder.Append(_text, span.Start - FullSpan.Start, span.Length);
+            StringBuilder.Append(FullString, span.Start - FullSpan.Start, span.Length);
         }
 
         private void ThrowIfInvalid(SyntaxNode node)

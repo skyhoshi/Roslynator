@@ -67,8 +67,8 @@ class C
         var items = new List<string>();
 
         var x = items
-            .Where(_ => true)
-            .Any();
+            .<<<Where(_ => true)
+            .Any()>>>;
     }
 }
 ",
