@@ -11,9 +11,9 @@ namespace Roslynator.CSharp.Refactorings
 {
     internal static class FormatExpressionChainRefactoring
     {
-        public static Task ComputeRefactoringsAsync(RefactoringContext context, MemberBindingExpressionSyntax memberBindingExpression)
+        public static Task ComputeRefactoringsAsync(RefactoringContext context, ConditionalAccessExpressionSyntax conditionalAccessExpression)
         {
-            return ComputeRefactoringsAsync(context, (ExpressionSyntax)memberBindingExpression);
+            return ComputeRefactoringsAsync(context, (ExpressionSyntax)conditionalAccessExpression);
         }
 
         public static Task ComputeRefactoringsAsync(RefactoringContext context, MemberAccessExpressionSyntax memberAccessExpression)

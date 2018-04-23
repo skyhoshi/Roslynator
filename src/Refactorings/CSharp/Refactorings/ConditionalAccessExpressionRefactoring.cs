@@ -5,12 +5,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Roslynator.CSharp.Refactorings
 {
-    internal static class MemberBindingExpressionRefactoring
+    internal static class ConditionalAccessExpressionRefactoring
     {
-        public static async Task ComputeRefactoringAsync(RefactoringContext context, MemberBindingExpressionSyntax memberBindingExpression)
+        public static async Task ComputeRefactoringAsync(RefactoringContext context, ConditionalAccessExpressionSyntax conditionalAccessExpression)
         {
             if (context.IsRefactoringEnabled(RefactoringIdentifiers.FormatExpressionChain))
-                await FormatExpressionChainRefactoring.ComputeRefactoringsAsync(context, memberBindingExpression).ConfigureAwait(false);
+                await FormatExpressionChainRefactoring.ComputeRefactoringsAsync(context, conditionalAccessExpression).ConfigureAwait(false);
         }
     }
 }

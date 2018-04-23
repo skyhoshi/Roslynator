@@ -8,14 +8,39 @@ using static Roslynator.Tests.CSharp.CSharpCodeRefactoringVerifier;
 
 namespace Roslynator.Refactorings.Tests
 {
-
     public static class RR0051FormatExpressionChainTests
     {
         private const string RefactoringId = RefactoringIdentifiers.FormatExpressionChain;
 
         private static CodeRefactoringProvider CodeRefactoringProvider { get; } = new RoslynatorCodeRefactoringProvider();
 
-        private const string SourceTemplate = @"
+        [Theory]
+        [InlineData("x.M().<<<>>>M()", @"x
+                .M()
+                .M()")]
+        [InlineData("this.F.M().<<<>>>M()", @"this.F
+                .M()
+                .M()")]
+        [InlineData("A.B.Foo.SM().<<<>>>M()", @"A.B.Foo
+                .SM()
+                .M()")]
+        [InlineData("x.M()?.<<<>>>P", @"x
+                .M()?
+                .P")]
+        [InlineData("x.M()?.P.P[0]?.M().P?.M()[0].P.P.P?.<<<>>>P", @"x
+                .M()?
+                .P
+                .P[0]?
+                .M()
+                .P?
+                .M()[0]
+                .P
+                .P
+                .P?
+                .P")]
+        public static void TestCodeRefactoring(string fixableCode, string fixedCode)
+        {
+            const string sourceTemplate = @"
 namespace A.B
 {
     class Foo
@@ -24,49 +49,71 @@ namespace A.B
         {
             var x = new Foo();
 
-            Foo s = <<<>>>;
+            x = <<<>>>;
                 
             return null;
         }
 
+        public static Foo SM() => null;
+
+        public Foo F;
+        public static Foo SF;
+
         public Foo P { get; }
+        public static Foo SP { get; }
 
         public Foo this[int index] => null;
     }
 }
 ";
 
-        //[Fact]
-        public static void TestCodeRefactoring()
-        {
-            VerifyCodeRefactoring(
-@"
-",
-@"
-",
-                codeRefactoringProvider: CodeRefactoringProvider,
-                equivalenceKey: RefactoringId);
-        }
-
-        [Theory]
-        [InlineData("x.M().<<<>>>M()", @"x
-                .M()
-                .M()")]
-        public static void TestCodeRefactoring2(string fixableCode, string fixedCode)
-        {
-            VerifyCodeRefactoring(
-                SourceTemplate,
+        VerifyCodeRefactoring(
+                sourceTemplate,
                 fixableCode,
                 fixedCode,
                 codeRefactoringProvider: CodeRefactoringProvider,
                 equivalenceKey: RefactoringId);
         }
 
-        //[Fact]
+        [Fact]
         public static void TestNoCodeRefactoring()
         {
             VerifyNoCodeRefactoring(
 @"
+namespace A.B
+{
+    class Foo
+    {
+        Foo M()
+        {
+            var x = new Foo();
+
+            x = x.<<<>>>M();
+            x = x.<<<>>>P;
+            x = x.<<<>>>P[0];
+
+            x = x?.<<<>>>M();
+            x = x?.<<<>>>P;
+            x = x?.<<<>>>P[0];
+
+            x = x
+                .M() //
+                .<<<>>>M();
+                
+            return null;
+        }
+
+        public static Foo SM() => null;
+
+        public Foo F;
+        public static Foo SF;
+
+        public Foo P { get; }
+        public static Foo SP { get; }
+
+        public Foo this[int index] => null;
+    }
+}
 ",
                 codeRefactoringProvider: CodeRefactoringProvider,
                 equivalenceKey: RefactoringId);

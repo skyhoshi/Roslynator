@@ -595,7 +595,7 @@ namespace Roslynator.CSharp
                     case SyntaxKind.ConditionalAccessExpression:
                         {
                             var conditionalAccess = (ConditionalAccessExpressionSyntax)node;
-                            return conditionalAccess.Expression;
+                            return conditionalAccess.WhenNotNull;
                         }
                     case SyntaxKind.MemberBindingExpression:
                         {
@@ -605,7 +605,7 @@ namespace Roslynator.CSharp
                     case SyntaxKind.SimpleMemberAccessExpression:
                         {
                             var memberAccess = (MemberAccessExpressionSyntax)node;
-                            return memberAccess.Expression;
+                            return memberAccess.Name;
                         }
                     case SyntaxKind.ElementAccessExpression:
                         {
@@ -632,8 +632,8 @@ namespace Roslynator.CSharp
                         {
                             var conditionalAccess = (ConditionalAccessExpressionSyntax)parent;
 
-                            if (conditionalAccess.Expression == node)
-                                return conditionalAccess.WhenNotNull;
+                            if (conditionalAccess.WhenNotNull == node)
+                                return conditionalAccess.Expression;
 
                             break;
                         }
@@ -641,8 +641,8 @@ namespace Roslynator.CSharp
                         {
                             var memberAccess = (MemberAccessExpressionSyntax)parent;
 
-                            if (memberAccess.Expression == node)
-                                return memberAccess.Name;
+                            if (memberAccess.Name == node)
+                                return memberAccess.Expression;
 
                             break;
                         }
@@ -661,13 +661,13 @@ namespace Roslynator.CSharp
                         {
                             var conditionalAccess = (ConditionalAccessExpressionSyntax)parent;
 
-                            return conditionalAccess.WhenNotNull == node;
+                            return conditionalAccess.Expression == node;
                         }
                     case SyntaxKind.SimpleMemberAccessExpression:
                         {
                             var memberAccess = (MemberAccessExpressionSyntax)parent;
 
-                            return memberAccess.Name == node;
+                            return memberAccess.Expression == node;
                         }
                 }
 
