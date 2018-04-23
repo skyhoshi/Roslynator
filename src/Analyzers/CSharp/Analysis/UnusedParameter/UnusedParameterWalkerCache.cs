@@ -33,7 +33,6 @@ namespace Roslynator.CSharp.Analysis.UnusedParameter
 
         public static void Free(UnusedParameterWalker walker)
         {
-            walker.Clear();
             _cachedInstance = walker;
         }
 

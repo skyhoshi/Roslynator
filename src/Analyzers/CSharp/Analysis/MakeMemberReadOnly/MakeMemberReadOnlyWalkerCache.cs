@@ -26,8 +26,6 @@ namespace Roslynator.CSharp.Analysis.MakeMemberReadOnly
 
         public static void Free(MakeMemberReadOnlyWalker walker)
         {
-            walker.Clear();
-
             _cachedInstance = walker;
         }
 
