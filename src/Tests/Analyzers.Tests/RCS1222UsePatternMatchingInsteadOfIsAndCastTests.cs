@@ -23,7 +23,7 @@ namespace Roslynator.Analyzers.Tests
         [Fact]
         public static void TestDiagnosticWithCodeFix_LogicalAndExpression()
         {
-            VerifyDiagnosticAndCodeFix(
+            VerifyDiagnosticAndFix(
 @"
 class C
 {
@@ -80,13 +80,13 @@ class C
 ",
                 descriptor: Descriptor,
                 analyzer: Analyzer,
-                codeFixProvider: CodeFixProvider);
+                fixProvider: CodeFixProvider);
         }
 
         [Fact]
         public static void TestDiagnosticWithCodeFix_IfStatement()
         {
-            VerifyDiagnosticAndCodeFix(
+            VerifyDiagnosticAndFix(
 @"
 class C
 {
@@ -185,7 +185,7 @@ class C
 ",
                 descriptor: Descriptor,
                 analyzer: Analyzer,
-                codeFixProvider: CodeFixProvider);
+                fixProvider: CodeFixProvider);
         }
 
         [Fact]
