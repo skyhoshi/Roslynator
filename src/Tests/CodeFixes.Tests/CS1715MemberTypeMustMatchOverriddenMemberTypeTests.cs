@@ -3,7 +3,7 @@
 using Roslynator.CSharp;
 using Roslynator.CSharp.CodeFixes;
 using Xunit;
-using static Roslynator.Tests.CSharpCompilerCodeFixVerifier;
+using static Roslynator.Tests.CSharp.CSharpCompilerCodeFixVerifier;
 
 namespace Roslynator.CodeFixes.Tests
 {
@@ -14,7 +14,7 @@ namespace Roslynator.CodeFixes.Tests
         [Fact]
         public static void TestCodeFix()
         {
-            VerifyCodeFix(
+            VerifyFix(
 @"
 using System;
 
@@ -88,7 +88,7 @@ public class FooEventArgs : EventArgs
 }
 ",
                 diagnosticId: DiagnosticId,
-                codeFixProvider: new MemberDeclarationCodeFixProvider(),
+                fixProvider: new MemberDeclarationCodeFixProvider(),
                 equivalenceKey: EquivalenceKey.Create(DiagnosticId));
         }
     }

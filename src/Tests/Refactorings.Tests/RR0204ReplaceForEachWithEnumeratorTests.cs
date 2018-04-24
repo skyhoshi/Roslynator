@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Roslynator.CSharp.Refactorings;
 using Xunit;
-using static Roslynator.Tests.CSharpCodeRefactoringVerifier;
+using static Roslynator.Tests.CSharp.CSharpCodeRefactoringVerifier;
 
 namespace Roslynator.Refactorings.Tests
 {
@@ -17,7 +17,7 @@ namespace Roslynator.Refactorings.Tests
         [Fact]
         public static void TestCodeRefactoring_WithUsing()
         {
-            VerifyCodeRefactoring(
+            VerifyRefactoring(
 @"
 using System.Linq;
 
@@ -68,14 +68,14 @@ class C
     }
 }
 ",
-                codeRefactoringProvider: CodeRefactoringProvider,
-                equivalenceKey: RefactoringId);
+                CodeRefactoringProvider,
+                RefactoringId);
         }
 
         [Fact]
         public static void TestCodeRefactoring_WithoutUsing()
         {
-            VerifyCodeRefactoring(
+            VerifyRefactoring(
 @"
 using Microsoft.CodeAnalysis;
 
@@ -108,14 +108,14 @@ class C
     }
 }
 ",
-                codeRefactoringProvider: CodeRefactoringProvider,
-                equivalenceKey: RefactoringId);
+                CodeRefactoringProvider,
+                RefactoringId);
         }
 
         [Fact]
         public static void TestNoCodeRefactoring_InvalidSpan()
         {
-            VerifyNoCodeRefactoring(
+            VerifyNoRefactoring(
 @"
 using System.Linq;
 
@@ -144,8 +144,8 @@ class C
     }
 }
 ",
-                codeRefactoringProvider: CodeRefactoringProvider,
-                equivalenceKey: RefactoringId);
+                CodeRefactoringProvider,
+                RefactoringId);
         }
     }
 }

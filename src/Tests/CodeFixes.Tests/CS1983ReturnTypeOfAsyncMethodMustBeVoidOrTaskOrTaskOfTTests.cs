@@ -3,7 +3,7 @@
 using Roslynator.CSharp;
 using Roslynator.CSharp.CodeFixes;
 using Xunit;
-using static Roslynator.Tests.CSharpCompilerCodeFixVerifier;
+using static Roslynator.Tests.CSharp.CSharpCompilerCodeFixVerifier;
 
 namespace Roslynator.CodeFixes.Tests
 {
@@ -14,7 +14,7 @@ namespace Roslynator.CodeFixes.Tests
         [Fact]
         public static void TestCodeFix_Task()
         {
-            VerifyCodeFix(
+            VerifyFix(
 @"
 using System.Threading.Tasks;
 
@@ -102,14 +102,14 @@ public class Foo
 }
 ",
                 diagnosticId: DiagnosticId,
-                codeFixProvider: new ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTCodeFixProvider(),
+                fixProvider: new ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTCodeFixProvider(),
                 equivalenceKey: EquivalenceKey.Create(DiagnosticId, "Task"));
         }
 
         [Fact]
         public static void TestCodeFix_TaskOfT()
         {
-            VerifyCodeFix(
+            VerifyFix(
 @"
 using System.Threading.Tasks;
 
@@ -213,7 +213,7 @@ public class Foo
 }
 ",
                 diagnosticId: DiagnosticId,
-                codeFixProvider: new ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTCodeFixProvider(),
+                fixProvider: new ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTCodeFixProvider(),
                 equivalenceKey: EquivalenceKey.Create(DiagnosticId, "TaskOfT"));
         }
 
@@ -257,14 +257,14 @@ public class Foo
     }
 }
 ";
-            VerifyNoCodeFix(
+            VerifyNoFix(
                 source,
-                codeFixProvider: new ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTCodeFixProvider(),
+                fixProvider: new ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTCodeFixProvider(),
                 equivalenceKey: EquivalenceKey.Create(DiagnosticId, "Task"));
 
-            VerifyNoCodeFix(
+            VerifyNoFix(
                 source,
-                codeFixProvider: new ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTCodeFixProvider(),
+                fixProvider: new ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTCodeFixProvider(),
                 equivalenceKey: EquivalenceKey.Create(DiagnosticId, "TaskOfT"));
         }
     }

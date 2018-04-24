@@ -4827,4 +4827,22 @@ if (x == null)
       </Sample>
     </Samples>
   </Analyzer>
+  <Analyzer Identifier="MergePreprocessorDirectives">
+    <Id>RCS1224</Id>
+    <Title>Merge preprocessor directives.</Title>
+    <MessageFormat>Merge preprocessor directives.</MessageFormat>
+    <Category>Maintainability</Category>
+    <DefaultSeverity>Info</DefaultSeverity>
+    <IsEnabledByDefault>true</IsEnabledByDefault>
+    <SupportsFadeOut>false</SupportsFadeOut>
+    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Samples>
+      <Sample>
+        <Before><![CDATA[#pragma warning disable CS0000
+#pragma warning disable CS0001
+]]></Before>
+        <After><![CDATA[#pragma warning disable CS0000, CS0001]]></After>
+      </Sample>
+    </Samples>
+  </Analyzer>
 </Analyzers>

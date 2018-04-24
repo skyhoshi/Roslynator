@@ -67,18 +67,18 @@ namespace A.B
 }
 ";
 
-        VerifyCodeRefactoring(
+        VerifyRefactoring(
                 sourceTemplate,
                 fixableCode,
                 fixedCode,
-                codeRefactoringProvider: CodeRefactoringProvider,
+                refactoringProvider: CodeRefactoringProvider,
                 equivalenceKey: RefactoringId);
         }
 
         [Fact]
         public static void TestNoCodeRefactoring()
         {
-            VerifyNoCodeRefactoring(
+            VerifyNoRefactoring(
 @"
 namespace A.B
 {
@@ -115,7 +115,7 @@ namespace A.B
     }
 }
 ",
-                codeRefactoringProvider: CodeRefactoringProvider,
+                refactoringProvider: CodeRefactoringProvider,
                 equivalenceKey: RefactoringId);
         }
     }

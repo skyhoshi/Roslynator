@@ -4,7 +4,7 @@
 
 namespace Roslynator.CSharp
 {
-    internal static partial class CompilerDiagnosticIdentifiers
+    internal static class CompilerDiagnosticIdentifiers
     {
         public const string OperatorCannotBeAppliedToOperands = "CS0019";
         public const string CannotApplyIndexingToExpression = "CS0021";

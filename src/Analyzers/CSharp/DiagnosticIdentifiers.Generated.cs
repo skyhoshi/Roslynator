@@ -212,5 +212,6 @@ namespace Roslynator.CSharp
         public const string UseDebuggerDisplayAttribute = "RCS1221";
         public const string UsePatternMatchingInsteadOfIsAndCast = "RCS1222";
         public const string UsePatternMatchingInsteadOfAsAndNullCheck = "RCS1223";
+        public const string MergePreprocessorDirectives = "RCS1224";
     }
 }

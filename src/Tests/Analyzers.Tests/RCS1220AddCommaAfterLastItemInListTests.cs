@@ -7,7 +7,7 @@ using Roslynator.CSharp;
 using Roslynator.CSharp.Analysis;
 using Roslynator.CSharp.CodeFixes;
 using Xunit;
-using static Roslynator.Tests.CSharpDiagnosticVerifier;
+using static Roslynator.Tests.CSharp.CSharpDiagnosticVerifier;
 
 namespace Roslynator.Analyzers.Tests
 {
@@ -22,7 +22,7 @@ namespace Roslynator.Analyzers.Tests
         [Fact]
         public static void TestDiagnosticWithCodeFix()
         {
-            VerifyDiagnosticAndCodeFix(
+            VerifyDiagnosticAndFix(
 @"
 using System.Collections.Generic;
 
@@ -111,9 +111,9 @@ public class C
     }
 }
 ",
-                descriptor: Descriptor,
-                analyzer: Analyzer,
-                codeFixProvider: CodeFixProvider);
+                Descriptor,
+                Analyzer,
+                CodeFixProvider);
         }
 
         [Fact]
