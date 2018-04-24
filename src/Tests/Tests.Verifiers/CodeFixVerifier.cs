@@ -14,43 +14,17 @@ namespace Roslynator.Tests
 {
     public static class CodeFixVerifier
     {
-        public static void VerifyNoCodeFix(
-            string source,
-            DiagnosticAnalyzer analyzer,
-            CodeFixProvider codeFixProvider,
-            string language)
-        {
-            Document document = WorkspaceUtility.CreateDocument(source, language);
-
-            DiagnosticVerifier.VerifyNoCompilerError(document);
-
-            foreach (Diagnostic diagnostic in DiagnosticUtility.GetSortedDiagnostics(document, analyzer))
-            {
-                List<CodeAction> actions = null;
-
-                var context = new CodeFixContext(
-                    document,
-                    diagnostic,
-                    (a, _) => (actions ?? (actions = new List<CodeAction>())).Add(a),
-                    CancellationToken.None);
-
-                codeFixProvider.RegisterCodeFixesAsync(context).Wait();
-
-                Assert.True(actions == null, $"Expected no code fix, actual: {actions.Count}.");
-            }
-        }
-
         public static void VerifyFix(
             string source,
             string newSource,
             DiagnosticAnalyzer analyzer,
-            CodeFixProvider codeFixProvider,
+            CodeFixProvider fixProvider,
             string language,
             bool allowNewCompilerDiagnostics = false)
         {
-            Assert.True(codeFixProvider.CanFixAny(analyzer.SupportedDiagnostics), $"Code fix provider '{codeFixProvider.GetType().Name}' cannot fix any diagnostic supported by analyzer '{analyzer}'.");
+            Assert.True(fixProvider.CanFixAny(analyzer.SupportedDiagnostics), $"Code fix provider '{fixProvider.GetType().Name}' cannot fix any diagnostic supported by analyzer '{analyzer}'.");
 
-            Document document = WorkspaceUtility.CreateDocument(source, language);
+            Document document = WorkspaceFactory.CreateDocument(source, language);
 
             ImmutableArray<Diagnostic> compilerDiagnostics = document.GetCompilerDiagnostics();
 
@@ -64,7 +38,7 @@ namespace Roslynator.Tests
 
                 foreach (Diagnostic analyzerDiagnostic in analyzerDiagnostics)
                 {
-                    if (codeFixProvider.FixableDiagnosticIds.Contains(analyzerDiagnostic.Id))
+                    if (fixProvider.FixableDiagnosticIds.Contains(analyzerDiagnostic.Id))
                     {
                         diagnostic = analyzerDiagnostic;
                         break;
@@ -82,7 +56,7 @@ namespace Roslynator.Tests
                     (a, _) => (actions ?? (actions = new List<CodeAction>())).Add(a),
                     CancellationToken.None);
 
-                codeFixProvider.RegisterCodeFixesAsync(context).Wait();
+                fixProvider.RegisterCodeFixesAsync(context).Wait();
 
                 if (actions == null)
                     break;
@@ -95,9 +69,35 @@ namespace Roslynator.Tests
                 analyzerDiagnostics = DiagnosticUtility.GetSortedDiagnostics(document, analyzer);
             }
 
-            string actual = document.GetSimplifiedAndFormattedText();
+            string actual = document.ToSimplifiedAndFormattedFullString();
 
             Assert.Equal(newSource, actual);
+        }
+
+        public static void VerifyNoFix(
+            string source,
+            DiagnosticAnalyzer analyzer,
+            CodeFixProvider fixProvider,
+            string language)
+        {
+            Document document = WorkspaceFactory.CreateDocument(source, language);
+
+            DiagnosticVerifier.VerifyNoCompilerError(document);
+
+            foreach (Diagnostic diagnostic in DiagnosticUtility.GetSortedDiagnostics(document, analyzer))
+            {
+                List<CodeAction> actions = null;
+
+                var context = new CodeFixContext(
+                    document,
+                    diagnostic,
+                    (a, _) => (actions ?? (actions = new List<CodeAction>())).Add(a),
+                    CancellationToken.None);
+
+                fixProvider.RegisterCodeFixesAsync(context).Wait();
+
+                Assert.True(actions == null, $"Expected no code fix, actual: {actions.Count}.");
+            }
         }
     }
 }
