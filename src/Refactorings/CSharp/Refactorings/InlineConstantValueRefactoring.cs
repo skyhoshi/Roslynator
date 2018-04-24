@@ -8,7 +8,7 @@ using static Roslynator.CSharp.CSharpFactory;
 
 namespace Roslynator.CSharp.Refactorings
 {
-    internal static class ReplaceExpressionWithConstantValueRefactoring
+    internal static class InlineConstantValueRefactoring
     {
         public static async Task ComputeRefactoringAsync(RefactoringContext context, ExpressionSyntax expression)
         {
@@ -38,9 +38,9 @@ namespace Roslynator.CSharp.Refactorings
             ExpressionSyntax newNode = LiteralExpression(optional.Value);
 
             context.RegisterRefactoring(
-                $"Replace expression with '{newNode}'",
+                $"Inline constant value",
                 cancellationToken => context.Document.ReplaceNodeAsync(oldNode, newNode.WithTriviaFrom(expression).Parenthesize(), cancellationToken),
-                RefactoringIdentifiers.ReplaceExpressionWithConstantValue);
+                RefactoringIdentifiers.InlineConstantValue);
         }
     }
 }
