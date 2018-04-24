@@ -4724,8 +4724,8 @@ else
   </Analyzer>
   <Analyzer Identifier="UsePatternMatchingInsteadOfIsAndCast">
     <Id>RCS1222</Id>
-    <Title>Use pattern matching instead of combination of is operator and cast operator.</Title>
-    <MessageFormat>Use pattern matching instead of combination of is operator and cast operator.</MessageFormat>
+    <Title>Use pattern matching instead of combination of 'is' operator and cast operator.</Title>
+    <MessageFormat>Use pattern matching instead of combination of 'is' operator and cast operator.</MessageFormat>
     <Category>Performance</Category>
     <DefaultSeverity>Hidden</DefaultSeverity>
     <IsEnabledByDefault>true</IsEnabledByDefault>
@@ -4738,6 +4738,30 @@ else
 }]]></Before>
         <After><![CDATA[if (x is T y && Foo(y))
 {
+}]]></After>
+      </Sample>
+    </Samples>
+  </Analyzer>
+  <Analyzer Identifier="UsePatternMatchingInsteadOfAsAndNullCheck">
+    <Id>RCS1223</Id>
+    <Title>Use pattern matching instead of combination of 'as' operator and null check.</Title>
+    <MessageFormat>Use pattern matching instead of combination of 'as' operator and null check.</MessageFormat>
+    <Category>Simplification</Category>
+    <DefaultSeverity>Info</DefaultSeverity>
+    <IsEnabledByDefault>true</IsEnabledByDefault>
+    <SupportsFadeOut>false</SupportsFadeOut>
+    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Samples>
+      <Sample>
+        <Before><![CDATA[var x = y as Foo;
+
+if (x == null)
+{
+    return;
+}]]></Before>
+        <After><![CDATA[if (!(y is Foo x))
+{
+    return;
 }]]></After>
       </Sample>
     </Samples>

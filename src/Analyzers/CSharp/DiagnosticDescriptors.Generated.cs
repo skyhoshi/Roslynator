@@ -2462,13 +2462,25 @@ namespace Roslynator.CSharp
         /// <summary>RCS1222</summary>
         public static readonly DiagnosticDescriptor UsePatternMatchingInsteadOfIsAndCast = new DiagnosticDescriptor(
             id:                 DiagnosticIdentifiers.UsePatternMatchingInsteadOfIsAndCast, 
-            title:              "Use pattern matching instead of combination of is operator and cast operator.", 
-            messageFormat:      "Use pattern matching instead of combination of is operator and cast operator.", 
+            title:              "Use pattern matching instead of combination of 'is' operator and cast operator.", 
+            messageFormat:      "Use pattern matching instead of combination of 'is' operator and cast operator.", 
             category:           DiagnosticCategories.Performance, 
             defaultSeverity:    DiagnosticSeverity.Hidden, 
             isEnabledByDefault: true, 
             description:        null, 
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UsePatternMatchingInsteadOfIsAndCast}", 
+            customTags:         Array.Empty<string>());
+
+        /// <summary>RCS1223</summary>
+        public static readonly DiagnosticDescriptor UsePatternMatchingInsteadOfAsAndNullCheck = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck, 
+            title:              "Use pattern matching instead of combination of 'as' operator and null check.", 
+            messageFormat:      "Use pattern matching instead of combination of 'as' operator and null check.", 
+            category:           DiagnosticCategories.Simplification, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck}", 
             customTags:         Array.Empty<string>());
 
     }

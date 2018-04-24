@@ -209,5 +209,6 @@ namespace Roslynator.CSharp
         public const string SimplifyCodeBranching = "RCS1218";
         public const string CallSkipAndAnyInsteadOfCount = "RCS1219";
         public const string UsePatternMatchingInsteadOfIsAndCast = "RCS1222";
+        public const string UsePatternMatchingInsteadOfAsAndNullCheck = "RCS1223";
     }
 }

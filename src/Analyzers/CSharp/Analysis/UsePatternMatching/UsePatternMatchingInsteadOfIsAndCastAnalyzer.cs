@@ -33,7 +33,7 @@ namespace Roslynator.CSharp.Analysis.UsePatternMatching
         {
             var isExpression = (BinaryExpressionSyntax)context.Node;
 
-            IsExpressionInfo isExpressionInfo = SyntaxInfo.IsExpressionInfo((BinaryExpressionSyntax)context.Node);
+            IsExpressionInfo isExpressionInfo = SyntaxInfo.IsExpressionInfo(isExpression);
 
             if (!isExpressionInfo.Success)
                 return;
