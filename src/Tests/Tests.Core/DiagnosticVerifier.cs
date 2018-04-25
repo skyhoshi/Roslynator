@@ -14,34 +14,6 @@ namespace Roslynator.Tests
 {
     public static class DiagnosticVerifier
     {
-        public static void VerifyNoDiagnostic(
-            string source,
-            DiagnosticDescriptor descriptor,
-            DiagnosticAnalyzer analyzer,
-            string language)
-        {
-            VerifyNoDiagnostic(new string[] { source }, descriptor, analyzer, language);
-        }
-
-        public static void VerifyNoDiagnostic(
-            IEnumerable<string> sources,
-            DiagnosticDescriptor descriptor,
-            DiagnosticAnalyzer analyzer,
-            string language)
-        {
-            Assert.True(analyzer.IsSupported(descriptor),
-                $"Diagnostic \"{descriptor.Id}\" is not supported by analyzer \"{analyzer.GetType().Name}\".");
-
-            IEnumerable<Document> documents = WorkspaceUtility.CreateDocuments(sources, language);
-
-            VerifyNoCompilerError(documents);
-
-            Diagnostic[] diagnostics = DiagnosticUtility.GetSortedDiagnostics(documents, analyzer);
-
-            Assert.True(diagnostics.Length == 0 || diagnostics.All(f => !string.Equals(f.Id, descriptor.Id, StringComparison.Ordinal)),
-                    $"No diagnostic expected\r\n\r\nDiagnostics:\r\n{diagnostics.Where(f => string.Equals(f.Id, descriptor.Id, StringComparison.Ordinal)).ToMultilineString()}\r\n");
-        }
-
         public static void VerifyDiagnostic(
             string source,
             DiagnosticAnalyzer analyzer,
@@ -59,7 +31,7 @@ namespace Roslynator.Tests
         {
             foreach (Diagnostic diagnostic in expectedDiagnostics)
             {
-                Assert.True(analyzer.IsSupported(diagnostic.Descriptor),
+                Assert.True(analyzer.Supports(diagnostic.Descriptor),
                     $"Diagnostic \"{diagnostic.Descriptor.Id}\" is not supported by analyzer \"{analyzer.GetType().Name}\".");
             }
 
@@ -69,7 +41,7 @@ namespace Roslynator.Tests
                 && analyzer.SupportedDiagnostics.Length > 1)
             {
                 diagnostics = diagnostics
-                    .Where(diagnostic => expectedDiagnostics.Any(expectedDiagnostic => DiagnosticComparer.IdOrdinal.Equals(diagnostic, expectedDiagnostic)))
+                    .Where(diagnostic => expectedDiagnostics.Any(expectedDiagnostic => DiagnosticComparer.Id.Equals(diagnostic, expectedDiagnostic)))
                     .ToArray();
             }
 
@@ -84,7 +56,7 @@ namespace Roslynator.Tests
             int actualCount = actual.Length;
 
             Assert.True(expectedCount == actualCount,
-                $"Mismatch between number of diagnostics returned, expected: {expectedCount} actual: {actualCount}\r\n\r\nDiagnostics:\r\n{actual.ToMultilineString()}\r\n");
+                $"Mismatch between number of diagnostics returned, expected: {expectedCount} actual: {actualCount}{actual.ToDebugString()}");
 
             for (int i = 0; i < expectedCount; i++)
                 VerifyDiagnostic(actual[i], expected[i]);
@@ -155,6 +127,34 @@ namespace Roslynator.Tests
                 $"Expected diagnostic to {name} at column {expectedCharacter}, actual: {actualCharacter}\r\n\r\nDiagnostic:\r\n{diagnostic}\r\n");
         }
 
+        public static void VerifyNoDiagnostic(
+            string source,
+            DiagnosticDescriptor descriptor,
+            DiagnosticAnalyzer analyzer,
+            string language)
+        {
+            VerifyNoDiagnostic(new string[] { source }, descriptor, analyzer, language);
+        }
+
+        public static void VerifyNoDiagnostic(
+            IEnumerable<string> sources,
+            DiagnosticDescriptor descriptor,
+            DiagnosticAnalyzer analyzer,
+            string language)
+        {
+            Assert.True(analyzer.Supports(descriptor),
+                $"Diagnostic \"{descriptor.Id}\" is not supported by analyzer \"{analyzer.GetType().Name}\".");
+
+            IEnumerable<Document> documents = WorkspaceFactory.CreateDocuments(sources, language);
+
+            VerifyNoCompilerError(documents);
+
+            Diagnostic[] diagnostics = DiagnosticUtility.GetSortedDiagnostics(documents, analyzer);
+
+            Assert.True(diagnostics.Length == 0 || diagnostics.All(f => !string.Equals(f.Id, descriptor.Id, StringComparison.Ordinal)),
+                    $"No diagnostic expected{diagnostics.Where(f => string.Equals(f.Id, descriptor.Id, StringComparison.Ordinal)).ToDebugString()}");
+        }
+
         public static void VerifyNoCompilerError(Document document)
         {
             ImmutableArray<Diagnostic> compilerDiagnostics = document.GetCompilerDiagnostics();
@@ -165,7 +165,7 @@ namespace Roslynator.Tests
         public static void VerifyNoCompilerError(ImmutableArray<Diagnostic> compilerDiagnostics)
         {
             Assert.False(compilerDiagnostics.Any(f => f.Severity == DiagnosticSeverity.Error),
-                $"No compiler error expected\r\n\r\nDiagnostics:\r\n{compilerDiagnostics.Where(f => f.Severity == DiagnosticSeverity.Error).ToMultilineString()}");
+                $"No compiler error expected{compilerDiagnostics.Where(f => f.Severity == DiagnosticSeverity.Error).ToDebugString()}");
         }
 
         public static void VerifyNoCompilerError(IEnumerable<Document> documents)
@@ -186,7 +186,7 @@ namespace Roslynator.Tests
             newCompilerDiagnostics = DiagnosticUtility.GetNewDiagnostics(compilerDiagnostics, document.GetCompilerDiagnostics());
 
             Assert.True(false,
-                $"Code fix introduced new compiler diagnostics\r\n\r\nDiagnostics:\r\n{newCompilerDiagnostics.ToMultilineString()}\r\n\r\nNew document:\r\n{document.ToFullString()}\r\n");
+                $"Code fix introduced new compiler diagnostics{newCompilerDiagnostics.ToDebugString()}");
         }
     }
 }

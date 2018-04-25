@@ -18,7 +18,7 @@ namespace Roslynator
             DiagnosticAnalyzer analyzer,
             string language)
         {
-            IEnumerable<Document> documents = WorkspaceUtility.CreateDocuments(sources, language);
+            IEnumerable<Document> documents = WorkspaceFactory.CreateDocuments(sources, language);
 
             return GetSortedDiagnostics(documents, analyzer);
         }
@@ -169,7 +169,7 @@ namespace Roslynator
             {
                 return items
                     .Where(f => f.Severity != DiagnosticSeverity.Hidden)
-                    .OrderBy(f => f.Location.SourceSpan.Start)
+                    .OrderBy(f => f, DiagnosticComparer.SpanStart)
                     .GetEnumerator();
             }
         }

@@ -17,8 +17,7 @@ namespace Roslynator.Refactorings.Tests
         [Fact]
         public static void TestCodeRefactoring()
         {
-            VerifyCodeRefactoring(
-@"
+            VerifyRefactoring(@"
 class C
 {
     public string M(bool f)
@@ -31,8 +30,7 @@ class C
 <<<        return null;>>>
     }
 }
-",
-@"
+", @"
 class C
 {
     public string M(bool f)
@@ -47,16 +45,13 @@ class C
         }
     }
 }
-",
-                codeRefactoringProvider: CodeRefactoringProvider,
-                equivalenceKey: RefactoringId);
+", CodeRefactoringProvider, RefactoringId);
         }
 
         [Fact]
         public static void TestCodeRefactoring2()
         {
-            VerifyCodeRefactoring(
-@"
+            VerifyRefactoring(@"
 class C
 {
     public string M(bool f)
@@ -67,8 +62,7 @@ class C
 <<<        return null;>>>
     }
 }
-",
-@"
+", @"
 class C
 {
     public string M(bool f)
@@ -79,16 +73,13 @@ class C
             return null;
     }
 }
-",
-                codeRefactoringProvider: CodeRefactoringProvider,
-                equivalenceKey: RefactoringId);
+", CodeRefactoringProvider, RefactoringId);
         }
 
         [Fact]
         public static void TestCodeRefactoring3()
         {
-            VerifyCodeRefactoring(
-@"
+            VerifyRefactoring(@"
 class C
 {
     public string M(bool f)
@@ -103,8 +94,7 @@ class C
         return null;>>>
     }
 }
-",
-@"
+", @"
 class C
 {
     public string M(bool f)
@@ -121,16 +111,13 @@ class C
         }
     }
 }
-",
-                codeRefactoringProvider: CodeRefactoringProvider,
-                equivalenceKey: RefactoringId);
+", CodeRefactoringProvider, RefactoringId);
         }
 
         [Fact]
         public static void TestCodeRefactoring4()
         {
-            VerifyCodeRefactoring(
-@"
+            VerifyRefactoring(@"
 using System;
 
 class C
@@ -164,8 +151,7 @@ class C
         return null;
     }
 }
-",
-@"
+", @"
 using System;
 
 class C
@@ -201,16 +187,13 @@ class C
         return null;
     }
 }
-",
-                codeRefactoringProvider: CodeRefactoringProvider,
-                equivalenceKey: RefactoringId);
+", CodeRefactoringProvider, RefactoringId);
         }
 
         [Fact]
         public static void TestNoCodeRefactoring()
         {
-            VerifyNoCodeRefactoring(
-@"
+            VerifyNoRefactoring(@"
 class C
 {
     public string M(bool f)
@@ -236,9 +219,7 @@ class C
 <<<        return null;>>>
     }
 }
-",
-                codeRefactoringProvider: CodeRefactoringProvider,
-                equivalenceKey: RefactoringId);
+", CodeRefactoringProvider, RefactoringId);
         }
     }
 }
