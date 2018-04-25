@@ -38,8 +38,7 @@ namespace Roslynator.Analyzers.Tests
                                  /*e*/  /*f*/  /*g*/")]
         public static void TestDiagnosticWithCodeFix(string fixableCode, string fixedCode)
         {
-            VerifyDiagnosticAndFix(
-@"
+            VerifyDiagnosticAndFix(@"
 class C
 {
     void M(bool f, bool g)
@@ -47,12 +46,7 @@ class C
         if (<<<>>>) { }
 }
 }
-",
-                fixableCode,
-                fixedCode,
-                descriptor: Descriptor,
-                analyzer: Analyzer,
-                fixProvider: CodeFixProvider);
+", fixableCode, fixedCode, Descriptor, Analyzer, CodeFixProvider);
         }
 
         [Theory]
@@ -63,8 +57,7 @@ class C
             && g /**/")]
         public static void TestDiagnosticWithCodeFix_LogicalAnd(string fixableCode, string fixedCode)
         {
-            VerifyDiagnosticAndFix(
-@"
+            VerifyDiagnosticAndFix(@"
 class C
 {
     void M(bool f, bool g)
@@ -72,12 +65,7 @@ class C
         if (<<<>>>) { }
     }
 }
-",
-                fixableCode,
-                fixedCode,
-                descriptor: Descriptor,
-                analyzer: Analyzer,
-                fixProvider: CodeFixProvider);
+", fixableCode, fixedCode, Descriptor, Analyzer, CodeFixProvider);
         }
 
         [Theory]
@@ -88,8 +76,7 @@ class C
             || g /**/")]
         public static void TestDiagnosticWithCodeFix_LogicalOr(string fixableCode, string fixedCode)
         {
-            VerifyDiagnosticAndFix(
-@"
+            VerifyDiagnosticAndFix(@"
 class C
 {
     void M(bool f, bool g)
@@ -97,19 +84,13 @@ class C
         if (<<<>>>) { }
     }
 }
-",
-                fixableCode,
-                fixedCode,
-                descriptor: Descriptor,
-                analyzer: Analyzer,
-                fixProvider: CodeFixProvider);
+", fixableCode, fixedCode, Descriptor, Analyzer, CodeFixProvider);
         }
 
         [Fact]
         public static void TestNoDiagnostic()
         {
-            VerifyNoDiagnostic(
-@"
+            VerifyNoDiagnostic(@"
 class C
 {
     void M(bool f, bool g, bool h)
@@ -128,9 +109,7 @@ class C
 #endif
     }
 }
-",
-                descriptor: Descriptor,
-                analyzer: Analyzer);
+", Descriptor, Analyzer);
         }
     }
 }
