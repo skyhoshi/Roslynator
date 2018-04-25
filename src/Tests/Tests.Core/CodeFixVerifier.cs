@@ -13,13 +13,73 @@ namespace Roslynator.Tests
 {
     public static class CodeFixVerifier
     {
-        public static void VerifyNoCodeFix(
+        public static void VerifyFix(
+            string source,
+            string newSource,
+            DiagnosticAnalyzer analyzer,
+            CodeFixProvider fixProvider,
+            string language,
+            bool allowNewCompilerDiagnostics = false)
+        {
+            Assert.True(fixProvider.CanFixAny(analyzer.SupportedDiagnostics), $"Code fix provider '{fixProvider.GetType().Name}' cannot fix any diagnostic supported by analyzer '{analyzer}'.");
+
+            Document document = WorkspaceFactory.CreateDocument(source, language);
+
+            ImmutableArray<Diagnostic> compilerDiagnostics = document.GetCompilerDiagnostics();
+
+            DiagnosticVerifier.VerifyNoCompilerError(compilerDiagnostics);
+
+            Diagnostic[] analyzerDiagnostics = DiagnosticUtility.GetSortedDiagnostics(document, analyzer);
+
+            while (analyzerDiagnostics.Length > 0)
+            {
+                Diagnostic diagnostic = null;
+
+                foreach (Diagnostic analyzerDiagnostic in analyzerDiagnostics)
+                {
+                    if (fixProvider.FixableDiagnosticIds.Contains(analyzerDiagnostic.Id))
+                    {
+                        diagnostic = analyzerDiagnostic;
+                        break;
+                    }
+                }
+
+                if (diagnostic == null)
+                    break;
+
+                List<CodeAction> actions = null;
+
+                var context = new CodeFixContext(
+                    document,
+                    diagnostic,
+                    (a, _) => (actions ?? (actions = new List<CodeAction>())).Add(a),
+                    CancellationToken.None);
+
+                fixProvider.RegisterCodeFixesAsync(context).Wait();
+
+                if (actions == null)
+                    break;
+
+                document = document.ApplyCodeAction(actions[0]);
+
+                if (!allowNewCompilerDiagnostics)
+                    DiagnosticVerifier.VerifyNoNewCompilerDiagnostics(document, compilerDiagnostics);
+
+                analyzerDiagnostics = DiagnosticUtility.GetSortedDiagnostics(document, analyzer);
+            }
+
+            string actual = document.ToSimplifiedAndFormattedFullString();
+
+            Assert.Equal(newSource, actual);
+        }
+
+        public static void VerifyNoFix(
             string source,
             DiagnosticAnalyzer analyzer,
-            CodeFixProvider codeFixProvider,
+            CodeFixProvider fixProvider,
             string language)
         {
-            Document document = WorkspaceUtility.CreateDocument(source, language);
+            Document document = WorkspaceFactory.CreateDocument(source, language);
 
             DiagnosticVerifier.VerifyNoCompilerError(document);
 
@@ -33,56 +93,10 @@ namespace Roslynator.Tests
                     (a, _) => (actions ?? (actions = new List<CodeAction>())).Add(a),
                     CancellationToken.None);
 
-                codeFixProvider.RegisterCodeFixesAsync(context).Wait();
+                fixProvider.RegisterCodeFixesAsync(context).Wait();
 
                 Assert.True(actions == null, $"Expected no code fix, actual: {actions.Count}.");
             }
-        }
-
-        public static void VerifyFix(
-            string source,
-            string newSource,
-            DiagnosticAnalyzer analyzer,
-            CodeFixProvider codeFixProvider,
-            string language,
-            bool allowNewCompilerDiagnostics = false)
-        {
-            Assert.True(codeFixProvider.CanFixAny(analyzer.SupportedDiagnostics), $"Code fix provider '{codeFixProvider.GetType().Name}' cannot fix any diagnostic supported by analyzer '{analyzer}'.");
-
-            Document document = WorkspaceUtility.CreateDocument(source, language);
-
-            ImmutableArray<Diagnostic> compilerDiagnostics = document.GetCompilerDiagnostics();
-
-            DiagnosticVerifier.VerifyNoCompilerError(compilerDiagnostics);
-
-            Diagnostic[] analyzerDiagnostics = DiagnosticUtility.GetSortedDiagnostics(document, analyzer);
-
-            while (analyzerDiagnostics.Length > 0)
-            {
-                List<CodeAction> actions = null;
-
-                var context = new CodeFixContext(
-                    document,
-                    analyzerDiagnostics[0],
-                    (a, _) => (actions ?? (actions = new List<CodeAction>())).Add(a),
-                    CancellationToken.None);
-
-                codeFixProvider.RegisterCodeFixesAsync(context).Wait();
-
-                if (actions == null)
-                    break;
-
-                document = document.ApplyCodeAction(actions[0]);
-
-                if (!allowNewCompilerDiagnostics)
-                    DiagnosticVerifier.VerifyNoNewCompilerDiagnostics(document, compilerDiagnostics);
-
-                analyzerDiagnostics = DiagnosticUtility.GetSortedDiagnostics(document, analyzer);
-            }
-
-            string actual = document.GetSimplifiedAndFormattedText();
-
-            Assert.Equal(newSource, actual);
         }
     }
 }

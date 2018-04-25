@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
@@ -14,37 +13,17 @@ namespace Roslynator.Tests
 {
     public static class CompilerCodeFixVerifier
     {
-        public static void VerifyNoCodeFix(
-            string source,
-            CodeFixProvider codeFixProvider,
-            string language,
-            string equivalenceKey = null)
-        {
-            Document document = WorkspaceUtility.CreateDocument(source, language);
-
-            foreach (Diagnostic compilerDiagnostic in document.GetCompilerDiagnostics())
-            {
-                var context = new CodeFixContext(
-                    document,
-                    compilerDiagnostic,
-                    (a, _) => Assert.True(equivalenceKey != null && !string.Equals(a.EquivalenceKey, equivalenceKey, StringComparison.Ordinal), "Expected no code fix."),
-                    CancellationToken.None);
-
-                codeFixProvider.RegisterCodeFixesAsync(context).Wait();
-            }
-        }
-
-        public static void VerifyCodeFix(
+        public static void VerifyFix(
             string source,
             string newSource,
             string diagnosticId,
-            CodeFixProvider codeFixProvider,
+            CodeFixProvider fixProvider,
             string language,
             string equivalenceKey = null)
         {
-            Assert.True(codeFixProvider.FixableDiagnosticIds.Contains(diagnosticId), $"Code fix provider '{codeFixProvider.GetType().Name}' cannot fix diagnostic '{diagnosticId}'.");
+            Assert.True(fixProvider.FixableDiagnosticIds.Contains(diagnosticId), $"Code fix provider '{fixProvider.GetType().Name}' cannot fix diagnostic '{diagnosticId}'.");
 
-            Document document = WorkspaceUtility.CreateDocument(source, language);
+            Document document = WorkspaceFactory.CreateDocument(source, language);
 
             ImmutableArray<Diagnostic> compilerDiagnostics = document.GetCompilerDiagnostics();
 
@@ -79,7 +58,7 @@ namespace Roslynator.Tests
                     },
                     CancellationToken.None);
 
-                codeFixProvider.RegisterCodeFixesAsync(context).Wait();
+                fixProvider.RegisterCodeFixesAsync(context).Wait();
 
                 if (actions == null)
                     break;
@@ -89,9 +68,29 @@ namespace Roslynator.Tests
                 compilerDiagnostics = document.GetCompilerDiagnostics();
             }
 
-            string actual = document.GetSimplifiedAndFormattedText();
+            string actual = document.ToSimplifiedAndFormattedFullString();
 
             Assert.Equal(newSource, actual);
+        }
+
+        public static void VerifyNoFix(
+            string source,
+            CodeFixProvider fixProvider,
+            string language,
+            string equivalenceKey = null)
+        {
+            Document document = WorkspaceFactory.CreateDocument(source, language);
+
+            foreach (Diagnostic compilerDiagnostic in document.GetCompilerDiagnostics())
+            {
+                var context = new CodeFixContext(
+                    document,
+                    compilerDiagnostic,
+                    (a, _) => Assert.True(equivalenceKey != null && !string.Equals(a.EquivalenceKey, equivalenceKey, StringComparison.Ordinal), "Expected no code fix."),
+                    CancellationToken.None);
+
+                fixProvider.RegisterCodeFixesAsync(context).Wait();
+            }
         }
     }
 }
