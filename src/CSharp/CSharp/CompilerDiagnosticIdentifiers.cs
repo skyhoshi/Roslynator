@@ -4,7 +4,7 @@
 
 namespace Roslynator.CSharp
 {
-    internal static partial class CompilerDiagnosticIdentifiers
+    internal static class CompilerDiagnosticIdentifiers
     {
         public const string OperatorCannotBeAppliedToOperands = "CS0019";
         public const string CannotApplyIndexingToExpression = "CS0021";
@@ -133,6 +133,7 @@ namespace Roslynator.CSharp
         public const string YieldStatementCannotBeUsedInsideAnonymousMethodOrLambdaExpression = "CS1621";
         public const string CannotReturnValueFromIterator = "CS1622";
         public const string IteratorsCannotHaveRefOrOutParameters = "CS1623";
+        public const string BodyCannotBeIteratorBlockBecauseTypeIsNotIteratorInterfaceType = "CS1624";
         public const string NotAllCodePathsReturnValueInAnonymousFunction = "CS1643";
         public const string TypeUsedInUsingStatementMustBeImplicitlyConvertibleToIDisposable = "CS1674";
         public const string AttributeIsOnlyValidOnMethodsOrAttributeClasses = "CS1689";

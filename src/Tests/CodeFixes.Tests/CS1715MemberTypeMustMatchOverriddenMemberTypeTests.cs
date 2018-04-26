@@ -1,9 +1,10 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.CodeAnalysis.CodeFixes;
 using Roslynator.CSharp;
 using Roslynator.CSharp.CodeFixes;
 using Xunit;
-using static Roslynator.Tests.CSharpCompilerCodeFixVerifier;
+using static Roslynator.Tests.CSharp.CSharpCompilerCodeFixVerifier;
 
 namespace Roslynator.CodeFixes.Tests
 {
@@ -11,11 +12,12 @@ namespace Roslynator.CodeFixes.Tests
     {
         private const string DiagnosticId = CompilerDiagnosticIdentifiers.MemberTypeMustMatchOverriddenMemberType;
 
+        private static CodeFixProvider CodeFixProvider { get; } = new MemberDeclarationCodeFixProvider();
+
         [Fact]
-        public static void TestCodeFix()
+        public static void TestFix()
         {
-            VerifyCodeFix(
-@"
+            VerifyFix(@"
 using System;
 
 public class Foo : Base
@@ -50,8 +52,7 @@ public class Base
 public class FooEventArgs : EventArgs
 {
 }
-",
-@"
+", @"
 using System;
 
 public class Foo : Base
@@ -86,10 +87,7 @@ public class Base
 public class FooEventArgs : EventArgs
 {
 }
-",
-                diagnosticId: DiagnosticId,
-                codeFixProvider: new MemberDeclarationCodeFixProvider(),
-                equivalenceKey: EquivalenceKey.Create(DiagnosticId));
+", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId));
         }
     }
 }

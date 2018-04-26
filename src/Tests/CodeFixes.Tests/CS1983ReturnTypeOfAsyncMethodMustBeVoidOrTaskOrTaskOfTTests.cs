@@ -1,9 +1,10 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.CodeAnalysis.CodeFixes;
 using Roslynator.CSharp;
 using Roslynator.CSharp.CodeFixes;
 using Xunit;
-using static Roslynator.Tests.CSharpCompilerCodeFixVerifier;
+using static Roslynator.Tests.CSharp.CSharpCompilerCodeFixVerifier;
 
 namespace Roslynator.CodeFixes.Tests
 {
@@ -11,11 +12,12 @@ namespace Roslynator.CodeFixes.Tests
     {
         private const string DiagnosticId = CompilerDiagnosticIdentifiers.ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfT;
 
+        private static CodeFixProvider CodeFixProvider { get; } = new ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTCodeFixProvider();
+
         [Fact]
-        public static void TestCodeFix_Task()
+        public static void TestFix_Task()
         {
-            VerifyCodeFix(
-@"
+            VerifyFix(@"
 using System.Threading.Tasks;
 
 public class Foo
@@ -57,8 +59,7 @@ public class Foo
         return Task.CompletedTask;
     }
 }
-",
-@"
+", @"
 using System.Threading.Tasks;
 
 public class Foo
@@ -100,17 +101,13 @@ public class Foo
         return Task.CompletedTask;
     }
 }
-",
-                diagnosticId: DiagnosticId,
-                codeFixProvider: new ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTCodeFixProvider(),
-                equivalenceKey: EquivalenceKey.Create(DiagnosticId, "Task"));
+", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, "Task"));
         }
 
         [Fact]
-        public static void TestCodeFix_TaskOfT()
+        public static void TestFix_TaskOfT()
         {
-            VerifyCodeFix(
-@"
+            VerifyFix(@"
 using System.Threading.Tasks;
 
 public class Foo
@@ -160,8 +157,7 @@ public class Foo
         return Task.CompletedTask;
     }
 }
-",
-@"
+", @"
 using System.Threading.Tasks;
 
 public class Foo
@@ -211,14 +207,11 @@ public class Foo
         return Task.CompletedTask;
     }
 }
-",
-                diagnosticId: DiagnosticId,
-                codeFixProvider: new ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTCodeFixProvider(),
-                equivalenceKey: EquivalenceKey.Create(DiagnosticId, "TaskOfT"));
+", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, "TaskOfT"));
         }
 
         [Fact]
-        public static void TestNoCodeFix()
+        public static void TestNoFix()
         {
             const string source = @"
 using System.Threading.Tasks;
@@ -257,15 +250,9 @@ public class Foo
     }
 }
 ";
-            VerifyNoCodeFix(
-                source,
-                codeFixProvider: new ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTCodeFixProvider(),
-                equivalenceKey: EquivalenceKey.Create(DiagnosticId, "Task"));
+            VerifyNoFix(source, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, "Task"));
 
-            VerifyNoCodeFix(
-                source,
-                codeFixProvider: new ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTCodeFixProvider(),
-                equivalenceKey: EquivalenceKey.Create(DiagnosticId, "TaskOfT"));
+            VerifyNoFix(source, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, "TaskOfT"));
         }
     }
 }

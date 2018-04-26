@@ -52,14 +52,7 @@ namespace Roslynator.CSharp.CodeFixes
             {
                 INamedTypeSymbol taskSymbol = semanticModel.GetTypeByMetadataName(MetadataNames.System_Threading_Tasks_Task);
 
-                if (node.IsKind(SyntaxKind.MethodDeclaration))
-                {
-                    CodeFixRegistrator.ChangeMemberDeclarationType(context, diagnostic, (MethodDeclarationSyntax)node, taskSymbol, semanticModel, "Task");
-                }
-                else
-                {
-                    CodeFixRegistrator.ChangeLocalFunctionType(context, diagnostic, (LocalFunctionStatementSyntax)node, taskSymbol, semanticModel, "Task");
-                }
+                CodeFixRegistrator.ChangeReturnType(context, diagnostic, node, taskSymbol, semanticModel, "Task");
             }
 
             if (containsReturnAwait)
@@ -68,14 +61,7 @@ namespace Roslynator.CSharp.CodeFixes
 
                 typeSymbol = taskOfT.Construct(typeSymbol);
 
-                if (node.IsKind(SyntaxKind.MethodDeclaration))
-                {
-                    CodeFixRegistrator.ChangeMemberDeclarationType(context, diagnostic, (MethodDeclarationSyntax)node, typeSymbol, semanticModel, "TaskOfT");
-                }
-                else
-                {
-                    CodeFixRegistrator.ChangeLocalFunctionType(context, diagnostic, (LocalFunctionStatementSyntax)node, typeSymbol, semanticModel, "TaskOfT");
-                }
+                CodeFixRegistrator.ChangeReturnType(context, diagnostic, node, typeSymbol, semanticModel, "TaskOfT");
             }
         }
 
