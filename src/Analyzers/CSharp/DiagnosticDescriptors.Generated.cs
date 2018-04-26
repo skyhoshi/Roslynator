@@ -2460,6 +2460,42 @@ namespace Roslynator.CSharp
             customTags:         Array.Empty<string>());
 
         /// <summary>RCS1220</summary>
+        public static readonly DiagnosticDescriptor UsePatternMatchingInsteadOfIsAndCast = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.UsePatternMatchingInsteadOfIsAndCast, 
+            title:              "Use pattern matching instead of combination of 'is' operator and cast operator.", 
+            messageFormat:      "Use pattern matching instead of combination of 'is' operator and cast operator.", 
+            category:           DiagnosticCategories.Usage, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UsePatternMatchingInsteadOfIsAndCast}", 
+            customTags:         Array.Empty<string>());
+
+        /// <summary>RCS1221</summary>
+        public static readonly DiagnosticDescriptor UsePatternMatchingInsteadOfAsAndNullCheck = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck, 
+            title:              "Use pattern matching instead of combination of 'as' operator and null check.", 
+            messageFormat:      "Use pattern matching instead of combination of 'as' operator and null check.", 
+            category:           DiagnosticCategories.Usage, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck}", 
+            customTags:         Array.Empty<string>());
+
+        /// <summary>RCS1222</summary>
+        public static readonly DiagnosticDescriptor MergePreprocessorDirectives = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.MergePreprocessorDirectives, 
+            title:              "Merge preprocessor directives.", 
+            messageFormat:      "Merge preprocessor directives.", 
+            category:           DiagnosticCategories.Readability, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MergePreprocessorDirectives}", 
+            customTags:         Array.Empty<string>());
+
+        /// <summary>RCS1223</summary>
         public static readonly DiagnosticDescriptor AddCommaAfterLastItemInList = new DiagnosticDescriptor(
             id:                 DiagnosticIdentifiers.AddCommaAfterLastItemInList, 
             title:              "Add comma after last item in list.", 
@@ -2471,7 +2507,7 @@ namespace Roslynator.CSharp
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.AddCommaAfterLastItemInList}", 
             customTags:         Array.Empty<string>());
 
-        /// <summary>RCS1221</summary>
+        /// <summary>RCS1224</summary>
         public static readonly DiagnosticDescriptor UseDebuggerDisplayAttribute = new DiagnosticDescriptor(
             id:                 DiagnosticIdentifiers.UseDebuggerDisplayAttribute, 
             title:              "Use DebuggerDisplay attribute for publicly visible type.", 
@@ -2481,42 +2517,6 @@ namespace Roslynator.CSharp
             isEnabledByDefault: false, 
             description:        null, 
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UseDebuggerDisplayAttribute}", 
-            customTags:         Array.Empty<string>());
-
-        /// <summary>RCS1222</summary>
-        public static readonly DiagnosticDescriptor UsePatternMatchingInsteadOfIsAndCast = new DiagnosticDescriptor(
-            id:                 DiagnosticIdentifiers.UsePatternMatchingInsteadOfIsAndCast, 
-            title:              "Use pattern matching instead of combination of 'is' operator and cast operator.", 
-            messageFormat:      "Use pattern matching instead of combination of 'is' operator and cast operator.", 
-            category:           DiagnosticCategories.Performance, 
-            defaultSeverity:    DiagnosticSeverity.Info, 
-            isEnabledByDefault: true, 
-            description:        null, 
-            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UsePatternMatchingInsteadOfIsAndCast}", 
-            customTags:         Array.Empty<string>());
-
-        /// <summary>RCS1223</summary>
-        public static readonly DiagnosticDescriptor UsePatternMatchingInsteadOfAsAndNullCheck = new DiagnosticDescriptor(
-            id:                 DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck, 
-            title:              "Use pattern matching instead of combination of 'as' operator and null check.", 
-            messageFormat:      "Use pattern matching instead of combination of 'as' operator and null check.", 
-            category:           DiagnosticCategories.Simplification, 
-            defaultSeverity:    DiagnosticSeverity.Info, 
-            isEnabledByDefault: true, 
-            description:        null, 
-            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck}", 
-            customTags:         Array.Empty<string>());
-
-        /// <summary>RCS1224</summary>
-        public static readonly DiagnosticDescriptor MergePreprocessorDirectives = new DiagnosticDescriptor(
-            id:                 DiagnosticIdentifiers.MergePreprocessorDirectives, 
-            title:              "Merge preprocessor directives.", 
-            messageFormat:      "Merge preprocessor directives.", 
-            category:           DiagnosticCategories.Maintainability, 
-            defaultSeverity:    DiagnosticSeverity.Info, 
-            isEnabledByDefault: true, 
-            description:        null, 
-            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MergePreprocessorDirectives}", 
             customTags:         Array.Empty<string>());
 
     }

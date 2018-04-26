@@ -47,9 +47,9 @@ namespace Roslynator.CSharp.CodeFixes
         }
 
         private static Task<Document> RefactorAsync(
-        Document document,
-        LocalDeclarationStatementSyntax localDeclaration,
-        CancellationToken cancellationToken)
+            Document document,
+            LocalDeclarationStatementSyntax localDeclaration,
+            CancellationToken cancellationToken)
         {
             VariableDeclaratorSyntax variableDeclarator = localDeclaration
                 .Declaration

@@ -40,12 +40,20 @@ namespace Roslynator.CSharp.Analysis.UsePatternMatching
 
             ExpressionSyntax expression = isExpressionInfo.Expression;
 
-            if (!(expression is IdentifierNameSyntax identifierName))
+            var identifierName = expression as IdentifierNameSyntax;
+
+            if (identifierName == null)
             {
-                identifierName = ThisMemberAccessExpressionInfo.Create(expression).Name as IdentifierNameSyntax;
+                if (expression.IsKind(SyntaxKind.SimpleMemberAccessExpression))
+                {
+                    var memberAccess = (MemberAccessExpressionSyntax)expression;
+
+                    if (memberAccess.Expression.IsKind(SyntaxKind.ThisExpression))
+                        identifierName = memberAccess.Name as IdentifierNameSyntax;
+                }
 
                 if (identifierName == null)
-                    return;
+                return;
             }
 
             ExpressionSyntax left = isExpression.WalkUpParentheses();

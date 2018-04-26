@@ -2,13 +2,12 @@
 
 using System.Threading;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Roslynator.CSharp.Syntax;
-using Roslynator.CSharp.SyntaxWalkers;
 
 namespace Roslynator.CSharp.Analysis.UsePatternMatching
 {
-    internal class UsePatternMatchingWalker : SkipFunctionWalker
+    internal class UsePatternMatchingWalker : CSharpSyntaxWalker
     {
         private ISymbol _symbol;
         private IdentifierNameSyntax _identifierName;
@@ -60,14 +59,15 @@ namespace Roslynator.CSharp.Analysis.UsePatternMatching
 
                 if (_symbol.Equals(_semanticModel.GetSymbol(node, _cancellationToken)))
                 {
-                    SyntaxNode parent = node.Parent;
+                    ExpressionSyntax n = node;
 
-                    ThisMemberAccessExpressionInfo thisMemberAccess = ThisMemberAccessExpressionInfo.Create(parent);
+                    if (n.IsParentKind(SyntaxKind.SimpleMemberAccessExpression)
+                        && ((MemberAccessExpressionSyntax)n.Parent).Expression.IsKind(SyntaxKind.ThisExpression))
+                    {
+                        n = (ExpressionSyntax)n.Parent;
+                    }
 
-                    if (thisMemberAccess.Success)
-                        parent = thisMemberAccess.MemberAccessExpression.Parent;
-
-                    if (!(parent is CastExpressionSyntax))
+                    if (!n.WalkUpParentheses().IsParentKind(SyntaxKind.CastExpression))
                     {
                         IsFixable = false;
                         return;
@@ -76,8 +76,6 @@ namespace Roslynator.CSharp.Analysis.UsePatternMatching
                     IsFixable = true;
                 }
             }
-
-            base.VisitIdentifierName(node);
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Threading;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Roslynator.CSharp.Analysis.UsePatternMatching
 {
@@ -19,19 +16,16 @@ namespace Roslynator.CSharp.Analysis.UsePatternMatching
             if (walker != null)
             {
                 _cachedInstance = null;
-            }
-            else
-            {
-                walker = new UsePatternMatchingWalker();
+                walker.Clear();
+                return walker;
             }
 
-            return walker;
+            return new UsePatternMatchingWalker();
         }
 
         public static void Free(UsePatternMatchingWalker walker)
         {
             walker.Clear();
-
             _cachedInstance = walker;
         }
 

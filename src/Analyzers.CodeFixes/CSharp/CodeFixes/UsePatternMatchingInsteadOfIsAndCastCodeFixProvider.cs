@@ -65,9 +65,9 @@ namespace Roslynator.CSharp.CodeFixes
         }
 
         private static async Task<Document> RefactorAsync(
-        Document document,
-        IfStatementSyntax ifStatement,
-        CancellationToken cancellationToken)
+            Document document,
+            IfStatementSyntax ifStatement,
+            CancellationToken cancellationToken)
         {
             SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
 
@@ -106,13 +106,15 @@ namespace Roslynator.CSharp.CodeFixes
             IsExpressionInfo isInfo = SyntaxInfo.IsExpressionInfo(expression);
 
             IdentifierNameSyntax identifierName = isInfo.Expression as IdentifierNameSyntax
-                ?? (IdentifierNameSyntax)ThisMemberAccessExpressionInfo.Create(isInfo.Expression).Name;
+                ?? (IdentifierNameSyntax)((MemberAccessExpressionSyntax)isInfo.Expression).Name;
 
             ISymbol symbol = semanticModel.GetSymbol(isInfo.Expression, cancellationToken);
 
             ITypeSymbol typeSymbol = semanticModel.GetTypeSymbol(isInfo.Type, cancellationToken);
 
-            string name = NameGenerator.Default.CreateUniqueLocalName(typeSymbol, semanticModel, node.SpanStart, cancellationToken: cancellationToken);
+            string name = NameGenerator.CreateName(typeSymbol, firstCharToLower: true) ?? DefaultNames.Variable;
+
+            name = NameGenerator.Default.EnsureUniqueLocalName(name, semanticModel, node.SpanStart, cancellationToken: cancellationToken) ?? DefaultNames.Variable;
 
             IsPatternExpressionSyntax isPatternExpression = IsPatternExpression(
                 isInfo.Expression,
@@ -120,12 +122,19 @@ namespace Roslynator.CSharp.CodeFixes
                     isInfo.Type.WithTrailingTrivia(ElasticSpace),
                     SingleVariableDesignation(Identifier(name).WithRenameAnnotation()).WithTrailingTrivia(isInfo.Type.GetTrailingTrivia())));
 
-            IEnumerable<CastExpressionSyntax> nodes = nodeToRewrite
+            IEnumerable<SyntaxNode> nodes = nodeToRewrite
                 .DescendantNodes()
-                .OfType<IdentifierNameSyntax>()
-                .Where(f => symbol.Equals(semanticModel.GetSymbol(f, cancellationToken)))
-                .Select(f => (ThisMemberAccessExpressionInfo.Create(f.Parent).Success) ? (ExpressionSyntax)f.Parent : f)
-                .Select(f => (CastExpressionSyntax)f.WalkUpParentheses().Parent);
+                .Where(f => f.IsKind(SyntaxKind.IdentifierName) && symbol.Equals(semanticModel.GetSymbol(f, cancellationToken)))
+                .Select(f =>
+                {
+                    if (f.IsParentKind(SyntaxKind.SimpleMemberAccessExpression)
+                        && ((MemberAccessExpressionSyntax)f.Parent).Expression.IsKind(SyntaxKind.ThisExpression))
+                    {
+                        f = f.Parent;
+                    }
+
+                    return ((ExpressionSyntax)f).WalkUpParentheses().Parent;
+                });
 
             IdentifierNameSyntax newIdentifierName = IdentifierName(name);
 

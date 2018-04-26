@@ -4730,8 +4730,81 @@ else
       </Sample>
     </Samples>
   </Analyzer>
-  <Analyzer Identifier="AddCommaAfterLastItemInList">
+  <Analyzer Identifier="UsePatternMatchingInsteadOfIsAndCast">
     <Id>RCS1220</Id>
+    <Title>Use pattern matching instead of combination of 'is' operator and cast operator.</Title>
+    <MessageFormat>Use pattern matching instead of combination of 'is' operator and cast operator.</MessageFormat>
+    <Category>Usage</Category>
+    <DefaultSeverity>Info</DefaultSeverity>
+    <IsEnabledByDefault>true</IsEnabledByDefault>
+    <SupportsFadeOut>false</SupportsFadeOut>
+    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Samples>
+      <Sample>
+        <Before>
+          <![CDATA[if (x is T && Foo((T)x)) // RCS1220
+{
+}]]>
+        </Before>
+        <After>
+          <![CDATA[if (x is T y && Foo(y))
+{
+}]]>
+        </After>
+      </Sample>
+    </Samples>
+  </Analyzer>
+  <Analyzer Identifier="UsePatternMatchingInsteadOfAsAndNullCheck">
+    <Id>RCS1221</Id>
+    <Title>Use pattern matching instead of combination of 'as' operator and null check.</Title>
+    <MessageFormat>Use pattern matching instead of combination of 'as' operator and null check.</MessageFormat>
+    <Category>Usage</Category>
+    <DefaultSeverity>Info</DefaultSeverity>
+    <IsEnabledByDefault>true</IsEnabledByDefault>
+    <SupportsFadeOut>false</SupportsFadeOut>
+    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Samples>
+      <Sample>
+        <Before>
+          <![CDATA[var y = x as Foo; // RCS1221
+
+if (y == null)
+{
+    return;
+}]]>
+        </Before>
+        <After>
+          <![CDATA[if (!(x is Foo y))
+{
+    return;
+}]]>
+        </After>
+      </Sample>
+    </Samples>
+  </Analyzer>
+  <Analyzer Identifier="MergePreprocessorDirectives">
+    <Id>RCS1222</Id>
+    <Title>Merge preprocessor directives.</Title>
+    <MessageFormat>Merge preprocessor directives.</MessageFormat>
+    <Category>Readability</Category>
+    <DefaultSeverity>Info</DefaultSeverity>
+    <IsEnabledByDefault>true</IsEnabledByDefault>
+    <SupportsFadeOut>false</SupportsFadeOut>
+    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Samples>
+      <Sample>
+        <Before>
+          <![CDATA[#pragma warning disable CS0000
+#pragma warning disable CS0001
+]]>
+        </Before>
+        <After><![CDATA[#pragma warning disable CS0000, CS0001]]></After>
+      </Sample>
+    </Samples>
+  </Analyzer>
+
+  <Analyzer Identifier="AddCommaAfterLastItemInList">
+    <Id>RCS1223</Id>
     <Title>Add comma after last item in list.</Title>
     <MessageFormat>Add comma after last item in list.</MessageFormat>
     <Category>Maintainability</Category>
@@ -4739,8 +4812,10 @@ else
     <IsEnabledByDefault>true</IsEnabledByDefault>
     <SupportsFadeOut>false</SupportsFadeOut>
     <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
-    <Summary>Having comma after last item in list allows easily reorder members.
-Also when new item is added, previous line will not show up in file comparison.</Summary>
+    <Summary>
+      Having comma after last item in list allows easily reorder members.
+      Also when new item is added, previous line will not show up in file comparison.
+    </Summary>
     <Samples>
       <Sample>
         <Before>
@@ -4748,17 +4823,20 @@ Also when new item is added, previous line will not show up in file comparison.<
 {
   A,
   B // RCS1220
-}]]></Before>
-        <After><![CDATA[public enum Foo
+}]]>
+        </Before>
+        <After>
+          <![CDATA[public enum Foo
 {
   A,
   B,
-}]]></After>
+}]]>
+        </After>
       </Sample>
     </Samples>
   </Analyzer>
   <Analyzer Identifier="UseDebuggerDisplayAttribute">
-    <Id>RCS1221</Id>
+    <Id>RCS1224</Id>
     <Title>Use DebuggerDisplay attribute for publicly visible type.</Title>
     <MessageFormat>Use DebuggerDisplay attribute for publicly visible type.</MessageFormat>
     <Category>Usage</Category>
@@ -4768,10 +4846,13 @@ Also when new item is added, previous line will not show up in file comparison.<
     <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
     <Samples>
       <Sample>
-        <Before><![CDATA[public class Foo
+        <Before>
+          <![CDATA[public class Foo
 {
-}]]></Before>
-        <After><![CDATA[DebuggerDisplay("{DebuggerDisplay,nq}")]
+}]]>
+        </Before>
+        <After>
+          <![CDATA[DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class Foo
 {
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -4779,69 +4860,8 @@ public class Foo
     {
         get { return ToString(); }
     }
-}]]></After>
-      </Sample>
-    </Samples>
-  </Analyzer>
-  <Analyzer Identifier="UsePatternMatchingInsteadOfIsAndCast">
-    <Id>RCS1222</Id>
-    <Title>Use pattern matching instead of combination of 'is' operator and cast operator.</Title>
-    <MessageFormat>Use pattern matching instead of combination of 'is' operator and cast operator.</MessageFormat>
-    <Category>Performance</Category>
-    <DefaultSeverity>Info</DefaultSeverity>
-    <IsEnabledByDefault>true</IsEnabledByDefault>
-    <SupportsFadeOut>false</SupportsFadeOut>
-    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
-    <Samples>
-      <Sample>
-        <Before><![CDATA[if (x is T && Foo((T)x)) // RCS1222
-{
-}]]></Before>
-        <After><![CDATA[if (x is T y && Foo(y))
-{
-}]]></After>
-      </Sample>
-    </Samples>
-  </Analyzer>
-  <Analyzer Identifier="UsePatternMatchingInsteadOfAsAndNullCheck">
-    <Id>RCS1223</Id>
-    <Title>Use pattern matching instead of combination of 'as' operator and null check.</Title>
-    <MessageFormat>Use pattern matching instead of combination of 'as' operator and null check.</MessageFormat>
-    <Category>Simplification</Category>
-    <DefaultSeverity>Info</DefaultSeverity>
-    <IsEnabledByDefault>true</IsEnabledByDefault>
-    <SupportsFadeOut>false</SupportsFadeOut>
-    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
-    <Samples>
-      <Sample>
-        <Before><![CDATA[var x = y as Foo;
-
-if (x == null)
-{
-    return;
-}]]></Before>
-        <After><![CDATA[if (!(y is Foo x))
-{
-    return;
-}]]></After>
-      </Sample>
-    </Samples>
-  </Analyzer>
-  <Analyzer Identifier="MergePreprocessorDirectives">
-    <Id>RCS1224</Id>
-    <Title>Merge preprocessor directives.</Title>
-    <MessageFormat>Merge preprocessor directives.</MessageFormat>
-    <Category>Maintainability</Category>
-    <DefaultSeverity>Info</DefaultSeverity>
-    <IsEnabledByDefault>true</IsEnabledByDefault>
-    <SupportsFadeOut>false</SupportsFadeOut>
-    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
-    <Samples>
-      <Sample>
-        <Before><![CDATA[#pragma warning disable CS0000
-#pragma warning disable CS0001
-]]></Before>
-        <After><![CDATA[#pragma warning disable CS0000, CS0001]]></After>
+}]]>
+        </After>
       </Sample>
     </Samples>
   </Analyzer>
