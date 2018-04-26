@@ -4730,6 +4730,68 @@ else
       </Sample>
     </Samples>
   </Analyzer>
+  <Analyzer Identifier="UsePatternMatchingInsteadOfIsAndCast">
+    <Id>RCS1220</Id>
+    <Title>Use pattern matching instead of combination of 'is' operator and cast operator.</Title>
+    <MessageFormat>Use pattern matching instead of combination of 'is' operator and cast operator.</MessageFormat>
+    <Category>Usage</Category>
+    <DefaultSeverity>Info</DefaultSeverity>
+    <IsEnabledByDefault>true</IsEnabledByDefault>
+    <SupportsFadeOut>false</SupportsFadeOut>
+    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Samples>
+      <Sample>
+        <Before><![CDATA[if (x is T && Foo((T)x)) // RCS1220
+{
+}]]></Before>
+        <After><![CDATA[if (x is T y && Foo(y))
+{
+}]]></After>
+      </Sample>
+    </Samples>
+  </Analyzer>
+  <Analyzer Identifier="UsePatternMatchingInsteadOfAsAndNullCheck">
+    <Id>RCS1221</Id>
+    <Title>Use pattern matching instead of combination of 'as' operator and null check.</Title>
+    <MessageFormat>Use pattern matching instead of combination of 'as' operator and null check.</MessageFormat>
+    <Category>Usage</Category>
+    <DefaultSeverity>Info</DefaultSeverity>
+    <IsEnabledByDefault>true</IsEnabledByDefault>
+    <SupportsFadeOut>false</SupportsFadeOut>
+    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Samples>
+      <Sample>
+        <Before><![CDATA[var y = x as Foo; // RCS1221
+
+if (y == null)
+{
+    return;
+}]]></Before>
+        <After><![CDATA[if (!(x is Foo y))
+{
+    return;
+}]]></After>
+      </Sample>
+    </Samples>
+  </Analyzer>
+  <Analyzer Identifier="MergePreprocessorDirectives">
+    <Id>RCS1222</Id>
+    <Title>Merge preprocessor directives.</Title>
+    <MessageFormat>Merge preprocessor directives.</MessageFormat>
+    <Category>Readability</Category>
+    <DefaultSeverity>Info</DefaultSeverity>
+    <IsEnabledByDefault>true</IsEnabledByDefault>
+    <SupportsFadeOut>false</SupportsFadeOut>
+    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Samples>
+      <Sample>
+        <Before><![CDATA[#pragma warning disable CS0000
+#pragma warning disable CS0001
+]]></Before>
+        <After><![CDATA[#pragma warning disable CS0000, CS0001]]></After>
+      </Sample>
+    </Samples>
+  </Analyzer>
   <Analyzer Identifier="ReplaceEnumeratorWithForEach">
     <Id>RCS1225</Id>
     <Title>Replace enumerator with foreach.</Title>
@@ -4741,17 +4803,21 @@ else
     <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
     <Samples>
       <Sample>
-        <Before><![CDATA[using (var en = items.GetEnumerator())
+        <Before>
+          <![CDATA[using (var en = items.GetEnumerator())
 {
     while (en.MoveNext())
     {
         yield return en.Current;
     }
-}]]></Before>
-        <After><![CDATA[foreach (var item in items)
+}]]>
+        </Before>
+        <After>
+          <![CDATA[foreach (var item in items)
 {
     yield return en.Current;
-}]]></After>
+}]]>
+        </After>
       </Sample>
     </Samples>
   </Analyzer>
