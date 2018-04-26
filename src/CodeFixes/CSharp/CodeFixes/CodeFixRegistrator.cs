@@ -160,6 +160,26 @@ namespace Roslynator.CSharp.CodeFixes
             context.RegisterCodeFix(codeAction, diagnostic);
         }
 
+        public static void ChangeReturnType(
+            CodeFixContext context,
+            Diagnostic diagnostic,
+            SyntaxNode methodDeclarationOrLocalFunction,
+            ITypeSymbol typeSymbol,
+            SemanticModel semanticModel,
+            string additionalKey = null)
+        {
+            Debug.Assert(methodDeclarationOrLocalFunction.IsKind(SyntaxKind.MethodDeclaration, SyntaxKind.LocalFunctionStatement));
+
+            if (methodDeclarationOrLocalFunction is MethodDeclarationSyntax methodDeclaration)
+            {
+                ChangeMemberDeclarationType(context, diagnostic, methodDeclaration, typeSymbol, semanticModel, additionalKey);
+            }
+            else if (methodDeclarationOrLocalFunction is LocalFunctionStatementSyntax localFunction)
+            {
+                ChangeLocalFunctionReturnType(context, diagnostic, localFunction, typeSymbol, semanticModel, additionalKey);
+            }
+        }
+
         public static void ChangeMemberDeclarationType(
             CodeFixContext context,
             Diagnostic diagnostic,
@@ -243,7 +263,7 @@ namespace Roslynator.CSharp.CodeFixes
             }
         }
 
-        public static void ChangeLocalFunctionType(
+        public static void ChangeLocalFunctionReturnType(
             CodeFixContext context,
             Diagnostic diagnostic,
             LocalFunctionStatementSyntax localFunction,

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.CodeAnalysis.CodeFixes;
 using Roslynator.CSharp;
 using Roslynator.CSharp.CodeFixes;
 using Xunit;
@@ -11,11 +12,12 @@ namespace Roslynator.CodeFixes.Tests
     {
         private const string DiagnosticId = CompilerDiagnosticIdentifiers.CannotImplicitlyConvertTypeExplicitConversionExists;
 
+        private static CodeFixProvider CodeFixProvider { get; } = new ExpressionCodeFixProvider();
+
         [Fact]
-        public static void TestCodeFix_ChangeTypeAccordingToInitializer()
+        public static void TestFix_ChangeTypeAccordingToInitializer()
         {
-            VerifyFix(
-@"
+            VerifyFix(@"
 using System.Collections.Generic;
 
 public class Foo
@@ -30,8 +32,7 @@ public class Foo
         yield break;
     }
 }
-",
-@"
+", @"
 using System.Collections.Generic;
 
 public class Foo
@@ -46,10 +47,7 @@ public class Foo
         yield break;
     }
 }
-",
-                diagnosticId: DiagnosticId,
-                fixProvider: new ExpressionCodeFixProvider(),
-                equivalenceKey: EquivalenceKey.Create(DiagnosticId, additionalKey1: CodeFixIdentifiers.ChangeTypeAccordingToInitializer));
+", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, additionalKey1: CodeFixIdentifiers.ChangeTypeAccordingToInitializer));
         }
     }
 }

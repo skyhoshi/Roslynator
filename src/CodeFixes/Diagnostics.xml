@@ -890,6 +890,13 @@
     Message="Iterators cannot have ref or out parameters"
     HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs1623" />
   <Diagnostic
+    Id="CS1624"
+    Identifier="BodyCannotBeIteratorBlockBecauseTypeIsNotIteratorInterfaceType"
+    Severity="Error"
+    Title="The body of 'identifier' cannot be an iterator block because 'type' is not an iterator interface type."
+    Message="The body of '{0}' cannot be an iterator block because '{1}' is not an iterator interface type"
+    HelpUrl="http://docs.microsoft.com/en-us/dotnet/csharp/misc/cs1624" />
+  <Diagnostic
     Id="CS1643"
     Identifier="NotAllCodePathsReturnValueInAnonymousFunction"
     Severity="Error"

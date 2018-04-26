@@ -2,6 +2,7 @@
 
 using Microsoft.CodeAnalysis.CodeFixes;
 using Roslynator.CSharp;
+using Roslynator.CSharp.CodeFixes;
 using Xunit;
 using static Roslynator.Tests.CSharp.CSharpCompilerCodeFixVerifier;
 
@@ -14,7 +15,7 @@ namespace Roslynator.CodeFixes.Tests
         private static CodeFixProvider CodeFixProvider { get; }
 
         //[Fact]
-        public static void TestCodeFix()
+        public static void TestFix()
         {
             VerifyFix(@"
 using System;
@@ -33,7 +34,7 @@ class C
 
         //[Theory]
         //[InlineData("", "")]
-        public static void TestCodeFix2(string fixableCode, string fixedCode)
+        public static void TestFix2(string fixableCode, string fixedCode)
         {
             const string sourceTemplate = @"
 using System;
@@ -52,7 +53,7 @@ class C
         }
 
         //[Fact]
-        public static void TestNoCodeFix()
+        public static void TestNoFix()
         {
             VerifyNoFix(
 @"
