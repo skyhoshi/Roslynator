@@ -213,5 +213,6 @@ namespace Roslynator.CSharp
         public const string MergePreprocessorDirectives = "RCS1222";
         public const string AddCommaAfterLastItemInList = "RCS1223";
         public const string UseDebuggerDisplayAttribute = "RCS1224";
+        public const string ReplaceEnumeratorWithForEach = "RCS1225";
     }
 }

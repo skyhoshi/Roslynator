@@ -1729,7 +1729,7 @@ namespace Roslynator.CSharp
             return statements.Any();
         }
 
-        private static StatementSyntax SingleNonBlockStatementOrDefault(this StatementSyntax statement, bool recursive = false)
+        internal static StatementSyntax SingleNonBlockStatementOrDefault(this StatementSyntax statement, bool recursive = false)
         {
             return (statement.Kind() == SyntaxKind.Block)
                 ? SingleNonBlockStatementOrDefault((BlockSyntax)statement, recursive)

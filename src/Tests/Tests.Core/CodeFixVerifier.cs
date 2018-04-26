@@ -31,6 +31,8 @@ namespace Roslynator.Tests
 
             Diagnostic[] analyzerDiagnostics = DiagnosticUtility.GetSortedDiagnostics(document, analyzer);
 
+            string actual = source;
+
             while (analyzerDiagnostics.Length > 0)
             {
                 Diagnostic diagnostic = null;
@@ -62,13 +64,17 @@ namespace Roslynator.Tests
 
                 document = document.ApplyCodeAction(actions[0]);
 
+                string newText = document.ToSimplifiedAndFormattedFullString();
+
+                Assert.False(actual == newText, "Code fix caused no changes in the source text.");
+
+                actual = newText;
+
                 if (!allowNewCompilerDiagnostics)
                     DiagnosticVerifier.VerifyNoNewCompilerDiagnostics(document, compilerDiagnostics);
 
                 analyzerDiagnostics = DiagnosticUtility.GetSortedDiagnostics(document, analyzer);
             }
-
-            string actual = document.ToSimplifiedAndFormattedFullString();
 
             Assert.Equal(newSource, actual);
         }
