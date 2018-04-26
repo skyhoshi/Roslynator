@@ -4730,4 +4730,29 @@ else
       </Sample>
     </Samples>
   </Analyzer>
+  <Analyzer Identifier="ReplaceEnumeratorWithForEach">
+    <Id>RCS1225</Id>
+    <Title>Replace enumerator with foreach.</Title>
+    <MessageFormat>Replace enumerator with foreach.</MessageFormat>
+    <Category>Readability</Category>
+    <DefaultSeverity>Info</DefaultSeverity>
+    <IsEnabledByDefault>true</IsEnabledByDefault>
+    <SupportsFadeOut>false</SupportsFadeOut>
+    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Samples>
+      <Sample>
+        <Before><![CDATA[using (var en = items.GetEnumerator())
+{
+    while (en.MoveNext())
+    {
+        yield return en.Current;
+    }
+}]]></Before>
+        <After><![CDATA[foreach (var item in items)
+{
+    yield return en.Current;
+}]]></After>
+      </Sample>
+    </Samples>
+  </Analyzer>
 </Analyzers>
