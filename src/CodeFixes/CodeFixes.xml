@@ -599,4 +599,9 @@
       <Id>CS1003</Id>
     </FixableDiagnosticIds>
   </CodeFix>
+  <CodeFix Id="RCF0108" Identifier="RemoveParentheses" Title="Remove parentheses">
+    <FixableDiagnosticIds>
+      <Id>CS0210</Id>
+    </FixableDiagnosticIds>
+  </CodeFix>
 </CodeFixes>
