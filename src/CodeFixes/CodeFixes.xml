@@ -604,4 +604,9 @@
       <Id>CS0210</Id>
     </FixableDiagnosticIds>
   </CodeFix>
+  <CodeFix Id="RCF0109" Identifier="RemoveParameter" Title="Remove parameter">
+    <FixableDiagnosticIds>
+      <Id>CS0136</Id>
+    </FixableDiagnosticIds>
+  </CodeFix>
 </CodeFixes>
