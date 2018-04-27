@@ -35,6 +35,12 @@ namespace Roslynator.CSharp.Refactorings
             if (context.IsRefactoringEnabled(RefactoringIdentifiers.NegateBinaryExpression))
                 NegateBinaryExpressionRefactoring.ComputeRefactoring(context, binaryExpression);
 
+            if (context.IsRefactoringEnabled(RefactoringIdentifiers.SwapBinaryOperands)
+                && context.Span.IsEmptyAndContainedInSpanOrBetweenSpans(binaryExpression))
+            {
+                SwapBinaryOperandsRefactoring.ComputeRefactoring(context, binaryExpression);
+            }
+
             if (context.IsRefactoringEnabled(RefactoringIdentifiers.ExpandCoalesceExpression)
                 && binaryExpression.OperatorToken.Span.Contains(context.Span))
             {
@@ -58,12 +64,6 @@ namespace Roslynator.CSharp.Refactorings
                     if (context.IsRefactoringEnabled(RefactoringIdentifiers.UseStringBuilderInsteadOfConcatenation))
                         UseStringBuilderInsteadOfConcatenationRefactoring.ComputeRefactoring(context, concatenationInfo);
                 }
-            }
-
-            if (context.IsRefactoringEnabled(RefactoringIdentifiers.SwapExpressionsInBinaryExpression)
-                && context.Span.IsBetweenSpans(binaryExpression))
-            {
-                SwapExpressionsInBinaryExpressionRefactoring.ComputeRefactoring(context, binaryExpression);
             }
 
             if (context.IsRefactoringEnabled(RefactoringIdentifiers.ReplaceAsWithCast)
