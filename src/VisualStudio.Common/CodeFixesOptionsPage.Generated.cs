@@ -20,7 +20,7 @@ namespace Roslynator.VisualStudio
             get;
         }
 
-        = CodeFixIdentifiers.AddMissingComma;
+        = CodeFixIdentifiers.RemoveParameter;
         protected override void Fill(ICollection<BaseModel> codeFixes)
         {
             codeFixes.Clear();
@@ -129,6 +129,8 @@ namespace Roslynator.VisualStudio
             codeFixes.Add(new BaseModel(CodeFixIdentifiers.RemoveBaseList, "Remove base list (fixes CS0713, CS0714)", IsEnabled(CodeFixIdentifiers.RemoveBaseList)));
             codeFixes.Add(new BaseModel(CodeFixIdentifiers.AddDefaultValueToParameter, "Add default value to parameter (fixes CS1737)", IsEnabled(CodeFixIdentifiers.AddDefaultValueToParameter)));
             codeFixes.Add(new BaseModel(CodeFixIdentifiers.AddMissingComma, "Add missing comma (fixes CS1003)", IsEnabled(CodeFixIdentifiers.AddMissingComma)));
+            codeFixes.Add(new BaseModel(CodeFixIdentifiers.RemoveParentheses, "Remove parentheses (fixes CS0210)", IsEnabled(CodeFixIdentifiers.RemoveParentheses)));
+            codeFixes.Add(new BaseModel(CodeFixIdentifiers.RemoveParameter, "Remove parameter (fixes CS0136)", IsEnabled(CodeFixIdentifiers.RemoveParameter)));
         }
     }
 }
