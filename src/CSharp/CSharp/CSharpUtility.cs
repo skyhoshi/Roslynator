@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -552,77 +553,55 @@ namespace Roslynator.CSharp
 
         public static IEnumerable<SyntaxNode> EnumerateExpressionChain(ExpressionSyntax expression)
         {
-            ExpressionSyntax topExpression = expression;
-
             SyntaxNode e = expression;
 
             yield return e;
 
-            ExpressionSyntax c = expression;
-
             while (true)
             {
-                ExpressionSyntax first = GetFirstExpression(c);
+                ExpressionSyntax last = GetLastChild(e);
 
-                if (first != null)
+                if (last != null)
                 {
-                    e = first;
+                    e = last;
                 }
                 else
                 {
-                    while (e != topExpression
-                        && IsLastExpression(e))
+                    while (e != expression
+                        && IsFirstChild(e))
                     {
                         e = e.Parent;
                     }
 
-                    if (e == topExpression)
+                    if (e == expression)
                         break;
 
-                    e = GetNextExpression(e) ?? e;
+                    e = GetPreviousSibling(e);
                 }
 
-                if (e != null)
-                    yield return e;
-
-                c = e as ExpressionSyntax;
+                yield return e;
             }
 
-            ExpressionSyntax GetFirstExpression(SyntaxNode node)
+            ExpressionSyntax GetLastChild(SyntaxNode node)
             {
                 switch (node?.Kind())
                 {
                     case SyntaxKind.ConditionalAccessExpression:
-                        {
-                            var conditionalAccess = (ConditionalAccessExpressionSyntax)node;
-                            return conditionalAccess.WhenNotNull;
-                        }
+                        return ((ConditionalAccessExpressionSyntax)node).WhenNotNull;
                     case SyntaxKind.MemberBindingExpression:
-                        {
-                            var memberBinding = (MemberBindingExpressionSyntax)node;
-                            return memberBinding.Name;
-                        }
+                        return ((MemberBindingExpressionSyntax)node).Name;
                     case SyntaxKind.SimpleMemberAccessExpression:
-                        {
-                            var memberAccess = (MemberAccessExpressionSyntax)node;
-                            return memberAccess.Name;
-                        }
+                        return ((MemberAccessExpressionSyntax)node).Name;
                     case SyntaxKind.ElementAccessExpression:
-                        {
-                            var elementAccess = (ElementAccessExpressionSyntax)node;
-                            return elementAccess.Expression;
-                        }
+                        return ((ElementAccessExpressionSyntax)node).Expression;
                     case SyntaxKind.InvocationExpression:
-                        {
-                            var invocationExpression = (InvocationExpressionSyntax)node;
-                            return invocationExpression.Expression;
-                        }
+                        return ((InvocationExpressionSyntax)node).Expression;
                 }
 
                 return null;
             }
 
-            ExpressionSyntax GetNextExpression(SyntaxNode node)
+            SyntaxNode GetPreviousSibling(SyntaxNode node)
             {
                 SyntaxNode parent = node.Parent;
 
@@ -651,24 +630,16 @@ namespace Roslynator.CSharp
                 return null;
             }
 
-            bool IsLastExpression(SyntaxNode node)
+            bool IsFirstChild(SyntaxNode node)
             {
                 SyntaxNode parent = node.Parent;
 
                 switch (parent.Kind())
                 {
                     case SyntaxKind.ConditionalAccessExpression:
-                        {
-                            var conditionalAccess = (ConditionalAccessExpressionSyntax)parent;
-
-                            return conditionalAccess.Expression == node;
-                        }
+                        return ((ConditionalAccessExpressionSyntax)parent).Expression == node;
                     case SyntaxKind.SimpleMemberAccessExpression:
-                        {
-                            var memberAccess = (MemberAccessExpressionSyntax)parent;
-
-                            return memberAccess.Expression == node;
-                        }
+                        return ((MemberAccessExpressionSyntax)parent).Expression == node;
                 }
 
                 return true;
