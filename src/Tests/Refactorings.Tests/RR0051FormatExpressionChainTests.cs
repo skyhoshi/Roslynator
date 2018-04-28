@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Roslynator.CSharp.Refactorings;
 using Xunit;
@@ -15,37 +14,47 @@ namespace Roslynator.Refactorings.Tests
         private static CodeRefactoringProvider CodeRefactoringProvider { get; } = new RoslynatorCodeRefactoringProvider();
 
         [Theory]
-        [InlineData("x.M().<<<>>>M()", @"x
+        [InlineData("<<<>>>x.M().M()", @"x
                 .M()
                 .M()")]
-        [InlineData("this.F.M().<<<>>>M()", @"this.F
+        [InlineData("<<<>>>x?.M()?.M()", @"x?
+                .M()?
+                .M()")]
+        [InlineData("<<<>>>x[0].M()[0].M()[0]", @"x[0]
+                .M()[0]
+                .M()[0]")]
+        [InlineData("<<<>>>x?[0]?.M()[0]?.M()[0]", @"x?[0]?
+                .M()[0]?
+                .M()[0]")]
+        [InlineData("<<<>>>x.P.P", @"x
+                .P
+                .P")]
+        [InlineData("<<<>>>x?.P?.P", @"x?
+                .P?
+                .P")]
+        [InlineData("<<<>>>x[0].P[0].P[0]", @"x[0]
+                .P[0]
+                .P[0]")]
+        [InlineData("<<<>>>x?[0]?.P[0]?.P[0]", @"x?[0]?
+                .P[0]?
+                .P[0]")]
+        [InlineData("<<<>>>x.M(x.M().M()).M(x.M().M())", @"x
+                .M(x.M().M())
+                .M(x.M().M())")]
+        [InlineData("<<<>>>this.M().M().M()", @"this.M()
                 .M()
                 .M()")]
-        [InlineData("A.B.Foo.SM().<<<>>>M()", @"A.B.Foo
+        [InlineData("<<<>>>A.B.Foo.SM().M()", @"A.B.Foo
                 .SM()
                 .M()")]
-        [InlineData("x.M()?.<<<>>>P", @"x
-                .M()?
-                .P")]
-        [InlineData("x.M()?.P.P[0]?.M().P?.M()[0].P.P.P?.<<<>>>P", @"x
-                .M()?
-                .P
-                .P[0]?
-                .M()
-                .P?
-                .M()[0]
-                .P
-                .P
-                .P?
-                .P")]
-        public static void TestCodeRefactoring(string fixableCode, string fixedCode)
+        public static void TestRefactoring(string fixableCode, string fixedCode)
         {
-            const string sourceTemplate = @"
+            VerifyRefactoring(@"
 namespace A.B
 {
     class Foo
     {
-        Foo M()
+        Foo M(Foo foo = null)
         {
             var x = new Foo();
 
@@ -65,21 +74,13 @@ namespace A.B
         public Foo this[int index] => null;
     }
 }
-";
-
-        VerifyCodeRefactoring(
-                sourceTemplate,
-                fixableCode,
-                fixedCode,
-                codeRefactoringProvider: CodeRefactoringProvider,
-                equivalenceKey: RefactoringId);
+", fixableCode, fixedCode, CodeRefactoringProvider, RefactoringId);
         }
 
         [Fact]
-        public static void TestNoCodeRefactoring()
+        public static void TestNoRefactoring()
         {
-            VerifyNoCodeRefactoring(
-@"
+            VerifyNoRefactoring(@"
 namespace A.B
 {
     class Foo
@@ -114,9 +115,7 @@ namespace A.B
         public Foo this[int index] => null;
     }
 }
-",
-                codeRefactoringProvider: CodeRefactoringProvider,
-                equivalenceKey: RefactoringId);
+", CodeRefactoringProvider, RefactoringId);
         }
     }
 }

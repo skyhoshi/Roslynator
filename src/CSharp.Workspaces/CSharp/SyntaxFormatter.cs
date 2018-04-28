@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -11,7 +12,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using Roslynator.CSharp.SyntaxRewriters;
-using Roslynator.Text;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Roslynator.CSharp.CSharpFactory;
 
@@ -246,13 +246,14 @@ namespace Roslynator.CSharp
             SemanticModel semanticModel,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            string trivia = Environment.NewLine + expression.GetIncreasedIndentation(cancellationToken).ToString();
+            SyntaxTrivia trivia = expression.GetIndentation(cancellationToken);
 
-            var builder = new SyntaxNodeTextBuilder(expression, StringBuilderCache.GetInstance());
+            string indentation = Environment.NewLine + trivia.ToString() + SingleIndentation(trivia).ToString();
 
-            int lastPos = builder.FullSpan.Start;
+            TextChange? textChange = null;
+            List<TextChange> textChanges = null;
 
-            foreach (SyntaxNode node in CSharpUtility.EnumerateExpressionChain(expression).Reverse())
+            foreach (SyntaxNode node in CSharpUtility.EnumerateExpressionChain(expression))
             {
                 switch (node.Kind())
                 {
@@ -270,36 +271,43 @@ namespace Roslynator.CSharp
                                 break;
                             }
 
-                            int index = memberAccess.OperatorToken.SpanStart;
-
-                            builder.Append(TextSpan.FromBounds(lastPos, index));
-                            builder.Append(trivia);
-
-                            lastPos = index;
+                            AddTextChange(memberAccess.OperatorToken);
                             break;
                         }
                     case SyntaxKind.MemberBindingExpression:
                         {
                             var memberBinding = (MemberBindingExpressionSyntax)node;
 
-                            int index = memberBinding.OperatorToken.SpanStart;
-
-                            builder.Append(TextSpan.FromBounds(lastPos, index));
-                            builder.Append(trivia);
-
-                            lastPos = index;
+                            AddTextChange(memberBinding.OperatorToken);
                             break;
                         }
                 }
             }
 
-            builder.Append(TextSpan.FromBounds(lastPos, builder.FullSpan.End));
+            if (textChanges != null)
+            {
+                TextChange[] arr = textChanges.ToArray();
+                Array.Reverse(arr);
+                return document.WithTextChangesAsync(arr, cancellationToken);
+            }
+            else
+            {
+                return document.WithTextChangeAsync(textChange.Value, cancellationToken);
+            }
 
-            string text = StringBuilderCache.GetStringAndFree(builder.StringBuilder);
+            void AddTextChange(SyntaxToken operatorToken)
+            {
+                var tc = new TextChange(new TextSpan(operatorToken.SpanStart, 0), indentation);
 
-            ExpressionSyntax newExpression = ParseExpression(text);
-
-            return document.ReplaceNodeAsync(expression, newExpression, cancellationToken);
+                if (textChange == null)
+                {
+                    textChange = tc;
+                }
+                else
+                {
+                    (textChanges ?? (textChanges = new List<TextChange>() { textChange.Value })).Add(tc);
+                }
+            }
         }
 
         public static Task<Document> ToMultiLineAsync(

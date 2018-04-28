@@ -23,15 +23,29 @@ namespace Roslynator.CSharp.Refactorings
 
         private static async Task ComputeRefactoringsAsync(RefactoringContext context, ExpressionSyntax expression)
         {
-            if (!context.Span.IsEmpty)
+            if (!context.Span.IsEmptyAndContainedInSpan(expression))
                 return;
 
-            if (!expression.Span.Contains(context.Span))
-                return;
+            while (true)
+            {
+                SyntaxNode parent = expression.Parent;
+
+                if (parent.IsKind(
+                    SyntaxKind.ConditionalAccessExpression,
+                    SyntaxKind.SimpleMemberAccessExpression,
+                    SyntaxKind.ElementAccessExpression,
+                    SyntaxKind.MemberBindingExpression,
+                    SyntaxKind.InvocationExpression))
+                {
+                    expression = (ExpressionSyntax)parent;
+                }
+                else
+                {
+                    break;
+                }
+            }
 
             SemanticModel semanticModel = await context.GetSemanticModelAsync().ConfigureAwait(false);
-
-            expression = GetTopExpression(expression);
 
             if (!IsFormattable(expression, semanticModel, context.CancellationToken))
                 return;
@@ -93,30 +107,6 @@ namespace Roslynator.CSharp.Refactorings
             }
 
             return false;
-        }
-
-        private static ExpressionSyntax GetTopExpression(ExpressionSyntax expression)
-        {
-            while (true)
-            {
-                SyntaxNode parent = expression.Parent;
-
-                if (parent.IsKind(
-                    SyntaxKind.ConditionalAccessExpression,
-                    SyntaxKind.SimpleMemberAccessExpression,
-                    SyntaxKind.ElementAccessExpression,
-                    SyntaxKind.MemberBindingExpression,
-                    SyntaxKind.InvocationExpression))
-                {
-                    expression = (ExpressionSyntax)parent;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            return expression;
         }
     }
 }
