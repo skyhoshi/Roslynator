@@ -1,20 +1,26 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CodeFixes;
-using Roslynator.CSharp;
-using Roslynator.CSharp.CodeFixes;
+using Roslynator.Tests;
 using Xunit;
-using static Roslynator.Tests.CSharp.CSharpCompilerCodeFixVerifier;
 
-namespace Roslynator.CodeFixes.Tests
+#pragma warning disable RCS1090
+
+namespace Roslynator.CSharp.CodeFixes.Tests
 {
-    public static class CS1624BodyCannotBeIteratorBlockBecauseTypeIsNotIteratorInterfaceTypeTests
+    public class CS1624BodyCannotBeIteratorBlockBecauseTypeIsNotIteratorInterfaceTypeTests : AbstractCSharpCompilerCodeFixVerifier
     {
-        private const string DiagnosticId = CompilerDiagnosticIdentifiers.BodyCannotBeIteratorBlockBecauseTypeIsNotIteratorInterfaceType;
+        public override string DiagnosticId { get; } = CompilerDiagnosticIdentifiers.BodyCannotBeIteratorBlockBecauseTypeIsNotIteratorInterfaceType;
 
-        private static CodeFixProvider CodeFixProvider { get; } = new MethodDeclarationOrLocalFunctionStatementCodeFixProvider();
+        public override CodeFixProvider FixProvider { get; } = new MethodDeclarationOrLocalFunctionStatementCodeFixProvider();
 
-        private const string Source = @"
+        public override CodeVerificationOptions Options { get; } = CodeVerificationOptions.Default.AddAllowedCompilerDiagnosticsId(CompilerDiagnosticIdentifiers.CannotImplicitlyConvertType);
+
+        [Fact]
+        public async Task Test_Method_String()
+        {
+            await VerifyFixAsync(@"
 using System;
 using System.Collections.Generic;
 
@@ -24,20 +30,9 @@ class C
     {
         yield return default(string);
         yield return DateTime.Now;
-
-        void LF()
-        {
-            yield return default(string);
-            yield return DateTime.Now;
-        }
     }
 }
-";
-
-        [Fact]
-        public static void TestFix_String()
-        {
-            VerifyFix(Source, @"
+", @"
 using System;
 using System.Collections.Generic;
 
@@ -47,7 +42,37 @@ class C
     {
         yield return default(string);
         yield return DateTime.Now;
+    }
+}
+", EquivalenceKey.Create(DiagnosticId, "string"));
+        }
 
+        [Fact]
+        public async Task Test_LocalFunction_String()
+        {
+            await VerifyFixAsync(@"
+using System;
+using System.Collections.Generic;
+
+class C
+{
+    void M()
+    {
+        void LF()
+        {
+            yield return default(string);
+            yield return DateTime.Now;
+        }
+    }
+}
+", @"
+using System;
+using System.Collections.Generic;
+
+class C
+{
+    void M()
+    {
         IEnumerable<string> LF()
         {
             yield return default(string);
@@ -55,13 +80,25 @@ class C
         }
     }
 }
-", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, "string"));
+", EquivalenceKey.Create(DiagnosticId, "string"));
         }
 
         [Fact]
-        public static void TestFix_DateTime()
+        public async Task Test_Method_DateTime()
         {
-            VerifyFix(Source, @"
+            await VerifyFixAsync(@"
+using System;
+using System.Collections.Generic;
+
+class C
+{
+    void M()
+    {
+        yield return default(string);
+        yield return DateTime.Now;
+    }
+}
+", @"
 using System;
 using System.Collections.Generic;
 
@@ -71,7 +108,37 @@ class C
     {
         yield return default(string);
         yield return DateTime.Now;
+    }
+}
+", EquivalenceKey.Create(DiagnosticId, "DateTime"));
+        }
 
+        [Fact]
+        public async Task Test_LocalFunction_DateTime()
+        {
+            await VerifyFixAsync(@"
+using System;
+using System.Collections.Generic;
+
+class C
+{
+    void M()
+    {
+        void LF()
+        {
+            yield return default(string);
+            yield return DateTime.Now;
+        }
+    }
+}
+", @"
+using System;
+using System.Collections.Generic;
+
+class C
+{
+    void M()
+    {
         IEnumerable<DateTime> LF()
         {
             yield return default(string);
@@ -79,13 +146,13 @@ class C
         }
     }
 }
-", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, "DateTime"));
+", EquivalenceKey.Create(DiagnosticId, "DateTime"));
         }
 
         [Fact]
-        public static void TestNoFix()
+        public async Task TestNoFix()
         {
-            VerifyNoFix(@"
+            await VerifyNoFixAsync(@"
 class C
 {
     void M()
@@ -108,7 +175,7 @@ class C
         }
     }
 }
-", CodeFixProvider, EquivalenceKey.Create(DiagnosticId));
+", EquivalenceKey.Create(DiagnosticId));
         }
     }
 }

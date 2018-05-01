@@ -1,23 +1,23 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CodeFixes;
-using Roslynator.CSharp;
-using Roslynator.CSharp.CodeFixes;
 using Xunit;
-using static Roslynator.Tests.CSharp.CSharpCompilerCodeFixVerifier;
 
-namespace Roslynator.CodeFixes.Tests
+#pragma warning disable RCS1090
+
+namespace Roslynator.CSharp.CodeFixes.Tests
 {
-    public static class CS1003SyntaxErrorCharExpectedTests
+    public class CS1003SyntaxErrorCharExpectedTests : AbstractCSharpCompilerCodeFixVerifier
     {
-        private const string DiagnosticId = CompilerDiagnosticIdentifiers.SyntaxErrorCharExpected;
+        public override string DiagnosticId { get; } = CompilerDiagnosticIdentifiers.SyntaxErrorCharExpected;
 
-        private static CodeFixProvider CodeFixProvider { get; } = new ExpressionCodeFixProvider();
+        public override CodeFixProvider FixProvider { get; } = new SyntaxErrorCharExpectedCodeFixProvider();
 
         [Fact]
-        public static void TestFix()
+        public async Task Test_MissingCommaInInitializer()
         {
-            VerifyFix(@"
+            await VerifyFixAsync(@"
 class C
 {
     public void M()
@@ -47,7 +47,7 @@ class C
         };
     }
 }
-", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId));
+", EquivalenceKey.Create(DiagnosticId));
         }
     }
 }

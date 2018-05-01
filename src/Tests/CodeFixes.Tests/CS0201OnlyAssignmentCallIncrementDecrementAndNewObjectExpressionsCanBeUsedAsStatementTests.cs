@@ -1,23 +1,23 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CodeFixes;
-using Roslynator.CSharp;
-using Roslynator.CSharp.CodeFixes;
 using Xunit;
-using static Roslynator.Tests.CSharp.CSharpCompilerCodeFixVerifier;
 
-namespace Roslynator.CodeFixes.Tests
+#pragma warning disable RCS1090
+
+namespace Roslynator.CSharp.CodeFixes.Tests
 {
-    public static class CS0201OnlyAssignmentCallIncrementDecrementAndNewObjectExpressionsCanBeUsedAsStatementTests
+    public class CS0201OnlyAssignmentCallIncrementDecrementAndNewObjectExpressionsCanBeUsedAsStatementTests : AbstractCSharpCompilerCodeFixVerifier
     {
-        private const string DiagnosticId = CompilerDiagnosticIdentifiers.OnlyAssignmentCallIncrementDecrementAndNewObjectExpressionsCanBeUsedAsStatement;
+        public override string DiagnosticId { get; } = CompilerDiagnosticIdentifiers.OnlyAssignmentCallIncrementDecrementAndNewObjectExpressionsCanBeUsedAsStatement;
 
-        private static CodeFixProvider CodeFixProvider { get; } = new ExpressionCodeFixProvider();
+        public override CodeFixProvider FixProvider { get; } = new ExpressionCodeFixProvider();
 
         [Fact]
-        public static void TestFix_RemoveParentheses()
+        public async Task Test_RemoveParentheses()
         {
-            VerifyFix(@"
+            await VerifyFixAsync(@"
 class C
 {
     void M()
@@ -33,13 +33,13 @@ class C
         M();
     }
 }
-", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId));
+", EquivalenceKey.Create(DiagnosticId));
         }
 
         [Fact]
-        public static void TestFix_IntroduceLocal()
+        public async Task Test_IntroduceLocal()
         {
-            VerifyFix(@"
+            await VerifyFixAsync(@"
 using System;
 
 class C
@@ -59,13 +59,13 @@ class C
         var dateTime = DateTime.Now;
     }
 }
-", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, CodeFixIdentifiers.IntroduceLocalVariable));
+", EquivalenceKey.Create(DiagnosticId, CodeFixIdentifiers.IntroduceLocalVariable));
         }
 
         [Fact]
-        public static void TestFix_IntroduceField()
+        public async Task Test_IntroduceField()
         {
-            VerifyFix(@"
+            await VerifyFixAsync(@"
 using System;
 
 class C
@@ -87,13 +87,13 @@ class C
         _dateTime = DateTime.Now;
     }
 }
-", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, CodeFixIdentifiers.IntroduceField));
+", EquivalenceKey.Create(DiagnosticId, CodeFixIdentifiers.IntroduceField));
         }
 
         [Fact]
-        public static void TestFix_IntroduceStaticField()
+        public async Task Test_IntroduceStaticField()
         {
-            VerifyFix(@"
+            await VerifyFixAsync(@"
 using System;
 
 class C
@@ -115,13 +115,13 @@ class C
         _dateTime = DateTime.Now;
     }
 }
-", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, CodeFixIdentifiers.IntroduceField));
+", EquivalenceKey.Create(DiagnosticId, CodeFixIdentifiers.IntroduceField));
         }
 
         [Fact]
-        public static void TestFix_AddArgumentList()
+        public async Task Test_AddArgumentList()
         {
-            VerifyFix(@"
+            await VerifyFixAsync(@"
 class C
 {
     void M()
@@ -143,17 +143,18 @@ class C
         x.M();
     }
 }
-", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, CodeFixIdentifiers.AddArgumentList));
+", EquivalenceKey.Create(DiagnosticId, CodeFixIdentifiers.AddArgumentList));
         }
 
         [Fact]
-        public static void TestFix_ReplaceConditionalExpressionWithIfElse()
+        public async Task Test_ReplaceConditionalExpressionWithIfElse()
         {
-            VerifyFix(@"
+            await VerifyFixAsync(@"
 class C
 {
-    void M(bool f)
+    void M()
     {
+        bool f = false;
         (f) ? M() : M2();
     }
 
@@ -164,8 +165,9 @@ class C
 ", @"
 class C
 {
-    void M(bool f)
+    void M()
     {
+        bool f = false;
         if (f)
         {
             M();
@@ -180,13 +182,13 @@ class C
     {
     }
 }
-", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, CodeFixIdentifiers.ReplaceConditionalExpressionWithIfElse));
+", EquivalenceKey.Create(DiagnosticId, CodeFixIdentifiers.ReplaceConditionalExpressionWithIfElse));
         }
 
         [Fact]
-        public static void TestFix_ReplaceComparisonWithAssignment()
+        public async Task Test_ReplaceComparisonWithAssignment()
         {
-            VerifyFix(@"
+            await VerifyFixAsync(@"
 class C
 {
     void M(string s)
@@ -204,7 +206,7 @@ class C
         s = """";
     }
 }
-", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, CodeFixIdentifiers.ReplaceComparisonWithAssignment));
+", EquivalenceKey.Create(DiagnosticId, CodeFixIdentifiers.ReplaceComparisonWithAssignment));
         }
     }
 }

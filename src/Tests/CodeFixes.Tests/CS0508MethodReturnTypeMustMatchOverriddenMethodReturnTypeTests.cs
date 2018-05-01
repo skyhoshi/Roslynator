@@ -1,23 +1,23 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CodeFixes;
-using Roslynator.CSharp;
-using Roslynator.CSharp.CodeFixes;
 using Xunit;
-using static Roslynator.Tests.CSharp.CSharpCompilerCodeFixVerifier;
 
-namespace Roslynator.CodeFixes.Tests
+#pragma warning disable RCS1090
+
+namespace Roslynator.CSharp.CodeFixes.Tests
 {
-    public static class CS0508MethodReturnTypeMustMatchOverriddenMethodReturnTypeTests
+    public class CS0508MethodReturnTypeMustMatchOverriddenMethodReturnTypeTests : AbstractCSharpCompilerCodeFixVerifier
     {
-        private const string DiagnosticId = CompilerDiagnosticIdentifiers.MethodReturnTypeMustMatchOverriddenMethodReturnType;
+        public override string DiagnosticId { get; } = CompilerDiagnosticIdentifiers.MethodReturnTypeMustMatchOverriddenMethodReturnType;
 
-        private static CodeFixProvider CodeFixProvider { get; } = new MemberDeclarationCodeFixProvider();
+        public override CodeFixProvider FixProvider { get; } = new MemberDeclarationCodeFixProvider();
 
         [Fact]
-        public static void TestFix()
+        public async Task TestFix()
         {
-            VerifyFix(@"
+            await VerifyFixAsync(@"
 class C
 {
     public override object ToString()
@@ -31,7 +31,7 @@ class C
     {
     }
 }
-", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId));
+", EquivalenceKey.Create(DiagnosticId));
         }
     }
 }

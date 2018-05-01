@@ -1,33 +1,33 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CodeFixes;
-using Roslynator.CSharp;
-using Roslynator.CSharp.CodeFixes;
 using Xunit;
-using static Roslynator.Tests.CSharp.CSharpCompilerCodeFixVerifier;
 
-namespace Roslynator.CodeFixes.Tests
+#pragma warning disable RCS1090
+
+namespace Roslynator.CSharp.CodeFixes.Tests
 {
-    public static class CS0266CannotImplicitlyConvertTypeExplicitConversionExistsTests
+    public class CS0266CannotImplicitlyConvertTypeExplicitConversionExistsTests : AbstractCSharpCompilerCodeFixVerifier
     {
-        private const string DiagnosticId = CompilerDiagnosticIdentifiers.CannotImplicitlyConvertTypeExplicitConversionExists;
+        public override string DiagnosticId { get; } = CompilerDiagnosticIdentifiers.CannotImplicitlyConvertTypeExplicitConversionExists;
 
-        private static CodeFixProvider CodeFixProvider { get; } = new ExpressionCodeFixProvider();
+        public override CodeFixProvider FixProvider { get; } = new ExpressionCodeFixProvider();
 
         [Fact]
-        public static void TestFix_ChangeTypeAccordingToInitializer()
+        public async Task Test_ChangeTypeAccordingToInitializer()
         {
-            VerifyFix(@"
+            await VerifyFixAsync(@"
 using System.Collections.Generic;
 
 public class Foo
 {
-    public static void Bar()
+    public void Bar()
     {
         Foo x = GetValues();
     }
 
-    public static IEnumerable<Foo> GetValues()
+    public IEnumerable<Foo> GetValues()
     {
         yield break;
     }
@@ -37,17 +37,17 @@ using System.Collections.Generic;
 
 public class Foo
 {
-    public static void Bar()
+    public void Bar()
     {
         IEnumerable<Foo> x = GetValues();
     }
 
-    public static IEnumerable<Foo> GetValues()
+    public IEnumerable<Foo> GetValues()
     {
         yield break;
     }
 }
-", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, additionalKey1: CodeFixIdentifiers.ChangeTypeAccordingToInitializer));
+", EquivalenceKey.Create(DiagnosticId, additionalKey1: CodeFixIdentifiers.ChangeTypeAccordingToInitializer));
         }
     }
 }

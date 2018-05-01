@@ -58,7 +58,6 @@ namespace Roslynator.CSharp.CodeFixes
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.ChangeTypeAccordingToInitializer)
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.ReplaceYieldReturnWithForEach)
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.ReplaceComparisonWithAssignment)
-                && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.AddMissingComma)
                 && !Settings.IsCodeFixEnabled(CodeFixIdentifiers.RemoveParentheses))
             {
                 return;

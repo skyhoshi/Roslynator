@@ -1,23 +1,27 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Collections.Immutable;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CodeFixes;
-using Roslynator.CSharp;
-using Roslynator.CSharp.CodeFixes;
+using Roslynator.Tests;
 using Xunit;
-using static Roslynator.Tests.CSharp.CSharpCompilerCodeFixVerifier;
 
-namespace Roslynator.CodeFixes.Tests
+#pragma warning disable RCS1090
+
+namespace Roslynator.CSharp.CodeFixes.Tests
 {
-    public static class CS1983ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTTests
+    public class CS1983ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTTests : AbstractCSharpCompilerCodeFixVerifier
     {
-        private const string DiagnosticId = CompilerDiagnosticIdentifiers.ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfT;
+        public override string DiagnosticId { get; } = CompilerDiagnosticIdentifiers.ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfT;
 
-        private static CodeFixProvider CodeFixProvider { get; } = new ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTCodeFixProvider();
+        public override CodeFixProvider FixProvider { get; } = new ReturnTypeOfAsyncMethodMustBeVoidOrTaskOrTaskOfTCodeFixProvider();
+
+        public override CodeVerificationOptions Options { get; } = CodeVerificationOptions.Default.AddAllowedCompilerDiagnosticsId(CompilerDiagnosticIdentifiers.SinceMethodIsAsyncMethodThatReturnsTaskReturnKeywordMustNotBeFollowedByObjectExpression);
 
         [Fact]
-        public static void TestFix_Task()
+        public async Task Test_Task()
         {
-            VerifyFix(@"
+            await VerifyFixAsync(@"
 using System.Threading.Tasks;
 
 public class Foo
@@ -101,13 +105,13 @@ public class Foo
         return Task.CompletedTask;
     }
 }
-", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, "Task"));
+", EquivalenceKey.Create(DiagnosticId, "Task"));
         }
 
         [Fact]
-        public static void TestFix_TaskOfT()
+        public async Task Test_TaskOfT()
         {
-            VerifyFix(@"
+            await VerifyFixAsync(@"
 using System.Threading.Tasks;
 
 public class Foo
@@ -207,11 +211,11 @@ public class Foo
         return Task.CompletedTask;
     }
 }
-", DiagnosticId, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, "TaskOfT"));
+", EquivalenceKey.Create(DiagnosticId, "TaskOfT"));
         }
 
         [Fact]
-        public static void TestNoFix()
+        public async Task TestNoFix()
         {
             const string source = @"
 using System.Threading.Tasks;
@@ -250,9 +254,9 @@ public class Foo
     }
 }
 ";
-            VerifyNoFix(source, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, "Task"));
+            await VerifyNoFixAsync(source, EquivalenceKey.Create(DiagnosticId, "Task"));
 
-            VerifyNoFix(source, CodeFixProvider, EquivalenceKey.Create(DiagnosticId, "TaskOfT"));
+            await VerifyNoFixAsync(source, EquivalenceKey.Create(DiagnosticId, "TaskOfT"));
         }
     }
 }
