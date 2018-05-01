@@ -68,13 +68,17 @@ namespace Roslynator.CSharp.Refactorings
                     default(ExpressionSyntax),
                     Block(whileStatement));
 
-                usingStatement = usingStatement.WithFormatterAnnotation();
+                usingStatement = usingStatement
+                    .WithLeadingTrivia(forEachStatement.GetLeadingTrivia())
+                    .WithFormatterAnnotation();
 
                 return await document.ReplaceNodeAsync(forEachStatement, usingStatement, cancellationToken).ConfigureAwait(false);
             }
             else
             {
-                LocalDeclarationStatementSyntax localDeclaration = LocalDeclarationStatement(variableDeclaration).WithFormatterAnnotation();
+                LocalDeclarationStatementSyntax localDeclaration = LocalDeclarationStatement(variableDeclaration)
+                    .WithLeadingTrivia(forEachStatement.GetLeadingTrivia())
+                    .WithFormatterAnnotation();
 
                 var newStatements = new StatementSyntax[] { localDeclaration, whileStatement.WithFormatterAnnotation() };
 
