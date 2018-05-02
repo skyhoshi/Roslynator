@@ -103,7 +103,7 @@ public class Foo
 
         if ([|null != x && x.Equals(x)|]) { }
 
-        if ([|x != null && (x.Equals(x))|]) { }
+        if ([|x != null && (x.Equals(x)|])) { }
 
         if ([|x != null && x.Equals(x)|] && f) { }
 
@@ -113,7 +113,7 @@ public class Foo
 
         if ([|x != null && !x.Equals(x)|]) { }
 
-        if ([|x != null && (!x.Equals(x))|]) { }
+        if ([|x != null && (!x.Equals(x)|])) { }
 
         if ([|x != null && x.Value == ""x""|]) { }
 
@@ -124,8 +124,6 @@ public class Foo
         if ([|x != null && x.Value is object|]) { }
 
         if ([|x != null && x.Value is object _|]) { }
-
-        if (x != null && [|x.ToString() != null && x.ToString().ToString() != null|]) { }
 
         if (f &&
      /*lt*/ [|x != null &&
@@ -160,7 +158,7 @@ public class Foo
 
         if (x?.Equals(x) == true) { }
 
-        if (x?.Equals(x) == true) { }
+        if ((x?.Equals(x) == true)) { }
 
         if (x?.Equals(x) == true && f) { }
 
@@ -170,7 +168,7 @@ public class Foo
 
         if (x?.Equals(x) == false) { }
 
-        if (x?.Equals(x) == false) { }
+        if ((x?.Equals(x) == false)) { }
 
         if (x?.Value == ""x"") { }
 
@@ -181,8 +179,6 @@ public class Foo
         if (x?.Value is object) { }
 
         if (x?.Value is object _) { }
-
-        if (x?.ToString()?.ToString() != null) { }
 
         if (f &&
      /*lt*/ x?.Equals(""x"") == true /*tt*/
@@ -196,6 +192,82 @@ public class Foo
 
         if (dic?[0].Equals(""x"") == false) { }
     }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_LogicalAnd_Nested()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+class Foo
+{
+    Foo M()
+    {
+        Foo x = null;
+
+        if (x != null && x.M() != null && [|x.M().M2() != null && x.M().M2().M3() != null|]) { }
+
+        return null;
+    }
+
+    Foo M2() => null;
+    Foo M3() => null;
+}
+", @"
+class Foo
+{
+    Foo M()
+    {
+        Foo x = null;
+
+        if (x?.M()?.M2()?.M3() != null) { }
+
+        return null;
+    }
+
+    Foo M2() => null;
+    Foo M3() => null;
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_LogicalAnd_Nested_Parenthesized()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+class Foo
+{
+    Foo M()
+    {
+        Foo x = null;
+
+        if (x != null && (x.M() != null && ([|x.M().M2() != null && x.M().M2().M3() != null|]))) { }
+
+        if (((x != null) && (x.M() != null)) && ((([|x.M().M2() != null)) && (x.M().M2().M3() != null|]))) { }
+
+        return null;
+    }
+
+    Foo M2() => null;
+    Foo M3() => null;
+}
+", @"
+class Foo
+{
+    Foo M()
+    {
+        Foo x = null;
+
+        if ((((x?.M()?.M2()?.M3() != null)))) { }
+
+        if (((x?.M()?.M2()?.M3() != null))) { }
+
+        return null;
+    }
+
+    Foo M2() => null;
+    Foo M3() => null;
 }
 ");
         }
