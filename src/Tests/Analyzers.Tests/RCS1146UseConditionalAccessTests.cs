@@ -20,12 +20,12 @@ namespace Roslynator.CSharp.Analysis.Tests
         public override CodeFixProvider FixProvider { get; } = new UseConditionalAccessCodeFixProvider();
 
         [Fact]
-        public async Task Test_IfStatement()
+        public async Task Test_IfStatement_ReferenceType()
         {
             await VerifyDiagnosticAndFixAsync(@"
-public class C
+class C
 {
-    public void M()
+    void M()
     {
         C x = null;
 
@@ -38,10 +38,28 @@ public class C
         }|]
     }
 }
-
-public struct S
+", @"
+class C
 {
-    public void M()
+    void M()
+    {
+        C x = null;
+
+        x?.M();
+
+        x?.M();
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_IfStatement_ValueType()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+struct S
+{
+    void M()
     {
         S? x = null;
 
@@ -55,21 +73,9 @@ public struct S
     }
 }
 ", @"
-public class C
+struct S
 {
-    public void M()
-    {
-        C x = null;
-
-        x?.M();
-
-        x?.M();
-    }
-}
-
-public struct S
-{
-    public void M()
+    void M()
     {
         S? x = null;
 
@@ -85,15 +91,13 @@ public struct S
         public async Task Test_LogicalAnd_ReferenceType()
         {
             await VerifyDiagnosticAndFixAsync(@"
-using System.Collections.Generic;
-
-public class Foo
+class Foo
 {
-    private const string NonNullConst = ""x"";
+    const string NonNullConst = ""x"";
 
-    public string Value { get; }
+    string P { get; }
 
-    public void M()
+    void M()
     {
         bool f = false;
 
@@ -109,46 +113,36 @@ public class Foo
 
         if (f && [|x != null && x.Equals(x)|]) { }
 
-        if ([|x != null && x.Value.Length > 1|]) { }
+        if ([|x != null && x.P.Length > 1|]) { }
 
         if ([|x != null && !x.Equals(x)|]) { }
 
         if ([|x != null && (!x.Equals(x)|])) { }
 
-        if ([|x != null && x.Value == ""x""|]) { }
+        if ([|x != null && x.P == ""x""|]) { }
 
-        if ([|x != null && x.Value == NonNullConst|]) { }
+        if ([|x != null && x.P == NonNullConst|]) { }
 
-        if ([|x != null && x.Value != null|]) { }
+        if ([|x != null && x.P != null|]) { }
 
-        if ([|x != null && x.Value is object|]) { }
+        if ([|x != null && x.P is object|]) { }
 
-        if ([|x != null && x.Value is object _|]) { }
+        if ([|x != null && x.P is object _|]) { }
 
         if (f &&
      /*lt*/ [|x != null &&
             x.Equals(""x"")|] /*tt*/
             && f) { }
-
-        Dictionary<int, string> dic = null;
-
-        if ([|dic != null && dic[0].Equals(""x"")|]) { }
-
-        if ([|dic != null && dic[0].Length > 1|]) { }
-
-        if ([|dic != null && !dic[0].Equals(""x"")|]) { }
     }
 }
 ", @"
-using System.Collections.Generic;
-
-public class Foo
+class Foo
 {
-    private const string NonNullConst = ""x"";
+    const string NonNullConst = ""x"";
 
-    public string Value { get; }
+    string P { get; }
 
-    public void M()
+    void M()
     {
         bool f = false;
 
@@ -164,26 +158,94 @@ public class Foo
 
         if (f && x?.Equals(x) == true) { }
 
-        if (x?.Value.Length > 1) { }
+        if (x?.P.Length > 1) { }
 
         if (x?.Equals(x) == false) { }
 
         if ((x?.Equals(x) == false)) { }
 
-        if (x?.Value == ""x"") { }
+        if (x?.P == ""x"") { }
 
-        if (x?.Value == NonNullConst) { }
+        if (x?.P == NonNullConst) { }
 
-        if (x?.Value != null) { }
+        if (x?.P != null) { }
 
-        if (x?.Value is object) { }
+        if (x?.P is object) { }
 
-        if (x?.Value is object _) { }
+        if (x?.P is object _) { }
 
         if (f &&
      /*lt*/ x?.Equals(""x"") == true /*tt*/
             && f) { }
+    }
+}
+");
+        }
 
+        [Fact]
+        public async Task Test_LogicalOr_ReferenceType()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+class Foo
+{
+    void M()
+    {
+        Foo x = null;
+
+        if ([|x == null || x.Equals(x)|]) { }
+
+        if ([|x == null || (x.Equals(x)|])) { }
+
+        if ([|x == null || !x.Equals(x)|]) { }
+
+        if ([|x == null || (!x.Equals(x)|])) { }
+    }
+}
+", @"
+class Foo
+{
+    void M()
+    {
+        Foo x = null;
+
+        if (x?.Equals(x) != false) { }
+
+        if ((x?.Equals(x) != false)) { }
+
+        if (x?.Equals(x) != true) { }
+
+        if ((x?.Equals(x) != true)) { }
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_LogicalAnd_ElementAccess()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+using System.Collections.Generic;
+
+class Foo
+{
+    void M()
+    {
+        Dictionary<int, string> dic = null;
+
+        if ([|dic != null && dic[0].Equals(""x"")|]) { }
+
+        if ([|dic != null && dic[0].Length > 1|]) { }
+
+        if ([|dic != null && !dic[0].Equals(""x"")|]) { }
+    }
+}
+", @"
+using System.Collections.Generic;
+
+class Foo
+{
+    void M()
+    {
         Dictionary<int, string> dic = null;
 
         if (dic?[0].Equals(""x"") == true) { }
@@ -208,40 +270,6 @@ class Foo
 
         if (x != null && x.M() != null && [|x.M().M2() != null && x.M().M2().M3() != null|]) { }
 
-        return null;
-    }
-
-    Foo M2() => null;
-    Foo M3() => null;
-}
-", @"
-class Foo
-{
-    Foo M()
-    {
-        Foo x = null;
-
-        if (x?.M()?.M2()?.M3() != null) { }
-
-        return null;
-    }
-
-    Foo M2() => null;
-    Foo M3() => null;
-}
-");
-        }
-
-        [Fact]
-        public async Task Test_LogicalAnd_Nested_Parenthesized()
-        {
-            await VerifyDiagnosticAndFixAsync(@"
-class Foo
-{
-    Foo M()
-    {
-        Foo x = null;
-
         if (x != null && (x.M() != null && ([|x.M().M2() != null && x.M().M2().M3() != null|]))) { }
 
         if (((x != null) && (x.M() != null)) && ((([|x.M().M2() != null)) && (x.M().M2().M3() != null|]))) { }
@@ -259,9 +287,11 @@ class Foo
     {
         Foo x = null;
 
-        if ((((x?.M()?.M2()?.M3() != null)))) { }
+        if (x?.M()?.M2()?.M3() != null) { }
 
         if (((x?.M()?.M2()?.M3() != null))) { }
+
+        if ((((x?.M()?.M2()?.M3() != null)))) { }
 
         return null;
     }
@@ -276,63 +306,122 @@ class Foo
         public async Task Test_LogicalAnd_NullableType()
         {
             await VerifyDiagnosticAndFixAsync(@"
-public struct Foo
+struct Foo
 {
-    private const string NonNullConst = ""x"";
+    const string NonNullConst = ""x"";
 
-    public string V { get; }
+    string P { get; }
 
-    public void M()
+    void M()
     {
         Foo? x = null;
 
         if ([|x != null && x.Value.Equals(x)|]) { }
 
-        if ([|x != null && x.Value.V.Length > 1|]) { }
+        if ([|x != null && x.Value.P.Length > 1|]) { }
 
         if ([|x != null && !x.Value.Equals(x)|]) { }
 
-        if ([|x != null && x.Value.V == ""x""|]) { }
+        if ([|x != null && x.Value.P == ""x""|]) { }
 
-        if ([|x != null && x.Value.V == NonNullConst|]) { }
+        if ([|x != null && x.Value.P == NonNullConst|]) { }
 
-        if ([|x != null && x.Value.V != null|]) { }
+        if ([|x != null && x.Value.P != null|]) { }
 
-        if ([|x != null && x.Value.V is object|]) { }
+        if ([|x != null && x.Value.P is object|]) { }
 
-        if ([|x != null && x.Value.V is object _|]) { }
+        if ([|x != null && x.Value.P is object _|]) { }
 
         if (x != null && [|x.Value.ToString() != null && x.Value.ToString().ToString() != null|]) { }
     }
 }
 ", @"
-public struct Foo
+struct Foo
 {
-    private const string NonNullConst = ""x"";
+    const string NonNullConst = ""x"";
 
-    public string V { get; }
+    string P { get; }
 
-    public void M()
+    void M()
     {
         Foo? x = null;
 
         if (x?.Equals(x) == true) { }
 
-        if (x?.V.Length > 1) { }
+        if (x?.P.Length > 1) { }
 
         if (x?.Equals(x) == false) { }
 
-        if (x?.V == ""x"") { }
+        if (x?.P == ""x"") { }
 
-        if (x?.V == NonNullConst) { }
+        if (x?.P == NonNullConst) { }
 
-        if (x?.V != null) { }
+        if (x?.P != null) { }
 
-        if (x?.V is object) { }
+        if (x?.P is object) { }
 
-        if (x?.V is object _) { }
+        if (x?.P is object _) { }
 
         if (x?.ToString()?.ToString() != null) { }
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_LogicalOr_NullableType()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+struct Foo
+{
+    void M()
+    {
+        Foo? x = null;
+
+        if ([|x == null || x.Value.Equals(x)|]) { }
+
+        if ([|x == null || !x.Value.Equals(x)|]) { }
+    }
+}
+", @"
+struct Foo
+{
+    void M()
+    {
+        Foo? x = null;
+
+        if (x?.Equals(x) != false) { }
+
+        if (x?.Equals(x) != true) { }
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_LogicalAnd_Nested_NullableType()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+struct Foo
+{
+    void M()
+    {
+        Foo? x = null;
+
+        if (x != null
+            && x.Value.ToString() != null
+            && [|x.Value.ToString().ToString() != null
+            && x.Value.ToString().ToString().ToString() != null|]) { }
+    }
+}
+", @"
+struct Foo
+{
+    void M()
+    {
+        Foo? x = null;
+
+        if (x?.ToString()?.ToString()?.ToString() != null) { }
     }
 }
 ");
@@ -342,14 +431,14 @@ public struct Foo
         public async Task TestNoDiagnostic_LogicalAnd_ReferenceType()
         {
             await VerifyNoDiagnosticAsync(@"
-public class Foo
+class Foo
 {
-    private const string NullConst = null;
-    private const string NonNullConst = ""x"";
+    const string NullConst = null;
+    const string NonNullConst = ""x"";
 
-    public string Value { get; }
+    string P { get; }
 
-    public void M()
+    void M()
     {
         bool f = false;
 
@@ -357,19 +446,69 @@ public class Foo
 
         Foo x = null;
 
-        if (x != null && x.Value == null && f) { }
+        if (x != null && x.P == null && f) { }
 
-        if (x != null && x.Value == NullConst && f) { }
+        if (x != null && x.P == NullConst && f) { }
 
-        if (x != null && x.Value == s && f) { }
+        if (x != null && x.P == s && f) { }
 
-        if (x != null && x.Value != ""x"" && f) { }
+        if (x != null && x.P != ""x"" && f) { }
 
-        if (x != null && x.Value != NonNullConst && f) { }
+        if (x != null && x.P != NonNullConst && f) { }
 
-        if (x != null && x.Value != s && f) { }
+        if (x != null && x.P != s && f) { }
 
-        if (x != null && (x.Value != null) is object _) { }
+        if (x != null && (x.P != null) is object _) { }
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task TestNoDiagnostic_LogicalOr_ReferenceType()
+        {
+            await VerifyNoDiagnosticAsync(@"
+class Foo
+{
+    const string NullConst = null;
+    const string NonNullConst = ""x"";
+
+    string P { get; }
+
+    void M()
+    {
+        bool f = false;
+
+        string s = null;
+
+        Foo x = null;
+
+
+        if (x == null || x.P.Length > 1) { }
+
+        if (x == null || x.P == ""x"") { }
+
+        if (x == null || x.P == NonNullConst) { }
+
+        if (x == null || x.P != null) { }
+
+        if (x == null || x.P is object) { }
+
+        if (x == null || x.P is object _) { }
+
+        if (x == null || x.P == null && f) { }
+
+        if (x == null || x.P == NullConst && f) { }
+
+        if (x == null || x.P == s && f) { }
+
+        if (x == null || x.P != ""x"" && f) { }
+
+        if (x == null || x.P != NonNullConst && f) { }
+
+        if (x == null || x.P != s && f) { }
+
+        if (x == null || (x.P != null) is object _) { }
     }
 }
 ");
@@ -379,19 +518,18 @@ public class Foo
         public async Task TestNoDiagnostic_LogicalAnd_ValueType()
         {
             await VerifyNoDiagnosticAsync(@"
-public struct Foo
+struct Foo
 {
-    public int Value { get; }
+    public int P { get; }
 
-    public void M()
+    void M()
     {
         var x = new Foo();
 
-        if (x != null && x.Value > 0) { }
+        if (x != null && x.P > 0) { }
     }
 
     public static bool operator ==(Foo left, Foo right) => left.Equals(right);
-
     public static bool operator !=(Foo left, Foo right) => !(left == right);
 }
 ");
@@ -401,9 +539,9 @@ public struct Foo
         public async Task TestNoDiagnostic_LogicalAnd_NullableType()
         {
             await VerifyNoDiagnosticAsync(@"
-public struct Foo
+struct Foo
 {
-    public void M()
+    void M()
     {
         bool? f = null;
 
@@ -439,7 +577,72 @@ public struct Foo
     }
 
     public static bool operator ==(Foo left, Foo right) => left.Equals(right);
+    public static bool operator !=(Foo left, Foo right) => !(left == right);
+}
+");
+        }
 
+        [Fact]
+        public async Task TestNoDiagnostic_LogicalOr_NullableType()
+        {
+            await VerifyNoDiagnosticAsync(@"
+struct Foo
+{
+    const string NonNullConst = ""x"";
+
+    string P { get; }
+
+    void M()
+    {
+        bool? f = null;
+
+        if (f == null || f.Value) { }
+
+        if (f == null || f.Value && f.Value) { }
+
+        if (f == null || (f.Value)) { }
+
+        if (f == null || !f.Value) { }
+
+        if (f == null || !f.Value && !f.Value) { }
+
+        if (f == null || (!f.Value)) { }
+
+        Foo? x = null;
+
+        var value = default(Foo);
+
+        if (x == null || x.Value.P.Length > 1) { }
+
+        if (x == null || x.Value.P == ""x"") { }
+
+        if (x == null || x.Value.P == NonNullConst) { }
+
+        if (x == null || x.Value.P != null) { }
+
+        if (x == null || x.Value.P is object) { }
+
+        if (x == null || x.Value.P is object _) { }
+
+        if (x == null || x.Value.ToString() == null || x.Value.ToString().ToString() == null) { }
+
+
+        if (x == null || x.Value == null) { }
+
+        if (x == null || x.Value == value) { }
+
+        if (x == null || x.Value != null) { }
+
+        if (x == null || x.Value != null) { }
+
+        if (x == null || x.Value != value) { }
+
+        if (x == null || x.HasValue.Equals(true)) { }
+
+        if (x == null || (x.Value == null) is object _) { }
+    }
+
+    public static bool operator ==(Foo left, Foo right) => left.Equals(right);
     public static bool operator !=(Foo left, Foo right) => !(left == right);
 }
 ");
@@ -451,20 +654,39 @@ public struct Foo
             await VerifyNoDiagnosticAsync(@"
 using System.Collections.Generic;
 
-public class C
+class C
 {
-    public void M()
+    void M()
     {
         Dictionary<int, string> dic = null;
 
         string value;
-        if (dic != null && dic.TryGetValue(0, out value))
-        {
+
+if (dic != null && dic.TryGetValue(0, out value)) { }
+
+        if (dic != null && dic.TryGetValue(0, out string value2)) { }
+    }
+}
+");
         }
 
-        if (dic != null && dic.TryGetValue(0, out string value2))
+        [Fact]
+        public async Task TestNoDiagnostic_LogicalOr_OutParameter()
         {
-        }
+            await VerifyNoDiagnosticAsync(@"
+using System.Collections.Generic;
+
+class C
+{
+    void M()
+    {
+        Dictionary<int, string> dic = null;
+
+        string value;
+
+        if (dic == null || dic.TryGetValue(0, out value)) { }
+
+        if (dic == null || dic.TryGetValue(0, out string value2)) { }
     }
 }
 ");
@@ -477,13 +699,32 @@ public class C
 using System;
 using System.Linq.Expressions;
 
-public class C
+class C
 {
     public void M<T>(Expression<Func<T>> expression)
     {
         string s = null;
 
         M(() => s != null && s.GetHashCode() == 0);
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task TestNoDiagnostic_LogicalOr_ExpressionTree()
+        {
+            await VerifyNoDiagnosticAsync(@"
+using System;
+using System.Linq.Expressions;
+
+class C
+{
+    public void M<T>(Expression<Func<T>> expression)
+    {
+        string s = null;
+
+        M(() => s == null || s.Equals(s));
     }
 }
 ");
