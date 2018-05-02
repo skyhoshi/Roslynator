@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Immutable;
-using System.Linq;
+using System.Diagnostics;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -35,7 +35,8 @@ namespace Roslynator.CSharp.Analysis
                 INamedTypeSymbol expressionOfTSymbol = startContext.Compilation.GetTypeByMetadataName(MetadataNames.System_Linq_Expressions_Expression_1);
 
                 startContext.RegisterSyntaxNodeAction(nodeContext => AnalyzeIfStatement(nodeContext, expressionOfTSymbol), SyntaxKind.IfStatement);
-                startContext.RegisterSyntaxNodeAction(nodeContext => AnalyzeLogicalAndExpression(nodeContext, expressionOfTSymbol), SyntaxKind.LogicalAndExpression);
+                startContext.RegisterSyntaxNodeAction(nodeContext => AnalyzeBinaryExpression(nodeContext, expressionOfTSymbol), SyntaxKind.LogicalAndExpression);
+                startContext.RegisterSyntaxNodeAction(nodeContext => AnalyzeBinaryExpression(nodeContext, expressionOfTSymbol), SyntaxKind.LogicalOrExpression);
             });
         }
 
@@ -96,55 +97,43 @@ namespace Roslynator.CSharp.Analysis
             context.ReportDiagnostic(DiagnosticDescriptors.UseConditionalAccess, ifStatement);
         }
 
-        public static void AnalyzeLogicalAndExpression(SyntaxNodeAnalysisContext context, INamedTypeSymbol expressionOfTSymbol)
+        public static void AnalyzeBinaryExpression(SyntaxNodeAnalysisContext context, INamedTypeSymbol expressionOfTSymbol)
         {
-            var logicalAnd = (BinaryExpressionSyntax)context.Node;
+            var binaryExpression = (BinaryExpressionSyntax)context.Node;
 
-            if (logicalAnd.ContainsDiagnostics)
+            if (binaryExpression.ContainsDiagnostics)
                 return;
 
-            if (logicalAnd.IsParentKind(SyntaxKind.LogicalAndExpression))
+            SyntaxKind kind = binaryExpression.Kind();
+
+            if (binaryExpression.WalkUpParentheses().IsParentKind(kind))
                 return;
 
-            if (logicalAnd.IsInExpressionTree(expressionOfTSymbol, context.SemanticModel, context.CancellationToken))
+            if (binaryExpression.IsInExpressionTree(expressionOfTSymbol, context.SemanticModel, context.CancellationToken))
                 return;
 
-            while (true)
+            (ExpressionSyntax left, ExpressionSyntax right) = GetFixableExpressions(binaryExpression, kind, context.SemanticModel, context.CancellationToken);
+
+            if (left != null)
             {
-                ExpressionSyntax left = logicalAnd.Left;
-                ExpressionSyntax right = logicalAnd.Right?.WalkDownParentheses();
-
-                if (!left.IsKind(SyntaxKind.LogicalAndExpression))
-                {
-                    if (IsFixable(left, right, context.SemanticModel, context.CancellationToken))
-                    {
-                        context.ReportDiagnostic(DiagnosticDescriptors.UseConditionalAccess, logicalAnd);
-                    }
-
-                    return;
-                }
-
-                var leftLogicalAnd = (BinaryExpressionSyntax)left;
-
-                left = leftLogicalAnd.Right;
-
-                if (IsFixable(left, right, context.SemanticModel, context.CancellationToken))
-                {
-                    context.ReportDiagnostic(DiagnosticDescriptors.UseConditionalAccess, Location.Create(logicalAnd.SyntaxTree, TextSpan.FromBounds(left.SpanStart, right.Span.End)));
-                    return;
-                }
-
-                logicalAnd = leftLogicalAnd;
+                context.ReportDiagnostic(
+                    DiagnosticDescriptors.UseConditionalAccess,
+                    Location.Create(binaryExpression.SyntaxTree, TextSpan.FromBounds(left.SpanStart, right.Span.End)));
             }
         }
 
         private static bool IsFixable(
             ExpressionSyntax left,
             ExpressionSyntax right,
+            SyntaxKind binaryExpressionKind,
             SemanticModel semanticModel,
             CancellationToken cancellationToken)
         {
-            NullCheckExpressionInfo nullCheck = SyntaxInfo.NullCheckExpressionInfo(left, allowedStyles: NullCheckStyles.NotEqualsToNull);
+            NullCheckStyles allowedStyles = (binaryExpressionKind == SyntaxKind.LogicalAndExpression)
+                ? NullCheckStyles.NotEqualsToNull
+                : NullCheckStyles.EqualsToNull;
+
+            NullCheckExpressionInfo nullCheck = SyntaxInfo.NullCheckExpressionInfo(left, allowedStyles: allowedStyles);
 
             ExpressionSyntax expression = nullCheck.Expression;
 
@@ -162,7 +151,7 @@ namespace Roslynator.CSharp.Analysis
             if (right == null)
                 return false;
 
-            if (!ValidateRightExpression(right, semanticModel, cancellationToken))
+            if (!ValidateRightExpression(right, binaryExpressionKind, semanticModel, cancellationToken))
                 return false;
 
             if (RefactoringUtility.ContainsOutArgumentWithLocal(right, semanticModel, cancellationToken))
@@ -212,50 +201,166 @@ namespace Roslynator.CSharp.Analysis
             return null;
         }
 
-        private static bool ValidateRightExpression(ExpressionSyntax expression, SemanticModel semanticModel, CancellationToken cancellationToken)
+        private static bool ValidateRightExpression(
+            ExpressionSyntax expression,
+            SyntaxKind binaryExpressionKind,
+            SemanticModel semanticModel,
+            CancellationToken cancellationToken)
         {
-            switch (expression.Kind())
+            if (binaryExpressionKind == SyntaxKind.LogicalAndExpression)
             {
-                case SyntaxKind.LessThanExpression:
-                case SyntaxKind.GreaterThanExpression:
-                case SyntaxKind.LessThanOrEqualExpression:
-                case SyntaxKind.GreaterThanOrEqualExpression:
-                case SyntaxKind.EqualsExpression:
-                    {
-                        expression = ((BinaryExpressionSyntax)expression)
-                            .Right?
-                            .WalkDownParentheses();
+                switch (expression.Kind())
+                {
+                    case SyntaxKind.LessThanExpression:
+                    case SyntaxKind.GreaterThanExpression:
+                    case SyntaxKind.LessThanOrEqualExpression:
+                    case SyntaxKind.GreaterThanOrEqualExpression:
+                    case SyntaxKind.EqualsExpression:
+                        {
+                            expression = ((BinaryExpressionSyntax)expression)
+                                .Right?
+                                .WalkDownParentheses();
 
-                        if (expression == null)
+                            if (expression == null)
+                                return false;
+
+                            Optional<object> optional = semanticModel.GetConstantValue(expression, cancellationToken);
+
+                            return optional.HasValue
+                                && optional.Value != null;
+                        }
+                    case SyntaxKind.NotEqualsExpression:
+                        {
+                            return ((BinaryExpressionSyntax)expression)
+                                .Right?
+                                .WalkDownParentheses()
+                                .Kind() == SyntaxKind.NullLiteralExpression;
+                        }
+                    case SyntaxKind.SimpleMemberAccessExpression:
+                    case SyntaxKind.InvocationExpression:
+                    case SyntaxKind.ElementAccessExpression:
+                    case SyntaxKind.LogicalNotExpression:
+                    case SyntaxKind.IsExpression:
+                    case SyntaxKind.IsPatternExpression:
+                    case SyntaxKind.AsExpression:
+                        {
+                            return true;
+                        }
+                    default:
+                        {
                             return false;
-
-                        Optional<object> optional = semanticModel.GetConstantValue(expression, cancellationToken);
-
-                        return optional.HasValue
-                            && optional.Value != null;
-                    }
-                case SyntaxKind.NotEqualsExpression:
-                    {
-                        return ((BinaryExpressionSyntax)expression)
-                            .Right?
-                            .WalkDownParentheses()
-                            .Kind() == SyntaxKind.NullLiteralExpression;
-                    }
-                case SyntaxKind.SimpleMemberAccessExpression:
-                case SyntaxKind.InvocationExpression:
-                case SyntaxKind.ElementAccessExpression:
-                case SyntaxKind.LogicalNotExpression:
-                case SyntaxKind.IsExpression:
-                case SyntaxKind.IsPatternExpression:
-                case SyntaxKind.AsExpression:
-                case SyntaxKind.LogicalAndExpression:
-                    {
+                        }
+                }
+            }
+            else if (binaryExpressionKind == SyntaxKind.LogicalOrExpression)
+            {
+                switch (expression.Kind())
+                {
+                    case SyntaxKind.SimpleMemberAccessExpression:
+                    case SyntaxKind.InvocationExpression:
+                    case SyntaxKind.ElementAccessExpression:
+                    case SyntaxKind.LogicalNotExpression:
                         return true;
-                    }
-                default:
-                    {
+                    default:
                         return false;
+                }
+            }
+
+            Debug.Fail(binaryExpressionKind.ToString());
+
+            return false;
+        }
+
+        internal static (ExpressionSyntax left, ExpressionSyntax right) GetFixableExpressions(
+            BinaryExpressionSyntax binaryExpression,
+            SyntaxKind kind,
+            SemanticModel semanticModel,
+            CancellationToken cancellationToken)
+        {
+            ExpressionSyntax e = binaryExpression;
+
+            ExpressionSyntax left = null;
+            ExpressionSyntax right = null;
+
+            while (true)
+            {
+                ExpressionSyntax last = GetLastChild(e);
+
+                if (last != null)
+                {
+                    e = last;
+                }
+                else
+                {
+                    while (e != binaryExpression
+                        && IsFirstChild(e))
+                    {
+                        e = (ExpressionSyntax)e.Parent;
                     }
+
+                    if (e == binaryExpression)
+                        break;
+
+                    e = GetPreviousSibling(e);
+                }
+
+                if (!e.IsKind(kind, SyntaxKind.ParenthesizedExpression))
+                {
+                    if (right == null)
+                    {
+                        right = e;
+                    }
+                    else
+                    {
+                        left = e;
+
+                        if (IsFixable(left, right, kind, semanticModel, cancellationToken))
+                            return (left, right);
+
+                        right = left;
+                        left = null;
+                    }
+                }
+            }
+
+            return default;
+
+            ExpressionSyntax GetLastChild(SyntaxNode node)
+            {
+                SyntaxKind kind2 = node.Kind();
+
+                if (kind2 == kind)
+                    return ((BinaryExpressionSyntax)node).Right;
+
+                if (kind2 == SyntaxKind.ParenthesizedExpression)
+                    return ((ParenthesizedExpressionSyntax)node).Expression;
+
+                return null;
+            }
+
+            ExpressionSyntax GetPreviousSibling(SyntaxNode node)
+            {
+                SyntaxNode parent = node.Parent;
+
+                if (parent.IsKind(kind))
+                {
+                    var logicalAnd = (BinaryExpressionSyntax)parent;
+
+                    if (logicalAnd.Right == node)
+                        return logicalAnd.Left;
+                }
+
+                return null;
+            }
+
+            bool IsFirstChild(SyntaxNode node)
+            {
+                SyntaxNode parent = node.Parent;
+
+                if (parent.IsKind(kind))
+                    return ((BinaryExpressionSyntax)parent).Left == node;
+
+                return true;
             }
         }
     }
