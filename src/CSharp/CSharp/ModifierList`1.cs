@@ -9,6 +9,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Roslynator.CSharp
 {
+    //TODO: rename ModifierList<TNode>
     /// <summary>
     /// Represents a list of modifiers.
     /// </summary>

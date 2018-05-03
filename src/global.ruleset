@@ -292,7 +292,6 @@
     <Rule Id="RCS1028" Action="Info" />
     <Rule Id="RCS1030" Action="Info" />
     <Rule Id="RCS1034" Action="Info" />
-    <Rule Id="RCS1035" Action="None" />
     <Rule Id="RCS1037" Action="Warning" />
     <Rule Id="RCS1039" Action="Info" />
     <Rule Id="RCS1040" Action="Info" />
@@ -311,8 +310,6 @@
     <Rule Id="RCS1069" Action="Info" />
     <Rule Id="RCS1070" Action="Info" />
     <Rule Id="RCS1071" Action="Info" />
-    <Rule Id="RCS1073" Action="Info" />
-    <Rule Id="RCS1073FadeOut" Action="Hidden" />
     <Rule Id="RCS1074" Action="Info" />
     <Rule Id="RCS1078" Action="Info" />
     <Rule Id="RCS1081" Action="Info" />
@@ -344,6 +341,7 @@
     <Rule Id="RCS1188" Action="Info" />
     <Rule Id="RCS1189" Action="Info" />
     <Rule Id="RCS1221" Action="None" />
+    <Rule Id="RCS1224" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
     <Rule Id="S101" Action="None" />

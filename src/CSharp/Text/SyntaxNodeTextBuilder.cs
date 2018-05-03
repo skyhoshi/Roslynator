@@ -1,12 +1,15 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Diagnostics;
 using System.Text;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
 
 namespace Roslynator.Text
 {
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     internal class SyntaxNodeTextBuilder
     {
         private readonly string _text;
@@ -30,6 +33,12 @@ namespace Roslynator.Text
         public StringBuilder StringBuilder { get; }
 
         public TextSpan FullSpan { get; }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return $"{Node.Kind()} {ToString()}"; }
+        }
 
         public override string ToString()
         {
