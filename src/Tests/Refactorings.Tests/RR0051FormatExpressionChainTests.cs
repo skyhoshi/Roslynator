@@ -1,55 +1,56 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CodeRefactorings;
-using Roslynator.CSharp.Refactorings;
 using Xunit;
-using static Roslynator.Tests.CSharp.CSharpCodeRefactoringVerifier;
 
-namespace Roslynator.Refactorings.Tests
+#pragma warning disable RCS1090
+
+namespace Roslynator.CSharp.Refactorings.Tests
 {
-    public static class RR0051FormatExpressionChainTests
+    public class RR0051FormatExpressionChainTests : AbstractCSharpCodeRefactoringVerifier
     {
-        private const string RefactoringId = RefactoringIdentifiers.FormatExpressionChain;
+        public override string RefactoringId { get; } = RefactoringIdentifiers.FormatExpressionChain;
 
-        private static CodeRefactoringProvider CodeRefactoringProvider { get; } = new RoslynatorCodeRefactoringProvider();
+        public override CodeRefactoringProvider RefactoringProvider { get; } = new RoslynatorCodeRefactoringProvider();
 
         [Theory]
-        [InlineData("<<<>>>x.M().M()", @"x
+        [InlineData("[||]x.M().M()", @"x
                 .M()
                 .M()")]
-        [InlineData("<<<>>>x?.M()?.M()", @"x?
+        [InlineData("[||]x?.M()?.M()", @"x?
                 .M()?
                 .M()")]
-        [InlineData("<<<>>>x[0].M()[0].M()[0]", @"x[0]
+        [InlineData("[||]x[0].M()[0].M()[0]", @"x[0]
                 .M()[0]
                 .M()[0]")]
-        [InlineData("<<<>>>x?[0]?.M()[0]?.M()[0]", @"x?[0]?
+        [InlineData("[||]x?[0]?.M()[0]?.M()[0]", @"x?[0]?
                 .M()[0]?
                 .M()[0]")]
-        [InlineData("<<<>>>x.P.P", @"x
+        [InlineData("[||]x.P.P", @"x
                 .P
                 .P")]
-        [InlineData("<<<>>>x?.P?.P", @"x?
+        [InlineData("[||]x?.P?.P", @"x?
                 .P?
                 .P")]
-        [InlineData("<<<>>>x[0].P[0].P[0]", @"x[0]
+        [InlineData("[||]x[0].P[0].P[0]", @"x[0]
                 .P[0]
                 .P[0]")]
-        [InlineData("<<<>>>x?[0]?.P[0]?.P[0]", @"x?[0]?
+        [InlineData("[||]x?[0]?.P[0]?.P[0]", @"x?[0]?
                 .P[0]?
                 .P[0]")]
-        [InlineData("<<<>>>x.M(x.M().M()).M(x.M().M())", @"x
+        [InlineData("[||]x.M(x.M().M()).M(x.M().M())", @"x
                 .M(x.M().M())
                 .M(x.M().M())")]
-        [InlineData("<<<>>>this.M().M().M()", @"this.M()
+        [InlineData("[||]this.M().M().M()", @"this.M()
                 .M()
                 .M()")]
-        [InlineData("<<<>>>A.B.Foo.SM().M()", @"A.B.Foo
+        [InlineData("[||]A.B.Foo.SM().M()", @"A.B.Foo
                 .SM()
                 .M()")]
-        public static void TestRefactoring(string fixableCode, string fixedCode)
+        public async Task TestRefactoring(string fixableCode, string fixedCode)
         {
-            VerifyRefactoring(@"
+            await VerifyRefactoringAsync(@"
 namespace A.B
 {
     class Foo
@@ -58,29 +59,29 @@ namespace A.B
         {
             var x = new Foo();
 
-            x = <<<>>>;
+            x = [||];
                 
             return null;
         }
 
-        public static Foo SM() => null;
+        public Foo SM() => null;
 
         public Foo F;
-        public static Foo SF;
+        public Foo SF;
 
         public Foo P { get; }
-        public static Foo SP { get; }
+        public Foo SP { get; }
 
         public Foo this[int index] => null;
     }
 }
-", fixableCode, fixedCode, CodeRefactoringProvider, RefactoringId);
+", fixableCode, fixedCode, RefactoringId);
         }
 
         [Fact]
-        public static void TestNoRefactoring()
+        public async Task TestNoRefactoring()
         {
-            VerifyNoRefactoring(@"
+            await VerifyNoRefactoringAsync(@"
 namespace A.B
 {
     class Foo
@@ -89,33 +90,33 @@ namespace A.B
         {
             var x = new Foo();
 
-            x = x.<<<>>>M();
-            x = x.<<<>>>P;
-            x = x.<<<>>>P[0];
+            x = x.[||]M();
+            x = x.[||]P;
+            x = x.[||]P[0];
 
-            x = x?.<<<>>>M();
-            x = x?.<<<>>>P;
-            x = x?.<<<>>>P[0];
+            x = x?.[||]M();
+            x = x?.[||]P;
+            x = x?.[||]P[0];
 
             x = x
                 .M() //
-                .<<<>>>M();
+                .[||]M();
                 
             return null;
         }
 
-        public static Foo SM() => null;
+        public Foo SM() => null;
 
         public Foo F;
-        public static Foo SF;
+        public Foo SF;
 
         public Foo P { get; }
-        public static Foo SP { get; }
+        public Foo SP { get; }
 
         public Foo this[int index] => null;
     }
 }
-", CodeRefactoringProvider, RefactoringId);
+", RefactoringId);
         }
     }
 }
