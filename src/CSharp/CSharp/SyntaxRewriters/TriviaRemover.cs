@@ -33,7 +33,7 @@ namespace Roslynator.CSharp.SyntaxRewriters
 
         public override SyntaxTrivia VisitTrivia(SyntaxTrivia trivia)
         {
-            if (Span == null || Span.Value.Contains(trivia.Span))
+            if (Span?.Contains(trivia.Span) != false)
             {
                 return Replacement;
             }
