@@ -9,10 +9,12 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Roslynator
 {
+    //TODO: add property UnderlyingCount
     /// <summary>
     /// Represents consecutive sequence of selected items in a collection.
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public abstract class Selection<T> : IReadOnlyList<T>
     {
         /// <summary>
@@ -62,6 +64,12 @@ namespace Roslynator
             get { return LastIndex - FirstIndex + 1; }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return $"Count = {Count} FirstIndex = {FirstIndex} LastIndex = {LastIndex}"; }
+        }
+
         /// <summary>
         /// Gets the selected item at the specified index.
         /// </summary>
@@ -80,6 +88,7 @@ namespace Roslynator
             }
         }
 
+        //TODO: change to property
         /// <summary>
         /// Gets the first selected item.
         /// </summary>

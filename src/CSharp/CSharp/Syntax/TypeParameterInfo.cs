@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -10,7 +11,8 @@ namespace Roslynator.CSharp.Syntax
 {
     /// <summary>
     /// Provides information about a type parameter.
-    /// </summary>
+    /// </summary
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     internal readonly struct TypeParameterInfo : IEquatable<TypeParameterInfo>
     {
         private TypeParameterInfo(
@@ -55,6 +57,12 @@ namespace Roslynator.CSharp.Syntax
         public bool Success
         {
             get { return TypeParameter != null; }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return SyntaxInfoHelpers.ToDebugString(Success, this, TypeParameter); }
         }
 
         internal static TypeParameterInfo Create(TypeParameterSyntax typeParameter)

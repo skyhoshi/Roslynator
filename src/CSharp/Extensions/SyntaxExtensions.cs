@@ -209,6 +209,40 @@ namespace Roslynator
             return count > 0
                 && count == list.SeparatorCount;
         }
+
+        //TODO: make public
+        internal static string ToString<TNode>(this SeparatedSyntaxList<TNode> list, TextSpan span) where TNode : SyntaxNode
+        {
+            if (list.Count == 0)
+                return "";
+
+            TextSpan listSpan = list.Span;
+
+            if (!listSpan.Contains(span))
+                throw new ArgumentException("", nameof(span));
+
+            if (listSpan == span)
+                return list.ToString();
+
+            return list.ToString().Substring(span.Start - listSpan.Start, span.Length);
+        }
+
+        //TODO: make public
+        internal static string ToFullString<TNode>(this SeparatedSyntaxList<TNode> list, TextSpan span) where TNode : SyntaxNode
+        {
+            if (list.Count == 0)
+                return "";
+
+            TextSpan listSpan = list.FullSpan;
+
+            if (!listSpan.Contains(span))
+                throw new ArgumentException("", nameof(span));
+
+            if (listSpan == span)
+                return list.ToFullString();
+
+            return list.ToFullString().Substring(span.Start - listSpan.Start, span.Length);
+        }
         #endregion SeparatedSyntaxList<T>
 
         #region SyntaxList<T>
@@ -436,6 +470,40 @@ namespace Roslynator
                     yield return trivia;
                 }
             }
+        }
+
+        //TODO: make public
+        internal static string ToString<TNode>(this SyntaxList<TNode> list, TextSpan span) where TNode : SyntaxNode
+        {
+            if (list.Count == 0)
+                return "";
+
+            TextSpan listSpan = list.Span;
+
+            if (!listSpan.Contains(span))
+                throw new ArgumentException("" , nameof(span));
+
+            if (listSpan == span)
+                return list.ToString();
+
+            return list.ToString().Substring(span.Start - listSpan.Start, span.Length);
+        }
+
+        //TODO: make public
+        internal static string ToFullString<TNode>(this SyntaxList<TNode> list, TextSpan span) where TNode : SyntaxNode
+        {
+            if (list.Count == 0)
+                return "";
+
+            TextSpan listSpan = list.FullSpan;
+
+            if (!listSpan.Contains(span))
+                throw new ArgumentException("", nameof(span));
+
+            if (listSpan == span)
+                return list.ToFullString();
+
+            return list.ToFullString().Substring(span.Start - listSpan.Start, span.Length);
         }
         #endregion SyntaxList<T>
 

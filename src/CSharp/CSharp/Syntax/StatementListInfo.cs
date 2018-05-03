@@ -14,6 +14,7 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about a list of statements.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct StatementListInfo : IEquatable<StatementListInfo>, IReadOnlyList<StatementSyntax>
     {
         internal StatementListInfo(BlockSyntax block)
@@ -38,6 +39,7 @@ namespace Roslynator.CSharp.Syntax
         /// The node that contains the statements. It can be either a <see cref="BlockSyntax"/> or a <see cref="SwitchSectionSyntax"/>.
         /// </summary>
         public SyntaxNode Parent { get; }
+
         /// <summary>
         /// The list of statements.
         /// </summary>
@@ -97,6 +99,12 @@ namespace Roslynator.CSharp.Syntax
         public int Count
         {
             get { return Statements.Count; }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return SyntaxInfoHelpers.ToDebugString(Success, Statements); }
         }
 
         /// <summary>
