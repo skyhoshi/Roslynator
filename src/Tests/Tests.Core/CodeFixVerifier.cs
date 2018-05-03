@@ -111,11 +111,6 @@ namespace Roslynator.Tests
 
                 compilation = await document.Project.GetCompilationAsync(cancellationToken).ConfigureAwait(false);
 
-                Assert.False(actual == newText, "Code fix caused no changes in the source text.");
-
-                actual = newText;
-
-
                 ImmutableArray<Diagnostic> newCompilerDiagnostics = compilation.GetDiagnostics(cancellationToken);
 
                 VerifyCompilerDiagnostics(newCompilerDiagnostics);

@@ -1,28 +1,29 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Roslynator.CSharp;
-using Roslynator.CSharp.Analysis;
+using Roslynator.CSharp.Analysis.ReplaceEnumeratorWithForEach;
 using Roslynator.CSharp.CodeFixes;
 using Xunit;
-using static Roslynator.Tests.CSharp.CSharpDiagnosticVerifier;
 
-namespace Roslynator.Analyzers.Tests
+#pragma warning disable RCS1090
+
+namespace Roslynator.CSharp.Analysis.Tests
 {
-    public static class RCS1225ReplaceEnumeratorWithForEachTests
+    public class RCS1225ReplaceEnumeratorWithForEachTests : AbstractCSharpCodeFixVerifier
     {
-        private static DiagnosticDescriptor Descriptor { get; } = DiagnosticDescriptors.ReplaceEnumeratorWithForEach;
+        public override DiagnosticDescriptor Descriptor { get; } = DiagnosticDescriptors.ReplaceEnumeratorWithForEach;
 
-        private static DiagnosticAnalyzer Analyzer { get; } = new ReplaceEnumeratorWithForEachAnalyzer();
+        public override DiagnosticAnalyzer Analyzer { get; } = new ReplaceEnumeratorWithForEachAnalyzer();
 
-        private static CodeFixProvider CodeFixProvider { get; } = new ReplaceEnumeratorWithForEachCodeFixProvider();
+        public override CodeFixProvider FixProvider { get; } = new ReplaceEnumeratorWithForEachCodeFixProvider();
 
         [Fact]
-        public static void TestDiagnosticWithCodeFix()
+        public async Task Test()
         {
-            VerifyDiagnosticAndFix(@"
+            await VerifyDiagnosticAndFixAsync(@"
 using System.Collections.Generic;
 
 class C
@@ -32,7 +33,7 @@ class C
         string item = null;
         var items = new List<string>();
 
-        <<<using>>> (List<string>.Enumerator en = items.GetEnumerator())
+        [|using|] (List<string>.Enumerator en = items.GetEnumerator())
         {
             while (en.MoveNext())
             {
@@ -57,13 +58,13 @@ class C
         }
     }
 }
-", Descriptor, Analyzer, CodeFixProvider);
+");
         }
 
         [Fact]
-        public static void TestDiagnosticWithCodeFix_EmbeddedStatement()
+        public async Task Test_EmbeddedStatement()
         {
-            VerifyDiagnosticAndFix(@"
+            await VerifyDiagnosticAndFixAsync(@"
 using System.Collections.Generic;
 
 class C
@@ -72,7 +73,7 @@ class C
     {
         var items = new List<string>();
 
-        <<<using>>> (List<string>.Enumerator en = items.GetEnumerator())
+        [|using|] (List<string>.Enumerator en = items.GetEnumerator())
             while (en.MoveNext())
                 yield return en.Current;
     }
@@ -90,13 +91,13 @@ class C
             yield return item;
     }
 }
-", Descriptor, Analyzer, CodeFixProvider);
+");
         }
 
         [Fact]
-        public static void TestDiagnosticWithCodeFix_Nested()
+        public async Task Test_NestedCurrent()
         {
-            VerifyDiagnosticAndFix(@"
+            await VerifyDiagnosticAndFixAsync(@"
 using System.Collections.Generic;
 
 class C
@@ -105,7 +106,7 @@ class C
     {
         var items = new List<string>();
 
-        <<<using>>> (List<string>.Enumerator en = items.GetEnumerator())
+        [|using|] (List<string>.Enumerator en = items.GetEnumerator())
         {
             while (en.MoveNext())
             {
@@ -129,13 +130,36 @@ class C
         }
     }
 }
-", Descriptor, Analyzer, CodeFixProvider);
+");
         }
 
         [Fact]
-        public static void TestNoDiagnostic()
+        public async Task TestNoDiagnostic_WhileDoesNotContainCurrent()
         {
-            VerifyNoDiagnostic(@"
+            await VerifyNoDiagnosticAsync(@"
+using System.Collections.Generic;
+
+class C
+{
+    void M()
+    {
+        var items = new List<string>();
+
+        using (List<string>.Enumerator en = items.GetEnumerator())
+        {
+            while (en.MoveNext())
+            {
+            }
+        }
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task TestNoDiagnostic_UsingContainsMultipleStatements()
+        {
+            await VerifyNoDiagnosticAsync(@"
 using System.Collections.Generic;
 
 class C
@@ -153,6 +177,22 @@ class C
                 i++;
             }
         }
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task TestNoDiagnostic_IfInsteadOfWhile()
+        {
+            await VerifyNoDiagnosticAsync(@"
+using System.Collections.Generic;
+
+class C
+{
+    void M()
+    {
+        var items = new List<string>();
 
         using (List<string>.Enumerator en = items.GetEnumerator())
         {
@@ -161,9 +201,36 @@ class C
                 var x = en.Current;
             }
         }
+    }
 }
+");
+        }
+
+        [Fact]
+        public async Task TestNoDiagnostic_WhileContainsMoveNext()
+        {
+            await VerifyNoDiagnosticAsync(@"
+using System.Collections.Generic;
+
+class C
+{
+    static bool CountExceeds<T>(IEnumerable<T> collection, int value)
+    {
+        int cnt = 0;
+        using (IEnumerator<T> en = collection.GetEnumerator())
+        {
+            while (en.MoveNext())
+            {
+                cnt++;
+                if (cnt == value)
+                    return en.MoveNext();
+            }
+        }
+
+        return false;
+    }
 }
-", Descriptor, Analyzer);
+");
         }
     }
 }

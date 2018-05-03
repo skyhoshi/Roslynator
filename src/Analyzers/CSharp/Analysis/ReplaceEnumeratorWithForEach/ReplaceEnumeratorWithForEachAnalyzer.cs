@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Roslynator.CSharp.Syntax;
 
-namespace Roslynator.CSharp.Analysis
+namespace Roslynator.CSharp.Analysis.ReplaceEnumeratorWithForEach
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class ReplaceEnumeratorWithForEachAnalyzer : BaseDiagnosticAnalyzer
@@ -63,6 +63,15 @@ namespace Roslynator.CSharp.Analysis
                 return;
 
             if (!string.Equals(invocationInfo2.NameText, WellKnownMemberNames.GetEnumeratorMethodName, StringComparison.Ordinal))
+                return;
+
+            ReplaceEnumeratorWithForEachWalker walker = ReplaceEnumeratorWithForEachWalkerCache.GetInstance();
+
+            walker.SetValues(declarator, context.SemanticModel, context.CancellationToken);
+
+            walker.Visit(whileStatement.Statement);
+
+            if (!ReplaceEnumeratorWithForEachWalkerCache.GetIsFixableAndFree(walker))
                 return;
 
             context.ReportDiagnostic(DiagnosticDescriptors.ReplaceEnumeratorWithForEach, usingStatement.UsingKeyword);
