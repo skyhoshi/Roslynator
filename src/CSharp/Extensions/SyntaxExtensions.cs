@@ -200,6 +200,15 @@ namespace Roslynator
                 }
             }
         }
+
+        //TODO: make public
+        internal static bool HasTrailingSeparator<TNode>(this SeparatedSyntaxList<TNode> list) where TNode : SyntaxNode
+        {
+            int count = list.Count;
+
+            return count > 0
+                && count == list.SeparatorCount;
+        }
         #endregion SeparatedSyntaxList<T>
 
         #region SyntaxList<T>
@@ -383,8 +392,15 @@ namespace Roslynator
                 .ReplaceAt(1, list[1].WithTrailingTrivia(node.GetTrailingTrivia()));
         }
 
-        //TODO: make public
-        internal static IEnumerable<SyntaxTrivia> DescendantTrivia<TNode>(
+        /// <summary>
+        /// Get a list of all the trivia associated with the nodes in the list.
+        /// </summary>
+        /// <typeparam name="TNode"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="descendIntoChildren"></param>
+        /// <param name="descendIntoTrivia"></param>
+        /// <returns></returns>
+        public static IEnumerable<SyntaxTrivia> DescendantTrivia<TNode>(
             this SyntaxList<TNode> list,
             Func<SyntaxNode, bool> descendIntoChildren = null,
             bool descendIntoTrivia = false) where TNode : SyntaxNode
@@ -398,8 +414,16 @@ namespace Roslynator
             }
         }
 
-        //TODO: make public
-        internal static IEnumerable<SyntaxTrivia> DescendantTrivia<TNode>(
+        /// <summary>
+        /// Get a list of all the trivia associated with the nodes in the list.
+        /// </summary>
+        /// <typeparam name="TNode"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="span"></param>
+        /// <param name="descendIntoChildren"></param>
+        /// <param name="descendIntoTrivia"></param>
+        /// <returns></returns>
+        public static IEnumerable<SyntaxTrivia> DescendantTrivia<TNode>(
             this SyntaxList<TNode> list,
             TextSpan span,
             Func<SyntaxNode, bool> descendIntoChildren = null,
@@ -1210,6 +1234,15 @@ namespace Roslynator
 
             triviaList = default(SyntaxTriviaList);
             return false;
+        }
+
+        //TODO: make public
+        internal static SyntaxTriviaList GetContainingList(this SyntaxTrivia trivia)
+        {
+            if (!TryGetContainingList(trivia, out SyntaxTriviaList list))
+                throw new ArgumentException("Trivia is not contained in a list.", nameof(trivia));
+
+            return list;
         }
 
         internal static int GetSpanStartLine(this SyntaxTrivia trivia, CancellationToken cancellationToken = default(CancellationToken))

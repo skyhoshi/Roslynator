@@ -1,28 +1,28 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Roslynator.CSharp;
-using Roslynator.CSharp.Analysis;
 using Roslynator.CSharp.CodeFixes;
 using Xunit;
-using static Roslynator.Tests.CSharpDiagnosticVerifier;
 
-namespace Roslynator.Analyzers.Tests
+#pragma warning disable RCS1090
+
+namespace Roslynator.CSharp.Analysis.Tests
 {
-    public static class RCS1220AddCommaAfterLastItemInListTests
+    public class RCS1220AddCommaAfterLastItemInListTests : AbstractCSharpCodeFixVerifier
     {
-        private static DiagnosticDescriptor Descriptor { get; } = DiagnosticDescriptors.AddCommaAfterLastItemInList;
+        public override DiagnosticDescriptor Descriptor { get; } = DiagnosticDescriptors.AddCommaAfterLastItemInList;
 
-        private static DiagnosticAnalyzer Analyzer { get; } = new AddCommaAfterLastItemInListAnalyzer();
+        public override DiagnosticAnalyzer Analyzer { get; } = new AddCommaAfterLastItemInListAnalyzer();
 
-        private static CodeFixProvider CodeFixProvider { get; } = new EnumDeclarationCodeFixProvider();
+        public override CodeFixProvider FixProvider { get; } = new EnumDeclarationCodeFixProvider();
 
         [Fact]
-        public static void TestDiagnosticWithCodeFix()
+        public async Task TestDiagnosticWithCodeFix()
         {
-            VerifyDiagnosticAndCodeFix(
+            await VerifyDiagnosticAndFixAsync(
 @"
 using System.Collections.Generic;
 
@@ -110,16 +110,13 @@ public class C
         B,
     }
 }
-",
-                descriptor: Descriptor,
-                analyzer: Analyzer,
-                codeFixProvider: CodeFixProvider);
+");
         }
 
         [Fact]
-        public static void TestNoDiagnostic()
+        public async Task TestNoDiagnostic()
         {
-            VerifyNoDiagnostic(
+            await VerifyNoDiagnosticAsync(
 @"
 using System.Collections.Generic;
 
@@ -155,15 +152,13 @@ public class C
 
     public enum EnumName4 { A, B }
 }
-",
-                descriptor: Descriptor,
-                analyzer: Analyzer);
+");
         }
 
         [Fact]
-        public static void TestNoDiagnostic_Empty()
+        public async Task TestNoDiagnostic_Empty()
         {
-            VerifyNoDiagnostic(
+            await VerifyNoDiagnosticAsync(
 @"
 using System.Collections.Generic;
 
@@ -186,9 +181,7 @@ public class C
 
     public enum EnumName2 { }
 }
-",
-                descriptor: Descriptor,
-                analyzer: Analyzer);
+");
         }
     }
 }
