@@ -174,40 +174,37 @@ namespace Roslynator.CSharp.Refactorings
 
             bool fDirectiveTrivia = false;
 
-            using (IEnumerator<SyntaxNode> en = node.AncestorsAndSelf().GetEnumerator())
+            foreach (SyntaxNode ancestor in node.AncestorsAndSelf())
             {
-                while (en.MoveNext())
+                node = ancestor;
+
+                Debug.WriteLine(node.Kind().ToString());
+
+                if (!fDirectiveTrivia
+                    && (node is DirectiveTriviaSyntax directiveTrivia))
                 {
-                    node = en.Current;
+                    DirectiveTriviaRefactoring.ComputeRefactorings(this, directiveTrivia);
 
-                    Debug.WriteLine(node.Kind().ToString());
+                    SyntaxKind kind = node.Kind();
 
-                    if (!fDirectiveTrivia
-                        && (node is DirectiveTriviaSyntax directiveTrivia))
+                    if (kind == SyntaxKind.RegionDirectiveTrivia
+                        || kind == SyntaxKind.EndRegionDirectiveTrivia)
                     {
-                        DirectiveTriviaRefactoring.ComputeRefactorings(this, directiveTrivia);
-
-                        SyntaxKind kind = node.Kind();
-
-                        if (kind == SyntaxKind.RegionDirectiveTrivia
-                            || kind == SyntaxKind.EndRegionDirectiveTrivia)
-                        {
-                            RegionDirectiveTriviaRefactoring.ComputeRefactorings(this);
-                        }
-
-                        RemoveAllPreprocessorDirectivesRefactoring.ComputeRefactorings(this);
-
-                        if (kind == SyntaxKind.RegionDirectiveTrivia)
-                        {
-                            RegionDirectiveTriviaRefactoring.ComputeRefactorings(this, (RegionDirectiveTriviaSyntax)node);
-                        }
-                        else if (kind == SyntaxKind.EndRegionDirectiveTrivia)
-                        {
-                            RegionDirectiveTriviaRefactoring.ComputeRefactorings(this, (EndRegionDirectiveTriviaSyntax)node);
-                        }
-
-                        fDirectiveTrivia = true;
+                        RegionDirectiveTriviaRefactoring.ComputeRefactorings(this);
                     }
+
+                    RemoveAllPreprocessorDirectivesRefactoring.ComputeRefactorings(this);
+
+                    if (kind == SyntaxKind.RegionDirectiveTrivia)
+                    {
+                        RegionDirectiveTriviaRefactoring.ComputeRefactorings(this, (RegionDirectiveTriviaSyntax)node);
+                    }
+                    else if (kind == SyntaxKind.EndRegionDirectiveTrivia)
+                    {
+                        RegionDirectiveTriviaRefactoring.ComputeRefactorings(this, (EndRegionDirectiveTriviaSyntax)node);
+                    }
+
+                    fDirectiveTrivia = true;
                 }
             }
         }
@@ -379,257 +376,255 @@ namespace Roslynator.CSharp.Refactorings
 
             SyntaxNode firstNode = node;
 
-            using (IEnumerator<SyntaxNode> en = node.AncestorsAndSelf().GetEnumerator())
+            foreach (SyntaxNode ancestor in node.AncestorsAndSelf())
             {
-                while (en.MoveNext())
+                node = ancestor;
+
+                SyntaxKind kind = node.Kind();
+
+                Debug.WriteLine(kind.ToString());
+
+                if (!fAccessor
+                    && (node is AccessorDeclarationSyntax accessor))
                 {
-                    node = en.Current;
+                    AccessorDeclarationRefactoring.ComputeRefactorings(this, accessor);
+                    fAccessor = true;
+                    continue;
+                }
 
-                    SyntaxKind kind = node.Kind();
+                if (!fArgument
+                    && kind == SyntaxKind.Argument)
+                {
+                    await ArgumentRefactoring.ComputeRefactoringsAsync(this, (ArgumentSyntax)node).ConfigureAwait(false);
+                    fArgument = true;
+                    continue;
+                }
 
-                    Debug.WriteLine(kind.ToString());
+                if (!fArgumentList
+                    && kind == SyntaxKind.ArgumentList)
+                {
+                    await ArgumentListRefactoring.ComputeRefactoringsAsync(this, (ArgumentListSyntax)node).ConfigureAwait(false);
+                    fArgumentList = true;
+                    continue;
+                }
 
-                    if (!fAccessor
-                        && (node is AccessorDeclarationSyntax accessor))
+                if (!fAttributeArgumentList
+                    && kind == SyntaxKind.AttributeArgumentList)
+                {
+                    await AttributeArgumentListRefactoring.ComputeRefactoringsAsync(this, (AttributeArgumentListSyntax)node).ConfigureAwait(false);
+                    fAttributeArgumentList = true;
+                    continue;
+                }
+
+                if (!fArrowExpressionClause
+                    && kind == SyntaxKind.ArrowExpressionClause)
+                {
+                    await ArrowExpressionClauseRefactoring.ComputeRefactoringsAsync(this, (ArrowExpressionClauseSyntax)node).ConfigureAwait(false);
+                    fArrowExpressionClause = true;
+                    continue;
+                }
+
+                if (!fParameter
+                    && kind == SyntaxKind.Parameter)
+                {
+                    await ParameterRefactoring.ComputeRefactoringsAsync(this, (ParameterSyntax)node).ConfigureAwait(false);
+                    fParameter = true;
+                    continue;
+                }
+
+                if (!fParameterList
+                    && kind == SyntaxKind.ParameterList)
+                {
+                    await ParameterListRefactoring.ComputeRefactoringsAsync(this, (ParameterListSyntax)node).ConfigureAwait(false);
+                    fParameterList = true;
+                    continue;
+                }
+
+                if (!fSwitchSection
+                    && kind == SyntaxKind.SwitchSection)
+                {
+                    await SwitchSectionRefactoring.ComputeRefactoringsAsync(this, (SwitchSectionSyntax)node).ConfigureAwait(false);
+                    fSwitchSection = true;
+                    continue;
+                }
+
+                if (!fVariableDeclaration
+                    && kind == SyntaxKind.VariableDeclaration)
+                {
+                    await VariableDeclarationRefactoring.ComputeRefactoringsAsync(this, (VariableDeclarationSyntax)node).ConfigureAwait(false);
+                    fVariableDeclaration = true;
+                    continue;
+                }
+
+                if (!fVariableDeclarator
+                    && kind == SyntaxKind.VariableDeclarator)
+                {
+                    await VariableDeclaratorRefactoring.ComputeRefactoringsAsync(this, (VariableDeclaratorSyntax)node).ConfigureAwait(false);
+                    fVariableDeclarator = true;
+                    continue;
+                }
+
+                if (!fInterpolatedStringText
+                    && kind == SyntaxKind.InterpolatedStringText)
+                {
+                    await InterpolatedStringTextRefactoring.ComputeRefactoringsAsync(this, (InterpolatedStringTextSyntax)node).ConfigureAwait(false);
+                    fInterpolatedStringText = true;
+                    continue;
+                }
+
+                if (!fInterpolation
+                    && kind == SyntaxKind.Interpolation)
+                {
+                    InterpolationRefactoring.ComputeRefactorings(this, (InterpolationSyntax)node);
+                    fInterpolation = true;
+                    continue;
+                }
+
+                if (!fElseClause
+                    && kind == SyntaxKind.ElseClause)
+                {
+                    ElseClauseRefactoring.ComputeRefactorings(this, (ElseClauseSyntax)node);
+                    fElseClause = true;
+                    continue;
+                }
+
+                if (!fCaseSwitchLabel
+                    && kind == SyntaxKind.CaseSwitchLabel)
+                {
+                    await CaseSwitchLabelRefactoring.ComputeRefactoringsAsync(this, (CaseSwitchLabelSyntax)node).ConfigureAwait(false);
+                    fCaseSwitchLabel = true;
+                    continue;
+                }
+
+                if (!fUsingDirective
+                    && kind == SyntaxKind.UsingDirective)
+                {
+                    UsingDirectiveRefactoring.ComputeRefactoring(this, (UsingDirectiveSyntax)node);
+                    fUsingDirective = true;
+                    continue;
+                }
+
+                if (!fDeclarationPattern
+                    && kind == SyntaxKind.DeclarationPattern)
+                {
+                    await DeclarationPatternRefactoring.ComputeRefactoringAsync(this, (DeclarationPatternSyntax)node).ConfigureAwait(false);
+                    fDeclarationPattern = true;
+                    continue;
+                }
+
+                if (!fTypeParameterConstraintClause
+                    && kind == SyntaxKind.TypeParameterConstraintClause)
+                {
+                    TypeParameterConstraintClauseRefactoring.ComputeRefactoring(this, (TypeParameterConstraintClauseSyntax)node);
+                    fTypeParameterConstraintClause = true;
+                    continue;
+                }
+
+                if (!fAttribute
+                    && kind == SyntaxKind.Attribute)
+                {
+                    await AttributeRefactoring.ComputeRefactoringAsync(this, (AttributeSyntax)node).ConfigureAwait(false);
+                    fAttribute = true;
+                    continue;
+                }
+
+                if (node is ExpressionSyntax expression)
+                {
+                    if (!fExpression)
                     {
-                        AccessorDeclarationRefactoring.ComputeRefactorings(this, accessor);
-                        fAccessor = true;
-                        continue;
+                        await ExpressionRefactoring.ComputeRefactoringsAsync(this, expression).ConfigureAwait(false);
+                        fExpression = true;
                     }
 
-                    if (!fArgument
-                        && kind == SyntaxKind.Argument)
+                    if (!fAssignmentExpression
+                        && (node is AssignmentExpressionSyntax assignmentExpression))
                     {
-                        await ArgumentRefactoring.ComputeRefactoringsAsync(this, (ArgumentSyntax)node).ConfigureAwait(false);
-                        fArgument = true;
-                        continue;
+                        await AssignmentExpressionRefactoring.ComputeRefactoringsAsync(this, assignmentExpression).ConfigureAwait(false);
+                        fAssignmentExpression = true;
                     }
 
-                    if (!fArgumentList
-                        && kind == SyntaxKind.ArgumentList)
+                    if (!fAnonymousMethod
+                        && kind == SyntaxKind.AnonymousMethodExpression)
                     {
-                        await ArgumentListRefactoring.ComputeRefactoringsAsync(this, (ArgumentListSyntax)node).ConfigureAwait(false);
-                        fArgumentList = true;
-                        continue;
+                        AnonymousMethodExpressionRefactoring.ComputeRefactorings(this, (AnonymousMethodExpressionSyntax)node);
+                        fAnonymousMethod = true;
                     }
 
-                    if (!fAttributeArgumentList
-                        && kind == SyntaxKind.AttributeArgumentList)
+                    if (!fBinaryExpression
+                        && (node is BinaryExpressionSyntax binaryExpression))
                     {
-                        await AttributeArgumentListRefactoring.ComputeRefactoringsAsync(this, (AttributeArgumentListSyntax)node).ConfigureAwait(false);
-                        fAttributeArgumentList = true;
-                        continue;
+                        await BinaryExpressionRefactoring.ComputeRefactoringsAsync(this, binaryExpression).ConfigureAwait(false);
+                        fBinaryExpression = true;
                     }
 
-                    if (!fArrowExpressionClause
-                        && kind == SyntaxKind.ArrowExpressionClause)
+                    if (!fConditionalExpression
+                        && kind == SyntaxKind.ConditionalExpression)
                     {
-                        await ArrowExpressionClauseRefactoring.ComputeRefactoringsAsync(this, (ArrowExpressionClauseSyntax)node).ConfigureAwait(false);
-                        fArrowExpressionClause = true;
-                        continue;
+                        await ConditionalExpressionRefactoring.ComputeRefactoringsAsync(this, (ConditionalExpressionSyntax)expression).ConfigureAwait(false);
+                        fConditionalExpression = true;
                     }
 
-                    if (!fParameter
-                        && kind == SyntaxKind.Parameter)
+                    if (!fQualifiedName
+                        && kind == SyntaxKind.QualifiedName)
                     {
-                        await ParameterRefactoring.ComputeRefactoringsAsync(this, (ParameterSyntax)node).ConfigureAwait(false);
-                        fParameter = true;
-                        continue;
+                        await QualifiedNameRefactoring.ComputeRefactoringsAsync(this, (QualifiedNameSyntax)expression).ConfigureAwait(false);
+                        fQualifiedName = true;
                     }
 
-                    if (!fParameterList
-                        && kind == SyntaxKind.ParameterList)
+                    if (!fGenericName
+                        && kind == SyntaxKind.GenericName)
                     {
-                        await ParameterListRefactoring.ComputeRefactoringsAsync(this, (ParameterListSyntax)node).ConfigureAwait(false);
-                        fParameterList = true;
-                        continue;
+                        GenericNameRefactoring.ComputeRefactorings(this, (GenericNameSyntax)expression);
+                        fGenericName = true;
                     }
 
-                    if (!fSwitchSection
-                        && kind == SyntaxKind.SwitchSection)
+                    if (!fIdentifierName
+                        && kind == SyntaxKind.IdentifierName)
                     {
-                        await SwitchSectionRefactoring.ComputeRefactoringsAsync(this, (SwitchSectionSyntax)node).ConfigureAwait(false);
-                        fSwitchSection = true;
-                        continue;
+                        await IdentifierNameRefactoring.ComputeRefactoringsAsync(this, (IdentifierNameSyntax)expression).ConfigureAwait(false);
+                        fIdentifierName = true;
                     }
 
-                    if (!fVariableDeclaration
-                        && kind == SyntaxKind.VariableDeclaration)
+                    if (!fInitializerExpression
+                        && (node is InitializerExpressionSyntax initializer))
                     {
-                        await VariableDeclarationRefactoring.ComputeRefactoringsAsync(this, (VariableDeclarationSyntax)node).ConfigureAwait(false);
-                        fVariableDeclaration = true;
-                        continue;
+                        await InitializerExpressionRefactoring.ComputeRefactoringsAsync(this, initializer).ConfigureAwait(false);
+                        fInitializerExpression = true;
                     }
 
-                    if (!fVariableDeclarator
-                        && kind == SyntaxKind.VariableDeclarator)
+                    if (!fInterpolatedStringExpression
+                        && kind == SyntaxKind.InterpolatedStringExpression)
                     {
-                        await VariableDeclaratorRefactoring.ComputeRefactoringsAsync(this, (VariableDeclaratorSyntax)node).ConfigureAwait(false);
-                        fVariableDeclarator = true;
-                        continue;
+                        InterpolatedStringRefactoring.ComputeRefactorings(this, (InterpolatedStringExpressionSyntax)expression);
+                        fInterpolatedStringExpression = true;
                     }
 
-                    if (!fInterpolatedStringText
-                        && kind == SyntaxKind.InterpolatedStringText)
+                    if (!fInvocationExpression
+                        && kind == SyntaxKind.InvocationExpression)
                     {
-                        await InterpolatedStringTextRefactoring.ComputeRefactoringsAsync(this, (InterpolatedStringTextSyntax)node).ConfigureAwait(false);
-                        fInterpolatedStringText = true;
-                        continue;
+                        await InvocationExpressionRefactoring.ComputeRefactoringsAsync(this, (InvocationExpressionSyntax)expression).ConfigureAwait(false);
+                        fInvocationExpression = true;
                     }
 
-                    if (!fInterpolation
-                        && kind == SyntaxKind.Interpolation)
+                    if (!fLambdaExpression
+                        && (node is LambdaExpressionSyntax lambdaExpression))
                     {
-                        InterpolationRefactoring.ComputeRefactorings(this, (InterpolationSyntax)node);
-                        fInterpolation = true;
-                        continue;
+                        await LambdaExpressionRefactoring.ComputeRefactoringsAsync(this, lambdaExpression).ConfigureAwait(false);
+                        fLambdaExpression = true;
                     }
 
-                    if (!fElseClause
-                        && kind == SyntaxKind.ElseClause)
+                    if (!fLiteralExpression
+                        && (node is LiteralExpressionSyntax literalExpression))
                     {
-                        ElseClauseRefactoring.ComputeRefactorings(this, (ElseClauseSyntax)node);
-                        fElseClause = true;
-                        continue;
+                        await LiteralExpressionRefactoring.ComputeRefactoringsAsync(this, literalExpression).ConfigureAwait(false);
+                        fLiteralExpression = true;
                     }
 
-                    if (!fCaseSwitchLabel
-                        && kind == SyntaxKind.CaseSwitchLabel)
+                    if (!fSimpleMemberAccessExpression
+                        && kind == SyntaxKind.SimpleMemberAccessExpression)
                     {
-                        await CaseSwitchLabelRefactoring.ComputeRefactoringsAsync(this, (CaseSwitchLabelSyntax)node).ConfigureAwait(false);
-                        fCaseSwitchLabel = true;
-                        continue;
-                    }
-
-                    if (!fUsingDirective
-                        && kind == SyntaxKind.UsingDirective)
-                    {
-                        UsingDirectiveRefactoring.ComputeRefactoring(this, (UsingDirectiveSyntax)node);
-                        fUsingDirective = true;
-                        continue;
-                    }
-
-                    if (!fDeclarationPattern
-                        && kind == SyntaxKind.DeclarationPattern)
-                    {
-                        await DeclarationPatternRefactoring.ComputeRefactoringAsync(this, (DeclarationPatternSyntax)node).ConfigureAwait(false);
-                        fDeclarationPattern = true;
-                        continue;
-                    }
-
-                    if (!fTypeParameterConstraintClause
-                        && kind == SyntaxKind.TypeParameterConstraintClause)
-                    {
-                        TypeParameterConstraintClauseRefactoring.ComputeRefactoring(this, (TypeParameterConstraintClauseSyntax)node);
-                        fTypeParameterConstraintClause = true;
-                        continue;
-                    }
-
-                    if (!fAttribute
-                        && kind == SyntaxKind.Attribute)
-                    {
-                        await AttributeRefactoring.ComputeRefactoringAsync(this, (AttributeSyntax)node).ConfigureAwait(false);
-                        fAttribute = true;
-                        continue;
-                    }
-
-                    if (node is ExpressionSyntax expression)
-                    {
-                        if (!fExpression)
-                        {
-                            await ExpressionRefactoring.ComputeRefactoringsAsync(this, expression).ConfigureAwait(false);
-                            fExpression = true;
-                        }
-
-                        if (!fAssignmentExpression
-                            && (node is AssignmentExpressionSyntax assignmentExpression))
-                        {
-                            await AssignmentExpressionRefactoring.ComputeRefactoringsAsync(this, assignmentExpression).ConfigureAwait(false);
-                            fAssignmentExpression = true;
-                        }
-
-                        if (!fAnonymousMethod
-                            && kind == SyntaxKind.AnonymousMethodExpression)
-                        {
-                            AnonymousMethodExpressionRefactoring.ComputeRefactorings(this, (AnonymousMethodExpressionSyntax)node);
-                            fAnonymousMethod = true;
-                        }
-
-                        if (!fBinaryExpression
-                            && (node is BinaryExpressionSyntax binaryExpression))
-                        {
-                            await BinaryExpressionRefactoring.ComputeRefactoringsAsync(this, binaryExpression).ConfigureAwait(false);
-                            fBinaryExpression = true;
-                        }
-
-                        if (!fConditionalExpression
-                            && kind == SyntaxKind.ConditionalExpression)
-                        {
-                            await ConditionalExpressionRefactoring.ComputeRefactoringsAsync(this, (ConditionalExpressionSyntax)expression).ConfigureAwait(false);
-                            fConditionalExpression = true;
-                        }
-
-                        if (!fQualifiedName
-                            && kind == SyntaxKind.QualifiedName)
-                        {
-                            await QualifiedNameRefactoring.ComputeRefactoringsAsync(this, (QualifiedNameSyntax)expression).ConfigureAwait(false);
-                            fQualifiedName = true;
-                        }
-
-                        if (!fGenericName
-                            && kind == SyntaxKind.GenericName)
-                        {
-                            GenericNameRefactoring.ComputeRefactorings(this, (GenericNameSyntax)expression);
-                            fGenericName = true;
-                        }
-
-                        if (!fIdentifierName
-                            && kind == SyntaxKind.IdentifierName)
-                        {
-                            await IdentifierNameRefactoring.ComputeRefactoringsAsync(this, (IdentifierNameSyntax)expression).ConfigureAwait(false);
-                            fIdentifierName = true;
-                        }
-
-                        if (!fInitializerExpression
-                            && (node is InitializerExpressionSyntax initializer))
-                        {
-                            await InitializerExpressionRefactoring.ComputeRefactoringsAsync(this, initializer).ConfigureAwait(false);
-                            fInitializerExpression = true;
-                        }
-
-                        if (!fInterpolatedStringExpression
-                            && kind == SyntaxKind.InterpolatedStringExpression)
-                        {
-                            InterpolatedStringRefactoring.ComputeRefactorings(this, (InterpolatedStringExpressionSyntax)expression);
-                            fInterpolatedStringExpression = true;
-                        }
-
-                        if (!fInvocationExpression
-                            && kind == SyntaxKind.InvocationExpression)
-                        {
-                            await InvocationExpressionRefactoring.ComputeRefactoringsAsync(this, (InvocationExpressionSyntax)expression).ConfigureAwait(false);
-                            fInvocationExpression = true;
-                        }
-
-                        if (!fLambdaExpression
-                            && (node is LambdaExpressionSyntax lambdaExpression))
-                        {
-                            await LambdaExpressionRefactoring.ComputeRefactoringsAsync(this, lambdaExpression).ConfigureAwait(false);
-                            fLambdaExpression = true;
-                        }
-
-                        if (!fLiteralExpression
-                            && (node is LiteralExpressionSyntax literalExpression))
-                        {
-                            await LiteralExpressionRefactoring.ComputeRefactoringsAsync(this, literalExpression).ConfigureAwait(false);
-                            fLiteralExpression = true;
-                        }
-
-                        if (!fSimpleMemberAccessExpression
-                            && kind == SyntaxKind.SimpleMemberAccessExpression)
-                        {
-                            await SimpleMemberAccessExpressionRefactoring.ComputeRefactoringAsync(this, (MemberAccessExpressionSyntax)node).ConfigureAwait(false);
-                            fSimpleMemberAccessExpression = true;
+                        await SimpleMemberAccessExpressionRefactoring.ComputeRefactoringAsync(this, (MemberAccessExpressionSyntax)node).ConfigureAwait(false);
+                        fSimpleMemberAccessExpression = true;
                         }
 
                         if (!fConditionalAccess
@@ -637,218 +632,217 @@ namespace Roslynator.CSharp.Refactorings
                         {
                             await ConditionalAccessExpressionRefactoring.ComputeRefactoringAsync(this, (ConditionalAccessExpressionSyntax)node).ConfigureAwait(false);
                             fConditionalAccess = true;
-                        }
-
-                        if (!fParenthesizedExpression
-                            && kind == SyntaxKind.ParenthesizedExpression)
-                        {
-                            ParenthesizedExpressionRefactoring.ComputeRefactorings(this, (ParenthesizedExpressionSyntax)expression);
-                            fParenthesizedExpression = true;
-                        }
-
-                        if (!fPostfixUnaryExpression
-                            && (node is PostfixUnaryExpressionSyntax postfixUnaryExpression))
-                        {
-                            PostfixUnaryExpressionRefactoring.ComputeRefactorings(this, postfixUnaryExpression);
-                            fPostfixUnaryExpression = true;
-                        }
-
-                        if (!fPrefixUnaryExpression
-                            && (node is PrefixUnaryExpressionSyntax prefixUnaryExpression))
-                        {
-                            PrefixUnaryExpressionRefactoring.ComputeRefactorings(this, prefixUnaryExpression);
-                            fPrefixUnaryExpression = true;
-                        }
-
-                        if (!fAwaitExpression
-                            && kind == SyntaxKind.AwaitExpression)
-                        {
-                            await AwaitExpressionRefactoring.ComputeRefactoringsAsync(this, (AwaitExpressionSyntax)node).ConfigureAwait(false);
-                            fAwaitExpression = true;
-                        }
-
-                        if (!fCastExpression
-                            && kind == SyntaxKind.CastExpression)
-                        {
-                            CastExpressionRefactoring.ComputeRefactorings(this, (CastExpressionSyntax)node);
-                            fCastExpression = true;
-                        }
-
-                        if (!fThrowExpression
-                            && kind == SyntaxKind.ThrowExpression)
-                        {
-                            await ThrowExpressionRefactoring.ComputeRefactoringsAsync(this, (ThrowExpressionSyntax)node).ConfigureAwait(false);
-                            fThrowExpression = true;
-                        }
-
-                        if (!fDeclarationExpression
-                            && kind == SyntaxKind.DeclarationExpression)
-                        {
-                            await DeclarationExpressionRefactoring.ComputeRefactoringsAsync(this, (DeclarationExpressionSyntax)node).ConfigureAwait(false);
-                            fDeclarationExpression = true;
-                        }
-
-                        if (!fIsPatternExpression
-                            && kind == SyntaxKind.IsPatternExpression)
-                        {
-                            NegateIsExpressionRefactoring.ComputeRefactoring(this, (IsPatternExpressionSyntax)node);
-                            fIsPatternExpression = true;
-                        }
-
-                        continue;
                     }
 
-                    if (node is MemberDeclarationSyntax memberDeclaration)
+                    if (!fParenthesizedExpression
+                        && kind == SyntaxKind.ParenthesizedExpression)
                     {
-                        if (!fMemberDeclaration)
-                        {
-                            await MemberDeclarationRefactoring.ComputeRefactoringsAsync(this, memberDeclaration).ConfigureAwait(false);
-                            AttributeListRefactoring.ComputeRefactorings(this, memberDeclaration);
-                            await IntroduceConstructorRefactoring.ComputeRefactoringsAsync(this, memberDeclaration).ConfigureAwait(false);
-                            fMemberDeclaration = true;
-                        }
-
-                        continue;
+                        ParenthesizedExpressionRefactoring.ComputeRefactorings(this, (ParenthesizedExpressionSyntax)expression);
+                        fParenthesizedExpression = true;
                     }
 
-                    if (node is StatementSyntax statement)
+                    if (!fPostfixUnaryExpression
+                        && (node is PostfixUnaryExpressionSyntax postfixUnaryExpression))
                     {
-                        if (!fDoStatement
-                            && kind == SyntaxKind.DoStatement)
+                        PostfixUnaryExpressionRefactoring.ComputeRefactorings(this, postfixUnaryExpression);
+                        fPostfixUnaryExpression = true;
+                    }
+
+                    if (!fPrefixUnaryExpression
+                        && (node is PrefixUnaryExpressionSyntax prefixUnaryExpression))
+                    {
+                        PrefixUnaryExpressionRefactoring.ComputeRefactorings(this, prefixUnaryExpression);
+                        fPrefixUnaryExpression = true;
+                    }
+
+                    if (!fAwaitExpression
+                        && kind == SyntaxKind.AwaitExpression)
+                    {
+                        await AwaitExpressionRefactoring.ComputeRefactoringsAsync(this, (AwaitExpressionSyntax)node).ConfigureAwait(false);
+                        fAwaitExpression = true;
+                    }
+
+                    if (!fCastExpression
+                        && kind == SyntaxKind.CastExpression)
+                    {
+                        CastExpressionRefactoring.ComputeRefactorings(this, (CastExpressionSyntax)node);
+                        fCastExpression = true;
+                    }
+
+                    if (!fThrowExpression
+                        && kind == SyntaxKind.ThrowExpression)
+                    {
+                        await ThrowExpressionRefactoring.ComputeRefactoringsAsync(this, (ThrowExpressionSyntax)node).ConfigureAwait(false);
+                        fThrowExpression = true;
+                    }
+
+                    if (!fDeclarationExpression
+                        && kind == SyntaxKind.DeclarationExpression)
+                    {
+                        await DeclarationExpressionRefactoring.ComputeRefactoringsAsync(this, (DeclarationExpressionSyntax)node).ConfigureAwait(false);
+                        fDeclarationExpression = true;
+                    }
+
+                    if (!fIsPatternExpression
+                        && kind == SyntaxKind.IsPatternExpression)
+                    {
+                        NegateIsExpressionRefactoring.ComputeRefactoring(this, (IsPatternExpressionSyntax)node);
+                        fIsPatternExpression = true;
+                    }
+
+                    continue;
+                }
+
+                if (node is MemberDeclarationSyntax memberDeclaration)
+                {
+                    if (!fMemberDeclaration)
+                    {
+                        await MemberDeclarationRefactoring.ComputeRefactoringsAsync(this, memberDeclaration).ConfigureAwait(false);
+                        AttributeListRefactoring.ComputeRefactorings(this, memberDeclaration);
+                        await IntroduceConstructorRefactoring.ComputeRefactoringsAsync(this, memberDeclaration).ConfigureAwait(false);
+                        fMemberDeclaration = true;
+                    }
+
+                    continue;
+                }
+
+                if (node is StatementSyntax statement)
+                {
+                    if (!fDoStatement
+                        && kind == SyntaxKind.DoStatement)
+                    {
+                        DoStatementRefactoring.ComputeRefactorings(this, (DoStatementSyntax)statement);
+                        fDoStatement = true;
+                    }
+
+                    if (!fExpressionStatement
+                        && kind == SyntaxKind.ExpressionStatement)
+                    {
+                        await ExpressionStatementRefactoring.ComputeRefactoringsAsync(this, (ExpressionStatementSyntax)statement).ConfigureAwait(false);
+                        fExpressionStatement = true;
+                    }
+
+                    if (!fForEachStatement
+                        && kind == SyntaxKind.ForEachStatement)
+                    {
+                        await ForEachStatementRefactoring.ComputeRefactoringsAsync(this, (ForEachStatementSyntax)statement).ConfigureAwait(false);
+                        fForEachStatement = true;
+                    }
+
+                    if (!fForStatement
+                        && kind == SyntaxKind.ForStatement)
+                    {
+                        await ForStatementRefactoring.ComputeRefactoringsAsync(this, (ForStatementSyntax)statement).ConfigureAwait(false);
+                        fForStatement = true;
+                    }
+
+                    if (!fIfStatement
+                        && kind == SyntaxKind.IfStatement)
+                    {
+                        await IfStatementRefactoring.ComputeRefactoringsAsync(this, (IfStatementSyntax)statement).ConfigureAwait(false);
+                        fIfStatement = true;
+                    }
+
+                    if (!fLocalDeclarationStatement
+                        && kind == SyntaxKind.LocalDeclarationStatement)
+                    {
+                        await LocalDeclarationStatementRefactoring.ComputeRefactoringsAsync(this, (LocalDeclarationStatementSyntax)statement).ConfigureAwait(false);
+                        fLocalDeclarationStatement = true;
+                    }
+
+                    if (!fReturnStatement
+                        && kind == SyntaxKind.ReturnStatement)
+                    {
+                        await ReturnStatementRefactoring.ComputeRefactoringsAsync(this, (ReturnStatementSyntax)statement).ConfigureAwait(false);
+                        fReturnStatement = true;
+                    }
+
+                    if (!fSwitchStatement
+                        && kind == SyntaxKind.SwitchStatement)
+                    {
+                        await SwitchStatementRefactoring.ComputeRefactoringsAsync(this, (SwitchStatementSyntax)statement).ConfigureAwait(false);
+                        fSwitchStatement = true;
+                    }
+
+                    if (!fUsingStatement
+                        && kind == SyntaxKind.UsingStatement)
+                    {
+                        UsingStatementRefactoring.ComputeRefactorings(this, (UsingStatementSyntax)statement);
+                        fUsingStatement = true;
+                    }
+
+                    if (!fWhileStatement
+                        && kind == SyntaxKind.WhileStatement)
+                    {
+                        WhileStatementRefactoring.ComputeRefactorings(this, (WhileStatementSyntax)statement);
+                        fWhileStatement = true;
+                    }
+
+                    if (!fYieldReturnStatement
+                        && (node is YieldStatementSyntax yieldStatement))
+                    {
+                        await YieldStatementRefactoring.ComputeRefactoringsAsync(this, yieldStatement).ConfigureAwait(false);
+                        fYieldReturnStatement = true;
+                    }
+
+                    if (!fLockStatement
+                        && kind == SyntaxKind.LockStatement)
+                    {
+                        LockStatementRefactoring.ComputeRefactorings(this, (LockStatementSyntax)node);
+                        fLockStatement = true;
+                    }
+
+                    if (!fBlock
+                        && kind == SyntaxKind.Block)
+                    {
+                        await BlockRefactoring.ComputeRefactoringAsync(this, (BlockSyntax)node).ConfigureAwait(false);
+                        fBlock = true;
+                    }
+
+                    if (!fThrowStatement
+                        && kind == SyntaxKind.ThrowStatement)
+                    {
+                        await ThrowStatementRefactoring.ComputeRefactoringAsync(this, (ThrowStatementSyntax)node).ConfigureAwait(false);
+                        fThrowStatement = true;
+                    }
+
+                    if (!fLocalFunctionStatement
+                        && kind == SyntaxKind.LocalFunctionStatement)
+                    {
+                        await LocalFunctionStatementRefactoring.ComputeRefactoringsAsync(this, (LocalFunctionStatementSyntax)node).ConfigureAwait(false);
+                        fLocalFunctionStatement = true;
+                    }
+
+                    if (!fUnsafeStatement
+                        && kind == SyntaxKind.UnsafeStatement)
+                    {
+                        UnsafeStatementRefactoring.ComputeRefactorings(this, (UnsafeStatementSyntax)node);
+                        fUnsafeStatement = true;
+                    }
+
+                    if (!fStatement)
+                    {
+                        AddBracesRefactoring.ComputeRefactoring(this, statement);
+                        RemoveBracesRefactoring.ComputeRefactoring(this, statement);
+
+                        if (IsRefactoringEnabled(RefactoringIdentifiers.ExtractStatement))
+                            ExtractStatementRefactoring.ComputeRefactoring(this, statement);
+
+                        EmbeddedStatementRefactoring.ComputeRefactoring(this, statement);
+                        fStatement = true;
+                    }
+
+                    if (!fStatementRefactoring)
+                    {
+                        if (kind == SyntaxKind.Block)
                         {
-                            DoStatementRefactoring.ComputeRefactorings(this, (DoStatementSyntax)statement);
-                            fDoStatement = true;
+                            StatementRefactoring.ComputeRefactoring(this, (BlockSyntax)node);
+                            fStatementRefactoring = true;
                         }
-
-                        if (!fExpressionStatement
-                            && kind == SyntaxKind.ExpressionStatement)
+                        else if (kind == SyntaxKind.SwitchStatement)
                         {
-                            await ExpressionStatementRefactoring.ComputeRefactoringsAsync(this, (ExpressionStatementSyntax)statement).ConfigureAwait(false);
-                            fExpressionStatement = true;
-                        }
-
-                        if (!fForEachStatement
-                            && kind == SyntaxKind.ForEachStatement)
-                        {
-                            await ForEachStatementRefactoring.ComputeRefactoringsAsync(this, (ForEachStatementSyntax)statement).ConfigureAwait(false);
-                            fForEachStatement = true;
-                        }
-
-                        if (!fForStatement
-                            && kind == SyntaxKind.ForStatement)
-                        {
-                            await ForStatementRefactoring.ComputeRefactoringsAsync(this, (ForStatementSyntax)statement).ConfigureAwait(false);
-                            fForStatement = true;
-                        }
-
-                        if (!fIfStatement
-                            && kind == SyntaxKind.IfStatement)
-                        {
-                            await IfStatementRefactoring.ComputeRefactoringsAsync(this, (IfStatementSyntax)statement).ConfigureAwait(false);
-                            fIfStatement = true;
-                        }
-
-                        if (!fLocalDeclarationStatement
-                            && kind == SyntaxKind.LocalDeclarationStatement)
-                        {
-                            await LocalDeclarationStatementRefactoring.ComputeRefactoringsAsync(this, (LocalDeclarationStatementSyntax)statement).ConfigureAwait(false);
-                            fLocalDeclarationStatement = true;
-                        }
-
-                        if (!fReturnStatement
-                            && kind == SyntaxKind.ReturnStatement)
-                        {
-                            await ReturnStatementRefactoring.ComputeRefactoringsAsync(this, (ReturnStatementSyntax)statement).ConfigureAwait(false);
-                            fReturnStatement = true;
-                        }
-
-                        if (!fSwitchStatement
-                            && kind == SyntaxKind.SwitchStatement)
-                        {
-                            await SwitchStatementRefactoring.ComputeRefactoringsAsync(this, (SwitchStatementSyntax)statement).ConfigureAwait(false);
-                            fSwitchStatement = true;
-                        }
-
-                        if (!fUsingStatement
-                            && kind == SyntaxKind.UsingStatement)
-                        {
-                            UsingStatementRefactoring.ComputeRefactorings(this, (UsingStatementSyntax)statement);
-                            fUsingStatement = true;
-                        }
-
-                        if (!fWhileStatement
-                            && kind == SyntaxKind.WhileStatement)
-                        {
-                            WhileStatementRefactoring.ComputeRefactorings(this, (WhileStatementSyntax)statement);
-                            fWhileStatement = true;
-                        }
-
-                        if (!fYieldReturnStatement
-                            && (node is YieldStatementSyntax yieldStatement))
-                        {
-                            await YieldStatementRefactoring.ComputeRefactoringsAsync(this, yieldStatement).ConfigureAwait(false);
-                            fYieldReturnStatement = true;
-                        }
-
-                        if (!fLockStatement
-                            && kind == SyntaxKind.LockStatement)
-                        {
-                            LockStatementRefactoring.ComputeRefactorings(this, (LockStatementSyntax)node);
-                            fLockStatement = true;
-                        }
-
-                        if (!fBlock
-                            && kind == SyntaxKind.Block)
-                        {
-                            await BlockRefactoring.ComputeRefactoringAsync(this, (BlockSyntax)node).ConfigureAwait(false);
-                            fBlock = true;
-                        }
-
-                        if (!fThrowStatement
-                            && kind == SyntaxKind.ThrowStatement)
-                        {
-                            await ThrowStatementRefactoring.ComputeRefactoringAsync(this, (ThrowStatementSyntax)node).ConfigureAwait(false);
-                            fThrowStatement = true;
-                        }
-
-                        if (!fLocalFunctionStatement
-                            && kind == SyntaxKind.LocalFunctionStatement)
-                        {
-                            await LocalFunctionStatementRefactoring.ComputeRefactoringsAsync(this, (LocalFunctionStatementSyntax)node).ConfigureAwait(false);
-                            fLocalFunctionStatement = true;
-                        }
-
-                        if (!fUnsafeStatement
-                            && kind == SyntaxKind.UnsafeStatement)
-                        {
-                            UnsafeStatementRefactoring.ComputeRefactorings(this, (UnsafeStatementSyntax)node);
-                            fUnsafeStatement = true;
-                        }
-
-                        if (!fStatement)
-                        {
-                            AddBracesRefactoring.ComputeRefactoring(this, statement);
-                            RemoveBracesRefactoring.ComputeRefactoring(this, statement);
-
-                            if (IsRefactoringEnabled(RefactoringIdentifiers.ExtractStatement))
-                                ExtractStatementRefactoring.ComputeRefactoring(this, statement);
-
-                            EmbeddedStatementRefactoring.ComputeRefactoring(this, statement);
-                            fStatement = true;
-                        }
-
-                        if (!fStatementRefactoring)
-                        {
-                            if (kind == SyntaxKind.Block)
-                            {
-                                StatementRefactoring.ComputeRefactoring(this, (BlockSyntax)node);
-                                fStatementRefactoring = true;
-                            }
-                            else if (kind == SyntaxKind.SwitchStatement)
-                            {
-                                StatementRefactoring.ComputeRefactoring(this, (SwitchStatementSyntax)node);
-                                fStatementRefactoring = true;
-                            }
+                            StatementRefactoring.ComputeRefactoring(this, (SwitchStatementSyntax)node);
+                            fStatementRefactoring = true;
                         }
                     }
                 }
