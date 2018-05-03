@@ -1,23 +1,21 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.CodeAnalysis;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CodeRefactorings;
-using Roslynator.CSharp.Refactorings;
 using Xunit;
-using static Roslynator.Tests.CSharpCodeRefactoringVerifier;
 
-namespace Roslynator.Refactorings.Tests
+#pragma warning disable RCS1090
+
+namespace Roslynator.CSharp.Refactorings.Tests
 {
-    public static class RR0204ReplaceForEachWithEnumeratorTests
+    public class RR0204ReplaceForEachWithEnumeratorTests : AbstractCSharpCodeRefactoringVerifier
     {
-        private const string RefactoringId = RefactoringIdentifiers.ReplaceForEachWithEnumerator;
-
-        private static CodeRefactoringProvider CodeRefactoringProvider { get; } = new RoslynatorCodeRefactoringProvider();
+        public override string RefactoringId { get; } = RefactoringIdentifiers.ReplaceForEachWithEnumerator;
 
         [Fact]
-        public static void TestCodeRefactoring_WithUsing()
+        public async Task TestCodeRefactoring_WithUsing()
         {
-            VerifyCodeRefactoring(
+            await VerifyRefactoringAsync(
 @"
 using System.Linq;
 
@@ -25,12 +23,12 @@ class C
 {
     void M()
     {
-        <<<>>>foreach (int item in Enumerable.Range(0, 1))
+        [||]foreach (int item in Enumerable.Range(0, 1))
         {
             int x = item;
         }
 
-        for<<<>>>each (int item in Enumerable.Range(0, 1))
+        for[||]each (int item in Enumerable.Range(0, 1))
             M(item);
     }
 
@@ -67,15 +65,13 @@ class C
         return value;
     }
 }
-",
-                codeRefactoringProvider: CodeRefactoringProvider,
-                equivalenceKey: RefactoringId);
+", RefactoringId);
         }
 
         [Fact]
-        public static void TestCodeRefactoring_WithoutUsing()
+        public async Task TestCodeRefactoring_WithoutUsing()
         {
-            VerifyCodeRefactoring(
+            await VerifyRefactoringAsync(
 @"
 using Microsoft.CodeAnalysis;
 
@@ -85,7 +81,7 @@ class C
     {
         SyntaxList<SyntaxNode> nodes;
 
-        <<<>>>foreach (SyntaxNode node in nodes)
+        [||]foreach (SyntaxNode node in nodes)
         {
             SyntaxNode x = node;
         }
@@ -107,15 +103,13 @@ class C
         }
     }
 }
-",
-                codeRefactoringProvider: CodeRefactoringProvider,
-                equivalenceKey: RefactoringId);
+", RefactoringId);
         }
 
         [Fact]
-        public static void TestNoCodeRefactoring_InvalidSpan()
+        public async Task TestNoCodeRefactoring_InvalidSpan()
         {
-            VerifyNoCodeRefactoring(
+            await VerifyNoRefactoringAsync(
 @"
 using System.Linq;
 
@@ -123,29 +117,27 @@ class C
 {
     void M()
     {
-        <<<foreach>>> (int item in Enumerable.Range(0, 1))
+        [|foreach|] (int item in Enumerable.Range(0, 1))
         {
             int x = item;
         }
 
-        <<<foreach (int item in Enumerable.Range(0, 1))
+        [|foreach (int item in Enumerable.Range(0, 1))
         {
             int x = item;
-        }>>>
+        }|]
 
-        <<<f>>>oreach (int item in Enumerable.Range(0, 1))
+        [|f|]oreach (int item in Enumerable.Range(0, 1))
         {
             int x = item;
         }
         foreach (int item in Enumerable.Range(0, 1))
         {
-            <<<>>>int x = item;
+            [||]int x = item;
         }
     }
 }
-",
-                codeRefactoringProvider: CodeRefactoringProvider,
-                equivalenceKey: RefactoringId);
+", RefactoringId);
         }
     }
 }
