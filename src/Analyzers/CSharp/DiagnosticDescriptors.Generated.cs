@@ -2495,5 +2495,17 @@ namespace Roslynator.CSharp
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MergePreprocessorDirectives}", 
             customTags:         Array.Empty<string>());
 
+        /// <summary>RCS1222</summary>
+        public static readonly DiagnosticDescriptor MakeMethodExtensionMethod = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.MakeMethodExtensionMethod, 
+            title:              "Make method an extension method.", 
+            messageFormat:      "Make method an extension method.", 
+            category:           DiagnosticCategories.Design, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MakeMethodExtensionMethod}", 
+            customTags:         Array.Empty<string>());
+
     }
 }
