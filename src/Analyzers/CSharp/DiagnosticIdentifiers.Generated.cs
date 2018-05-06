@@ -214,5 +214,6 @@ namespace Roslynator.CSharp
         public const string AddCommaAfterLastItemInList = "RCS1223";
         public const string UseDebuggerDisplayAttribute = "RCS1224";
         public const string ReplaceEnumeratorWithForEach = "RCS1225";
+        public const string MakeMethodExtensionMethod = "RCS1231";
     }
 }
