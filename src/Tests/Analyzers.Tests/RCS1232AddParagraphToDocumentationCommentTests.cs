@@ -17,7 +17,7 @@ namespace Roslynator.CSharp.Analysis.Tests
 
         public override DiagnosticAnalyzer Analyzer { get; } = new AddParagraphToDocumentationCommentAnalyzer();
 
-        public override CodeFixProvider FixProvider { get; } = new XmlElementCodeFixProvider();
+        public override CodeFixProvider FixProvider { get; } = new XmlTextCodeFixProvider();
 
         [Fact]
         public async Task Test()

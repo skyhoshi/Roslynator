@@ -2956,7 +2956,7 @@ namespace Roslynator.CSharp
                 int lineStartIndex = span.Start - tree.GetLineSpan(span, cancellationToken).StartLinePosition.Character;
 
                 while (!node.FullSpan.Contains(lineStartIndex))
-                    node = node.Parent;
+                    node = GetParent(node, ascendOutOfTrivia: true);
 
                 SyntaxToken token = node.FindToken(lineStartIndex);
 
