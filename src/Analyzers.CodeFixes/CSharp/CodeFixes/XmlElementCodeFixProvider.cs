@@ -75,21 +75,6 @@ namespace Roslynator.CSharp.CodeFixes
                 SyntaxToken token = xmlElement.FindToken(span.Start);
                 SyntaxToken endToken = xmlElement.FindToken(span.End - 1);
 
-                AddParagraph(token, endToken);
-
-                prevEnd = endToken.Span.End;
-            }
-
-            return document.WithTextChangesAsync(textChanges, cancellationToken);
-
-            void AddParagraph(SyntaxToken first, SyntaxToken last)
-            {
-                int start = first.SpanStart;
-                if (first.ValueText[0] == ' ')
-                    start++;
-
-                TextSpan span = TextSpan.FromBounds(start, last.Span.End);
-
                 bool isMultiline = xmlElement.SyntaxTree.IsMultiLineSpan(span, cancellationToken);
 
                 string text = "<para>";
@@ -97,7 +82,12 @@ namespace Roslynator.CSharp.CodeFixes
                 if (isMultiline)
                     text += $"{newLine}{indentation}/// ";
 
-                textChanges.Add(new TextChange(new TextSpan(span.Start, 0), text));
+                int start = token.SpanStart;
+
+                if (token.ValueText[0] == ' ')
+                    start++;
+
+                textChanges.Add(new TextChange(new TextSpan(start, 0), text));
 
                 text = "";
 
@@ -107,7 +97,11 @@ namespace Roslynator.CSharp.CodeFixes
                 text += "</para>";
 
                 textChanges.Add(new TextChange(new TextSpan(span.End, 0), text));
+
+                prevEnd = endToken.Span.End;
             }
+
+            return document.WithTextChangesAsync(textChanges, cancellationToken);
         }
     }
 }
