@@ -20,109 +20,246 @@ namespace Roslynator.CSharp.Analysis.Tests
         public override CodeFixProvider FixProvider { get; } = new XmlElementCodeFixProvider();
 
         [Fact]
-        public async Task Test()
+        public async Task Test_TwoParagraphs()
         {
             await VerifyDiagnosticAndFixAsync(@"
-/// <summary>
-///[| a
-/// 
-/// b|]
-/// </summary>
-class C
+namespace N
 {
+    /// <summary>
+    ///[| a
+    /// 
+    /// b|]
+    /// </summary>
+    class C
+    {
+    }
 }
 ", @"
-/// <summary>
-/// <para>a</para>
-/// <para>b</para>
-/// </summary>
-class C
+namespace N
 {
+    /// <summary>
+    /// <para>a</para>
+    /// <para>b</para>
+    /// </summary>
+    class C
+    {
+    }
 }
 ");
         }
 
         [Fact]
-        public async Task Test_Multiline()
+        public async Task Test_TwoParagraphs_Multiline()
         {
             await VerifyDiagnosticAndFixAsync(@"
-/// <summary>
-///[| a
-/// b
-/// 
-/// c
-/// d|]
-/// </summary>
-class C
+namespace N
 {
+    /// <summary>
+    ///[| a
+    /// b
+    /// 
+    /// c
+    /// d|]
+    /// </summary>
+    class C
+    {
+    }
 }
 ", @"
-/// <summary>
-/// <para>
-/// a
-/// b
-/// </para>
-/// <para>
-/// c
-/// d
-/// </para>
-/// </summary>
-class C
+namespace N
 {
+    /// <summary>
+    /// <para>
+    /// a
+    /// b
+    /// </para>
+    /// <para>
+    /// c
+    /// d
+    /// </para>
+    /// </summary>
+    class C
+    {
+    }
 }
 ");
         }
 
         [Fact]
-        public async Task Test_Multiline2()
+        public async Task Test_TwoParagraphs_Multiline2()
         {
             await VerifyDiagnosticAndFixAsync(@"
-/// <summary>
-///[| a
-/// b
-/// 
-/// c|]
-/// </summary>
-class C
+namespace N
 {
+    /// <summary>
+    ///[| a
+    /// b
+    /// 
+    /// c|]
+    /// </summary>
+    class C
+    {
+    }
 }
 ", @"
-/// <summary>
-/// <para>
-/// a
-/// b
-/// </para>
-/// <para>c</para>
-/// </summary>
-class C
+namespace N
 {
+    /// <summary>
+    /// <para>
+    /// a
+    /// b
+    /// </para>
+    /// <para>c</para>
+    /// </summary>
+    class C
+    {
+    }
 }
 ");
         }
 
         [Fact]
-        public async Task Test_Multiline3()
+        public async Task Test_TwoParagraphs_Multiline3()
         {
             await VerifyDiagnosticAndFixAsync(@"
-/// <summary>
-///[| a
-/// 
-/// c
-/// d|]
-/// </summary>
-class C
+namespace N
 {
+    /// <summary>
+    ///[| a
+    /// 
+    /// c
+    /// d|]
+    /// </summary>
+    class C
+    {
+    }
 }
 ", @"
-/// <summary>
-/// <para>a</para>
-/// <para>
-/// c
-/// d
-/// </para>
-/// </summary>
-class C
+namespace N
 {
+    /// <summary>
+    /// <para>a</para>
+    /// <para>
+    /// c
+    /// d
+    /// </para>
+    /// </summary>
+    class C
+    {
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_ThreeParagraphs()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+namespace N
+{
+    /// <summary>
+    ///[| a
+    /// 
+    /// b|]
+    /// 
+    /// c
+    /// </summary>
+    class C
+    {
+    }
+}
+", @"
+namespace N
+{
+    /// <summary>
+    /// <para>a</para>
+    /// <para>b</para>
+    /// <para>c</para>
+    /// </summary>
+    class C
+    {
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_ThreeParagraphs_Multiline()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+namespace N
+{
+    /// <summary>
+    ///[| a
+    /// b
+    /// 
+    /// c
+    /// d|]
+    /// 
+    /// e
+    /// f
+    /// </summary>
+    class C
+    {
+    }
+}
+", @"
+namespace N
+{
+    /// <summary>
+    /// <para>
+    /// a
+    /// b
+    /// </para>
+    /// <para>
+    /// c
+    /// d
+    /// </para>
+    /// <para>
+    /// e
+    /// f
+    /// </para>
+    /// </summary>
+    class C
+    {
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_TwoParagraphs_ElementsOnly()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+namespace N
+{
+    /// <summary>
+    /// [|<c></c>
+    /// <c></c>
+    /// 
+    /// <code>
+    /// </code>|]
+    /// </summary>
+    class C
+    {
+    }
+}
+", @"
+namespace N
+{
+    /// <summary>
+    /// <para>
+    /// <c></c>
+    /// <c></c>
+    /// </para>
+    /// <para>
+    /// <code>
+    /// </code>
+    /// </para>
+    /// </summary>
+    class C
+    {
+    }
 }
 ");
         }

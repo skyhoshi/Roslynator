@@ -7,4 +7,5 @@
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1093:Remove file with no code.", Justification = "<Pending>")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Simplification", "RCS1180:Inline lazy initialization.", Justification = "<Pending>", Scope = "member", Target = "~M:Roslynator.CSharp.Analysis.UnusedMember.UnusedMemberAnalyzer.AnalyzeTypeDeclaration(Microsoft.CodeAnalysis.Diagnostics.SyntaxNodeAnalysisContext,Microsoft.CodeAnalysis.CSharp.Syntax.TypeDeclarationSyntax,Microsoft.CodeAnalysis.INamedTypeSymbol)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Simplification", "RCS1180:Inline lazy initialization.", Justification = "<Pending>", Scope = "member", Target = "~M:Roslynator.CSharp.Analysis.AddParagraphToDocumentationCommentAnalyzer.FindFixableSpan(Microsoft.CodeAnalysis.SyntaxList{Microsoft.CodeAnalysis.CSharp.Syntax.XmlNodeSyntax},System.Boolean)~System.")]
 
