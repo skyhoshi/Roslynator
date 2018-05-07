@@ -1625,15 +1625,6 @@ namespace Roslynator.CSharp
             return ReplaceRangeAt(list, index, 1, newNodes);
         }
 
-        //TODO: make public
-        internal static SeparatedSyntaxList<TNode> ReplaceRangeAt<TNode>(
-            this SeparatedSyntaxList<TNode> list,
-            int index,
-            IEnumerable<TNode> newNodes) where TNode : SyntaxNode
-        {
-            return ReplaceRangeAt(list, index, 1, newNodes);
-        }
-
         internal static SeparatedSyntaxList<TNode> ReplaceRangeAt<TNode>(
             this SeparatedSyntaxList<TNode> list,
             int startIndex,
@@ -2108,15 +2099,6 @@ namespace Roslynator.CSharp
             }
 
             return statements.Insert(index, statement);
-        }
-
-        //TODO: make public
-        internal static SyntaxList<TNode> ReplaceRangeAt<TNode>(
-            this SyntaxList<TNode> list,
-            int index,
-            IEnumerable<TNode> newNodes) where TNode : SyntaxNode
-        {
-            return ReplaceRangeAt(list, index, 1, newNodes);
         }
 
         //TODO: make public
