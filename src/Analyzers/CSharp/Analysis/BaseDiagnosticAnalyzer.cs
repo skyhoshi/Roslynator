@@ -3,7 +3,6 @@
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.CodeAnalysis.Diagnostics;
-using System.Collections.Generic;
 
 namespace Roslynator.CSharp.Analysis
 {
@@ -14,16 +13,10 @@ namespace Roslynator.CSharp.Analysis
         {
         }
 
-        //TODO: make extension method
-        internal IEnumerable<string> SupportedDiagnosticIds
-        {
-            get { return SupportedDiagnostics.Select(f => f.Id); }
-        }
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string DebuggerDisplay
         {
-            get { return $"{{{string.Join(", ", SupportedDiagnosticIds)}}}"; }
+            get { return $"{{{string.Join(", ", SupportedDiagnostics.Select(f => f.Id))}}}"; }
         }
 
         public override void Initialize(AnalysisContext context)

@@ -88,7 +88,6 @@ namespace Roslynator
             }
         }
 
-        //TODO: change to property
         /// <summary>
         /// Gets the first selected item.
         /// </summary>
