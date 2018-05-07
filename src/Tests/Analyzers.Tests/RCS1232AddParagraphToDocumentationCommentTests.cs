@@ -17,27 +17,33 @@ namespace Roslynator.CSharp.Analysis.Tests
 
         public override DiagnosticAnalyzer Analyzer { get; } = new AddParagraphToDocumentationCommentAnalyzer();
 
-        public override CodeFixProvider FixProvider { get; } = new XmlTextCodeFixProvider();
+        public override CodeFixProvider FixProvider { get; } = new XmlElementCodeFixProvider();
 
         [Fact]
         public async Task Test()
         {
             await VerifyDiagnosticAndFixAsync(@"
-/// <summary>
-///[| a
-/// 
-/// b|]
-/// </summary>
-class C
+namespace N
 {
+    /// <summary>
+    ///[| a
+    /// 
+    /// b|]
+    /// </summary>
+    class C
+    {
+    }
 }
 ", @"
-/// <summary>
-/// <para>a</para>
-/// <para>b</para>
-/// </summary>
-class C
+namespace N
 {
+    /// <summary>
+    /// <para>a</para>
+    /// <para>b</para>
+    /// </summary>
+    class C
+    {
+    }
 }
 ");
         }
@@ -46,29 +52,35 @@ class C
         public async Task Test_Multiline()
         {
             await VerifyDiagnosticAndFixAsync(@"
-/// <summary>
-///[| a
-/// b
-/// 
-/// c
-/// d|]
-/// </summary>
-class C
+namespace N
 {
+    /// <summary>
+    ///[| a
+    /// b
+    /// 
+    /// c
+    /// d|]
+    /// </summary>
+    class C
+    {
+    }
 }
 ", @"
-/// <summary>
-/// <para>
-/// a
-/// b
-/// </para>
-/// <para>
-/// c
-/// d
-/// </para>
-/// </summary>
-class C
+namespace N
 {
+    /// <summary>
+    /// <para>
+    /// a
+    /// b
+    /// </para>
+    /// <para>
+    /// c
+    /// d
+    /// </para>
+    /// </summary>
+    class C
+    {
+    }
 }
 ");
         }
@@ -77,25 +89,31 @@ class C
         public async Task Test_Multiline2()
         {
             await VerifyDiagnosticAndFixAsync(@"
-/// <summary>
-///[| a
-/// b
-/// 
-/// c|]
-/// </summary>
-class C
+namespace N
 {
+    /// <summary>
+    ///[| a
+    /// b
+    /// 
+    /// c|]
+    /// </summary>
+    class C
+    {
+    }
 }
 ", @"
-/// <summary>
-/// <para>
-/// a
-/// b
-/// </para>
-/// <para>c</para>
-/// </summary>
-class C
+namespace N
 {
+    /// <summary>
+    /// <para>
+    /// a
+    /// b
+    /// </para>
+    /// <para>c</para>
+    /// </summary>
+    class C
+    {
+    }
 }
 ");
         }
@@ -104,25 +122,107 @@ class C
         public async Task Test_Multiline3()
         {
             await VerifyDiagnosticAndFixAsync(@"
-/// <summary>
-///[| a
-/// 
-/// c
-/// d|]
-/// </summary>
-class C
+namespace N
 {
+    /// <summary>
+    ///[| a
+    /// 
+    /// c
+    /// d|]
+    /// </summary>
+    class C
+    {
+    }
 }
 ", @"
-/// <summary>
-/// <para>a</para>
-/// <para>
-/// c
-/// d
-/// </para>
-/// </summary>
-class C
+namespace N
 {
+    /// <summary>
+    /// <para>a</para>
+    /// <para>
+    /// c
+    /// d
+    /// </para>
+    /// </summary>
+    class C
+    {
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_ThreeParagraphs()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+namespace N
+{
+    /// <summary>
+    ///[| a
+    /// 
+    /// b|]
+    /// 
+    /// c
+    /// </summary>
+    class C
+    {
+    }
+}
+", @"
+namespace N
+{
+    /// <summary>
+    /// <para>a</para>
+    /// <para>b</para>
+    /// <para>c</para>
+    /// </summary>
+    class C
+    {
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_ThreeParagraphs_Multiline()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+namespace N
+{
+    /// <summary>
+    ///[| a
+    /// b
+    /// 
+    /// c
+    /// d|]
+    /// 
+    /// e
+    /// f
+    /// </summary>
+    class C
+    {
+    }
+}
+", @"
+namespace N
+{
+    /// <summary>
+    /// <para>
+    /// a
+    /// b
+    /// </para>
+    /// <para>
+    /// c
+    /// d
+    /// </para>
+    /// <para>
+    /// e
+    /// f
+    /// </para>
+    /// </summary>
+    class C
+    {
+    }
 }
 ");
         }

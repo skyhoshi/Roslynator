@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,9 +18,9 @@ using Roslynator.CSharp.Analysis;
 
 namespace Roslynator.CSharp.CodeFixes
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(XmlTextCodeFixProvider))]
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(XmlElementCodeFixProvider))]
     [Shared]
-    public class XmlTextCodeFixProvider : BaseCodeFixProvider
+    public class XmlElementCodeFixProvider : BaseCodeFixProvider
     {
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
@@ -30,14 +31,14 @@ namespace Roslynator.CSharp.CodeFixes
         {
             SyntaxNode root = await context.GetSyntaxRootAsync().ConfigureAwait(false);
 
-            if (!TryFindFirstAncestorOrSelf(root, context.Span, out XmlTextSyntax xmlText, findInsideTrivia: true))
+            if (!TryFindFirstAncestorOrSelf(root, context.Span, out XmlElementSyntax xmlElement, findInsideTrivia: true))
                 return;
 
             Diagnostic diagnostic = context.Diagnostics[0];
 
             CodeAction codeAction = CodeAction.Create(
                 "Add paragraphs",
-                ct => RefactorAsync(context.Document, xmlText, context.Span, ct),
+                ct => RefactorAsync(context.Document, xmlElement, ct),
                 GetEquivalenceKey(diagnostic));
 
             context.RegisterCodeFix(codeAction, diagnostic);
@@ -45,36 +46,51 @@ namespace Roslynator.CSharp.CodeFixes
 
         private static Task<Document> RefactorAsync(
             Document document,
-            XmlTextSyntax xmlText,
-            TextSpan span,
+            XmlElementSyntax xmlElement,
             CancellationToken cancellationToken)
         {
-            SyntaxTokenList tokens = xmlText.TextTokens;
+            SyntaxList<XmlNodeSyntax> nodes = xmlElement.Content;
 
-            (int index1, int index2, int index3, int index4) = AddParagraphToDocumentationCommentAnalyzer.FindFixableTokens(tokens);
+            (TextSpan span1, TextSpan span2, IList<TextSpan> spans) = AddParagraphToDocumentationCommentAnalyzer.FindFixableTokens(nodes, new List<TextSpan>());
+
+            Debug.Assert(spans.Count > 1);
 
             var textChanges = new List<TextChange>();
 
-            string newLine = tokens.First(f => f.IsKind(SyntaxKind.XmlTextLiteralNewLineToken)).ValueText;
-            string indentation = xmlText.GetIndentation(cancellationToken).ToString();
+            string newLine = nodes
+                .OfType<XmlTextSyntax>()
+                .SelectMany(f => f.TextTokens)
+                .First(f => f.IsKind(SyntaxKind.XmlTextLiteralNewLineToken))
+                .ValueText;
 
-            AddParagraph(tokens[index1], tokens[index2]);
+            string indentation = xmlElement.GetIndentation(cancellationToken).ToString();
 
-            textChanges.Add(new TextChange(TextSpan.FromBounds(tokens[index2].Span.End, tokens[index3].Span.Start), $"{newLine}{indentation}///"));
+            int prevEnd = -1;
 
-            AddParagraph(tokens[index3], tokens[index4]);
+            foreach (TextSpan span in spans)
+            {
+                if (prevEnd != -1)
+                    textChanges.Add(new TextChange(TextSpan.FromBounds(prevEnd, span.Start), $"{newLine}{indentation}///"));
+
+                SyntaxToken token = xmlElement.FindToken(span.Start);
+                SyntaxToken endToken = xmlElement.FindToken(span.End - 1);
+
+                AddParagraph(token, endToken);
+
+                prevEnd = endToken.Span.End;
+            }
 
             return document.WithTextChangesAsync(textChanges, cancellationToken);
 
-            void AddParagraph(SyntaxToken token1, SyntaxToken token2)
+            void AddParagraph(SyntaxToken first, SyntaxToken last)
             {
-                int spanStart = token1.SpanStart;
-                if (token1.ValueText[0] == ' ')
-                    spanStart++;
+                int start = first.SpanStart;
+                if (first.ValueText[0] == ' ')
+                    start++;
 
-                span = TextSpan.FromBounds(spanStart, token2.Span.End);
+                TextSpan span = TextSpan.FromBounds(start, last.Span.End);
 
-                bool isMultiline = xmlText.SyntaxTree.IsMultiLineSpan(span, cancellationToken);
+                bool isMultiline = xmlElement.SyntaxTree.IsMultiLineSpan(span, cancellationToken);
 
                 string text = "<para>";
 

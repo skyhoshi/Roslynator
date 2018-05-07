@@ -1,7 +1,10 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -45,22 +48,25 @@ namespace Roslynator.CSharp.Analysis
             if (!content.Any())
                 return;
 
-            (int index1, int index2, int index3, int index4) = FindFixableTokens(content);
+            (TextSpan span1, TextSpan span2, IList<TextSpan> spans) = FindFixableTokens(content, spans: null);
 
-            if (index4 != -1)
+            if (span2 != default)
             {
                 context.ReportDiagnostic(
                     DiagnosticDescriptors.AddParagraphToDocumentationComment,
-                    Location.Create(documentationComment.SyntaxTree, TextSpan.FromBounds(index1, index4)));
+                    Location.Create(documentationComment.SyntaxTree, TextSpan.FromBounds(span1.Start, span2.End)));
             }
         }
 
-        internal static (int index1, int index2, int index3, int index4) FindFixableTokens(SyntaxList<XmlNodeSyntax> nodes)
+        internal static (TextSpan span1, TextSpan span2, IList<TextSpan> spans)
+            FindFixableTokens(SyntaxList<XmlNodeSyntax> nodes, IList<TextSpan> spans)
         {
-            int index1 = -1;
+            int index = -1;
+            int endIndex = -1;
             int index2 = -1;
-            int index3 = -1;
-            int index4 = -1;
+            int endIndex2 = -1;
+
+            SyntaxNodeOrToken last = default;
 
             var state = State.BeforeParagraph;
 
@@ -69,49 +75,75 @@ namespace Roslynator.CSharp.Analysis
                 switch (node.Kind())
                 {
                     case SyntaxKind.XmlElement:
-                    case SyntaxKind.XmlEmptyElement:
                         {
+                            var xmlElement = (XmlElementSyntax)node;
+
+                            if (xmlElement.IsLocalName("para", StringComparison.OrdinalIgnoreCase))
+                                return (default, default, spans);
+
                             switch (state)
                             {
                                 case State.BeforeParagraph:
                                     {
                                         state = State.Paragraph;
-                                        index1 = node.SpanStart;
+                                        index = node.SpanStart;
+                                        last = node;
                                         break;
                                     }
                                 case State.Paragraph:
                                     {
-                                        if (index3 != -1)
-                                        {
-                                            index4 = node.SpanStart;
-                                        }
-                                        else
-                                        {
-                                            index2 = node.SpanStart;
-                                        }
-
+                                        last = node;
                                         break;
                                     }
                                 case State.NewLine:
                                 case State.WhiteSpaceAfterNewLine:
                                     {
                                         state = State.Paragraph;
-
-                                        if (index3 != -1)
-                                        {
-                                            index4 = node.SpanStart;
-                                        }
-                                        else
-                                        {
-                                            index2 = node.SpanStart;
-                                        }
-
+                                        last = node;
                                         break;
                                     }
                                 case State.WhiteSpaceBetweenParagraphs:
                                     {
                                         state = State.Paragraph;
-                                        index3 = node.SpanStart;
+                                        index2 = node.SpanStart;
+                                        break;
+                                    }
+                            }
+
+                            break;
+                        }
+                    case SyntaxKind.XmlEmptyElement:
+                        {
+                            var xmlEmptyElement = (XmlEmptyElementSyntax)node;
+
+                            if (xmlEmptyElement.IsLocalName("para", StringComparison.OrdinalIgnoreCase))
+                                return (default, default, spans);
+
+                            switch (state)
+                            {
+                                case State.BeforeParagraph:
+                                    {
+                                        state = State.Paragraph;
+                                        index = node.SpanStart;
+                                        last = node;
+                                        break;
+                                    }
+                                case State.Paragraph:
+                                    {
+                                        last = node;
+                                        break;
+                                    }
+                                case State.NewLine:
+                                case State.WhiteSpaceAfterNewLine:
+                                    {
+                                        state = State.Paragraph;
+                                        last = node;
+                                        break;
+                                    }
+                                case State.WhiteSpaceBetweenParagraphs:
+                                    {
+                                        state = State.Paragraph;
+                                        index2 = node.SpanStart;
                                         break;
                                     }
                             }
@@ -135,22 +167,15 @@ namespace Roslynator.CSharp.Analysis
                                                         if (!StringUtility.IsWhitespace(token.ValueText))
                                                         {
                                                             state = State.Paragraph;
-                                                            index1 = token.SpanStart;
+                                                            index = token.SpanStart;
+                                                            last = token;
                                                         }
 
                                                         break;
                                                     }
                                                 case State.Paragraph:
                                                     {
-                                                        if (index3 != -1)
-                                                        {
-                                                            index4 = token.SpanStart;
-                                                        }
-                                                        else
-                                                        {
-                                                            index2 = token.SpanStart;
-                                                        }
-
+                                                        last = token;
                                                         break;
                                                     }
                                                 case State.NewLine:
@@ -162,6 +187,7 @@ namespace Roslynator.CSharp.Analysis
                                                         else
                                                         {
                                                             state = State.Paragraph;
+                                                            last = token;
                                                         }
 
                                                         break;
@@ -169,7 +195,10 @@ namespace Roslynator.CSharp.Analysis
                                                 case State.WhiteSpaceAfterNewLine:
                                                     {
                                                         if (!StringUtility.IsWhitespace(token.ValueText))
+                                                        {
                                                             state = State.Paragraph;
+                                                            last = token;
+                                                        }
 
                                                         break;
                                                     }
@@ -178,7 +207,8 @@ namespace Roslynator.CSharp.Analysis
                                                         if (!StringUtility.IsWhitespace(token.ValueText))
                                                         {
                                                             state = State.Paragraph;
-                                                            index3 = token.SpanStart;
+                                                            index2 = token.SpanStart;
+                                                            last = token;
                                                         }
 
                                                         break;
@@ -203,9 +233,28 @@ namespace Roslynator.CSharp.Analysis
                                                 case State.NewLine:
                                                 case State.WhiteSpaceAfterNewLine:
                                                     {
-                                                        if (index3 != -1)
-                                                            return (index1, index2, index3, index4);
+                                                        if (index2 != -1)
+                                                        {
+                                                            endIndex2 = last.Span.End;
 
+                                                            if (spans != null)
+                                                            {
+                                                                if (spans.Count == 0)
+                                                                    spans.Add(TextSpan.FromBounds(index, endIndex));
+
+                                                                spans.Add(TextSpan.FromBounds(index2, endIndex2));
+                                                                index = index2;
+                                                                index2 = -1;
+                                                                endIndex2 = -1;
+                                                            }
+                                                            else
+                                                            {
+                                                                return (TextSpan.FromBounds(index, endIndex), TextSpan.FromBounds(index2, endIndex2), default);
+                                                            }
+                                                        }
+
+                                                        endIndex = last.Span.End;
+                                                        last = default;
                                                         state = State.WhiteSpaceBetweenParagraphs;
                                                         break;
                                                     }
@@ -225,123 +274,30 @@ namespace Roslynator.CSharp.Analysis
                 }
             }
 
-            return (index1, index2, index3, index4);
+            if (index != -1
+                && endIndex != -1
+                && index2 != -1)
+            {
+                Debug.Assert(last != default);
+
+                if (last != default)
+                    endIndex2 = last.Span.End;
+            }
+
+            if (spans != null)
+            {
+                if (spans.Count == 0)
+                    spans.Add(TextSpan.FromBounds(index, endIndex));
+
+                spans.Add(TextSpan.FromBounds(index2, endIndex2));
+
+                return (default, default, spans);
+            }
+            else
+            {
+                return (TextSpan.FromBounds(index, endIndex), TextSpan.FromBounds(index2, endIndex2), default);
+            }
         }
-
-        //internal static (int index1, int index2, int index3, int index4) FindFixableTokens(SyntaxTokenList tokens)
-        //{
-        //    int tokenCount = tokens.Count;
-
-        //    if (tokenCount == 0)
-        //        return default;
-
-        //    int maxToken = tokenCount - 1;
-        //    int j = -1;
-        //    SyntaxKind tokenKind = default;
-        //    SyntaxToken currentToken = default;
-
-        //    if (!FindParagraphStart())
-        //        return default;
-
-        //    int index1 = j;
-
-        //    if (!MoveNewLine())
-        //        return default;
-
-        //    FindParagraphEnd();
-
-        //    int index2 = j - 1;
-
-        //    if (!FindParagraphStart())
-        //        return default;
-
-        //    int index3 = j;
-        //    int index4 = index3;
-
-        //    if (MoveNewLine())
-        //    {
-        //        FindParagraphEnd();
-        //        index4 = j - 1;
-        //    }
-
-        //    return (index1, index2, index3, index4);
-
-        //    bool MoveNext()
-        //    {
-        //        if (j < maxToken)
-        //        {
-        //            j++;
-        //            currentToken = tokens[j];
-        //            tokenKind = currentToken.Kind();
-
-        //            Debug.Assert(tokenKind.Is(SyntaxKind.XmlTextLiteralToken, SyntaxKind.XmlTextLiteralNewLineToken), tokenKind.ToString());
-
-        //            return true;
-        //        }
-
-        //        return false;
-        //    }
-
-        //    bool MoveNewLine()
-        //    {
-        //        return MoveNext()
-        //            && tokenKind == SyntaxKind.XmlTextLiteralNewLineToken;
-        //    }
-
-        //    bool FindParagraphStart()
-        //    {
-        //        while (MoveNext())
-        //        {
-        //            if (tokenKind == SyntaxKind.XmlTextLiteralNewLineToken)
-        //                continue;
-
-        //            if (tokenKind == SyntaxKind.XmlTextLiteralToken)
-        //            {
-        //                if (StringUtility.IsWhitespace(currentToken.ValueText))
-        //                    continue;
-
-        //                return true;
-        //            }
-        //        }
-
-        //        return false;
-        //    }
-
-        //    int FindParagraphEnd()
-        //    {
-        //        int index = j;
-
-        //        while (j < maxToken - 1)
-        //        {
-        //            SyntaxToken token = tokens[j + 1];
-        //            if (token.IsKind(SyntaxKind.XmlTextLiteralToken)
-        //                && !StringUtility.IsWhitespace(token.ValueText))
-        //            {
-        //                token = tokens[j + 2];
-        //                if (token.IsKind(SyntaxKind.XmlTextLiteralNewLineToken))
-        //                {
-        //                    j++;
-        //                    index = j;
-        //                    j++;
-        //                    currentToken = token;
-        //                    tokenKind = SyntaxKind.XmlTextLiteralNewLineToken;
-
-        //                    Debug.Assert(tokenKind.Is(SyntaxKind.XmlTextLiteralToken, SyntaxKind.XmlTextLiteralNewLineToken), tokenKind.ToString());
-        //                }
-        //                else
-        //                {
-        //                    break;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                break;
-        //            }
-        //        }
-
-        //        return index;
-        //    }
-        //}
 
         private enum State
         {

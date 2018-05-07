@@ -3918,6 +3918,18 @@ namespace Roslynator.CSharp
         }
         #endregion XmlElementSyntax
 
+        #region XmlEmptyElementSyntax
+        internal static bool IsLocalName(this XmlEmptyElementSyntax xmlEmptyElement, string localName, StringComparison comparison = StringComparison.Ordinal)
+        {
+            return xmlEmptyElement.Name?.IsLocalName(localName, comparison) == true;
+        }
+
+        internal static bool IsLocalName(this XmlEmptyElementSyntax xmlEmptyElement, string localName1, string localName2, StringComparison comparison = StringComparison.Ordinal)
+        {
+            return xmlEmptyElement.Name?.IsLocalName(localName1, localName2, comparison) == true;
+        }
+        #endregion XmlEmptyElementSyntax
+
         #region XmlNameSyntax
         internal static bool IsLocalName(this XmlNameSyntax xmlName, string localName, StringComparison comparison = StringComparison.Ordinal)
         {
