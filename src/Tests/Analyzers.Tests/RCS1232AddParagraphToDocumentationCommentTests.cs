@@ -20,7 +20,7 @@ namespace Roslynator.CSharp.Analysis.Tests
         public override CodeFixProvider FixProvider { get; } = new XmlElementCodeFixProvider();
 
         [Fact]
-        public async Task Test()
+        public async Task Test_TwoParagraphs()
         {
             await VerifyDiagnosticAndFixAsync(@"
 namespace N
@@ -49,7 +49,7 @@ namespace N
         }
 
         [Fact]
-        public async Task Test_Multiline()
+        public async Task Test_TwoParagraphs_Multiline()
         {
             await VerifyDiagnosticAndFixAsync(@"
 namespace N
@@ -86,7 +86,7 @@ namespace N
         }
 
         [Fact]
-        public async Task Test_Multiline2()
+        public async Task Test_TwoParagraphs_Multiline2()
         {
             await VerifyDiagnosticAndFixAsync(@"
 namespace N
@@ -119,7 +119,7 @@ namespace N
         }
 
         [Fact]
-        public async Task Test_Multiline3()
+        public async Task Test_TwoParagraphs_Multiline3()
         {
             await VerifyDiagnosticAndFixAsync(@"
 namespace N
@@ -218,6 +218,43 @@ namespace N
     /// <para>
     /// e
     /// f
+    /// </para>
+    /// </summary>
+    class C
+    {
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_TwoParagraphs_ElementsOnly()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+namespace N
+{
+    /// <summary>
+    /// [|<c></c>
+    /// <c></c>
+    /// 
+    /// <code>
+    /// </code>|]
+    /// </summary>
+    class C
+    {
+    }
+}
+", @"
+namespace N
+{
+    /// <summary>
+    /// <para>
+    /// <c></c>
+    /// <c></c>
+    /// </para>
+    /// <para>
+    /// <code>
+    /// </code>
     /// </para>
     /// </summary>
     class C

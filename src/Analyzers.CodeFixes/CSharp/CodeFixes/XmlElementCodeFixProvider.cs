@@ -51,9 +51,7 @@ namespace Roslynator.CSharp.CodeFixes
         {
             SyntaxList<XmlNodeSyntax> nodes = xmlElement.Content;
 
-            (TextSpan span1, TextSpan span2, IList<TextSpan> spans) = AddParagraphToDocumentationCommentAnalyzer.FindFixableTokens(nodes, new List<TextSpan>());
-
-            Debug.Assert(spans.Count > 1);
+            (TextSpan span1, TextSpan span2, List<TextSpan> spans) = AddParagraphToDocumentationCommentAnalyzer.FindFixableSpan(nodes, stopOnFirstMatch: false);
 
             var textChanges = new List<TextChange>();
 
@@ -65,12 +63,14 @@ namespace Roslynator.CSharp.CodeFixes
 
             string indentation = xmlElement.GetIndentation(cancellationToken).ToString();
 
+            string s = $"{newLine}{indentation}/// ";
+
             int prevEnd = -1;
 
             foreach (TextSpan span in spans)
             {
                 if (prevEnd != -1)
-                    textChanges.Add(new TextChange(TextSpan.FromBounds(prevEnd, span.Start), $"{newLine}{indentation}///"));
+                    textChanges.Add(new TextChange(TextSpan.FromBounds(prevEnd, span.Start), s));
 
                 SyntaxToken token = xmlElement.FindToken(span.Start);
                 SyntaxToken endToken = xmlElement.FindToken(span.End - 1);
@@ -80,19 +80,30 @@ namespace Roslynator.CSharp.CodeFixes
                 string text = "<para>";
 
                 if (isMultiline)
-                    text += $"{newLine}{indentation}/// ";
+                    text += s;
 
                 int start = token.SpanStart;
+                int length = 0;
 
-                if (token.ValueText[0] == ' ')
-                    start++;
+                if (token.IsKind(SyntaxKind.XmlTextLiteralToken)
+                    && token.ValueText[0] == ' ')
+                {
+                    if (prevEnd == -1)
+                    {
+                        start++;
+                    }
+                    else
+                    {
+                        length++;
+                    }
+                }
 
-                textChanges.Add(new TextChange(new TextSpan(start, 0), text));
+                textChanges.Add(new TextChange(new TextSpan(start, length), text));
 
                 text = "";
 
                 if (isMultiline)
-                    text += $"{newLine}{indentation}/// ";
+                    text += s;
 
                 text += "</para>";
 

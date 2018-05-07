@@ -47,9 +47,9 @@ namespace Roslynator.CSharp.Analysis
             if (!content.Any())
                 return;
 
-            (TextSpan span1, TextSpan span2, IList<TextSpan> spans) = FindFixableTokens(content, spans: null);
+            (TextSpan span1, TextSpan span2, IList<TextSpan> spans) = FindFixableSpan(content, stopOnFirstMatch: true);
 
-            if (span2 != default)
+            if (span2.End > 0)
             {
                 context.ReportDiagnostic(
                     DiagnosticDescriptors.AddParagraphToDocumentationComment,
@@ -57,13 +57,15 @@ namespace Roslynator.CSharp.Analysis
             }
         }
 
-        internal static (TextSpan span1, TextSpan span2, IList<TextSpan> spans)
-            FindFixableTokens(SyntaxList<XmlNodeSyntax> nodes, IList<TextSpan> spans)
+        internal static (TextSpan span1, TextSpan span2, List<TextSpan> spans)
+            FindFixableSpan(SyntaxList<XmlNodeSyntax> nodes, bool stopOnFirstMatch = false)
         {
             int index = -1;
             int endIndex = -1;
             int index2 = -1;
             int endIndex2 = -1;
+
+            List<TextSpan> spans = null;
 
             SyntaxNodeOrToken last = default;
 
@@ -105,6 +107,7 @@ namespace Roslynator.CSharp.Analysis
                                     {
                                         state = State.Paragraph;
                                         index2 = node.SpanStart;
+                                        last = node;
                                         break;
                                     }
                             }
@@ -143,6 +146,7 @@ namespace Roslynator.CSharp.Analysis
                                     {
                                         state = State.Paragraph;
                                         index2 = node.SpanStart;
+                                        last = node;
                                         break;
                                     }
                             }
@@ -236,10 +240,10 @@ namespace Roslynator.CSharp.Analysis
                                                         {
                                                             endIndex2 = last.Span.End;
 
-                                                            if (spans != null)
+                                                            if (!stopOnFirstMatch)
                                                             {
-                                                                if (spans.Count == 0)
-                                                                    spans.Add(TextSpan.FromBounds(index, endIndex));
+                                                                if (spans == null)
+                                                                    spans = new List<TextSpan>() { TextSpan.FromBounds(index, endIndex) };
 
                                                                 spans.Add(TextSpan.FromBounds(index2, endIndex2));
                                                                 index = index2;
@@ -279,14 +283,13 @@ namespace Roslynator.CSharp.Analysis
             {
                 Debug.Assert(last != default);
 
-                if (last != default)
-                    endIndex2 = last.Span.End;
+                endIndex2 = last.Span.End;
             }
 
-            if (spans != null)
+            if (!stopOnFirstMatch)
             {
-                if (spans.Count == 0)
-                    spans.Add(TextSpan.FromBounds(index, endIndex));
+                if (spans == null)
+                    spans = new List<TextSpan>() { TextSpan.FromBounds(index, endIndex) };
 
                 spans.Add(TextSpan.FromBounds(index2, endIndex2));
 
