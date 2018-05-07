@@ -867,6 +867,28 @@ namespace Roslynator.CSharp
         {
             return SeparatedList<TNode>(nodesAndTokens);
         }
+
+        //TODO: make public
+        /// <summary>
+        /// Creates a list of syntax tokens from a sequence of tokens.
+        /// </summary>
+        /// <param name="tokens"></param>
+        /// <returns></returns>
+        internal static SyntaxTokenList ToSyntaxTokenList(this IEnumerable<SyntaxToken> tokens)
+        {
+            return TokenList(tokens);
+        }
+
+        //TODO: make public
+        /// <summary>
+        /// Creates a list of syntax trivia from a sequence of trivias.
+        /// </summary>
+        /// <param name="trivias"></param>
+        /// <returns></returns>
+        internal static SyntaxTriviaList ToSyntaxTriviaList(this IEnumerable<SyntaxTrivia> trivias)
+        {
+            return TriviaList(trivias);
+        }
         #endregion IEnumerable<T>
 
         #region IndexerDeclarationSyntax
@@ -1594,6 +1616,16 @@ namespace Roslynator.CSharp
             return tree.IsMultiLineSpan(span, cancellationToken);
         }
 
+        //TODO: make public
+        internal static SeparatedSyntaxList<TNode> ReplaceRangeAt<TNode>(
+            this SeparatedSyntaxList<TNode> list,
+            int index,
+            IEnumerable<TNode> newNodes) where TNode : SyntaxNode
+        {
+            return ReplaceRangeAt(list, index, 1, newNodes);
+        }
+
+        //TODO: make public
         internal static SeparatedSyntaxList<TNode> ReplaceRangeAt<TNode>(
             this SeparatedSyntaxList<TNode> list,
             int index,
@@ -2078,6 +2110,16 @@ namespace Roslynator.CSharp
             return statements.Insert(index, statement);
         }
 
+        //TODO: make public
+        internal static SyntaxList<TNode> ReplaceRangeAt<TNode>(
+            this SyntaxList<TNode> list,
+            int index,
+            IEnumerable<TNode> newNodes) where TNode : SyntaxNode
+        {
+            return ReplaceRangeAt(list, index, 1, newNodes);
+        }
+
+        //TODO: make public
         internal static SyntaxList<TNode> ReplaceRangeAt<TNode>(
             this SyntaxList<TNode> list,
             int index,
@@ -3435,6 +3477,7 @@ namespace Roslynator.CSharp
             return tokens;
         }
 
+        //TODO: new
         /// <summary>
         /// Creates a new list with tokens at the specified range removed.
         /// </summary>
@@ -3478,6 +3521,62 @@ namespace Roslynator.CSharp
                 {
                     i++;
                 }
+
+                while (en.MoveNext())
+                    yield return en.Current;
+            }
+        }
+
+        //TODO: make public
+        internal static SyntaxTokenList ReplaceRangeAt(
+            this SyntaxTokenList list,
+            int index,
+            IEnumerable<SyntaxToken> newTokens)
+        {
+            return ReplaceRangeAt(list, index, 1, newTokens);
+        }
+
+        //TODO: make public
+        internal static SyntaxTokenList ReplaceRangeAt(
+            this SyntaxTokenList list,
+            int startIndex,
+            int count,
+            IEnumerable<SyntaxToken> newTokens)
+        {
+            if (startIndex < 0)
+                throw new ArgumentOutOfRangeException(nameof(startIndex), startIndex, "");
+
+            if (count < 0
+                || startIndex + count > list.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count), count, "");
+            }
+
+            return TokenList(ReplaceRange());
+
+            IEnumerable<SyntaxToken> ReplaceRange()
+            {
+                SyntaxTokenList.Enumerator en = list.GetEnumerator();
+
+                int i = 0;
+
+                while (i < startIndex
+                    && en.MoveNext())
+                {
+                    yield return en.Current;
+                    i++;
+                }
+
+                int endIndex = startIndex + count;
+
+                while (i < endIndex
+                    && en.MoveNext())
+                {
+                    i++;
+                }
+
+                foreach (SyntaxToken token in newTokens)
+                    yield return token;
 
                 while (en.MoveNext())
                     yield return en.Current;
@@ -3702,6 +3801,7 @@ namespace Roslynator.CSharp
                 && triviaList[0].IsElasticMarker();
         }
 
+        //TODO: new
         /// <summary>
         /// Creates a new list with trivia at the specified range removed.
         /// </summary>
@@ -3745,6 +3845,62 @@ namespace Roslynator.CSharp
                 {
                     i++;
                 }
+
+                while (en.MoveNext())
+                    yield return en.Current;
+            }
+        }
+
+        //TODO: make public
+        internal static SyntaxTriviaList ReplaceRangeAt(
+            this SyntaxTriviaList list,
+            int index,
+            IEnumerable<SyntaxTrivia> newTrivia)
+        {
+            return ReplaceRangeAt(list, index, 1, newTrivia);
+        }
+
+        //TODO: make public
+        internal static SyntaxTriviaList ReplaceRangeAt(
+            this SyntaxTriviaList list,
+            int startIndex,
+            int count,
+            IEnumerable<SyntaxTrivia> newTrivia)
+        {
+            if (startIndex < 0)
+                throw new ArgumentOutOfRangeException(nameof(startIndex), startIndex, "");
+
+            if (count < 0
+                || startIndex + count > list.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count), count, "");
+            }
+
+            return TriviaList(ReplaceRange());
+
+            IEnumerable<SyntaxTrivia> ReplaceRange()
+            {
+                SyntaxTriviaList.Enumerator en = list.GetEnumerator();
+
+                int i = 0;
+
+                while (i < startIndex
+                    && en.MoveNext())
+                {
+                    yield return en.Current;
+                    i++;
+                }
+
+                int endIndex = startIndex + count;
+
+                while (i < endIndex
+                    && en.MoveNext())
+                {
+                    i++;
+                }
+
+                foreach (SyntaxTrivia trivia in newTrivia)
+                    yield return trivia;
 
                 while (en.MoveNext())
                     yield return en.Current;

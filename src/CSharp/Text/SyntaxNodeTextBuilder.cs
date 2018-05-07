@@ -32,13 +32,13 @@ namespace Roslynator.Text
 
         public TextSpan FullSpan { get; }
 
+        public string FullString { get; }
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string DebuggerDisplay
         {
             get { return $"{Node.Kind()} {ToString()}"; }
         }
-
-        public string FullString { get; }
 
         public override string ToString()
         {
