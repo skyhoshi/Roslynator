@@ -2753,7 +2753,7 @@ namespace Roslynator.CSharp
             return null;
         }
 
-        private static SyntaxNode GetParent(SyntaxNode node, bool ascendOutOfTrivia)
+        internal static SyntaxNode GetParent(this SyntaxNode node, bool ascendOutOfTrivia)
         {
             SyntaxNode parent = node.Parent;
 
