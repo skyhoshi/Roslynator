@@ -23,8 +23,6 @@ namespace Roslynator.CSharp.Syntax
             Expressions = expressions;
         }
 
-        private static BinaryExpressionChainInfo Default { get; } = new BinaryExpressionChainInfo();
-
         public BinaryExpressionSyntax BinaryExpression { get; }
 
         public SyntaxKind Kind
@@ -80,14 +78,14 @@ namespace Roslynator.CSharp.Syntax
         internal static BinaryExpressionChainInfo Create(BinaryExpressionSyntax binaryExpression)
         {
             if (binaryExpression == null)
-                return Default;
+                return default;
 
             SyntaxKind kind = binaryExpression.Kind();
 
             ImmutableArray<ExpressionSyntax> expressions = GetExpressions(binaryExpression, kind);
 
             if (expressions.IsDefault)
-                return Default;
+                return default;
 
             return new BinaryExpressionChainInfo(binaryExpression, expressions);
         }

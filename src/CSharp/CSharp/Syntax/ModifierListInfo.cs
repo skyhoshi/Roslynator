@@ -21,8 +21,6 @@ namespace Roslynator.CSharp.Syntax
             Modifiers = modifiers;
         }
 
-        private static ModifierListInfo Default { get; } = new ModifierListInfo();
-
         /// <summary>
         /// The node that contains the modifiers.
         /// </summary>
@@ -148,7 +146,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(SyntaxNode node)
         {
             if (node == null)
-                return Default;
+                return default;
 
             switch (node.Kind())
             {
@@ -198,13 +196,13 @@ namespace Roslynator.CSharp.Syntax
                     return new ModifierListInfo(node, ((ParameterSyntax)node).Modifiers);
             }
 
-            return Default;
+            return default;
         }
 
         internal static ModifierListInfo Create(ClassDeclarationSyntax classDeclaration)
         {
             if (classDeclaration == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(classDeclaration, classDeclaration.Modifiers);
         }
@@ -212,7 +210,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(ConstructorDeclarationSyntax constructorDeclaration)
         {
             if (constructorDeclaration == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(constructorDeclaration, constructorDeclaration.Modifiers);
         }
@@ -220,7 +218,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(ConversionOperatorDeclarationSyntax conversionOperatorDeclaration)
         {
             if (conversionOperatorDeclaration == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(conversionOperatorDeclaration, conversionOperatorDeclaration.Modifiers);
         }
@@ -228,7 +226,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(DelegateDeclarationSyntax delegateDeclaration)
         {
             if (delegateDeclaration == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(delegateDeclaration, delegateDeclaration.Modifiers);
         }
@@ -236,7 +234,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(DestructorDeclarationSyntax destructorDeclaration)
         {
             if (destructorDeclaration == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(destructorDeclaration, destructorDeclaration.Modifiers);
         }
@@ -244,7 +242,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(EnumDeclarationSyntax enumDeclaration)
         {
             if (enumDeclaration == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(enumDeclaration, enumDeclaration.Modifiers);
         }
@@ -252,7 +250,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(EventDeclarationSyntax eventDeclaration)
         {
             if (eventDeclaration == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(eventDeclaration, eventDeclaration.Modifiers);
         }
@@ -260,7 +258,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(EventFieldDeclarationSyntax eventFieldDeclaration)
         {
             if (eventFieldDeclaration == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(eventFieldDeclaration, eventFieldDeclaration.Modifiers);
         }
@@ -268,7 +266,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(FieldDeclarationSyntax fieldDeclaration)
         {
             if (fieldDeclaration == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(fieldDeclaration, fieldDeclaration.Modifiers);
         }
@@ -276,7 +274,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(IndexerDeclarationSyntax indexerDeclaration)
         {
             if (indexerDeclaration == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(indexerDeclaration, indexerDeclaration.Modifiers);
         }
@@ -284,7 +282,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(InterfaceDeclarationSyntax interfaceDeclaration)
         {
             if (interfaceDeclaration == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(interfaceDeclaration, interfaceDeclaration.Modifiers);
         }
@@ -292,7 +290,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(MethodDeclarationSyntax methodDeclaration)
         {
             if (methodDeclaration == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(methodDeclaration, methodDeclaration.Modifiers);
         }
@@ -300,7 +298,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(OperatorDeclarationSyntax operatorDeclaration)
         {
             if (operatorDeclaration == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(operatorDeclaration, operatorDeclaration.Modifiers);
         }
@@ -308,7 +306,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(PropertyDeclarationSyntax propertyDeclaration)
         {
             if (propertyDeclaration == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(propertyDeclaration, propertyDeclaration.Modifiers);
         }
@@ -316,7 +314,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(StructDeclarationSyntax structDeclaration)
         {
             if (structDeclaration == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(structDeclaration, structDeclaration.Modifiers);
         }
@@ -324,7 +322,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(IncompleteMemberSyntax incompleteMember)
         {
             if (incompleteMember == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(incompleteMember, incompleteMember.Modifiers);
         }
@@ -332,7 +330,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(AccessorDeclarationSyntax accessorDeclaration)
         {
             if (accessorDeclaration == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(accessorDeclaration, accessorDeclaration.Modifiers);
         }
@@ -340,7 +338,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(LocalDeclarationStatementSyntax localDeclarationStatement)
         {
             if (localDeclarationStatement == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(localDeclarationStatement, localDeclarationStatement.Modifiers);
         }
@@ -348,7 +346,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(LocalFunctionStatementSyntax localFunctionStatement)
         {
             if (localFunctionStatement == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(localFunctionStatement, localFunctionStatement.Modifiers);
         }
@@ -356,7 +354,7 @@ namespace Roslynator.CSharp.Syntax
         internal static ModifierListInfo Create(ParameterSyntax parameter)
         {
             if (parameter == null)
-                return Default;
+                return default;
 
             return new ModifierListInfo(parameter, parameter.Modifiers);
         }

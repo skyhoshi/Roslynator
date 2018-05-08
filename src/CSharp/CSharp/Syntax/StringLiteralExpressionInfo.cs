@@ -21,8 +21,6 @@ namespace Roslynator.CSharp.Syntax
             Expression = expression;
         }
 
-        private static StringLiteralExpressionInfo Default { get; } = new StringLiteralExpressionInfo();
-
         /// <summary>
         /// The string literal expression.
         /// </summary>
@@ -147,7 +145,7 @@ namespace Roslynator.CSharp.Syntax
         internal static StringLiteralExpressionInfo Create(LiteralExpressionSyntax literalExpression)
         {
             if (literalExpression?.Kind() != SyntaxKind.StringLiteralExpression)
-                return Default;
+                return default;
 
             return new StringLiteralExpressionInfo(literalExpression);
         }

@@ -23,8 +23,6 @@ namespace Roslynator.CSharp.Syntax
             TypeParameterList = typeParameterList;
         }
 
-        private static TypeParameterInfo Default { get; } = new TypeParameterInfo();
-
         /// <summary>
         /// The type parameter.
         /// </summary>
@@ -68,7 +66,7 @@ namespace Roslynator.CSharp.Syntax
         internal static TypeParameterInfo Create(TypeParameterSyntax typeParameter)
         {
             if (!(typeParameter.Parent is TypeParameterListSyntax typeParameterList))
-                return Default;
+                return default;
 
             SyntaxNode parent = typeParameterList.Parent;
 
@@ -106,7 +104,7 @@ namespace Roslynator.CSharp.Syntax
                     }
             }
 
-            return Default;
+            return default;
         }
 
         /// <summary>

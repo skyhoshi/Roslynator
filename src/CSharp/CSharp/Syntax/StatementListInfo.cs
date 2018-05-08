@@ -33,8 +33,6 @@ namespace Roslynator.CSharp.Syntax
             Statements = switchSection.Statements;
         }
 
-        private static StatementListInfo Default { get; } = new StatementListInfo();
-
         /// <summary>
         /// The node that contains the statements. It can be either a <see cref="BlockSyntax"/> or a <see cref="SwitchSectionSyntax"/>.
         /// </summary>
@@ -139,7 +137,7 @@ namespace Roslynator.CSharp.Syntax
         internal static StatementListInfo Create(BlockSyntax block)
         {
             if (block == null)
-                return Default;
+                return default;
 
             return new StatementListInfo(block);
         }
@@ -147,7 +145,7 @@ namespace Roslynator.CSharp.Syntax
         internal static StatementListInfo Create(SwitchSectionSyntax switchSection)
         {
             if (switchSection == null)
-                return Default;
+                return default;
 
             return new StatementListInfo(switchSection);
         }
@@ -155,7 +153,7 @@ namespace Roslynator.CSharp.Syntax
         internal static StatementListInfo Create(StatementSyntax statement)
         {
             if (statement == null)
-                return Default;
+                return default;
 
             SyntaxNode parent = statement.Parent;
 
@@ -166,7 +164,7 @@ namespace Roslynator.CSharp.Syntax
                 case SyntaxKind.SwitchSection:
                     return new StatementListInfo((SwitchSectionSyntax)parent);
                 default:
-                    return Default;
+                    return default;
             }
         }
 

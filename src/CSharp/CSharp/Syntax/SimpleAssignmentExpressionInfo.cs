@@ -26,8 +26,6 @@ namespace Roslynator.CSharp.Syntax
             Right = right;
         }
 
-        private static SimpleAssignmentExpressionInfo Default { get; } = new SimpleAssignmentExpressionInfo();
-
         /// <summary>
         /// The simple assignment expression.
         /// </summary>
@@ -79,17 +77,17 @@ namespace Roslynator.CSharp.Syntax
             bool allowMissing = false)
         {
             if (assignmentExpression?.Kind() != SyntaxKind.SimpleAssignmentExpression)
-                return Default;
+                return default;
 
             ExpressionSyntax left = WalkAndCheck(assignmentExpression.Left, walkDownParentheses, allowMissing);
 
             if (left == null)
-                return Default;
+                return default;
 
             ExpressionSyntax right = WalkAndCheck(assignmentExpression.Right, walkDownParentheses, allowMissing);
 
             if (right == null)
-                return Default;
+                return default;
 
             return new SimpleAssignmentExpressionInfo(assignmentExpression, left, right);
         }

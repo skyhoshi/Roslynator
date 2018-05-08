@@ -26,8 +26,6 @@ namespace Roslynator.CSharp.Syntax
             Type = type;
         }
 
-        private static IsExpressionInfo Default { get; } = new IsExpressionInfo();
-
         /// <summary>
         /// The "is" expression.
         /// </summary>
@@ -90,17 +88,17 @@ namespace Roslynator.CSharp.Syntax
             bool allowMissing = false)
         {
             if (binaryExpression?.Kind() != SyntaxKind.IsExpression)
-                return Default;
+                return default;
 
             ExpressionSyntax expression = Walk(binaryExpression.Left, walkDownParentheses);
 
             if (!Check(expression, allowMissing))
-                return Default;
+                return default;
 
             var type = binaryExpression.Right as TypeSyntax;
 
             if (!Check(type, allowMissing))
-                return Default;
+                return default;
 
             return new IsExpressionInfo(binaryExpression, expression, type);
         }

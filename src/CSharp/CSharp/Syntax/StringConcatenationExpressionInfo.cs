@@ -30,8 +30,6 @@ namespace Roslynator.CSharp.Syntax
             Span = span;
         }
 
-        private static StringConcatenationExpressionInfo Default { get; } = new StringConcatenationExpressionInfo();
-
         /// <summary>
         /// The binary expression that represents the string concatenation.
         /// </summary>
@@ -76,13 +74,13 @@ namespace Roslynator.CSharp.Syntax
             CancellationToken cancellationToken = default(CancellationToken))
         {
             if (binaryExpression?.Kind() != SyntaxKind.AddExpression)
-                return Default;
+                return default;
 
             if (semanticModel == null)
                 throw new ArgumentNullException(nameof(semanticModel));
 
             if (!IsStringConcatenation(binaryExpression, semanticModel, cancellationToken))
-                return Default;
+                return default;
 
             return new StringConcatenationExpressionInfo(binaryExpression);
         }
@@ -95,7 +93,7 @@ namespace Roslynator.CSharp.Syntax
             BinaryExpressionSyntax binaryExpression = binaryExpressionSelection.BinaryExpression;
 
             if (binaryExpression?.Kind() != SyntaxKind.AddExpression)
-                return Default;
+                return default;
 
             if (semanticModel == null)
                 throw new ArgumentNullException(nameof(semanticModel));
@@ -103,7 +101,7 @@ namespace Roslynator.CSharp.Syntax
             foreach (ExpressionSyntax expression in binaryExpressionSelection.Expressions)
             {
                 if (!CSharpUtility.IsStringExpression(expression, semanticModel, cancellationToken))
-                    return Default;
+                    return default;
             }
 
             return new StringConcatenationExpressionInfo(binaryExpression, binaryExpressionSelection.Span);
