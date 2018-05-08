@@ -10,21 +10,23 @@ namespace Roslynator
 {
     public static class WorkspaceFactory
     {
-        public static Project EmptyCSharpProject { get; } = CreateProject(LanguageNames.CSharp);
+        public static Project EmptyCSharpProject { get; } = Project(LanguageNames.CSharp);
 
-        public static Document CreateDocument(string source, string language)
+        public static Document Document(string language, string source, params string[] additionalSources)
         {
-            return CreateProject(source, language).Documents.First();
+            Project project = Project(language, source);
+
+            Document document = project.Documents.First();
+
+            if (additionalSources.Length > 0)
+                project = AddDocuments(project, language, additionalSources, fileNumberingBase: 1);
+
+            return project.GetDocument(document.Id);
         }
 
-        public static IEnumerable<Document> CreateDocuments(IEnumerable<string> sources, string language)
+        public static Project Project(string language, string source)
         {
-            return CreateProject(sources, language).Documents;
-        }
-
-        public static Project CreateProject(string source, string language)
-        {
-            Project project = (language == LanguageNames.CSharp) ? EmptyCSharpProject : CreateProject(language);
+            Project project = (language == LanguageNames.CSharp) ? EmptyCSharpProject : Project(language);
 
             ProjectId projectId = project.Id;
 
@@ -38,16 +40,21 @@ namespace Roslynator
                 .GetProject(projectId);
         }
 
-        public static Project CreateProject(IEnumerable<string> sources, string language)
+        public static Project Project(string language, IEnumerable<string> sources)
         {
-            Project project = (language == LanguageNames.CSharp) ? EmptyCSharpProject : CreateProject(language);
+            Project project = (language == LanguageNames.CSharp) ? EmptyCSharpProject : Project(language);
 
+            return AddDocuments(project, language, sources);
+        }
+
+        private static Project AddDocuments(Project project, string language, IEnumerable<string> sources, int fileNumberingBase = FileUtility.FileNumberingBase)
+        {
             Solution solution = project.Solution;
 
-            int count = FileUtility.FileNumberingBase;
+            int count = fileNumberingBase;
             foreach (string source in sources)
             {
-                string newFileName = FileUtility.CreateFileName(suffix: count, language: language);
+                string newFileName = FileUtility.CreateFileName(language, suffix: count);
                 DocumentId documentId = DocumentId.CreateNewId(project.Id, debugName: newFileName);
                 solution = solution.AddDocument(documentId, newFileName, SourceText.From(source));
                 count++;
@@ -56,7 +63,7 @@ namespace Roslynator
             return solution.GetProject(project.Id);
         }
 
-        public static Project CreateProject(string language)
+        public static Project Project(string language)
         {
             ProjectId projectId = ProjectId.CreateNewId(debugName: FileUtility.TestProjectName);
 
@@ -84,8 +91,12 @@ namespace Roslynator
 
                 var parseOptions = (CSharpParseOptions)project.ParseOptions;
 
+                CSharpCompilationOptions newCompilationOptions = compilationOptions
+                    .WithAllowUnsafe(true)
+                    .WithOutputKind(OutputKind.DynamicallyLinkedLibrary);
+
                 project = project
-                    .WithCompilationOptions(compilationOptions.WithAllowUnsafe(true))
+                    .WithCompilationOptions(newCompilationOptions)
                     .WithParseOptions(parseOptions.WithLanguageVersion(LanguageVersion.Latest));
             }
 
