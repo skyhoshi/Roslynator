@@ -277,28 +277,22 @@ namespace Roslynator.CSharp.Analysis
                 }
             }
 
-            if (index != -1
-                && endIndex != -1
-                && index2 != -1)
-            {
-                Debug.Assert(last != default);
-
-                endIndex2 = last.Span.End;
-            }
-
-            if (!stopOnFirstMatch)
-            {
-                if (spans == null)
-                    spans = new List<TextSpan>() { TextSpan.FromBounds(index, endIndex) };
-
-                spans.Add(TextSpan.FromBounds(index2, endIndex2));
-
+            if (index2 == -1)
                 return (default, default, spans);
-            }
-            else
-            {
+
+            Debug.Assert(last != default);
+
+            endIndex2 = last.Span.End;
+
+            if (stopOnFirstMatch)
                 return (TextSpan.FromBounds(index, endIndex), TextSpan.FromBounds(index2, endIndex2), default);
-            }
+
+            if (spans == null)
+                spans = new List<TextSpan>() { TextSpan.FromBounds(index, endIndex) };
+
+            spans.Add(TextSpan.FromBounds(index2, endIndex2));
+
+            return (default, default, spans);
         }
 
         private enum State
