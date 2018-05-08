@@ -4801,6 +4801,7 @@ if (y == null)
     <IsEnabledByDefault>true</IsEnabledByDefault>
     <SupportsFadeOut>false</SupportsFadeOut>
     <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Summary>Public/internal method in public/internal static class whose name ends with "Extensions" should be an extension method.</Summary>
     <Samples>
       <Sample>
         <Before><![CDATA[public static class FooExtensions
