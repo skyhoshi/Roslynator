@@ -26,7 +26,6 @@ namespace Roslynator.CSharp.Syntax
             Type = type;
         }
 
-        //TODO: replace Default with default
         private static AsExpressionInfo Default { get; } = new AsExpressionInfo();
 
         /// <summary>

@@ -1235,7 +1235,7 @@ namespace Roslynator
             return -1;
         }
 
-        internal static bool IsSorted(SyntaxTokenList modifiers, IComparer<SyntaxToken> comparer)
+        internal static bool IsSorted(this SyntaxTokenList modifiers, IComparer<SyntaxToken> comparer)
         {
             int count = modifiers.Count;
 

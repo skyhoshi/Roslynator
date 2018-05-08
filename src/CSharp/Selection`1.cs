@@ -17,6 +17,7 @@ namespace Roslynator
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public abstract class Selection<T> : IReadOnlyList<T>
     {
+        //TODO: rename span to originalSpan
         /// <summary>
         /// Initializes a new instance of the <see cref="Selection{T}"/>.
         /// </summary>
