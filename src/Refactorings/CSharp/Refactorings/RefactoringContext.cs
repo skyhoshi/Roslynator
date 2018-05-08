@@ -121,8 +121,7 @@ namespace Roslynator.CSharp.Refactorings
             Func<CancellationToken, Task<Document>> createChangedDocument,
             string equivalenceKey)
         {
-            RegisterRefactoring(
-                CodeAction.Create(title, createChangedDocument, equivalenceKey));
+            RegisterRefactoring(CodeAction.Create(title, createChangedDocument, equivalenceKey));
         }
 
         public void RegisterRefactoring(
@@ -130,8 +129,7 @@ namespace Roslynator.CSharp.Refactorings
             Func<CancellationToken, Task<Solution>> createChangedSolution,
             string equivalenceKey)
         {
-            RegisterRefactoring(
-                CodeAction.Create(title, createChangedSolution, equivalenceKey));
+            RegisterRefactoring(CodeAction.Create(title, createChangedSolution, equivalenceKey));
         }
 
         public void RegisterRefactoring(CodeAction codeAction)
@@ -222,9 +220,6 @@ namespace Roslynator.CSharp.Refactorings
         public async Task ComputeRefactoringsForTokenAsync()
         {
             SyntaxToken token = Root.FindToken(Span.Start);
-
-            if (token == default)
-                return;
 
             if (!token.Span.Contains(Span))
                 return;
@@ -886,7 +881,7 @@ namespace Roslynator.CSharp.Refactorings
                         }
                 }
 
-                if ((!flags.IsSet(Flag.Statement) || !flags.IsSet(Flag.Statements))
+                if ((!flags.IsSet(Flag.Statement) || !flags.IsSet(Flag.Statement2))
                     && node is StatementSyntax statement)
                 {
                     if (!flags.IsSet(Flag.Statement))
@@ -901,17 +896,17 @@ namespace Roslynator.CSharp.Refactorings
                         flags.Set(Flag.Statement);
                     }
 
-                    if (!flags.IsSet(Flag.Statements))
+                    if (!flags.IsSet(Flag.Statement2))
                     {
                         if (kind == SyntaxKind.Block)
                         {
                             StatementRefactoring.ComputeRefactoring(this, (BlockSyntax)statement);
-                            flags.Set(Flag.Statements);
+                            flags.Set(Flag.Statement2);
                         }
                         else if (kind == SyntaxKind.SwitchStatement)
                         {
                             StatementRefactoring.ComputeRefactoring(this, (SwitchStatementSyntax)statement);
-                            flags.Set(Flag.Statements);
+                            flags.Set(Flag.Statement2);
                         }
                     }
                 }
@@ -1038,10 +1033,11 @@ namespace Roslynator.CSharp.Refactorings
             YieldStatement = 53,
             LockStatement = 54,
             Block = 55,
-            Statements = 56,
+            Statement2 = 56,
             ThrowStatement = 57,
             LocalFunctionStatement = 58,
             UnsafeStatement = 59,
+
             Count = 60,
         }
     }
