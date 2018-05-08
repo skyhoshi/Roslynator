@@ -24,8 +24,6 @@ namespace Roslynator.CSharp.Syntax
             ConstraintClause = constraintClause;
         }
 
-        private static TypeParameterConstraintInfo Default { get; } = new TypeParameterConstraintInfo();
-
         /// <summary>
         /// The type parameter constraint.
         /// </summary>
@@ -111,12 +109,12 @@ namespace Roslynator.CSharp.Syntax
             bool allowMissing = false)
         {
             if (!(constraint?.Parent is TypeParameterConstraintClauseSyntax constraintClause))
-                return Default;
+                return default;
 
             IdentifierNameSyntax name = constraintClause.Name;
 
             if (!Check(name, allowMissing))
-                return Default;
+                return default;
 
             SyntaxNode parent = constraintClause.Parent;
 
@@ -129,7 +127,7 @@ namespace Roslynator.CSharp.Syntax
                         TypeParameterListSyntax typeParameterList = classDeclaration.TypeParameterList;
 
                         if (!Check(typeParameterList, allowMissing))
-                            return Default;
+                            return default;
 
                         return new TypeParameterConstraintInfo(constraint, constraintClause);
                     }
@@ -140,7 +138,7 @@ namespace Roslynator.CSharp.Syntax
                         TypeParameterListSyntax typeParameterList = delegateDeclaration.TypeParameterList;
 
                         if (!Check(typeParameterList, allowMissing))
-                            return Default;
+                            return default;
 
                         return new TypeParameterConstraintInfo(constraint, constraintClause);
                     }
@@ -151,7 +149,7 @@ namespace Roslynator.CSharp.Syntax
                         TypeParameterListSyntax typeParameterList = interfaceDeclaration.TypeParameterList;
 
                         if (!Check(typeParameterList, allowMissing))
-                            return Default;
+                            return default;
 
                         return new TypeParameterConstraintInfo(constraint, constraintClause);
                     }
@@ -162,7 +160,7 @@ namespace Roslynator.CSharp.Syntax
                         TypeParameterListSyntax typeParameterList = localFunctionStatement.TypeParameterList;
 
                         if (!Check(typeParameterList, allowMissing))
-                            return Default;
+                            return default;
 
                         return new TypeParameterConstraintInfo(constraint, constraintClause);
                     }
@@ -173,7 +171,7 @@ namespace Roslynator.CSharp.Syntax
                         TypeParameterListSyntax typeParameterList = methodDeclaration.TypeParameterList;
 
                         if (!Check(typeParameterList, allowMissing))
-                            return Default;
+                            return default;
 
                         return new TypeParameterConstraintInfo(constraint, constraintClause);
                     }
@@ -184,13 +182,13 @@ namespace Roslynator.CSharp.Syntax
                         TypeParameterListSyntax typeParameterList = structDeclaration.TypeParameterList;
 
                         if (!Check(typeParameterList, allowMissing))
-                            return Default;
+                            return default;
 
                         return new TypeParameterConstraintInfo(constraint, constraintClause);
                     }
             }
 
-            return Default;
+            return default;
         }
 
         /// <summary>

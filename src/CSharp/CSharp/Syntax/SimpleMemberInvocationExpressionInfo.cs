@@ -24,8 +24,6 @@ namespace Roslynator.CSharp.Syntax
             MemberAccessExpression = memberAccessExpression;
         }
 
-        private static SimpleMemberInvocationExpressionInfo Default { get; } = new SimpleMemberInvocationExpressionInfo();
-
         /// <summary>
         /// The invocation expression.
         /// </summary>
@@ -120,25 +118,25 @@ namespace Roslynator.CSharp.Syntax
             bool allowMissing = false)
         {
             if (!(invocationExpression?.Expression is MemberAccessExpressionSyntax memberAccessExpression))
-                return Default;
+                return default;
 
             if (memberAccessExpression.Kind() != SyntaxKind.SimpleMemberAccessExpression)
-                return Default;
+                return default;
 
             ExpressionSyntax expression = memberAccessExpression.Expression;
 
             if (!Check(expression, allowMissing))
-                return Default;
+                return default;
 
             SimpleNameSyntax name = memberAccessExpression.Name;
 
             if (!Check(name, allowMissing))
-                return Default;
+                return default;
 
             ArgumentListSyntax argumentList = invocationExpression.ArgumentList;
 
             if (argumentList == null)
-                return Default;
+                return default;
 
             return new SimpleMemberInvocationExpressionInfo(invocationExpression, memberAccessExpression);
         }

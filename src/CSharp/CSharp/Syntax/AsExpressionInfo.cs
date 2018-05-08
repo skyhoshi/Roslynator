@@ -27,8 +27,6 @@ namespace Roslynator.CSharp.Syntax
         }
 
         //TODO: replace Default with default
-        private static AsExpressionInfo Default { get; } = new AsExpressionInfo();
-
         /// <summary>
         /// The "as" expression.
         /// </summary>
@@ -91,17 +89,17 @@ namespace Roslynator.CSharp.Syntax
             bool allowMissing = false)
         {
             if (binaryExpression?.Kind() != SyntaxKind.AsExpression)
-                return Default;
+                return default;
 
             ExpressionSyntax expression = Walk(binaryExpression.Left, walkDownParentheses);
 
             if (!Check(expression, allowMissing))
-                return Default;
+                return default;
 
             var type = binaryExpression.Right as TypeSyntax;
 
             if (!Check(type, allowMissing))
-                return Default;
+                return default;
 
             return new AsExpressionInfo(binaryExpression, expression, type);
         }

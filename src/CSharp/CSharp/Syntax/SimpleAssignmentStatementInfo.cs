@@ -23,8 +23,6 @@ namespace Roslynator.CSharp.Syntax
             _info = info;
         }
 
-        private static SimpleAssignmentStatementInfo Default { get; } = new SimpleAssignmentStatementInfo();
-
         /// <summary>
         /// The simple assignment expression.
         /// </summary>
@@ -82,7 +80,7 @@ namespace Roslynator.CSharp.Syntax
             if (Check(expression, allowMissing))
                 return CreateImpl(expression as AssignmentExpressionSyntax, walkDownParentheses, allowMissing);
 
-            return Default;
+            return default;
         }
 
         internal static SimpleAssignmentStatementInfo Create(
@@ -93,7 +91,7 @@ namespace Roslynator.CSharp.Syntax
             if (assignmentExpression?.Parent?.Kind() == SyntaxKind.ExpressionStatement)
                 return CreateImpl(assignmentExpression, walkDownParentheses, allowMissing);
 
-            return Default;
+            return default;
         }
 
         private static SimpleAssignmentStatementInfo CreateImpl(
