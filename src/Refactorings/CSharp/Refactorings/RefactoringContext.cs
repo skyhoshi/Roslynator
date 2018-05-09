@@ -881,33 +881,30 @@ namespace Roslynator.CSharp.Refactorings
                         }
                 }
 
-                if ((!flags.IsSet(Flag.Statement) || !flags.IsSet(Flag.Statement2))
+                if (!flags.IsSet(Flag.Statement)
                     && node is StatementSyntax statement)
                 {
-                    if (!flags.IsSet(Flag.Statement))
+                    AddBracesRefactoring.ComputeRefactoring(this, statement);
+                    RemoveBracesRefactoring.ComputeRefactoring(this, statement);
+
+                    if (IsRefactoringEnabled(RefactoringIdentifiers.ExtractStatement))
+                        ExtractStatementRefactoring.ComputeRefactoring(this, statement);
+
+                    EmbeddedStatementRefactoring.ComputeRefactoring(this, statement);
+                    flags.Set(Flag.Statement);
+                }
+
+                if (!flags.IsSet(Flag.BlockOrSwitchStatement))
+                {
+                    if (kind == SyntaxKind.Block)
                     {
-                        AddBracesRefactoring.ComputeRefactoring(this, statement);
-                        RemoveBracesRefactoring.ComputeRefactoring(this, statement);
-
-                        if (IsRefactoringEnabled(RefactoringIdentifiers.ExtractStatement))
-                            ExtractStatementRefactoring.ComputeRefactoring(this, statement);
-
-                        EmbeddedStatementRefactoring.ComputeRefactoring(this, statement);
-                        flags.Set(Flag.Statement);
+                        StatementRefactoring.ComputeRefactoring(this, (BlockSyntax)node);
+                        flags.Set(Flag.BlockOrSwitchStatement);
                     }
-
-                    if (!flags.IsSet(Flag.Statement2))
+                    else if (kind == SyntaxKind.SwitchStatement)
                     {
-                        if (kind == SyntaxKind.Block)
-                        {
-                            StatementRefactoring.ComputeRefactoring(this, (BlockSyntax)statement);
-                            flags.Set(Flag.Statement2);
-                        }
-                        else if (kind == SyntaxKind.SwitchStatement)
-                        {
-                            StatementRefactoring.ComputeRefactoring(this, (SwitchStatementSyntax)statement);
-                            flags.Set(Flag.Statement2);
-                        }
+                        StatementRefactoring.ComputeRefactoring(this, (SwitchStatementSyntax)node);
+                        flags.Set(Flag.BlockOrSwitchStatement);
                     }
                 }
             }
@@ -1030,7 +1027,7 @@ namespace Roslynator.CSharp.Refactorings
             YieldStatement = 50,
             LockStatement = 51,
             Block = 52,
-            Statement2 = 53,
+            BlockOrSwitchStatement = 53,
             ThrowStatement = 54,
             LocalFunctionStatement = 55,
             UnsafeStatement = 56,
