@@ -11,7 +11,7 @@ namespace Roslynator.CSharp.Syntax
 {
     /// <summary>
     /// Provides information about a type parameter.
-    /// </summary
+    /// </summary>
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     internal readonly struct TypeParameterInfo : IEquatable<TypeParameterInfo>
     {

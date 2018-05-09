@@ -24,8 +24,7 @@ namespace Roslynator.CSharp
         /// </summary>
         public IfStatementSyntax IfStatement { get; }
 
-        //TODO: make public
-        internal int Count
+        private int Count
         {
             get
             {
