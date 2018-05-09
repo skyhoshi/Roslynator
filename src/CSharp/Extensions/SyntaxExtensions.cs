@@ -201,7 +201,7 @@ namespace Roslynator
             }
         }
 
-        //TODO: make public
+        //TODO: make public HasTrailingSeparator<TNode>(SeparatedSyntaxList<TNode>)
         internal static bool HasTrailingSeparator<TNode>(this SeparatedSyntaxList<TNode> list) where TNode : SyntaxNode
         {
             int count = list.Count;
@@ -210,38 +210,30 @@ namespace Roslynator
                 && count == list.SeparatorCount;
         }
 
-        //TODO: make public
+        //TODO: make public ToString(SeparatedSyntaxList<TNode>, TextSpan)
         internal static string ToString<TNode>(this SeparatedSyntaxList<TNode> list, TextSpan span) where TNode : SyntaxNode
         {
-            if (list.Count == 0)
-                return "";
+            TextSpan listFullSpan = list.FullSpan;
+
+            if (!listFullSpan.Contains(span))
+                throw new ArgumentException("", nameof(span));
+
+            if (span == listFullSpan)
+                return list.ToFullString();
 
             TextSpan listSpan = list.Span;
 
-            if (!listSpan.Contains(span))
-                throw new ArgumentException("", nameof(span));
-
-            if (listSpan == span)
+            if (span == listSpan)
                 return list.ToString();
 
-            return list.ToString().Substring(span.Start - listSpan.Start, span.Length);
-        }
-
-        //TODO: make public
-        internal static string ToFullString<TNode>(this SeparatedSyntaxList<TNode> list, TextSpan span) where TNode : SyntaxNode
-        {
-            if (list.Count == 0)
-                return "";
-
-            TextSpan listSpan = list.FullSpan;
-
-            if (!listSpan.Contains(span))
-                throw new ArgumentException("", nameof(span));
-
-            if (listSpan == span)
-                return list.ToFullString();
-
-            return list.ToFullString().Substring(span.Start - listSpan.Start, span.Length);
+            if (listSpan.Contains(span))
+            {
+                return list.ToString().Substring(span.Start - listSpan.Start, span.Length);
+            }
+            else
+            {
+                return list.ToFullString().Substring(span.Start - listFullSpan.Start, span.Length);
+            }
         }
         #endregion SeparatedSyntaxList<T>
 
@@ -472,38 +464,30 @@ namespace Roslynator
             }
         }
 
-        //TODO: make public
+        //TODO: make public ToString(SyntaxList<TNode>, TextSpan)
         internal static string ToString<TNode>(this SyntaxList<TNode> list, TextSpan span) where TNode : SyntaxNode
         {
-            if (list.Count == 0)
-                return "";
+            TextSpan listFullSpan = list.FullSpan;
+
+            if (!listFullSpan.Contains(span))
+                throw new ArgumentException("", nameof(span));
+
+            if (span == listFullSpan)
+                return list.ToFullString();
 
             TextSpan listSpan = list.Span;
 
-            if (!listSpan.Contains(span))
-                throw new ArgumentException("" , nameof(span));
-
-            if (listSpan == span)
+            if (span == listSpan)
                 return list.ToString();
 
-            return list.ToString().Substring(span.Start - listSpan.Start, span.Length);
-        }
-
-        //TODO: make public
-        internal static string ToFullString<TNode>(this SyntaxList<TNode> list, TextSpan span) where TNode : SyntaxNode
-        {
-            if (list.Count == 0)
-                return "";
-
-            TextSpan listSpan = list.FullSpan;
-
-            if (!listSpan.Contains(span))
-                throw new ArgumentException("", nameof(span));
-
-            if (listSpan == span)
-                return list.ToFullString();
-
-            return list.ToFullString().Substring(span.Start - listSpan.Start, span.Length);
+            if (listSpan.Contains(span))
+            {
+                return list.ToString().Substring(span.Start - listSpan.Start, span.Length);
+            }
+            else
+            {
+                return list.ToFullString().Substring(span.Start - listFullSpan.Start, span.Length);
+            }
         }
         #endregion SyntaxList<T>
 
@@ -772,21 +756,33 @@ namespace Roslynator
             return node.Parent?.FirstAncestorOrSelf(predicate, ascendOutOfTrivia);
         }
 
+        //TODO: make public ToString(SyntaxNode, TextSpan)
         internal static string ToString(this SyntaxNode node, TextSpan span)
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
 
+            TextSpan nodeFullSpan = node.FullSpan;
+
+            if (!nodeFullSpan.Contains(span))
+                throw new ArgumentException("", nameof(span));
+
+            if (span == nodeFullSpan)
+                return node.ToFullString();
+
             TextSpan nodeSpan = node.Span;
 
-            TextSpan? intersection = nodeSpan.Intersection(span);
+            if (span == nodeSpan)
+                return node.ToString();
 
-            if (intersection == null)
-                throw new ArgumentException("Span has no intersection with node span.", nameof(span));
-
-            span = intersection.Value;
-
-            return node.ToString().Substring(span.Start - nodeSpan.Start, span.Length);
+            if (nodeSpan.Contains(span))
+            {
+                return node.ToString().Substring(span.Start - nodeSpan.Start, span.Length);
+            }
+            else
+            {
+                return node.ToFullString().Substring(span.Start - nodeFullSpan.Start, span.Length);
+            }
         }
 
         internal static TextSpan LeadingTriviaSpan(this SyntaxNode node)
@@ -1304,7 +1300,7 @@ namespace Roslynator
             return false;
         }
 
-        //TODO: make public
+        //TODO: make public GetContainingList(SyntaxTrivia)
         internal static SyntaxTriviaList GetContainingList(this SyntaxTrivia trivia)
         {
             if (!TryGetContainingList(trivia, out SyntaxTriviaList list))

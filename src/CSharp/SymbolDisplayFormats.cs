@@ -12,7 +12,6 @@ namespace Roslynator
             miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes
                 | SymbolDisplayMiscellaneousOptions.EscapeKeywordIdentifiers);
 
-        //TODO: rename to Debug
         public static SymbolDisplayFormat Test { get; } = new SymbolDisplayFormat(
             globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.OmittedAsContaining,
             typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
