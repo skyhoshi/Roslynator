@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Collections;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
@@ -10,7 +11,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using Roslynator.CSharp.Analysis;
-using System.Collections;
 
 namespace Roslynator.CSharp.Refactorings
 {
@@ -736,11 +736,11 @@ namespace Roslynator.CSharp.Refactorings
                         }
                     case SyntaxKind.DoStatement:
                         {
-                            if (flags.IsSet(Flag.DoStatement))
+                            if (flags.IsSet(Flag.LoopStatement))
                                 continue;
 
                             DoStatementRefactoring.ComputeRefactorings(this, (DoStatementSyntax)node);
-                            flags.Set(Flag.DoStatement);
+                            flags.Set(Flag.LoopStatement);
                             continue;
                         }
                     case SyntaxKind.ExpressionStatement:
@@ -754,20 +754,20 @@ namespace Roslynator.CSharp.Refactorings
                         }
                     case SyntaxKind.ForEachStatement:
                         {
-                            if (flags.IsSet(Flag.ForEachStatement))
+                            if (flags.IsSet(Flag.LoopStatement))
                                 continue;
 
                             await ForEachStatementRefactoring.ComputeRefactoringsAsync(this, (ForEachStatementSyntax)node).ConfigureAwait(false);
-                            flags.Set(Flag.ForEachStatement);
+                            flags.Set(Flag.LoopStatement);
                             continue;
                         }
                     case SyntaxKind.ForStatement:
                         {
-                            if (flags.IsSet(Flag.ForStatement))
+                            if (flags.IsSet(Flag.LoopStatement))
                                 continue;
 
                             await ForStatementRefactoring.ComputeRefactoringsAsync(this, (ForStatementSyntax)node).ConfigureAwait(false);
-                            flags.Set(Flag.ForStatement);
+                            flags.Set(Flag.LoopStatement);
                             continue;
                         }
                     case SyntaxKind.IfStatement:
@@ -817,11 +817,11 @@ namespace Roslynator.CSharp.Refactorings
                         }
                     case SyntaxKind.WhileStatement:
                         {
-                            if (flags.IsSet(Flag.WhileStatement))
+                            if (flags.IsSet(Flag.LoopStatement))
                                 continue;
 
                             WhileStatementRefactoring.ComputeRefactorings(this, (WhileStatementSyntax)node);
-                            flags.Set(Flag.WhileStatement);
+                            flags.Set(Flag.LoopStatement);
                             continue;
                         }
                     case SyntaxKind.YieldBreakStatement:
@@ -881,33 +881,30 @@ namespace Roslynator.CSharp.Refactorings
                         }
                 }
 
-                if ((!flags.IsSet(Flag.Statement) || !flags.IsSet(Flag.Statement2))
+                if (!flags.IsSet(Flag.Statement)
                     && node is StatementSyntax statement)
                 {
-                    if (!flags.IsSet(Flag.Statement))
+                    AddBracesRefactoring.ComputeRefactoring(this, statement);
+                    RemoveBracesRefactoring.ComputeRefactoring(this, statement);
+
+                    if (IsRefactoringEnabled(RefactoringIdentifiers.ExtractStatement))
+                        ExtractStatementRefactoring.ComputeRefactoring(this, statement);
+
+                    EmbeddedStatementRefactoring.ComputeRefactoring(this, statement);
+                    flags.Set(Flag.Statement);
+                }
+
+                if (!flags.IsSet(Flag.BlockOrSwitchStatement))
+                {
+                    if (kind == SyntaxKind.Block)
                     {
-                        AddBracesRefactoring.ComputeRefactoring(this, statement);
-                        RemoveBracesRefactoring.ComputeRefactoring(this, statement);
-
-                        if (IsRefactoringEnabled(RefactoringIdentifiers.ExtractStatement))
-                            ExtractStatementRefactoring.ComputeRefactoring(this, statement);
-
-                        EmbeddedStatementRefactoring.ComputeRefactoring(this, statement);
-                        flags.Set(Flag.Statement);
+                        StatementRefactoring.ComputeRefactoring(this, (BlockSyntax)node);
+                        flags.Set(Flag.BlockOrSwitchStatement);
                     }
-
-                    if (!flags.IsSet(Flag.Statement2))
+                    else if (kind == SyntaxKind.SwitchStatement)
                     {
-                        if (kind == SyntaxKind.Block)
-                        {
-                            StatementRefactoring.ComputeRefactoring(this, (BlockSyntax)statement);
-                            flags.Set(Flag.Statement2);
-                        }
-                        else if (kind == SyntaxKind.SwitchStatement)
-                        {
-                            StatementRefactoring.ComputeRefactoring(this, (SwitchStatementSyntax)statement);
-                            flags.Set(Flag.Statement2);
-                        }
+                        StatementRefactoring.ComputeRefactoring(this, (SwitchStatementSyntax)node);
+                        flags.Set(Flag.BlockOrSwitchStatement);
                     }
                 }
             }
@@ -1020,25 +1017,22 @@ namespace Roslynator.CSharp.Refactorings
             MemberDeclaration = 41,
 
             Statement = 42,
-            DoStatement = 43,
-            ExpressionStatement = 44,
-            ForEachStatement = 45,
-            ForStatement = 46,
-            IfStatement = 47,
-            LocalDeclarationStatement = 48,
-            ReturnStatement = 49,
-            SwitchStatement = 50,
-            UsingStatement = 51,
-            WhileStatement = 52,
-            YieldStatement = 53,
-            LockStatement = 54,
-            Block = 55,
-            Statement2 = 56,
-            ThrowStatement = 57,
-            LocalFunctionStatement = 58,
-            UnsafeStatement = 59,
+            ExpressionStatement = 43,
+            LoopStatement = 44,
+            IfStatement = 45,
+            LocalDeclarationStatement = 46,
+            ReturnStatement = 47,
+            SwitchStatement = 48,
+            UsingStatement = 49,
+            YieldStatement = 50,
+            LockStatement = 51,
+            Block = 52,
+            BlockOrSwitchStatement = 53,
+            ThrowStatement = 54,
+            LocalFunctionStatement = 55,
+            UnsafeStatement = 56,
 
-            Count = 60,
+            Count = 57,
         }
     }
 }
