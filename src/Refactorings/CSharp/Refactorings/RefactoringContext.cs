@@ -737,147 +737,147 @@ namespace Roslynator.CSharp.Refactorings
                     case SyntaxKind.DoStatement:
                         {
                             if (flags.IsSet(Flag.LoopStatement))
-                                continue;
+                                break;
 
                             DoStatementRefactoring.ComputeRefactorings(this, (DoStatementSyntax)node);
                             flags.Set(Flag.LoopStatement);
-                            continue;
+                            break;
                         }
                     case SyntaxKind.ExpressionStatement:
                         {
                             if (flags.IsSet(Flag.ExpressionStatement))
-                                continue;
+                                break;
 
                             await ExpressionStatementRefactoring.ComputeRefactoringsAsync(this, (ExpressionStatementSyntax)node).ConfigureAwait(false);
                             flags.Set(Flag.ExpressionStatement);
-                            continue;
+                            break;
                         }
                     case SyntaxKind.ForEachStatement:
                         {
                             if (flags.IsSet(Flag.LoopStatement))
-                                continue;
+                                break;
 
                             await ForEachStatementRefactoring.ComputeRefactoringsAsync(this, (ForEachStatementSyntax)node).ConfigureAwait(false);
                             flags.Set(Flag.LoopStatement);
-                            continue;
+                            break;
                         }
                     case SyntaxKind.ForStatement:
                         {
                             if (flags.IsSet(Flag.LoopStatement))
-                                continue;
+                                break;
 
                             await ForStatementRefactoring.ComputeRefactoringsAsync(this, (ForStatementSyntax)node).ConfigureAwait(false);
                             flags.Set(Flag.LoopStatement);
-                            continue;
+                            break;
                         }
                     case SyntaxKind.IfStatement:
                         {
                             if (flags.IsSet(Flag.IfStatement))
-                                continue;
+                                break;
 
                             await IfStatementRefactoring.ComputeRefactoringsAsync(this, (IfStatementSyntax)node).ConfigureAwait(false);
                             flags.Set(Flag.IfStatement);
-                            continue;
+                            break;
                         }
                     case SyntaxKind.LocalDeclarationStatement:
                         {
                             if (flags.IsSet(Flag.LocalDeclarationStatement))
-                                continue;
+                                break;
 
                             await LocalDeclarationStatementRefactoring.ComputeRefactoringsAsync(this, (LocalDeclarationStatementSyntax)node).ConfigureAwait(false);
                             flags.Set(Flag.LocalDeclarationStatement);
-                            continue;
+                            break;
                         }
                     case SyntaxKind.ReturnStatement:
                         {
                             if (flags.IsSet(Flag.ReturnStatement))
-                                continue;
+                                break;
 
                             await ReturnStatementRefactoring.ComputeRefactoringsAsync(this, (ReturnStatementSyntax)node).ConfigureAwait(false);
                             flags.Set(Flag.ReturnStatement);
-                            continue;
+                            break;
                         }
                     case SyntaxKind.SwitchStatement:
                         {
                             if (flags.IsSet(Flag.SwitchStatement))
-                                continue;
+                                break;
 
                             await SwitchStatementRefactoring.ComputeRefactoringsAsync(this, (SwitchStatementSyntax)node).ConfigureAwait(false);
                             flags.Set(Flag.SwitchStatement);
-                            continue;
+                            break;
                         }
                     case SyntaxKind.UsingStatement:
                         {
                             if (flags.IsSet(Flag.UsingStatement))
-                                continue;
+                                break;
 
                             UsingStatementRefactoring.ComputeRefactorings(this, (UsingStatementSyntax)node);
                             flags.Set(Flag.UsingStatement);
-                            continue;
+                            break;
                         }
                     case SyntaxKind.WhileStatement:
                         {
                             if (flags.IsSet(Flag.LoopStatement))
-                                continue;
+                                break;
 
                             WhileStatementRefactoring.ComputeRefactorings(this, (WhileStatementSyntax)node);
                             flags.Set(Flag.LoopStatement);
-                            continue;
+                            break;
                         }
                     case SyntaxKind.YieldBreakStatement:
                     case SyntaxKind.YieldReturnStatement:
                         {
                             if (flags.IsSet(Flag.YieldStatement))
-                                continue;
+                                break;
 
                             await YieldStatementRefactoring.ComputeRefactoringsAsync(this, (YieldStatementSyntax)node).ConfigureAwait(false);
                             flags.Set(Flag.YieldStatement);
-                            continue;
+                            break;
                         }
                     case SyntaxKind.LockStatement:
                         {
                             if (flags.IsSet(Flag.LockStatement))
-                                continue;
+                                break;
 
                             LockStatementRefactoring.ComputeRefactorings(this, (LockStatementSyntax)node);
                             flags.Set(Flag.LockStatement);
-                            continue;
+                            break;
                         }
                     case SyntaxKind.Block:
                         {
                             if (flags.IsSet(Flag.Block))
-                                continue;
+                                break;
 
                             await BlockRefactoring.ComputeRefactoringAsync(this, (BlockSyntax)node).ConfigureAwait(false);
                             flags.Set(Flag.Block);
-                            continue;
+                            break;
                         }
                     case SyntaxKind.ThrowStatement:
                         {
                             if (flags.IsSet(Flag.ThrowStatement))
-                                continue;
+                                break;
 
                             await ThrowStatementRefactoring.ComputeRefactoringAsync(this, (ThrowStatementSyntax)node).ConfigureAwait(false);
                             flags.Set(Flag.ThrowStatement);
-                            continue;
+                            break;
                         }
                     case SyntaxKind.LocalFunctionStatement:
                         {
                             if (flags.IsSet(Flag.LocalFunctionStatement))
-                                continue;
+                                break;
 
                             await LocalFunctionStatementRefactoring.ComputeRefactoringsAsync(this, (LocalFunctionStatementSyntax)node).ConfigureAwait(false);
                             flags.Set(Flag.LocalFunctionStatement);
-                            continue;
+                            break;
                         }
                     case SyntaxKind.UnsafeStatement:
                         {
                             if (flags.IsSet(Flag.UnsafeStatement))
-                                continue;
+                                break;
 
                             UnsafeStatementRefactoring.ComputeRefactorings(this, (UnsafeStatementSyntax)node);
                             flags.Set(Flag.UnsafeStatement);
-                            continue;
+                            break;
                         }
                 }
 
