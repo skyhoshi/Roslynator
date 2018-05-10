@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Analyzers>
+  <Analyzer Identifier="MarkClassAsSealed">
+    <Id>RCS1240</Id>
+    <Title>Mark class as sealed.</Title>
+    <MessageFormat>Mark class as sealed.</MessageFormat>
+    <Category>Design</Category>
+    <DefaultSeverity>Info</DefaultSeverity>
+    <IsEnabledByDefault>true</IsEnabledByDefault>
+    <SupportsFadeOut>false</SupportsFadeOut>
+    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Summary>Class with all constructors with private accessibility should be marked as sealed.</Summary>
+    <Samples>
+      <Sample>
+        <Before><![CDATA[public class Foo // RCS1240
+{
+    private Foo()
+    {
+    }
+}]]></Before>
+<After><![CDATA[public sealed class Foo
+{
+    private Foo()
+    {
+    }
+}]]></After>
+      </Sample>
+    </Samples>
+  </Analyzer>
+</Analyzers>

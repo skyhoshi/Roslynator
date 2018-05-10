@@ -2495,5 +2495,17 @@ namespace Roslynator.CSharp
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MergePreprocessorDirectives}", 
             customTags:         Array.Empty<string>());
 
+        /// <summary>RCS1240</summary>
+        public static readonly DiagnosticDescriptor MarkClassAsSealed = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.MarkClassAsSealed, 
+            title:              "Mark class as sealed.", 
+            messageFormat:      "Mark class as sealed.", 
+            category:           DiagnosticCategories.Design, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MarkClassAsSealed}", 
+            customTags:         Array.Empty<string>());
+
     }
 }
