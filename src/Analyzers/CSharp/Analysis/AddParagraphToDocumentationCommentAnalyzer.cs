@@ -167,7 +167,7 @@ namespace Roslynator.CSharp.Analysis
                                             {
                                                 case State.BeforeParagraph:
                                                     {
-                                                        if (!StringUtility.IsWhitespace(token.ValueText))
+                                                        if (!StringUtility.IsEmptyOrWhitespace(token.ValueText))
                                                         {
                                                             state = State.Paragraph;
                                                             index = token.SpanStart;
@@ -183,7 +183,7 @@ namespace Roslynator.CSharp.Analysis
                                                     }
                                                 case State.NewLine:
                                                     {
-                                                        if (StringUtility.IsWhitespace(token.ValueText))
+                                                        if (StringUtility.IsEmptyOrWhitespace(token.ValueText))
                                                         {
                                                             state = State.WhiteSpaceAfterNewLine;
                                                         }
@@ -197,7 +197,7 @@ namespace Roslynator.CSharp.Analysis
                                                     }
                                                 case State.WhiteSpaceAfterNewLine:
                                                     {
-                                                        if (!StringUtility.IsWhitespace(token.ValueText))
+                                                        if (!StringUtility.IsEmptyOrWhitespace(token.ValueText))
                                                         {
                                                             state = State.Paragraph;
                                                             last = token;
@@ -207,7 +207,7 @@ namespace Roslynator.CSharp.Analysis
                                                     }
                                                 case State.WhiteSpaceBetweenParagraphs:
                                                     {
-                                                        if (!StringUtility.IsWhitespace(token.ValueText))
+                                                        if (!StringUtility.IsEmptyOrWhitespace(token.ValueText))
                                                         {
                                                             state = State.Paragraph;
                                                             index2 = token.SpanStart;
