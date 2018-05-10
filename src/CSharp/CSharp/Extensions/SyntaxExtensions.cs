@@ -516,12 +516,12 @@ namespace Roslynator.CSharp
 
         internal static bool IsPartOfMemberDeclaration(this DocumentationCommentTriviaSyntax documentationComment)
         {
-            SyntaxNode node = (documentationComment as IStructuredTriviaSyntax)?.ParentTrivia.Token.Parent;
+            SyntaxNode node = documentationComment.ParentTrivia.Token.Parent;
 
             if (node is MemberDeclarationSyntax)
                 return true;
 
-            return node is AttributeListSyntax
+            return node.IsKind(SyntaxKind.AttributeList)
                 && node.Parent is MemberDeclarationSyntax;
         }
         #endregion DocumentationCommentTriviaSyntax
