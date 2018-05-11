@@ -4792,10 +4792,10 @@ if (y == null)
       </Sample>
     </Samples>
   </Analyzer>
-  <Analyzer Identifier="UseDebuggerDisplayAttribute">
+  <Analyzer Identifier="MarkTypeWithDebuggerDisplayAttribute">
     <Id>RCS1223</Id>
-    <Title>Use DebuggerDisplay attribute for publicly visible type.</Title>
-    <MessageFormat>Use DebuggerDisplay attribute for publicly visible type.</MessageFormat>
+    <Title>Mark publicly visible type with DebuggerDisplay attribute.</Title>
+    <MessageFormat>Mark publicly visible type with DebuggerDisplay attribute.</MessageFormat>
     <Category>Usage</Category>
     <DefaultSeverity>Info</DefaultSeverity>
     <IsEnabledByDefault>false</IsEnabledByDefault>

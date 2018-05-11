@@ -213,7 +213,7 @@ namespace Roslynator.CSharp.Refactorings
 
             ExpressionSyntax returnExpression = GetReturnExpression(value, isVerbatim);
 
-            PropertyDeclarationSyntax propertyDeclaration = UseDebuggerDisplayAttributeRefactoring.DebuggerDisplayPropertyDeclaration(propertyName, returnExpression);
+            PropertyDeclarationSyntax propertyDeclaration = MarkTypeWithDebuggerDisplayAttributeRefactoring.DebuggerDisplayPropertyDeclaration(propertyName, returnExpression);
 
             newTypeDeclaration = MemberDeclarationInserter.Default.Insert(newTypeDeclaration, propertyDeclaration);
 

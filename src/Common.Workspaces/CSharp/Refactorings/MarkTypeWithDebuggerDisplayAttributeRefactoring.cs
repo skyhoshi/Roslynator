@@ -9,7 +9,7 @@ using static Roslynator.CSharp.CSharpFactory;
 
 namespace Roslynator.CSharp.Refactorings
 {
-    internal static class UseDebuggerDisplayAttributeRefactoring
+    internal static class MarkTypeWithDebuggerDisplayAttributeRefactoring
     {
         public static async Task<Document> RefactorAsync(
             Document document,
