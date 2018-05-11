@@ -11,11 +11,11 @@ using Xunit;
 
 namespace Roslynator.CSharp.Analysis.Tests
 {
-    public class RCS1240MarkClassAsSealedTests : AbstractCSharpCodeFixVerifier
+    public class RCS1240MakeClassSealedTests : AbstractCSharpCodeFixVerifier
     {
-        public override DiagnosticDescriptor Descriptor { get; } = DiagnosticDescriptors.MarkClassAsSealed;
+        public override DiagnosticDescriptor Descriptor { get; } = DiagnosticDescriptors.MakeClassSealed;
 
-        public override DiagnosticAnalyzer Analyzer { get; } = new MarkClassAsSealedAnalyzer();
+        public override DiagnosticAnalyzer Analyzer { get; } = new MakeClassSealedAnalyzer();
 
         public override CodeFixProvider FixProvider { get; } = new ClassDeclarationCodeFixProvider();
 
