@@ -12,13 +12,13 @@ using Roslynator.CSharp.Refactorings;
 
 namespace Roslynator.CSharp.CodeFixes
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(UseDebuggerDisplayAttributeCodeFixProvider))]
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MarkTypeWithDebuggerDisplayAttributeCodeFixProvider))]
     [Shared]
-    public class UseDebuggerDisplayAttributeCodeFixProvider : BaseCodeFixProvider
+    public class MarkTypeWithDebuggerDisplayAttributeCodeFixProvider : BaseCodeFixProvider
     {
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
-            get { return ImmutableArray.Create(DiagnosticIdentifiers.UseDebuggerDisplayAttribute); }
+            get { return ImmutableArray.Create(DiagnosticIdentifiers.MarkTypeWithDebuggerDisplayAttribute); }
         }
 
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
@@ -32,7 +32,7 @@ namespace Roslynator.CSharp.CodeFixes
 
             CodeAction codeAction = CodeAction.Create(
                 "Use DebuggerDisplay attribute",
-                cancellationToken => UseDebuggerDisplayAttributeRefactoring.RefactorAsync(context.Document, typeDeclaration, cancellationToken),
+                cancellationToken => MarkTypeWithDebuggerDisplayAttributeRefactoring.RefactorAsync(context.Document, typeDeclaration, cancellationToken),
                 GetEquivalenceKey(diagnostic));
 
             context.RegisterCodeFix(codeAction, diagnostic);

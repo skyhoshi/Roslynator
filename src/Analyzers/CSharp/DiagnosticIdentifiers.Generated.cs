@@ -212,7 +212,7 @@ namespace Roslynator.CSharp
         public const string UsePatternMatchingInsteadOfAsAndNullCheck = "RCS1221";
         public const string MergePreprocessorDirectives = "RCS1222";
         public const string AddCommaAfterLastItemInList = "RCS1223";
-        public const string UseDebuggerDisplayAttribute = "RCS1224";
+        public const string MarkTypeWithDebuggerDisplayAttribute = "RCS1224";
         public const string ReplaceEnumeratorWithForEach = "RCS1225";
         public const string MakeMethodExtensionMethod = "RCS1231";
         public const string AddParagraphToDocumentationComment = "RCS1232";

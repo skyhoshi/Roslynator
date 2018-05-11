@@ -4802,7 +4802,6 @@ if (y == null)
       </Sample>
     </Samples>
   </Analyzer>
-
   <Analyzer Identifier="AddCommaAfterLastItemInList">
     <Id>RCS1223</Id>
     <Title>Add comma after last item in list.</Title>
@@ -4835,10 +4834,10 @@ if (y == null)
       </Sample>
     </Samples>
   </Analyzer>
-  <Analyzer Identifier="UseDebuggerDisplayAttribute">
+  <Analyzer Identifier="MarkTypeWithDebuggerDisplayAttribute">
     <Id>RCS1224</Id>
-    <Title>Use DebuggerDisplay attribute for publicly visible type.</Title>
-    <MessageFormat>Use DebuggerDisplay attribute for publicly visible type.</MessageFormat>
+    <Title>Mark publicly visible type with DebuggerDisplay attribute.</Title>
+    <MessageFormat>Mark publicly visible type with DebuggerDisplay attribute.</MessageFormat>
     <Category>Usage</Category>
     <DefaultSeverity>Info</DefaultSeverity>
     <IsEnabledByDefault>false</IsEnabledByDefault>
@@ -4846,13 +4845,10 @@ if (y == null)
     <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
     <Samples>
       <Sample>
-        <Before>
-          <![CDATA[public class Foo
+        <Before><![CDATA[public class Foo
 {
-}]]>
-        </Before>
-        <After>
-          <![CDATA[DebuggerDisplay("{DebuggerDisplay,nq}")]
+}]]></Before>
+        <After><![CDATA[DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class Foo
 {
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -4860,8 +4856,7 @@ public class Foo
     {
         get { return ToString(); }
     }
-}]]>
-        </After>
+}]]></After>
       </Sample>
     </Samples>
   </Analyzer>

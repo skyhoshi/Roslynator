@@ -9,11 +9,11 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Roslynator.CSharp.Analysis
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class UseDebuggerDisplayAttributeAnalyzer : BaseDiagnosticAnalyzer
+    public class MarkTypeWithDebuggerDisplayAttributeAnalyzer : BaseDiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
         {
-            get { return ImmutableArray.Create(DiagnosticDescriptors.UseDebuggerDisplayAttribute); }
+            get { return ImmutableArray.Create(DiagnosticDescriptors.MarkTypeWithDebuggerDisplayAttribute); }
         }
 
         public override void Initialize(AnalysisContext context)
@@ -82,7 +82,7 @@ namespace Roslynator.CSharp.Analysis
                 identifier = structDeclaration.Identifier;
             }
 
-            context.ReportDiagnostic(DiagnosticDescriptors.UseDebuggerDisplayAttribute, identifier);
+            context.ReportDiagnostic(DiagnosticDescriptors.MarkTypeWithDebuggerDisplayAttribute, identifier);
         }
     }
 }

@@ -2508,15 +2508,15 @@ namespace Roslynator.CSharp
             customTags:         Array.Empty<string>());
 
         /// <summary>RCS1224</summary>
-        public static readonly DiagnosticDescriptor UseDebuggerDisplayAttribute = new DiagnosticDescriptor(
-            id:                 DiagnosticIdentifiers.UseDebuggerDisplayAttribute, 
-            title:              "Use DebuggerDisplay attribute for publicly visible type.", 
-            messageFormat:      "Use DebuggerDisplay attribute for publicly visible type.", 
+        public static readonly DiagnosticDescriptor MarkTypeWithDebuggerDisplayAttribute = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.MarkTypeWithDebuggerDisplayAttribute, 
+            title:              "Mark publicly visible type with DebuggerDisplay attribute.", 
+            messageFormat:      "Mark publicly visible type with DebuggerDisplay attribute.", 
             category:           DiagnosticCategories.Usage, 
             defaultSeverity:    DiagnosticSeverity.Info, 
             isEnabledByDefault: false, 
             description:        null, 
-            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UseDebuggerDisplayAttribute}", 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MarkTypeWithDebuggerDisplayAttribute}", 
             customTags:         Array.Empty<string>());
 
         /// <summary>RCS1225</summary>
