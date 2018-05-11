@@ -265,6 +265,41 @@ namespace N
         }
 
         [Fact]
+        public async Task Test_ClassWithAttribute()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+using System;
+
+namespace N
+{
+    /// <summary>
+    ///[| a
+    /// 
+    /// b|]
+    /// </summary>
+    [Obsolete]
+    class C
+    {
+    }
+}
+", @"
+using System;
+
+namespace N
+{
+    /// <summary>
+    /// <para>a</para>
+    /// <para>b</para>
+    /// </summary>
+    [Obsolete]
+    class C
+    {
+    }
+}
+");
+        }
+
+        [Fact]
         public async Task TestNoDiagnostic_SimpleComment()
         {
             await VerifyNoDiagnosticAsync(@"
