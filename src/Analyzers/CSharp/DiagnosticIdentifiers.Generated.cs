@@ -216,5 +216,6 @@ namespace Roslynator.CSharp
         public const string ReplaceEnumeratorWithForEach = "RCS1225";
         public const string MakeMethodExtensionMethod = "RCS1231";
         public const string AddParagraphToDocumentationComment = "RCS1232";
+        public const string MarkClassAsSealed = "RCS1240";
     }
 }
