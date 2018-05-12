@@ -32,7 +32,6 @@ namespace Roslynator.CodeGeneration
             {
                 if (_analyzers.IsDefault)
                 {
-                    //TODO: fix bug RCS1207 "Use method group"
                     IEnumerable<AnalyzerDescriptor> analyzers = Directory
                         .EnumerateFiles(GetPath("Analyzers"), "Analyzers.*.xml", SearchOption.TopDirectoryOnly)
                         .Where(filePath => Path.GetFileName(filePath) != "Analyzers.Template.xml")
