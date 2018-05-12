@@ -27,7 +27,7 @@ namespace Roslynator.CSharp.CodeFixes
                     DiagnosticIdentifiers.AddStaticModifierToAllPartialClassDeclarations,
                     DiagnosticIdentifiers.ImplementExceptionConstructors,
                     DiagnosticIdentifiers.UseAttributeUsageAttribute,
-                    DiagnosticIdentifiers.MarkClassAsSealed);
+                    DiagnosticIdentifiers.MakeClassSealed);
             }
         }
 
@@ -99,7 +99,7 @@ namespace Roslynator.CSharp.CodeFixes
                             context.RegisterCodeFix(codeAction, diagnostic);
                             break;
                         }
-                    case DiagnosticIdentifiers.MarkClassAsSealed:
+                    case DiagnosticIdentifiers.MakeClassSealed:
                         {
                             ModifiersCodeFixRegistrator.AddModifier(
                                 context,

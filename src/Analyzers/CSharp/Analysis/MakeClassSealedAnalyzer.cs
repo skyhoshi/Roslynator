@@ -9,11 +9,11 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Roslynator.CSharp.Analysis
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class MarkClassAsSealedAnalyzer : BaseDiagnosticAnalyzer
+    public class MakeClassSealedAnalyzer : BaseDiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
         {
-            get { return ImmutableArray.Create(DiagnosticDescriptors.MarkClassAsSealed); }
+            get { return ImmutableArray.Create(DiagnosticDescriptors.MakeClassSealed); }
         }
 
         public override void Initialize(AnalysisContext context)
@@ -34,6 +34,9 @@ namespace Roslynator.CSharp.Analysis
                 return;
 
             if (symbol.IsSealed)
+                return;
+
+            if (symbol.IsAbstract)
                 return;
 
             if (symbol.IsImplicitlyDeclared)
@@ -63,7 +66,7 @@ namespace Roslynator.CSharp.Analysis
 
             var classDeclaration = (ClassDeclarationSyntax)namedTypeSymbol.GetSyntax(context.CancellationToken);
 
-            context.ReportDiagnostic(DiagnosticDescriptors.MarkClassAsSealed, classDeclaration.Identifier);
+            context.ReportDiagnostic(DiagnosticDescriptors.MakeClassSealed, classDeclaration.Identifier);
         }
     }
 }

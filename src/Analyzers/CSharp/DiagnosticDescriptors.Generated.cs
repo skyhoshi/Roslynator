@@ -2556,15 +2556,15 @@ namespace Roslynator.CSharp
             customTags:         Array.Empty<string>());
 
         /// <summary>RCS1240</summary>
-        public static readonly DiagnosticDescriptor MarkClassAsSealed = new DiagnosticDescriptor(
-            id:                 DiagnosticIdentifiers.MarkClassAsSealed, 
-            title:              "Mark class as sealed.", 
-            messageFormat:      "Mark class as sealed.", 
+        public static readonly DiagnosticDescriptor MakeClassSealed = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.MakeClassSealed, 
+            title:              "Make class sealed.", 
+            messageFormat:      "Make class sealed.", 
             category:           DiagnosticCategories.Design, 
             defaultSeverity:    DiagnosticSeverity.Info, 
             isEnabledByDefault: true, 
             description:        null, 
-            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MarkClassAsSealed}", 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MakeClassSealed}", 
             customTags:         Array.Empty<string>());
 
     }
