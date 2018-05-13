@@ -19,6 +19,7 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about string concatenation, i.e. a binary expression that binds to string '+' operator.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct StringConcatenationExpressionInfo : IEquatable<StringConcatenationExpressionInfo>
     {
         private StringConcatenationExpressionInfo(
@@ -28,8 +29,6 @@ namespace Roslynator.CSharp.Syntax
             BinaryExpression = binaryExpression;
             Span = span;
         }
-
-        private static StringConcatenationExpressionInfo Default { get; } = new StringConcatenationExpressionInfo();
 
         /// <summary>
         /// The binary expression that represents the string concatenation.
@@ -44,6 +43,12 @@ namespace Roslynator.CSharp.Syntax
         public bool Success
         {
             get { return BinaryExpression != null; }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return ToDebugString(Success, this, BinaryExpression, (Span != null) ? BinaryExpression.ToString(Span.Value) : null); }
         }
 
         internal StringConcatenationAnalysis Analyze()
@@ -69,13 +74,13 @@ namespace Roslynator.CSharp.Syntax
             CancellationToken cancellationToken = default(CancellationToken))
         {
             if (binaryExpression?.Kind() != SyntaxKind.AddExpression)
-                return Default;
+                return default;
 
             if (semanticModel == null)
                 throw new ArgumentNullException(nameof(semanticModel));
 
             if (!IsStringConcatenation(binaryExpression, semanticModel, cancellationToken))
-                return Default;
+                return default;
 
             return new StringConcatenationExpressionInfo(binaryExpression);
         }
@@ -88,7 +93,7 @@ namespace Roslynator.CSharp.Syntax
             BinaryExpressionSyntax binaryExpression = binaryExpressionSelection.BinaryExpression;
 
             if (binaryExpression?.Kind() != SyntaxKind.AddExpression)
-                return Default;
+                return default;
 
             if (semanticModel == null)
                 throw new ArgumentNullException(nameof(semanticModel));
@@ -96,7 +101,7 @@ namespace Roslynator.CSharp.Syntax
             foreach (ExpressionSyntax expression in binaryExpressionSelection.Expressions)
             {
                 if (!CSharpUtility.IsStringExpression(expression, semanticModel, cancellationToken))
-                    return Default;
+                    return default;
             }
 
             return new StringConcatenationExpressionInfo(binaryExpression, binaryExpressionSelection.Span);

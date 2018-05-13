@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -12,6 +13,7 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about invocation expression.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct SimpleMemberInvocationExpressionInfo : IEquatable<SimpleMemberInvocationExpressionInfo>
     {
         private SimpleMemberInvocationExpressionInfo(
@@ -21,8 +23,6 @@ namespace Roslynator.CSharp.Syntax
             InvocationExpression = invocationExpression;
             MemberAccessExpression = memberAccessExpression;
         }
-
-        private static SimpleMemberInvocationExpressionInfo Default { get; } = new SimpleMemberInvocationExpressionInfo();
 
         /// <summary>
         /// The invocation expression.
@@ -90,6 +90,12 @@ namespace Roslynator.CSharp.Syntax
             get { return InvocationExpression != null; }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return SyntaxInfoHelpers.ToDebugString(Success, this, InvocationExpression); }
+        }
+
         internal static SimpleMemberInvocationExpressionInfo Create(
             SyntaxNode node,
             bool walkDownParentheses = true,
@@ -112,25 +118,25 @@ namespace Roslynator.CSharp.Syntax
             bool allowMissing = false)
         {
             if (!(invocationExpression?.Expression is MemberAccessExpressionSyntax memberAccessExpression))
-                return Default;
+                return default;
 
             if (memberAccessExpression.Kind() != SyntaxKind.SimpleMemberAccessExpression)
-                return Default;
+                return default;
 
             ExpressionSyntax expression = memberAccessExpression.Expression;
 
             if (!Check(expression, allowMissing))
-                return Default;
+                return default;
 
             SimpleNameSyntax name = memberAccessExpression.Name;
 
             if (!Check(name, allowMissing))
-                return Default;
+                return default;
 
             ArgumentListSyntax argumentList = invocationExpression.ArgumentList;
 
             if (argumentList == null)
-                return Default;
+                return default;
 
             return new SimpleMemberInvocationExpressionInfo(invocationExpression, memberAccessExpression);
         }

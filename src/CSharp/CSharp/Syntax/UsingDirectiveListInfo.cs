@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -13,6 +14,7 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about a list of using directives.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct UsingDirectiveListInfo : IEquatable<UsingDirectiveListInfo>, IReadOnlyList<UsingDirectiveSyntax>
     {
         internal UsingDirectiveListInfo(SyntaxNode parent, SyntaxList<UsingDirectiveSyntax> usings)
@@ -20,8 +22,6 @@ namespace Roslynator.CSharp.Syntax
             Parent = parent;
             Usings = usings;
         }
-
-        private static UsingDirectiveListInfo Default { get; } = new UsingDirectiveListInfo();
 
         /// <summary>
         /// The declaration that contains the usings.
@@ -47,6 +47,12 @@ namespace Roslynator.CSharp.Syntax
         public int Count
         {
             get { return Usings.Count; }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return SyntaxInfoHelpers.ToDebugString(Success, Usings); }
         }
 
         /// <summary>
@@ -81,7 +87,7 @@ namespace Roslynator.CSharp.Syntax
         internal static UsingDirectiveListInfo Create(NamespaceDeclarationSyntax namespaceDeclaration)
         {
             if (namespaceDeclaration == null)
-                return Default;
+                return default;
 
             return new UsingDirectiveListInfo(namespaceDeclaration, namespaceDeclaration.Usings);
         }
@@ -89,7 +95,7 @@ namespace Roslynator.CSharp.Syntax
         internal static UsingDirectiveListInfo Create(CompilationUnitSyntax compilationUnit)
         {
             if (compilationUnit == null)
-                return Default;
+                return default;
 
             return new UsingDirectiveListInfo(compilationUnit, compilationUnit.Usings);
         }
@@ -110,7 +116,7 @@ namespace Roslynator.CSharp.Syntax
                     }
             }
 
-            return Default;
+            return default;
         }
 
         /// <summary>

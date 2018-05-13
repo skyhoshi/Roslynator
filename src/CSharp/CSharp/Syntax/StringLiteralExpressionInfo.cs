@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -12,14 +13,13 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about string literal expression.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct StringLiteralExpressionInfo : IEquatable<StringLiteralExpressionInfo>
     {
         private StringLiteralExpressionInfo(LiteralExpressionSyntax expression)
         {
             Expression = expression;
         }
-
-        private static StringLiteralExpressionInfo Default { get; } = new StringLiteralExpressionInfo();
 
         /// <summary>
         /// The string literal expression.
@@ -129,6 +129,12 @@ namespace Roslynator.CSharp.Syntax
             get { return Expression != null; }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return SyntaxInfoHelpers.ToDebugString(Success, this, Expression); }
+        }
+
         internal static StringLiteralExpressionInfo Create(
             SyntaxNode node,
             bool walkDownParentheses = true)
@@ -139,7 +145,7 @@ namespace Roslynator.CSharp.Syntax
         internal static StringLiteralExpressionInfo Create(LiteralExpressionSyntax literalExpression)
         {
             if (literalExpression?.Kind() != SyntaxKind.StringLiteralExpression)
-                return Default;
+                return default;
 
             return new StringLiteralExpressionInfo(literalExpression);
         }

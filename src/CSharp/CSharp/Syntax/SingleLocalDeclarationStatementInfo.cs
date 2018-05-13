@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -12,6 +13,7 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about a local declaration statement with a single variable.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct SingleLocalDeclarationStatementInfo : IEquatable<SingleLocalDeclarationStatementInfo>
     {
         private SingleLocalDeclarationStatementInfo(
@@ -21,8 +23,6 @@ namespace Roslynator.CSharp.Syntax
             Statement = statement;
             Declarator = declarator;
         }
-
-        private static SingleLocalDeclarationStatementInfo Default { get; } = new SingleLocalDeclarationStatementInfo();
 
         /// <summary>
         /// The local declaration statement.
@@ -114,6 +114,12 @@ namespace Roslynator.CSharp.Syntax
             get { return Statement != null; }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return SyntaxInfoHelpers.ToDebugString(Success, this, Statement); }
+        }
+
         internal static SingleLocalDeclarationStatementInfo Create(
             LocalDeclarationStatementSyntax localDeclarationStatement,
             bool allowMissing = false)
@@ -121,12 +127,12 @@ namespace Roslynator.CSharp.Syntax
             VariableDeclarationSyntax variableDeclaration = localDeclarationStatement?.Declaration;
 
             if (!Check(variableDeclaration, allowMissing))
-                return Default;
+                return default;
 
             VariableDeclaratorSyntax variableDeclarator = variableDeclaration.Variables.SingleOrDefault(shouldThrow: false);
 
             if (!Check(variableDeclarator, allowMissing))
-                return Default;
+                return default;
 
             return new SingleLocalDeclarationStatementInfo(localDeclarationStatement, variableDeclarator);
         }
@@ -136,15 +142,15 @@ namespace Roslynator.CSharp.Syntax
             bool allowMissing = false)
         {
             if (!Check(variableDeclaration, allowMissing))
-                return Default;
+                return default;
 
             if (!(variableDeclaration.Parent is LocalDeclarationStatementSyntax localDeclarationStatement))
-                return Default;
+                return default;
 
             VariableDeclaratorSyntax variableDeclarator = variableDeclaration.Variables.SingleOrDefault(shouldThrow: false);
 
             if (!Check(variableDeclarator, allowMissing))
-                return Default;
+                return default;
 
             return new SingleLocalDeclarationStatementInfo(localDeclarationStatement, variableDeclarator);
         }
@@ -154,19 +160,19 @@ namespace Roslynator.CSharp.Syntax
             SyntaxNode node = value?.WalkUpParentheses().Parent;
 
             if (node?.Kind() != SyntaxKind.EqualsValueClause)
-                return Default;
+                return default;
 
             if (!(node.Parent is VariableDeclaratorSyntax declarator))
-                return Default;
+                return default;
 
             if (!(declarator.Parent is VariableDeclarationSyntax declaration))
-                return Default;
+                return default;
 
             if (declaration.Variables.Count != 1)
-                return Default;
+                return default;
 
             if (!(declaration.Parent is LocalDeclarationStatementSyntax localDeclarationStatement))
-                return Default;
+                return default;
 
             return new SingleLocalDeclarationStatementInfo(localDeclarationStatement, declarator);
         }

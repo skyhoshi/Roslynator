@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -13,6 +14,7 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about a null check expression.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct NullCheckExpressionInfo : IEquatable<NullCheckExpressionInfo>
     {
         private NullCheckExpressionInfo(
@@ -24,8 +26,6 @@ namespace Roslynator.CSharp.Syntax
             Expression = expression;
             Style = style;
         }
-
-        private static NullCheckExpressionInfo Default { get; } = new NullCheckExpressionInfo();
 
         /// <summary>
         /// The null check expression, e.g. "x == null".
@@ -64,6 +64,17 @@ namespace Roslynator.CSharp.Syntax
         public bool Success
         {
             get { return Style != NullCheckStyles.None; }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get
+            {
+                return (Success)
+                    ? $"{GetType().Name} {Style} {Expression} {NullCheckExpression}"
+                    : "Uninitialized";
+            }
         }
 
         internal static NullCheckExpressionInfo Create(
@@ -106,7 +117,7 @@ namespace Roslynator.CSharp.Syntax
             ExpressionSyntax expression = WalkAndCheck(node, walkDownParentheses, allowMissing);
 
             if (expression == null)
-                return Default;
+                return default;
 
             SyntaxKind kind = expression.Kind();
 
@@ -213,7 +224,7 @@ namespace Roslynator.CSharp.Syntax
                     }
             }
 
-            return Default;
+            return default;
         }
 
         private static NullCheckExpressionInfo Create(
@@ -268,7 +279,7 @@ namespace Roslynator.CSharp.Syntax
                     }
             }
 
-            return Default;
+            return default;
         }
 
         private static NullCheckExpressionInfo Create(
@@ -281,24 +292,24 @@ namespace Roslynator.CSharp.Syntax
             CancellationToken cancellationToken)
         {
             if ((allowedStyles & (NullCheckStyles.HasValueProperty)) == 0)
-                return Default;
+                return default;
 
             if (!(expression is MemberAccessExpressionSyntax memberAccessExpression))
-                return Default;
+                return default;
 
             if (memberAccessExpression.Kind() != SyntaxKind.SimpleMemberAccessExpression)
-                return Default;
+                return default;
 
             if (!IsPropertyOfNullableOfT(memberAccessExpression.Name, "HasValue", semanticModel, cancellationToken))
-                return Default;
+                return default;
 
             if ((allowedStyles & style) == 0)
-                return Default;
+                return default;
 
             ExpressionSyntax expression2 = memberAccessExpression.Expression;
 
             if (!Check(expression2, allowMissing))
-                return Default;
+                return default;
 
             return new NullCheckExpressionInfo(binaryExpression, expression2, style);
         }

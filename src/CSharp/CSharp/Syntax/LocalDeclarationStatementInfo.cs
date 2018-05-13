@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -12,14 +13,13 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about local declaration statement.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct LocalDeclarationStatementInfo : IEquatable<LocalDeclarationStatementInfo>
     {
         private LocalDeclarationStatementInfo(LocalDeclarationStatementSyntax statement)
         {
             Statement = statement;
         }
-
-        private static LocalDeclarationStatementInfo Default { get; } = new LocalDeclarationStatementInfo();
 
         /// <summary>
         /// The local declaration statement.
@@ -74,6 +74,12 @@ namespace Roslynator.CSharp.Syntax
             get { return Statement != null; }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return ToDebugString(Success, this, Statement); }
+        }
+
         internal static LocalDeclarationStatementInfo Create(
             LocalDeclarationStatementSyntax localDeclarationStatement,
             bool allowMissing = false)
@@ -81,15 +87,15 @@ namespace Roslynator.CSharp.Syntax
             VariableDeclarationSyntax variableDeclaration = localDeclarationStatement?.Declaration;
 
             if (!Check(variableDeclaration, allowMissing))
-                return Default;
+                return default;
 
             TypeSyntax type = variableDeclaration.Type;
 
             if (!Check(type, allowMissing))
-                return Default;
+                return default;
 
             if (!variableDeclaration.Variables.Any())
-                return Default;
+                return default;
 
             return new LocalDeclarationStatementInfo(localDeclarationStatement);
         }
@@ -101,23 +107,23 @@ namespace Roslynator.CSharp.Syntax
             SyntaxNode node = value?.WalkUpParentheses().Parent;
 
             if (node?.Kind() != SyntaxKind.EqualsValueClause)
-                return Default;
+                return default;
 
             node = node.Parent;
 
             if (node?.Kind() != SyntaxKind.VariableDeclarator)
-                return Default;
+                return default;
 
             if (!(node?.Parent is VariableDeclarationSyntax declaration))
-                return Default;
+                return default;
 
             TypeSyntax type = declaration.Type;
 
             if (!Check(type, allowMissing))
-                return Default;
+                return default;
 
             if (!(declaration.Parent is LocalDeclarationStatementSyntax localDeclarationStatement))
-                return Default;
+                return default;
 
             return new LocalDeclarationStatementInfo(localDeclarationStatement);
         }

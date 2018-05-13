@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -12,6 +13,7 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about simple assignment expression.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct AssignmentExpressionInfo : IEquatable<AssignmentExpressionInfo>
     {
         private AssignmentExpressionInfo(
@@ -23,8 +25,6 @@ namespace Roslynator.CSharp.Syntax
             Left = left;
             Right = right;
         }
-
-        private static AssignmentExpressionInfo Default { get; } = new AssignmentExpressionInfo();
 
         /// <summary>
         /// The simple assignment expression.
@@ -65,6 +65,12 @@ namespace Roslynator.CSharp.Syntax
             get { return AssignmentExpression != null; }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return ToDebugString(Success, this, AssignmentExpression); }
+        }
+
         internal static AssignmentExpressionInfo Create(
             SyntaxNode node,
             bool walkDownParentheses = true,
@@ -79,17 +85,17 @@ namespace Roslynator.CSharp.Syntax
             bool allowMissing = false)
         {
             if (assignmentExpression == null)
-                return Default;
+                return default;
 
             ExpressionSyntax left = WalkAndCheck(assignmentExpression.Left, walkDownParentheses, allowMissing);
 
             if (left == null)
-                return Default;
+                return default;
 
             ExpressionSyntax right = WalkAndCheck(assignmentExpression.Right, walkDownParentheses, allowMissing);
 
             if (right == null)
-                return Default;
+                return default;
 
             return new AssignmentExpressionInfo(assignmentExpression, left, right);
         }

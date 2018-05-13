@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Roslynator.CSharp.Syntax.SyntaxInfoHelpers;
@@ -11,6 +12,7 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about conditional expression.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct ConditionalExpressionInfo : IEquatable<ConditionalExpressionInfo>
     {
         private ConditionalExpressionInfo(
@@ -22,8 +24,6 @@ namespace Roslynator.CSharp.Syntax
             WhenTrue = whenTrue;
             WhenFalse = whenFalse;
         }
-
-        private static ConditionalExpressionInfo Default { get; } = new ConditionalExpressionInfo();
 
         /// <summary>
         /// The conditional expression.
@@ -72,6 +72,12 @@ namespace Roslynator.CSharp.Syntax
             get { return Condition != null; }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return ToDebugString(Success, this, ConditionalExpression); }
+        }
+
         internal static ConditionalExpressionInfo Create(
             SyntaxNode node,
             bool walkDownParentheses = true,
@@ -97,22 +103,22 @@ namespace Roslynator.CSharp.Syntax
             bool allowMissing = false)
         {
             if (conditionalExpression == null)
-                return Default;
+                return default;
 
             ExpressionSyntax condition = WalkAndCheck(conditionalExpression.Condition, walkDownParentheses, allowMissing);
 
             if (condition == null)
-                return Default;
+                return default;
 
             ExpressionSyntax whenTrue = WalkAndCheck(conditionalExpression.WhenTrue, walkDownParentheses, allowMissing);
 
             if (whenTrue == null)
-                return Default;
+                return default;
 
             ExpressionSyntax whenFalse = WalkAndCheck(conditionalExpression.WhenFalse, walkDownParentheses, allowMissing);
 
             if (whenFalse == null)
-                return Default;
+                return default;
 
             return new ConditionalExpressionInfo(condition, whenTrue, whenFalse);
         }

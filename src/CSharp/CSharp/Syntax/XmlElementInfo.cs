@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -10,6 +11,7 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about a <see cref="XmlNodeSyntax"/>.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct XmlElementInfo : IEquatable<XmlElementInfo>
     {
         private XmlElementInfo(XmlNodeSyntax element, string localName, XmlElementKind elementKind)
@@ -18,8 +20,6 @@ namespace Roslynator.CSharp.Syntax
             LocalName = localName;
             ElementKind = elementKind;
         }
-
-        private static XmlElementInfo Default { get; } = new XmlElementInfo();
 
         /// <summary>
         /// The xml element.
@@ -57,6 +57,12 @@ namespace Roslynator.CSharp.Syntax
             get { return Element != null; }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return SyntaxInfoHelpers.ToDebugString(Success, this, Element); }
+        }
+
         internal static XmlElementInfo Create(XmlNodeSyntax node)
         {
             switch (node)
@@ -66,7 +72,7 @@ namespace Roslynator.CSharp.Syntax
                         string localName = element.StartTag?.Name?.LocalName.ValueText;
 
                         if (localName == null)
-                            return Default;
+                            return default;
 
                         return new XmlElementInfo(element, localName, GetXmlElementKind(localName));
                     }
@@ -75,13 +81,13 @@ namespace Roslynator.CSharp.Syntax
                         string localName = element.Name?.LocalName.ValueText;
 
                         if (localName == null)
-                            return Default;
+                            return default;
 
                         return new XmlElementInfo(element, localName, GetXmlElementKind(localName));
                     }
             }
 
-            return Default;
+            return default;
         }
 
         private static XmlElementKind GetXmlElementKind(string localName)

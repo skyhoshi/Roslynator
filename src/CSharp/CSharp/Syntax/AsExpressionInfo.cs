@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -12,6 +13,7 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about "as" expression.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct AsExpressionInfo : IEquatable<AsExpressionInfo>
     {
         private AsExpressionInfo(
@@ -23,8 +25,6 @@ namespace Roslynator.CSharp.Syntax
             Expression = expression;
             Type = type;
         }
-
-        private static AsExpressionInfo Default { get; } = new AsExpressionInfo();
 
         /// <summary>
         /// The "as" expression.
@@ -57,6 +57,12 @@ namespace Roslynator.CSharp.Syntax
             get { return Expression != null; }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return ToDebugString(Success, this, AsExpression); }
+        }
+
         internal static AsExpressionInfo Create(
             SyntaxNode node,
             bool walkDownParentheses = true,
@@ -82,17 +88,17 @@ namespace Roslynator.CSharp.Syntax
             bool allowMissing = false)
         {
             if (binaryExpression?.Kind() != SyntaxKind.AsExpression)
-                return Default;
+                return default;
 
             ExpressionSyntax expression = Walk(binaryExpression.Left, walkDownParentheses);
 
             if (!Check(expression, allowMissing))
-                return Default;
+                return default;
 
             var type = binaryExpression.Right as TypeSyntax;
 
             if (!Check(type, allowMissing))
-                return Default;
+                return default;
 
             return new AsExpressionInfo(binaryExpression, expression, type);
         }

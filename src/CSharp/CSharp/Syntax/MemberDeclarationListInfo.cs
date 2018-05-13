@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -13,6 +14,7 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about a list of member declaration list.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct MemberDeclarationListInfo : IEquatable<MemberDeclarationListInfo>, IReadOnlyList<MemberDeclarationSyntax>
     {
         internal MemberDeclarationListInfo(SyntaxNode parent, SyntaxList<MemberDeclarationSyntax> members)
@@ -20,8 +22,6 @@ namespace Roslynator.CSharp.Syntax
             Parent = parent;
             Members = members;
         }
-
-        private static MemberDeclarationListInfo Default { get; } = new MemberDeclarationListInfo();
 
         /// <summary>
         /// The declaration that contains the members.
@@ -47,6 +47,12 @@ namespace Roslynator.CSharp.Syntax
         public int Count
         {
             get { return Members.Count; }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return SyntaxInfoHelpers.ToDebugString(Success, Members); }
         }
 
         /// <summary>
@@ -81,7 +87,7 @@ namespace Roslynator.CSharp.Syntax
         internal static MemberDeclarationListInfo Create(CompilationUnitSyntax compilationUnit)
         {
             if (compilationUnit == null)
-                return Default;
+                return default;
 
             return new MemberDeclarationListInfo(compilationUnit, compilationUnit.Members);
         }
@@ -89,7 +95,7 @@ namespace Roslynator.CSharp.Syntax
         internal static MemberDeclarationListInfo Create(NamespaceDeclarationSyntax namespaceDeclaration)
         {
             if (namespaceDeclaration == null)
-                return Default;
+                return default;
 
             return new MemberDeclarationListInfo(namespaceDeclaration, namespaceDeclaration.Members);
         }
@@ -97,7 +103,7 @@ namespace Roslynator.CSharp.Syntax
         internal static MemberDeclarationListInfo Create(TypeDeclarationSyntax typeDeclaration)
         {
             if (typeDeclaration == null)
-                return Default;
+                return default;
 
             return new MemberDeclarationListInfo(typeDeclaration, typeDeclaration.Members);
         }
@@ -105,7 +111,7 @@ namespace Roslynator.CSharp.Syntax
         internal static MemberDeclarationListInfo Create(ClassDeclarationSyntax classDeclaration)
         {
             if (classDeclaration == null)
-                return Default;
+                return default;
 
             return new MemberDeclarationListInfo(classDeclaration, classDeclaration.Members);
         }
@@ -113,7 +119,7 @@ namespace Roslynator.CSharp.Syntax
         internal static MemberDeclarationListInfo Create(StructDeclarationSyntax structDeclaration)
         {
             if (structDeclaration == null)
-                return Default;
+                return default;
 
             return new MemberDeclarationListInfo(structDeclaration, structDeclaration.Members);
         }
@@ -121,7 +127,7 @@ namespace Roslynator.CSharp.Syntax
         internal static MemberDeclarationListInfo Create(InterfaceDeclarationSyntax interfaceDeclaration)
         {
             if (interfaceDeclaration == null)
-                return Default;
+                return default;
 
             return new MemberDeclarationListInfo(interfaceDeclaration, interfaceDeclaration.Members);
         }
@@ -149,7 +155,7 @@ namespace Roslynator.CSharp.Syntax
                     }
             }
 
-            return Default;
+            return default;
         }
 
         internal static MemberDeclarationListInfo Create(MemberDeclarationListSelection selectedMembers)

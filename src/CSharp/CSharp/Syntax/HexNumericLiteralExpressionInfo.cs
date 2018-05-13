@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -9,6 +10,7 @@ using static Roslynator.CSharp.Syntax.SyntaxInfoHelpers;
 
 namespace Roslynator.CSharp.Syntax
 {
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     internal readonly struct HexNumericLiteralExpressionInfo : IEquatable<HexNumericLiteralExpressionInfo>
     {
         private HexNumericLiteralExpressionInfo(LiteralExpressionSyntax literalExpression, SyntaxToken token)
@@ -16,8 +18,6 @@ namespace Roslynator.CSharp.Syntax
             LiteralExpression = literalExpression;
             Token = token;
         }
-
-        private static HexNumericLiteralExpressionInfo Default { get; } = new HexNumericLiteralExpressionInfo();
 
         public LiteralExpressionSyntax LiteralExpression { get; }
 
@@ -94,6 +94,12 @@ namespace Roslynator.CSharp.Syntax
             get { return LiteralExpression != null; }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return SyntaxInfoHelpers.ToDebugString(Success, this, LiteralExpression); }
+        }
+
         internal static HexNumericLiteralExpressionInfo Create(SyntaxNode node, bool walkDownParentheses = true)
         {
             return Create(Walk(node, walkDownParentheses) as LiteralExpressionSyntax);
@@ -102,17 +108,17 @@ namespace Roslynator.CSharp.Syntax
         internal static HexNumericLiteralExpressionInfo Create(LiteralExpressionSyntax literalExpression)
         {
             if (literalExpression == null)
-                return Default;
+                return default;
 
             if (!literalExpression.IsKind(SyntaxKind.NumericLiteralExpression))
-                return Default;
+                return default;
 
             SyntaxToken token = literalExpression.Token;
 
             string text = token.Text;
 
             if (!text.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                return Default;
+                return default;
 
             return new HexNumericLiteralExpressionInfo(literalExpression, token);
         }

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -13,6 +14,7 @@ namespace Roslynator.CSharp.Syntax
     /// Provides information about a simple if-else.
     /// Simple if-else is defined as follows: it is not a child of an else clause and it has an else clause and the else clause does not continue with another if statement.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct SimpleIfElseInfo : IEquatable<SimpleIfElseInfo>
     {
         private SimpleIfElseInfo(
@@ -26,8 +28,6 @@ namespace Roslynator.CSharp.Syntax
             WhenTrue = whenTrue;
             WhenFalse = whenFalse;
         }
-
-        private static SimpleIfElseInfo Default { get; } = new SimpleIfElseInfo();
 
         /// <summary>
         /// The if statement.
@@ -65,31 +65,37 @@ namespace Roslynator.CSharp.Syntax
             get { return IfStatement != null; }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return ToDebugString(Success, this, IfStatement); }
+        }
+
         internal static SimpleIfElseInfo Create(
             IfStatementSyntax ifStatement,
             bool walkDownParentheses = true,
             bool allowMissing = false)
         {
             if (ifStatement?.IsParentKind(SyntaxKind.ElseClause) != false)
-                return Default;
+                return default;
 
             StatementSyntax whenFalse = ifStatement.Else?.Statement;
 
             if (!Check(whenFalse, allowMissing))
-                return Default;
+                return default;
 
             if (whenFalse.IsKind(SyntaxKind.IfStatement))
-                return Default;
+                return default;
 
             StatementSyntax whenTrue = ifStatement.Statement;
 
             if (!Check(whenTrue, allowMissing))
-                return Default;
+                return default;
 
             ExpressionSyntax condition = WalkAndCheck(ifStatement.Condition, walkDownParentheses, allowMissing);
 
             if (condition == null)
-                return Default;
+                return default;
 
             return new SimpleIfElseInfo(ifStatement, condition, whenTrue, whenFalse);
         }

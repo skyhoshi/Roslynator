@@ -12,6 +12,7 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about generic syntax (class, struct, interface, delegate, method or local function).
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct GenericInfo : IEquatable<GenericInfo>
     {
         private GenericInfo(TypeDeclarationSyntax typeDeclaration)
@@ -43,8 +44,6 @@ namespace Roslynator.CSharp.Syntax
             TypeParameterList = typeParameterList;
             ConstraintClauses = constraintClauses;
         }
-
-        private static GenericInfo Default { get; } = new GenericInfo();
 
         /// <summary>
         /// The syntax node that can be generic (for example <see cref="ClassDeclarationSyntax"/> for a class or <see cref="LocalDeclarationStatementSyntax"/> for a local function).
@@ -117,10 +116,21 @@ namespace Roslynator.CSharp.Syntax
             get { return Node != null; }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get
+            {
+                return (Success)
+                    ? $"{GetType().Name} {Node.Kind()} {TypeParameterList} {ConstraintClauses}"
+                    : "Uninitialized";
+            }
+        }
+
         internal static GenericInfo Create(SyntaxNode node)
         {
             if (node == null)
-                return Default;
+                return default;
 
             switch (node.Kind())
             {
@@ -159,7 +169,7 @@ namespace Roslynator.CSharp.Syntax
             if (node is TypeParameterConstraintSyntax typeParameterConstraint)
                 return Create(typeParameterConstraint);
 
-            return Default;
+            return default;
         }
 
         internal static GenericInfo Create(TypeParameterConstraintSyntax typeParameterConstraint)
@@ -185,7 +195,7 @@ namespace Roslynator.CSharp.Syntax
         internal static GenericInfo Create(TypeDeclarationSyntax typeDeclaration)
         {
             if (typeDeclaration == null)
-                return Default;
+                return default;
 
             return new GenericInfo(typeDeclaration);
         }
@@ -193,7 +203,7 @@ namespace Roslynator.CSharp.Syntax
         internal static GenericInfo Create(DelegateDeclarationSyntax delegateDeclaration)
         {
             if (delegateDeclaration == null)
-                return Default;
+                return default;
 
             return new GenericInfo(delegateDeclaration);
         }
@@ -201,7 +211,7 @@ namespace Roslynator.CSharp.Syntax
         internal static GenericInfo Create(LocalFunctionStatementSyntax localFunctionStatement)
         {
             if (localFunctionStatement == null)
-                return Default;
+                return default;
 
             return new GenericInfo(localFunctionStatement);
         }
@@ -209,7 +219,7 @@ namespace Roslynator.CSharp.Syntax
         internal static GenericInfo Create(MethodDeclarationSyntax methodDeclaration)
         {
             if (methodDeclaration == null)
-                return Default;
+                return default;
 
             return new GenericInfo(methodDeclaration);
         }

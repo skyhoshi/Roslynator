@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -12,6 +13,7 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about a region.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct RegionInfo : IEquatable<RegionInfo>
     {
         private RegionInfo(RegionDirectiveTriviaSyntax directive, EndRegionDirectiveTriviaSyntax endDirective)
@@ -19,8 +21,6 @@ namespace Roslynator.CSharp.Syntax
             Directive = directive;
             EndDirective = endDirective;
         }
-
-        private static RegionInfo Default { get; } = new RegionInfo();
 
         /// <summary>
         /// #region directive.
@@ -83,6 +83,12 @@ namespace Roslynator.CSharp.Syntax
             }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return SyntaxInfoHelpers.ToDebugString(Success, this, Directive); }
+        }
+
         private static EndRegionDirectiveTriviaSyntax FindEndRegionDirective(SyntaxTriviaList list, int index)
         {
             for (int i = index + 1; i < list.Count; i++)
@@ -123,21 +129,21 @@ namespace Roslynator.CSharp.Syntax
                     return Create((EndRegionDirectiveTriviaSyntax)node);
             }
 
-            return Default;
+            return default;
         }
 
         internal static RegionInfo Create(RegionDirectiveTriviaSyntax regionDirective)
         {
             if (regionDirective == null)
-                return Default;
+                return default;
 
             List<DirectiveTriviaSyntax> list = regionDirective.GetRelatedDirectives();
 
             if (list.Count != 2)
-                return Default;
+                return default;
 
             if (list[1].Kind() != SyntaxKind.EndRegionDirectiveTrivia)
-                return Default;
+                return default;
 
             return new RegionInfo(regionDirective, (EndRegionDirectiveTriviaSyntax)list[1]);
         }
@@ -145,15 +151,15 @@ namespace Roslynator.CSharp.Syntax
         internal static RegionInfo Create(EndRegionDirectiveTriviaSyntax endRegionDirective)
         {
             if (endRegionDirective == null)
-                return Default;
+                return default;
 
             List<DirectiveTriviaSyntax> list = endRegionDirective.GetRelatedDirectives();
 
             if (list.Count != 2)
-                return Default;
+                return default;
 
             if (list[0].Kind() != SyntaxKind.RegionDirectiveTrivia)
-                return Default;
+                return default;
 
             return new RegionInfo((RegionDirectiveTriviaSyntax)list[0], endRegionDirective);
         }

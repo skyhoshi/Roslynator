@@ -2495,5 +2495,41 @@ namespace Roslynator.CSharp
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MergePreprocessorDirectives}", 
             customTags:         Array.Empty<string>());
 
+        /// <summary>RCS1223</summary>
+        public static readonly DiagnosticDescriptor MarkTypeWithDebuggerDisplayAttribute = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.MarkTypeWithDebuggerDisplayAttribute, 
+            title:              "Mark publicly visible type with DebuggerDisplay attribute.", 
+            messageFormat:      "Mark '{0}' with DebuggerDisplay attribute.", 
+            category:           DiagnosticCategories.Usage, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: false, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MarkTypeWithDebuggerDisplayAttribute}", 
+            customTags:         Array.Empty<string>());
+
+        /// <summary>RCS1224</summary>
+        public static readonly DiagnosticDescriptor MakeMethodExtensionMethod = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.MakeMethodExtensionMethod, 
+            title:              "Make method an extension method.", 
+            messageFormat:      "Make method an extension method.", 
+            category:           DiagnosticCategories.Design, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MakeMethodExtensionMethod}", 
+            customTags:         Array.Empty<string>());
+
+        /// <summary>RCS1225</summary>
+        public static readonly DiagnosticDescriptor MakeClassSealed = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.MakeClassSealed, 
+            title:              "Make class sealed.", 
+            messageFormat:      "Make class sealed.", 
+            category:           DiagnosticCategories.Design, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MakeClassSealed}", 
+            customTags:         Array.Empty<string>());
+
     }
 }

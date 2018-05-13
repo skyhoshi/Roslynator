@@ -111,6 +111,11 @@ namespace Roslynator.CSharp.Refactorings
             }
         }
 
+        public void ThrowIfCancellationRequested()
+        {
+            CancellationToken.ThrowIfCancellationRequested();
+        }
+
         public Task<SemanticModel> GetSemanticModelAsync()
         {
             return Document.GetSemanticModelAsync(CancellationToken);

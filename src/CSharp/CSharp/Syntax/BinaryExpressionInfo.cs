@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -13,6 +14,7 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about binary expression.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct BinaryExpressionInfo : IEquatable<BinaryExpressionInfo>
     {
         internal BinaryExpressionInfo(
@@ -24,8 +26,6 @@ namespace Roslynator.CSharp.Syntax
             Left = left;
             Right = right;
         }
-
-        private static BinaryExpressionInfo Default { get; } = new BinaryExpressionInfo();
 
         /// <summary>
         /// The binary expression.
@@ -56,6 +56,12 @@ namespace Roslynator.CSharp.Syntax
         public bool Success
         {
             get { return BinaryExpression != null; }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return ToDebugString(Success, this, BinaryExpression); }
         }
 
         /// <summary>
@@ -194,17 +200,17 @@ namespace Roslynator.CSharp.Syntax
             bool allowMissing = false)
         {
             if (binaryExpression == null)
-                return Default;
+                return default;
 
             ExpressionSyntax left = Walk(binaryExpression.Left, walkDownParentheses);
 
             if (!Check(left, allowMissing))
-                return Default;
+                return default;
 
             ExpressionSyntax right = Walk(binaryExpression.Right, walkDownParentheses);
 
             if (!Check(right, allowMissing))
-                return Default;
+                return default;
 
             return new BinaryExpressionInfo(binaryExpression, left, right);
         }

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Roslynator.CSharp.Syntax.SyntaxInfoHelpers;
@@ -12,6 +13,7 @@ namespace Roslynator.CSharp.Syntax
     /// Provides information about a simple if statement.
     /// Simple if statement is defined as follows: it is not a child of an else clause and it has no else clause.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct SimpleIfStatementInfo : IEquatable<SimpleIfStatementInfo>
     {
         private SimpleIfStatementInfo(
@@ -23,8 +25,6 @@ namespace Roslynator.CSharp.Syntax
             Condition = condition;
             Statement = statement;
         }
-
-        private static SimpleIfStatementInfo Default { get; } = new SimpleIfStatementInfo();
 
         /// <summary>
         /// The if statement.
@@ -49,6 +49,12 @@ namespace Roslynator.CSharp.Syntax
             get { return IfStatement != null; }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return SyntaxInfoHelpers.ToDebugString(Success, this, IfStatement); }
+        }
+
         internal static SimpleIfStatementInfo Create(
             SyntaxNode node,
             bool walkDownParentheses = true,
@@ -63,17 +69,17 @@ namespace Roslynator.CSharp.Syntax
             bool allowMissing = false)
         {
             if (ifStatement?.IsSimpleIf() != true)
-                return Default;
+                return default;
 
             ExpressionSyntax condition = WalkAndCheck(ifStatement.Condition, walkDownParentheses, allowMissing);
 
             if (condition == null)
-                return Default;
+                return default;
 
             StatementSyntax statement = ifStatement.Statement;
 
             if (!Check(statement, allowMissing))
-                return Default;
+                return default;
 
             return new SimpleIfStatementInfo(ifStatement, condition, statement);
         }

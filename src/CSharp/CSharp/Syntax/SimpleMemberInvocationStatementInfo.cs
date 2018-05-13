@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -11,6 +12,7 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about invocation expression in an expression statement.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct SimpleMemberInvocationStatementInfo : IEquatable<SimpleMemberInvocationStatementInfo>
     {
         private readonly SimpleMemberInvocationExpressionInfo _info;
@@ -19,8 +21,6 @@ namespace Roslynator.CSharp.Syntax
         {
             _info = info;
         }
-
-        private static SimpleMemberInvocationStatementInfo Default { get; } = new SimpleMemberInvocationStatementInfo();
 
         /// <summary>
         /// The invocation expression.
@@ -70,6 +70,12 @@ namespace Roslynator.CSharp.Syntax
         /// </summary>
         public bool Success => _info.Success;
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return SyntaxInfoHelpers.ToDebugString(Success, this, Statement); }
+        }
+
         internal static SimpleMemberInvocationStatementInfo Create(
             SyntaxNode node,
             bool allowMissing = false)
@@ -82,7 +88,7 @@ namespace Roslynator.CSharp.Syntax
                     return Create(invocationExpression, allowMissing);
             }
 
-            return Default;
+            return default;
         }
 
         internal static SimpleMemberInvocationStatementInfo Create(
@@ -90,7 +96,7 @@ namespace Roslynator.CSharp.Syntax
             bool allowMissing = false)
         {
             if (!(expressionStatement?.Expression is InvocationExpressionSyntax invocationExpression))
-                return Default;
+                return default;
 
             return CreateImpl(invocationExpression, allowMissing);
         }
@@ -100,7 +106,7 @@ namespace Roslynator.CSharp.Syntax
             bool allowMissing = false)
         {
             if (!invocationExpression.IsParentKind(SyntaxKind.ExpressionStatement))
-                return Default;
+                return default;
 
             return CreateImpl(invocationExpression, allowMissing);
         }

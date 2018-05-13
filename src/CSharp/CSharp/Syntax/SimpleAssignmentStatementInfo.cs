@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -12,6 +13,7 @@ namespace Roslynator.CSharp.Syntax
     /// <summary>
     /// Provides information about a simple assignment expression in an expression statement.
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct SimpleAssignmentStatementInfo : IEquatable<SimpleAssignmentStatementInfo>
     {
         private readonly SimpleAssignmentExpressionInfo _info;
@@ -20,8 +22,6 @@ namespace Roslynator.CSharp.Syntax
         {
             _info = info;
         }
-
-        private static SimpleAssignmentStatementInfo Default { get; } = new SimpleAssignmentStatementInfo();
 
         /// <summary>
         /// The simple assignment expression.
@@ -56,6 +56,12 @@ namespace Roslynator.CSharp.Syntax
         /// </summary>
         public bool Success => _info.Success;
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return SyntaxInfoHelpers.ToDebugString(Success, this, Statement); }
+        }
+
         internal static SimpleAssignmentStatementInfo Create(
             StatementSyntax statement,
             bool walkDownParentheses = true,
@@ -74,7 +80,7 @@ namespace Roslynator.CSharp.Syntax
             if (Check(expression, allowMissing))
                 return CreateImpl(expression as AssignmentExpressionSyntax, walkDownParentheses, allowMissing);
 
-            return Default;
+            return default;
         }
 
         internal static SimpleAssignmentStatementInfo Create(
@@ -85,7 +91,7 @@ namespace Roslynator.CSharp.Syntax
             if (assignmentExpression?.Parent?.Kind() == SyntaxKind.ExpressionStatement)
                 return CreateImpl(assignmentExpression, walkDownParentheses, allowMissing);
 
-            return Default;
+            return default;
         }
 
         private static SimpleAssignmentStatementInfo CreateImpl(
