@@ -4792,30 +4792,122 @@ if (y == null)
       </Sample>
     </Samples>
   </Analyzer>
-  <Analyzer Identifier="AddCommaAfterLastItemInList">
-    <Id>RCS1230</Id>
-    <Title>Add comma after last item in list.</Title>
-    <MessageFormat>Add comma after last item in list.</MessageFormat>
-    <Category>Maintainability</Category>
+  <Analyzer Identifier="MarkTypeWithDebuggerDisplayAttribute">
+    <Id>RCS1223</Id>
+    <Title>Mark publicly visible type with DebuggerDisplay attribute.</Title>
+    <MessageFormat>Mark '{0}' with DebuggerDisplay attribute.</MessageFormat>
+    <Category>Usage</Category>
+    <DefaultSeverity>Info</DefaultSeverity>
+    <IsEnabledByDefault>false</IsEnabledByDefault>
+    <SupportsFadeOut>false</SupportsFadeOut>
+    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Samples>
+      <Sample>
+        <Before><![CDATA[public class Foo // RCS1223
+{
+}]]></Before>
+        <After><![CDATA[DebuggerDisplay("{DebuggerDisplay,nq}")]
+public class Foo
+{
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private string DebuggerDisplay
+    {
+        get { return ToString(); }
+    }
+}]]></After>
+      </Sample>
+    </Samples>
+  </Analyzer>
+  <Analyzer Identifier="MakeMethodExtensionMethod">
+    <Id>RCS1224</Id>
+    <Title>Make method an extension method.</Title>
+    <MessageFormat>Make method an extension method.</MessageFormat>
+    <Category>Design</Category>
     <DefaultSeverity>Info</DefaultSeverity>
     <IsEnabledByDefault>true</IsEnabledByDefault>
     <SupportsFadeOut>false</SupportsFadeOut>
     <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
-    <Summary>Having comma after last item in list allows easily reorder members.
-Also when new item is added, previous line will not show up in file comparison.</Summary>
+    <Summary>Public/internal method in public/internal static class whose name ends with "Extensions" should be an extension method.</Summary>
     <Samples>
       <Sample>
         <Before>
-          <![CDATA[public enum Foo
+          <![CDATA[public static class FooExtensions
 {
-  A,
-  B // RCS0218
+    public static string Bar(Foo foo) // RCS1224
+    {
+    }
 }]]></Before>
-        <After><![CDATA[public enum Foo
+        <After><![CDATA[public static class FooExtensions
 {
-  A,
-  B,
+    public static string Bar(this Foo foo)
+    {
+    }
+}]]>
+        </After>
+      </Sample>
+    </Samples>
+  </Analyzer>
+  <Analyzer Identifier="MakeClassSealed">
+    <Id>RCS1225</Id>
+    <Title>Make class sealed.</Title>
+    <MessageFormat>Make class sealed.</MessageFormat>
+    <Category>Design</Category>
+    <DefaultSeverity>Info</DefaultSeverity>
+    <IsEnabledByDefault>true</IsEnabledByDefault>
+    <SupportsFadeOut>false</SupportsFadeOut>
+    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Summary>A class that has only private constructors should be marked as sealed.</Summary>
+    <Samples>
+      <Sample>
+        <Before><![CDATA[public class Foo // RCS1225
+{
+    private Foo()
+    {
+    }
+}]]></Before>
+<After><![CDATA[public sealed class Foo
+{
+    private Foo()
+    {
+    }
 }]]></After>
+      </Sample>
+    </Samples>
+  </Analyzer>
+  <Analyzer Identifier="AddParagraphToDocumentationComment">
+    <Id>RCS1226</Id>
+    <Title>Add paragraph to documentation comment.</Title>
+    <MessageFormat>Add paragraph to documentation comment.</MessageFormat>
+    <Category>Usage</Category>
+    <DefaultSeverity>Info</DefaultSeverity>
+    <IsEnabledByDefault>true</IsEnabledByDefault>
+    <SupportsFadeOut>false</SupportsFadeOut>
+    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Samples>
+      <Sample>
+        <Before>
+          <![CDATA[/// <summary>
+/// summary1 // RCS1126
+/// 
+/// summary2 // RCS1126
+/// summary3
+/// </summary>
+class Foo
+{
+}]]>
+        </Before>
+        <After>
+          <![CDATA[/// <summary>
+/// <para>summary1</para>
+/// <para>
+/// summary2
+/// summary3
+/// </para>
+/// </summary>
+class Foo
+{
+}]]>
+        </After>
       </Sample>
     </Samples>
   </Analyzer>
