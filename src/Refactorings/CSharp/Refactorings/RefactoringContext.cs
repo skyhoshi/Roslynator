@@ -659,6 +659,15 @@ namespace Roslynator.CSharp.Refactorings
                             flags.Set(Flag.SimpleMemberAccessExpression);
                             continue;
                         }
+                    case SyntaxKind.ConditionalAccessExpression:
+                        {
+                            if (flags.IsSet(Flag.ConditionalAccessExpression))
+                                continue;
+
+                            await ConditionalAccessExpressionRefactoring.ComputeRefactoringAsync(this, (ConditionalAccessExpressionSyntax)node).ConfigureAwait(false);
+                            flags.Set(Flag.ConditionalAccessExpression);
+                            continue;
+                        }
                     case SyntaxKind.ParenthesizedExpression:
                         {
                             if (flags.IsSet(Flag.ParenthesizedExpression))
@@ -1010,34 +1019,35 @@ namespace Roslynator.CSharp.Refactorings
             LambdaExpression = 30,
             LiteralExpression = 31,
             SimpleMemberAccessExpression = 32,
-            ParenthesizedExpression = 33,
-            PostfixUnaryExpression = 34,
-            PrefixUnaryExpression = 35,
-            AwaitExpression = 36,
-            CastExpression = 37,
-            ThrowExpression = 38,
-            DeclarationExpression = 39,
-            IsPatternExpression = 40,
+            ConditionalAccessExpression = 33,
+            ParenthesizedExpression = 34,
+            PostfixUnaryExpression = 35,
+            PrefixUnaryExpression = 36,
+            AwaitExpression = 37,
+            CastExpression = 38,
+            ThrowExpression = 39,
+            DeclarationExpression = 40,
+            IsPatternExpression = 41,
 
-            MemberDeclaration = 41,
+            MemberDeclaration = 42,
 
-            Statement = 42,
-            ExpressionStatement = 43,
-            LoopStatement = 44,
-            IfStatement = 45,
-            LocalDeclarationStatement = 46,
-            ReturnStatement = 47,
-            SwitchStatement = 48,
-            UsingStatement = 49,
-            YieldStatement = 50,
-            LockStatement = 51,
-            Block = 52,
-            BlockOrSwitchStatement = 53,
-            ThrowStatement = 54,
-            LocalFunctionStatement = 55,
-            UnsafeStatement = 56,
+            Statement = 43,
+            ExpressionStatement = 44,
+            LoopStatement = 45,
+            IfStatement = 46,
+            LocalDeclarationStatement = 47,
+            ReturnStatement = 48,
+            SwitchStatement = 49,
+            UsingStatement = 50,
+            YieldStatement = 51,
+            LockStatement = 52,
+            Block = 53,
+            BlockOrSwitchStatement = 54,
+            ThrowStatement = 55,
+            LocalFunctionStatement = 56,
+            UnsafeStatement = 57,
 
-            Count = 57,
+            Count = 58,
         }
     }
 }
