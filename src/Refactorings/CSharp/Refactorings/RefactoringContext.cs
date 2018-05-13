@@ -111,6 +111,11 @@ namespace Roslynator.CSharp.Refactorings
             }
         }
 
+        public void ThrowIfCancellationRequested()
+        {
+            CancellationToken.ThrowIfCancellationRequested();
+        }
+
         public Task<SemanticModel> GetSemanticModelAsync()
         {
             return Document.GetSemanticModelAsync(CancellationToken);
@@ -306,6 +311,7 @@ namespace Roslynator.CSharp.Refactorings
                 return;
 
             RefactoringFlags flags = RefactoringFlagsCache.GetInstance();
+            bool fConditionalAccess = false;
 
             SyntaxNode firstNode = node;
 

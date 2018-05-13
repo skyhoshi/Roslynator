@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Roslynator.CSharp.Analysis
 {
@@ -37,28 +39,43 @@ namespace Roslynator.CSharp.Analysis
             if (!documentationComment.IsPartOfMemberDeclaration())
                 return;
 
-            XmlElementSyntax summaryElement = documentationComment.SummaryElement();
-
-            if (summaryElement == null)
-                return;
-
-            SyntaxList<XmlNodeSyntax> content = summaryElement.Content;
-
-            if (!content.Any())
-                return;
-
-            (TextSpan span1, TextSpan span2, IList<TextSpan> spans) = FindFixableSpan(content, stopOnFirstMatch: true);
-
-            if (span2.End > 0)
+            foreach (XmlNodeSyntax node in documentationComment.Content)
             {
-                context.ReportDiagnostic(
-                    DiagnosticDescriptors.AddParagraphToDocumentationComment,
-                    Location.Create(documentationComment.SyntaxTree, TextSpan.FromBounds(span1.Start, span2.End)));
+                if (!node.IsKind(SyntaxKind.XmlElement))
+                    continue;
+
+                var element = (XmlElementSyntax)node;
+
+                string localName = element.StartTag.Name?.LocalName.ValueText;
+
+                if (!string.Equals(localName, "summary", StringComparison.OrdinalIgnoreCase)
+                    && !string.Equals(localName, "remarks", StringComparison.OrdinalIgnoreCase)
+                    && !string.Equals(localName, "returns", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                SyntaxList<XmlNodeSyntax> content = element.Content;
+
+                if (!content.Any())
+                    continue;
+
+                (TextSpan span1, TextSpan span2, IList<TextSpan> spans) = FindFixableSpan(content, stopOnFirstMatch: true, context.CancellationToken);
+
+                if (span2.End > 0)
+                {
+                    context.ReportDiagnostic(
+                        DiagnosticDescriptors.AddParagraphToDocumentationComment,
+                        Location.Create(documentationComment.SyntaxTree, TextSpan.FromBounds(span1.Start, span2.End)));
+                }
             }
         }
 
-        internal static (TextSpan span1, TextSpan span2, List<TextSpan> spans)
-            FindFixableSpan(SyntaxList<XmlNodeSyntax> nodes, bool stopOnFirstMatch = false)
+        [SuppressMessage("Simplification", "RCS1180:Inline lazy initialization.", Justification = "<Pending>")]
+        internal static (TextSpan span1, TextSpan span2, List<TextSpan> spans) FindFixableSpan(
+            SyntaxList<XmlNodeSyntax> nodes,
+            bool stopOnFirstMatch = false,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             int index = -1;
             int endIndex = -1;
@@ -73,6 +90,8 @@ namespace Roslynator.CSharp.Analysis
 
             foreach (XmlNodeSyntax node in nodes)
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 switch (node.Kind())
                 {
                     case SyntaxKind.XmlElement:
@@ -159,6 +178,8 @@ namespace Roslynator.CSharp.Analysis
 
                             foreach (SyntaxToken token in xmlText.TextTokens)
                             {
+                                cancellationToken.ThrowIfCancellationRequested();
+
                                 switch (token.Kind())
                                 {
                                     case SyntaxKind.XmlTextLiteralToken:

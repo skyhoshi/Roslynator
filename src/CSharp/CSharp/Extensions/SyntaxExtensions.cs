@@ -2925,16 +2925,28 @@ namespace Roslynator.CSharp
                 while (!node.FullSpan.Contains(lineStartIndex))
                     node = GetParent(node, ascendOutOfTrivia: true);
 
-                SyntaxToken token = node.FindToken(lineStartIndex);
-
-                if (!token.IsKind(SyntaxKind.None))
+                if (node.IsKind(SyntaxKind.SingleLineDocumentationCommentTrivia))
                 {
-                    SyntaxTriviaList leadingTrivia = token.LeadingTrivia;
-
-                    if (leadingTrivia.Any()
-                        && leadingTrivia.FullSpan.Contains(lineStartIndex))
+                    if (((DocumentationCommentTriviaSyntax)node)
+                        .ParentTrivia
+                        .TryGetContainingList(out SyntaxTriviaList leading, allowTrailing: false))
                     {
-                        SyntaxTrivia trivia = leadingTrivia.Last();
+                        SyntaxTrivia trivia = leading.Last();
+
+                        if (trivia.IsWhitespaceTrivia())
+                            return trivia;
+                    }
+                }
+                else
+                {
+                    SyntaxToken token = node.FindToken(lineStartIndex);
+
+                    SyntaxTriviaList leading = token.LeadingTrivia;
+
+                    if (leading.Any()
+                        && leading.FullSpan.Contains(lineStartIndex))
+                    {
+                        SyntaxTrivia trivia = leading.Last();
 
                         if (trivia.IsWhitespaceTrivia())
                             return trivia;

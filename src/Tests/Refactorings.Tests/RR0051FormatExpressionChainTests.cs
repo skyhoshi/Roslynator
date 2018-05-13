@@ -12,8 +12,6 @@ namespace Roslynator.CSharp.Refactorings.Tests
     {
         public override string RefactoringId { get; } = RefactoringIdentifiers.FormatExpressionChain;
 
-        public override CodeRefactoringProvider RefactoringProvider { get; } = new RoslynatorCodeRefactoringProvider();
-
         [Theory]
         [InlineData("[||]x.M().M()", @"x
                 .M()
@@ -64,7 +62,7 @@ namespace A.B
             return null;
         }
 
-        public Foo SM() => null;
+        public static Foo SM() => null;
 
         public Foo F;
         public Foo SF;
