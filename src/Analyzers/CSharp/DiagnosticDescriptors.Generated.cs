@@ -2543,5 +2543,17 @@ namespace Roslynator.CSharp
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.AddParagraphToDocumentationComment}", 
             customTags:         Array.Empty<string>());
 
+        /// <summary>RCS1230</summary>
+        public static readonly DiagnosticDescriptor AddCommaAfterLastItemInList = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.AddCommaAfterLastItemInList, 
+            title:              "Add comma after last item in list.", 
+            messageFormat:      "Add comma after last item in list.", 
+            category:           DiagnosticCategories.Maintainability, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.AddCommaAfterLastItemInList}", 
+            customTags:         Array.Empty<string>());
+
     }
 }

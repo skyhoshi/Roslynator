@@ -215,5 +215,6 @@ namespace Roslynator.CSharp
         public const string MakeMethodExtensionMethod = "RCS1224";
         public const string MakeClassSealed = "RCS1225";
         public const string AddParagraphToDocumentationComment = "RCS1226";
+        public const string AddCommaAfterLastItemInList = "RCS1230";
     }
 }
