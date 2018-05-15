@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Roslynator.CSharp.SyntaxRewriters
 {
-    internal class TriviaRemover : CSharpSyntaxRewriter
+    internal sealed class TriviaRemover : CSharpSyntaxRewriter
     {
         private TriviaRemover(TextSpan? span = null)
         {

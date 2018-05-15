@@ -5,7 +5,6 @@
 // Project-level suppressions either have no target or are given 
 // a specific target and scoped to a namespace, type, member, etc.
 
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1093:Remove file with no code.", Justification = "<Pending>")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "RCS1224:Use DebuggerDisplay attribute for publicly visible type.", Justification = "<Pending>", Scope = "type", Target = "~T:Roslynator.Metadata.AnalyzerDescriptor")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "RCS1224:Use DebuggerDisplay attribute for publicly visible type.", Justification = "<Pending>", Scope = "type", Target = "~T:Roslynator.Metadata.CodeFixDescriptor")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "RCS1224:Use DebuggerDisplay attribute for publicly visible type.", Justification = "<Pending>", Scope = "type", Target = "~T:Roslynator.Metadata.CompilerDiagnosticDescriptor")]

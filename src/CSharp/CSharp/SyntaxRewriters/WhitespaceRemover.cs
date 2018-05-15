@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Roslynator.CSharp.SyntaxRewriters
 {
-    internal class WhitespaceRemover : CSharpSyntaxRewriter
+    internal sealed class WhitespaceRemover : CSharpSyntaxRewriter
     {
         private WhitespaceRemover(TextSpan? span = null)
         {

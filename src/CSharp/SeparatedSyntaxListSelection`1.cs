@@ -177,7 +177,7 @@ namespace Roslynator
         {
             private Enumerator _en;
 
-            internal EnumeratorImpl(in SeparatedSyntaxListSelection<TNode> selection)
+            internal EnumeratorImpl(SeparatedSyntaxListSelection<TNode> selection)
             {
                 _en = new Enumerator(selection);
             }

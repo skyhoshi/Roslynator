@@ -20,7 +20,7 @@ namespace Roslynator.Text
         {
         }
 
-        private TextLineCollectionSelection(TextLineCollection lines, TextSpan span, int firstIndex, int lastIndex)
+        protected TextLineCollectionSelection(TextLineCollection lines, TextSpan span, int firstIndex, int lastIndex)
             : base(span, firstIndex, lastIndex)
         {
             UnderlyingLines = lines;
@@ -169,7 +169,7 @@ namespace Roslynator.Text
         {
             private Enumerator _en;
 
-            internal EnumeratorImpl(in TextLineCollectionSelection selection)
+            internal EnumeratorImpl(TextLineCollectionSelection selection)
             {
                 _en = new Enumerator(selection);
             }
