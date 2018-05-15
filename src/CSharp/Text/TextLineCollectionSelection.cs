@@ -13,7 +13,7 @@ namespace Roslynator.Text
     /// Represents selected lines in a <see cref="TextLineCollection"/>.
     /// </summary>
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
-    public sealed class TextLineCollectionSelection : Selection<TextLine>
+    public class TextLineCollectionSelection : Selection<TextLine>
     {
         private TextLineCollectionSelection(TextLineCollection lines, TextSpan span, SelectionResult result)
             : this(lines, span, result.FirstIndex, result.LastIndex)
