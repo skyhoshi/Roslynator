@@ -13,6 +13,7 @@ namespace Roslynator
     /// Represents consecutive sequence of selected items in a collection.
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public abstract class Selection<T> : IReadOnlyList<T>
     {
         /// <summary>
@@ -62,6 +63,12 @@ namespace Roslynator
             get { return LastIndex - FirstIndex + 1; }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return $"Count = {Count} FirstIndex = {FirstIndex} LastIndex = {LastIndex}"; }
+        }
+
         /// <summary>
         /// Gets the selected item at the specified index.
         /// </summary>
@@ -98,25 +105,17 @@ namespace Roslynator
             return Items[LastIndex];
         }
 
-        private IEnumerable<T> Enumerate()
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            for (int i = FirstIndex; i <= LastIndex; i++)
-                yield return Items[i];
-        }
-
-        /// <summary>
-        /// Returns an enumerator that iterates through a selected items.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerator<T> GetEnumerator()
-        {
-            return Enumerate().GetEnumerator();
+            return GetEnumeratorCore();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return GetEnumeratorCore();
         }
+
+        protected abstract IEnumerator<T> GetEnumeratorCore();
 
         internal readonly struct SelectionResult
         {

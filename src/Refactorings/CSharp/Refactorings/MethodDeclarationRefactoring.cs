@@ -42,10 +42,10 @@ namespace Roslynator.CSharp.Refactorings
                 && context.SupportsCSharp6
                 && methodDeclaration.Body != null
                 && context.Span.IsEmptyAndContainedInSpanOrBetweenSpans(methodDeclaration.Body)
-                && UseExpressionBodiedMemberAnalysis.IsFixable(methodDeclaration))
+                && UseExpressionBodiedMemberAnalysis.GetExpression(methodDeclaration.Body) != null)
             {
                 context.RegisterRefactoring(
-                    "Use expression-bodied member",
+                    UseExpressionBodiedMemberRefactoring.Title,
                     cancellationToken => UseExpressionBodiedMemberRefactoring.RefactorAsync(context.Document, methodDeclaration, cancellationToken),
                     RefactoringIdentifiers.UseExpressionBodiedMember);
             }
@@ -146,9 +146,7 @@ namespace Roslynator.CSharp.Refactorings
             SemanticModel semanticModel,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var returnTypeSymbol = semanticModel.GetTypeSymbol(returnType, cancellationToken) as INamedTypeSymbol;
-
-            if (returnTypeSymbol == null)
+            if (!(semanticModel.GetTypeSymbol(returnType, cancellationToken) is INamedTypeSymbol returnTypeSymbol))
                 return null;
 
             INamedTypeSymbol taskSymbol = semanticModel.GetTypeByMetadataName(MetadataNames.System_Threading_Tasks_Task);

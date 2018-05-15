@@ -19,18 +19,20 @@ namespace Roslynator.CSharp.Refactorings
     {
         public static async Task<Document> RefactorAsync(
             Document document,
-            BinaryExpressionSyntax logicalAnd,
+            BinaryExpressionSyntax binaryExpression,
             CancellationToken cancellationToken)
         {
-            ExpressionSyntax left = logicalAnd.Left;
-            ExpressionSyntax right = logicalAnd.Right.WalkDownParentheses();
-
-            if (logicalAnd.Left.IsKind(SyntaxKind.LogicalAndExpression))
-                left = ((BinaryExpressionSyntax)logicalAnd.Left).Right;
-
-            NullCheckExpressionInfo nullCheck = SyntaxInfo.NullCheckExpressionInfo(left, allowedStyles: NullCheckStyles.NotEqualsToNull);
-
             SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
+
+            SyntaxKind kind = binaryExpression.Kind();
+
+            (ExpressionSyntax left, ExpressionSyntax right) = UseConditionalAccessAnalyzer.GetFixableExpressions(binaryExpression, kind, semanticModel, cancellationToken);
+
+            NullCheckStyles allowedStyles = (kind == SyntaxKind.LogicalAndExpression)
+                ? NullCheckStyles.NotEqualsToNull
+                : NullCheckStyles.EqualsToNull;
+
+            NullCheckExpressionInfo nullCheck = SyntaxInfo.NullCheckExpressionInfo(left, allowedStyles: allowedStyles);
 
             ExpressionSyntax expression = nullCheck.Expression;
 
@@ -41,9 +43,15 @@ namespace Roslynator.CSharp.Refactorings
                 right,
                 isNullable: isNullable);
 
-            var builder = new SyntaxNodeTextBuilder(logicalAnd, StringBuilderCache.GetInstance(logicalAnd.FullSpan.Length));
+            var builder = new SyntaxNodeTextBuilder(binaryExpression, StringBuilderCache.GetInstance(binaryExpression.FullSpan.Length));
 
-            builder.Append(TextSpan.FromBounds(logicalAnd.FullSpan.Start, left.Span.Start));
+            builder.Append(TextSpan.FromBounds(binaryExpression.FullSpan.Start, left.Span.Start));
+
+            int parenDiff = GetParenTokenDiff();
+
+            if (parenDiff > 0)
+                builder.Append('(', parenDiff);
+
             builder.AppendSpan(expression);
             builder.Append("?");
             builder.Append(TextSpan.FromBounds(expression2.Span.End, right.Span.End));
@@ -69,17 +77,20 @@ namespace Roslynator.CSharp.Refactorings
                     }
                 case SyntaxKind.LogicalNotExpression:
                     {
-                        builder.Append(" == false");
+                        builder.Append((kind == SyntaxKind.LogicalAndExpression) ? " == false" : " != true");
                         break;
                     }
                 default:
                     {
-                        builder.Append(" == true");
+                        builder.Append((kind == SyntaxKind.LogicalAndExpression) ? " == true" : " != false");
                         break;
                     }
             }
 
-            builder.AppendTrailingTrivia();
+            if (parenDiff < 0)
+                builder.Append(')', -parenDiff);
+
+            builder.Append(TextSpan.FromBounds(right.Span.End, binaryExpression.FullSpan.End));
 
             string text = StringBuilderCache.GetStringAndFree(builder.StringBuilder);
 
@@ -87,7 +98,30 @@ namespace Roslynator.CSharp.Refactorings
                 .WithFormatterAnnotation()
                 .Parenthesize();
 
-            return await document.ReplaceNodeAsync(logicalAnd, newNode, cancellationToken).ConfigureAwait(false);
+            return await document.ReplaceNodeAsync(binaryExpression, newNode, cancellationToken).ConfigureAwait(false);
+
+            int GetParenTokenDiff()
+            {
+                int count = 0;
+
+                foreach (SyntaxToken token in binaryExpression.DescendantTokens(TextSpan.FromBounds(left.Span.Start, expression2.Span.End)))
+                {
+                    SyntaxKind tokenKind = token.Kind();
+
+                    if (tokenKind == SyntaxKind.OpenParenToken)
+                    {
+                        if (token.IsParentKind(SyntaxKind.ParenthesizedExpression))
+                            count++;
+                    }
+                    else if (tokenKind == SyntaxKind.CloseParenToken)
+                    {
+                        if (token.IsParentKind(SyntaxKind.ParenthesizedExpression))
+                            count--;
+                    }
+                }
+
+                return count;
+            }
         }
 
         public static async Task<Document> RefactorAsync(

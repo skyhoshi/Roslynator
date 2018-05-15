@@ -4,6 +4,7 @@ namespace Roslynator
 {
     internal static class DefaultNames
     {
+        public const string DebuggerDisplayPropertyName = "DebuggerDisplay";
         public const string EnumeratorVariable = "en";
         public const string EnumMember = "EnumMember";
         public const string EventArgsVariable = "e";
