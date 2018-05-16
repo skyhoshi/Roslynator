@@ -8,7 +8,6 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Text;
 using Roslynator.CodeFixes;
 using Roslynator.CSharp.Refactorings;
 using Roslynator.CSharp.Syntax;
@@ -33,8 +32,7 @@ namespace Roslynator.CSharp.CodeFixes
                     CompilerDiagnosticIdentifiers.ResultOfExpressionIsAlwaysConstantSinceValueIsNeverEqualToNull,
                     CompilerDiagnosticIdentifiers.CannotConvertNullToTypeParameterBecauseItCouldBeNonNullableValueType,
                     CompilerDiagnosticIdentifiers.OnlyAssignmentCallIncrementDecrementAndNewObjectExpressionsCanBeUsedAsStatement,
-                    CompilerDiagnosticIdentifiers.CannotImplicitlyConvertType,
-                    CompilerDiagnosticIdentifiers.SyntaxErrorCharExpected);
+                    CompilerDiagnosticIdentifiers.CannotImplicitlyConvertType);
             }
         }
 
@@ -465,40 +463,6 @@ namespace Roslynator.CSharp.CodeFixes
                                 }
                             }
 
-                            break;
-                        }
-                    case CompilerDiagnosticIdentifiers.SyntaxErrorCharExpected:
-                        {
-                            if (!Settings.IsCodeFixEnabled(CodeFixIdentifiers.AddMissingComma))
-                                break;
-
-                            if (!expression.IsParentKind(SyntaxKind.ArrayInitializerExpression))
-                                break;
-
-                            var initializer = (InitializerExpressionSyntax)expression.Parent;
-
-                            SeparatedSyntaxList<ExpressionSyntax> expressions = initializer.Expressions;
-
-                            int index = expressions.IndexOf(expression);
-
-                            SyntaxToken comma = expressions.GetSeparator(index);
-
-                            if (comma.Kind() != SyntaxKind.CommaToken)
-                                break;
-
-                            if (!comma.IsMissing)
-                                break;
-
-                            CodeAction codeAction = CodeAction.Create(
-                                "Add missing comma",
-                                cancellationToken =>
-                                {
-                                    var textChange = new TextChange(new TextSpan(expression.Span.End, 0), ",");
-                                    return context.Document.WithTextChangeAsync(textChange, cancellationToken);
-                                },
-                                GetEquivalenceKey(diagnostic));
-
-                            context.RegisterCodeFix(codeAction, diagnostic);
                             break;
                         }
                 }
