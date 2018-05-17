@@ -360,6 +360,70 @@ class C
         }
 
         [Fact]
+        public async Task Test_ReplaceFirstWithPeek_Queue()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+using System.Collections.Generic;
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var items = new Queue<T>();
+
+        var x = items.[|First()|];
+    }
+}
+", @"
+using System.Collections.Generic;
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var items = new Queue<T>();
+
+        var x = items.Peek();
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_ReplaceFirstWithPeek_Stack()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+using System.Collections.Generic;
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var items = new Stack<T>();
+
+        var x = items.[|First()|];
+    }
+}
+", @"
+using System.Collections.Generic;
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var items = new Stack<T>();
+
+        var x = items.Peek();
+    }
+}
+");
+        }
+
+        [Fact]
         public async Task TestNoDiagnostic_CallOfTypeInsteadOfWhereAndCast()
         {
             await VerifyNoDiagnosticAsync(@"

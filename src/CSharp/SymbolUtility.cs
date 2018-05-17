@@ -277,6 +277,14 @@ namespace Roslynator
             return IsLinqExtensionOfIEnumerableOfT(methodSymbol, semanticModel, name, parameterCount: 1, allowImmutableArrayExtension: allowImmutableArrayExtension);
         }
 
+        internal static bool IsLinqExtensionOfIEnumerableOfTWithoutParameters(
+            IMethodSymbol methodSymbol,
+            string name,
+            bool allowImmutableArrayExtension = false)
+        {
+            return IsLinqExtensionOfIEnumerableOfT(methodSymbol, name, parameterCount: 1, allowImmutableArrayExtension: allowImmutableArrayExtension);
+        }
+
         internal static bool IsLinqElementAt(
             IMethodSymbol methodSymbol,
             SemanticModel semanticModel,
@@ -352,37 +360,6 @@ namespace Roslynator
                     .Equals(semanticModel.GetTypeByMetadataName(MetadataNames.System_Linq_Enumerable)) == true;
         }
 
-        private static bool ValidateContainingNames(
-            this ISymbol typeSymbol,
-            string[] containingNamespaceNames,
-            string containingTypeName)
-        {
-            INamedTypeSymbol containingType = typeSymbol.ContainingType;
-
-            if (!string.Equals(containingType.Name, containingTypeName, StringComparison.Ordinal))
-                return false;
-
-            INamespaceSymbol containingNamespace = containingType.ContainingNamespace;
-
-            for (int i = containingNamespaceNames.Length - 1; i >= 0; i--)
-            {
-                if (containingNamespace == null)
-                    return false;
-
-                if (containingNamespace.IsGlobalNamespace)
-                    return false;
-
-                if (!string.Equals(containingNamespace.Name, containingNamespaceNames[i], StringComparison.Ordinal))
-                    return false;
-
-                containingNamespace = containingNamespace.ContainingNamespace;
-            }
-
-            return containingNamespace?.IsGlobalNamespace == true;
-        }
-
-        private static readonly string[] _system_Enumerable_Names = new string[] { "System", "Linq" };
-
         internal static bool IsLinqOfType(IMethodSymbol methodSymbol)
         {
             return methodSymbol.DeclaredAccessibility == Accessibility.Public
@@ -390,10 +367,7 @@ namespace Roslynator
                 && methodSymbol.IsName("OfType")
                 && methodSymbol.Arity == 1
                 && methodSymbol.HasSingleParameter(SpecialType.System_Collections_IEnumerable)
-                && methodSymbol.ValidateContainingNames(_system_Enumerable_Names, "Enumerable");
-                //&& methodSymbol
-                //    .ContainingType?
-                //    .Equals(semanticModel.GetTypeByMetadataName(MetadataNames.System_Linq_Enumerable)) == true;
+                && methodSymbol.ContainingType?.IsFullyQualifiedMetadataName(TypeNameInfo.System_Linq_Enumerable) == true;
         }
 
         internal static bool IsLinqExtensionOfIEnumerableOfT(
@@ -428,6 +402,42 @@ namespace Roslynator
 
                 return (parameterCount == -1 || parameters.Length == parameterCount)
                     && IsImmutableArrayOfT(parameters[0].Type, semanticModel);
+            }
+
+            return false;
+        }
+
+        internal static bool IsLinqExtensionOfIEnumerableOfT(
+            IMethodSymbol methodSymbol,
+            string name = null,
+            int parameterCount = -1,
+            bool allowImmutableArrayExtension = false)
+        {
+            if (methodSymbol.DeclaredAccessibility != Accessibility.Public)
+                return false;
+
+            if (!StringUtility.IsNullOrEquals(name, methodSymbol.Name))
+                return false;
+
+            INamedTypeSymbol containingType = methodSymbol.ContainingType;
+
+            if (containingType == null)
+                return false;
+
+            if (containingType.IsFullyQualifiedMetadataName(TypeNameInfo.System_Linq_Enumerable))
+            {
+                ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
+
+                return (parameterCount == -1 || parameters.Length == parameterCount)
+                    && parameters[0].Type.OriginalDefinition.IsIEnumerableOfT();
+            }
+            else if (allowImmutableArrayExtension
+                && containingType.IsFullyQualifiedMetadataName(TypeNameInfo.System_Linq_ImmutableArrayExtensions))
+            {
+                ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
+
+                return (parameterCount == -1 || parameters.Length == parameterCount)
+                    && IsImmutableArrayOfT(parameters[0].Type);
             }
 
             return false;
@@ -484,6 +494,11 @@ namespace Roslynator
         public static bool IsImmutableArrayOfT(ITypeSymbol typeSymbol, SemanticModel semanticModel)
         {
             return typeSymbol?.OriginalDefinition.Equals(semanticModel.GetTypeByMetadataName(MetadataNames.System_Collections_Immutable_ImmutableArray_T)) == true;
+        }
+
+        public static bool IsImmutableArrayOfT(ITypeSymbol typeSymbol)
+        {
+            return typeSymbol?.OriginalDefinition.IsFullyQualifiedMetadataName(TypeNameInfo.System_Collections_Generic_ImmutableArray_1) == true;
         }
 
         public static bool SupportsSwitchExpression(ITypeSymbol typeSymbol)

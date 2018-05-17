@@ -84,6 +84,17 @@ namespace Roslynator.CSharp.CodeFixes
 
                             context.RegisterCodeFix(codeAction, diagnostic);
                         }
+                        else if (name == "First"
+                            && diagnostic.Properties.TryGetValue("MethodName", out string methodName)
+                            && methodName == "Peek")
+                        {
+                            CodeAction codeAction = CodeAction.Create(
+                                Title,
+                                cancellationToken => OptimizeOfTypeAsync(context.Document, RefactoringUtility.ChangeInvokedMethodName(invocation, "Peek"), cancellationToken),
+                                GetEquivalenceKey(diagnostic));
+
+                            context.RegisterCodeFix(codeAction, diagnostic);
+                        }
                         else
                         {
                             CodeAction codeAction = CodeAction.Create(

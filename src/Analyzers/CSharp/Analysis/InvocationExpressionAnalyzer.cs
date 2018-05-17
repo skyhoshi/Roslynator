@@ -137,6 +137,7 @@ namespace Roslynator.CSharp.Analysis
                                             }
 
                                             SimplifyLinqMethodChainAnalysis.AnalyzeWhere(context, invocationInfo);
+                                            SimplifyLinqMethodChainAnalysis.AnalyzeFirst(context, invocationInfo);
                                             break;
                                         }
                                     case "ToString":

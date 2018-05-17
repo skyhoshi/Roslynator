@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -298,6 +300,37 @@ namespace Roslynator.CSharp.Analysis
             context.ReportDiagnostic(
                 DiagnosticDescriptors.SimplifyLinqMethodChain,
                 Location.Create(invocationInfo.InvocationExpression.SyntaxTree, span));
+        }
+
+        public static void AnalyzeFirst(
+            SyntaxNodeAnalysisContext context,
+            in SimpleMemberInvocationExpressionInfo invocationInfo)
+        {
+            ExtensionMethodSymbolInfo extensionMethodSymbolInfo = context.SemanticModel.GetReducedExtensionMethodInfo(invocationInfo.InvocationExpression, context.CancellationToken);
+
+            IMethodSymbol methodSymbol = extensionMethodSymbolInfo.Symbol;
+
+            if (methodSymbol == null)
+                return;
+
+            if (!SymbolUtility.IsLinqExtensionOfIEnumerableOfTWithoutParameters(methodSymbol, "First"))
+                return;
+
+            ITypeSymbol typeSymbol = context.SemanticModel.GetTypeSymbol(invocationInfo.Expression, context.CancellationToken);
+
+            if (typeSymbol?.IsErrorType() != false)
+                return;
+
+            if (!typeSymbol.IsMetadataName("Queue`1", "Stack`1"))
+                return;
+
+            if (!typeSymbol.IsFullyQualifiedMetadataName(TypeNameInfo.System_Collections_Generic))
+                return;
+
+            context.ReportDiagnostic(
+                DiagnosticDescriptors.SimplifyLinqMethodChain,
+                invocationInfo.Name.GetLocation(),
+                ImmutableDictionary.CreateRange(new KeyValuePair<string, string>[] { new KeyValuePair<string, string>("MethodName", "Peek") }));
         }
     }
 }
