@@ -264,6 +264,102 @@ class C
         }
 
         [Fact]
+        public async Task Test_OptimizeOfType_ReferenceType()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+using System.Collections.Generic;
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var items = new List<C>();
+
+        var q = items.[|OfType<C>()|];
+    }
+}
+", @"
+using System.Collections.Generic;
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var items = new List<C>();
+
+        var q = items.Where(f => f != null);
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_OptimizeOfType_ValueType()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+using System.Collections.Generic;
+using System.Linq;
+
+struct C
+{
+    void M()
+    {
+        var items = new List<C>();
+
+        var q = items.[|OfType<C>()|];
+    }
+}
+", @"
+using System.Collections.Generic;
+using System.Linq;
+
+struct C
+{
+    void M()
+    {
+        var items = new List<C>();
+
+        var q = items;
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_OptimizeOfType_TypeParameterWithStructConstraint()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+using System.Collections.Generic;
+using System.Linq;
+
+class C
+{
+    void M<T>() where T : struct
+    {
+        var items = new List<T>();
+
+        var q = items.[|OfType<T>()|];
+    }
+}
+", @"
+using System.Collections.Generic;
+using System.Linq;
+
+class C
+{
+    void M<T>() where T : struct
+    {
+        var items = new List<T>();
+
+        var q = items;
+    }
+}
+");
+        }
+
+        [Fact]
         public async Task TestNoDiagnostic_CallOfTypeInsteadOfWhereAndCast()
         {
             await VerifyNoDiagnosticAsync(@"

@@ -75,6 +75,15 @@ namespace Roslynator.CSharp.CodeFixes
 
                             context.RegisterCodeFix(codeAction, diagnostic);
                         }
+                        else if (name == "OfType")
+                        {
+                            CodeAction codeAction = CodeAction.Create(
+                                Title,
+                                cancellationToken => OptimizeOfTypeAsync(context.Document, invocation, cancellationToken),
+                                GetEquivalenceKey(diagnostic));
+
+                            context.RegisterCodeFix(codeAction, diagnostic);
+                        }
                         else
                         {
                             CodeAction codeAction = CodeAction.Create(
@@ -189,6 +198,42 @@ namespace Roslynator.CSharp.CodeFixes
             newNode = newNode.WithTriviaFrom(node);
 
             return document.ReplaceNodeAsync(node, newNode, cancellationToken);
+        }
+
+        private static async Task<Document> OptimizeOfTypeAsync(
+            Document document,
+            InvocationExpressionSyntax invocationExpression,
+            CancellationToken cancellationToken)
+        {
+            SimpleMemberInvocationExpressionInfo invocationInfo = SimpleMemberInvocationExpressionInfo(invocationExpression);
+
+            TypeSyntax typeArgument = ((GenericNameSyntax)invocationInfo.Name).TypeArgumentList.Arguments.Single();
+
+            SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
+
+            ExpressionSyntax newNode;
+            if (semanticModel.GetTypeSymbol(typeArgument, cancellationToken).IsValueType)
+            {
+                newNode = invocationInfo.Expression.WithTrailingTrivia(invocationExpression.GetTrailingTrivia());
+            }
+            else
+            {
+                newNode = invocationExpression
+                    .WithExpression(invocationInfo.MemberAccessExpression.WithName(IdentifierName("Where").WithTriviaFrom(invocationInfo.Name)))
+                    .AddArgumentListArguments(
+                        Argument(
+                            SimpleLambdaExpression(
+                                Parameter(Identifier(DefaultNames.LambdaParameter)),
+                                NotEqualsExpression(
+                                    IdentifierName(DefaultNames.LambdaParameter),
+                                    NullLiteralExpression()
+                                )
+                            ).WithFormatterAnnotation()
+                        )
+                    );
+            }
+
+            return await document.ReplaceNodeAsync(invocationExpression, newNode, cancellationToken).ConfigureAwait(false);
         }
     }
 }

@@ -352,6 +352,50 @@ namespace Roslynator
                     .Equals(semanticModel.GetTypeByMetadataName(MetadataNames.System_Linq_Enumerable)) == true;
         }
 
+        private static bool ValidateContainingNames(
+            this ISymbol typeSymbol,
+            string[] containingNamespaceNames,
+            string containingTypeName)
+        {
+            INamedTypeSymbol containingType = typeSymbol.ContainingType;
+
+            if (!string.Equals(containingType.Name, containingTypeName, StringComparison.Ordinal))
+                return false;
+
+            INamespaceSymbol containingNamespace = containingType.ContainingNamespace;
+
+            for (int i = containingNamespaceNames.Length - 1; i >= 0; i--)
+            {
+                if (containingNamespace == null)
+                    return false;
+
+                if (containingNamespace.IsGlobalNamespace)
+                    return false;
+
+                if (!string.Equals(containingNamespace.Name, containingNamespaceNames[i], StringComparison.Ordinal))
+                    return false;
+
+                containingNamespace = containingNamespace.ContainingNamespace;
+            }
+
+            return containingNamespace?.IsGlobalNamespace == true;
+        }
+
+        private static readonly string[] _system_Enumerable_Names = new string[] { "System", "Linq" };
+
+        internal static bool IsLinqOfType(IMethodSymbol methodSymbol)
+        {
+            return methodSymbol.DeclaredAccessibility == Accessibility.Public
+                && methodSymbol.ReturnType.OriginalDefinition.IsIEnumerableOfT()
+                && methodSymbol.IsName("OfType")
+                && methodSymbol.Arity == 1
+                && methodSymbol.HasSingleParameter(SpecialType.System_Collections_IEnumerable)
+                && methodSymbol.ValidateContainingNames(_system_Enumerable_Names, "Enumerable");
+                //&& methodSymbol
+                //    .ContainingType?
+                //    .Equals(semanticModel.GetTypeByMetadataName(MetadataNames.System_Linq_Enumerable)) == true;
+        }
+
         internal static bool IsLinqExtensionOfIEnumerableOfT(
             IMethodSymbol methodSymbol,
             SemanticModel semanticModel,

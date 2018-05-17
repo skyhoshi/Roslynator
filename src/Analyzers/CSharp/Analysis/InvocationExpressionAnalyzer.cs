@@ -163,6 +163,13 @@ namespace Roslynator.CSharp.Analysis
                                             SimplifyLinqMethodChainAnalysis.AnalyzeWhere(context, invocationInfo);
                                             break;
                                         }
+                                    case "OfType":
+                                        {
+                                            if (!invocation.SpanContainsDirectives())
+                                                SimplifyLinqMethodChainAnalysis.AnalyzeOfType(context, invocationInfo);
+
+                                            break;
+                                        }
                                 }
 
                                 break;

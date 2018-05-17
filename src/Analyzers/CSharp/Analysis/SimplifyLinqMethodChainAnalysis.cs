@@ -255,5 +255,49 @@ namespace Roslynator.CSharp.Analysis
                 return body;
             }
         }
+
+        public static void AnalyzeOfType(
+            SyntaxNodeAnalysisContext context,
+            in SimpleMemberInvocationExpressionInfo invocationInfo)
+        {
+            TypeSyntax typeArgument = (invocationInfo.Name as GenericNameSyntax)?
+                .TypeArgumentList
+                .Arguments
+                .SingleOrDefault(shouldThrow: false);
+
+            if (typeArgument == null)
+                return;
+
+            SemanticModel semanticModel = context.SemanticModel;
+            CancellationToken cancellationToken = context.CancellationToken;
+
+            ExtensionMethodSymbolInfo extensionMethodSymbolInfo = semanticModel.GetReducedExtensionMethodInfo(invocationInfo.InvocationExpression, cancellationToken);
+
+            IMethodSymbol methodSymbol = extensionMethodSymbolInfo.Symbol;
+
+            if (methodSymbol == null)
+                return;
+
+            if (!SymbolUtility.IsLinqOfType(methodSymbol))
+                return;
+
+            ITypeSymbol typeSymbol = semanticModel.GetTypeSymbol(typeArgument, cancellationToken);
+
+            if (typeSymbol?.IsErrorType() != false)
+                return;
+
+            ITypeSymbol typeSymbol2 = semanticModel.GetTypeSymbol(invocationInfo.Expression, cancellationToken);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (!typeSymbol2.Implements((INamedTypeSymbol)extensionMethodSymbolInfo.ReducedSymbol.ReturnType, allInterfaces: true))
+                return;
+
+            TextSpan span = TextSpan.FromBounds(invocationInfo.Name.SpanStart, invocationInfo.InvocationExpression.Span.End);
+
+            context.ReportDiagnostic(
+                DiagnosticDescriptors.SimplifyLinqMethodChain,
+                Location.Create(invocationInfo.InvocationExpression.SyntaxTree, span));
+        }
     }
 }
