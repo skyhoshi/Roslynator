@@ -890,15 +890,15 @@ namespace Roslynator.CSharp
             customTags:         Array.Empty<string>());
 
         /// <summary>RCS1077</summary>
-        public static readonly DiagnosticDescriptor SimplifyLinqMethodChain = new DiagnosticDescriptor(
-            id:                 DiagnosticIdentifiers.SimplifyLinqMethodChain, 
-            title:              "Simplify LINQ method chain.", 
-            messageFormat:      "Simplify LINQ method chain.", 
+        public static readonly DiagnosticDescriptor OptimizeLinqMethodCall = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.OptimizeLinqMethodCall, 
+            title:              "Optimize LINQ method call.", 
+            messageFormat:      "Optimize LINQ method call.", 
             category:           DiagnosticCategories.Simplification, 
             defaultSeverity:    DiagnosticSeverity.Info, 
             isEnabledByDefault: true, 
             description:        null, 
-            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.SimplifyLinqMethodChain}", 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.OptimizeLinqMethodCall}", 
             customTags:         Array.Empty<string>());
 
         /// <summary>RCS1078</summary>
@@ -1353,18 +1353,6 @@ namespace Roslynator.CSharp
             isEnabledByDefault: true, 
             description:        null, 
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MarkLocalVariableAsConst}", 
-            customTags:         Array.Empty<string>());
-
-        /// <summary>RCS1119</summary>
-        public static readonly DiagnosticDescriptor CallFindInsteadOfFirstOrDefault = new DiagnosticDescriptor(
-            id:                 DiagnosticIdentifiers.CallFindInsteadOfFirstOrDefault, 
-            title:              "Call 'Find' instead of 'FirstOrDefault'.", 
-            messageFormat:      "Call 'Find' instead of 'FirstOrDefault'.", 
-            category:           DiagnosticCategories.Performance, 
-            defaultSeverity:    DiagnosticSeverity.Info, 
-            isEnabledByDefault: true, 
-            description:        null, 
-            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.CallFindInsteadOfFirstOrDefault}", 
             customTags:         Array.Empty<string>());
 
         /// <summary>RCS1120</summary>

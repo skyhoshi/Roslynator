@@ -30,7 +30,6 @@ namespace Roslynator.CSharp.CodeFixes
                     DiagnosticIdentifiers.RemoveRedundantStringToCharArrayCall,
                     DiagnosticIdentifiers.CallCastInsteadOfSelect,
                     DiagnosticIdentifiers.CombineEnumerableWhereMethodChain,
-                    DiagnosticIdentifiers.CallFindInsteadOfFirstOrDefault,
                     DiagnosticIdentifiers.UseElementAccessInsteadOfElementAt,
                     DiagnosticIdentifiers.UseElementAccessInsteadOfFirst,
                     DiagnosticIdentifiers.CallStringConcatInsteadOfStringJoin,
@@ -120,16 +119,6 @@ namespace Roslynator.CSharp.CodeFixes
                             CodeAction codeAction = CodeAction.Create(
                                 "Remove redundant 'ToCharArray' call",
                                 cancellationToken => context.Document.ReplaceNodeAsync(invocation, RefactoringUtility.RemoveInvocation(invocation).WithFormatterAnnotation(), cancellationToken),
-                                GetEquivalenceKey(diagnostic));
-
-                            context.RegisterCodeFix(codeAction, diagnostic);
-                            break;
-                        }
-                    case DiagnosticIdentifiers.CallFindInsteadOfFirstOrDefault:
-                        {
-                            CodeAction codeAction = CodeAction.Create(
-                                "Call 'Find' instead of 'FirstOrDefault'",
-                                cancellationToken => CallFindInsteadOfFirstOrDefaultRefactoring.RefactorAsync(context.Document, invocation, cancellationToken),
                                 GetEquivalenceKey(diagnostic));
 
                             context.RegisterCodeFix(codeAction, diagnostic);

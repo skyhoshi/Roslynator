@@ -510,9 +510,9 @@ namespace Roslynator
             return true;
         }
 
-        internal static bool IsFullyQualifiedMetadataName(this ISymbol symbol, in TypeNameInfo typeNameInfo)
+        internal static bool HasFullyQualifiedMetadataName(this ISymbol symbol, in FullyQualifiedMetadataName fullyQualifiedMetadataName)
         {
-            return typeNameInfo.Equals(symbol);
+            return fullyQualifiedMetadataName.Equals(symbol);
         }
         #endregion ISymbol
 

@@ -10,39 +10,31 @@ using Microsoft.CodeAnalysis;
 namespace Roslynator
 {
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
-    internal readonly struct TypeNameInfo : IEquatable<TypeNameInfo>
+    internal readonly struct FullyQualifiedMetadataName : IEquatable<FullyQualifiedMetadataName>
     {
-        private static class Namespaces
-        {
-            public static readonly ImmutableArray<string> System_Linq = ImmutableArray.Create("System", "Linq");
-            public static readonly ImmutableArray<string> System_Collections_Generic = ImmutableArray.Create("System", "Collections", "Generic");
-        }
-
-        public static TypeNameInfo System_Collections_Generic { get; } = new TypeNameInfo(null, Namespaces.System_Collections_Generic);
-
-        public static TypeNameInfo System_Collections_Generic_ImmutableArray_1 { get; } = new TypeNameInfo("ImmutableArray`1", Namespaces.System_Collections_Generic);
-
-        public static TypeNameInfo System_Linq_Enumerable { get; } = new TypeNameInfo("Enumerable", Namespaces.System_Linq);
-
-        public static TypeNameInfo System_Linq_ImmutableArrayExtensions { get; } = new TypeNameInfo("ImmutableArrayExtensions", Namespaces.System_Linq);
-
-        public TypeNameInfo(string metadataName, IEnumerable<string> namespaceNames)
+        public FullyQualifiedMetadataName(string metadataName, IEnumerable<string> namespaceNames)
             : this(metadataName, Array.Empty<string>(), namespaceNames)
         {
         }
 
-        public TypeNameInfo(string metadataName, IEnumerable<string> containingTypeNames, IEnumerable<string> namespaceNames)
+        public FullyQualifiedMetadataName(string metadataName, IEnumerable<string> containingTypeNames, IEnumerable<string> namespaceNames)
             : this(metadataName, containingTypeNames.ToImmutableArray(), namespaceNames.ToImmutableArray())
         {
         }
 
-        public TypeNameInfo(string metadataName, ImmutableArray<string> namespaceNames)
+        public FullyQualifiedMetadataName(string metadataName, ImmutableArray<string> namespaceNames)
             : this(metadataName, ImmutableArray<string>.Empty, namespaceNames)
         {
         }
 
-        public TypeNameInfo(string metadataName, ImmutableArray<string> containingTypeNames, ImmutableArray<string> namespaceNames)
+        public FullyQualifiedMetadataName(string metadataName, ImmutableArray<string> containingTypeNames, ImmutableArray<string> namespaceNames)
         {
+            if (metadataName == null
+                && containingTypeNames.Any())
+            {
+                throw new ArgumentException(metadataName, nameof(metadataName));
+            }
+
             MetadataName = metadataName;
             ContainingTypeNames = containingTypeNames;
             NamespaceNames = namespaceNames;
@@ -53,6 +45,21 @@ namespace Roslynator
         public ImmutableArray<string> ContainingTypeNames { get; }
 
         public ImmutableArray<string> NamespaceNames { get; }
+
+        public string Namespace
+        {
+            get { return (!IsDefault) ? string.Join(".", NamespaceNames) : ""; }
+        }
+
+        public bool IsNamespace
+        {
+            get
+            {
+                return !NamespaceNames.IsDefault
+                    && NamespaceNames.Any()
+                    && MetadataName == null;
+            }
+        }
 
         public bool IsDefault
         {
@@ -67,42 +74,37 @@ namespace Roslynator
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string DebuggerDisplay
         {
-            get
+            get { return ToString(); }
+        }
+
+        public override string ToString()
+        {
+            if (IsDefault)
+                return "";
+
+            if (NamespaceNames.Any())
             {
-                if (IsDefault)
-                    return "";
-
-                if (NamespaceNames.Any())
+                if (ContainingTypeNames.Any())
                 {
-                    if (ContainingTypeNames.Any())
-                    {
-                        return $"{string.Join(".", NamespaceNames)}+{string.Join(".", ContainingTypeNames)}{MetadataName}";
-                    }
-                    else
-                    {
-                        return string.Join(".", NamespaceNames) + MetadataName;
-                    }
+                    return $"{Namespace}+{string.Join("+", ContainingTypeNames)}+{MetadataName}";
                 }
-                else if (ContainingTypeNames.Any())
+                else
                 {
-                    return string.Join(".", ContainingTypeNames) + MetadataName;
+                    return $"{Namespace}.{MetadataName}";
                 }
-
-                return MetadataName;
             }
+            else if (ContainingTypeNames.Any())
+            {
+                return $"{string.Join("+", ContainingTypeNames)}+{MetadataName}";
+            }
+
+            return MetadataName;
         }
 
         public override bool Equals(object obj)
         {
-            return obj is TypeNameInfo other
+            return obj is FullyQualifiedMetadataName other
                 && Equals(other);
-        }
-
-        public bool Equals(TypeNameInfo other)
-        {
-            return string.Equals(MetadataName, other.MetadataName, StringComparison.Ordinal)
-                   && ContainingTypeNames.Equals(other.ContainingTypeNames)
-                   && NamespaceNames.Equals(other.NamespaceNames);
         }
 
         public bool Equals(ISymbol symbol)
@@ -145,19 +147,42 @@ namespace Roslynator
             return containingNamespace?.IsGlobalNamespace == true;
         }
 
+        public bool Equals(FullyQualifiedMetadataName other)
+        {
+            if (IsDefault)
+                return other.IsDefault;
+
+            if (other.IsDefault)
+                return false;
+
+            if (!string.Equals(MetadataName, other.MetadataName, StringComparison.Ordinal))
+                return false;
+
+            if (!ContainingTypeNames.SequenceEqual(other.ContainingTypeNames, StringComparer.Ordinal))
+                return false;
+
+            if (!NamespaceNames.SequenceEqual(other.NamespaceNames, StringComparer.Ordinal))
+                return false;
+
+            return true;
+        }
+
         public override int GetHashCode()
         {
-            return Hash.Combine(EqualityComparer<ImmutableArray<string>>.Default.GetHashCode(NamespaceNames),
-                Hash.Combine(EqualityComparer<ImmutableArray<string>>.Default.GetHashCode(ContainingTypeNames),
+            if (IsDefault)
+                return 0;
+
+            return Hash.Combine(Hash.CombineValues(NamespaceNames, StringComparer.Ordinal),
+                Hash.Combine(Hash.CombineValues(ContainingTypeNames, StringComparer.Ordinal),
                 Hash.Create(MetadataName)));
         }
 
-        public static bool operator ==(TypeNameInfo info1, TypeNameInfo info2)
+        public static bool operator ==(FullyQualifiedMetadataName info1, FullyQualifiedMetadataName info2)
         {
             return info1.Equals(info2);
         }
 
-        public static bool operator !=(TypeNameInfo info1, TypeNameInfo info2)
+        public static bool operator !=(FullyQualifiedMetadataName info1, FullyQualifiedMetadataName info2)
         {
             return !(info1 == info2);
         }

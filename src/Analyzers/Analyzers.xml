@@ -1697,10 +1697,10 @@ catch (Exception ex) // RCS1075
       </Sample>
     </Samples>
   </Analyzer>
-  <Analyzer Identifier="SimplifyLinqMethodChain">
+  <Analyzer Identifier="OptimizeLinqMethodCall">
     <Id>RCS1077</Id>
-    <Title>Simplify LINQ method chain.</Title>
-    <MessageFormat>Simplify LINQ method chain.</MessageFormat>
+    <Title>Optimize LINQ method call.</Title>
+    <MessageFormat>Optimize LINQ method call.</MessageFormat>
     <Category>Simplification</Category>
     <DefaultSeverity>Info</DefaultSeverity>
     <IsEnabledByDefault>true</IsEnabledByDefault>
@@ -1708,16 +1708,40 @@ catch (Exception ex) // RCS1075
     <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
     <Samples>
       <Sample>
-        <Before><![CDATA[bool x = items.Where(f => string.IsNullOrEmpty(f)).Any(); // RCS1077]]></Before>
-        <After><![CDATA[bool x = items.Any(f => string.IsNullOrEmpty(f));]]></After>
+        <Before><![CDATA[bool x = items.Where(f => Foo(f)).Any(); // RCS1077]]></Before>
+        <After><![CDATA[bool x = items.Any(f => Foo(f));]]></After>
       </Sample>
       <Sample>
         <Before><![CDATA[IEnumerable<Foo> x = items.Where(f => f is Foo).Cast<Foo>(); // RCS1077]]></Before>
         <After><![CDATA[IEnumerable<Foo> x = items.OfType<Foo>();]]></After>
       </Sample>
       <Sample>
-        <Before><![CDATA[bool x = items.Where((f) => !string.IsNullOrEmpty(f)).Any(f => f.StartsWith("a")); // RCS1077]]></Before>
-        <After><![CDATA[bool x = items.Any((f) => !string.IsNullOrEmpty(f) && f.StartsWith("a"));]]></After>
+        <Before><![CDATA[bool x = items.Where((f) => Foo1(f)).Any(f => Foo2(f)); // RCS1077]]></Before>
+        <After><![CDATA[bool x = items.Any((f) => Foo1(f) && Foo2(f));]]></After>
+      </Sample>
+      <Sample>
+        <Before><![CDATA[bool x = items.FirstOrDefault((f) => Foo(f)) != null; // RCS1077]]></Before>
+        <After><![CDATA[bool x = items.Any((f) => Foo(f));]]></After>
+      </Sample>
+      <Sample>
+        <Before><![CDATA[bool x = items.FirstOrDefault() != null; // RCS1077]]></Before>
+        <After><![CDATA[bool x = items.Any();]]></After>
+      </Sample>
+      <Sample>
+        <Before><![CDATA[var stack = new Stack<object>();
+// ...
+object x = stack.First(); // RCS1077]]></Before>
+        <After><![CDATA[var stack = new Stack<object>();
+// ...
+object x = items.Peek();]]></After>
+      </Sample>
+      <Sample>
+        <Before><![CDATA[var queue = new Queue<object>();
+// ...
+object x = stack.First(); // RCS1077]]></Before>
+        <After><![CDATA[var queue = new Queue<object>();
+// ...
+object x = items.Peek();]]></After>
       </Sample>
     </Samples>
   </Analyzer>
@@ -2500,7 +2524,7 @@ string s2 = s + "b";]]></After>
       </Sample>
     </Samples>
   </Analyzer>
-  <Analyzer Identifier="CallFindInsteadOfFirstOrDefault">
+  <Analyzer Identifier="CallFindInsteadOfFirstOrDefault" IsObsolete="true">
     <Id>RCS1119</Id>
     <Title>Call 'Find' instead of 'FirstOrDefault'.</Title>
     <MessageFormat>Call 'Find' instead of 'FirstOrDefault'.</MessageFormat>

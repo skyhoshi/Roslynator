@@ -20,15 +20,15 @@ using static Roslynator.CSharp.SyntaxInfo;
 
 namespace Roslynator.CSharp.CodeFixes
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(SimplifyLinqMethodChainCodeFixProvider))]
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(OptimizeLinqMethodCallCodeFixProvider))]
     [Shared]
-    public class SimplifyLinqMethodChainCodeFixProvider : BaseCodeFixProvider
+    public class OptimizeLinqMethodCallCodeFixProvider : BaseCodeFixProvider
     {
-        private const string Title = "Simplify method chain";
+        private const string Title = "Optimize LINQ method call";
 
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
-            get { return ImmutableArray.Create(DiagnosticIdentifiers.SimplifyLinqMethodChain); }
+            get { return ImmutableArray.Create(DiagnosticIdentifiers.OptimizeLinqMethodCall); }
         }
 
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
@@ -84,13 +84,23 @@ namespace Roslynator.CSharp.CodeFixes
 
                             context.RegisterCodeFix(codeAction, diagnostic);
                         }
+                        else if (name == "FirstOrDefault"
+                            && invocation.ArgumentList.Arguments.Any())
+                        {
+                            CodeAction codeAction = CodeAction.Create(
+                                "Call 'Find' instead of 'FirstOrDefault'",
+                                cancellationToken => CallFindInsteadOfFirstOrDefaultAsync(context.Document, invocation, cancellationToken),
+                                GetEquivalenceKey(diagnostic));
+
+                            context.RegisterCodeFix(codeAction, diagnostic);
+                        }
                         else if (name == "First"
                             && diagnostic.Properties.TryGetValue("MethodName", out string methodName)
                             && methodName == "Peek")
                         {
                             CodeAction codeAction = CodeAction.Create(
                                 Title,
-                                cancellationToken => OptimizeOfTypeAsync(context.Document, RefactoringUtility.ChangeInvokedMethodName(invocation, "Peek"), cancellationToken),
+                                cancellationToken => context.Document.ReplaceNodeAsync(invocation, RefactoringUtility.ChangeInvokedMethodName(invocation, "Peek"), cancellationToken),
                                 GetEquivalenceKey(diagnostic));
 
                             context.RegisterCodeFix(codeAction, diagnostic);
@@ -113,7 +123,7 @@ namespace Roslynator.CSharp.CodeFixes
                     {
                         CodeAction codeAction = CodeAction.Create(
                             Title,
-                            cancellationToken => SimplifyNullChckWithFirstOrDefault(context.Document, node, cancellationToken),
+                            cancellationToken => SimplifyNullChckWithFirstOrDefaultAsync(context.Document, node, cancellationToken),
                             base.GetEquivalenceKey(diagnostic));
 
                         context.RegisterCodeFix(codeAction, diagnostic);
@@ -192,7 +202,7 @@ namespace Roslynator.CSharp.CodeFixes
             return document.ReplaceNodeAsync(invocation, newNode, cancellationToken);
         }
 
-        private static Task<Document> SimplifyNullChckWithFirstOrDefault(
+        private static Task<Document> SimplifyNullChckWithFirstOrDefaultAsync(
             Document document,
             SyntaxNode node,
             CancellationToken cancellationToken)
@@ -245,6 +255,47 @@ namespace Roslynator.CSharp.CodeFixes
             }
 
             return await document.ReplaceNodeAsync(invocationExpression, newNode, cancellationToken).ConfigureAwait(false);
+        }
+
+        private static async Task<Document> CallFindInsteadOfFirstOrDefaultAsync(
+            Document document,
+            InvocationExpressionSyntax invocation,
+            CancellationToken cancellationToken)
+        {
+            SimpleMemberInvocationExpressionInfo info = SimpleMemberInvocationExpressionInfo(invocation);
+
+            SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
+
+            ITypeSymbol typeSymbol = semanticModel.GetTypeSymbol(info.Expression, cancellationToken);
+
+            if ((typeSymbol as IArrayTypeSymbol)?.Rank == 1)
+            {
+                NameSyntax arrayName = ParseName("System.Array")
+                    .WithLeadingTrivia(invocation.GetLeadingTrivia())
+                    .WithSimplifierAnnotation();
+
+                MemberAccessExpressionSyntax newMemberAccess = SimpleMemberAccessExpression(
+                    arrayName,
+                    info.OperatorToken,
+                    IdentifierName("Find").WithTriviaFrom(info.Name));
+
+                ArgumentListSyntax argumentList = invocation.ArgumentList;
+
+                InvocationExpressionSyntax newInvocation = InvocationExpression(
+                    newMemberAccess,
+                    ArgumentList(
+                        Argument(info.Expression.WithoutTrivia()),
+                        argumentList.Arguments.First()
+                    ).WithTriviaFrom(argumentList));
+
+                return await document.ReplaceNodeAsync(invocation, newInvocation, cancellationToken).ConfigureAwait(false);
+            }
+            else
+            {
+                IdentifierNameSyntax newName = IdentifierName("Find").WithTriviaFrom(info.Name);
+
+                return await document.ReplaceNodeAsync(info.Name, newName, cancellationToken).ConfigureAwait(false);
+            }
         }
     }
 }

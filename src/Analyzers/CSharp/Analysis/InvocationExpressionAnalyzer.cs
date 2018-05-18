@@ -20,7 +20,7 @@ namespace Roslynator.CSharp.Analysis
             get
             {
                 return ImmutableArray.Create(
-                    DiagnosticDescriptors.SimplifyLinqMethodChain,
+                    DiagnosticDescriptors.OptimizeLinqMethodCall,
                     DiagnosticDescriptors.UseCountOrLengthPropertyInsteadOfAnyMethod,
                     DiagnosticDescriptors.UseCountOrLengthPropertyInsteadOfCountMethod,
                     DiagnosticDescriptors.CallAnyInsteadOfCount,
@@ -31,7 +31,6 @@ namespace Roslynator.CSharp.Analysis
                     DiagnosticDescriptors.CallCastInsteadOfSelect,
                     DiagnosticDescriptors.CombineEnumerableWhereMethodChain,
                     DiagnosticDescriptors.CombineEnumerableWhereMethodChainFadeOut,
-                    DiagnosticDescriptors.CallFindInsteadOfFirstOrDefault,
                     DiagnosticDescriptors.UseElementAccessInsteadOfElementAt,
                     DiagnosticDescriptors.UseElementAccessInsteadOfFirst,
                     DiagnosticDescriptors.UseRegexInstanceInsteadOfStaticMethod,
@@ -71,7 +70,7 @@ namespace Roslynator.CSharp.Analysis
 
             RemoveRedundantStringToCharArrayCallAnalysis.Analyze(context, invocation);
 
-            SimplifyLinqMethodChainAnalysis.AnalyzeWhereAndAny(context);
+            OptimizeLinqMethodCallAnalysis.AnalyzeWhereAndAny(context);
 
             if (!invocation.ContainsDiagnostics)
             {
@@ -113,19 +112,19 @@ namespace Roslynator.CSharp.Analysis
                                         {
                                             UseCountOrLengthPropertyInsteadOfAnyMethodAnalysis.Analyze(context, invocationInfo);
 
-                                            SimplifyLinqMethodChainAnalysis.AnalyzeWhere(context, invocationInfo);
+                                            OptimizeLinqMethodCallAnalysis.AnalyzeWhere(context, invocationInfo);
                                             break;
                                         }
                                     case "Cast":
                                         {
-                                            SimplifyLinqMethodChainAnalysis.AnalyzeWhereAndCast(context, invocationInfo);
+                                            OptimizeLinqMethodCallAnalysis.AnalyzeWhereAndCast(context, invocationInfo);
                                             RemoveRedundantCastAnalyzer.Analyze(context, invocationInfo);
                                             break;
                                         }
                                     case "Count":
                                         {
                                             UseInsteadOfCountMethodAnalysis.Analyze(context, invocationInfo);
-                                            SimplifyLinqMethodChainAnalysis.AnalyzeWhere(context, invocationInfo);
+                                            OptimizeLinqMethodCallAnalysis.AnalyzeWhere(context, invocationInfo);
                                             break;
                                         }
                                     case "First":
@@ -136,8 +135,8 @@ namespace Roslynator.CSharp.Analysis
                                                 context.ReportDiagnostic(DiagnosticDescriptors.UseElementAccessInsteadOfFirst, invocationInfo.Name);
                                             }
 
-                                            SimplifyLinqMethodChainAnalysis.AnalyzeWhere(context, invocationInfo);
-                                            SimplifyLinqMethodChainAnalysis.AnalyzeFirst(context, invocationInfo);
+                                            OptimizeLinqMethodCallAnalysis.AnalyzeWhere(context, invocationInfo);
+                                            OptimizeLinqMethodCallAnalysis.AnalyzeFirst(context, invocationInfo);
                                             break;
                                         }
                                     case "ToString":
@@ -161,13 +160,13 @@ namespace Roslynator.CSharp.Analysis
                                     case "Single":
                                     case "SingleOrDefault":
                                         {
-                                            SimplifyLinqMethodChainAnalysis.AnalyzeWhere(context, invocationInfo);
+                                            OptimizeLinqMethodCallAnalysis.AnalyzeWhere(context, invocationInfo);
                                             break;
                                         }
                                     case "OfType":
                                         {
                                             if (!invocation.SpanContainsDirectives())
-                                                SimplifyLinqMethodChainAnalysis.AnalyzeOfType(context, invocationInfo);
+                                                OptimizeLinqMethodCallAnalysis.AnalyzeOfType(context, invocationInfo);
 
                                             break;
                                         }
@@ -193,12 +192,6 @@ namespace Roslynator.CSharp.Analysis
                                                 context.ReportDiagnostic(DiagnosticDescriptors.UseElementAccessInsteadOfElementAt, invocationInfo.Name);
                                             }
 
-                                            break;
-                                        }
-                                    case "FirstOrDefault":
-                                        {
-                                            SimplifyLinqMethodChainAnalysis.AnalyzeFirstOrDefault(context, invocationInfo);
-                                            CallFindInsteadOfFirstOrDefaultAnalysis.Analyze(context, invocationInfo);
                                             break;
                                         }
                                     case "Where":
@@ -240,6 +233,16 @@ namespace Roslynator.CSharp.Analysis
                                     || argumentCount == 3)
                                 {
                                     CallThenByInsteadOfOrderByAnalysis.Analyze(context, invocationInfo);
+                                }
+
+                                break;
+                            }
+                        case "FirstOrDefault":
+                            {
+                                if (argumentCount == 0
+                                    || argumentCount == 1)
+                                {
+                                    OptimizeLinqMethodCallAnalysis.AnalyzeFirstOrDefault(context, invocationInfo);
                                 }
 
                                 break;

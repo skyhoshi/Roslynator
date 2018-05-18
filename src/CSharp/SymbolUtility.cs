@@ -227,6 +227,31 @@ namespace Roslynator
             return false;
         }
 
+        public static bool IsPredicateFunc(ISymbol symbol, ITypeSymbol parameter)
+        {
+            if (symbol == null)
+                throw new ArgumentNullException(nameof(symbol));
+
+            if (parameter == null)
+                throw new ArgumentNullException(nameof(parameter));
+
+            if (symbol.Kind == SymbolKind.NamedType)
+            {
+                var namedTypeSymbol = (INamedTypeSymbol)symbol;
+
+                if (namedTypeSymbol.ConstructedFrom.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Func_2))
+                {
+                    ImmutableArray<ITypeSymbol> typeArguments = namedTypeSymbol.TypeArguments;
+
+                    return typeArguments.Length == 2
+                        && typeArguments[0].Equals(parameter)
+                        && typeArguments[1].SpecialType == SpecialType.System_Boolean;
+                }
+            }
+
+            return false;
+        }
+
         public static bool IsPredicateFunc(ISymbol symbol, ITypeSymbol parameter1, ITypeSymbol parameter2, SemanticModel semanticModel)
         {
             if (symbol == null)
@@ -367,7 +392,7 @@ namespace Roslynator
                 && methodSymbol.IsName("OfType")
                 && methodSymbol.Arity == 1
                 && methodSymbol.HasSingleParameter(SpecialType.System_Collections_IEnumerable)
-                && methodSymbol.ContainingType?.IsFullyQualifiedMetadataName(TypeNameInfo.System_Linq_Enumerable) == true;
+                && methodSymbol.ContainingType?.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Linq_Enumerable) == true;
         }
 
         internal static bool IsLinqExtensionOfIEnumerableOfT(
@@ -424,7 +449,7 @@ namespace Roslynator
             if (containingType == null)
                 return false;
 
-            if (containingType.IsFullyQualifiedMetadataName(TypeNameInfo.System_Linq_Enumerable))
+            if (containingType.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Linq_Enumerable))
             {
                 ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
 
@@ -432,7 +457,7 @@ namespace Roslynator
                     && parameters[0].Type.OriginalDefinition.IsIEnumerableOfT();
             }
             else if (allowImmutableArrayExtension
-                && containingType.IsFullyQualifiedMetadataName(TypeNameInfo.System_Linq_ImmutableArrayExtensions))
+                && containingType.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Linq_ImmutableArrayExtensions))
             {
                 ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
 
@@ -450,6 +475,14 @@ namespace Roslynator
             bool allowImmutableArrayExtension = false)
         {
             return IsLinqExtensionOfIEnumerableOfTWithPredicate(methodSymbol, name, parameterCount: 2, semanticModel: semanticModel, allowImmutableArrayExtension: allowImmutableArrayExtension);
+        }
+
+        internal static bool IsLinqExtensionOfIEnumerableOfTWithPredicate(
+            IMethodSymbol methodSymbol,
+            string name = null,
+            bool allowImmutableArrayExtension = false)
+        {
+            return IsLinqExtensionOfIEnumerableOfTWithPredicate(methodSymbol, name, parameterCount: 2, allowImmutableArrayExtension: allowImmutableArrayExtension);
         }
 
         private static bool IsLinqExtensionOfIEnumerableOfTWithPredicate(
@@ -491,6 +524,44 @@ namespace Roslynator
             return false;
         }
 
+        private static bool IsLinqExtensionOfIEnumerableOfTWithPredicate(
+            IMethodSymbol methodSymbol,
+            string name,
+            int parameterCount,
+            bool allowImmutableArrayExtension = false)
+        {
+            if (methodSymbol.DeclaredAccessibility != Accessibility.Public)
+                return false;
+
+            if (!StringUtility.IsNullOrEquals(name, methodSymbol.Name))
+                return false;
+
+            INamedTypeSymbol containingType = methodSymbol.ContainingType;
+
+            if (containingType == null)
+                return false;
+
+            if (containingType.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Linq_Enumerable))
+            {
+                ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
+
+                return parameters.Length == parameterCount
+                    && parameters[0].Type.OriginalDefinition.IsIEnumerableOfT()
+                    && IsPredicateFunc(parameters[1].Type, methodSymbol.TypeArguments[0]);
+            }
+            else if (allowImmutableArrayExtension
+                && containingType.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Linq_ImmutableArrayExtensions))
+            {
+                ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
+
+                return parameters.Length == parameterCount
+                    && IsImmutableArrayOfT(parameters[0].Type)
+                    && IsPredicateFunc(parameters[1].Type, methodSymbol.TypeArguments[0]);
+            }
+
+            return false;
+        }
+
         public static bool IsImmutableArrayOfT(ITypeSymbol typeSymbol, SemanticModel semanticModel)
         {
             return typeSymbol?.OriginalDefinition.Equals(semanticModel.GetTypeByMetadataName(MetadataNames.System_Collections_Immutable_ImmutableArray_T)) == true;
@@ -498,7 +569,7 @@ namespace Roslynator
 
         public static bool IsImmutableArrayOfT(ITypeSymbol typeSymbol)
         {
-            return typeSymbol?.OriginalDefinition.IsFullyQualifiedMetadataName(TypeNameInfo.System_Collections_Generic_ImmutableArray_1) == true;
+            return typeSymbol?.OriginalDefinition.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Collections_Immutable_ImmutableArray_1) == true;
         }
 
         public static bool SupportsSwitchExpression(ITypeSymbol typeSymbol)

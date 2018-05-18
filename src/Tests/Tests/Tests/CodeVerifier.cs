@@ -78,6 +78,7 @@ namespace Roslynator.Tests
                         RuntimeMetadataReference.CreateFromAssemblyName("System.Linq.dll"),
                         RuntimeMetadataReference.CreateFromAssemblyName("System.Linq.Expressions.dll"),
                         RuntimeMetadataReference.CreateFromAssemblyName("System.Runtime.dll"),
+                        RuntimeMetadataReference.CreateFromAssemblyName("System.Collections.dll"),
                         RuntimeMetadataReference.CreateFromAssemblyName("System.Collections.Immutable.dll"),
                         RuntimeMetadataReference.CreateFromAssemblyName("Microsoft.CodeAnalysis.dll"),
                         RuntimeMetadataReference.CreateFromAssemblyName("Microsoft.CodeAnalysis.CSharp.dll"),

@@ -25,6 +25,8 @@ namespace Roslynator.CSharp
         [Obsolete("", error: true)]
         public const string AddReturnStatementThatReturnsDefaultValue = "RCS1117";
         [Obsolete("", error: true)]
+        public const string CallFindInsteadOfFirstOrDefault = "RCS1119";
+        [Obsolete("", error: true)]
         public const string AddMissingSemicolon = "RCS1122";
         [Obsolete("", error: true)]
         public const string MarkMemberAsStatic = "RCS1125";

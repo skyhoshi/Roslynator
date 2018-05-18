@@ -118,6 +118,18 @@ namespace Roslynator.CSharp
             customTags:         Array.Empty<string>());
 
         [Obsolete("", error: true)]
+        public static readonly DiagnosticDescriptor CallFindInsteadOfFirstOrDefault = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.CallFindInsteadOfFirstOrDefault, 
+            title:              "Call 'Find' instead of 'FirstOrDefault'.", 
+            messageFormat:      "Call 'Find' instead of 'FirstOrDefault'.", 
+            category:           DiagnosticCategories.Performance, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.CallFindInsteadOfFirstOrDefault}", 
+            customTags:         Array.Empty<string>());
+
+        [Obsolete("", error: true)]
         public static readonly DiagnosticDescriptor AddMissingSemicolon = new DiagnosticDescriptor(
             id:                 DiagnosticIdentifiers.AddMissingSemicolon, 
             title:              "Add missing semicolon.", 

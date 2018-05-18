@@ -13,7 +13,7 @@ using Roslynator.CSharp.Syntax;
 
 namespace Roslynator.CSharp.Analysis
 {
-    internal static class SimplifyLinqMethodChainAnalysis
+    internal static class OptimizeLinqMethodCallAnalysis
     {
         public static void AnalyzeWhere(SyntaxNodeAnalysisContext context, SimpleMemberInvocationExpressionInfo invocationInfo)
         {
@@ -55,13 +55,90 @@ namespace Roslynator.CSharp.Analysis
                 return;
 
             context.ReportDiagnostic(
-                DiagnosticDescriptors.SimplifyLinqMethodChain,
+                DiagnosticDescriptors.OptimizeLinqMethodCall,
                 Location.Create(invocation.SyntaxTree, span));
         }
 
-        public static void AnalyzeFirstOrDefault(SyntaxNodeAnalysisContext context, SimpleMemberInvocationExpressionInfo invocationInfo)
+        public static void AnalyzeFirstOrDefault(SyntaxNodeAnalysisContext context, in SimpleMemberInvocationExpressionInfo invocationInfo)
         {
             InvocationExpressionSyntax invocation = invocationInfo.InvocationExpression;
+
+            ExtensionMethodSymbolInfo extensionMethodSymbolInfo = context.SemanticModel.GetReducedExtensionMethodInfo(invocation, context.CancellationToken);
+
+            IMethodSymbol methodSymbol = extensionMethodSymbolInfo.Symbol;
+
+            if (methodSymbol == null)
+                return;
+
+            if (methodSymbol.DeclaredAccessibility != Accessibility.Public)
+                return;
+
+            INamedTypeSymbol containingType = methodSymbol.ContainingType;
+
+            if (containingType == null)
+                return;
+
+            bool success = false;
+
+            if (containingType.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Linq_Enumerable))
+            {
+                ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
+
+                int parameterCount = parameters.Length;
+
+                if (parameterCount == 2)
+                {
+                    if (parameters[0].Type.OriginalDefinition.IsIEnumerableOfT()
+                        && SymbolUtility.IsPredicateFunc(parameters[1].Type, methodSymbol.TypeArguments[0]))
+                    {
+                        ITypeSymbol typeSymbol = context.SemanticModel.GetTypeSymbol(invocationInfo.Expression, context.CancellationToken);
+
+                        if (typeSymbol != null)
+                        {
+                            if (typeSymbol.Kind == SymbolKind.ArrayType
+                                && ((IArrayTypeSymbol)typeSymbol).Rank == 1)
+                            {
+                                context.ReportDiagnostic(DiagnosticDescriptors.OptimizeLinqMethodCall, invocationInfo.Name);
+                                return;
+                            }
+                            else if (typeSymbol.OriginalDefinition.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Collections_Generic_List_1))
+                            {
+                                context.ReportDiagnostic(DiagnosticDescriptors.OptimizeLinqMethodCall, invocationInfo.Name);
+                                return;
+                            }
+                        }
+
+                        success = true;
+                    }
+
+                }
+                else if (parameterCount == 1)
+                {
+                    if (parameters[0].Type.OriginalDefinition.IsIEnumerableOfT())
+                    {
+                        success = true;
+                    }
+                }
+            }
+            else if (containingType.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Linq_ImmutableArrayExtensions))
+            {
+                ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
+
+                int parameterCount = parameters.Length;
+
+                if (parameterCount == 2)
+                {
+                    success = SymbolUtility.IsImmutableArrayOfT(parameters[0].Type)
+                        && SymbolUtility.IsPredicateFunc(parameters[1].Type, methodSymbol.TypeArguments[0]);
+                }
+                else if (parameterCount == 1)
+                {
+                    success = SymbolUtility.IsImmutableArrayOfT(parameters[0].Type);
+                }
+            }
+
+            if (!success)
+                return;
 
             SyntaxNode parent = invocation.WalkUpParentheses().Parent;
 
@@ -75,16 +152,6 @@ namespace Roslynator.CSharp.Analysis
             if (node.ContainsDirectives)
                 return;
 
-            ExtensionMethodSymbolInfo extensionMethodSymbolInfo = context.SemanticModel.GetReducedExtensionMethodInfo(invocation, context.CancellationToken);
-
-            IMethodSymbol methodSymbol = extensionMethodSymbolInfo.Symbol;
-
-            if (methodSymbol == null)
-                return;
-
-            if (!SymbolUtility.IsLinqExtensionOfIEnumerableOfTWithPredicate(methodSymbol, context.SemanticModel, name: invocationInfo.NameText, allowImmutableArrayExtension: true))
-                return;
-
             if (!extensionMethodSymbolInfo
                 .ReducedSymbol
                 .ReturnType
@@ -93,7 +160,7 @@ namespace Roslynator.CSharp.Analysis
                 return;
             }
 
-            context.ReportDiagnostic(DiagnosticDescriptors.SimplifyLinqMethodChain, node);
+            context.ReportDiagnostic(DiagnosticDescriptors.OptimizeLinqMethodCall, node);
         }
 
         public static void AnalyzeWhereAndAny(SyntaxNodeAnalysisContext context)
@@ -171,7 +238,7 @@ namespace Roslynator.CSharp.Analysis
                 return;
 
             context.ReportDiagnostic(
-                DiagnosticDescriptors.SimplifyLinqMethodChain,
+                DiagnosticDescriptors.OptimizeLinqMethodCall,
                 Location.Create(invocationExpression.SyntaxTree, TextSpan.FromBounds(invocationInfo2.Name.SpanStart, invocationExpression.Span.End)));
         }
 
@@ -235,7 +302,7 @@ namespace Roslynator.CSharp.Analysis
                 return;
 
             context.ReportDiagnostic(
-                DiagnosticDescriptors.SimplifyLinqMethodChain,
+                DiagnosticDescriptors.OptimizeLinqMethodCall,
                 Location.Create(invocationInfo.InvocationExpression.SyntaxTree, span));
 
             SyntaxNode GetLambdaExpression(ExpressionSyntax expression)
@@ -298,7 +365,7 @@ namespace Roslynator.CSharp.Analysis
             TextSpan span = TextSpan.FromBounds(invocationInfo.Name.SpanStart, invocationInfo.InvocationExpression.Span.End);
 
             context.ReportDiagnostic(
-                DiagnosticDescriptors.SimplifyLinqMethodChain,
+                DiagnosticDescriptors.OptimizeLinqMethodCall,
                 Location.Create(invocationInfo.InvocationExpression.SyntaxTree, span));
         }
 
@@ -324,11 +391,11 @@ namespace Roslynator.CSharp.Analysis
             if (!typeSymbol.IsMetadataName("Queue`1", "Stack`1"))
                 return;
 
-            if (!typeSymbol.IsFullyQualifiedMetadataName(TypeNameInfo.System_Collections_Generic))
+            if (!typeSymbol.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Collections_Generic))
                 return;
 
             context.ReportDiagnostic(
-                DiagnosticDescriptors.SimplifyLinqMethodChain,
+                DiagnosticDescriptors.OptimizeLinqMethodCall,
                 invocationInfo.Name.GetLocation(),
                 ImmutableDictionary.CreateRange(new KeyValuePair<string, string>[] { new KeyValuePair<string, string>("MethodName", "Peek") }));
         }
