@@ -19,6 +19,8 @@ namespace Roslynator.CSharp
         [Obsolete("", error: true)]
         public const string UseCSharp6DictionaryInitializer = "RCS1095";
         [Obsolete("", error: true)]
+        public const string CallCastInsteadOfSelect = "RCS1109";
+        [Obsolete("", error: true)]
         public const string ReplaceReturnStatementWithExpressionStatement = "RCS1115";
         [Obsolete("", error: true)]
         public const string AddBreakStatementToSwitchSection = "RCS1116";

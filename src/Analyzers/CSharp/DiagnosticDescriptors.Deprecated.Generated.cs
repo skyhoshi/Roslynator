@@ -82,6 +82,18 @@ namespace Roslynator.CSharp
             customTags:         Array.Empty<string>());
 
         [Obsolete("", error: true)]
+        public static readonly DiagnosticDescriptor CallCastInsteadOfSelect = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.CallCastInsteadOfSelect, 
+            title:              "Call 'Enumerable.Cast' instead of 'Enumerable.Select'.", 
+            messageFormat:      "Call 'Enumerable.Cast' instead of 'Enumerable.Select'.", 
+            category:           DiagnosticCategories.Simplification, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.CallCastInsteadOfSelect}", 
+            customTags:         Array.Empty<string>());
+
+        [Obsolete("", error: true)]
         public static readonly DiagnosticDescriptor ReplaceReturnStatementWithExpressionStatement = new DiagnosticDescriptor(
             id:                 DiagnosticIdentifiers.ReplaceReturnStatementWithExpressionStatement, 
             title:              "Replace yield/return statement with expression statement.", 

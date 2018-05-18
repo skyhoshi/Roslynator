@@ -110,7 +110,6 @@ namespace Roslynator.CSharp
         public const string RemoveEmptyDestructor = "RCS1106";
         public const string RemoveRedundantStringToCharArrayCall = "RCS1107";
         public const string AddStaticModifierToAllPartialClassDeclarations = "RCS1108";
-        public const string CallCastInsteadOfSelect = "RCS1109";
         public const string DeclareTypeInsideNamespace = "RCS1110";
         public const string AddBracesToSwitchSectionWithMultipleStatements = "RCS1111";
         public const string CombineEnumerableWhereMethodChain = "RCS1112";

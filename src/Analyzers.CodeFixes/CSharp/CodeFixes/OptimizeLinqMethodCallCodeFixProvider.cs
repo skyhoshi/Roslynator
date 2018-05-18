@@ -13,6 +13,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using Roslynator.CodeFixes;
+using Roslynator.CSharp.Analysis;
 using Roslynator.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Roslynator.CSharp.CSharpFactory;
@@ -83,6 +84,16 @@ namespace Roslynator.CSharp.CodeFixes
                                 GetEquivalenceKey(diagnostic));
 
                             context.RegisterCodeFix(codeAction, diagnostic);
+                        }
+                        else if (name == "Select")
+                        {
+                            CodeAction codeAction = CodeAction.Create(
+                                "Call 'Cast' instead of 'Select'",
+                                cancellationToken => CallCastInsteadOfSelectAsync(context.Document, invocation, cancellationToken),
+                                GetEquivalenceKey(diagnostic));
+
+                            context.RegisterCodeFix(codeAction, diagnostic);
+                            break;
                         }
                         else if (name == "FirstOrDefault"
                             && invocation.ArgumentList.Arguments.Any())
@@ -255,6 +266,28 @@ namespace Roslynator.CSharp.CodeFixes
             }
 
             return await document.ReplaceNodeAsync(invocationExpression, newNode, cancellationToken).ConfigureAwait(false);
+        }
+
+        private static Task<Document> CallCastInsteadOfSelectAsync(
+            Document document,
+            InvocationExpressionSyntax invocationExpression,
+            CancellationToken cancellationToken)
+        {
+            var memberAccessExpression = (MemberAccessExpressionSyntax)invocationExpression.Expression;
+
+            ArgumentSyntax lastArgument = invocationExpression.ArgumentList.Arguments.Last();
+
+            var lambdaExpression = (LambdaExpressionSyntax)lastArgument.Expression;
+
+            GenericNameSyntax newName = GenericName(
+                Identifier("Cast"),
+                CallCastInsteadOfSelectAnalysis.GetCastExpression(lambdaExpression.Body).Type);
+
+            InvocationExpressionSyntax newInvocationExpression = invocationExpression
+                .RemoveNode(lastArgument)
+                .WithExpression(memberAccessExpression.WithName(newName));
+
+            return document.ReplaceNodeAsync(invocationExpression, newInvocationExpression, cancellationToken);
         }
 
         private static async Task<Document> CallFindInsteadOfFirstOrDefaultAsync(

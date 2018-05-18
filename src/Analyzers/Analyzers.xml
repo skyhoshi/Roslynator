@@ -1720,6 +1720,10 @@ catch (Exception ex) // RCS1075
         <After><![CDATA[bool x = items.Any((f) => Foo1(f) && Foo2(f));]]></After>
       </Sample>
       <Sample>
+        <Before><![CDATA[IEnumerable<object> x = items.Select(f => (object)f); // RCS1077]]></Before>
+        <After><![CDATA[IEnumerable<object> x = items.Cast<object>();]]></After>
+      </Sample>
+      <Sample>
         <Before><![CDATA[bool x = items.FirstOrDefault((f) => Foo(f)) != null; // RCS1077]]></Before>
         <After><![CDATA[bool x = items.Any((f) => Foo(f));]]></After>
       </Sample>
@@ -2357,7 +2361,7 @@ public static partial class Foo
       </Sample>
     </Samples>
   </Analyzer>
-  <Analyzer Identifier="CallCastInsteadOfSelect">
+  <Analyzer Identifier="CallCastInsteadOfSelect" IsObsolete="true">
     <Id>RCS1109</Id>
     <Title>Call 'Enumerable.Cast' instead of 'Enumerable.Select'.</Title>
     <MessageFormat>Call 'Enumerable.Cast' instead of 'Enumerable.Select'.</MessageFormat>

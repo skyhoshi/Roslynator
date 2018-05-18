@@ -369,6 +369,113 @@ class C
         }
 
         [Fact]
+        public async Task Test_CallCastInsteadOfSelect_ExtensionMethodCall()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var items = Enumerable.Empty<string>().[|Select(f => (object)f)|];
+    }
+}
+", @"
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var items = Enumerable.Empty<string>().Cast<object>();
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_CallCastInsteadOfSelect_StaticMethodCall()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var items = Enumerable.[|Select(Enumerable.Empty<string>(), f => (object)f)|];
+    }
+}
+", @"
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var items = Enumerable.Cast<object>(Enumerable.Empty<string>());
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_CallCastInsteadOfSelect_ParenthesizedLambda()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var items = Enumerable.Empty<string>().[|Select((f) => (object)f)|];
+    }
+}
+", @"
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var items = Enumerable.Empty<string>().Cast<object>();
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task Test_CallCastInsteadOfSelect_LambdaWithBlock()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var items = Enumerable.Empty<string>().[|Select(f =>
+        {
+            return (object)f;
+        })|];
+    }
+}
+", @"
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var items = Enumerable.Empty<string>().Cast<object>();
+    }
+}
+");
+        }
+
+        [Fact]
         public async Task Test_ReplaceFirstWithPeek_Queue()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -559,6 +666,35 @@ class C
 
         if (items.FirstOrDefault(_ => true) != null) { }
         if (items.FirstOrDefault(_ => true) == null) { }
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task TestNoDiagnostic_CallCastInsteadOfSelect_Conversion()
+        {
+            await VerifyNoDiagnosticAsync(@"
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+            var items = Enumerable.Empty<C2>().Select(f => (C)f);
+
+            var x1 = Enumerable.Empty<int>().Select(i => (byte)i);
+            var x2 = Enumerable.Empty<int>().Select(i => (long)i);
+            var x3 = Enumerable.Select(Enumerable.Empty<int>(), i => (byte)i);
+            var x4 = Enumerable.Select(Enumerable.Empty<int>(), i => (long)i);
+    }
+}
+
+class C2
+{
+    public static explicit operator C(C2 value)
+    {
+        return new C();
     }
 }
 ");

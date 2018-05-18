@@ -1267,18 +1267,6 @@ namespace Roslynator.CSharp
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.AddStaticModifierToAllPartialClassDeclarations}", 
             customTags:         Array.Empty<string>());
 
-        /// <summary>RCS1109</summary>
-        public static readonly DiagnosticDescriptor CallCastInsteadOfSelect = new DiagnosticDescriptor(
-            id:                 DiagnosticIdentifiers.CallCastInsteadOfSelect, 
-            title:              "Call 'Enumerable.Cast' instead of 'Enumerable.Select'.", 
-            messageFormat:      "Call 'Enumerable.Cast' instead of 'Enumerable.Select'.", 
-            category:           DiagnosticCategories.Simplification, 
-            defaultSeverity:    DiagnosticSeverity.Info, 
-            isEnabledByDefault: true, 
-            description:        null, 
-            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.CallCastInsteadOfSelect}", 
-            customTags:         Array.Empty<string>());
-
         /// <summary>RCS1110</summary>
         public static readonly DiagnosticDescriptor DeclareTypeInsideNamespace = new DiagnosticDescriptor(
             id:                 DiagnosticIdentifiers.DeclareTypeInsideNamespace, 

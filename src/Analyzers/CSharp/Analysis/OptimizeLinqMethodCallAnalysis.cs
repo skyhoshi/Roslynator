@@ -15,7 +15,7 @@ namespace Roslynator.CSharp.Analysis
 {
     internal static class OptimizeLinqMethodCallAnalysis
     {
-        public static void AnalyzeWhere(SyntaxNodeAnalysisContext context, SimpleMemberInvocationExpressionInfo invocationInfo)
+        public static void AnalyzeWhere(SyntaxNodeAnalysisContext context, in SimpleMemberInvocationExpressionInfo invocationInfo)
         {
             SimpleMemberInvocationExpressionInfo invocationInfo2 = SyntaxInfo.SimpleMemberInvocationExpressionInfo(invocationInfo.Expression);
 
@@ -38,7 +38,7 @@ namespace Roslynator.CSharp.Analysis
             if (methodSymbol == null)
                 return;
 
-            if (!SymbolUtility.IsLinqExtensionOfIEnumerableOfTWithoutParameters(methodSymbol, invocationInfo.NameText, semanticModel))
+            if (!SymbolUtility.IsLinqExtensionOfIEnumerableOfTWithoutParameters(methodSymbol, invocationInfo.NameText))
                 return;
 
             IMethodSymbol methodSymbol2 = semanticModel.GetExtensionMethodInfo(invocationInfo2.InvocationExpression, cancellationToken).Symbol;
@@ -46,7 +46,7 @@ namespace Roslynator.CSharp.Analysis
             if (methodSymbol2 == null)
                 return;
 
-            if (!SymbolUtility.IsLinqWhere(methodSymbol2, semanticModel, allowImmutableArrayExtension: true))
+            if (!SymbolUtility.IsLinqWhere(methodSymbol2, allowImmutableArrayExtension: true))
                 return;
 
             TextSpan span = TextSpan.FromBounds(invocationInfo2.Name.SpanStart, invocation.Span.End);
@@ -162,29 +162,8 @@ namespace Roslynator.CSharp.Analysis
             context.ReportDiagnostic(DiagnosticDescriptors.OptimizeLinqMethodCall, node);
         }
 
-        public static void AnalyzeWhereAndAny(SyntaxNodeAnalysisContext context)
+        public static void AnalyzeWhereAndAny(SyntaxNodeAnalysisContext context, in SimpleMemberInvocationExpressionInfo invocationInfo)
         {
-            var invocationExpression = (InvocationExpressionSyntax)context.Node;
-
-            if (invocationExpression.ContainsDiagnostics)
-                return;
-
-            if (invocationExpression.SpanContainsDirectives())
-                return;
-
-            SimpleMemberInvocationExpressionInfo invocationInfo = SyntaxInfo.SimpleMemberInvocationExpressionInfo(invocationExpression);
-
-            if (!invocationInfo.Success)
-                return;
-
-            if (invocationInfo.NameText != "Any")
-                return;
-
-            ArgumentSyntax argument1 = invocationInfo.Arguments.SingleOrDefault(shouldThrow: false);
-
-            if (argument1 == null)
-                return;
-
             SimpleMemberInvocationExpressionInfo invocationInfo2 = SyntaxInfo.SimpleMemberInvocationExpressionInfo(invocationInfo.Expression);
 
             if (!invocationInfo2.Success)
@@ -201,12 +180,14 @@ namespace Roslynator.CSharp.Analysis
             SemanticModel semanticModel = context.SemanticModel;
             CancellationToken cancellationToken = context.CancellationToken;
 
+            ExpressionSyntax invocationExpression = invocationInfo.InvocationExpression;
+
             IMethodSymbol methodSymbol = semanticModel.GetExtensionMethodInfo(invocationExpression, cancellationToken).Symbol;
 
             if (methodSymbol == null)
                 return;
 
-            if (!SymbolUtility.IsLinqExtensionOfIEnumerableOfTWithPredicate(methodSymbol, semanticModel, "Any"))
+            if (!SymbolUtility.IsLinqExtensionOfIEnumerableOfTWithPredicate(methodSymbol, "Any"))
                 return;
 
             IMethodSymbol methodSymbol2 = semanticModel.GetExtensionMethodInfo(invocationInfo2.InvocationExpression, cancellationToken).Symbol;
@@ -214,10 +195,10 @@ namespace Roslynator.CSharp.Analysis
             if (methodSymbol2 == null)
                 return;
 
-            if (!SymbolUtility.IsLinqWhere(methodSymbol2, semanticModel, allowImmutableArrayExtension: true))
+            if (!SymbolUtility.IsLinqWhere(methodSymbol2, allowImmutableArrayExtension: true))
                 return;
 
-            SingleParameterLambdaExpressionInfo lambda = SyntaxInfo.SingleParameterLambdaExpressionInfo(argument1.Expression);
+            SingleParameterLambdaExpressionInfo lambda = SyntaxInfo.SingleParameterLambdaExpressionInfo(invocationInfo.Arguments[0].Expression);
 
             if (!lambda.Success)
                 return;
@@ -241,7 +222,7 @@ namespace Roslynator.CSharp.Analysis
                 Location.Create(invocationExpression.SyntaxTree, TextSpan.FromBounds(invocationInfo2.Name.SpanStart, invocationExpression.Span.End)));
         }
 
-        public static void AnalyzeWhereAndCast(SyntaxNodeAnalysisContext context, SimpleMemberInvocationExpressionInfo invocationInfo)
+        public static void AnalyzeWhereAndCast(SyntaxNodeAnalysisContext context, in SimpleMemberInvocationExpressionInfo invocationInfo)
         {
             SimpleMemberInvocationExpressionInfo invocationInfo2 = SyntaxInfo.SimpleMemberInvocationExpressionInfo(invocationInfo.Expression);
 
@@ -264,7 +245,7 @@ namespace Roslynator.CSharp.Analysis
             if (methodSymbol == null)
                 return;
 
-            if (!SymbolUtility.IsLinqCast(methodSymbol, semanticModel))
+            if (!SymbolUtility.IsLinqCast(methodSymbol))
                 return;
 
             IMethodSymbol methodSymbol2 = semanticModel.GetReducedExtensionMethodInfo(invocationInfo2.InvocationExpression, cancellationToken).Symbol;
@@ -272,7 +253,7 @@ namespace Roslynator.CSharp.Analysis
             if (methodSymbol2 == null)
                 return;
 
-            if (!SymbolUtility.IsLinqWhere(methodSymbol2, semanticModel))
+            if (!SymbolUtility.IsLinqWhere(methodSymbol2))
                 return;
 
             IsExpressionInfo isExpressionInfo = SyntaxInfo.IsExpressionInfo(GetLambdaExpression(argument.Expression));

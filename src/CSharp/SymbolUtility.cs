@@ -163,6 +163,34 @@ namespace Roslynator
             return false;
         }
 
+        public static bool IsFunc(ISymbol symbol, ITypeSymbol parameter1, ITypeSymbol parameter2)
+        {
+            if (symbol == null)
+                throw new ArgumentNullException(nameof(symbol));
+
+            if (parameter1 == null)
+                throw new ArgumentNullException(nameof(parameter1));
+
+            if (parameter2 == null)
+                throw new ArgumentNullException(nameof(parameter2));
+
+            if (symbol.Kind == SymbolKind.NamedType)
+            {
+                var namedTypeSymbol = (INamedTypeSymbol)symbol;
+
+                if (namedTypeSymbol.ConstructedFrom.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Func_2))
+                {
+                    ImmutableArray<ITypeSymbol> typeArguments = namedTypeSymbol.TypeArguments;
+
+                    return typeArguments.Length == 2
+                        && typeArguments[0].Equals(parameter1)
+                        && typeArguments[1].Equals(parameter2);
+                }
+            }
+
+            return false;
+        }
+
         public static bool IsFunc(ISymbol symbol, ITypeSymbol parameter1, ITypeSymbol parameter2, ITypeSymbol parameter3, SemanticModel semanticModel)
         {
             if (symbol == null)
@@ -327,6 +355,13 @@ namespace Roslynator
             return IsLinqExtensionOfIEnumerableOfTWithPredicate(methodSymbol, "Where", parameterCount: 2, semanticModel: semanticModel, allowImmutableArrayExtension: allowImmutableArrayExtension);
         }
 
+        internal static bool IsLinqWhere(
+            IMethodSymbol methodSymbol,
+            bool allowImmutableArrayExtension = false)
+        {
+            return IsLinqExtensionOfIEnumerableOfTWithPredicate(methodSymbol, "Where", parameterCount: 2, allowImmutableArrayExtension: allowImmutableArrayExtension);
+        }
+
         internal static bool IsLinqWhereWithIndex(IMethodSymbol methodSymbol, SemanticModel semanticModel)
         {
             return IsLinqExtensionOfIEnumerableOfT(methodSymbol, semanticModel, "Where", parameterCount: 2, allowImmutableArrayExtension: false)
@@ -373,6 +408,46 @@ namespace Roslynator
             return false;
         }
 
+        internal static bool IsLinqSelect(IMethodSymbol methodSymbol, bool allowImmutableArrayExtension = false)
+        {
+            if (methodSymbol.DeclaredAccessibility != Accessibility.Public)
+                return false;
+
+            if (!methodSymbol.ReturnType.OriginalDefinition.IsIEnumerableOfT())
+                return false;
+
+            if (!methodSymbol.IsName("Select"))
+                return false;
+
+            if (methodSymbol.Arity != 2)
+                return false;
+
+            INamedTypeSymbol containingType = methodSymbol.ContainingType;
+
+            if (containingType == null)
+                return false;
+
+            if (containingType.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Linq_Enumerable))
+            {
+                ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
+
+                return parameters.Length == 2
+                    && parameters[0].Type.OriginalDefinition.IsIEnumerableOfT()
+                    && IsFunc(parameters[1].Type, methodSymbol.TypeArguments[0], methodSymbol.TypeArguments[1]);
+            }
+            else if (allowImmutableArrayExtension
+                && containingType.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Linq_ImmutableArrayExtensions))
+            {
+                ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
+
+                return parameters.Length == 2
+                    && IsImmutableArrayOfT(parameters[0].Type)
+                    && IsFunc(parameters[1].Type, methodSymbol.TypeArguments[0], methodSymbol.TypeArguments[1]);
+            }
+
+            return false;
+        }
+
         internal static bool IsLinqCast(IMethodSymbol methodSymbol, SemanticModel semanticModel)
         {
             return methodSymbol.DeclaredAccessibility == Accessibility.Public
@@ -383,6 +458,16 @@ namespace Roslynator
                 && methodSymbol
                     .ContainingType?
                     .Equals(semanticModel.GetTypeByMetadataName(MetadataNames.System_Linq_Enumerable)) == true;
+        }
+
+        internal static bool IsLinqCast(IMethodSymbol methodSymbol)
+        {
+            return methodSymbol.DeclaredAccessibility == Accessibility.Public
+                && methodSymbol.ReturnType.OriginalDefinition.IsIEnumerableOfT()
+                && methodSymbol.IsName("Cast")
+                && methodSymbol.Arity == 1
+                && methodSymbol.HasSingleParameter(SpecialType.System_Collections_IEnumerable)
+                && methodSymbol.ContainingType?.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Linq_Enumerable) == true;
         }
 
         internal static bool IsLinqOfType(IMethodSymbol methodSymbol)
