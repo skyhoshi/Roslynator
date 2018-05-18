@@ -28,9 +28,7 @@ namespace Roslynator.CSharp.CodeFixes
                     DiagnosticIdentifiers.UseBitwiseOperationInsteadOfCallingHasFlag,
                     DiagnosticIdentifiers.RemoveRedundantToStringCall,
                     DiagnosticIdentifiers.RemoveRedundantStringToCharArrayCall,
-                    DiagnosticIdentifiers.CallCastInsteadOfSelect,
                     DiagnosticIdentifiers.CombineEnumerableWhereMethodChain,
-                    DiagnosticIdentifiers.CallFindInsteadOfFirstOrDefault,
                     DiagnosticIdentifiers.UseElementAccessInsteadOfElementAt,
                     DiagnosticIdentifiers.UseElementAccessInsteadOfFirst,
                     DiagnosticIdentifiers.CallStringConcatInsteadOfStringJoin,
@@ -105,31 +103,11 @@ namespace Roslynator.CSharp.CodeFixes
                             context.RegisterCodeFix(codeAction, diagnostic);
                             break;
                         }
-                    case DiagnosticIdentifiers.CallCastInsteadOfSelect:
-                        {
-                            CodeAction codeAction = CodeAction.Create(
-                                "Call 'Cast' instead of 'Select'",
-                                cancellationToken => CallCastInsteadOfSelectRefactoring.RefactorAsync(context.Document, invocation, cancellationToken),
-                                GetEquivalenceKey(diagnostic));
-
-                            context.RegisterCodeFix(codeAction, diagnostic);
-                            break;
-                        }
                     case DiagnosticIdentifiers.RemoveRedundantStringToCharArrayCall:
                         {
                             CodeAction codeAction = CodeAction.Create(
                                 "Remove redundant 'ToCharArray' call",
                                 cancellationToken => context.Document.ReplaceNodeAsync(invocation, RefactoringUtility.RemoveInvocation(invocation).WithFormatterAnnotation(), cancellationToken),
-                                GetEquivalenceKey(diagnostic));
-
-                            context.RegisterCodeFix(codeAction, diagnostic);
-                            break;
-                        }
-                    case DiagnosticIdentifiers.CallFindInsteadOfFirstOrDefault:
-                        {
-                            CodeAction codeAction = CodeAction.Create(
-                                "Call 'Find' instead of 'FirstOrDefault'",
-                                cancellationToken => CallFindInsteadOfFirstOrDefaultRefactoring.RefactorAsync(context.Document, invocation, cancellationToken),
                                 GetEquivalenceKey(diagnostic));
 
                             context.RegisterCodeFix(codeAction, diagnostic);

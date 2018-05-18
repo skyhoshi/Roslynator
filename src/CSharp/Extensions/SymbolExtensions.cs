@@ -468,6 +468,16 @@ namespace Roslynator
             return StringUtility.Equals(symbol.Name, name1, name2);
         }
 
+        internal static bool IsMetadataName(this ISymbol symbol, string metadataName)
+        {
+            return StringUtility.Equals(symbol.MetadataName, metadataName);
+        }
+
+        internal static bool IsMetadataName(this ISymbol symbol, string metadataName1, string metadataName2)
+        {
+            return StringUtility.Equals(symbol.MetadataName, metadataName1, metadataName2);
+        }
+
         internal static bool IsContainingType(this ISymbol symbol, SpecialType specialType)
         {
             return symbol?.ContainingType?.SpecialType == specialType;
@@ -498,6 +508,11 @@ namespace Roslynator
             } while (symbol != null);
 
             return true;
+        }
+
+        internal static bool HasFullyQualifiedMetadataName(this ISymbol symbol, in FullyQualifiedMetadataName fullyQualifiedMetadataName)
+        {
+            return fullyQualifiedMetadataName.Equals(symbol);
         }
         #endregion ISymbol
 

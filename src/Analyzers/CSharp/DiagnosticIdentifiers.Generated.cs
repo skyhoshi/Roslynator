@@ -79,7 +79,7 @@ namespace Roslynator.CSharp
         public const string RemoveRedundantConstructor = "RCS1074";
         public const string AvoidEmptyCatchClauseThatCatchesSystemException = "RCS1075";
         public const string FormatDeclarationBraces = "RCS1076";
-        public const string SimplifyLinqMethodChain = "RCS1077";
+        public const string OptimizeLinqMethodCall = "RCS1077";
         public const string UseEmptyStringLiteralInsteadOfStringEmpty = "RCS1078";
         public const string ThrowingOfNewNotImplementedException = "RCS1079";
         public const string UseCountOrLengthPropertyInsteadOfAnyMethod = "RCS1080";
@@ -110,14 +110,12 @@ namespace Roslynator.CSharp
         public const string RemoveEmptyDestructor = "RCS1106";
         public const string RemoveRedundantStringToCharArrayCall = "RCS1107";
         public const string AddStaticModifierToAllPartialClassDeclarations = "RCS1108";
-        public const string CallCastInsteadOfSelect = "RCS1109";
         public const string DeclareTypeInsideNamespace = "RCS1110";
         public const string AddBracesToSwitchSectionWithMultipleStatements = "RCS1111";
         public const string CombineEnumerableWhereMethodChain = "RCS1112";
         public const string UseStringIsNullOrEmptyMethod = "RCS1113";
         public const string RemoveRedundantDelegateCreation = "RCS1114";
         public const string MarkLocalVariableAsConst = "RCS1118";
-        public const string CallFindInsteadOfFirstOrDefault = "RCS1119";
         public const string UseElementAccessInsteadOfElementAt = "RCS1120";
         public const string UseElementAccessInsteadOfFirst = "RCS1121";
         public const string AddParenthesesAccordingToOperatorPrecedence = "RCS1123";
