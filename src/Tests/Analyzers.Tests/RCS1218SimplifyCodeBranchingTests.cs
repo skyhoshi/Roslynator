@@ -14,21 +14,13 @@ namespace Roslynator.CSharp.Analysis.Tests
 {
     public class RCS1218SimplifyCodeBranchingTests : AbstractCSharpCodeFixVerifier
     {
-        public RCS1218SimplifyCodeBranchingTests()
-        {
-            //TODO: 
-            Options = base.Options.AddAllowedCompilerDiagnosticId("CS1525");
-        }
-
         public override DiagnosticDescriptor Descriptor { get; } = DiagnosticDescriptors.SimplifyCodeBranching;
 
         public override DiagnosticAnalyzer Analyzer { get; } = new SimplifyCodeBranchingAnalyzer();
 
         public override CodeFixProvider FixProvider { get; } = new SimplifyCodeBranchingCodeFixProvider();
 
-        public override CodeVerificationOptions Options { get; }
-
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_IfElse_WithBraces()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -59,7 +51,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_IfElse_WithoutBraces()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -86,7 +78,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_IfElseIf_WithBraces()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -117,7 +109,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_IfElseIf_WithoutBraces()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -144,7 +136,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_IfElseWithBraces()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -179,7 +171,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_IfElseWithoutBraces()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -210,7 +202,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_IfElseWithMultipleStatements()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -247,7 +239,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_EmbeddedIfElseWithSingleStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -280,7 +272,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_EmbeddedIfElseWithMultipleStatements()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -315,7 +307,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_IfWithBraces_LastStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -349,7 +341,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_IfWithoutBraces_LastStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -381,7 +373,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_IfWithBraces_FirstStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -413,7 +405,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_IfWithoutBraces_FirstStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -443,7 +435,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_Do_IfWithBraces_LastStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -478,7 +470,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_Do_IfWithoutBraces_LastStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -511,7 +503,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_Do_IfWithBraces_FirstStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -544,7 +536,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_Do_IfWithoutBraces_FirstStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -575,7 +567,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task TestNoDiagnostic()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -643,10 +635,10 @@ class C
         }
     }
 }
-");
+", options: Options.AddAllowedCompilerDiagnosticId("CS1525"));
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task TestNoDiagnostic_While()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -768,10 +760,10 @@ class C
         }
     }
 }
-");
+", options: Options.AddAllowedCompilerDiagnosticId("CS1525"));
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task TestNoDiagnostic_Do()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -868,7 +860,7 @@ class C
         } while (f1);
     }
 }
-");
+", options: Options.AddAllowedCompilerDiagnosticId("CS1525"));
         }
     }
 }
