@@ -110,7 +110,6 @@ namespace Roslynator.CSharp.Analysis
 
                         success = true;
                     }
-
                 }
                 else if (parameterCount == 1)
                 {
