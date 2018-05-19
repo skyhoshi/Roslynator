@@ -29,33 +29,24 @@ namespace Roslynator.CSharp.Analysis
             context.RegisterSyntaxNodeAction(AnalyzeAsExpression, SyntaxKind.AsExpression);
         }
 
-        public static void Analyze(SyntaxNodeAnalysisContext context, SimpleMemberInvocationExpressionInfo invocationInfo)
+        public static void Analyze(SyntaxNodeAnalysisContext context, in SimpleMemberInvocationExpressionInfo invocationInfo)
         {
-            switch (invocationInfo.NameText)
-            {
-                case "ElementAtOrDefault":
-                case "FirstOrDefault":
-                case "LastOrDefault":
-                    {
-                        InvocationExpressionSyntax invocationExpression = invocationInfo.InvocationExpression;
+            InvocationExpressionSyntax invocationExpression = invocationInfo.InvocationExpression;
 
-                        ExpressionSyntax expression = invocationExpression.WalkUpParentheses();
+            ExpressionSyntax expression = invocationExpression.WalkUpParentheses();
 
-                        if (!IsExpressionOfAccessExpression(expression))
-                            break;
+            if (!IsExpressionOfAccessExpression(expression))
+                return;
 
-                        IMethodSymbol methodSymbol = context.SemanticModel.GetMethodSymbol(invocationExpression, context.CancellationToken);
+            IMethodSymbol methodSymbol = context.SemanticModel.GetMethodSymbol(invocationExpression, context.CancellationToken);
 
-                        if (methodSymbol?.ReturnType.IsReferenceType != true)
-                            break;
+            if (methodSymbol?.ReturnType.IsReferenceType != true)
+                return;
 
-                        if (methodSymbol.ContainingType?.Equals(context.SemanticModel.GetTypeByMetadataName(MetadataNames.System_Linq_Enumerable)) != true)
-                            break;
+            if (methodSymbol.ContainingType?.Equals(context.SemanticModel.GetTypeByMetadataName(MetadataNames.System_Linq_Enumerable)) != true)
+                return;
 
-                        ReportDiagnostic(context, expression);
-                        break;
-                    }
-            }
+            ReportDiagnostic(context, expression);
         }
 
         public static void AnalyzeAsExpression(SyntaxNodeAnalysisContext context)

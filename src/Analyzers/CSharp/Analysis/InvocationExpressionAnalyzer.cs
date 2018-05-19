@@ -33,7 +33,6 @@ namespace Roslynator.CSharp.Analysis
                     DiagnosticDescriptors.UseElementAccessInsteadOfElementAt,
                     DiagnosticDescriptors.UseElementAccessInsteadOfFirst,
                     DiagnosticDescriptors.UseRegexInstanceInsteadOfStaticMethod,
-                    DiagnosticDescriptors.CallExtensionMethodAsInstanceMethod,
                     DiagnosticDescriptors.OptimizeStringBuilderAppendCall,
                     DiagnosticDescriptors.AvoidBoxingOfValueType,
                     DiagnosticDescriptors.CallThenByInsteadOfOrderBy,
@@ -61,199 +60,250 @@ namespace Roslynator.CSharp.Analysis
         {
             var invocation = (InvocationExpressionSyntax)context.Node;
 
-            if (UseBitwiseOperationInsteadOfCallingHasFlagAnalysis.IsFixable(invocation, context.SemanticModel, context.CancellationToken)
-                && !invocation.SpanContainsDirectives())
-            {
-                context.ReportDiagnostic(DiagnosticDescriptors.UseBitwiseOperationInsteadOfCallingHasFlag, invocation);
-            }
-
-            RemoveRedundantStringToCharArrayCallAnalysis.Analyze(context, invocation);
-
             if (invocation.ContainsDiagnostics)
                 return;
 
-            if (!invocation.SpanContainsDirectives())
-            {
-                CallExtensionMethodAsInstanceMethodAnalysisResult analysis = CallExtensionMethodAsInstanceMethodAnalysis.Analyze(invocation, context.SemanticModel, allowAnyExpression: false, cancellationToken: context.CancellationToken);
-
-                if (analysis.Success
-                    && context.SemanticModel
-                        .GetEnclosingNamedType(analysis.InvocationExpression.SpanStart, context.CancellationToken)?
-                        .Equals(analysis.MethodSymbol.ContainingType) == false)
-                {
-                    context.ReportDiagnostic(DiagnosticDescriptors.CallExtensionMethodAsInstanceMethod, invocation);
-                }
-            }
-
             SimpleMemberInvocationExpressionInfo invocationInfo = SyntaxInfo.SimpleMemberInvocationExpressionInfo(invocation);
 
-            if (invocationInfo.Success)
+            if (!invocationInfo.Success)
+                return;
+
+            string methodName = invocationInfo.NameText;
+
+            switch (invocationInfo.Arguments.Count)
             {
-                if (!invocation.SpanContainsDirectives())
-                    UseRegexInstanceInsteadOfStaticMethodAnalysis.Analyze(context, invocationInfo);
-
-                string methodName = invocationInfo.NameText;
-
-                AvoidNullReferenceExceptionAnalyzer.Analyze(context, invocationInfo);
-
-                CallStringConcatInsteadOfStringJoinAnalysis.Analyze(context, invocationInfo);
-
-                int argumentCount = invocationInfo.Arguments.Count;
-
-                switch (argumentCount)
-                {
-                    case 0:
+                case 0:
+                    {
+                        switch (methodName)
                         {
-                            switch (methodName)
-                            {
-                                case "Any":
+                            case "Any":
+                                {
+                                    UseCountOrLengthPropertyInsteadOfAnyMethodAnalysis.Analyze(context, invocationInfo);
+                                    OptimizeLinqMethodCallAnalysis.AnalyzeWhere(context, invocationInfo);
+                                    break;
+                                }
+                            case "Cast":
+                                {
+                                    OptimizeLinqMethodCallAnalysis.AnalyzeWhereAndCast(context, invocationInfo);
+                                    RemoveRedundantCastAnalyzer.Analyze(context, invocationInfo);
+                                    break;
+                                }
+                            case "Count":
+                                {
+                                    UseInsteadOfCountMethodAnalysis.Analyze(context, invocationInfo);
+                                    OptimizeLinqMethodCallAnalysis.AnalyzeWhere(context, invocationInfo);
+                                    break;
+                                }
+                            case "First":
+                                {
+                                    if (!invocationInfo.Expression.IsKind(SyntaxKind.InvocationExpression)
+                                        && UseElementAccessInsteadOfFirstAnalysis.IsFixable(invocationInfo, context.SemanticModel, context.CancellationToken))
                                     {
-                                        UseCountOrLengthPropertyInsteadOfAnyMethodAnalysis.Analyze(context, invocationInfo);
+                                        context.ReportDiagnostic(DiagnosticDescriptors.UseElementAccessInsteadOfFirst, invocationInfo.Name);
+                                    }
 
-                                        OptimizeLinqMethodCallAnalysis.AnalyzeWhere(context, invocationInfo);
-                                        break;
-                                    }
-                                case "Cast":
-                                    {
-                                        OptimizeLinqMethodCallAnalysis.AnalyzeWhereAndCast(context, invocationInfo);
-                                        RemoveRedundantCastAnalyzer.Analyze(context, invocationInfo);
-                                        break;
-                                    }
-                                case "Count":
-                                    {
-                                        UseInsteadOfCountMethodAnalysis.Analyze(context, invocationInfo);
-                                        OptimizeLinqMethodCallAnalysis.AnalyzeWhere(context, invocationInfo);
-                                        break;
-                                    }
-                                case "First":
-                                    {
-                                        if (!invocationInfo.Expression.IsKind(SyntaxKind.InvocationExpression)
-                                            && UseElementAccessInsteadOfFirstAnalysis.IsFixable(invocationInfo, context.SemanticModel, context.CancellationToken))
-                                        {
-                                            context.ReportDiagnostic(DiagnosticDescriptors.UseElementAccessInsteadOfFirst, invocationInfo.Name);
-                                        }
+                                    OptimizeLinqMethodCallAnalysis.AnalyzeWhere(context, invocationInfo);
+                                    OptimizeLinqMethodCallAnalysis.AnalyzeFirst(context, invocationInfo);
+                                    break;
+                                }
+                            case "ToString":
+                                {
+                                    RemoveRedundantToStringCallAnalysis.Analyze(context, invocationInfo);
+                                    UseNameOfOperatorAnalyzer.Analyze(context, invocationInfo);
+                                    break;
+                                }
+                            case "ToLower":
+                            case "ToLowerInvariant":
+                            case "ToUpper":
+                            case "ToUpperInvariant":
+                                {
+                                    UseStringComparisonAnalysis.Analyze(context, invocationInfo);
+                                    break;
+                                }
+                            case "FirstOrDefault":
+                            case "Last":
+                            case "LastOrDefault":
+                            case "LongCount":
+                            case "Single":
+                            case "SingleOrDefault":
+                                {
+                                    OptimizeLinqMethodCallAnalysis.AnalyzeWhere(context, invocationInfo);
+                                    OptimizeLinqMethodCallAnalysis.AnalyzeFirstOrDefault(context, invocationInfo);
+                                    break;
+                                }
+                            case "OfType":
+                                {
+                                    if (!invocation.SpanContainsDirectives())
+                                        OptimizeLinqMethodCallAnalysis.AnalyzeOfType(context, invocationInfo);
 
-                                        OptimizeLinqMethodCallAnalysis.AnalyzeWhere(context, invocationInfo);
-                                        OptimizeLinqMethodCallAnalysis.AnalyzeFirst(context, invocationInfo);
-                                        break;
-                                    }
-                                case "ToString":
-                                    {
-                                        RemoveRedundantToStringCallAnalysis.Analyze(context, invocationInfo);
-                                        UseNameOfOperatorAnalyzer.Analyze(context, invocationInfo);
-                                        break;
-                                    }
-                                case "ToLower":
-                                case "ToLowerInvariant":
-                                case "ToUpper":
-                                case "ToUpperInvariant":
-                                    {
-                                        UseStringComparisonAnalysis.Analyze(context, invocationInfo);
-                                        break;
-                                    }
-                                case "FirstOrDefault":
-                                case "Last":
-                                case "LastOrDefault":
-                                case "LongCount":
-                                case "Single":
-                                case "SingleOrDefault":
-                                    {
-                                        OptimizeLinqMethodCallAnalysis.AnalyzeWhere(context, invocationInfo);
-                                        break;
-                                    }
-                                case "OfType":
-                                    {
-                                        if (!invocation.SpanContainsDirectives())
-                                            OptimizeLinqMethodCallAnalysis.AnalyzeOfType(context, invocationInfo);
-
-                                        break;
-                                    }
-                            }
-
-                            break;
+                                    break;
+                                }
+                            case "ToCharArray":
+                                {
+                                    RemoveRedundantStringToCharArrayCallAnalysis.Analyze(context, invocationInfo);
+                                    break;
+                                }
                         }
-                    case 1:
+
+                        break;
+                    }
+                case 1:
+                    {
+                        switch (methodName)
                         {
-                            switch (methodName)
-                            {
-                                case "All":
-                                case "Any":
+                            case "All":
+                            case "Any":
+                                {
+                                    SimplifyLogicalNegationAnalyzer.Analyze(context, invocationInfo);
+
+                                    if (!invocation.SpanContainsDirectives())
+                                        OptimizeLinqMethodCallAnalysis.AnalyzeWhereAndAny(context, invocationInfo);
+
+                                    break;
+                                }
+                            case "ElementAt":
+                                {
+                                    if (!invocationInfo.Expression.IsKind(SyntaxKind.InvocationExpression)
+                                        && UseElementAccessInsteadOfElementAtAnalysis.IsFixable(invocationInfo, context.SemanticModel, context.CancellationToken))
                                     {
-                                        SimplifyLogicalNegationAnalyzer.Analyze(context, invocationInfo);
-
-                                        if (!invocation.SpanContainsDirectives())
-                                            OptimizeLinqMethodCallAnalysis.AnalyzeWhereAndAny(context, invocationInfo);
-
-                                        break;
+                                        context.ReportDiagnostic(DiagnosticDescriptors.UseElementAccessInsteadOfElementAt, invocationInfo.Name);
                                     }
-                                case "ElementAt":
+
+                                    break;
+                                }
+                            case "FirstOrDefault":
+                                {
+                                    OptimizeLinqMethodCallAnalysis.AnalyzeFirstOrDefault(context, invocationInfo);
+                                    break;
+                                }
+                            case "Where":
+                                {
+                                    CombineEnumerableWhereMethodChainAnalysis.Analyze(context, invocationInfo);
+                                    break;
+                                }
+                            case "HasFlag":
+                                {
+                                    if (!invocation.SpanContainsDirectives()
+                                        && UseBitwiseOperationInsteadOfCallingHasFlagAnalysis.IsFixable(invocationInfo, context.SemanticModel, context.CancellationToken))
                                     {
-                                        if (!invocationInfo.Expression.IsKind(SyntaxKind.InvocationExpression)
-                                            && UseElementAccessInsteadOfElementAtAnalysis.IsFixable(invocationInfo, context.SemanticModel, context.CancellationToken))
-                                        {
-                                            context.ReportDiagnostic(DiagnosticDescriptors.UseElementAccessInsteadOfElementAt, invocationInfo.Name);
-                                        }
-
-                                        break;
+                                        context.ReportDiagnostic(DiagnosticDescriptors.UseBitwiseOperationInsteadOfCallingHasFlag, invocation);
                                     }
-                                case "Where":
-                                    {
-                                        CombineEnumerableWhereMethodChainAnalysis.Analyze(context, invocationInfo);
-                                        break;
-                                    }
-                            }
 
-                            break;
+                                    break;
+                                }
+                            case "Select":
+                                {
+                                    CallCastInsteadOfSelectAnalysis.Analyze(context, invocationInfo);
+                                    break;
+                                }
+                            case "OrderBy":
+                                {
+                                    CallThenByInsteadOfOrderByAnalysis.Analyze(context, invocationInfo);
+                                    break;
+                                }
                         }
-                }
 
-                switch (methodName)
-                {
-                    case "Append":
-                    case "AppendLine":
-                    case "AppendFormat":
-                    case "Insert":
+                        break;
+                    }
+                case 2:
+                    {
+                        switch (invocationInfo.NameText)
                         {
-                            OptimizeStringBuilderAppendCallAnalysis.Analyze(context, invocationInfo);
-                            break;
+                            case "IsMatch":
+                            case "Match":
+                            case "Matches":
+                            case "Split":
+                                {
+                                    if (!invocation.SpanContainsDirectives())
+                                        UseRegexInstanceInsteadOfStaticMethodAnalysis.Analyze(context, invocationInfo);
+
+                                    break;
+                                }
+                            case "Select":
+                                {
+                                    CallCastInsteadOfSelectAnalysis.Analyze(context, invocationInfo);
+                                    break;
+                                }
+                            case "OrderBy":
+                                {
+                                    CallThenByInsteadOfOrderByAnalysis.Analyze(context, invocationInfo);
+                                    break;
+                                }
                         }
-                    case "Select":
+
+                        break;
+                    }
+                case 3:
+                    {
+                        switch (invocationInfo.NameText)
                         {
-                            if (argumentCount == 1
-                                || argumentCount == 2)
-                            {
-                                CallCastInsteadOfSelectAnalysis.Analyze(context, invocationInfo);
-                            }
+                            case "IsMatch":
+                            case "Match":
+                            case "Matches":
+                            case "Split":
+                            case "Replace":
+                                {
+                                    if (!invocation.SpanContainsDirectives())
+                                        UseRegexInstanceInsteadOfStaticMethodAnalysis.Analyze(context, invocationInfo);
 
-                            break;
+                                    break;
+                                }
+                            case "OrderBy":
+                                {
+                                    CallThenByInsteadOfOrderByAnalysis.Analyze(context, invocationInfo);
+                                    break;
+                                }
                         }
-                    case "OrderBy":
-                    case "OrderByDescending":
+
+                        break;
+                    }
+                case 4:
+                    {
+                        switch (invocationInfo.NameText)
                         {
-                            if (argumentCount == 1
-                                || argumentCount == 2
-                                || argumentCount == 3)
-                            {
-                                CallThenByInsteadOfOrderByAnalysis.Analyze(context, invocationInfo);
-                            }
+                            case "Replace":
+                                {
+                                    if (!invocation.SpanContainsDirectives())
+                                        UseRegexInstanceInsteadOfStaticMethodAnalysis.Analyze(context, invocationInfo);
 
-                            break;
+                                    break;
+                                }
                         }
-                    case "FirstOrDefault":
+
+                        break;
+                    }
+                default:
+                    {
+                        switch (methodName)
                         {
-                            if (argumentCount == 0
-                                || argumentCount == 1)
-                            {
-                                OptimizeLinqMethodCallAnalysis.AnalyzeFirstOrDefault(context, invocationInfo);
-                            }
-
-                            break;
+                            case "ElementAtOrDefault":
+                            case "FirstOrDefault":
+                            case "LastOrDefault":
+                                {
+                                    AvoidNullReferenceExceptionAnalyzer.Analyze(context, invocationInfo);
+                                    break;
+                                }
+                            case "Append":
+                            case "AppendLine":
+                            case "AppendFormat":
+                            case "Insert":
+                                {
+                                    OptimizeStringBuilderAppendCallAnalysis.Analyze(context, invocationInfo);
+                                    break;
+                                }
+                            case "Join":
+                                {
+                                    CallStringConcatInsteadOfStringJoinAnalysis.Analyze(context, invocationInfo);
+                                    break;
+                                }
                         }
-                }
 
-                if (UseMethodChainingAnalysis.IsFixable(invocationInfo, context.SemanticModel, context.CancellationToken))
-                    context.ReportDiagnostic(DiagnosticDescriptors.UseMethodChaining, invocationInfo.InvocationExpression);
+                        break;
+                    }
             }
+
+            if (UseMethodChainingAnalysis.IsFixable(invocationInfo, context.SemanticModel, context.CancellationToken))
+                context.ReportDiagnostic(DiagnosticDescriptors.UseMethodChaining, invocationInfo.InvocationExpression);
         }
     }
 }
