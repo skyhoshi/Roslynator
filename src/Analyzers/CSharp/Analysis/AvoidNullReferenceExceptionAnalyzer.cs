@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -43,10 +44,23 @@ namespace Roslynator.CSharp.Analysis
             if (methodSymbol?.ReturnType.IsReferenceType != true)
                 return;
 
-            if (methodSymbol.ContainingType?.Equals(context.SemanticModel.GetTypeByMetadataName(MetadataNames.System_Linq_Enumerable)) != true)
+            INamedTypeSymbol containingType = methodSymbol.ContainingType;
+
+            if (containingType == null)
                 return;
 
-            ReportDiagnostic(context, expression);
+            if (methodSymbol.IsExtensionMethod)
+            {
+                if (containingType.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Linq_Enumerable))
+                    ReportDiagnostic(context, expression);
+            }
+            else if (!methodSymbol.IsStatic)
+            {
+                Debug.Assert(containingType.Implements(SpecialType.System_Collections_Generic_IEnumerable_T, allInterfaces: true), "Type does not implement IEnumerable<T>");
+
+                if (containingType.Implements(SpecialType.System_Collections_Generic_IEnumerable_T, allInterfaces: true))
+                    ReportDiagnostic(context, expression);
+            }
         }
 
         public static void AnalyzeAsExpression(SyntaxNodeAnalysisContext context)

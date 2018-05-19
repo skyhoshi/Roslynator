@@ -70,7 +70,9 @@ namespace Roslynator.CSharp.Analysis
 
             string methodName = invocationInfo.NameText;
 
-            switch (invocationInfo.Arguments.Count)
+            int argumentCount = invocationInfo.Arguments.Count;
+
+            switch (argumentCount)
             {
                 case 0:
                     {
@@ -121,6 +123,11 @@ namespace Roslynator.CSharp.Analysis
                                     break;
                                 }
                             case "FirstOrDefault":
+                                {
+                                    OptimizeLinqMethodCallAnalysis.AnalyzeWhere(context, invocationInfo);
+                                    OptimizeLinqMethodCallAnalysis.AnalyzeFirstOrDefault(context, invocationInfo);
+                                    break;
+                                }
                             case "Last":
                             case "LastOrDefault":
                             case "LongCount":
@@ -128,7 +135,6 @@ namespace Roslynator.CSharp.Analysis
                             case "SingleOrDefault":
                                 {
                                     OptimizeLinqMethodCallAnalysis.AnalyzeWhere(context, invocationInfo);
-                                    OptimizeLinqMethodCallAnalysis.AnalyzeFirstOrDefault(context, invocationInfo);
                                     break;
                                 }
                             case "OfType":
@@ -272,31 +278,35 @@ namespace Roslynator.CSharp.Analysis
 
                         break;
                     }
-                default:
+            }
+
+            switch (methodName)
+            {
+                case "ElementAtOrDefault":
+                case "FirstOrDefault":
+                case "LastOrDefault":
                     {
-                        switch (methodName)
+                        if (argumentCount == 0
+                            || argumentCount == 1
+                            || argumentCount == 2)
                         {
-                            case "ElementAtOrDefault":
-                            case "FirstOrDefault":
-                            case "LastOrDefault":
-                                {
-                                    AvoidNullReferenceExceptionAnalyzer.Analyze(context, invocationInfo);
-                                    break;
-                                }
-                            case "Append":
-                            case "AppendLine":
-                            case "AppendFormat":
-                            case "Insert":
-                                {
-                                    OptimizeStringBuilderAppendCallAnalysis.Analyze(context, invocationInfo);
-                                    break;
-                                }
-                            case "Join":
-                                {
-                                    CallStringConcatInsteadOfStringJoinAnalysis.Analyze(context, invocationInfo);
-                                    break;
-                                }
+                            AvoidNullReferenceExceptionAnalyzer.Analyze(context, invocationInfo);
                         }
+
+                        break;
+                    }
+                case "Append":
+                case "AppendLine":
+                case "AppendFormat":
+                case "Insert":
+                    {
+                        OptimizeStringBuilderAppendCallAnalysis.Analyze(context, invocationInfo);
+                        break;
+                    }
+                case "Join":
+                    {
+                        if (argumentCount >= 2)
+                            CallStringConcatInsteadOfStringJoinAnalysis.Analyze(context, invocationInfo);
 
                         break;
                     }

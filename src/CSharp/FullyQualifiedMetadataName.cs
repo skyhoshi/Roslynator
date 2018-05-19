@@ -79,10 +79,16 @@ namespace Roslynator
 
         public override string ToString()
         {
+            return ToString(SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces);
+        }
+
+        public string ToString(SymbolDisplayTypeQualificationStyle typeQualificationStyle)
+        {
             if (IsDefault)
                 return "";
 
-            if (Namespaces.Any())
+            if (Namespaces.Any()
+                && typeQualificationStyle == SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces)
             {
                 if (ContainingTypes.Any())
                 {
@@ -93,7 +99,8 @@ namespace Roslynator
                     return $"{Namespace}.{Name}";
                 }
             }
-            else if (ContainingTypes.Any())
+            else if (ContainingTypes.Any()
+                && typeQualificationStyle == SymbolDisplayTypeQualificationStyle.NameAndContainingTypes)
             {
                 return $"{string.Join("+", ContainingTypes)}+{Name}";
             }
@@ -107,7 +114,7 @@ namespace Roslynator
                 && Equals(other);
         }
 
-        public bool Equals(ISymbol symbol)
+        internal bool Equals(ISymbol symbol)
         {
             if (symbol == null)
                 return false;
