@@ -38,73 +38,57 @@ namespace Roslynator.CSharp
             if (propertyName != null)
                 return (propertyName.Length > 0) ? propertyName : null;
 
-            INamedTypeSymbol constructedFrom = null;
+            ITypeSymbol originalDefinition = typeSymbol.OriginalDefinition;
 
-            if (symbolKind == SymbolKind.NamedType)
+            if (!typeSymbol.Equals(originalDefinition))
             {
-                constructedFrom = ((INamedTypeSymbol)typeSymbol).ConstructedFrom;
-
-                propertyName = GetCountOrLengthPropertyName(constructedFrom.SpecialType);
+                propertyName = GetCountOrLengthPropertyName(originalDefinition.SpecialType);
 
                 if (propertyName != null)
                     return (propertyName.Length > 0) ? propertyName : null;
             }
 
-            if (typeSymbol.ImplementsAny(
+            if (originalDefinition.ImplementsAny(
                 SpecialType.System_Collections_Generic_ICollection_T,
                 SpecialType.System_Collections_Generic_IReadOnlyCollection_T,
                 allInterfaces: true))
             {
-                if (typeSymbol.TypeKind == TypeKind.Interface)
+                if (originalDefinition.TypeKind == TypeKind.Interface)
                     return "Count";
 
                 int position = expression.SpanStart;
 
-                if (HasAccessibleProperty(typeSymbol, "Count", semanticModel, position))
-                    return "Count";
-
-                if (HasAccessibleProperty(typeSymbol, "Length", semanticModel, position))
-                    return "Length";
-            }
-
-            return null;
-        }
-
-        private static bool HasAccessibleProperty(
-            ITypeSymbol typeSymbol,
-            string propertyName,
-            SemanticModel semanticModel,
-            int position)
-        {
-            foreach (ISymbol symbol in typeSymbol.GetMembers(propertyName))
-            {
-                if (symbol.Kind == SymbolKind.Property
-                    && semanticModel.IsAccessible(position, symbol))
+                foreach (ISymbol symbol in typeSymbol.GetMembers())
                 {
-                    return true;
+                    if (symbol.Kind == SymbolKind.Property
+                        && StringUtility.Equals(symbol.Name, "Count", "Length")
+                        && semanticModel.IsAccessible(position, symbol))
+                    {
+                        return symbol.Name;
+                    }
                 }
             }
 
-            return false;
-        }
+            return null;
 
-        private static string GetCountOrLengthPropertyName(SpecialType specialType)
-        {
-            switch (specialType)
+            string GetCountOrLengthPropertyName(SpecialType specialType)
             {
-                case SpecialType.None:
-                    return null;
-                case SpecialType.System_String:
-                case SpecialType.System_Array:
-                    return "Length";
-                case SpecialType.System_Collections_Generic_IList_T:
-                case SpecialType.System_Collections_Generic_ICollection_T:
-                case SpecialType.System_Collections_Generic_IReadOnlyList_T:
-                case SpecialType.System_Collections_Generic_IReadOnlyCollection_T:
-                    return "Count";
-            }
+                switch (specialType)
+                {
+                    case SpecialType.None:
+                        return null;
+                    case SpecialType.System_String:
+                    case SpecialType.System_Array:
+                        return "Length";
+                    case SpecialType.System_Collections_Generic_IList_T:
+                    case SpecialType.System_Collections_Generic_ICollection_T:
+                    case SpecialType.System_Collections_Generic_IReadOnlyList_T:
+                    case SpecialType.System_Collections_Generic_IReadOnlyCollection_T:
+                        return "Count";
+                }
 
-            return "";
+                return "";
+            }
         }
 
         public static bool IsNamespaceInScope(

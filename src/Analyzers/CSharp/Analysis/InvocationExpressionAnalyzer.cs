@@ -22,9 +22,6 @@ namespace Roslynator.CSharp.Analysis
                 return ImmutableArray.Create(
                     DiagnosticDescriptors.OptimizeLinqMethodCall,
                     DiagnosticDescriptors.UseCountOrLengthPropertyInsteadOfAnyMethod,
-                    DiagnosticDescriptors.UseCountOrLengthPropertyInsteadOfCountMethod,
-                    DiagnosticDescriptors.CallAnyInsteadOfCount,
-                    DiagnosticDescriptors.CallSkipAndAnyInsteadOfCount,
                     DiagnosticDescriptors.UseBitwiseOperationInsteadOfCallingHasFlag,
                     DiagnosticDescriptors.RemoveRedundantToStringCall,
                     DiagnosticDescriptors.RemoveRedundantStringToCharArrayCall,
@@ -92,7 +89,7 @@ namespace Roslynator.CSharp.Analysis
                                 }
                             case "Count":
                                 {
-                                    UseInsteadOfCountMethodAnalysis.Analyze(context, invocationInfo);
+                                    OptimizeLinqMethodCallAnalysis.AnalyzeCount(context, invocationInfo);
                                     OptimizeLinqMethodCallAnalysis.AnalyzeWhere(context, invocationInfo);
                                     break;
                                 }

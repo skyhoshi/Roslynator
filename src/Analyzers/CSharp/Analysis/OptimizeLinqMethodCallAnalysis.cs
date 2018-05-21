@@ -379,5 +379,128 @@ namespace Roslynator.CSharp.Analysis
                 invocationInfo.Name.GetLocation(),
                 ImmutableDictionary.CreateRange(new KeyValuePair<string, string>[] { new KeyValuePair<string, string>("MethodName", "Peek") }));
         }
+
+        public static void AnalyzeCount(SyntaxNodeAnalysisContext context, SimpleMemberInvocationExpressionInfo invocationInfo)
+        {
+            InvocationExpressionSyntax invocationExpression = invocationInfo.InvocationExpression;
+
+            SemanticModel semanticModel = context.SemanticModel;
+            CancellationToken cancellationToken = context.CancellationToken;
+
+            IMethodSymbol methodSymbol = semanticModel.GetReducedExtensionMethodInfo(invocationExpression, cancellationToken).Symbol;
+
+            if (methodSymbol == null)
+                return;
+
+            if (!SymbolUtility.IsLinqExtensionOfIEnumerableOfTWithoutParameters(methodSymbol, "Count", semanticModel))
+                return;
+
+            string propertyName = CSharpUtility.GetCountOrLengthPropertyName(invocationInfo.Expression, semanticModel, cancellationToken);
+
+            if (propertyName != null)
+            {
+                context.ReportDiagnostic(
+                    DiagnosticDescriptors.OptimizeLinqMethodCall,
+                    Location.Create(context.Node.SyntaxTree, TextSpan.FromBounds(invocationInfo.Name.SpanStart, invocationExpression.Span.End)),
+                    ImmutableDictionary.CreateRange(new KeyValuePair<string, string>[] { new KeyValuePair<string, string>("PropertyName", propertyName) }),
+                    propertyName);
+
+                return;
+            }
+
+            SyntaxNode parent = invocationExpression.Parent;
+
+            switch (parent.Kind())
+            {
+                case SyntaxKind.EqualsExpression:
+                case SyntaxKind.NotEqualsExpression:
+                    {
+                        var equalsExpression = (BinaryExpressionSyntax)parent;
+
+                        if (equalsExpression.Left == invocationExpression)
+                        {
+                            if (equalsExpression.Right.IsNumericLiteralExpression("0"))
+                                ReportDiagnostic();
+                        }
+                        else if (equalsExpression.Left.IsNumericLiteralExpression("0"))
+                        {
+                            ReportDiagnostic();
+                        }
+
+                        break;
+                    }
+                case SyntaxKind.GreaterThanExpression:
+                    {
+                        var equalsExpression = (BinaryExpressionSyntax)parent;
+
+                        if (equalsExpression.Left == invocationExpression)
+                        {
+                            if (equalsExpression.Right.IsNumericLiteralExpression("0"))
+                                ReportDiagnostic();
+                        }
+                        else if (equalsExpression.Left.IsNumericLiteralExpression("1"))
+                        {
+                            ReportDiagnostic();
+                        }
+
+                        break;
+                    }
+                case SyntaxKind.GreaterThanOrEqualExpression:
+                    {
+                        var equalsExpression = (BinaryExpressionSyntax)parent;
+
+                        if (equalsExpression.Left == invocationExpression)
+                        {
+                            if (equalsExpression.Right.IsNumericLiteralExpression("1"))
+                                ReportDiagnostic();
+                        }
+                        else if (equalsExpression.Left.IsNumericLiteralExpression("0"))
+                        {
+                            ReportDiagnostic();
+                        }
+
+                        break;
+                    }
+                case SyntaxKind.LessThanExpression:
+                    {
+                        var equalsExpression = (BinaryExpressionSyntax)parent;
+
+                        if (equalsExpression.Left == invocationExpression)
+                        {
+                            if (equalsExpression.Right.IsNumericLiteralExpression("1"))
+                                ReportDiagnostic();
+                        }
+                        else if (equalsExpression.Left.IsNumericLiteralExpression("0"))
+                        {
+                            ReportDiagnostic();
+                        }
+
+                        break;
+                    }
+                case SyntaxKind.LessThanOrEqualExpression:
+                    {
+                        var equalsExpression = (BinaryExpressionSyntax)parent;
+
+                        if (equalsExpression.Left == invocationExpression)
+                        {
+                            if (equalsExpression.Right.IsNumericLiteralExpression("0"))
+                                ReportDiagnostic();
+                        }
+                        else if (equalsExpression.Left.IsNumericLiteralExpression("1"))
+                        {
+                            ReportDiagnostic();
+                        }
+
+                        break;
+                    }
+            }
+
+            void ReportDiagnostic()
+            {
+                context.ReportDiagnostic(
+                    DiagnosticDescriptors.OptimizeLinqMethodCall,
+                    Location.Create(invocationExpression.SyntaxTree, TextSpan.FromBounds(invocationInfo.Name.SpanStart, invocationInfo.ArgumentList.Span.End)));
+            }
+        }
     }
 }

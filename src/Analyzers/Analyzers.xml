@@ -1732,6 +1732,22 @@ catch (Exception ex) // RCS1075
         <After><![CDATA[bool x = items.Any();]]></After>
       </Sample>
       <Sample>
+        <Before><![CDATA[if (enumerable.Count() != 0) // RCS1077
+{
+}]]></Before>
+        <After><![CDATA[if (enumerable.Any())
+{
+}]]></After>
+      </Sample>
+      <Sample>
+        <Before><![CDATA[if (listOfT.Count() == 1) // RCS1077
+{
+}]]></Before>
+        <After><![CDATA[if (listOfT.Count == 1)
+{
+}]]></After>
+      </Sample>
+      <Sample>
         <Before><![CDATA[var stack = new Stack<object>();
 // ...
 object x = stack.First(); // RCS1077]]></Before>
@@ -1820,7 +1836,7 @@ private string s2;]]></After>
       </Sample>
     </Samples>
   </Analyzer>
-  <Analyzer Identifier="UseCountOrLengthPropertyInsteadOfCountMethod">
+  <Analyzer Identifier="UseCountOrLengthPropertyInsteadOfCountMethod" IsObsolete="true">
     <Id>RCS1082</Id>
     <Title>Use 'Count/Length' property instead of 'Count' method.</Title>
     <MessageFormat>Use '{0}' property instead of 'Count' method.</MessageFormat>
@@ -1840,7 +1856,7 @@ private string s2;]]></After>
       </Sample>
     </Samples>
   </Analyzer>
-  <Analyzer Identifier="CallAnyInsteadOfCount">
+  <Analyzer Identifier="CallAnyInsteadOfCount" IsObsolete="true">
     <Id>RCS1083</Id>
     <Title>Call 'Enumerable.Any' instead of 'Enumerable.Count'.</Title>
     <MessageFormat>Call 'Enumerable.Any' instead of 'Enumerable.Count'.</MessageFormat>

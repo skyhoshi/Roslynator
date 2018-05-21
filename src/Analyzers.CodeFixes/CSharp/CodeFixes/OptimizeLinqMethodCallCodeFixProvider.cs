@@ -17,6 +17,7 @@ using Roslynator.CSharp.Analysis;
 using Roslynator.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Roslynator.CSharp.CSharpFactory;
+using static Roslynator.CSharp.RefactoringUtility;
 using static Roslynator.CSharp.SyntaxInfo;
 
 namespace Roslynator.CSharp.CodeFixes
@@ -136,8 +137,27 @@ namespace Roslynator.CSharp.CodeFixes
                             {
                                 codeAction = CodeAction.Create(
                                     "Call 'Peek' instead of 'First'",
-                                    ct => document.ReplaceNodeAsync(invocation, RefactoringUtility.ChangeInvokedMethodName(invocation, "Peek"), ct),
+                                    ct => document.ReplaceNodeAsync(invocation, ChangeInvokedMethodName(invocation, "Peek"), ct),
                                     base.GetEquivalenceKey(diagnostic, "CallPeekInsteadOfFirst"));
+                            }
+
+                            break;
+                        }
+                    case "Count":
+                        {
+                            if (diagnostic.Properties.TryGetValue("PropertyName", out string propertyName))
+                            {
+                                codeAction = CodeAction.Create(
+                                    $"Use '{propertyName}' property instead of calling 'Count'",
+                                    ct => UseCountOrLengthPropertyInsteadOfCountMethodAsync(document, invocation, diagnostic.Properties["PropertyName"], ct),
+                                    GetEquivalenceKey(diagnostic));
+                            }
+                            else if (invocation.Parent is BinaryExpressionSyntax binaryExpression)
+                            {
+                                codeAction = CodeAction.Create(
+                                    "Call 'Any' instead of 'Count'",
+                                    ct => CallAnyInsteadOfCountAsync(document, invocation, binaryExpression, ct),
+                                    GetEquivalenceKey(diagnostic));
                             }
 
                             break;
@@ -241,7 +261,7 @@ namespace Roslynator.CSharp.CodeFixes
 
             var invocation = (InvocationExpressionSyntax)nullCheck.Expression;
 
-            ExpressionSyntax newNode = RefactoringUtility.ChangeInvokedMethodName(invocation, "Any");
+            ExpressionSyntax newNode = ChangeInvokedMethodName(invocation, "Any");
 
             if (node.IsKind(SyntaxKind.EqualsExpression, SyntaxKind.IsPatternExpression))
                 newNode = LogicalNotExpression(newNode.TrimTrivia().Parenthesize());
@@ -333,6 +353,101 @@ namespace Roslynator.CSharp.CodeFixes
 
                 return document.ReplaceNodeAsync(invocationInfo.Name, newName, cancellationToken);
             }
+        }
+
+        public static Task<Document> UseCountOrLengthPropertyInsteadOfCountMethodAsync(
+            Document document,
+            InvocationExpressionSyntax invocation,
+            string propertyName,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var memberAccess = (MemberAccessExpressionSyntax)invocation.Expression;
+
+            IEnumerable<SyntaxTrivia> trailingTrivia = memberAccess.Name.GetTrailingTrivia().Where(f => !f.IsWhitespaceOrEndOfLineTrivia())
+                .Concat(invocation.ArgumentList.DescendantTrivia().Where(f => !f.IsWhitespaceOrEndOfLineTrivia()))
+                .Concat(invocation.GetTrailingTrivia());
+
+            IdentifierNameSyntax newName = IdentifierName(propertyName)
+                .WithLeadingTrivia(memberAccess.Name.GetLeadingTrivia())
+                .WithTrailingTrivia(trailingTrivia);
+
+            MemberAccessExpressionSyntax newNode = memberAccess.WithName(newName);
+
+            return document.ReplaceNodeAsync(invocation, newNode, cancellationToken);
+        }
+
+        private static Task<Document> CallAnyInsteadOfCountAsync(
+            Document document,
+            InvocationExpressionSyntax invocationExpression,
+            BinaryExpressionSyntax binaryExpression,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            ExpressionSyntax left = binaryExpression.Left;
+
+            ExpressionSyntax right = binaryExpression.Right;
+
+            ExpressionSyntax newNode = null;
+
+            switch (binaryExpression.Kind())
+            {
+                case SyntaxKind.EqualsExpression:
+                    {
+                        // Count() == 0 >>> !Any()
+                        newNode = ChangeInvokedMethodName(invocationExpression, "Any");
+                        newNode = LogicalNotExpression(newNode.Parenthesize());
+                        break;
+                    }
+                case SyntaxKind.NotEqualsExpression:
+                    {
+                        // Count() != 0 >>> Any()
+                        newNode = ChangeInvokedMethodName(invocationExpression, "Any");
+                        break;
+                    }
+                case SyntaxKind.LessThanExpression:
+                case SyntaxKind.LessThanOrEqualExpression:
+                    {
+                        if (invocationExpression == left)
+                        {
+                            // Count() < 1 >>> !Any()
+                            // Count() <= 0 >>> !Any()
+                            newNode = ChangeInvokedMethodName(invocationExpression, "Any");
+                            newNode = LogicalNotExpression(newNode.Parenthesize());
+                        }
+                        else
+                        {
+                            // 0 < Count() >>> Any()
+                            // 1 <= Count() >>> Any()
+                            newNode = ChangeInvokedMethodName(invocationExpression, "Any");
+                        }
+
+                        break;
+                    }
+                case SyntaxKind.GreaterThanExpression:
+                case SyntaxKind.GreaterThanOrEqualExpression:
+                    {
+                        if (invocationExpression == left)
+                        {
+                            // Count() > 0 >>> Any()
+                            // Count() >= 1 >>> Any()
+                            newNode = ChangeInvokedMethodName(invocationExpression, "Any");
+                        }
+                        else
+                        {
+                            // 1 > Count() >>> !Any()
+                            // 0 >= Count() >>> !Any()
+                            newNode = ChangeInvokedMethodName(invocationExpression, "Any");
+                            newNode = LogicalNotExpression(newNode.Parenthesize());
+                        }
+
+                        break;
+                    }
+            }
+
+            newNode = newNode
+                .WithTriviaFrom(binaryExpression)
+                .WithFormatterAnnotation();
+
+            return document.ReplaceNodeAsync(binaryExpression, newNode, cancellationToken);
         }
     }
 }

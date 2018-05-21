@@ -84,8 +84,6 @@ namespace Roslynator.CSharp
         public const string ThrowingOfNewNotImplementedException = "RCS1079";
         public const string UseCountOrLengthPropertyInsteadOfAnyMethod = "RCS1080";
         public const string SplitVariableDeclaration = "RCS1081";
-        public const string UseCountOrLengthPropertyInsteadOfCountMethod = "RCS1082";
-        public const string CallAnyInsteadOfCount = "RCS1083";
         public const string UseCoalesceExpressionInsteadOfConditionalExpression = "RCS1084";
         public const string UseAutoProperty = "RCS1085";
         public const string UseLinefeedAsNewLine = "RCS1086";

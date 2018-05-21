@@ -603,6 +603,70 @@ class C
 ");
         }
 
+        [Theory]
+        [InlineData("((List<object>)x).[|Count()|]", "((List<object>)x).Count")]
+        [InlineData("((IList<object>)x).[|Count()|]", "((IList<object>)x).Count")]
+        [InlineData("((IReadOnlyList<object>)x).[|Count()|]", "((IReadOnlyList<object>)x).Count")]
+        [InlineData("((Collection<object>)x).[|Count()|]", "((Collection<object>)x).Count")]
+        [InlineData("((ICollection<object>)x).[|Count()|]", "((ICollection<object>)x).Count")]
+        [InlineData("((IReadOnlyCollection<object>)x).[|Count()|]", "((IReadOnlyCollection<object>)x).Count")]
+        [InlineData("((ImmutableArray<object>)x).[|Count()|]", "((ImmutableArray<object>)x).Length")]
+        [InlineData("((object[])x).[|Count()|]", "((object[])x).Length")]
+        [InlineData("((string)x).[|Count()|]", "((string)x).Length")]
+        public async Task Test_OptimizeCountCall_Array(string fromData, string toData)
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
+
+class C
+{
+    void M()
+    {
+        object x = null;
+        var count = [||];
+    }
+}
+", fromData, toData);
+        }
+
+        [Theory]
+        [InlineData("items.[|Count()|] != 0", "items.Any()")]
+        [InlineData("items.[|Count()|] > 0", "items.Any()")]
+        [InlineData("items.[|Count()|] >= 1", "items.Any()")]
+        [InlineData("0 != items.[|Count()|]", "items.Any()")]
+        [InlineData("0 < items.[|Count()|]", "items.Any()")]
+        [InlineData("1 <= items.[|Count()|]", "items.Any()")]
+        [InlineData("items.[|Count()|] == 0", "!items.Any()")]
+        [InlineData("items.[|Count()|] < 1", "!items.Any()")]
+        [InlineData("items.[|Count()|] <= 0", "!items.Any()")]
+        [InlineData("0 == items.[|Count()|]", "!items.Any()")]
+        [InlineData("1 > items.[|Count()|]", "!items.Any()")]
+        [InlineData("0 >= items.[|Count()|]", "!items.Any()")]
+        public async Task Test_CallAnyInsteadOfCount(string fromData, string toData)
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+using System.Collections.Generic;
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        int i = 0;
+        IEnumerable<object> items = null;
+
+        if ([||])
+        {
+        }
+    }
+}
+", fromData, toData);
+        }
+
         [Fact]
         public async Task TestNoDiagnostic_CallOfTypeInsteadOfWhereAndCast()
         {
@@ -695,6 +759,57 @@ class C2
     public static explicit operator C(C2 value)
     {
         return new C();
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task TestNoDiagnostic_OptimizeCountCall_IEnumerableOfT()
+        {
+            await VerifyNoDiagnosticAsync(@"
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var count = Enumerable.Empty<object>().Count();
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task TestNoDiagnostic_CallAnyInsteadOfCount()
+        {
+            await VerifyNoDiagnosticAsync(@"
+using System.Collections.Generic;
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        int i = 0;
+        IEnumerable<object> items = null;
+
+        if (items.Count() == 1) { }
+        if (items.Count() == i) { }
+        if (items.Count() != 1) { }
+        if (items.Count() != i) { }
+        if (items.Count() > i) { }
+        if (items.Count() >= i) { }
+        if (items.Count() <= i) { }
+        if (items.Count() < i) { }
+        if (1 == items.Count()) { }
+        if (i == items.Count()) { }
+        if (1 != items.Count()) { }
+        if (i != items.Count()) { }
+        if (i < items.Count()) { }
+        if (i <= items.Count()) { }
+        if (i >= items.Count()) { }
+        if (i > items.Count()) { }
     }
 }
 ");

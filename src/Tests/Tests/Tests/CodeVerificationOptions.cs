@@ -32,7 +32,8 @@ namespace Roslynator.Tests
             "CS0649", // Field is never assigned to, and will always have its default value null
             "CS0660", // Type defines operator == or operator != but does not override Object.Equals(object o)
             "CS0661", // Type defines operator == or operator != but does not override Object.GetHashCode()
-            "CS8019" // Unnecessary using directive
+            "CS8019", // Unnecessary using directive
+            "CS8321" // The local function 'LF' is declared but never used
         ));
 
         public bool AllowNewCompilerDiagnostics { get; }

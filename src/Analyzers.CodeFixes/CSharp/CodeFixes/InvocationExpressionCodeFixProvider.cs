@@ -24,7 +24,6 @@ namespace Roslynator.CSharp.CodeFixes
             {
                 return ImmutableArray.Create(
                     DiagnosticIdentifiers.UseCountOrLengthPropertyInsteadOfAnyMethod,
-                    DiagnosticIdentifiers.UseCountOrLengthPropertyInsteadOfCountMethod,
                     DiagnosticIdentifiers.UseBitwiseOperationInsteadOfCallingHasFlag,
                     DiagnosticIdentifiers.RemoveRedundantToStringCall,
                     DiagnosticIdentifiers.RemoveRedundantStringToCharArrayCall,
@@ -66,18 +65,6 @@ namespace Roslynator.CSharp.CodeFixes
                             CodeAction codeAction = CodeAction.Create(
                                 $"Use '{propertyName}' property instead of calling 'Any'",
                                 cancellationToken => UseCountOrLengthPropertyInsteadOfAnyMethodRefactoring.RefactorAsync(context.Document, invocation, propertyName, cancellationToken),
-                                GetEquivalenceKey(diagnostic));
-
-                            context.RegisterCodeFix(codeAction, diagnostic);
-                            break;
-                        }
-                    case DiagnosticIdentifiers.UseCountOrLengthPropertyInsteadOfCountMethod:
-                        {
-                            string propertyName = diagnostic.Properties["PropertyName"];
-
-                            CodeAction codeAction = CodeAction.Create(
-                                $"Use '{propertyName}' property instead of calling 'Count'",
-                                cancellationToken => UseCountOrLengthPropertyInsteadOfCountMethodRefactoring.RefactorAsync(context.Document, invocation, diagnostic.Properties["PropertyName"], cancellationToken),
                                 GetEquivalenceKey(diagnostic));
 
                             context.RegisterCodeFix(codeAction, diagnostic);

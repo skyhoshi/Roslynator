@@ -949,30 +949,6 @@ namespace Roslynator.CSharp
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.SplitVariableDeclaration}", 
             customTags:         Array.Empty<string>());
 
-        /// <summary>RCS1082</summary>
-        public static readonly DiagnosticDescriptor UseCountOrLengthPropertyInsteadOfCountMethod = new DiagnosticDescriptor(
-            id:                 DiagnosticIdentifiers.UseCountOrLengthPropertyInsteadOfCountMethod, 
-            title:              "Use 'Count/Length' property instead of 'Count' method.", 
-            messageFormat:      "Use '{0}' property instead of 'Count' method.", 
-            category:           DiagnosticCategories.Performance, 
-            defaultSeverity:    DiagnosticSeverity.Warning, 
-            isEnabledByDefault: true, 
-            description:        null, 
-            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UseCountOrLengthPropertyInsteadOfCountMethod}", 
-            customTags:         Array.Empty<string>());
-
-        /// <summary>RCS1083</summary>
-        public static readonly DiagnosticDescriptor CallAnyInsteadOfCount = new DiagnosticDescriptor(
-            id:                 DiagnosticIdentifiers.CallAnyInsteadOfCount, 
-            title:              "Call 'Enumerable.Any' instead of 'Enumerable.Count'.", 
-            messageFormat:      "Call 'Enumerable.Any' instead of 'Enumerable.Count'.", 
-            category:           DiagnosticCategories.Performance, 
-            defaultSeverity:    DiagnosticSeverity.Warning, 
-            isEnabledByDefault: true, 
-            description:        null, 
-            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.CallAnyInsteadOfCount}", 
-            customTags:         Array.Empty<string>());
-
         /// <summary>RCS1084</summary>
         public static readonly DiagnosticDescriptor UseCoalesceExpressionInsteadOfConditionalExpression = new DiagnosticDescriptor(
             id:                 DiagnosticIdentifiers.UseCoalesceExpressionInsteadOfConditionalExpression, 

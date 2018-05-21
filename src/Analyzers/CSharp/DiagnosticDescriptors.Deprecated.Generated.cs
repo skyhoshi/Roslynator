@@ -70,6 +70,30 @@ namespace Roslynator.CSharp
         public static readonly DiagnosticDescriptor MergeLocalDeclarationWithReturnStatementFadeOut = MergeLocalDeclarationWithReturnStatement.CreateFadeOut();
 
         [Obsolete("", error: true)]
+        public static readonly DiagnosticDescriptor UseCountOrLengthPropertyInsteadOfCountMethod = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.UseCountOrLengthPropertyInsteadOfCountMethod, 
+            title:              "Use 'Count/Length' property instead of 'Count' method.", 
+            messageFormat:      "Use '{0}' property instead of 'Count' method.", 
+            category:           DiagnosticCategories.Performance, 
+            defaultSeverity:    DiagnosticSeverity.Warning, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UseCountOrLengthPropertyInsteadOfCountMethod}", 
+            customTags:         Array.Empty<string>());
+
+        [Obsolete("", error: true)]
+        public static readonly DiagnosticDescriptor CallAnyInsteadOfCount = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.CallAnyInsteadOfCount, 
+            title:              "Call 'Enumerable.Any' instead of 'Enumerable.Count'.", 
+            messageFormat:      "Call 'Enumerable.Any' instead of 'Enumerable.Count'.", 
+            category:           DiagnosticCategories.Performance, 
+            defaultSeverity:    DiagnosticSeverity.Warning, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.CallAnyInsteadOfCount}", 
+            customTags:         Array.Empty<string>());
+
+        [Obsolete("", error: true)]
         public static readonly DiagnosticDescriptor UseCSharp6DictionaryInitializer = new DiagnosticDescriptor(
             id:                 DiagnosticIdentifiers.UseCSharp6DictionaryInitializer, 
             title:              "Use C# 6.0 dictionary initializer.", 
