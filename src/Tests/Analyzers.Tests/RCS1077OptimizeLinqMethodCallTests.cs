@@ -476,7 +476,7 @@ class C
         }
 
         [Fact]
-        public async Task Test_ReplaceFirstWithPeek_Queue()
+        public async Task Test_CallPeekInsteadOfFirst_Queue()
         {
             await VerifyDiagnosticAndFixAsync(@"
 using System.Collections.Generic;
@@ -508,7 +508,7 @@ class C
         }
 
         [Fact]
-        public async Task Test_ReplaceFirstWithPeek_Stack()
+        public async Task Test_CallPeekInsteadOfFirst_Stack()
         {
             await VerifyDiagnosticAndFixAsync(@"
 using System.Collections.Generic;

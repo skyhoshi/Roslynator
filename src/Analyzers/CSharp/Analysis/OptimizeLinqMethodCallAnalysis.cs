@@ -356,7 +356,7 @@ namespace Roslynator.CSharp.Analysis
             if (!typeSymbol.IsMetadataName("Queue`1", "Stack`1"))
                 return;
 
-            if (!typeSymbol.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Collections_Generic))
+            if (!typeSymbol.ContainingNamespace.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Collections_Generic))
                 return;
 
             Report(context, invocationInfo.Name, property: new KeyValuePair<string, string>("MethodName", "Peek"));

@@ -168,7 +168,7 @@ namespace Roslynator.CSharp.CodeFixes
                 {
                     codeAction = CodeAction.Create(
                         $"Combine 'Where' and '{invocationInfo.NameText}'",
-                        ct => SimplifyLinqMethodChainAsync(document, invocationInfo, ct),
+                        ct => CallInsteadOfWhereAsync(document, invocationInfo, ct),
                         base.GetEquivalenceKey(diagnostic, "SimplifyLinqMethodChain"));
                 }
 
@@ -225,7 +225,7 @@ namespace Roslynator.CSharp.CodeFixes
             return document.ReplaceNodeAsync(invocationInfo.InvocationExpression, newNode, cancellationToken);
         }
 
-        private static Task<Document> SimplifyLinqMethodChainAsync(
+        private static Task<Document> CallInsteadOfWhereAsync(
             Document document,
             in SimpleMemberInvocationExpressionInfo invocationInfo,
             CancellationToken cancellationToken = default(CancellationToken))
