@@ -96,7 +96,7 @@ namespace Roslynator.CSharp.Analysis
                             case "First":
                                 {
                                     if (!invocationInfo.Expression.IsKind(SyntaxKind.InvocationExpression)
-                                        && UseElementAccessInsteadOfFirstAnalysis.IsFixable(invocationInfo, context.SemanticModel, context.CancellationToken))
+                                        && UseElementAccessAnalysis.IsFixableFirst(invocationInfo, context.SemanticModel, context.CancellationToken))
                                     {
                                         context.ReportDiagnostic(DiagnosticDescriptors.UseElementAccessInsteadOfFirst, invocationInfo.Name);
                                     }
@@ -167,7 +167,7 @@ namespace Roslynator.CSharp.Analysis
                             case "ElementAt":
                                 {
                                     if (!invocationInfo.Expression.IsKind(SyntaxKind.InvocationExpression)
-                                        && UseElementAccessInsteadOfElementAtAnalysis.IsFixable(invocationInfo, context.SemanticModel, context.CancellationToken))
+                                        && UseElementAccessAnalysis.IsFixableElementAt(invocationInfo, context.SemanticModel, context.CancellationToken))
                                     {
                                         context.ReportDiagnostic(DiagnosticDescriptors.UseElementAccessInsteadOfElementAt, invocationInfo.Name);
                                     }

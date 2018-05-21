@@ -8,7 +8,7 @@ using Roslynator.CSharp.Syntax;
 
 namespace Roslynator.CSharp.Refactorings
 {
-    internal static class UseElementAccessInsteadOfEnumerableMethodRefactoring
+    internal static class UseElementAccessRefactoring
     {
         public static async Task ComputeRefactoringsAsync(RefactoringContext context, InvocationExpressionSyntax invocation)
         {
@@ -26,7 +26,10 @@ namespace Roslynator.CSharp.Refactorings
                         if (invocationInfo.Arguments.Any())
                             break;
 
-                        if (!UseElementAccessInsteadOfFirstAnalysis.IsFixable(invocationInfo, semanticModel, context.CancellationToken))
+                        if (invocationInfo.Expression?.IsMissing != false)
+                            break;
+
+                        if (!UseElementAccessAnalysis.IsFixableFirst(invocationInfo, semanticModel, context.CancellationToken))
                             break;
 
                         context.RegisterRefactoring(
@@ -43,7 +46,10 @@ namespace Roslynator.CSharp.Refactorings
                         if (invocationInfo.Arguments.Any())
                             break;
 
-                        if (!UseElementAccessInsteadOfLastAnalysis.IsFixable(invocationInfo, semanticModel, context.CancellationToken))
+                        if (invocationInfo.Expression?.IsMissing != false)
+                            break;
+
+                        if (!UseElementAccessAnalysis.IsFixableLast(invocationInfo, semanticModel, context.CancellationToken))
                             break;
 
                         string propertyName = CSharpUtility.GetCountOrLengthPropertyName(invocationInfo.Expression, semanticModel, context.CancellationToken);
@@ -62,10 +68,15 @@ namespace Roslynator.CSharp.Refactorings
                     {
                         SemanticModel semanticModel = await context.GetSemanticModelAsync().ConfigureAwait(false);
 
-                        if (invocationInfo.Arguments.Count != 1)
+                        ExpressionSyntax argumentExpression = invocationInfo.Arguments.SingleOrDefault(shouldThrow: false)?.Expression;
+
+                        if (argumentExpression?.IsMissing != false)
                             break;
 
-                        if (!UseElementAccessInsteadOfElementAtAnalysis.IsFixable(invocationInfo, semanticModel, context.CancellationToken))
+                        if (invocationInfo.Expression?.IsMissing != false)
+                            break;
+
+                        if (!UseElementAccessAnalysis.IsFixableElementAt(invocationInfo, semanticModel, context.CancellationToken))
                             break;
 
                         context.RegisterRefactoring(

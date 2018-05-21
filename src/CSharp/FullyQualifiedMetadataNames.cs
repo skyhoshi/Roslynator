@@ -7,10 +7,10 @@ namespace Roslynator
     internal static class FullyQualifiedMetadataNames
     {
         public static FullyQualifiedMetadataName System_Collections_Generic { get; } = new FullyQualifiedMetadataName(null, Namespaces.System_Collections_Generic);
-        public static FullyQualifiedMetadataName System_Collections_Generic_List_1 { get; } = new FullyQualifiedMetadataName("List`1", Namespaces.System_Collections_Generic);
-        public static FullyQualifiedMetadataName System_Collections_Immutable_ImmutableArray_1 { get; } = new FullyQualifiedMetadataName("ImmutableArray`1", Namespaces.System_Collections_Immutable);
-        public static FullyQualifiedMetadataName System_Func_2 { get; } = new FullyQualifiedMetadataName("Func`2", Namespaces.System);
-        public static FullyQualifiedMetadataName System_Func_3 { get; } = new FullyQualifiedMetadataName("Func`3", Namespaces.System);
+        public static FullyQualifiedMetadataName System_Collections_Generic_List_T { get; } = new FullyQualifiedMetadataName("List`1", Namespaces.System_Collections_Generic);
+        public static FullyQualifiedMetadataName System_Collections_Immutable_ImmutableArray_T { get; } = new FullyQualifiedMetadataName("ImmutableArray`1", Namespaces.System_Collections_Immutable);
+        public static FullyQualifiedMetadataName System_Func_T2 { get; } = new FullyQualifiedMetadataName("Func`2", Namespaces.System);
+        public static FullyQualifiedMetadataName System_Func_T3 { get; } = new FullyQualifiedMetadataName("Func`3", Namespaces.System);
         public static FullyQualifiedMetadataName System_Linq_Enumerable { get; } = new FullyQualifiedMetadataName("Enumerable", Namespaces.System_Linq);
         public static FullyQualifiedMetadataName System_Linq_ImmutableArrayExtensions { get; } = new FullyQualifiedMetadataName("ImmutableArrayExtensions", Namespaces.System_Linq);
 

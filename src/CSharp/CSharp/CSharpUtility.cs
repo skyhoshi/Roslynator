@@ -25,70 +25,7 @@ namespace Roslynator.CSharp
             if (typeSymbol == null)
                 return null;
 
-            SymbolKind symbolKind = typeSymbol.Kind;
-
-            if (symbolKind == SymbolKind.ErrorType)
-                return null;
-
-            if (symbolKind == SymbolKind.ArrayType)
-                return "Length";
-
-            string propertyName = GetCountOrLengthPropertyName(typeSymbol.SpecialType);
-
-            if (propertyName != null)
-                return (propertyName.Length > 0) ? propertyName : null;
-
-            ITypeSymbol originalDefinition = typeSymbol.OriginalDefinition;
-
-            if (!typeSymbol.Equals(originalDefinition))
-            {
-                propertyName = GetCountOrLengthPropertyName(originalDefinition.SpecialType);
-
-                if (propertyName != null)
-                    return (propertyName.Length > 0) ? propertyName : null;
-            }
-
-            if (originalDefinition.ImplementsAny(
-                SpecialType.System_Collections_Generic_ICollection_T,
-                SpecialType.System_Collections_Generic_IReadOnlyCollection_T,
-                allInterfaces: true))
-            {
-                if (originalDefinition.TypeKind == TypeKind.Interface)
-                    return "Count";
-
-                int position = expression.SpanStart;
-
-                foreach (ISymbol symbol in typeSymbol.GetMembers())
-                {
-                    if (symbol.Kind == SymbolKind.Property
-                        && StringUtility.Equals(symbol.Name, "Count", "Length")
-                        && semanticModel.IsAccessible(position, symbol))
-                    {
-                        return symbol.Name;
-                    }
-                }
-            }
-
-            return null;
-
-            string GetCountOrLengthPropertyName(SpecialType specialType)
-            {
-                switch (specialType)
-                {
-                    case SpecialType.None:
-                        return null;
-                    case SpecialType.System_String:
-                    case SpecialType.System_Array:
-                        return "Length";
-                    case SpecialType.System_Collections_Generic_IList_T:
-                    case SpecialType.System_Collections_Generic_ICollection_T:
-                    case SpecialType.System_Collections_Generic_IReadOnlyList_T:
-                    case SpecialType.System_Collections_Generic_IReadOnlyCollection_T:
-                        return "Count";
-                }
-
-                return "";
-            }
+            return SymbolUtility.GetCountOrLengthPropertyName(typeSymbol, semanticModel, expression.SpanStart);
         }
 
         public static bool IsNamespaceInScope(

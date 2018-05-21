@@ -51,12 +51,7 @@ namespace Roslynator.CSharp.Analysis
 
             TextSpan span = TextSpan.FromBounds(invocationInfo2.Name.SpanStart, invocation.Span.End);
 
-            if (invocation.ContainsDirectives(span))
-                return;
-
-            context.ReportDiagnostic(
-                DiagnosticDescriptors.OptimizeLinqMethodCall,
-                Location.Create(invocation.SyntaxTree, span));
+            Report(context, invocation, span, checkDirectives: true);
         }
 
         public static void AnalyzeFirstOrDefault(SyntaxNodeAnalysisContext context, in SimpleMemberInvocationExpressionInfo invocationInfo)
@@ -98,12 +93,12 @@ namespace Roslynator.CSharp.Analysis
                             if (typeSymbol.Kind == SymbolKind.ArrayType
                                 && ((IArrayTypeSymbol)typeSymbol).Rank == 1)
                             {
-                                context.ReportDiagnostic(DiagnosticDescriptors.OptimizeLinqMethodCall, invocationInfo.Name);
+                                Report(context, invocationInfo.Name);
                                 return;
                             }
-                            else if (typeSymbol.OriginalDefinition.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Collections_Generic_List_1))
+                            else if (typeSymbol.OriginalDefinition.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Collections_Generic_List_T))
                             {
-                                context.ReportDiagnostic(DiagnosticDescriptors.OptimizeLinqMethodCall, invocationInfo.Name);
+                                Report(context, invocationInfo.Name);
                                 return;
                             }
                         }
@@ -159,7 +154,7 @@ namespace Roslynator.CSharp.Analysis
                 return;
             }
 
-            context.ReportDiagnostic(DiagnosticDescriptors.OptimizeLinqMethodCall, node);
+            Report(context, node);
         }
 
         public static void AnalyzeWhereAndAny(SyntaxNodeAnalysisContext context, in SimpleMemberInvocationExpressionInfo invocationInfo)
@@ -217,9 +212,7 @@ namespace Roslynator.CSharp.Analysis
             if (!lambda.Parameter.Identifier.ValueText.Equals(lambda2.Parameter.Identifier.ValueText, StringComparison.Ordinal))
                 return;
 
-            context.ReportDiagnostic(
-                DiagnosticDescriptors.OptimizeLinqMethodCall,
-                Location.Create(invocationExpression.SyntaxTree, TextSpan.FromBounds(invocationInfo2.Name.SpanStart, invocationExpression.Span.End)));
+            Report(context, invocationExpression, TextSpan.FromBounds(invocationInfo2.Name.SpanStart, invocationExpression.Span.End));
         }
 
         public static void AnalyzeWhereAndCast(SyntaxNodeAnalysisContext context, in SimpleMemberInvocationExpressionInfo invocationInfo)
@@ -237,10 +230,11 @@ namespace Roslynator.CSharp.Analysis
             if (!string.Equals(invocationInfo2.NameText, "Where", StringComparison.Ordinal))
                 return;
 
+            InvocationExpressionSyntax invocationExpression = invocationInfo.InvocationExpression;
             SemanticModel semanticModel = context.SemanticModel;
             CancellationToken cancellationToken = context.CancellationToken;
 
-            IMethodSymbol methodSymbol = semanticModel.GetReducedExtensionMethodInfo(invocationInfo.InvocationExpression, cancellationToken).Symbol;
+            IMethodSymbol methodSymbol = semanticModel.GetReducedExtensionMethodInfo(invocationExpression, cancellationToken).Symbol;
 
             if (methodSymbol == null)
                 return;
@@ -276,14 +270,9 @@ namespace Roslynator.CSharp.Analysis
             if (!typeSymbol.Equals(typeSymbol2))
                 return;
 
-            TextSpan span = TextSpan.FromBounds(invocationInfo2.Name.SpanStart, invocationInfo.InvocationExpression.Span.End);
+            TextSpan span = TextSpan.FromBounds(invocationInfo2.Name.SpanStart, invocationExpression.Span.End);
 
-            if (invocationInfo.InvocationExpression.ContainsDirectives(span))
-                return;
-
-            context.ReportDiagnostic(
-                DiagnosticDescriptors.OptimizeLinqMethodCall,
-                Location.Create(invocationInfo.InvocationExpression.SyntaxTree, span));
+            Report(context, invocationExpression, span, checkDirectives: true);
 
             SyntaxNode GetLambdaExpression(ExpressionSyntax expression)
             {
@@ -342,11 +331,7 @@ namespace Roslynator.CSharp.Analysis
             if (!typeSymbol2.Implements((INamedTypeSymbol)extensionMethodSymbolInfo.ReducedSymbol.ReturnType, allInterfaces: true))
                 return;
 
-            TextSpan span = TextSpan.FromBounds(invocationInfo.Name.SpanStart, invocationInfo.InvocationExpression.Span.End);
-
-            context.ReportDiagnostic(
-                DiagnosticDescriptors.OptimizeLinqMethodCall,
-                Location.Create(invocationInfo.InvocationExpression.SyntaxTree, span));
+            ReportNameAndArgumentList(context, invocationInfo);
         }
 
         public static void AnalyzeFirst(
@@ -374,13 +359,10 @@ namespace Roslynator.CSharp.Analysis
             if (!typeSymbol.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Collections_Generic))
                 return;
 
-            context.ReportDiagnostic(
-                DiagnosticDescriptors.OptimizeLinqMethodCall,
-                invocationInfo.Name.GetLocation(),
-                ImmutableDictionary.CreateRange(new KeyValuePair<string, string>[] { new KeyValuePair<string, string>("MethodName", "Peek") }));
+            Report(context, invocationInfo.Name, property: new KeyValuePair<string, string>("MethodName", "Peek"));
         }
 
-        public static void AnalyzeCount(SyntaxNodeAnalysisContext context, SimpleMemberInvocationExpressionInfo invocationInfo)
+        public static void AnalyzeCount(SyntaxNodeAnalysisContext context, in SimpleMemberInvocationExpressionInfo invocationInfo)
         {
             InvocationExpressionSyntax invocationExpression = invocationInfo.InvocationExpression;
 
@@ -395,16 +377,18 @@ namespace Roslynator.CSharp.Analysis
             if (!SymbolUtility.IsLinqExtensionOfIEnumerableOfTWithoutParameters(methodSymbol, "Count", semanticModel))
                 return;
 
-            string propertyName = CSharpUtility.GetCountOrLengthPropertyName(invocationInfo.Expression, semanticModel, cancellationToken);
+            ExpressionSyntax expression = invocationInfo.Expression;
+
+            ITypeSymbol typeSymbol = semanticModel.GetTypeSymbol(expression, cancellationToken);
+
+            if (typeSymbol == null)
+                return;
+
+            string propertyName = SymbolUtility.GetCountOrLengthPropertyName(typeSymbol, semanticModel, expression.SpanStart);
 
             if (propertyName != null)
             {
-                context.ReportDiagnostic(
-                    DiagnosticDescriptors.OptimizeLinqMethodCall,
-                    Location.Create(context.Node.SyntaxTree, TextSpan.FromBounds(invocationInfo.Name.SpanStart, invocationExpression.Span.End)),
-                    ImmutableDictionary.CreateRange(new KeyValuePair<string, string>[] { new KeyValuePair<string, string>("PropertyName", propertyName) }),
-                    propertyName);
-
+                ReportNameAndArgumentList(context, invocationInfo, property: new KeyValuePair<string, string>("PropertyName", propertyName), messageArgs: propertyName);
                 return;
             }
 
@@ -420,11 +404,11 @@ namespace Roslynator.CSharp.Analysis
                         if (equalsExpression.Left == invocationExpression)
                         {
                             if (equalsExpression.Right.IsNumericLiteralExpression("0"))
-                                ReportDiagnostic();
+                                ReportNameAndArgumentList(context, invocationInfo);
                         }
                         else if (equalsExpression.Left.IsNumericLiteralExpression("0"))
                         {
-                            ReportDiagnostic();
+                            ReportNameAndArgumentList(context, invocationInfo);
                         }
 
                         break;
@@ -436,11 +420,11 @@ namespace Roslynator.CSharp.Analysis
                         if (equalsExpression.Left == invocationExpression)
                         {
                             if (equalsExpression.Right.IsNumericLiteralExpression("0"))
-                                ReportDiagnostic();
+                                ReportNameAndArgumentList(context, invocationInfo);
                         }
                         else if (equalsExpression.Left.IsNumericLiteralExpression("1"))
                         {
-                            ReportDiagnostic();
+                            ReportNameAndArgumentList(context, invocationInfo);
                         }
 
                         break;
@@ -452,11 +436,11 @@ namespace Roslynator.CSharp.Analysis
                         if (equalsExpression.Left == invocationExpression)
                         {
                             if (equalsExpression.Right.IsNumericLiteralExpression("1"))
-                                ReportDiagnostic();
+                                ReportNameAndArgumentList(context, invocationInfo);
                         }
                         else if (equalsExpression.Left.IsNumericLiteralExpression("0"))
                         {
-                            ReportDiagnostic();
+                            ReportNameAndArgumentList(context, invocationInfo);
                         }
 
                         break;
@@ -468,11 +452,11 @@ namespace Roslynator.CSharp.Analysis
                         if (equalsExpression.Left == invocationExpression)
                         {
                             if (equalsExpression.Right.IsNumericLiteralExpression("1"))
-                                ReportDiagnostic();
+                                ReportNameAndArgumentList(context, invocationInfo);
                         }
                         else if (equalsExpression.Left.IsNumericLiteralExpression("0"))
                         {
-                            ReportDiagnostic();
+                            ReportNameAndArgumentList(context, invocationInfo);
                         }
 
                         break;
@@ -484,23 +468,73 @@ namespace Roslynator.CSharp.Analysis
                         if (equalsExpression.Left == invocationExpression)
                         {
                             if (equalsExpression.Right.IsNumericLiteralExpression("0"))
-                                ReportDiagnostic();
+                                ReportNameAndArgumentList(context, invocationInfo);
                         }
                         else if (equalsExpression.Left.IsNumericLiteralExpression("1"))
                         {
-                            ReportDiagnostic();
+                            ReportNameAndArgumentList(context, invocationInfo);
                         }
 
                         break;
                     }
             }
+        }
 
-            void ReportDiagnostic()
+        private static void ReportNameAndArgumentList(
+            SyntaxNodeAnalysisContext context,
+            in SimpleMemberInvocationExpressionInfo invocationInfo,
+            bool checkDirectives = false,
+            KeyValuePair<string, string>? property = null,
+            params string[] messageArgs)
+        {
+            Report(
+                context: context,
+                node: invocationInfo.InvocationExpression,
+                span: TextSpan.FromBounds(invocationInfo.Name.SpanStart, invocationInfo.ArgumentList.Span.End),
+                checkDirectives: checkDirectives,
+                property: property,
+                messageArgs: messageArgs);
+        }
+
+        private static void Report(
+            SyntaxNodeAnalysisContext context,
+            SyntaxNode node,
+            bool checkDirectives = false,
+            KeyValuePair<string, string>? property = null,
+            params string[] messageArgs)
+        {
+            Report(
+                context: context,
+                node: node,
+                span: node.Span,
+                checkDirectives: checkDirectives,
+                property: property,
+                messageArgs: messageArgs);
+        }
+
+        private static void Report(
+            SyntaxNodeAnalysisContext context,
+            SyntaxNode node,
+            TextSpan span,
+            bool checkDirectives = false,
+            KeyValuePair<string, string>? property = null,
+            params string[] messageArgs)
+        {
+            if (checkDirectives
+                && node.ContainsDirectives(span))
             {
-                context.ReportDiagnostic(
-                    DiagnosticDescriptors.OptimizeLinqMethodCall,
-                    Location.Create(invocationExpression.SyntaxTree, TextSpan.FromBounds(invocationInfo.Name.SpanStart, invocationInfo.ArgumentList.Span.End)));
+                return;
             }
+
+            ImmutableDictionary<string, string> properties = (property != null)
+                ? ImmutableDictionary.CreateRange(new KeyValuePair<string, string>[] { property.Value })
+                : ImmutableDictionary<string, string>.Empty;
+
+            context.ReportDiagnostic(
+                descriptor: DiagnosticDescriptors.OptimizeLinqMethodCall,
+                location: Location.Create(node.SyntaxTree, span),
+                properties: properties,
+                messageArgs: messageArgs);
         }
     }
 }
