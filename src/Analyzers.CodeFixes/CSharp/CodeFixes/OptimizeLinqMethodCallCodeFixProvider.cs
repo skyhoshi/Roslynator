@@ -14,9 +14,11 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using Roslynator.CodeFixes;
 using Roslynator.CSharp.Analysis;
+using Roslynator.CSharp.Refactorings;
 using Roslynator.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Roslynator.CSharp.CSharpFactory;
+using static Roslynator.CSharp.RefactoringUtility;
 using static Roslynator.CSharp.SyntaxInfo;
 
 namespace Roslynator.CSharp.CodeFixes
@@ -25,8 +27,6 @@ namespace Roslynator.CSharp.CodeFixes
     [Shared]
     public class OptimizeLinqMethodCallCodeFixProvider : BaseCodeFixProvider
     {
-        private const string Title = "Optimize LINQ method call";
-
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
             get { return ImmutableArray.Create(DiagnosticIdentifiers.OptimizeLinqMethodCall); }
@@ -46,129 +46,186 @@ namespace Roslynator.CSharp.CodeFixes
             }
 
             Diagnostic diagnostic = context.Diagnostics[0];
+            Document document = context.Document;
+            CancellationToken cancellationToken = context.CancellationToken;
 
-            switch (node.Kind())
+            SyntaxKind kind = node.Kind();
+
+            if (kind == SyntaxKind.InvocationExpression)
             {
-                case SyntaxKind.InvocationExpression:
-                    {
-                        var invocation = (InvocationExpressionSyntax)node;
+                var invocation = (InvocationExpressionSyntax)node;
 
-                        var memberAccess = (MemberAccessExpressionSyntax)invocation.Expression;
+                SimpleMemberInvocationExpressionInfo invocationInfo = SimpleMemberInvocationExpressionInfo(invocation);
 
-                        string name = memberAccess.Name.Identifier.ValueText;
-
-                        if (name == "Cast")
+                CodeAction codeAction = default;
+                switch (invocationInfo.NameText)
+                {
+                    case "Cast":
                         {
-                            CodeAction codeAction = CodeAction.Create(
-                                Title,
-                                cancellationToken => CallOfTypeInsteadOfWhereAndCastAsync(context.Document, invocation, cancellationToken),
-                                GetEquivalenceKey(diagnostic));
+                            codeAction = CodeAction.Create(
+                                "Call 'OfType' instead of 'Where' and 'Cast'",
+                                ct => CallOfTypeInsteadOfWhereAndCastAsync(document, invocationInfo, ct),
+                                base.GetEquivalenceKey(diagnostic, "CallOfTypeInsteadOfWhereAndCast"));
 
-                            context.RegisterCodeFix(codeAction, diagnostic);
-                        }
-                        else if (name == "Any"
-                            && invocation.ArgumentList.Arguments.Count == 1)
-                        {
-                            CodeAction codeAction = CodeAction.Create(
-                                Title,
-                                cancellationToken => CombineEnumerableWhereAndAnyAsync(context.Document, invocation, cancellationToken),
-                                GetEquivalenceKey(diagnostic));
-
-                            context.RegisterCodeFix(codeAction, diagnostic);
-                        }
-                        else if (name == "OfType")
-                        {
-                            CodeAction codeAction = CodeAction.Create(
-                                Title,
-                                cancellationToken => OptimizeOfTypeAsync(context.Document, invocation, cancellationToken),
-                                GetEquivalenceKey(diagnostic));
-
-                            context.RegisterCodeFix(codeAction, diagnostic);
-                        }
-                        else if (name == "Select")
-                        {
-                            CodeAction codeAction = CodeAction.Create(
-                                "Call 'Cast' instead of 'Select'",
-                                cancellationToken => CallCastInsteadOfSelectAsync(context.Document, invocation, cancellationToken),
-                                GetEquivalenceKey(diagnostic));
-
-                            context.RegisterCodeFix(codeAction, diagnostic);
                             break;
                         }
-                        else if (name == "FirstOrDefault"
-                            && invocation.ArgumentList.Arguments.Any())
+                    case "Any":
                         {
-                            CodeAction codeAction = CodeAction.Create(
-                                "Call 'Find' instead of 'FirstOrDefault'",
-                                cancellationToken => CallFindInsteadOfFirstOrDefaultAsync(context.Document, invocation, cancellationToken),
-                                GetEquivalenceKey(diagnostic));
+                            if (invocation.ArgumentList.Arguments.Count == 1)
+                            {
+                                codeAction = CodeAction.Create(
+                                    "Combine 'Where' and 'Any'",
+                                    ct => CombineWhereAndAnyAsync(document, invocationInfo, ct),
+                                    base.GetEquivalenceKey(diagnostic, "CombineWhereAndAny"));
+                            }
 
-                            context.RegisterCodeFix(codeAction, diagnostic);
+                            break;
                         }
-                        else if (name == "First"
-                            && diagnostic.Properties.TryGetValue("MethodName", out string methodName)
-                            && methodName == "Peek")
+                    case "OfType":
                         {
-                            CodeAction codeAction = CodeAction.Create(
-                                Title,
-                                cancellationToken => context.Document.ReplaceNodeAsync(invocation, RefactoringUtility.ChangeInvokedMethodName(invocation, "Peek"), cancellationToken),
-                                GetEquivalenceKey(diagnostic));
+                            TypeSyntax typeArgument = ((GenericNameSyntax)invocationInfo.Name).TypeArgumentList.Arguments.Single();
 
-                            context.RegisterCodeFix(codeAction, diagnostic);
+                            SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
+
+                            if (semanticModel.GetTypeSymbol(typeArgument, cancellationToken).IsValueType)
+                            {
+                                codeAction = CodeAction.Create(
+                                    "Remove redundant 'OfType' call",
+                                    ct =>
+                                    {
+                                        ExpressionSyntax newNode = invocationInfo.Expression.WithTrailingTrivia(invocation.GetTrailingTrivia());
+                                        return document.ReplaceNodeAsync(invocation, newNode, ct);
+                                    },
+                                    base.GetEquivalenceKey(diagnostic, "RemoveRedundantOfTypeCall"));
+                            }
+                            else
+                            {
+                                codeAction = CodeAction.Create(
+                                    "Call 'Where' instead of 'OfType'",
+                                    ct => CallWhereInsteadOfOfTypeAsync(document, invocationInfo, ct),
+                                    base.GetEquivalenceKey(diagnostic, "CallWhereInsteadOfOfType"));
+                            }
+
+                            break;
                         }
-                        else
+                    case "Select":
                         {
-                            CodeAction codeAction = CodeAction.Create(
-                                Title,
-                                cancellationToken => SimplifyLinqMethodChainAsync(context.Document, invocation, cancellationToken),
-                                GetEquivalenceKey(diagnostic));
+                            codeAction = CodeAction.Create(
+                                "Call 'Cast' instead of 'Select'",
+                                ct => CallCastInsteadOfSelectAsync(document, invocation, ct),
+                                base.GetEquivalenceKey(diagnostic, "CallCastInsteadOfSelect"));
 
-                            context.RegisterCodeFix(codeAction, diagnostic);
+                            break;
                         }
+                    case "FirstOrDefault":
+                        {
+                            if (invocation.ArgumentList.Arguments.Any())
+                            {
+                                SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
 
-                        break;
-                    }
-                case SyntaxKind.EqualsExpression:
-                case SyntaxKind.NotEqualsExpression:
-                case SyntaxKind.IsPatternExpression:
-                    {
-                        CodeAction codeAction = CodeAction.Create(
-                            Title,
-                            cancellationToken => SimplifyNullChckWithFirstOrDefaultAsync(context.Document, node, cancellationToken),
-                            base.GetEquivalenceKey(diagnostic));
+                                codeAction = CodeAction.Create(
+                                    "Call 'Find' instead of 'FirstOrDefault'",
+                                    ct => CallFindInsteadOfFirstOrDefaultAsync(document, invocationInfo, semanticModel, ct),
+                                    base.GetEquivalenceKey(diagnostic, "CallFindInsteadOfFirstOrDefault"));
+                            }
 
-                        context.RegisterCodeFix(codeAction, diagnostic);
-                        break;
-                    }
+                            break;
+                        }
+                    case "First":
+                        {
+                            if (diagnostic.Properties.TryGetValue("MethodName", out string methodName)
+                                && methodName == "Peek")
+                            {
+                                codeAction = CodeAction.Create(
+                                    "Call 'Peek' instead of 'First'",
+                                    ct => document.ReplaceNodeAsync(invocation, ChangeInvokedMethodName(invocation, "Peek"), ct),
+                                    base.GetEquivalenceKey(diagnostic, "CallPeekInsteadOfFirst"));
+                            }
+                            else if (!invocationInfo.Expression.IsKind(SyntaxKind.InvocationExpression))
+                            {
+                                codeAction = CodeAction.Create(
+                                    "Use [] instead of calling 'First'",
+                                    ct => UseElementAccessInsteadOfEnumerableMethodRefactoring.UseElementAccessInsteadOfFirstAsync(context.Document, invocation, ct),
+                                    GetEquivalenceKey(diagnostic, "UseElementAccessInsteadOfFirst"));
+                            }
+
+                            break;
+                        }
+                    case "Count":
+                        {
+                            if (diagnostic.Properties.TryGetValue("PropertyName", out string propertyName))
+                            {
+                                codeAction = CodeAction.Create(
+                                    $"Use '{propertyName}' property instead of calling 'Count'",
+                                    ct => UseCountOrLengthPropertyInsteadOfCountMethodAsync(document, invocation, diagnostic.Properties["PropertyName"], ct),
+                                    GetEquivalenceKey(diagnostic, "UseCountOrLengthPropertyInsteadOfCountMethod"));
+                            }
+                            else if (invocation.Parent is BinaryExpressionSyntax binaryExpression)
+                            {
+                                codeAction = CodeAction.Create(
+                                    "Call 'Any' instead of 'Count'",
+                                    ct => CallAnyInsteadOfCountAsync(document, invocation, binaryExpression, ct),
+                                    GetEquivalenceKey(diagnostic, "UseAnyInsteadOfCount"));
+                            }
+
+                            break;
+                        }
+                    case "ElementAt":
+                        {
+                            codeAction = CodeAction.Create(
+                                "Use [] instead of calling 'ElementAt'",
+                                ct => UseElementAccessInsteadOfEnumerableMethodRefactoring.UseElementAccessInsteadOfElementAtAsync(document, invocation, ct),
+                                GetEquivalenceKey(diagnostic, "UseElementAccessInsteadOfElementAt"));
+
+                            break;
+                        }
+                }
+
+                if (codeAction == null)
+                {
+                    codeAction = CodeAction.Create(
+                        $"Combine 'Where' and '{invocationInfo.NameText}'",
+                        ct => CallInsteadOfWhereAsync(document, invocationInfo, ct),
+                        base.GetEquivalenceKey(diagnostic, "SimplifyLinqMethodChain"));
+                }
+
+                context.RegisterCodeFix(codeAction, diagnostic);
+            }
+            else if (kind.Is(
+                SyntaxKind.EqualsExpression,
+                SyntaxKind.NotEqualsExpression,
+                SyntaxKind.IsPatternExpression))
+            {
+                CodeAction codeAction = CodeAction.Create(
+                    "Call 'Any' instead of 'FirstOrDefault'",
+                    ct => CallAnyInsteadOfFirstOrDefaultAsync(document, node, ct),
+                    base.GetEquivalenceKey(diagnostic, "CallAnyInsteadOfFirstOrDefault"));
+
+                context.RegisterCodeFix(codeAction, diagnostic);
             }
         }
 
         private static Task<Document> CallOfTypeInsteadOfWhereAndCastAsync(
             Document document,
-            InvocationExpressionSyntax invocation,
+            in SimpleMemberInvocationExpressionInfo invocationInfo,
             CancellationToken cancellationToken)
         {
-            var memberAccess = (MemberAccessExpressionSyntax)invocation.Expression;
+            SimpleMemberInvocationExpressionInfo invocationInfo2 = SimpleMemberInvocationExpressionInfo(invocationInfo.Expression);
 
-            var invocation2 = (InvocationExpressionSyntax)memberAccess.Expression;
+            var genericName = (GenericNameSyntax)invocationInfo.Name;
 
-            var memberAccess2 = (MemberAccessExpressionSyntax)invocation2.Expression;
+            InvocationExpressionSyntax newInvocation = invocationInfo2.InvocationExpression.Update(
+                invocationInfo2.MemberAccessExpression.WithName(genericName.WithIdentifier(Identifier("OfType"))),
+                invocationInfo.ArgumentList.WithArguments(SeparatedList<ArgumentSyntax>()));
 
-            var genericName = (GenericNameSyntax)memberAccess.Name;
-
-            InvocationExpressionSyntax newInvocation = invocation2.Update(
-                memberAccess2.WithName(genericName.WithIdentifier(Identifier("OfType"))),
-                invocation.ArgumentList.WithArguments(SeparatedList<ArgumentSyntax>()));
-
-            return document.ReplaceNodeAsync(invocation, newInvocation, cancellationToken);
+            return document.ReplaceNodeAsync(invocationInfo.InvocationExpression, newInvocation, cancellationToken);
         }
 
-        private static Task<Document> CombineEnumerableWhereAndAnyAsync(
+        private static Task<Document> CombineWhereAndAnyAsync(
             Document document,
-            InvocationExpressionSyntax invocationExpression,
+            in SimpleMemberInvocationExpressionInfo invocationInfo,
             CancellationToken cancellationToken)
         {
-            SimpleMemberInvocationExpressionInfo invocationInfo = SimpleMemberInvocationExpressionInfo(invocationExpression);
             SimpleMemberInvocationExpressionInfo invocationInfo2 = SimpleMemberInvocationExpressionInfo(invocationInfo.Expression);
 
             SingleParameterLambdaExpressionInfo lambda = SingleParameterLambdaExpressionInfo((LambdaExpressionSyntax)invocationInfo.Arguments.First().Expression);
@@ -182,22 +239,21 @@ namespace Roslynator.CSharp.CodeFixes
                 .ReplaceNode(invocationInfo2.Name, invocationInfo.Name.WithTriviaFrom(invocationInfo2.Name))
                 .WithArgumentList(invocationInfo2.ArgumentList.ReplaceNode((ExpressionSyntax)lambda2.Body, logicalAnd));
 
-            return document.ReplaceNodeAsync(invocationExpression, newNode, cancellationToken);
+            return document.ReplaceNodeAsync(invocationInfo.InvocationExpression, newNode, cancellationToken);
         }
 
-        private static Task<Document> SimplifyLinqMethodChainAsync(
+        private static Task<Document> CallInsteadOfWhereAsync(
             Document document,
-            InvocationExpressionSyntax invocation,
+            in SimpleMemberInvocationExpressionInfo invocationInfo,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var memberAccess = (MemberAccessExpressionSyntax)invocation.Expression;
+            SimpleMemberInvocationExpressionInfo invocationInfo2 = SimpleMemberInvocationExpressionInfo(invocationInfo.Expression);
 
-            var invocation2 = (InvocationExpressionSyntax)memberAccess.Expression;
-
-            var memberAccess2 = (MemberAccessExpressionSyntax)invocation2.Expression;
+            InvocationExpressionSyntax invocation = invocationInfo.InvocationExpression;
+            InvocationExpressionSyntax invocation2 = invocationInfo2.InvocationExpression;
 
             InvocationExpressionSyntax newNode = invocation2.WithExpression(
-                memberAccess2.WithName(memberAccess.Name.WithTriviaFrom(memberAccess2.Name)));
+                invocationInfo2.MemberAccessExpression.WithName(invocationInfo.Name.WithTriviaFrom(invocationInfo2.Name)));
 
             IEnumerable<SyntaxTrivia> trivia = invocation.DescendantTrivia(TextSpan.FromBounds(invocation2.Span.End, invocation.Span.End));
 
@@ -213,7 +269,7 @@ namespace Roslynator.CSharp.CodeFixes
             return document.ReplaceNodeAsync(invocation, newNode, cancellationToken);
         }
 
-        private static Task<Document> SimplifyNullChckWithFirstOrDefaultAsync(
+        private static Task<Document> CallAnyInsteadOfFirstOrDefaultAsync(
             Document document,
             SyntaxNode node,
             CancellationToken cancellationToken)
@@ -222,7 +278,7 @@ namespace Roslynator.CSharp.CodeFixes
 
             var invocation = (InvocationExpressionSyntax)nullCheck.Expression;
 
-            ExpressionSyntax newNode = RefactoringUtility.ChangeInvokedMethodName(invocation, "Any");
+            ExpressionSyntax newNode = ChangeInvokedMethodName(invocation, "Any");
 
             if (node.IsKind(SyntaxKind.EqualsExpression, SyntaxKind.IsPatternExpression))
                 newNode = LogicalNotExpression(newNode.TrimTrivia().Parenthesize());
@@ -232,40 +288,28 @@ namespace Roslynator.CSharp.CodeFixes
             return document.ReplaceNodeAsync(node, newNode, cancellationToken);
         }
 
-        private static async Task<Document> OptimizeOfTypeAsync(
+        private static Task<Document> CallWhereInsteadOfOfTypeAsync(
             Document document,
-            InvocationExpressionSyntax invocationExpression,
+            in SimpleMemberInvocationExpressionInfo invocationInfo,
             CancellationToken cancellationToken)
         {
-            SimpleMemberInvocationExpressionInfo invocationInfo = SimpleMemberInvocationExpressionInfo(invocationExpression);
+            InvocationExpressionSyntax invocationExpression = invocationInfo.InvocationExpression;
 
-            TypeSyntax typeArgument = ((GenericNameSyntax)invocationInfo.Name).TypeArgumentList.Arguments.Single();
+            ExpressionSyntax newNode = invocationExpression
+                .WithExpression(invocationInfo.MemberAccessExpression.WithName(IdentifierName("Where").WithTriviaFrom(invocationInfo.Name)))
+                .AddArgumentListArguments(
+                    Argument(
+                        SimpleLambdaExpression(
+                            Parameter(Identifier(DefaultNames.LambdaParameter)),
+                            NotEqualsExpression(
+                                IdentifierName(DefaultNames.LambdaParameter),
+                                NullLiteralExpression()
+                            )
+                        ).WithFormatterAnnotation()
+                    )
+                );
 
-            SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
-
-            ExpressionSyntax newNode;
-            if (semanticModel.GetTypeSymbol(typeArgument, cancellationToken).IsValueType)
-            {
-                newNode = invocationInfo.Expression.WithTrailingTrivia(invocationExpression.GetTrailingTrivia());
-            }
-            else
-            {
-                newNode = invocationExpression
-                    .WithExpression(invocationInfo.MemberAccessExpression.WithName(IdentifierName("Where").WithTriviaFrom(invocationInfo.Name)))
-                    .AddArgumentListArguments(
-                        Argument(
-                            SimpleLambdaExpression(
-                                Parameter(Identifier(DefaultNames.LambdaParameter)),
-                                NotEqualsExpression(
-                                    IdentifierName(DefaultNames.LambdaParameter),
-                                    NullLiteralExpression()
-                                )
-                            ).WithFormatterAnnotation()
-                        )
-                    );
-            }
-
-            return await document.ReplaceNodeAsync(invocationExpression, newNode, cancellationToken).ConfigureAwait(false);
+            return document.ReplaceNodeAsync(invocationExpression, newNode, cancellationToken);
         }
 
         private static Task<Document> CallCastInsteadOfSelectAsync(
@@ -290,45 +334,137 @@ namespace Roslynator.CSharp.CodeFixes
             return document.ReplaceNodeAsync(invocationExpression, newInvocationExpression, cancellationToken);
         }
 
-        private static async Task<Document> CallFindInsteadOfFirstOrDefaultAsync(
+        private static Task<Document> CallFindInsteadOfFirstOrDefaultAsync(
             Document document,
-            InvocationExpressionSyntax invocation,
+            in SimpleMemberInvocationExpressionInfo invocationInfo,
+            SemanticModel semanticModel,
             CancellationToken cancellationToken)
         {
-            SimpleMemberInvocationExpressionInfo info = SimpleMemberInvocationExpressionInfo(invocation);
-
-            SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
-
-            ITypeSymbol typeSymbol = semanticModel.GetTypeSymbol(info.Expression, cancellationToken);
+            ITypeSymbol typeSymbol = semanticModel.GetTypeSymbol(invocationInfo.Expression, cancellationToken);
 
             if ((typeSymbol as IArrayTypeSymbol)?.Rank == 1)
             {
                 NameSyntax arrayName = ParseName("System.Array")
-                    .WithLeadingTrivia(invocation.GetLeadingTrivia())
+                    .WithLeadingTrivia(invocationInfo.InvocationExpression.GetLeadingTrivia())
                     .WithSimplifierAnnotation();
 
                 MemberAccessExpressionSyntax newMemberAccess = SimpleMemberAccessExpression(
                     arrayName,
-                    info.OperatorToken,
-                    IdentifierName("Find").WithTriviaFrom(info.Name));
+                    invocationInfo.OperatorToken,
+                    IdentifierName("Find").WithTriviaFrom(invocationInfo.Name));
 
-                ArgumentListSyntax argumentList = invocation.ArgumentList;
+                ArgumentListSyntax argumentList = invocationInfo.ArgumentList;
 
                 InvocationExpressionSyntax newInvocation = InvocationExpression(
                     newMemberAccess,
                     ArgumentList(
-                        Argument(info.Expression.WithoutTrivia()),
+                        Argument(invocationInfo.Expression.WithoutTrivia()),
                         argumentList.Arguments.First()
                     ).WithTriviaFrom(argumentList));
 
-                return await document.ReplaceNodeAsync(invocation, newInvocation, cancellationToken).ConfigureAwait(false);
+                return document.ReplaceNodeAsync(invocationInfo.InvocationExpression, newInvocation, cancellationToken);
             }
             else
             {
-                IdentifierNameSyntax newName = IdentifierName("Find").WithTriviaFrom(info.Name);
+                IdentifierNameSyntax newName = IdentifierName("Find").WithTriviaFrom(invocationInfo.Name);
 
-                return await document.ReplaceNodeAsync(info.Name, newName, cancellationToken).ConfigureAwait(false);
+                return document.ReplaceNodeAsync(invocationInfo.Name, newName, cancellationToken);
             }
+        }
+
+        public static Task<Document> UseCountOrLengthPropertyInsteadOfCountMethodAsync(
+            Document document,
+            InvocationExpressionSyntax invocation,
+            string propertyName,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var memberAccess = (MemberAccessExpressionSyntax)invocation.Expression;
+
+            IEnumerable<SyntaxTrivia> trailingTrivia = memberAccess.Name.GetTrailingTrivia().Where(f => !f.IsWhitespaceOrEndOfLineTrivia())
+                .Concat(invocation.ArgumentList.DescendantTrivia().Where(f => !f.IsWhitespaceOrEndOfLineTrivia()))
+                .Concat(invocation.GetTrailingTrivia());
+
+            IdentifierNameSyntax newName = IdentifierName(propertyName)
+                .WithLeadingTrivia(memberAccess.Name.GetLeadingTrivia())
+                .WithTrailingTrivia(trailingTrivia);
+
+            MemberAccessExpressionSyntax newNode = memberAccess.WithName(newName);
+
+            return document.ReplaceNodeAsync(invocation, newNode, cancellationToken);
+        }
+
+        private static Task<Document> CallAnyInsteadOfCountAsync(
+            Document document,
+            InvocationExpressionSyntax invocationExpression,
+            BinaryExpressionSyntax binaryExpression,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            ExpressionSyntax left = binaryExpression.Left;
+
+            ExpressionSyntax right = binaryExpression.Right;
+
+            ExpressionSyntax newNode = null;
+
+            switch (binaryExpression.Kind())
+            {
+                case SyntaxKind.EqualsExpression:
+                    {
+                        // Count() == 0 >>> !Any()
+                        newNode = ChangeInvokedMethodName(invocationExpression, "Any");
+                        newNode = LogicalNotExpression(newNode.Parenthesize());
+                        break;
+                    }
+                case SyntaxKind.NotEqualsExpression:
+                    {
+                        // Count() != 0 >>> Any()
+                        newNode = ChangeInvokedMethodName(invocationExpression, "Any");
+                        break;
+                    }
+                case SyntaxKind.LessThanExpression:
+                case SyntaxKind.LessThanOrEqualExpression:
+                    {
+                        if (invocationExpression == left)
+                        {
+                            // Count() < 1 >>> !Any()
+                            // Count() <= 0 >>> !Any()
+                            newNode = ChangeInvokedMethodName(invocationExpression, "Any");
+                            newNode = LogicalNotExpression(newNode.Parenthesize());
+                        }
+                        else
+                        {
+                            // 0 < Count() >>> Any()
+                            // 1 <= Count() >>> Any()
+                            newNode = ChangeInvokedMethodName(invocationExpression, "Any");
+                        }
+
+                        break;
+                    }
+                case SyntaxKind.GreaterThanExpression:
+                case SyntaxKind.GreaterThanOrEqualExpression:
+                    {
+                        if (invocationExpression == left)
+                        {
+                            // Count() > 0 >>> Any()
+                            // Count() >= 1 >>> Any()
+                            newNode = ChangeInvokedMethodName(invocationExpression, "Any");
+                        }
+                        else
+                        {
+                            // 1 > Count() >>> !Any()
+                            // 0 >= Count() >>> !Any()
+                            newNode = ChangeInvokedMethodName(invocationExpression, "Any");
+                            newNode = LogicalNotExpression(newNode.Parenthesize());
+                        }
+
+                        break;
+                    }
+            }
+
+            newNode = newNode
+                .WithTriviaFrom(binaryExpression)
+                .WithFormatterAnnotation();
+
+            return document.ReplaceNodeAsync(binaryExpression, newNode, cancellationToken);
         }
     }
 }

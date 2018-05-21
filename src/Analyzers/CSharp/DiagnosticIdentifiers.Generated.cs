@@ -84,8 +84,6 @@ namespace Roslynator.CSharp
         public const string ThrowingOfNewNotImplementedException = "RCS1079";
         public const string UseCountOrLengthPropertyInsteadOfAnyMethod = "RCS1080";
         public const string SplitVariableDeclaration = "RCS1081";
-        public const string UseCountOrLengthPropertyInsteadOfCountMethod = "RCS1082";
-        public const string CallAnyInsteadOfCount = "RCS1083";
         public const string UseCoalesceExpressionInsteadOfConditionalExpression = "RCS1084";
         public const string UseAutoProperty = "RCS1085";
         public const string UseLinefeedAsNewLine = "RCS1086";
@@ -116,8 +114,6 @@ namespace Roslynator.CSharp
         public const string UseStringIsNullOrEmptyMethod = "RCS1113";
         public const string RemoveRedundantDelegateCreation = "RCS1114";
         public const string MarkLocalVariableAsConst = "RCS1118";
-        public const string UseElementAccessInsteadOfElementAt = "RCS1120";
-        public const string UseElementAccessInsteadOfFirst = "RCS1121";
         public const string AddParenthesesAccordingToOperatorPrecedence = "RCS1123";
         public const string InlineLocalVariable = "RCS1124";
         public const string AddBracesToIfElse = "RCS1126";

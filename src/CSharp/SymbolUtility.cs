@@ -88,20 +88,22 @@ namespace Roslynator
             if (hasIndexer != null)
                 return hasIndexer.Value;
 
-            if (symbolKind == SymbolKind.NamedType)
+            ITypeSymbol originalDefinition = typeSymbol.OriginalDefinition;
+
+            if (!typeSymbol.Equals(originalDefinition))
             {
-                hasIndexer = HasIndexer(((INamedTypeSymbol)typeSymbol).ConstructedFrom.SpecialType);
+                hasIndexer = HasIndexer(originalDefinition.SpecialType);
 
                 if (hasIndexer != null)
                     return hasIndexer.Value;
             }
 
-            if (typeSymbol.ImplementsAny(
+            if (originalDefinition.ImplementsAny(
                 SpecialType.System_Collections_Generic_IList_T,
                 SpecialType.System_Collections_Generic_IReadOnlyList_T,
                 allInterfaces: true))
             {
-                if (typeSymbol.TypeKind == TypeKind.Interface)
+                if (originalDefinition.TypeKind == TypeKind.Interface)
                     return true;
 
                 foreach (ISymbol symbol in typeSymbol.GetMembers("this[]"))
@@ -112,22 +114,91 @@ namespace Roslynator
             }
 
             return false;
+
+            bool? HasIndexer(SpecialType specialType)
+            {
+                switch (specialType)
+                {
+                    case SpecialType.System_String:
+                    case SpecialType.System_Array:
+                    case SpecialType.System_Collections_Generic_IList_T:
+                    case SpecialType.System_Collections_Generic_IReadOnlyList_T:
+                        return true;
+                    case SpecialType.None:
+                        return null;
+                }
+
+                return false;
+            }
         }
 
-        private static bool? HasIndexer(SpecialType specialType)
+        public static string GetCountOrLengthPropertyName(
+            ITypeSymbol typeSymbol,
+            SemanticModel semanticModel,
+            int position)
         {
-            switch (specialType)
+            SymbolKind kind = typeSymbol.Kind;
+
+            if (kind == SymbolKind.ErrorType)
+                return null;
+
+            if (kind == SymbolKind.ArrayType)
+                return "Length";
+
+            string propertyName = GetCountOrLengthPropertyName(typeSymbol.SpecialType);
+
+            if (propertyName != null)
+                return (propertyName.Length > 0) ? propertyName : null;
+
+            ITypeSymbol originalDefinition = typeSymbol.OriginalDefinition;
+
+            if (!typeSymbol.Equals(originalDefinition))
             {
-                case SpecialType.None:
-                    return null;
-                case SpecialType.System_String:
-                case SpecialType.System_Array:
-                case SpecialType.System_Collections_Generic_IList_T:
-                case SpecialType.System_Collections_Generic_IReadOnlyList_T:
-                    return true;
+                propertyName = GetCountOrLengthPropertyName(originalDefinition.SpecialType);
+
+                if (propertyName != null)
+                    return (propertyName.Length > 0) ? propertyName : null;
             }
 
-            return false;
+            if (originalDefinition.ImplementsAny(
+                SpecialType.System_Collections_Generic_ICollection_T,
+                SpecialType.System_Collections_Generic_IReadOnlyCollection_T,
+                allInterfaces: true))
+            {
+                if (originalDefinition.TypeKind == TypeKind.Interface)
+                    return "Count";
+
+                foreach (ISymbol symbol in typeSymbol.GetMembers())
+                {
+                    if (symbol.Kind == SymbolKind.Property
+                        && StringUtility.Equals(symbol.Name, "Count", "Length")
+                        && semanticModel.IsAccessible(position, symbol))
+                    {
+                        return symbol.Name;
+                    }
+                }
+            }
+
+            return null;
+
+            string GetCountOrLengthPropertyName(SpecialType specialType)
+            {
+                switch (specialType)
+                {
+                    case SpecialType.System_String:
+                    case SpecialType.System_Array:
+                        return "Length";
+                    case SpecialType.System_Collections_Generic_IList_T:
+                    case SpecialType.System_Collections_Generic_ICollection_T:
+                    case SpecialType.System_Collections_Generic_IReadOnlyList_T:
+                    case SpecialType.System_Collections_Generic_IReadOnlyCollection_T:
+                        return "Count";
+                    case SpecialType.None:
+                        return null;
+                }
+
+                return "";
+            }
         }
 
         public static bool IsFunc(ISymbol symbol, ITypeSymbol parameter1, ITypeSymbol parameter2, SemanticModel semanticModel)
@@ -178,7 +249,7 @@ namespace Roslynator
             {
                 var namedTypeSymbol = (INamedTypeSymbol)symbol;
 
-                if (namedTypeSymbol.ConstructedFrom.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Func_2))
+                if (namedTypeSymbol.ConstructedFrom.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Func_T2))
                 {
                     ImmutableArray<ITypeSymbol> typeArguments = namedTypeSymbol.TypeArguments;
 
@@ -267,7 +338,7 @@ namespace Roslynator
             {
                 var namedTypeSymbol = (INamedTypeSymbol)symbol;
 
-                if (namedTypeSymbol.ConstructedFrom.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Func_2))
+                if (namedTypeSymbol.ConstructedFrom.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Func_T2))
                 {
                     ImmutableArray<ITypeSymbol> typeArguments = namedTypeSymbol.TypeArguments;
 
@@ -654,7 +725,7 @@ namespace Roslynator
 
         public static bool IsImmutableArrayOfT(ITypeSymbol typeSymbol)
         {
-            return typeSymbol?.OriginalDefinition.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Collections_Immutable_ImmutableArray_1) == true;
+            return typeSymbol?.OriginalDefinition.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Collections_Immutable_ImmutableArray_T) == true;
         }
 
         public static bool SupportsSwitchExpression(ITypeSymbol typeSymbol)

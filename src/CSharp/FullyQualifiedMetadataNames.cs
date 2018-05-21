@@ -6,18 +6,19 @@ namespace Roslynator
 {
     internal static class FullyQualifiedMetadataNames
     {
-        public static FullyQualifiedMetadataName System_Collections_Generic { get; } = new FullyQualifiedMetadataName(null, Namespaces.System_Collections_Generic);
-        public static FullyQualifiedMetadataName System_Collections_Generic_List_1 { get; } = new FullyQualifiedMetadataName("List`1", Namespaces.System_Collections_Generic);
-        public static FullyQualifiedMetadataName System_Collections_Immutable_ImmutableArray_1 { get; } = new FullyQualifiedMetadataName("ImmutableArray`1", Namespaces.System_Collections_Immutable);
-        public static FullyQualifiedMetadataName System_Func_2 { get; } = new FullyQualifiedMetadataName("Func`2", Namespaces.System);
-        public static FullyQualifiedMetadataName System_Func_3 { get; } = new FullyQualifiedMetadataName("Func`3", Namespaces.System);
-        public static FullyQualifiedMetadataName System_Linq_Enumerable { get; } = new FullyQualifiedMetadataName("Enumerable", Namespaces.System_Linq);
-        public static FullyQualifiedMetadataName System_Linq_ImmutableArrayExtensions { get; } = new FullyQualifiedMetadataName("ImmutableArrayExtensions", Namespaces.System_Linq);
+        public static FullyQualifiedMetadataName System_Collections_Generic { get; } = new FullyQualifiedMetadataName(Namespaces.System_Collections, "Generic");
+        public static FullyQualifiedMetadataName System_Collections_Generic_List_T { get; } = new FullyQualifiedMetadataName(Namespaces.System_Collections_Generic, "List`1");
+        public static FullyQualifiedMetadataName System_Collections_Immutable_ImmutableArray_T { get; } = new FullyQualifiedMetadataName(Namespaces.System_Collections_Immutable, "ImmutableArray`1");
+        public static FullyQualifiedMetadataName System_Func_T2 { get; } = new FullyQualifiedMetadataName(Namespaces.System, "Func`2");
+        public static FullyQualifiedMetadataName System_Func_T3 { get; } = new FullyQualifiedMetadataName(Namespaces.System, "Func`3");
+        public static FullyQualifiedMetadataName System_Linq_Enumerable { get; } = new FullyQualifiedMetadataName(Namespaces.System_Linq, "Enumerable");
+        public static FullyQualifiedMetadataName System_Linq_ImmutableArrayExtensions { get; } = new FullyQualifiedMetadataName(Namespaces.System_Linq, "ImmutableArrayExtensions");
 
         private static class Namespaces
         {
             public static readonly ImmutableArray<string> System = ImmutableArray.Create("System");
             public static readonly ImmutableArray<string> System_Linq = ImmutableArray.Create("System", "Linq");
+            public static readonly ImmutableArray<string> System_Collections = ImmutableArray.Create("System", "Collections");
             public static readonly ImmutableArray<string> System_Collections_Generic = ImmutableArray.Create("System", "Collections", "Generic");
             public static readonly ImmutableArray<string> System_Collections_Immutable = ImmutableArray.Create("System", "Collections", "Immutable");
         }
