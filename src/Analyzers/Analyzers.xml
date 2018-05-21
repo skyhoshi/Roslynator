@@ -1701,7 +1701,7 @@ catch (Exception ex) // RCS1075
     <Id>RCS1077</Id>
     <Title>Optimize LINQ method call.</Title>
     <MessageFormat>Optimize LINQ method call.</MessageFormat>
-    <Category>Simplification</Category>
+    <Category>Performance</Category>
     <DefaultSeverity>Info</DefaultSeverity>
     <IsEnabledByDefault>true</IsEnabledByDefault>
     <SupportsFadeOut>false</SupportsFadeOut>
@@ -1740,10 +1740,10 @@ catch (Exception ex) // RCS1075
 }]]></After>
       </Sample>
       <Sample>
-        <Before><![CDATA[if (listOfT.Count() == 1) // RCS1077
+        <Before><![CDATA[if (list.Count() == 1) // RCS1077
 {
 }]]></Before>
-        <After><![CDATA[if (listOfT.Count == 1)
+        <After><![CDATA[if (list.Count == 1)
 {
 }]]></After>
       </Sample>

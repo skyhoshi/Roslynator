@@ -150,14 +150,14 @@ namespace Roslynator.CSharp.CodeFixes
                                 codeAction = CodeAction.Create(
                                     $"Use '{propertyName}' property instead of calling 'Count'",
                                     ct => UseCountOrLengthPropertyInsteadOfCountMethodAsync(document, invocation, diagnostic.Properties["PropertyName"], ct),
-                                    GetEquivalenceKey(diagnostic));
+                                    GetEquivalenceKey(diagnostic, "UseCountOrLengthPropertyInsteadOfCountMethod"));
                             }
                             else if (invocation.Parent is BinaryExpressionSyntax binaryExpression)
                             {
                                 codeAction = CodeAction.Create(
                                     "Call 'Any' instead of 'Count'",
                                     ct => CallAnyInsteadOfCountAsync(document, invocation, binaryExpression, ct),
-                                    GetEquivalenceKey(diagnostic));
+                                    GetEquivalenceKey(diagnostic, "UseAnyInsteadOfCount"));
                             }
 
                             break;
