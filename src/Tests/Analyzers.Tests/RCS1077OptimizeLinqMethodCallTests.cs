@@ -634,6 +634,62 @@ class C
         }
 
         [Theory]
+        [InlineData("((List<object>)x).[|First()|]", "((List<object>)x)[0]")]
+        [InlineData("((IList<object>)x).[|First()|]", "((IList<object>)x)[0]")]
+        [InlineData("((IReadOnlyList<object>)x).[|First()|]", "((IReadOnlyList<object>)x)[0]")]
+        [InlineData("((Collection<object>)x).[|First()|]", "((Collection<object>)x)[0]")]
+        [InlineData("((ImmutableArray<object>)x).[|First()|]", "((ImmutableArray<object>)x)[0]")]
+        [InlineData("((object[])x).[|First()|]", "((object[])x)[0]")]
+        [InlineData("((string)x).[|First()|]", "((string)x)[0]")]
+        public async Task Test_UseElementAccessInsteadOfFirst(string fromData, string toData)
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
+
+class C
+{
+    void M()
+    {
+        object x = null;
+        var y = [||];
+    }
+}
+", fromData, toData);
+        }
+
+        [Theory]
+        [InlineData("((List<object>)x).[|ElementAt(1)|]", "((List<object>)x)[1]")]
+        [InlineData("((IList<object>)x).[|ElementAt(1)|]", "((IList<object>)x)[1]")]
+        [InlineData("((IReadOnlyList<object>)x).[|ElementAt(1)|]", "((IReadOnlyList<object>)x)[1]")]
+        [InlineData("((Collection<object>)x).[|ElementAt(1)|]", "((Collection<object>)x)[1]")]
+        [InlineData("((ImmutableArray<object>)x).[|ElementAt(1)|]", "((ImmutableArray<object>)x)[1]")]
+        [InlineData("((object[])x).[|ElementAt(1)|]", "((object[])x)[1]")]
+        [InlineData("((string)x).[|ElementAt(1)|]", "((string)x)[1]")]
+        public async Task Test_UseElementAccessInsteadOfElementAt(string fromData, string toData)
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
+
+class C
+{
+    void M()
+    {
+        object x = null;
+        var y = [||];
+    }
+}
+", fromData, toData);
+        }
+
+        [Theory]
         [InlineData("items.[|Count()|] != 0", "items.Any()")]
         [InlineData("items.[|Count()|] > 0", "items.Any()")]
         [InlineData("items.[|Count()|] >= 1", "items.Any()")]
@@ -810,6 +866,68 @@ class C
         if (i <= items.Count()) { }
         if (i >= items.Count()) { }
         if (i > items.Count()) { }
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task TestNoDiagnostic_UseElementAccessInsteadOfElementAt()
+        {
+            await VerifyNoDiagnosticAsync(@"
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
+
+class C
+{
+    void M()
+    {
+        object x = null;
+
+        x = ((ICollection<object>)x).ElementAt(1);
+        x = ((IReadOnlyCollection<object>)x).ElementAt(1);
+        x = ((IEnumerable<object>)x).ElementAt(1);
+
+        x = ((Dictionary<object, object>)x).ElementAt(1);
+
+        x = ((List<object>)x).ToList().ElementAt(1);
+        x = ((object[])x).ToArray().ElementAt(1);
+        x = ((ImmutableArray<object>)x).ToImmutableArray().ElementAt(1);
+        x = ((string)x).ToString().ElementAt(1);
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task TestNoDiagnostic_UseElementAccessInsteadOfFirst()
+        {
+            await VerifyNoDiagnosticAsync(@"
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
+
+class C
+{
+    void M()
+    {
+        object x = null;
+
+        x = ((ICollection<object>)x).First();
+        x = ((IReadOnlyCollection<object>)x).First();
+        x = ((IEnumerable<object>)x).First();
+
+        x = ((Dictionary<object, object>)x).First();
+
+        x = ((List<object>)x).ToList().First();
+        x = ((object[])x).ToArray().First();
+        x = ((ImmutableArray<object>)x).ToImmutableArray().First();
+        x = ((string)x).ToString().First();
     }
 }
 ");

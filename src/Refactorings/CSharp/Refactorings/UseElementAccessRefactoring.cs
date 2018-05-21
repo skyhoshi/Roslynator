@@ -21,33 +21,27 @@ namespace Roslynator.CSharp.Refactorings
             {
                 case "First":
                     {
-                        SemanticModel semanticModel = await context.GetSemanticModelAsync().ConfigureAwait(false);
-
                         if (invocationInfo.Arguments.Any())
                             break;
 
-                        if (invocationInfo.Expression?.IsMissing != false)
-                            break;
+                        SemanticModel semanticModel = await context.GetSemanticModelAsync().ConfigureAwait(false);
 
                         if (!UseElementAccessAnalysis.IsFixableFirst(invocationInfo, semanticModel, context.CancellationToken))
                             break;
 
                         context.RegisterRefactoring(
                             "Use [] instead of calling 'First'",
-                            cancellationToken => UseElementAccessInsteadOfFirstRefactoring.RefactorAsync(context.Document, invocation, cancellationToken),
+                            cancellationToken => UseElementAccessInsteadOfEnumerableMethodRefactoring.UseElementAccessInsteadOfFirstAsync(context.Document, invocation, cancellationToken),
                             RefactoringIdentifiers.UseElementAccessInsteadOfEnumerableMethod);
 
                         break;
                     }
                 case "Last":
                     {
-                        SemanticModel semanticModel = await context.GetSemanticModelAsync().ConfigureAwait(false);
-
                         if (invocationInfo.Arguments.Any())
                             break;
 
-                        if (invocationInfo.Expression?.IsMissing != false)
-                            break;
+                        SemanticModel semanticModel = await context.GetSemanticModelAsync().ConfigureAwait(false);
 
                         if (!UseElementAccessAnalysis.IsFixableLast(invocationInfo, semanticModel, context.CancellationToken))
                             break;
@@ -59,29 +53,24 @@ namespace Roslynator.CSharp.Refactorings
 
                         context.RegisterRefactoring(
                             "Use [] instead of calling 'Last'",
-                            cancellationToken => UseElementAccessInsteadOfLastRefactoring.RefactorAsync(context.Document, invocation, propertyName, cancellationToken),
+                            cancellationToken => UseElementAccessInsteadOfEnumerableMethodRefactoring.UseElementAccessInsteadOfLastAsync(context.Document, invocation, propertyName, cancellationToken),
                             RefactoringIdentifiers.UseElementAccessInsteadOfEnumerableMethod);
 
                         break;
                     }
                 case "ElementAt":
                     {
+                        if (invocationInfo.Arguments.SingleOrDefault(shouldThrow: false)?.Expression?.IsMissing != false)
+                            break;
+
                         SemanticModel semanticModel = await context.GetSemanticModelAsync().ConfigureAwait(false);
-
-                        ExpressionSyntax argumentExpression = invocationInfo.Arguments.SingleOrDefault(shouldThrow: false)?.Expression;
-
-                        if (argumentExpression?.IsMissing != false)
-                            break;
-
-                        if (invocationInfo.Expression?.IsMissing != false)
-                            break;
 
                         if (!UseElementAccessAnalysis.IsFixableElementAt(invocationInfo, semanticModel, context.CancellationToken))
                             break;
 
                         context.RegisterRefactoring(
                             "Use [] instead of calling 'ElementAt'",
-                            cancellationToken => UseElementAccessInsteadOfElementAtRefactoring.RefactorAsync(context.Document, invocation, cancellationToken),
+                            cancellationToken => UseElementAccessInsteadOfEnumerableMethodRefactoring.UseElementAccessInsteadOfElementAtAsync(context.Document, invocation, cancellationToken),
                             RefactoringIdentifiers.UseElementAccessInsteadOfEnumerableMethod);
 
                         break;

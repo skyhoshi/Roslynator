@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.Text;
 using Roslynator.CSharp;
 using Roslynator.CSharp.Analysis.UseMethodChaining;
 using Roslynator.CSharp.Syntax;
@@ -27,8 +28,6 @@ namespace Roslynator.CSharp.Analysis
                     DiagnosticDescriptors.RemoveRedundantStringToCharArrayCall,
                     DiagnosticDescriptors.CombineEnumerableWhereMethodChain,
                     DiagnosticDescriptors.CombineEnumerableWhereMethodChainFadeOut,
-                    DiagnosticDescriptors.UseElementAccessInsteadOfElementAt,
-                    DiagnosticDescriptors.UseElementAccessInsteadOfFirst,
                     DiagnosticDescriptors.UseRegexInstanceInsteadOfStaticMethod,
                     DiagnosticDescriptors.OptimizeStringBuilderAppendCall,
                     DiagnosticDescriptors.AvoidBoxingOfValueType,
@@ -98,7 +97,7 @@ namespace Roslynator.CSharp.Analysis
                                     if (!invocationInfo.Expression.IsKind(SyntaxKind.InvocationExpression)
                                         && UseElementAccessAnalysis.IsFixableFirst(invocationInfo, context.SemanticModel, context.CancellationToken))
                                     {
-                                        context.ReportDiagnostic(DiagnosticDescriptors.UseElementAccessInsteadOfFirst, invocationInfo.Name);
+                                        context.ReportDiagnostic(DiagnosticDescriptors.OptimizeLinqMethodCall, Location.Create(invocation.SyntaxTree, TextSpan.FromBounds(invocationInfo.Name.SpanStart, invocationInfo.ArgumentList.Span.End)));
                                     }
 
                                     OptimizeLinqMethodCallAnalysis.AnalyzeWhere(context, invocationInfo);
@@ -169,7 +168,7 @@ namespace Roslynator.CSharp.Analysis
                                     if (!invocationInfo.Expression.IsKind(SyntaxKind.InvocationExpression)
                                         && UseElementAccessAnalysis.IsFixableElementAt(invocationInfo, context.SemanticModel, context.CancellationToken))
                                     {
-                                        context.ReportDiagnostic(DiagnosticDescriptors.UseElementAccessInsteadOfElementAt, invocationInfo.Name);
+                                        context.ReportDiagnostic(DiagnosticDescriptors.OptimizeLinqMethodCall, Location.Create(invocation.SyntaxTree, TextSpan.FromBounds(invocationInfo.Name.SpanStart, invocationInfo.ArgumentList.Span.End)));
                                     }
 
                                     break;

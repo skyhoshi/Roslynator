@@ -28,8 +28,6 @@ namespace Roslynator.CSharp.CodeFixes
                     DiagnosticIdentifiers.RemoveRedundantToStringCall,
                     DiagnosticIdentifiers.RemoveRedundantStringToCharArrayCall,
                     DiagnosticIdentifiers.CombineEnumerableWhereMethodChain,
-                    DiagnosticIdentifiers.UseElementAccessInsteadOfElementAt,
-                    DiagnosticIdentifiers.UseElementAccessInsteadOfFirst,
                     DiagnosticIdentifiers.CallStringConcatInsteadOfStringJoin,
                     DiagnosticIdentifiers.CallDebugFailInsteadOfDebugAssert,
                     DiagnosticIdentifiers.CallExtensionMethodAsInstanceMethod,
@@ -95,26 +93,6 @@ namespace Roslynator.CSharp.CodeFixes
                             CodeAction codeAction = CodeAction.Create(
                                 "Remove redundant 'ToCharArray' call",
                                 cancellationToken => context.Document.ReplaceNodeAsync(invocation, RefactoringUtility.RemoveInvocation(invocation).WithFormatterAnnotation(), cancellationToken),
-                                GetEquivalenceKey(diagnostic));
-
-                            context.RegisterCodeFix(codeAction, diagnostic);
-                            break;
-                        }
-                    case DiagnosticIdentifiers.UseElementAccessInsteadOfElementAt:
-                        {
-                            CodeAction codeAction = CodeAction.Create(
-                                "Use [] instead of calling 'ElementAt'",
-                                cancellationToken => UseElementAccessInsteadOfElementAtRefactoring.RefactorAsync(context.Document, invocation, cancellationToken),
-                                GetEquivalenceKey(diagnostic));
-
-                            context.RegisterCodeFix(codeAction, diagnostic);
-                            break;
-                        }
-                    case DiagnosticIdentifiers.UseElementAccessInsteadOfFirst:
-                        {
-                            CodeAction codeAction = CodeAction.Create(
-                                "Use [] instead of calling 'First'",
-                                cancellationToken => UseElementAccessInsteadOfFirstRefactoring.RefactorAsync(context.Document, invocation, cancellationToken),
                                 GetEquivalenceKey(diagnostic));
 
                             context.RegisterCodeFix(codeAction, diagnostic);

@@ -894,7 +894,7 @@ namespace Roslynator.CSharp
             id:                 DiagnosticIdentifiers.OptimizeLinqMethodCall, 
             title:              "Optimize LINQ method call.", 
             messageFormat:      "Optimize LINQ method call.", 
-            category:           DiagnosticCategories.Simplification, 
+            category:           DiagnosticCategories.Performance, 
             defaultSeverity:    DiagnosticSeverity.Info, 
             isEnabledByDefault: true, 
             description:        null, 
@@ -1317,30 +1317,6 @@ namespace Roslynator.CSharp
             isEnabledByDefault: true, 
             description:        null, 
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MarkLocalVariableAsConst}", 
-            customTags:         Array.Empty<string>());
-
-        /// <summary>RCS1120</summary>
-        public static readonly DiagnosticDescriptor UseElementAccessInsteadOfElementAt = new DiagnosticDescriptor(
-            id:                 DiagnosticIdentifiers.UseElementAccessInsteadOfElementAt, 
-            title:              "Use [] instead of calling 'ElementAt'.", 
-            messageFormat:      "Use [] instead of calling 'ElementAt'.", 
-            category:           DiagnosticCategories.Performance, 
-            defaultSeverity:    DiagnosticSeverity.Info, 
-            isEnabledByDefault: true, 
-            description:        null, 
-            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UseElementAccessInsteadOfElementAt}", 
-            customTags:         Array.Empty<string>());
-
-        /// <summary>RCS1121</summary>
-        public static readonly DiagnosticDescriptor UseElementAccessInsteadOfFirst = new DiagnosticDescriptor(
-            id:                 DiagnosticIdentifiers.UseElementAccessInsteadOfFirst, 
-            title:              "Use [] instead of calling 'First'.", 
-            messageFormat:      "Use [] instead of calling 'First'.", 
-            category:           DiagnosticCategories.Performance, 
-            defaultSeverity:    DiagnosticSeverity.Info, 
-            isEnabledByDefault: true, 
-            description:        null, 
-            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UseElementAccessInsteadOfFirst}", 
             customTags:         Array.Empty<string>());
 
         /// <summary>RCS1123</summary>

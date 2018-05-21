@@ -1732,6 +1732,13 @@ catch (Exception ex) // RCS1075
         <After><![CDATA[bool x = items.Any();]]></After>
       </Sample>
       <Sample>
+        <Before><![CDATA[var x = list.ElementAt(1); // RCS1077]]></Before>
+        <After><![CDATA[var x = list[1];]]></After>
+      </Sample>
+      <Sample>
+        <Before><![CDATA[var x = list.First(); // RCS1077]]></Before>
+        <After><![CDATA[var x = list[0];]]></After>
+      </Sample>      <Sample>
         <Before><![CDATA[if (enumerable.Count() != 0) // RCS1077
 {
 }]]></Before>
@@ -2560,7 +2567,7 @@ string s2 = s + "b";]]></After>
       </Sample>
     </Samples>
   </Analyzer>
-  <Analyzer Identifier="UseElementAccessInsteadOfElementAt">
+  <Analyzer Identifier="UseElementAccessInsteadOfElementAt" IsObsolete="true">
     <Id>RCS1120</Id>
     <Title>Use [] instead of calling 'ElementAt'.</Title>
     <MessageFormat>Use [] instead of calling 'ElementAt'.</MessageFormat>
@@ -2576,7 +2583,7 @@ string s2 = s + "b";]]></After>
       </Sample>
     </Samples>
   </Analyzer>
-  <Analyzer Identifier="UseElementAccessInsteadOfFirst">
+  <Analyzer Identifier="UseElementAccessInsteadOfFirst" IsObsolete="true">
     <Id>RCS1121</Id>
     <Title>Use [] instead of calling 'First'.</Title>
     <MessageFormat>Use [] instead of calling 'First'.</MessageFormat>

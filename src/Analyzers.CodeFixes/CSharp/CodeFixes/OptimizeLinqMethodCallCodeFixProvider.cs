@@ -14,6 +14,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using Roslynator.CodeFixes;
 using Roslynator.CSharp.Analysis;
+using Roslynator.CSharp.Refactorings;
 using Roslynator.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Roslynator.CSharp.CSharpFactory;
@@ -140,6 +141,13 @@ namespace Roslynator.CSharp.CodeFixes
                                     ct => document.ReplaceNodeAsync(invocation, ChangeInvokedMethodName(invocation, "Peek"), ct),
                                     base.GetEquivalenceKey(diagnostic, "CallPeekInsteadOfFirst"));
                             }
+                            else if (!invocationInfo.Expression.IsKind(SyntaxKind.InvocationExpression))
+                            {
+                                codeAction = CodeAction.Create(
+                                    "Use [] instead of calling 'First'",
+                                    ct => UseElementAccessInsteadOfEnumerableMethodRefactoring.UseElementAccessInsteadOfFirstAsync(context.Document, invocation, ct),
+                                    GetEquivalenceKey(diagnostic, "UseElementAccessInsteadOfFirst"));
+                            }
 
                             break;
                         }
@@ -159,6 +167,15 @@ namespace Roslynator.CSharp.CodeFixes
                                     ct => CallAnyInsteadOfCountAsync(document, invocation, binaryExpression, ct),
                                     GetEquivalenceKey(diagnostic, "UseAnyInsteadOfCount"));
                             }
+
+                            break;
+                        }
+                    case "ElementAt":
+                        {
+                            codeAction = CodeAction.Create(
+                                "Use [] instead of calling 'ElementAt'",
+                                ct => UseElementAccessInsteadOfEnumerableMethodRefactoring.UseElementAccessInsteadOfElementAtAsync(document, invocation, ct),
+                                GetEquivalenceKey(diagnostic, "UseElementAccessInsteadOfElementAt"));
 
                             break;
                         }

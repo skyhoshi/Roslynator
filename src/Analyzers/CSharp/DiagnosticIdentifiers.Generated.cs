@@ -114,8 +114,6 @@ namespace Roslynator.CSharp
         public const string UseStringIsNullOrEmptyMethod = "RCS1113";
         public const string RemoveRedundantDelegateCreation = "RCS1114";
         public const string MarkLocalVariableAsConst = "RCS1118";
-        public const string UseElementAccessInsteadOfElementAt = "RCS1120";
-        public const string UseElementAccessInsteadOfFirst = "RCS1121";
         public const string AddParenthesesAccordingToOperatorPrecedence = "RCS1123";
         public const string InlineLocalVariable = "RCS1124";
         public const string AddBracesToIfElse = "RCS1126";

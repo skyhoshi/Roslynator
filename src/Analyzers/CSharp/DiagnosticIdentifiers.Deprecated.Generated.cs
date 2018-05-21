@@ -33,6 +33,10 @@ namespace Roslynator.CSharp
         [Obsolete("", error: true)]
         public const string CallFindInsteadOfFirstOrDefault = "RCS1119";
         [Obsolete("", error: true)]
+        public const string UseElementAccessInsteadOfElementAt = "RCS1120";
+        [Obsolete("", error: true)]
+        public const string UseElementAccessInsteadOfFirst = "RCS1121";
+        [Obsolete("", error: true)]
         public const string AddMissingSemicolon = "RCS1122";
         [Obsolete("", error: true)]
         public const string MarkMemberAsStatic = "RCS1125";

@@ -166,6 +166,30 @@ namespace Roslynator.CSharp
             customTags:         Array.Empty<string>());
 
         [Obsolete("", error: true)]
+        public static readonly DiagnosticDescriptor UseElementAccessInsteadOfElementAt = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.UseElementAccessInsteadOfElementAt, 
+            title:              "Use [] instead of calling 'ElementAt'.", 
+            messageFormat:      "Use [] instead of calling 'ElementAt'.", 
+            category:           DiagnosticCategories.Performance, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UseElementAccessInsteadOfElementAt}", 
+            customTags:         Array.Empty<string>());
+
+        [Obsolete("", error: true)]
+        public static readonly DiagnosticDescriptor UseElementAccessInsteadOfFirst = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.UseElementAccessInsteadOfFirst, 
+            title:              "Use [] instead of calling 'First'.", 
+            messageFormat:      "Use [] instead of calling 'First'.", 
+            category:           DiagnosticCategories.Performance, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UseElementAccessInsteadOfFirst}", 
+            customTags:         Array.Empty<string>());
+
+        [Obsolete("", error: true)]
         public static readonly DiagnosticDescriptor AddMissingSemicolon = new DiagnosticDescriptor(
             id:                 DiagnosticIdentifiers.AddMissingSemicolon, 
             title:              "Add missing semicolon.", 

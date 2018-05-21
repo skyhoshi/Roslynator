@@ -331,7 +331,7 @@ namespace Roslynator.CSharp.Analysis
             if (!typeSymbol2.Implements((INamedTypeSymbol)extensionMethodSymbolInfo.ReducedSymbol.ReturnType, allInterfaces: true))
                 return;
 
-            ReportNameAndArgumentList(context, invocationInfo);
+            ReportNameWithArgumentList(context, invocationInfo);
         }
 
         public static void AnalyzeFirst(
@@ -388,7 +388,7 @@ namespace Roslynator.CSharp.Analysis
 
             if (propertyName != null)
             {
-                ReportNameAndArgumentList(context, invocationInfo, property: new KeyValuePair<string, string>("PropertyName", propertyName), messageArgs: propertyName);
+                ReportNameWithArgumentList(context, invocationInfo, property: new KeyValuePair<string, string>("PropertyName", propertyName), messageArgs: propertyName);
                 return;
             }
 
@@ -404,11 +404,11 @@ namespace Roslynator.CSharp.Analysis
                         if (equalsExpression.Left == invocationExpression)
                         {
                             if (equalsExpression.Right.IsNumericLiteralExpression("0"))
-                                ReportNameAndArgumentList(context, invocationInfo);
+                                ReportNameWithArgumentList(context, invocationInfo);
                         }
                         else if (equalsExpression.Left.IsNumericLiteralExpression("0"))
                         {
-                            ReportNameAndArgumentList(context, invocationInfo);
+                            ReportNameWithArgumentList(context, invocationInfo);
                         }
 
                         break;
@@ -420,11 +420,11 @@ namespace Roslynator.CSharp.Analysis
                         if (equalsExpression.Left == invocationExpression)
                         {
                             if (equalsExpression.Right.IsNumericLiteralExpression("0"))
-                                ReportNameAndArgumentList(context, invocationInfo);
+                                ReportNameWithArgumentList(context, invocationInfo);
                         }
                         else if (equalsExpression.Left.IsNumericLiteralExpression("1"))
                         {
-                            ReportNameAndArgumentList(context, invocationInfo);
+                            ReportNameWithArgumentList(context, invocationInfo);
                         }
 
                         break;
@@ -436,11 +436,11 @@ namespace Roslynator.CSharp.Analysis
                         if (equalsExpression.Left == invocationExpression)
                         {
                             if (equalsExpression.Right.IsNumericLiteralExpression("1"))
-                                ReportNameAndArgumentList(context, invocationInfo);
+                                ReportNameWithArgumentList(context, invocationInfo);
                         }
                         else if (equalsExpression.Left.IsNumericLiteralExpression("0"))
                         {
-                            ReportNameAndArgumentList(context, invocationInfo);
+                            ReportNameWithArgumentList(context, invocationInfo);
                         }
 
                         break;
@@ -452,11 +452,11 @@ namespace Roslynator.CSharp.Analysis
                         if (equalsExpression.Left == invocationExpression)
                         {
                             if (equalsExpression.Right.IsNumericLiteralExpression("1"))
-                                ReportNameAndArgumentList(context, invocationInfo);
+                                ReportNameWithArgumentList(context, invocationInfo);
                         }
                         else if (equalsExpression.Left.IsNumericLiteralExpression("0"))
                         {
-                            ReportNameAndArgumentList(context, invocationInfo);
+                            ReportNameWithArgumentList(context, invocationInfo);
                         }
 
                         break;
@@ -468,11 +468,11 @@ namespace Roslynator.CSharp.Analysis
                         if (equalsExpression.Left == invocationExpression)
                         {
                             if (equalsExpression.Right.IsNumericLiteralExpression("0"))
-                                ReportNameAndArgumentList(context, invocationInfo);
+                                ReportNameWithArgumentList(context, invocationInfo);
                         }
                         else if (equalsExpression.Left.IsNumericLiteralExpression("1"))
                         {
-                            ReportNameAndArgumentList(context, invocationInfo);
+                            ReportNameWithArgumentList(context, invocationInfo);
                         }
 
                         break;
@@ -480,7 +480,7 @@ namespace Roslynator.CSharp.Analysis
             }
         }
 
-        private static void ReportNameAndArgumentList(
+        private static void ReportNameWithArgumentList(
             SyntaxNodeAnalysisContext context,
             in SimpleMemberInvocationExpressionInfo invocationInfo,
             bool checkDirectives = false,
