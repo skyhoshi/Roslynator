@@ -2495,5 +2495,17 @@ namespace Roslynator.CSharp
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.ReplaceEnumeratorWithForEach}", 
             customTags:         Array.Empty<string>());
 
+        /// <summary>RCSX001</summary>
+        public static readonly DiagnosticDescriptor MarkParameterWithInModifier = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.MarkParameterWithInModifier, 
+            title:              "Mark parameter with in modifier", 
+            messageFormat:      "Mark parameter with in modifier", 
+            category:           DiagnosticCategories.Performance, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MarkParameterWithInModifier}", 
+            customTags:         Array.Empty<string>());
+
     }
 }
