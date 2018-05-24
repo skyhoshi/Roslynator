@@ -3,6 +3,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
@@ -18,38 +19,34 @@ namespace Roslynator.CSharp.Documentation
     {
         private static readonly Regex _commentedEmptyLineRegex = new Regex(@"^///\s*(\r?\n|$)", RegexOptions.Multiline);
 
-        internal DocumentationCommentData(string comment, DocumentationCommentOrigin origin)
+        internal DocumentationCommentData(string rawXml, DocumentationCommentOrigin origin)
         {
-            Comment = comment;
+            RawXml = rawXml;
             Origin = origin;
         }
 
-        public string Comment { get; }
+        public string RawXml { get; }
 
         public DocumentationCommentOrigin Origin { get; }
 
         public bool Success
         {
-            get { return !string.IsNullOrEmpty(Comment); }
+            get { return !string.IsNullOrEmpty(RawXml); }
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string DebuggerDisplay
         {
-            get { return (Success) ? $"{Origin} {Comment}" : "Uninitalized"; }
+            get { return (Success) ? $"{Origin} {RawXml}" : "Uninitalized"; }
         }
 
         public SyntaxTrivia GetDocumentationCommentTrivia(SemanticModel semanticModel, int position)
         {
-            string innerXmlWithSlashes = AddSlashes(Comment.TrimEnd());
+            string triviaText = AddSlashes(RawXml.TrimEnd());
 
-            SyntaxTrivia trivia = ParseLeadingTrivia(innerXmlWithSlashes).SingleOrDefault(shouldThrow: false);
+            SyntaxTrivia trivia = ParseLeadingTrivia(triviaText).Single();
 
-            if (trivia.Kind() != SyntaxKind.SingleLineDocumentationCommentTrivia)
-                return default(SyntaxTrivia);
-
-            if (!(trivia.GetStructure() is DocumentationCommentTriviaSyntax commentTrivia))
-                return default;
+            var commentTrivia = (DocumentationCommentTriviaSyntax)trivia.GetStructure();
 
             var rewriter = new DocumentationCommentTriviaRewriter(position, semanticModel);
 
@@ -64,7 +61,7 @@ namespace Roslynator.CSharp.Documentation
             // Remove /// from empty lines
             text = _commentedEmptyLineRegex.Replace(text, "");
 
-            return ParseLeadingTrivia(text).SingleOrDefault(shouldThrow: false);
+            return ParseLeadingTrivia(text).Single();
         }
 
         private static DocumentationCommentTriviaSyntax RemoveFilterPriorityElement(DocumentationCommentTriviaSyntax commentTrivia)

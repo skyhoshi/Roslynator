@@ -353,7 +353,7 @@ namespace Roslynator.CSharp.Analysis
             if (typeSymbol?.IsErrorType() != false)
                 return;
 
-            if (!typeSymbol.IsMetadataName("Queue`1", "Stack`1"))
+            if (!StringUtility.Equals(typeSymbol.MetadataName, "Queue`1", "Stack`1"))
                 return;
 
             if (!typeSymbol.ContainingNamespace.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Collections_Generic))
@@ -374,7 +374,7 @@ namespace Roslynator.CSharp.Analysis
             if (methodSymbol == null)
                 return;
 
-            if (!SymbolUtility.IsLinqExtensionOfIEnumerableOfTWithoutParameters(methodSymbol, "Count", semanticModel))
+            if (!SymbolUtility.IsLinqExtensionOfIEnumerableOfTWithoutParameters(methodSymbol, "Count"))
                 return;
 
             ExpressionSyntax expression = invocationInfo.Expression;

@@ -19,7 +19,7 @@ namespace Roslynator.CSharp.Analysis.Tests
 
         public override CodeFixProvider FixProvider { get; } = new OptimizeLinqMethodCallCodeFixProvider();
 
-        [Theory, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyLinqMethodChain)]
+        [Theory]
         [InlineData("Where(_ => true).Any()", "Any(_ => true)")]
         [InlineData("Where(_ => true).Count()", "Count(_ => true)")]
         [InlineData("Where(_ => true).First()", "First(_ => true)")]
@@ -45,7 +45,7 @@ class C
 ", fromData, toData);
         }
 
-        [Fact,  Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyLinqMethodChain)]
+        [Fact]
         public async Task Test_Where_Multiline()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -80,7 +80,7 @@ class C
 ");
         }
 
-        [Theory, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyLinqMethodChain)]
+        [Theory]
         [InlineData("Where(_ => true).Any()", "Any(_ => true)")]
         [InlineData("Where(_ => true).Count()", "Count(_ => true)")]
         [InlineData("Where(_ => true).First()", "First(_ => true)")]
@@ -107,7 +107,7 @@ class C
 ", fromData, toData);
         }
 
-        [Theory, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyLinqMethodChain)]
+        [Theory]
         [InlineData("Where(f => f is object).Cast<object>()", "OfType<object>()")]
         [InlineData("Where((f) => f is object).Cast<object>()", "OfType<object>()")]
         [InlineData(@"Where(f =>
@@ -132,7 +132,7 @@ class C
 ", fromData, toData);
         }
 
-        [Theory, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyLinqMethodChain)]
+        [Theory]
         [InlineData(@"Where(f => f.StartsWith(""a"")).Any(f => f.StartsWith(""b""))", @"Any(f => f.StartsWith(""a"") && f.StartsWith(""b""))")]
         [InlineData(@"Where((f) => f.StartsWith(""a"")).Any(f => f.StartsWith(""b""))", @"Any((f) => f.StartsWith(""a"") && f.StartsWith(""b""))")]
         public async Task Test_CombineWhereAndAny(string fromData, string toData)
@@ -153,7 +153,7 @@ class C
 ", fromData, toData);
         }
 
-        [Theory, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyLinqMethodChain)]
+        [Theory]
         [InlineData(@"Where(f => f.StartsWith(""a"")).Any(f => f.StartsWith(""b""))", @"Any(f => f.StartsWith(""a"") && f.StartsWith(""b""))")]
         [InlineData(@"Where((f) => f.StartsWith(""a"")).Any(f => f.StartsWith(""b""))", @"Any((f) => f.StartsWith(""a"") && f.StartsWith(""b""))")]
         public async Task Test_CombineWhereAndAny_ImmutableArray(string fromData, string toData)
@@ -174,7 +174,7 @@ class C
 ", fromData, toData);
         }
 
-        [Theory, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyLinqMethodChain)]
+        [Theory]
         [InlineData("items.FirstOrDefault(_ => true) != null", "items.Any(_ => true)")]
         [InlineData("items.FirstOrDefault(_ => true) == null", "!items.Any(_ => true)")]
         [InlineData("items.FirstOrDefault(_ => true) is null", "!items.Any(_ => true)")]
@@ -198,7 +198,7 @@ class C
 ", fromData, toData);
         }
 
-        [Theory, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyLinqMethodChain)]
+        [Theory]
         [InlineData("items.FirstOrDefault(_ => true) != null", "items.Any(_ => true)")]
         [InlineData("items.FirstOrDefault(_ => true) == null", "!items.Any(_ => true)")]
         [InlineData("items.FirstOrDefault(_ => true) is null", "!items.Any(_ => true)")]
@@ -222,7 +222,7 @@ class C
 ", fromData, toData);
         }
 
-        [Theory, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyLinqMethodChain)]
+        [Theory]
         [InlineData("items.FirstOrDefault(_ => true) != null", "items.Any(_ => true)")]
         [InlineData("items.FirstOrDefault(_ => true) == null", "!items.Any(_ => true)")]
         [InlineData("items.FirstOrDefault(_ => true) is null", "!items.Any(_ => true)")]
@@ -247,7 +247,7 @@ class C
 ", fromData, toData);
         }
 
-        [Theory, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyLinqMethodChain)]
+        [Theory]
         [InlineData("items.FirstOrDefault(_ => true) != null", "items.Any(_ => true)")]
         [InlineData("items.FirstOrDefault(_ => true) == null", "!items.Any(_ => true)")]
         [InlineData("items.FirstOrDefault(_ => true) is null", "!items.Any(_ => true)")]
@@ -272,7 +272,7 @@ class C
 ", fromData, toData);
         }
 
-        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyLinqMethodChain)]
+        [Fact]
         public async Task Test_OptimizeOfType_ReferenceType()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -742,7 +742,7 @@ class C
 ");
         }
 
-        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyLinqMethodChain)]
+        [Fact]
         public async Task TestNoDiagnostic_CombineWhereAndAny()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -761,7 +761,7 @@ class C
 ");
         }
 
-        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyLinqMethodChain)]
+        [Fact]
         public async Task TestNoDiagnostic_FirstOrDefault_ValueType()
         {
             await VerifyNoDiagnosticAsync(@"

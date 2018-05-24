@@ -99,6 +99,36 @@ class C
 ", fromData, toData);
             }
 
+            [Fact]
+            public async Task Test_MemberAccessExpression_AddCoalesceExpression()
+            {
+                await VerifyDiagnosticAndFixAsync(@"
+using System.Collections.Generic;
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var x = Enumerable.Empty<string>();
+        char y = x.ElementAtOrDefault(1)[|.|]First();
+    }
+}
+", @"
+using System.Collections.Generic;
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var x = Enumerable.Empty<string>();
+        char y = x.ElementAtOrDefault(1)?.First() ?? default;
+    }
+}
+");
+            }
+
             [Theory]
             [InlineData("x.ElementAtOrDefault(1)[|[[|]0]", "x.ElementAtOrDefault(1)?[0]")]
             [InlineData("x.FirstOrDefault()[|[[|]0]", "x.FirstOrDefault()?[0]")]
@@ -155,6 +185,36 @@ class C : IEnumerable<object>
     IEnumerator IEnumerable.GetEnumerator() => null;
 }
 ", fromData, toData);
+            }
+
+            [Fact]
+            public async Task Test_ElementAccessExpression_AddCoalesceExpression()
+            {
+                await VerifyDiagnosticAndFixAsync(@"
+using System.Collections.Generic;
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var x = Enumerable.Empty<string>();
+        char y = x.ElementAtOrDefault(1)[|[[|]0];
+    }
+}
+", @"
+using System.Collections.Generic;
+using System.Linq;
+
+class C
+{
+    void M()
+    {
+        var x = Enumerable.Empty<string>();
+        char y = x.ElementAtOrDefault(1)?[0] ?? default;
+    }
+}
+");
             }
 
             [Fact]
