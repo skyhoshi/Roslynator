@@ -15,7 +15,7 @@ namespace Roslynator.CSharp.Refactorings
 {
     internal static class UseStringBuilderInsteadOfConcatenationRefactoring
     {
-        public static void ComputeRefactoring(RefactoringContext context, StringConcatenationExpressionInfo concatenationInfo)
+        public static void ComputeRefactoring(RefactoringContext context, in StringConcatenationExpressionInfo concatenationInfo)
         {
             BinaryExpressionSyntax binaryExpression = concatenationInfo.BinaryExpression;
 
@@ -38,7 +38,9 @@ namespace Roslynator.CSharp.Refactorings
             }
         }
 
+#pragma warning disable RCSX001 // Mark parameter with in modifier
         private static void RegisterRefactoring(RefactoringContext context, StringConcatenationExpressionInfo concatenationInfo, StatementSyntax statement)
+#pragma warning restore RCSX001 // Mark parameter with in modifier
         {
             context.RegisterRefactoring(
                 "Use StringBuilder instead of concatenation",

@@ -55,7 +55,9 @@ namespace Roslynator.CSharp.Analysis
             });
         }
 
+#pragma warning disable RCSX001 // Mark parameter with in modifier
         private static void AnalyzeMethodDeclaration(SyntaxNodeAnalysisContext context, INamedTypeSymbol taskType, INamedTypeSymbol valueTaskType, WindowsRuntimeAsyncTypes windowsRuntimeAsyncTypes)
+#pragma warning restore RCSX001 // Mark parameter with in modifier
         {
             var methodDeclaration = (MethodDeclarationSyntax)context.Node;
 

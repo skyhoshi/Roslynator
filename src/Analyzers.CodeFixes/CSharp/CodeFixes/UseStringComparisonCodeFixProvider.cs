@@ -123,7 +123,9 @@ namespace Roslynator.CSharp.CodeFixes
         private bool RegisterCodeFix(
             CodeFixContext context,
             Diagnostic diagnostic,
+#pragma warning disable RCSX001 // Mark parameter with in modifier
             SimpleMemberInvocationExpressionInfo invocationInfo,
+#pragma warning restore RCSX001 // Mark parameter with in modifier
             INamedTypeSymbol comparisonSymbol,
             string comparisonName)
         {

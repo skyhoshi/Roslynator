@@ -72,7 +72,9 @@ namespace Roslynator.CSharp.Refactorings
             RegisterRefactoring(context, constructorDeclaration, data, semanticModel);
         }
 
+#pragma warning disable RCSX001 // Mark parameter with in modifier
         private static void RegisterRefactoring(RefactoringContext context, MemberDeclarationSyntax memberDeclaration, DocumentationCommentData data, SemanticModel semanticModel)
+#pragma warning restore RCSX001 // Mark parameter with in modifier
         {
             context.RegisterRefactoring(
                 GetTitle(),
@@ -82,18 +84,19 @@ namespace Roslynator.CSharp.Refactorings
             string GetTitle()
             {
                 string s;
+                DocumentationCommentOrigin origin = data.Origin;
 
-                if (data.Origin == DocumentationCommentOrigin.BaseMember)
+                if (origin == DocumentationCommentOrigin.BaseMember)
                 {
                     s = "base";
                 }
-                else if (data.Origin == DocumentationCommentOrigin.InterfaceMember)
+                else if (origin == DocumentationCommentOrigin.InterfaceMember)
                 {
                     s = "interface";
                 }
                 else
                 {
-                    Debug.Fail(data.Origin.ToString());
+                    Debug.Fail(origin.ToString());
                     s = "base";
                 }
 
@@ -104,7 +107,7 @@ namespace Roslynator.CSharp.Refactorings
         public static Task<Document> RefactorAsync(
             Document document,
             MemberDeclarationSyntax memberDeclaration,
-            DocumentationCommentData data,
+            in DocumentationCommentData data,
             SemanticModel semanticModel,
             CancellationToken cancellationToken)
         {

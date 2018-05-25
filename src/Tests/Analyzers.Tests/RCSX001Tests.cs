@@ -38,5 +38,52 @@ readonly struct C
 }
 ");
         }
+
+        [Fact]
+        public async Task TestNoDiagnostic_Assigned()
+        {
+            await VerifyNoDiagnosticAsync(@"
+readonly struct C
+{
+    void M(C c)
+    {
+        c = default(C);
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task TestNoDiagnostic_ReferencedInLocalFunction()
+        {
+            await VerifyNoDiagnosticAsync(@"
+readonly struct C
+{
+    void M(C c)
+    {
+        void LF()
+        {
+            var x = c;
+        }
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task TestNoDiagnostic_ReferencedInLambda()
+        {
+            await VerifyNoDiagnosticAsync(@"
+using System.Linq;
+
+readonly struct C
+{
+    void M(C c)
+    {
+        var items = Enumerable.Empty<C>().Select(f => c);
+    }
+}
+");
+        }
     }
 }

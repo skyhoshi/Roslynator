@@ -9,7 +9,9 @@ namespace Roslynator.CSharp.Refactorings.ExtractCondition
 {
     internal static class ExtractConditionRefactoring
     {
+#pragma warning disable RCSX001 // Mark parameter with in modifier
         internal static void ComputeRefactoring(RefactoringContext context, BinaryExpressionSelection binaryExpressionSelection)
+#pragma warning restore RCSX001 // Mark parameter with in modifier
         {
             BinaryExpressionSyntax binaryExpression = binaryExpressionSelection.BinaryExpression;
 

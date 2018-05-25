@@ -13,7 +13,9 @@ namespace Roslynator.CSharp.Refactorings
 {
     internal static class JoinStringExpressionsRefactoring
     {
+#pragma warning disable RCSX001 // Mark parameter with in modifier
         public static void ComputeRefactoring(RefactoringContext context, StringConcatenationExpressionInfo concatenationInfo)
+#pragma warning restore RCSX001 // Mark parameter with in modifier
         {
             StringConcatenationAnalysis analysis = concatenationInfo.Analyze();
 
@@ -48,7 +50,7 @@ namespace Roslynator.CSharp.Refactorings
 
         private static Task<Document> ToInterpolatedStringAsync(
             Document document,
-            StringConcatenationExpressionInfo concatenationInfo,
+            in StringConcatenationExpressionInfo concatenationInfo,
             CancellationToken cancellationToken)
         {
             InterpolatedStringExpressionSyntax newExpression = concatenationInfo.ToInterpolatedStringExpression();
@@ -58,7 +60,7 @@ namespace Roslynator.CSharp.Refactorings
 
         public static Task<Document> ToStringLiteralAsync(
             Document document,
-            StringConcatenationExpressionInfo concatenationInfo,
+            in StringConcatenationExpressionInfo concatenationInfo,
             bool multiline,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -71,7 +73,7 @@ namespace Roslynator.CSharp.Refactorings
 
         private static Task<Document> RefactorAsync(
             Document document,
-            StringConcatenationExpressionInfo concatenationInfo,
+            in StringConcatenationExpressionInfo concatenationInfo,
             ExpressionSyntax expression,
             CancellationToken cancellationToken)
         {
