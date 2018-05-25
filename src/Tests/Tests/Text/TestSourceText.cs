@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text;
@@ -45,6 +46,9 @@ namespace Roslynator.Tests.Text
         {
             StringBuilder sb = StringBuilderCache.GetInstance(s.Length - MarkersLength);
 
+            bool startPending = false;
+            LinePositionInfo start = default;
+            Stack<LinePositionInfo> stack = null;
             List<LinePositionSpanInfo> spans = null;
 
             int lastPos = 0;
@@ -52,48 +56,71 @@ namespace Roslynator.Tests.Text
             int line = 0;
             int column = 0;
 
-            int startLine = -1;
-            int startColumn = -1;
-
             int length = s.Length;
 
-            for (int i = 0; i < length; i++)
+            int i = 0;
+            while (i < length)
             {
                 switch (s[i])
                 {
                     case '\r':
                         {
-                            if (i < length - 1
-                                && s[i + 1] == '\n')
+                            if (PeekNextChar() == '\n')
                             {
                                 i++;
                             }
 
                             line++;
                             column = 0;
+                            i++;
                             continue;
                         }
                     case '\n':
                         {
                             line++;
                             column = 0;
+                            i++;
                             continue;
                         }
                     case '[':
                         {
-                            if (i < length - 1
-                                && i < length - 1
-                                && s[i + 1] == '|')
+                            char nextChar = PeekNextChar();
+                            if (nextChar == '|')
                             {
                                 sb.Append(s, lastPos, i - lastPos);
 
-                                startLine = line;
-                                startColumn = column;
+                                var start2 = new LinePositionInfo(sb.Length, line, column);
 
+                                if (stack != null)
+                                {
+                                    stack.Push(start2);
+                                }
+                                else if (!startPending)
+                                {
+                                    start = start2;
+                                    startPending = true;
+                                }
+                                else
+                                {
+                                    stack = new Stack<LinePositionInfo>();
+                                    stack.Push(start);
+                                    stack.Push(start2);
+                                    startPending = false;
+                                }
+
+                                i += 2;
+                                lastPos = i;
+                                continue;
+                            }
+                            else if (nextChar == '['
+                                && PeekChar(2) == '|'
+                                && PeekChar(3) == ']')
+                            {
                                 i++;
-
-                                lastPos = i + 1;
-
+                                column++;
+                                CloseSpan();
+                                i += 3;
+                                lastPos = i;
                                 continue;
                             }
 
@@ -101,27 +128,11 @@ namespace Roslynator.Tests.Text
                         }
                     case '|':
                         {
-                            if (startColumn != -1
-                                && i < length - 1
-                                && s[i + 1] == ']')
+                            if (PeekNextChar() == ']')
                             {
-                                int index = sb.Length;
-
-                                var span = new LinePositionSpanInfo(
-                                    new LinePositionInfo(index, startLine, startColumn),
-                                    new LinePositionInfo(index + i - lastPos, line, column));
-
-                                (spans ?? (spans = new List<LinePositionSpanInfo>())).Add(span);
-
-                                sb.Append(s, lastPos, i - lastPos);
-
-                                i++;
-
-                                lastPos = i + 1;
-
-                                startLine = -1;
-                                startColumn = -1;
-
+                                CloseSpan();
+                                i += 2;
+                                lastPos = i;
                                 continue;
                             }
 
@@ -130,6 +141,13 @@ namespace Roslynator.Tests.Text
                 }
 
                 column++;
+                i++;
+            }
+
+            if (startPending
+                || stack?.Count > 0)
+            {
+                throw new InvalidOperationException();
             }
 
             sb.Append(s, lastPos, s.Length - lastPos);
@@ -143,6 +161,40 @@ namespace Roslynator.Tests.Text
             return new TestSourceTextAnalysis(
                 StringBuilderCache.GetStringAndFree(sb),
                 spans?.ToImmutableArray() ?? ImmutableArray<LinePositionSpanInfo>.Empty);
+
+            char PeekNextChar()
+            {
+                return PeekChar(1);
+            }
+
+            char PeekChar(int offset)
+            {
+                return (i + offset >= s.Length) ? '\0' : s[i + offset];
+            }
+
+            void CloseSpan()
+            {
+                if (stack != null)
+                {
+                    start = stack.Pop();
+                }
+                else if (startPending)
+                {
+                    startPending = false;
+                }
+                else
+                {
+                    throw new InvalidOperationException();
+                }
+
+                var end = new LinePositionInfo(sb.Length + i - lastPos, line, column);
+
+                var span = new LinePositionSpanInfo(start, end);
+
+                (spans ?? (spans = new List<LinePositionSpanInfo>())).Add(span);
+
+                sb.Append(s, lastPos, i - lastPos);
+            }
         }
 
         private static string Replace(string s, int index, string replacement)

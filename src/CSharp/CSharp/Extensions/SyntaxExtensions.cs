@@ -1267,10 +1267,14 @@ namespace Roslynator.CSharp
 
             if (DocumentationCommentGenerator.CanGenerateFromBase(member.Kind()))
             {
-                DocumentationCommentData info = DocumentationCommentGenerator.GenerateFromBase(member, semanticModel, cancellationToken);
+                DocumentationCommentData data = DocumentationCommentGenerator.GenerateFromBase(member, semanticModel, cancellationToken);
 
-                if (info.Success)
-                    return member.WithDocumentationComment(info.Comment, indent: true);
+                if (data.Success)
+                {
+                    SyntaxTrivia comment = data.GetDocumentationCommentTrivia(semanticModel, member.SpanStart);
+
+                    return member.WithDocumentationComment(comment, indent: true);
+                }
             }
 
             return WithNewSingleLineDocumentationComment(member, settings);
@@ -2748,7 +2752,7 @@ namespace Roslynator.CSharp
             return null;
         }
 
-        private static SyntaxNode GetParent(SyntaxNode node, bool ascendOutOfTrivia)
+        internal static SyntaxNode GetParent(this SyntaxNode node, bool ascendOutOfTrivia)
         {
             SyntaxNode parent = node.Parent;
 

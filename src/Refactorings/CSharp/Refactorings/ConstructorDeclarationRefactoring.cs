@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Roslynator.CSharp.Analysis;
 
@@ -14,18 +15,21 @@ namespace Roslynator.CSharp.Refactorings
                 && context.SupportsCSharp6
                 && constructorDeclaration.Body != null
                 && context.Span.IsEmptyAndContainedInSpanOrBetweenSpans(constructorDeclaration.Body)
-                && UseExpressionBodiedMemberAnalysis.IsFixable(constructorDeclaration))
+                && UseExpressionBodiedMemberAnalysis.GetExpression(constructorDeclaration.Body) != null)
             {
                 context.RegisterRefactoring(
-                    "Use expression-bodied member",
+                    UseExpressionBodiedMemberRefactoring.Title,
                     cancellationToken => UseExpressionBodiedMemberRefactoring.RefactorAsync(context.Document, constructorDeclaration, cancellationToken),
                     RefactoringIdentifiers.UseExpressionBodiedMember);
             }
 
             if (context.IsRefactoringEnabled(RefactoringIdentifiers.CopyDocumentationCommentFromBaseMember)
-                && constructorDeclaration.HeaderSpan().Contains(context.Span))
+                && constructorDeclaration.HeaderSpan().Contains(context.Span)
+                && !constructorDeclaration.HasDocumentationComment())
             {
-                await CopyDocumentationCommentFromBaseMemberRefactoring.ComputeRefactoringAsync(context, constructorDeclaration).ConfigureAwait(false);
+                SemanticModel semanticModel = await context.GetSemanticModelAsync().ConfigureAwait(false);
+
+                CopyDocumentationCommentFromBaseMemberRefactoring.ComputeRefactoring(context, constructorDeclaration, semanticModel);
             }
         }
     }

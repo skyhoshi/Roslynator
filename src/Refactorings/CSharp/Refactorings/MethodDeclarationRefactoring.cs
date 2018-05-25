@@ -42,10 +42,10 @@ namespace Roslynator.CSharp.Refactorings
                 && context.SupportsCSharp6
                 && methodDeclaration.Body != null
                 && context.Span.IsEmptyAndContainedInSpanOrBetweenSpans(methodDeclaration.Body)
-                && UseExpressionBodiedMemberAnalysis.IsFixable(methodDeclaration))
+                && UseExpressionBodiedMemberAnalysis.GetExpression(methodDeclaration.Body) != null)
             {
                 context.RegisterRefactoring(
-                    "Use expression-bodied member",
+                    UseExpressionBodiedMemberRefactoring.Title,
                     cancellationToken => UseExpressionBodiedMemberRefactoring.RefactorAsync(context.Document, methodDeclaration, cancellationToken),
                     RefactoringIdentifiers.UseExpressionBodiedMember);
             }
@@ -63,9 +63,11 @@ namespace Roslynator.CSharp.Refactorings
             }
 
             if (context.IsRefactoringEnabled(RefactoringIdentifiers.CopyDocumentationCommentFromBaseMember)
-                && methodDeclaration.HeaderSpan().Contains(context.Span))
+                && methodDeclaration.HeaderSpan().Contains(context.Span)
+                && !methodDeclaration.HasDocumentationComment())
             {
-                await CopyDocumentationCommentFromBaseMemberRefactoring.ComputeRefactoringAsync(context, methodDeclaration).ConfigureAwait(false);
+                SemanticModel semanticModel = await context.GetSemanticModelAsync().ConfigureAwait(false);
+                CopyDocumentationCommentFromBaseMemberRefactoring.ComputeRefactoring(context, methodDeclaration, semanticModel);
             }
 
             if (context.IsRefactoringEnabled(RefactoringIdentifiers.RenameMethodAccordingToTypeName))

@@ -2497,10 +2497,18 @@ namespace Roslynator.CSharp
             return SyntaxFactory.LiteralExpression(SyntaxKind.NullLiteralExpression);
         }
 
+        public static LiteralExpressionSyntax DefaultLiteralExpression()
+        {
+            return SyntaxFactory.LiteralExpression(SyntaxKind.DefaultLiteralExpression);
+        }
+
         public static LiteralExpressionSyntax LiteralExpression(object value)
         {
             if (value == null)
                 return NullLiteralExpression();
+
+            if (value is string stringValue)
+                return StringLiteralExpression(stringValue);
 
             if (value is bool boolValue)
                 return (boolValue) ? TrueLiteralExpression() : FalseLiteralExpression();
