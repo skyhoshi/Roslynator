@@ -67,6 +67,27 @@ namespace Roslynator
             return false;
         }
 
+        public static bool IsEventHandlerMethod(IMethodSymbol methodSymbol)
+        {
+            if (methodSymbol?.ReturnsVoid == true)
+            {
+                ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
+
+                if (parameters.Length == 2
+                    && parameters[0].Type.SpecialType == SpecialType.System_Object)
+                {
+                    ITypeSymbol type = parameters[1].Type;
+
+                    if (type.Kind == SymbolKind.TypeParameter)
+                        return type.Name.EndsWith("EventArgs", StringComparison.Ordinal);
+
+                    return type.EqualsOrInheritsFrom(FullyQualifiedMetadataNames.System_EventArgs);
+                }
+            }
+
+            return false;
+        }
+
         public static bool HasAccessibleIndexer(
             ITypeSymbol typeSymbol,
             SemanticModel semanticModel,

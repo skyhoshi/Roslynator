@@ -28,7 +28,8 @@ namespace Roslynator.CSharp.Analysis
 
             context.RegisterCompilationStartAction(startContext =>
             {
-                INamedTypeSymbol flagsAttribute = startContext.Compilation.GetTypeByMetadataName(MetadataNames.System_FlagsAttribute);
+                //TODO: 
+                INamedTypeSymbol flagsAttribute = startContext.Compilation.GetTypeByMetadataName("System.FlagsAttribute");
 
                 if (flagsAttribute == null)
                     return;

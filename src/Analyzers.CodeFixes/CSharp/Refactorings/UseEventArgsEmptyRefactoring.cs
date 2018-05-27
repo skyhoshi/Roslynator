@@ -18,7 +18,7 @@ namespace Roslynator.CSharp.Refactorings
             SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
 
             TypeSyntax type = semanticModel
-                .GetTypeByMetadataName(MetadataNames.System_EventArgs)
+                .GetTypeByMetadataName("System.EventArgs")
                 .ToMinimalTypeSyntax(semanticModel, objectCreationExpression.SpanStart);
 
             MemberAccessExpressionSyntax newNode = CSharpFactory.SimpleMemberAccessExpression(type, SyntaxFactory.IdentifierName("Empty"))
