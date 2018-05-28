@@ -2886,11 +2886,20 @@ namespace Roslynator.CSharp
             SemanticModel semanticModel,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            return IsInExpressionTree(
-                node,
-                semanticModel.GetTypeByMetadataName(MetadataNames.System_Linq_Expressions_Expression_1),
-                semanticModel,
-                cancellationToken);
+            for (SyntaxNode current = node; current != null; current = current.Parent)
+            {
+                if (CSharpFacts.IsLambdaExpression(current.Kind())
+                    && semanticModel
+                        .GetTypeInfo(current, cancellationToken)
+                        .ConvertedType?
+                        .OriginalDefinition
+                        .HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Linq_Expressions_Expression_1) == true)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         internal static bool IsInExpressionTree(
@@ -2899,17 +2908,19 @@ namespace Roslynator.CSharp
             SemanticModel semanticModel,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (expressionType != null)
-            {
-                for (SyntaxNode current = node; current != null; current = current.Parent)
-                {
-                    if (current.IsKind(SyntaxKind.SimpleLambdaExpression, SyntaxKind.ParenthesizedLambdaExpression))
-                    {
-                        TypeInfo typeInfo = semanticModel.GetTypeInfo(current, cancellationToken);
+            if (expressionType == null)
+                return false;
 
-                        if (expressionType.Equals(typeInfo.ConvertedType?.OriginalDefinition))
-                            return true;
-                    }
+            for (SyntaxNode current = node; current != null; current = current.Parent)
+            {
+                if (CSharpFacts.IsLambdaExpression(current.Kind())
+                    && semanticModel
+                        .GetTypeInfo(current, cancellationToken)
+                        .ConvertedType?
+                        .OriginalDefinition
+                        .Equals(expressionType) == true)
+                {
+                    return true;
                 }
             }
 

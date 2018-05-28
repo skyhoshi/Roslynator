@@ -96,8 +96,8 @@ namespace Roslynator.CSharp.Refactorings
 
                 if (semanticModel.GetTypeSymbol(expression, cancellationToken) is INamedTypeSymbol typeSymbol)
                 {
-                    if (typeSymbol.Equals(semanticModel.GetTypeByMetadataName(MetadataNames.System_Runtime_CompilerServices_ConfiguredTaskAwaitable))
-                        || typeSymbol.ConstructedFrom.Equals(semanticModel.GetTypeByMetadataName(MetadataNames.System_Runtime_CompilerServices_ConfiguredTaskAwaitable_T)))
+                    if (typeSymbol.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Runtime_CompilerServices_ConfiguredTaskAwaitable)
+                        || typeSymbol.OriginalDefinition.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Runtime_CompilerServices_ConfiguredTaskAwaitable_T))
                     {
                         if (expression is InvocationExpressionSyntax invocation)
                         {

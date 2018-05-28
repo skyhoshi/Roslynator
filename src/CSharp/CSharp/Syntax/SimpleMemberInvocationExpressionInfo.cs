@@ -63,6 +63,7 @@ namespace Roslynator.CSharp.Syntax
         /// </summary>
         public SeparatedSyntaxList<ArgumentSyntax> Arguments
         {
+            //TODO: ArgumentList?.
             get { return InvocationExpression?.ArgumentList.Arguments ?? default(SeparatedSyntaxList<ArgumentSyntax>); }
         }
 

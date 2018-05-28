@@ -60,7 +60,7 @@ namespace Roslynator.CSharp.Refactorings
 
             IdentifierNameSyntax stringBuilderName = IdentifierName(name);
 
-            TypeSyntax type = semanticModel.GetTypeByMetadataName(MetadataNames.System_Text_StringBuilder).ToMinimalTypeSyntax(semanticModel, statement.SpanStart);
+            TypeSyntax type = semanticModel.GetTypeByMetadataName("System.Text.StringBuilder").ToMinimalTypeSyntax(semanticModel, statement.SpanStart);
 
             var statements = new List<StatementSyntax>()
             {

@@ -19,11 +19,11 @@ namespace Roslynator.CSharp.Refactorings
             SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
 
             var attributeName = (NameSyntax)semanticModel
-                .GetTypeByMetadataName(MetadataNames.System_AttributeUsageAttribute)
+                .GetTypeByMetadataName("System.AttributeUsageAttribute")
                 .ToMinimalTypeSyntax(semanticModel, classDeclaration.SpanStart);
 
             TypeSyntax attributeTargetsType = semanticModel
-                .GetTypeByMetadataName(MetadataNames.System_AttributeTargets)
+                .GetTypeByMetadataName("System.AttributeTargets")
                 .ToMinimalTypeSyntax(semanticModel, classDeclaration.SpanStart);
 
             AttributeSyntax attribute = Attribute(
