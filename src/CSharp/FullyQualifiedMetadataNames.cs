@@ -38,6 +38,7 @@ namespace Roslynator
         public static FullyQualifiedMetadataName System_Text_StringBuilder { get; } = new FullyQualifiedMetadataName(Namespaces.System_Text, "StringBuilder");
         public static FullyQualifiedMetadataName System_Threading_Tasks_Task { get; } = new FullyQualifiedMetadataName(Namespaces.System_Threading_Tasks, "Task");
         public static FullyQualifiedMetadataName System_Threading_Tasks_Task_T { get; } = new FullyQualifiedMetadataName(Namespaces.System_Threading_Tasks, "Task`1");
+        public static FullyQualifiedMetadataName System_TimeSpan { get; } = new FullyQualifiedMetadataName(Namespaces.System, "TimeSpan");
 
         private static class Namespaces
         {
