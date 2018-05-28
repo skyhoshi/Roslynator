@@ -97,14 +97,14 @@ namespace Roslynator.CSharp.Refactorings
                     }
 
                     if (regexOptions == null
-                        && parameterSymbol.Type.Equals(semanticModel.GetTypeByMetadataName("System.Text.RegularExpressions.RegexOptions")))
+                        && parameterSymbol.Type.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Text_RegularExpressions_RegexOptions))
                     {
                         regexOptions = arguments[i];
                         newArguments = newArguments.RemoveAt(i);
                     }
 
                     if (matchTimeout == null
-                        && parameterSymbol.Type.Equals(semanticModel.GetTypeByMetadataName("System.TimeSpan")))
+                        && parameterSymbol.Type.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_TimeSpan))
                     {
                         matchTimeout = arguments[i];
                         newArguments = newArguments.RemoveAt(i);
