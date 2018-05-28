@@ -6,9 +6,9 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Tests
 {
-    public class CodeVerificationOptions
+    public abstract class CodeVerificationOptions
     {
-        public CodeVerificationOptions(
+        protected CodeVerificationOptions(
             bool allowNewCompilerDiagnostics = false,
             bool enableDiagnosticsDisabledByDefault = true,
             DiagnosticSeverity maxAllowedCompilerDiagnosticSeverity = DiagnosticSeverity.Info,
@@ -23,19 +23,6 @@ namespace Roslynator.Tests
                 : ImmutableArray<string>.Empty;
         }
 
-        public static CodeVerificationOptions Default { get; } = new CodeVerificationOptions(allowedCompilerDiagnosticIds: ImmutableArray.Create(
-            "CS0067", // Event is never used
-            "CS0168", // Variable is declared but never used
-            "CS0169", // Field is never used
-            "CS0219", // Variable is assigned but its value is never used
-            "CS0414", // Field is assigned but its value is never used
-            "CS0649", // Field is never assigned to, and will always have its default value null
-            "CS0660", // Type defines operator == or operator != but does not override Object.Equals(object o)
-            "CS0661", // Type defines operator == or operator != but does not override Object.GetHashCode()
-            "CS8019", // Unnecessary using directive
-            "CS8321" // The local function 'LF' is declared but never used
-        ));
-
         public bool AllowNewCompilerDiagnostics { get; }
 
         public bool EnableDiagnosticsDisabledByDefault { get; }
@@ -44,14 +31,8 @@ namespace Roslynator.Tests
 
         public ImmutableArray<string> AllowedCompilerDiagnosticIds { get; }
 
-        public CodeVerificationOptions AddAllowedCompilerDiagnosticId(string diagnosticId)
-        {
-            return new CodeVerificationOptions(allowedCompilerDiagnosticIds: AllowedCompilerDiagnosticIds.Add(diagnosticId));
-        }
+        public abstract CodeVerificationOptions AddAllowedCompilerDiagnosticId(string diagnosticId);
 
-        public CodeVerificationOptions AddAllowedCompilerDiagnosticIds(IEnumerable<string> diagnosticIds)
-        {
-            return new CodeVerificationOptions(allowedCompilerDiagnosticIds: AllowedCompilerDiagnosticIds.AddRange(diagnosticIds));
-        }
+        public abstract CodeVerificationOptions AddAllowedCompilerDiagnosticIds(IEnumerable<string> diagnosticIds);
     }
 }

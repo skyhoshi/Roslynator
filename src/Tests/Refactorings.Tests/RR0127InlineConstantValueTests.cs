@@ -283,7 +283,7 @@ class C
 ", RefactoringId);
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.InlineConstantValue)]
         public async Task Test_MultipleDocumentsAsync()
         {
             await VerifyRefactoringAsync(@"

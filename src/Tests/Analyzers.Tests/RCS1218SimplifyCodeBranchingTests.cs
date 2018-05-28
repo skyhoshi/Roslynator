@@ -5,7 +5,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Roslynator.CSharp.CodeFixes;
-using Roslynator.Tests;
 using Xunit;
 
 #pragma warning disable RCS1090
@@ -793,7 +792,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task TestNoDiagnostic_While_ConditionContainsLocalDefinedInLoopBody_IsPatternExpression()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -820,7 +819,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task TestNoDiagnostic_While_ConditionContainsLocalDefinedInLoopBody_OutVariable()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -851,7 +850,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task TestNoDiagnostic_While_ConditionContainsLocalDefinedInLoopBody_DeconstructionVariable()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -873,7 +872,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task TestNoDiagnostic_Do()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -973,7 +972,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task TestNoDiagnostic_Do_ConditionContainsLocalDefinedInLoopBody_LocalDeclaration()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -996,7 +995,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task TestNoDiagnostic_Do_ConditionContainsLocalDefinedInLoopBody_IsPatternExpression()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -1024,7 +1023,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task TestNoDiagnostic_Do_ConditionContainsLocalDefinedInLoopBody_OutVariable()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -1056,7 +1055,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task TestNoDiagnostic_Do_ConditionContainsLocalDefinedInLoopBody_DeconstructionVariable()
         {
             await VerifyNoDiagnosticAsync(@"

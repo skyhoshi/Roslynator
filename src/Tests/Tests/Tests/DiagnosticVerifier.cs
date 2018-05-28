@@ -112,6 +112,8 @@ namespace Roslynator.Tests
             CodeVerificationOptions options = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             Document document = CreateDocument(source, additionalSources ?? Array.Empty<string>());
 
             Project project = document.Project;
@@ -133,11 +135,11 @@ namespace Roslynator.Tests
             if (diagnostics.Length > 0
                 && Analyzer.SupportedDiagnostics.Length > 1)
             {
-                VerifyDiagnostics(FilterDiagnostics(), expectedDiagnostics);
+                VerifyDiagnostics(FilterDiagnostics(), expectedDiagnostics, cancellationToken);
             }
             else
             {
-                VerifyDiagnostics(diagnostics, expectedDiagnostics);
+                VerifyDiagnostics(diagnostics, expectedDiagnostics, cancellationToken);
             }
 
             IEnumerable<Diagnostic> FilterDiagnostics()
@@ -181,6 +183,8 @@ namespace Roslynator.Tests
             CodeVerificationOptions options = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             if (!Analyzer.Supports(Descriptor))
                 Assert.True(false, $"Diagnostic \"{Descriptor.Id}\" is not supported by analyzer \"{Analyzer.GetType().Name}\".");
 
@@ -209,7 +213,16 @@ namespace Roslynator.Tests
         private void VerifyDiagnostics(
             IEnumerable<Diagnostic> actual,
             IEnumerable<Diagnostic> expected,
-            bool checkAdditionalLocations = false)
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            VerifyDiagnostics(actual, expected, checkAdditionalLocations: false, cancellationToken: cancellationToken);
+        }
+
+        private void VerifyDiagnostics(
+            IEnumerable<Diagnostic> actual,
+            IEnumerable<Diagnostic> expected,
+            bool checkAdditionalLocations,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             int expectedCount = 0;
             int actualCount = 0;
@@ -217,8 +230,13 @@ namespace Roslynator.Tests
             using (IEnumerator<Diagnostic> expectedEnumerator = expected.GetEnumerator())
             using (IEnumerator<Diagnostic> actualEnumerator = actual.GetEnumerator())
             {
-                while (expectedEnumerator.MoveNext())
+                if (!expectedEnumerator.MoveNext())
+                    Assert.True(false, "Expected diagnostics are empty.");
+
+                do
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
+
                     expectedCount++;
 
                     Diagnostic expectedDiagnostic = expectedEnumerator.Current;
@@ -239,7 +257,8 @@ namespace Roslynator.Tests
 
                         Assert.True(false, $"Mismatch between number of diagnostics returned, expected: {expectedCount} actual: {actualCount}{actual.ToDebugString()}");
                     }
-                }
+
+                } while (expectedEnumerator.MoveNext());
 
                 if (actualEnumerator.MoveNext())
                 {
@@ -332,7 +351,7 @@ namespace Roslynator.Tests
 
         private protected Diagnostic CreateDiagnostic(TextSpan span, LinePositionSpan lineSpan)
         {
-            Location location = Location.Create(FileUtility.DefaultCSharpFileName, span, lineSpan);
+            Location location = Location.Create(CreateFileName(), span, lineSpan);
 
             return Diagnostic.Create(Descriptor, location);
         }

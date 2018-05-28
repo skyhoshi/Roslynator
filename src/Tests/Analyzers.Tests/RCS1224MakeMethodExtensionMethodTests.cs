@@ -83,7 +83,7 @@ public static class FooExtensions
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
         public async Task Test_Modifier_Ref_ValueType()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -99,7 +99,7 @@ public static class FooExtensions
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
         public async Task Test_Modifier_Ref_StructConstraint()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -115,7 +115,7 @@ public static class FooExtensions
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
         public async Task Test_Modifier_Ref_UnmanagedConstraint()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -131,7 +131,7 @@ public static class FooExtensions
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
         public async Task TestNoDiagnostic_NoSuffix()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -189,7 +189,7 @@ public static class FooExtensions
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
         public async Task TestNoDiagnostic_Modifier_In_ReferenceType()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -200,7 +200,7 @@ public static class FooExtensions
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
         public async Task TestNoDiagnostic_Modifier_In_StructConstraint()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -211,7 +211,7 @@ public static class FooExtensions
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
         public async Task TestNoDiagnostic_Modifier_In_UnmanagedConstraint()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -222,7 +222,7 @@ public static class FooExtensions
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
         public async Task TestNoDiagnostic_Modifier_Ref_ReferenceType()
         {
             await VerifyNoDiagnosticAsync(@"
