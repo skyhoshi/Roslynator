@@ -62,7 +62,7 @@ namespace Roslynator
             return obj is ExtensionMethodSymbolInfo other && Equals(other);
         }
 
-        public bool Equals(in ExtensionMethodSymbolInfo other)
+        public bool Equals(ExtensionMethodSymbolInfo other)
         {
             return EqualityComparer<IMethodSymbol>.Default.Equals(Symbol, other.Symbol);
         }
