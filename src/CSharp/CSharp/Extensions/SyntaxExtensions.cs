@@ -868,26 +868,14 @@ namespace Roslynator.CSharp
             return SeparatedList<TNode>(nodesAndTokens);
         }
 
-        //TODO: make public ToSyntaxTokenList(IEnumerable<SyntaxToken>)
         /// <summary>
         /// Creates a list of syntax tokens from a sequence of tokens.
         /// </summary>
         /// <param name="tokens"></param>
         /// <returns></returns>
-        internal static SyntaxTokenList ToSyntaxTokenList(this IEnumerable<SyntaxToken> tokens)
+        public static SyntaxTokenList ToSyntaxTokenList(this IEnumerable<SyntaxToken> tokens)
         {
             return TokenList(tokens);
-        }
-
-        //TODO: make public ToSyntaxTriviaList(IEnumerable<SyntaxTrivia>)
-        /// <summary>
-        /// Creates a list of syntax trivia from a sequence of trivias.
-        /// </summary>
-        /// <param name="trivias"></param>
-        /// <returns></returns>
-        internal static SyntaxTriviaList ToSyntaxTriviaList(this IEnumerable<SyntaxTrivia> trivias)
-        {
-            return TriviaList(trivias);
         }
         #endregion IEnumerable<T>
 
