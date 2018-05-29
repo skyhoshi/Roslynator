@@ -340,7 +340,6 @@ namespace Roslynator
                 .GetSyntax(cancellationToken);
         }
 
-        //TODO: add overload GetAttribute(this ISymbol symbol, INamedTypeSymbol attributeClass, bool includeBaseTypes)
         /// <summary>
         /// Returns the attribute for the symbol that matches the specified attribute class, or null if the symbol does not have the specified attribute.
         /// </summary>

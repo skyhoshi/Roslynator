@@ -42,12 +42,7 @@ namespace Roslynator
 
         public bool IsDefault
         {
-            get
-            {
-                return Name == null
-                    && ContainingTypes.IsDefault
-                    && ContainingNamespaces.IsDefault;
-            }
+            get { return Name == null; }
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -61,7 +56,7 @@ namespace Roslynator
             return ToString(SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces);
         }
 
-        public string ToString(SymbolDisplayTypeQualificationStyle typeQualificationStyle)
+        internal string ToString(SymbolDisplayTypeQualificationStyle typeQualificationStyle)
         {
             if (IsDefault)
                 return "";
@@ -75,7 +70,7 @@ namespace Roslynator
                 case SymbolDisplayTypeQualificationStyle.NameAndContainingTypes:
                     {
                         if (ContainingTypes.Any())
-                            return $"{string.Join("+", ContainingTypes)}+{Name}";
+                            return string.Join("+", ContainingTypes) + "+" + Name;
 
                         return Name;
                     }
@@ -87,23 +82,23 @@ namespace Roslynator
 
                             if (ContainingTypes.Any())
                             {
-                                return $"{@namespace}.{string.Join("+", ContainingTypes)}+{Name}";
+                                return @namespace + "." + string.Join("+", ContainingTypes) + "+" + Name;
                             }
                             else
                             {
-                                return $"{@namespace}.{Name}";
+                                return @namespace + "." + Name;
                             }
                         }
                         else if (ContainingTypes.Any())
                         {
-                            return $"{string.Join("+", ContainingTypes)}+{Name}";
+                            return string.Join("+", ContainingTypes) + "+" + Name;
                         }
 
                         return Name;
                     }
             }
 
-            throw new ArgumentException("", nameof(typeQualificationStyle));
+            throw new ArgumentException($"Unknown enum value '{typeQualificationStyle}'.", nameof(typeQualificationStyle));
         }
 
         public override bool Equals(object obj)
