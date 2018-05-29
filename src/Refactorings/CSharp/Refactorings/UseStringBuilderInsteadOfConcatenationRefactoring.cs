@@ -60,11 +60,14 @@ namespace Roslynator.CSharp.Refactorings
 
             IdentifierNameSyntax stringBuilderName = IdentifierName(name);
 
-            TypeSyntax type = semanticModel.GetTypeByMetadataName("System.Text.StringBuilder").ToMinimalTypeSyntax(semanticModel, statement.SpanStart);
-
             var statements = new List<StatementSyntax>()
             {
-                LocalDeclarationStatement(VarType(), Identifier(name).WithRenameAnnotation(), ObjectCreationExpression(type, ArgumentList())).WithLeadingTrivia(statement.GetLeadingTrivia())
+                LocalDeclarationStatement(
+                    VarType(),
+                    Identifier(name).WithRenameAnnotation(),
+                    ObjectCreationExpression(
+                        ParseTypeName("System.Text.StringBuilder").WithSimplifierAnnotation(),
+                        ArgumentList())).WithLeadingTrivia(statement.GetLeadingTrivia())
             };
 
             ExpressionSyntax newInvocation = null;
