@@ -16,7 +16,6 @@ namespace Roslynator.CSharp.Analysis.Tests
     {
         public RCS1218SimplifyCodeBranchingTests()
         {
-            //TODO: 
             Options = base.Options.AddAllowedCompilerDiagnosticId("CS1525");
         }
 
