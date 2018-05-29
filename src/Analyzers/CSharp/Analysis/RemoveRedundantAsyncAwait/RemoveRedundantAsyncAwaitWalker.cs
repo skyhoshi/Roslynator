@@ -34,8 +34,13 @@ namespace Roslynator.CSharp.Analysis.RemoveRedundantAsyncAwait
 
         public override void Visit(SyntaxNode node)
         {
-            if (!_shouldStop
-                && Span.Contains(node.Span))
+            if (_shouldStop)
+                return;
+
+            TextSpan span = node.Span;
+
+            if (Span.OverlapsWith(span)
+                || (span.IsEmpty && Span.IntersectsWith(span)))
             {
                 base.Visit(node);
             }
