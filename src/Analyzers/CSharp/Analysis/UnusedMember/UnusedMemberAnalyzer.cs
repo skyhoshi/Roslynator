@@ -174,7 +174,7 @@ namespace Roslynator.CSharp.Analysis.UnusedMember
             {
                 string value = semanticModel
                     .GetDeclaredSymbol(typeDeclaration, cancellationToken)
-                    .GetAttribute(FullyQualifiedMetadataNames.System_Diagnostics_DebuggerDisplayAttribute)?
+                    .GetAttribute(MetadataNames.System_Diagnostics_DebuggerDisplayAttribute)?
                     .ConstructorArguments
                     .SingleOrDefault(shouldThrow: false)
                     .Value?

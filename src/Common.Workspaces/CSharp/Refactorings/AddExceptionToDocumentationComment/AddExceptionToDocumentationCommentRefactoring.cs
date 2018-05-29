@@ -363,7 +363,7 @@ namespace Roslynator.CSharp.Refactorings.AddExceptionToDocumentationComment
                 sb.Append(parameterSymbol.Name);
                 sb.Append("\"/>");
 
-                if (exceptionSymbol.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_ArgumentNullException))
+                if (exceptionSymbol.HasMetadataName(MetadataNames.System_ArgumentNullException))
                     sb.Append(" is <c>null</c>.");
             }
 

@@ -53,7 +53,7 @@ namespace Roslynator.CSharp.Analysis.AddExceptionToDocumentationComment
             SemanticModel semanticModel,
             CancellationToken cancellationToken)
         {
-            if (ExceptionSymbol.EqualsOrInheritsFrom(FullyQualifiedMetadataNames.System_ArgumentException))
+            if (ExceptionSymbol.EqualsOrInheritsFrom(MetadataNames.System_ArgumentException))
             {
                 return GetParameterSymbolCore(semanticModel, cancellationToken);
             }

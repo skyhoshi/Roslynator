@@ -36,7 +36,7 @@ namespace Roslynator.CSharp.Analysis
             if (namedType.TypeKind != TypeKind.Enum)
                 return;
 
-            if (!namedType.HasAttribute(FullyQualifiedMetadataNames.System_FlagsAttribute))
+            if (!namedType.HasAttribute(MetadataNames.System_FlagsAttribute))
                 return;
 
             ImmutableArray<ISymbol> fields = namedType.GetMembers();

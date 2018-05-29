@@ -373,7 +373,7 @@ namespace Roslynator
 
             foreach (AttributeData attributeData in symbol.GetAttributes())
             {
-                if (attributeData.AttributeClass.HasFullyQualifiedMetadataName(fullyQualifiedMetadataName))
+                if (attributeData.AttributeClass.HasMetadataName(fullyQualifiedMetadataName))
                     return attributeData;
             }
 
@@ -521,7 +521,7 @@ namespace Roslynator
             return true;
         }
 
-        internal static bool HasFullyQualifiedMetadataName(this ISymbol symbol, in FullyQualifiedMetadataName fullyQualifiedMetadataName)
+        internal static bool HasMetadataName(this ISymbol symbol, in FullyQualifiedMetadataName fullyQualifiedMetadataName)
         {
             return fullyQualifiedMetadataName.Equals(symbol);
         }
@@ -1304,7 +1304,7 @@ namespace Roslynator
 
             foreach (INamedTypeSymbol interfaceSymbol in typeSymbol.GetInterfaces(allInterfaces))
             {
-                if (interfaceSymbol.HasFullyQualifiedMetadataName(fullyQualifiedMetadataName))
+                if (interfaceSymbol.HasMetadataName(fullyQualifiedMetadataName))
                     return true;
             }
 
@@ -1314,7 +1314,7 @@ namespace Roslynator
         internal static bool IsEnumWithFlags(this ITypeSymbol typeSymbol)
         {
             return typeSymbol?.TypeKind == TypeKind.Enum
-                && typeSymbol.HasAttribute(FullyQualifiedMetadataNames.System_FlagsAttribute);
+                && typeSymbol.HasAttribute(MetadataNames.System_FlagsAttribute);
         }
 
         /// <summary>
@@ -1432,7 +1432,7 @@ namespace Roslynator
 
             while (baseType != null)
             {
-                if (baseType.HasFullyQualifiedMetadataName(fullyQualifiedMetadataName))
+                if (baseType.HasMetadataName(fullyQualifiedMetadataName))
                     return true;
 
                 baseType = baseType.BaseType;
@@ -1442,7 +1442,7 @@ namespace Roslynator
             {
                 foreach (INamedTypeSymbol interfaceType in type.AllInterfaces)
                 {
-                    if (interfaceType.HasFullyQualifiedMetadataName(fullyQualifiedMetadataName))
+                    if (interfaceType.HasMetadataName(fullyQualifiedMetadataName))
                         return true;
                 }
             }
@@ -1472,7 +1472,7 @@ namespace Roslynator
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
 
-            return type.HasFullyQualifiedMetadataName(fullyQualifiedMetadataName)
+            return type.HasMetadataName(fullyQualifiedMetadataName)
                 || InheritsFrom(type, fullyQualifiedMetadataName, includeInterfaces);
         }
 
@@ -1609,7 +1609,7 @@ namespace Roslynator
 
         internal static bool EqualsOrInheritsFromTaskOfT(this ITypeSymbol typeSymbol)
         {
-            return typeSymbol?.EqualsOrInheritsFrom(FullyQualifiedMetadataNames.System_Threading_Tasks_Task_T) == true;
+            return typeSymbol?.EqualsOrInheritsFrom(MetadataNames.System_Threading_Tasks_Task_T) == true;
         }
 
         /// <summary>

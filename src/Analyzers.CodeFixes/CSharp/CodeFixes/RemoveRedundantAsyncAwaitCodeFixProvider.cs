@@ -151,8 +151,8 @@ namespace Roslynator.CSharp.CodeFixes
 
                 if (semanticModel.GetTypeSymbol(expression, cancellationToken) is INamedTypeSymbol typeSymbol)
                 {
-                    if (typeSymbol.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Runtime_CompilerServices_ConfiguredTaskAwaitable)
-                        || typeSymbol.OriginalDefinition.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Runtime_CompilerServices_ConfiguredTaskAwaitable_T))
+                    if (typeSymbol.HasMetadataName(MetadataNames.System_Runtime_CompilerServices_ConfiguredTaskAwaitable)
+                        || typeSymbol.OriginalDefinition.HasMetadataName(MetadataNames.System_Runtime_CompilerServices_ConfiguredTaskAwaitable_T))
                     {
                         if (expression is InvocationExpressionSyntax invocation)
                         {

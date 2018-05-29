@@ -42,7 +42,7 @@ namespace Roslynator.CSharp.Analysis
 
             ITypeSymbol typeSymbol = context.SemanticModel.GetTypeSymbol(objectCreation, context.CancellationToken);
 
-            if (typeSymbol?.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_EventArgs) != true)
+            if (typeSymbol?.HasMetadataName(MetadataNames.System_EventArgs) != true)
                 return;
 
             context.ReportDiagnostic(DiagnosticDescriptors.UseEventArgsEmpty, objectCreation);

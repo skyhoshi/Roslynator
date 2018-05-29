@@ -48,7 +48,7 @@ namespace Roslynator.CSharp.Refactorings
         {
             if (memberSymbol.IsAsyncMethod())
             {
-                if (memberTypeSymbol.OriginalDefinition.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Threading_Tasks_Task_T))
+                if (memberTypeSymbol.OriginalDefinition.HasMetadataName(MetadataNames.System_Threading_Tasks_Task_T))
                 {
                     ITypeSymbol typeArgument = ((INamedTypeSymbol)memberTypeSymbol).TypeArguments[0];
 

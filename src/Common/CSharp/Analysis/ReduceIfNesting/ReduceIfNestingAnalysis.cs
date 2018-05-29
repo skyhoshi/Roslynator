@@ -152,7 +152,7 @@ namespace Roslynator.CSharp.Analysis.ReduceIfNesting
                             && semanticModel
                                 .GetDeclaredSymbol(methodDeclaration, cancellationToken)?
                                 .ReturnType
-                                .HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Threading_Tasks_Task) == true)
+                                .HasMetadataName(MetadataNames.System_Threading_Tasks_Task) == true)
                         {
                             return Success(SyntaxKind.ReturnStatement, parent);
                         }
@@ -182,7 +182,7 @@ namespace Roslynator.CSharp.Analysis.ReduceIfNesting
                         if (localFunction.Modifiers.Contains(SyntaxKind.AsyncKeyword)
                             && semanticModel.GetDeclaredSymbol(localFunction, cancellationToken)?
                                 .ReturnType
-                                .HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Threading_Tasks_Task) == true)
+                                .HasMetadataName(MetadataNames.System_Threading_Tasks_Task) == true)
                         {
                             return Success(SyntaxKind.ReturnStatement, parent);
                         }
@@ -214,7 +214,7 @@ namespace Roslynator.CSharp.Analysis.ReduceIfNesting
                             return Success(SyntaxKind.ReturnStatement, parent);
 
                         if (anonymousFunction.AsyncKeyword.Kind() == SyntaxKind.AsyncKeyword
-                            && methodSymbol.ReturnType.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Threading_Tasks_Task))
+                            && methodSymbol.ReturnType.HasMetadataName(MetadataNames.System_Threading_Tasks_Task))
                         {
                             return Success(SyntaxKind.ReturnStatement, parent);
                         }

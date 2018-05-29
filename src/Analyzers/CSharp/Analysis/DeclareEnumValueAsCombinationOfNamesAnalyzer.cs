@@ -36,7 +36,7 @@ namespace Roslynator.CSharp.Analysis
             if (enumSymbol.TypeKind != TypeKind.Enum)
                 return;
 
-            if (!enumSymbol.HasAttribute(FullyQualifiedMetadataNames.System_FlagsAttribute))
+            if (!enumSymbol.HasAttribute(MetadataNames.System_FlagsAttribute))
                 return;
 
             var infos = default(ImmutableArray<EnumFieldInfo>);

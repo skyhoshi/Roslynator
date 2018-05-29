@@ -111,7 +111,7 @@ namespace Roslynator.Helpers
                             ImmutableArray<INamedTypeSymbol> allInterfaces = typeSymbol.AllInterfaces;
 
                             return allInterfaces.Any(f => f.SpecialType == SpecialType.System_Collections_IEnumerable)
-                                && !allInterfaces.Any(f => f.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Collections_IDictionary));
+                                && !allInterfaces.Any(f => f.HasMetadataName(MetadataNames.System_Collections_IDictionary));
                         }
 
                         break;

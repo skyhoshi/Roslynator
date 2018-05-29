@@ -59,7 +59,7 @@ namespace Roslynator.CSharp.Analysis
             if (!SymbolUtility.IsPublicStaticNonGeneric(methodSymbol, "Assert"))
                 return;
 
-            if (methodSymbol.ContainingType?.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Diagnostics_Debug) != true)
+            if (methodSymbol.ContainingType?.HasMetadataName(MetadataNames.System_Diagnostics_Debug) != true)
                 return;
 
             if (!methodSymbol.ReturnsVoid)
@@ -84,7 +84,7 @@ namespace Roslynator.CSharp.Analysis
             if (expression.Kind() != SyntaxKind.SimpleMemberAccessExpression
                 && context.SemanticModel.GetSpeculativeMethodSymbol(invocation.SpanStart, GetNewInvocation(invocation))?
                     .ContainingType?
-                    .HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Diagnostics_Debug) != true)
+                    .HasMetadataName(MetadataNames.System_Diagnostics_Debug) != true)
             {
                 return;
             }

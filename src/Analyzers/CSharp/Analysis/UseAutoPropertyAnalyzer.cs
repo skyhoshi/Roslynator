@@ -110,7 +110,7 @@ namespace Roslynator.CSharp.Analysis
 
             foreach (AttributeData attributeData in fieldSymbol.GetAttributes())
             {
-                if (attributeData.AttributeClass.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_NonSerializedAttribute))
+                if (attributeData.AttributeClass.HasMetadataName(MetadataNames.System_NonSerializedAttribute))
                     return;
             }
 
@@ -200,13 +200,13 @@ namespace Roslynator.CSharp.Analysis
 
         private static bool HasStructLayoutAttributeWithExplicitKind(INamedTypeSymbol typeSymbol)
         {
-            AttributeData attribute = typeSymbol.GetAttribute(FullyQualifiedMetadataNames.System_Runtime_InteropServices_StructLayoutAttribute);
+            AttributeData attribute = typeSymbol.GetAttribute(MetadataNames.System_Runtime_InteropServices_StructLayoutAttribute);
 
             if (attribute != null)
             {
                 TypedConstant typedConstant = attribute.ConstructorArguments.SingleOrDefault(shouldThrow:false);
 
-                return typedConstant.Type?.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Runtime_InteropServices_LayoutKind) == true
+                return typedConstant.Type?.HasMetadataName(MetadataNames.System_Runtime_InteropServices_LayoutKind) == true
                     && (((LayoutKind)typedConstant.Value) == LayoutKind.Explicit);
             }
 

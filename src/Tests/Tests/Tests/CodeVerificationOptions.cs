@@ -49,6 +49,11 @@ namespace Roslynator.Tests
             return new CodeVerificationOptions(allowedCompilerDiagnostics: AllowedCompilerDiagnosticIds.Add(diagnosticId));
         }
 
+        public CodeVerificationOptions AddAllowedCompilerDiagnosticIds(params string[] diagnosticIds)
+        {
+            return AddAllowedCompilerDiagnosticIds((IEnumerable<string>)diagnosticIds);
+        }
+
         public CodeVerificationOptions AddAllowedCompilerDiagnosticIds(IEnumerable<string> diagnosticIds)
         {
             return new CodeVerificationOptions(allowedCompilerDiagnostics: AllowedCompilerDiagnosticIds.AddRange(diagnosticIds));
