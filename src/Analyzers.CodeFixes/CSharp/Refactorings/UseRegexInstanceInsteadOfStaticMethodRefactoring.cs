@@ -47,7 +47,7 @@ namespace Roslynator.CSharp.Refactorings
 
                     TypeDeclarationSyntax newTypeDeclaration = typeDeclaration.ReplaceNode(invocationExpression, newInvocationExpression);
 
-                    TypeSyntax regexType = semanticModel.GetTypeByMetadataName("System.Text.RegularExpressions.Regex").ToMinimalTypeSyntax(semanticModel, typeDeclaration.SpanStart);
+                    TypeSyntax regexType = ParseTypeName("System.Text.RegularExpressions.Regex").WithSimplifierAnnotation();
 
                     FieldDeclarationSyntax fieldDeclaration = FieldDeclaration(
                         Modifiers.PrivateStaticReadOnly(),
