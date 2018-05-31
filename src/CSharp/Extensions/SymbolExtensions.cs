@@ -559,13 +559,18 @@ namespace Roslynator
             if (eventSymbol == null)
                 throw new ArgumentNullException(nameof(eventSymbol));
 
-            IEventSymbol overriddenEvent = eventSymbol.OverriddenEvent;
+            return OverriddenEventsIterator();
 
-            while (overriddenEvent != null)
+            IEnumerable<IEventSymbol> OverriddenEventsIterator()
             {
-                yield return overriddenEvent;
+                IEventSymbol overriddenEvent = eventSymbol.OverriddenEvent;
 
-                overriddenEvent = overriddenEvent.OverriddenEvent;
+                while (overriddenEvent != null)
+                {
+                    yield return overriddenEvent;
+
+                    overriddenEvent = overriddenEvent.OverriddenEvent;
+                }
             }
         }
         #endregion IEventSymbol
@@ -902,13 +907,18 @@ namespace Roslynator
             if (methodSymbol == null)
                 throw new ArgumentNullException(nameof(methodSymbol));
 
-            IMethodSymbol overriddenMethod = methodSymbol.OverriddenMethod;
+            return OverriddenMethodsIterator();
 
-            while (overriddenMethod != null)
+            IEnumerable<IMethodSymbol> OverriddenMethodsIterator()
             {
-                yield return overriddenMethod;
+                IMethodSymbol overriddenMethod = methodSymbol.OverriddenMethod;
 
-                overriddenMethod = overriddenMethod.OverriddenMethod;
+                while (overriddenMethod != null)
+                {
+                    yield return overriddenMethod;
+
+                    overriddenMethod = overriddenMethod.OverriddenMethod;
+                }
             }
         }
 
@@ -1055,13 +1065,18 @@ namespace Roslynator
             if (propertySymbol == null)
                 throw new ArgumentNullException(nameof(propertySymbol));
 
-            IPropertySymbol overriddenProperty = propertySymbol.OverriddenProperty;
+            return OverriddenPropertiesIterator();
 
-            while (overriddenProperty != null)
+            IEnumerable<IPropertySymbol> OverriddenPropertiesIterator()
             {
-                yield return overriddenProperty;
+                IPropertySymbol overriddenProperty = propertySymbol.OverriddenProperty;
 
-                overriddenProperty = overriddenProperty.OverriddenProperty;
+                while (overriddenProperty != null)
+                {
+                    yield return overriddenProperty;
+
+                    overriddenProperty = overriddenProperty.OverriddenProperty;
+                }
             }
         }
         #endregion IPropertySymbol
@@ -1098,13 +1113,18 @@ namespace Roslynator
             if (@namespace == null)
                 throw new ArgumentNullException(nameof(@namespace));
 
-            do
+            return ContainingNamespacesAndSelfIterator();
+
+            IEnumerable<INamespaceSymbol> ContainingNamespacesAndSelfIterator()
             {
-                yield return @namespace;
+                do
+                {
+                    yield return @namespace;
 
-                @namespace = @namespace.ContainingNamespace;
+                    @namespace = @namespace.ContainingNamespace;
 
-            } while (@namespace != null);
+                } while (@namespace != null);
+            }
         }
         #endregion INamespaceSymbol
 
@@ -1171,12 +1191,17 @@ namespace Roslynator
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
 
-            INamedTypeSymbol baseType = type.BaseType;
+            return BaseTypesIterator();
 
-            while (baseType != null)
+            IEnumerable<INamedTypeSymbol> BaseTypesIterator()
             {
-                yield return baseType;
-                baseType = baseType.BaseType;
+                INamedTypeSymbol baseType = type.BaseType;
+
+                while (baseType != null)
+                {
+                    yield return baseType;
+                    baseType = baseType.BaseType;
+                }
             }
         }
 
@@ -1190,12 +1215,17 @@ namespace Roslynator
             if (typeSymbol == null)
                 throw new ArgumentNullException(nameof(typeSymbol));
 
-            ITypeSymbol current = typeSymbol;
+            return BaseTypesAndSelfIterator();
 
-            while (current != null)
+            IEnumerable<ITypeSymbol> BaseTypesAndSelfIterator()
             {
-                yield return current;
-                current = current.BaseType;
+                ITypeSymbol current = typeSymbol;
+
+                while (current != null)
+                {
+                    yield return current;
+                    current = current.BaseType;
+                }
             }
         }
 
