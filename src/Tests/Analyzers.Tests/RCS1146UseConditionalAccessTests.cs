@@ -730,7 +730,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UseConditionalAccess)]
         public async Task TestNoDiagnostic_LogicalOr_ExpressionTree()
         {
             await VerifyNoDiagnosticAsync(@"

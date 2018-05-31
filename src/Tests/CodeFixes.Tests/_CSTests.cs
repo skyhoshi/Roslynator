@@ -39,7 +39,7 @@ class C
     }
 }
 ", @"
-", EquivalenceKey.Create(DiagnosticId));
+", equivalenceKey: EquivalenceKey.Create(DiagnosticId));
         }
 
         //[Theory, Trait(Traits.CodeFix, CompilerDiagnosticIdentifiers.OperatorCannotBeAppliedToOperands)]
@@ -58,7 +58,7 @@ class C
     {
     }
 }
-", fromData, toData, EquivalenceKey.Create(DiagnosticId));
+", fromData, toData, equivalenceKey: EquivalenceKey.Create(DiagnosticId));
         }
 
         //[Fact, Trait(Traits.CodeFix, CompilerDiagnosticIdentifiers.OperatorCannotBeAppliedToOperands)]
@@ -76,7 +76,7 @@ class C
     {
     }
 }
-", EquivalenceKey.Create(DiagnosticId));
+", equivalenceKey: EquivalenceKey.Create(DiagnosticId));
         }
     }
 }

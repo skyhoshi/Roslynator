@@ -175,6 +175,7 @@ class C
 ");
         }
 
+        [Theory, Trait(Traits.Analyzer, DiagnosticIdentifiers.RemoveRedundantParentheses)]
         [InlineData("while ([|(|]true)) { }", "while (true) { }")]
         [InlineData("do { } while ([|(|]true));", "do { } while (true);")]
         [InlineData("using ([|(|](IDisposable)null)) { }", "using ((IDisposable)null) { }")]
@@ -261,7 +262,7 @@ class Foo
 ", fromData, toData);
         }
 
-        [Theory]
+        [Theory, Trait(Traits.Analyzer, DiagnosticIdentifiers.RemoveRedundantParentheses)]
         [InlineData("[|(|]i) > [|(|]0)", "i > 0")]
         [InlineData("[|(|]i) >= [|(|]0)", "i >= 0")]
         [InlineData("[|(|]i) < [|(|]0)", "i < 0")]
@@ -281,7 +282,7 @@ class Foo
 ", fromData, toData);
         }
 
-        [Theory]
+        [Theory, Trait(Traits.Analyzer, DiagnosticIdentifiers.RemoveRedundantParentheses)]
         [InlineData("[|(|]i) * [|(|]0)", "i * 0")]
         [InlineData("[|(|]i) % [|(|]0)", "i % 0")]
         [InlineData("[|(|]i) / [|(|]0)", "i / 0")]
@@ -311,7 +312,7 @@ class Foo
 ", fromData, toData);
         }
 
-        [Theory]
+        [Theory, Trait(Traits.Analyzer, DiagnosticIdentifiers.RemoveRedundantParentheses)]
         [InlineData("[|(|]i * 0) * i", "i * 0 * i")]
         [InlineData("[|(|]i % 0) % i", "i % 0 % i")]
         [InlineData("[|(|]i / 0) / i", "i / 0 / i")]
@@ -341,6 +342,7 @@ class Foo
 ", fromData, toData);
         }
 
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.RemoveRedundantParentheses)]
         public async Task TestNoDiagnostic_AssignmentInInitializer()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -408,7 +410,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.RemoveRedundantParentheses)]
         public async Task TestNoDiagnostic_BinaryExpressionChain_ParenthesizedRight()
         {
             await VerifyNoDiagnosticAsync(@"

@@ -366,14 +366,14 @@ namespace Roslynator
         }
 
         //TODO: make public
-        internal static AttributeData GetAttribute(this ISymbol symbol, in FullyQualifiedMetadataName fullyQualifiedMetadataName)
+        internal static AttributeData GetAttribute(this ISymbol symbol, in MetadataName metadataName)
         {
             if (symbol == null)
                 throw new ArgumentNullException(nameof(symbol));
 
             foreach (AttributeData attributeData in symbol.GetAttributes())
             {
-                if (attributeData.AttributeClass.HasMetadataName(fullyQualifiedMetadataName))
+                if (attributeData.AttributeClass.HasMetadataName(metadataName))
                     return attributeData;
             }
 
@@ -419,22 +419,22 @@ namespace Roslynator
         }
 
         //TODO: make public
-        internal static bool HasAttribute(this ISymbol symbol, in FullyQualifiedMetadataName fullyQualifiedMetadataName)
+        internal static bool HasAttribute(this ISymbol symbol, in MetadataName metadataName)
         {
-            return GetAttribute(symbol, fullyQualifiedMetadataName) != null;
+            return GetAttribute(symbol, metadataName) != null;
         }
 
         //TODO: make public
-        internal static bool HasAttribute(this ITypeSymbol typeSymbol, in FullyQualifiedMetadataName fullyQualifiedMetadataName, bool includeBaseTypes)
+        internal static bool HasAttribute(this ITypeSymbol typeSymbol, in MetadataName metadataName, bool includeBaseTypes)
         {
             if (!includeBaseTypes)
-                return HasAttribute(typeSymbol, fullyQualifiedMetadataName);
+                return HasAttribute(typeSymbol, metadataName);
 
             ITypeSymbol t = typeSymbol;
 
             do
             {
-                if (t.HasAttribute(fullyQualifiedMetadataName))
+                if (t.HasAttribute(metadataName))
                     return true;
 
                 t = t.BaseType;
@@ -531,9 +531,9 @@ namespace Roslynator
             return true;
         }
 
-        internal static bool HasMetadataName(this ISymbol symbol, in FullyQualifiedMetadataName fullyQualifiedMetadataName)
+        internal static bool HasMetadataName(this ISymbol symbol, in MetadataName metadataName)
         {
-            return fullyQualifiedMetadataName.Equals(symbol);
+            return metadataName.Equals(symbol);
         }
         #endregion ISymbol
 
@@ -1337,14 +1337,14 @@ namespace Roslynator
         }
 
         //TODO: make public
-        internal static bool Implements(this ITypeSymbol typeSymbol, in FullyQualifiedMetadataName fullyQualifiedMetadataName, bool allInterfaces = false)
+        internal static bool Implements(this ITypeSymbol typeSymbol, in MetadataName metadataName, bool allInterfaces = false)
         {
             if (typeSymbol == null)
                 throw new ArgumentNullException(nameof(typeSymbol));
 
             foreach (INamedTypeSymbol interfaceSymbol in typeSymbol.GetInterfaces(allInterfaces))
             {
-                if (interfaceSymbol.HasMetadataName(fullyQualifiedMetadataName))
+                if (interfaceSymbol.HasMetadataName(metadataName))
                     return true;
             }
 
@@ -1463,7 +1463,7 @@ namespace Roslynator
         }
 
         //TODO: make public
-        internal static bool InheritsFrom(this ITypeSymbol type, in FullyQualifiedMetadataName fullyQualifiedMetadataName, bool includeInterfaces = false)
+        internal static bool InheritsFrom(this ITypeSymbol type, in MetadataName metadataName, bool includeInterfaces = false)
         {
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
@@ -1472,7 +1472,7 @@ namespace Roslynator
 
             while (baseType != null)
             {
-                if (baseType.HasMetadataName(fullyQualifiedMetadataName))
+                if (baseType.HasMetadataName(metadataName))
                     return true;
 
                 baseType = baseType.BaseType;
@@ -1482,7 +1482,7 @@ namespace Roslynator
             {
                 foreach (INamedTypeSymbol interfaceType in type.AllInterfaces)
                 {
-                    if (interfaceType.HasMetadataName(fullyQualifiedMetadataName))
+                    if (interfaceType.HasMetadataName(metadataName))
                         return true;
                 }
             }
@@ -1507,13 +1507,13 @@ namespace Roslynator
         }
 
         //TODO: make public
-        internal static bool EqualsOrInheritsFrom(this ITypeSymbol type, in FullyQualifiedMetadataName fullyQualifiedMetadataName, bool includeInterfaces = false)
+        internal static bool EqualsOrInheritsFrom(this ITypeSymbol type, in MetadataName metadataName, bool includeInterfaces = false)
         {
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
 
-            return type.HasMetadataName(fullyQualifiedMetadataName)
-                || InheritsFrom(type, fullyQualifiedMetadataName, includeInterfaces);
+            return type.HasMetadataName(metadataName)
+                || InheritsFrom(type, metadataName, includeInterfaces);
         }
 
         /// <summary>

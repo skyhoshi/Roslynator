@@ -2886,7 +2886,7 @@ namespace Roslynator.CSharp
                         .GetTypeInfo(current, cancellationToken)
                         .ConvertedType?
                         .OriginalDefinition
-                        .HasMetadataName(MetadataNames.System_Linq_Expressions_Expression_1) == true)
+                        .HasMetadataName(MetadataNames.System_Linq_Expressions_Expression_T) == true)
                 {
                     return true;
                 }

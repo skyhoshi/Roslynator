@@ -33,7 +33,7 @@ namespace Roslynator.Tests
             string theory,
             string fromData,
             string toData,
-            string equivalenceKey,
+            string equivalenceKey = null,
             CodeVerificationOptions options = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -50,7 +50,7 @@ namespace Roslynator.Tests
         public async Task VerifyFixAsync(
             string source,
             string expected,
-            string equivalenceKey,
+            string equivalenceKey = null,
             CodeVerificationOptions options = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -144,7 +144,7 @@ namespace Roslynator.Tests
         [SuppressMessage("Redundancy", "RCS1163:Unused parameter.", Justification = "<Pending>")]
         public async Task VerifyNoFixAsync(
             string source,
-            string equivalenceKey,
+            string equivalenceKey = null,
             CodeVerificationOptions options = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -177,7 +177,7 @@ namespace Roslynator.Tests
                             return;
                         }
 
-                        Assert.True(false, "Expected no code fix.");
+                        Assert.True(false, "No code fix expected.");
                     },
                     CancellationToken.None);
 

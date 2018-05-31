@@ -82,7 +82,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck)]
         public async Task Test_IsNull()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -135,7 +135,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck)]
         public async Task TestNoDiagnostic_NotSimpleIf()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -158,7 +158,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck)]
         public async Task TestNoDiagnostic_DoesNotContainJumpStatement()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -178,7 +178,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck)]
         public async Task TestNoDiagnostic_NotEqualsToNull()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -198,7 +198,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck)]
         public async Task TestNoDiagnostic_OtherVariableCheckedForNull()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -219,7 +219,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck)]
         public async Task TestNoDiagnostic_TypesDoNotEqual()
         {
             await VerifyNoDiagnosticAsync(@"

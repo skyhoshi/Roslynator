@@ -10,24 +10,24 @@ using Microsoft.CodeAnalysis;
 namespace Roslynator
 {
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
-    internal readonly struct FullyQualifiedMetadataName : IEquatable<FullyQualifiedMetadataName>
+    internal readonly struct MetadataName : IEquatable<MetadataName>
     {
-        public FullyQualifiedMetadataName(IEnumerable<string> containingNamespaces, string name)
+        public MetadataName(IEnumerable<string> containingNamespaces, string name)
             : this(containingNamespaces, Array.Empty<string>(), name)
         {
         }
 
-        public FullyQualifiedMetadataName(IEnumerable<string> containingNamespaces, IEnumerable<string> containingTypes, string name)
+        public MetadataName(IEnumerable<string> containingNamespaces, IEnumerable<string> containingTypes, string name)
             : this(containingNamespaces.ToImmutableArray(), containingTypes.ToImmutableArray(), name)
         {
         }
 
-        public FullyQualifiedMetadataName(ImmutableArray<string> containingNamespaces, string name)
+        public MetadataName(ImmutableArray<string> containingNamespaces, string name)
             : this(containingNamespaces, ImmutableArray<string>.Empty, name)
         {
         }
 
-        public FullyQualifiedMetadataName(ImmutableArray<string> containingNamespaces, ImmutableArray<string> containingTypes, string name)
+        public MetadataName(ImmutableArray<string> containingNamespaces, ImmutableArray<string> containingTypes, string name)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             ContainingTypes = containingTypes;
@@ -103,7 +103,7 @@ namespace Roslynator
 
         public override bool Equals(object obj)
         {
-            return obj is FullyQualifiedMetadataName other
+            return obj is MetadataName other
                 && Equals(other);
         }
 
@@ -147,7 +147,7 @@ namespace Roslynator
             return containingNamespace?.IsGlobalNamespace == true;
         }
 
-        public bool Equals(FullyQualifiedMetadataName other)
+        public bool Equals(MetadataName other)
         {
             if (IsDefault)
                 return other.IsDefault;
@@ -177,12 +177,12 @@ namespace Roslynator
                 Hash.Create(Name)));
         }
 
-        public static bool operator ==(in FullyQualifiedMetadataName info1, in FullyQualifiedMetadataName info2)
+        public static bool operator ==(in MetadataName info1, in MetadataName info2)
         {
             return info1.Equals(info2);
         }
 
-        public static bool operator !=(in FullyQualifiedMetadataName info1, in FullyQualifiedMetadataName info2)
+        public static bool operator !=(in MetadataName info1, in MetadataName info2)
         {
             return !(info1 == info2);
         }
