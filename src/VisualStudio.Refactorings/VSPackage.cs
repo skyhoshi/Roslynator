@@ -4,16 +4,15 @@ using System;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 
 namespace Roslynator.VisualStudio
 {
-    [PackageRegistration(UseManagedResourcesOnly = true)]
+    [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [Guid("F8A97C1B-B204-42B9-A881-816D250F2074")]
     [ProvideOptionPage(typeof(GeneralOptionsPage), "Roslynator", "General", 0, 0, true)]
     [ProvideOptionPage(typeof(RefactoringsOptionsPage), "Roslynator", "Refactorings", 0, 0, true)]
-    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string)]
-    public sealed partial class VSPackage : Package, IVsSolutionEvents
+    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string, PackageAutoLoadFlags.BackgroundLoad)]
+    public sealed partial class VSPackage : AsyncPackage
     {
     }
 }
