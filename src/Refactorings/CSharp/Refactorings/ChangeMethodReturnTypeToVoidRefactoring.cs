@@ -84,7 +84,7 @@ namespace Roslynator.CSharp.Refactorings
                 return;
 
             if (methodSymbol.IsAsync
-                && methodSymbol.ReturnType.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Threading_Tasks_Task))
+                && methodSymbol.ReturnType.HasMetadataName(MetadataNames.System_Threading_Tasks_Task))
             {
                 return;
             }

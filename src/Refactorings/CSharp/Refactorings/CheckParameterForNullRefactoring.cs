@@ -228,7 +228,7 @@ namespace Roslynator.CSharp.Refactorings
             if (!string.Equals(type?.Name, "ArgumentNullException", StringComparison.Ordinal))
                 return default;
 
-            if (!type.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_ArgumentNullException))
+            if (!type.HasMetadataName(MetadataNames.System_ArgumentNullException))
                 return default;
 
             return nullCheck;

@@ -30,7 +30,7 @@ namespace Roslynator.CSharp.Refactorings
                         ITypeSymbol typeSymbol = semanticModel.GetTypeSymbol(expression, context.CancellationToken);
 
                         if (typeSymbol?.IsErrorType() == false
-                            && !typeSymbol.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Threading_Tasks_Task)
+                            && !typeSymbol.HasMetadataName(MetadataNames.System_Threading_Tasks_Task)
                             && !typeSymbol.IsVoid())
                         {
                             bool addAwait = false;

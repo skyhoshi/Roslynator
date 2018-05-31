@@ -186,7 +186,7 @@ namespace Roslynator.CSharp.Refactorings
                 && !semanticModel
                     .GetTypeSymbol(returnType, cancellationToken)
                     .OriginalDefinition
-                    .EqualsOrInheritsFrom(FullyQualifiedMetadataNames.System_Threading_Tasks_Task_T))
+                    .EqualsOrInheritsFrom(MetadataNames.System_Threading_Tasks_Task_T))
             {
                 return true;
             }

@@ -70,8 +70,8 @@ namespace Roslynator.CSharp.Analysis.UnusedParameter
                     ImmutableArray<IParameterSymbol> parameters = symbol.Parameters;
 
                     if (parameters.Length == 2
-                        && parameters[0].Type.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Runtime_Serialization_SerializationInfo)
-                        && parameters[1].Type.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Runtime_Serialization_StreamingContext))
+                        && parameters[0].Type.HasMetadataName(MetadataNames.System_Runtime_Serialization_SerializationInfo)
+                        && parameters[1].Type.HasMetadataName(MetadataNames.System_Runtime_Serialization_StreamingContext))
                     {
                         return;
                     }

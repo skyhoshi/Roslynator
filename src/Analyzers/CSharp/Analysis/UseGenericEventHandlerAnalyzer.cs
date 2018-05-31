@@ -45,7 +45,7 @@ namespace Roslynator.CSharp.Analysis
             if (namedType?.Arity != 0)
                 return;
 
-            if (namedType.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_EventHandler))
+            if (namedType.HasMetadataName(MetadataNames.System_EventHandler))
                 return;
 
             IMethodSymbol delegateInvokeMethod = namedType.DelegateInvokeMethod;

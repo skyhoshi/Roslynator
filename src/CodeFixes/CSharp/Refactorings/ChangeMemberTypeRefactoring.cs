@@ -79,7 +79,7 @@ namespace Roslynator.CSharp.Refactorings
                     insertAwait = true;
                     additionalKey = "InsertAwait";
                 }
-                else if (expressionTypeSymbol.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Threading_Tasks_Task))
+                else if (expressionTypeSymbol.HasMetadataName(MetadataNames.System_Threading_Tasks_Task))
                 {
                     return;
                 }
@@ -97,7 +97,7 @@ namespace Roslynator.CSharp.Refactorings
             if (!isYield
                 && !isAsyncMethod
                 && !typeSymbol.OriginalDefinition.IsIEnumerableOfT()
-                && newTypeSymbol.OriginalDefinition.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Linq_IOrderedEnumerable_T))
+                && newTypeSymbol.OriginalDefinition.HasMetadataName(MetadataNames.System_Linq_IOrderedEnumerable_T))
             {
                 INamedTypeSymbol constructedEnumerableSymbol = semanticModel
                     .Compilation

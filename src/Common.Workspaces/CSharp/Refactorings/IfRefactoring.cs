@@ -262,7 +262,7 @@ namespace Roslynator.CSharp.Refactorings
                     {
                         if (methodSymbol.IsAsync)
                         {
-                            if (returnType.OriginalDefinition.EqualsOrInheritsFrom(FullyQualifiedMetadataNames.System_Threading_Tasks_Task_T))
+                            if (returnType.OriginalDefinition.EqualsOrInheritsFrom(MetadataNames.System_Threading_Tasks_Task_T))
                                 return ((INamedTypeSymbol)returnType).TypeArguments[0];
                         }
                         else if (!analysis.IsYield)

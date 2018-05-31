@@ -74,7 +74,7 @@ namespace Roslynator.CSharp.Refactorings
                 return true;
 
             if (expression.IsKind(SyntaxKind.AwaitExpression)
-                && !methodSymbol.ReturnType.OriginalDefinition.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Threading_Tasks_Task_T))
+                && !methodSymbol.ReturnType.OriginalDefinition.HasMetadataName(MetadataNames.System_Threading_Tasks_Task_T))
             {
                 return true;
             }

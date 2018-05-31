@@ -24,7 +24,7 @@ namespace Roslynator.CSharp.Analysis
             if (methodSymbol.IsExtensionMethod)
                 return;
 
-            if (methodSymbol.ContainingType?.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Text_StringBuilder) != true)
+            if (methodSymbol.ContainingType?.HasMetadataName(MetadataNames.System_Text_StringBuilder) != true)
                 return;
 
             ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
@@ -44,7 +44,7 @@ namespace Roslynator.CSharp.Analysis
                         IMethodSymbol methodInfo2 = context.SemanticModel.GetMethodSymbol(invocationInfo2.InvocationExpression, context.CancellationToken);
 
                         if (methodInfo2?.IsStatic == false
-                            && methodInfo2.ContainingType?.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Text_StringBuilder) == true
+                            && methodInfo2.ContainingType?.HasMetadataName(MetadataNames.System_Text_StringBuilder) == true
                             && methodInfo2.HasSingleParameter(SpecialType.System_String))
                         {
                             context.ReportDiagnostic(DiagnosticDescriptors.OptimizeStringBuilderAppendCall, invocationInfo.Name, methodSymbol.Name);

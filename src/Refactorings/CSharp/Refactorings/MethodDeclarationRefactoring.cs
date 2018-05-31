@@ -153,10 +153,10 @@ namespace Roslynator.CSharp.Refactorings
             if (returnTypeSymbol == null)
                 return null;
 
-            if (returnTypeSymbol.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Threading_Tasks_Task))
+            if (returnTypeSymbol.HasMetadataName(MetadataNames.System_Threading_Tasks_Task))
                 return null;
 
-            if (!returnTypeSymbol.OriginalDefinition.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Threading_Tasks_Task_T))
+            if (!returnTypeSymbol.OriginalDefinition.HasMetadataName(MetadataNames.System_Threading_Tasks_Task_T))
                 return null;
 
             return ((INamedTypeSymbol)returnTypeSymbol).TypeArguments[0];

@@ -37,7 +37,7 @@ namespace Roslynator.CSharp.Analysis
             if (namedTypeSymbol.TypeKind != TypeKind.Enum)
                 return;
 
-            if (!namedTypeSymbol.HasAttribute(FullyQualifiedMetadataNames.System_FlagsAttribute))
+            if (!namedTypeSymbol.HasAttribute(MetadataNames.System_FlagsAttribute))
                 return;
 
             if (ContainsMemberWithZeroValue(namedTypeSymbol))

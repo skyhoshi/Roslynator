@@ -136,7 +136,7 @@ namespace Roslynator.CSharp.Refactorings
             INamedTypeSymbol destinationType,
             SemanticModel semanticModel)
         {
-            if (!destinationType.OriginalDefinition.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Collections_Generic_List_T))
+            if (!destinationType.OriginalDefinition.HasMetadataName(MetadataNames.System_Collections_Generic_List_T))
                 return;
 
             INamedTypeSymbol enumerable = semanticModel.GetTypeByMetadataName("System.Linq.Enumerable");

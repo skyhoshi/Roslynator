@@ -387,7 +387,7 @@ namespace Roslynator.CSharp.Analysis.RemoveRedundantAsyncAwait
 
             ITypeSymbol returnType = methodSymbol.ReturnType;
 
-            if (returnType?.OriginalDefinition.EqualsOrInheritsFrom(FullyQualifiedMetadataNames.System_Threading_Tasks_Task_T) != true)
+            if (returnType?.OriginalDefinition.EqualsOrInheritsFrom(MetadataNames.System_Threading_Tasks_Task_T) != true)
                 return false;
 
             ITypeSymbol typeArgument = ((INamedTypeSymbol)returnType).TypeArguments.SingleOrDefault(shouldThrow: false);
@@ -417,7 +417,7 @@ namespace Roslynator.CSharp.Analysis.RemoveRedundantAsyncAwait
 
             ITypeSymbol returnType = methodSymbol.ReturnType;
 
-            if (returnType?.OriginalDefinition.EqualsOrInheritsFrom(FullyQualifiedMetadataNames.System_Threading_Tasks_Task_T) != true)
+            if (returnType?.OriginalDefinition.EqualsOrInheritsFrom(MetadataNames.System_Threading_Tasks_Task_T) != true)
                 return false;
 
             ITypeSymbol typeArgument = ((INamedTypeSymbol)returnType).TypeArguments.SingleOrDefault(shouldThrow: false);
@@ -440,7 +440,7 @@ namespace Roslynator.CSharp.Analysis.RemoveRedundantAsyncAwait
             if (expressionTypeSymbol == null)
                 return false;
 
-            if (expressionTypeSymbol.OriginalDefinition.EqualsOrInheritsFrom(FullyQualifiedMetadataNames.System_Threading_Tasks_Task_T))
+            if (expressionTypeSymbol.OriginalDefinition.EqualsOrInheritsFrom(MetadataNames.System_Threading_Tasks_Task_T))
                 return true;
 
             SimpleMemberInvocationExpressionInfo invocationInfo = SyntaxInfo.SimpleMemberInvocationExpressionInfo(expression);
@@ -448,7 +448,7 @@ namespace Roslynator.CSharp.Analysis.RemoveRedundantAsyncAwait
             return invocationInfo.Success
                 && invocationInfo.Arguments.Count == 1
                 && invocationInfo.NameText == "ConfigureAwait"
-                && expressionTypeSymbol.OriginalDefinition.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Runtime_CompilerServices_ConfiguredTaskAwaitable_T);
+                && expressionTypeSymbol.OriginalDefinition.HasMetadataName(MetadataNames.System_Runtime_CompilerServices_ConfiguredTaskAwaitable_T);
         }
 
         private static IMethodSymbol GetMethodSymbol(SyntaxNode node, SemanticModel semanticModel, CancellationToken cancellationToken)
@@ -492,7 +492,7 @@ namespace Roslynator.CSharp.Analysis.RemoveRedundantAsyncAwait
 
             ITypeSymbol typeSymbol = context.SemanticModel.GetTypeSymbol(expression, context.CancellationToken);
 
-            if (typeSymbol?.OriginalDefinition.HasFullyQualifiedMetadataName(FullyQualifiedMetadataNames.System_Runtime_CompilerServices_ConfiguredTaskAwaitable_T) == true
+            if (typeSymbol?.OriginalDefinition.HasMetadataName(MetadataNames.System_Runtime_CompilerServices_ConfiguredTaskAwaitable_T) == true
                 && (expression is InvocationExpressionSyntax invocation))
             {
                 var memberAccess = invocation.Expression as MemberAccessExpressionSyntax;
