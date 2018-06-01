@@ -2,7 +2,6 @@
 
 using System;
 using System.IO;
-using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using EnvDTE;
@@ -12,6 +11,7 @@ using Microsoft.VisualStudio.Shell.Events;
 using Microsoft.VisualStudio.Shell.Interop;
 using Roslynator.CodeFixes;
 using Roslynator.Configuration;
+using static Roslynator.VisualStudio.PackageHelpers;
 
 #pragma warning disable RCS1090
 
@@ -50,7 +50,10 @@ namespace Roslynator.VisualStudio
         {
             await base.InitializeAsync(cancellationToken, progress);
 
-            InitializeSettings();
+            InitializeSettings(
+                (GeneralOptionsPage)GetDialogPage(typeof(GeneralOptionsPage)),
+                (RefactoringsOptionsPage)GetDialogPage(typeof(RefactoringsOptionsPage)),
+                (CodeFixesOptionsPage)GetDialogPage(typeof(CodeFixesOptionsPage)));
 
             if (await IsSolutionLoadedAsync(cancellationToken))
             {
@@ -70,15 +73,15 @@ namespace Roslynator.VisualStudio
 
             ErrorHandler.ThrowOnFailure(solution.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out object value));
 
-            return value is bool isSolutionOpen
-                && isSolutionOpen;
+            return value is bool isSolutionOpen && isSolutionOpen;
         }
 
         private void AfterOpenSolution(object sender = null, OpenSolutionEventArgs e = null)
         {
-            UpdateSettingsAfterConfigFileChanged();
+            UpdateSettings();
 
-            WatchConfigFile();
+            if (GetService(typeof(DTE)) is DTE dte)
+                WatchConfigFile(dte.Solution.FullName, _watcher, UpdateSettings);
         }
 
         private void AfterCloseSolution(object sender = null, EventArgs e = null)
@@ -90,97 +93,14 @@ namespace Roslynator.VisualStudio
             }
         }
 
-        private void InitializeSettings()
+        private void UpdateSettings()
         {
-            var generalOptionsPage = (GeneralOptionsPage)GetDialogPage(typeof(GeneralOptionsPage));
-            var refactoringsOptionsPage = (RefactoringsOptionsPage)GetDialogPage(typeof(RefactoringsOptionsPage));
-            var codeFixesOptionsPage = (CodeFixesOptionsPage)GetDialogPage(typeof(CodeFixesOptionsPage));
+            SettingsManager.Instance.ConfigFileSettings = (GetService(typeof(DTE)) is DTE dte)
+                ? LoadConfigFileSettings(dte.Solution.FullName)
+                : null;
 
-            Version currentVersion = typeof(GeneralOptionsPage).Assembly.GetName().Version;
-
-            if (!Version.TryParse(generalOptionsPage.ApplicationVersion, out Version version)
-                || version < currentVersion)
-            {
-                generalOptionsPage.ApplicationVersion = currentVersion.ToString();
-                generalOptionsPage.SaveSettingsToStorage();
-            }
-
-            codeFixesOptionsPage.CheckNewItemsDisabledByDefault();
-            refactoringsOptionsPage.CheckNewItemsDisabledByDefault();
-
-            SettingsManager.Instance.UpdateVisualStudioSettings(generalOptionsPage);
-            SettingsManager.Instance.UpdateVisualStudioSettings(refactoringsOptionsPage);
-            SettingsManager.Instance.UpdateVisualStudioSettings(codeFixesOptionsPage);
-        }
-
-        private void UpdateSettingsAfterConfigFileChanged()
-        {
-            SettingsManager.Instance.ConfigFileSettings = LoadConfigFileSettings();
             SettingsManager.Instance.ApplyTo(RefactoringSettings.Current);
             SettingsManager.Instance.ApplyTo(CodeFixSettings.Current);
-        }
-
-        private ConfigFileSettings LoadConfigFileSettings()
-        {
-            if (GetService(typeof(DTE)) is DTE dte)
-            {
-                string path = dte.Solution.FullName;
-
-                if (!string.IsNullOrEmpty(path))
-                {
-                    string directoryPath = Path.GetDirectoryName(path);
-
-                    if (!string.IsNullOrEmpty(directoryPath))
-                    {
-                        path = Path.Combine(directoryPath, ConfigFileSettings.FileName);
-
-                        if (File.Exists(path))
-                        {
-                            try
-                            {
-                                return ConfigFileSettings.Load(path);
-                            }
-                            catch (IOException)
-                            {
-                            }
-                            catch (UnauthorizedAccessException)
-                            {
-                            }
-                            catch (SecurityException)
-                            {
-                            }
-                        }
-                    }
-                }
-            }
-
-            return default(ConfigFileSettings);
-        }
-
-        private void WatchConfigFile()
-        {
-            if (!(GetService(typeof(DTE)) is DTE dte))
-                return;
-
-            string path = dte.Solution.FullName;
-
-            if (string.IsNullOrEmpty(path))
-                return;
-
-            string directoryPath = Path.GetDirectoryName(path);
-
-            if (string.IsNullOrEmpty(directoryPath))
-                return;
-
-            _watcher = new FileSystemWatcher(directoryPath, ConfigFileSettings.FileName)
-            {
-                EnableRaisingEvents = true,
-                IncludeSubdirectories = false,
-            };
-
-            _watcher.Changed += (object sender, FileSystemEventArgs e) => UpdateSettingsAfterConfigFileChanged();
-            _watcher.Created += (object sender, FileSystemEventArgs e) => UpdateSettingsAfterConfigFileChanged();
-            _watcher.Deleted += (object sender, FileSystemEventArgs e) => UpdateSettingsAfterConfigFileChanged();
         }
     }
 }
