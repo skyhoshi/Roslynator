@@ -2,13 +2,18 @@
 
 using System;
 using System.IO;
-using System.Security;
+using System.Threading;
+using System.Threading.Tasks;
 using EnvDTE;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Events;
 using Microsoft.VisualStudio.Shell.Interop;
 using Roslynator.CodeFixes;
 using Roslynator.Configuration;
+using static Roslynator.VisualStudio.PackageHelpers;
+
+#pragma warning disable RCS1090
 
 namespace Roslynator.VisualStudio
 {
@@ -29,9 +34,8 @@ namespace Roslynator.VisualStudio
     /// To get loaded into VS, the package must be referred by &lt;Asset Type="Microsoft.VisualStudio.VsPackage" ...&gt; in .vsixmanifest file.
     /// </para>
     /// </remarks>
-    public sealed partial class VSPackage : Package, IVsSolutionEvents
+    public sealed partial class VSPackage : AsyncPackage
     {
-        private uint _cookie;
         private FileSystemWatcher _watcher;
 
         public VSPackage()
@@ -42,172 +46,61 @@ namespace Roslynator.VisualStudio
             // initialization is the Initialize method.
         }
 
-        /// <summary>
-        /// Initialization of the package; this method is called right after the package is sited, so this is the place
-        /// where you can put all the initialization code that rely on services provided by VisualStudio.
-        /// </summary>
-        protected override void Initialize()
+        protected override async System.Threading.Tasks.Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
-            base.Initialize();
+            await base.InitializeAsync(cancellationToken, progress);
 
-            InitializeSettings();
+            InitializeSettings(
+                (GeneralOptionsPage)GetDialogPage(typeof(GeneralOptionsPage)),
+                (RefactoringsOptionsPage)GetDialogPage(typeof(RefactoringsOptionsPage)),
+                (CodeFixesOptionsPage)GetDialogPage(typeof(CodeFixesOptionsPage)));
 
-            var solution = GetService(typeof(SVsSolution)) as IVsSolution;
-
-            solution?.AdviseSolutionEvents(this, out _cookie);
-        }
-
-        private void InitializeSettings()
-        {
-            var generalOptionsPage = (GeneralOptionsPage)GetDialogPage(typeof(GeneralOptionsPage));
-            var refactoringsOptionsPage = (RefactoringsOptionsPage)GetDialogPage(typeof(RefactoringsOptionsPage));
-            var codeFixesOptionsPage = (CodeFixesOptionsPage)GetDialogPage(typeof(CodeFixesOptionsPage));
-
-            Version currentVersion = typeof(GeneralOptionsPage).Assembly.GetName().Version;
-
-            if (!Version.TryParse(generalOptionsPage.ApplicationVersion, out Version version)
-                || version < currentVersion)
+            if (await IsSolutionLoadedAsync(cancellationToken))
             {
-                generalOptionsPage.ApplicationVersion = currentVersion.ToString();
-                generalOptionsPage.SaveSettingsToStorage();
+                await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+                AfterOpenSolution();
             }
 
-            codeFixesOptionsPage.CheckNewItemsDisabledByDefault();
-            refactoringsOptionsPage.CheckNewItemsDisabledByDefault();
-
-            SettingsManager.Instance.UpdateVisualStudioSettings(generalOptionsPage);
-            SettingsManager.Instance.UpdateVisualStudioSettings(refactoringsOptionsPage);
-            SettingsManager.Instance.UpdateVisualStudioSettings(codeFixesOptionsPage);
+            Microsoft.VisualStudio.Shell.Events.SolutionEvents.OnAfterOpenSolution += AfterOpenSolution;
+            Microsoft.VisualStudio.Shell.Events.SolutionEvents.OnAfterCloseSolution += AfterCloseSolution;
         }
 
-        private void UpdateSettingsAfterConfigFileChanged()
+        private async Task<bool> IsSolutionLoadedAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            SettingsManager.Instance.ConfigFileSettings = LoadConfigFileSettings();
-            SettingsManager.Instance.ApplyTo(RefactoringSettings.Current);
-            SettingsManager.Instance.ApplyTo(CodeFixSettings.Current);
+            await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
+            var solution = await GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
+
+            ErrorHandler.ThrowOnFailure(solution.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out object value));
+
+            return value is bool isSolutionOpen && isSolutionOpen;
         }
 
-        private ConfigFileSettings LoadConfigFileSettings()
+        private void AfterOpenSolution(object sender = null, OpenSolutionEventArgs e = null)
         {
+            UpdateSettings();
+
             if (GetService(typeof(DTE)) is DTE dte)
-            {
-                string path = dte.Solution.FullName;
-
-                if (!string.IsNullOrEmpty(path))
-                {
-                    string directoryPath = Path.GetDirectoryName(path);
-
-                    if (!string.IsNullOrEmpty(directoryPath))
-                    {
-                        path = Path.Combine(directoryPath, ConfigFileSettings.FileName);
-
-                        if (File.Exists(path))
-                        {
-                            try
-                            {
-                                return ConfigFileSettings.Load(path);
-                            }
-                            catch (IOException)
-                            {
-                            }
-                            catch (UnauthorizedAccessException)
-                            {
-                            }
-                            catch (SecurityException)
-                            {
-                            }
-                        }
-                    }
-                }
-            }
-
-            return default(ConfigFileSettings);
+                WatchConfigFile(dte.Solution.FullName, _watcher, UpdateSettings);
         }
 
-        private void WatchConfigFile()
-        {
-            if (GetService(typeof(DTE)) is DTE dte)
-            {
-                string path = dte.Solution.FullName;
-
-                if (!string.IsNullOrEmpty(path))
-                {
-                    string directoryPath = Path.GetDirectoryName(path);
-
-                    if (!string.IsNullOrEmpty(directoryPath))
-                    {
-                        _watcher = new FileSystemWatcher(directoryPath, ConfigFileSettings.FileName)
-                        {
-                            EnableRaisingEvents = true,
-                            IncludeSubdirectories = false
-                        };
-
-                        _watcher.Changed += (object sender, FileSystemEventArgs e) => UpdateSettingsAfterConfigFileChanged();
-                        _watcher.Created += (object sender, FileSystemEventArgs e) => UpdateSettingsAfterConfigFileChanged();
-                        _watcher.Deleted += (object sender, FileSystemEventArgs e) => UpdateSettingsAfterConfigFileChanged();
-                    }
-                }
-            }
-        }
-
-        public int OnAfterOpenProject(IVsHierarchy pHierarchy, int fAdded)
-        {
-            return VSConstants.S_OK;
-        }
-
-        public int OnQueryCloseProject(IVsHierarchy pHierarchy, int fRemoving, ref int pfCancel)
-        {
-            return VSConstants.S_OK;
-        }
-
-        public int OnBeforeCloseProject(IVsHierarchy pHierarchy, int fRemoved)
-        {
-            return VSConstants.S_OK;
-        }
-
-        public int OnAfterLoadProject(IVsHierarchy pStubHierarchy, IVsHierarchy pRealHierarchy)
-        {
-            return VSConstants.S_OK;
-        }
-
-        public int OnQueryUnloadProject(IVsHierarchy pRealHierarchy, ref int pfCancel)
-        {
-            return VSConstants.S_OK;
-        }
-
-        public int OnBeforeUnloadProject(IVsHierarchy pRealHierarchy, IVsHierarchy pStubHierarchy)
-        {
-            return VSConstants.S_OK;
-        }
-
-        public int OnAfterOpenSolution(object pUnkReserved, int fNewSolution)
-        {
-            UpdateSettingsAfterConfigFileChanged();
-
-            WatchConfigFile();
-
-            return VSConstants.S_OK;
-        }
-
-        public int OnQueryCloseSolution(object pUnkReserved, ref int pfCancel)
-        {
-            return VSConstants.S_OK;
-        }
-
-        public int OnBeforeCloseSolution(object pUnkReserved)
-        {
-            return VSConstants.S_OK;
-        }
-
-        public int OnAfterCloseSolution(object pUnkReserved)
+        private void AfterCloseSolution(object sender = null, EventArgs e = null)
         {
             if (_watcher != null)
             {
                 _watcher.Dispose();
                 _watcher = null;
             }
+        }
 
-            return VSConstants.S_OK;
+        private void UpdateSettings()
+        {
+            SettingsManager.Instance.ConfigFileSettings = (GetService(typeof(DTE)) is DTE dte)
+                ? LoadConfigFileSettings(dte.Solution.FullName)
+                : null;
+
+            SettingsManager.Instance.ApplyTo(RefactoringSettings.Current);
+            SettingsManager.Instance.ApplyTo(CodeFixSettings.Current);
         }
     }
 }
