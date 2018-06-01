@@ -2,6 +2,7 @@
 
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
 using Microsoft.VisualStudio;
@@ -15,6 +16,7 @@ using Roslynator.Configuration;
 
 namespace Roslynator.VisualStudio
 {
+    [ComVisible(true)]
     public class AbstractPackage : AsyncPackage
     {
         private FileSystemWatcher _watcher;
@@ -27,10 +29,10 @@ namespace Roslynator.VisualStudio
         {
             await base.InitializeAsync(cancellationToken, progress);
 
+            await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             InitializeSettings();
 
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-
             var solution = await GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
 
             ErrorHandler.ThrowOnFailure(solution.GetProperty((int)__VSPROPID.VSPROPID_SolutionFileName, out object solutionFileNameValue));
