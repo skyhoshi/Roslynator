@@ -29,10 +29,10 @@ namespace Roslynator.VisualStudio
         {
             await base.InitializeAsync(cancellationToken, progress);
 
+            await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             InitializeSettings();
 
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-
             var solution = await GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
 
             ErrorHandler.ThrowOnFailure(solution.GetProperty((int)__VSPROPID.VSPROPID_SolutionFileName, out object solutionFileNameValue));
