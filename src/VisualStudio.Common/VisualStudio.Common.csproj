@@ -111,6 +111,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractPackage.cs" />
     <Compile Include="BaseModel.cs" />
     <Compile Include="BaseOptionsPage.cs">
       <SubType>Component</SubType>
@@ -134,7 +135,6 @@
       <DependentUpon>BaseOptionsPageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="PackageHelpers.cs" />
     <Compile Include="XElementExtensions.cs" />
     <Compile Include="TypeConverters\YesNoConverter.cs" />
     <Compile Include="TypeConverters\EnabledDisabledConverter.cs" />
