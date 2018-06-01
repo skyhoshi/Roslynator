@@ -2478,7 +2478,7 @@ namespace Roslynator.CSharp
             messageFormat:      "Add comma after last item in list.", 
             category:           DiagnosticCategories.Maintainability, 
             defaultSeverity:    DiagnosticSeverity.Info, 
-            isEnabledByDefault: true, 
+            isEnabledByDefault: false, 
             description:        null, 
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.AddCommaAfterLastItemInList}", 
             customTags:         Array.Empty<string>());

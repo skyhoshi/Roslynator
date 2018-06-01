@@ -6,7 +6,7 @@
     <MessageFormat>Add comma after last item in list.</MessageFormat>
     <Category>Maintainability</Category>
     <DefaultSeverity>Info</DefaultSeverity>
-    <IsEnabledByDefault>true</IsEnabledByDefault>
+    <IsEnabledByDefault>false</IsEnabledByDefault>
     <SupportsFadeOut>false</SupportsFadeOut>
     <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
     <Summary>Having comma after last item in list allows easily reorder members.
