@@ -4,8 +4,6 @@ using System;
 using System.IO;
 using System.Security;
 using System.Threading;
-using System.Threading.Tasks;
-using EnvDTE;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Events;
@@ -21,31 +19,40 @@ namespace Roslynator.VisualStudio
     {
         private FileSystemWatcher _watcher;
 
+        private string SolutionFilePath { get; set; }
+        private string SolutionDirectoryPath { get; set; }
+        private string ConfigFilePath { get; set; }
+
         protected override async System.Threading.Tasks.Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
             await base.InitializeAsync(cancellationToken, progress);
 
             InitializeSettings();
 
-            if (await IsSolutionLoadedAsync(cancellationToken))
-            {
-                await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-                AfterOpenSolution();
-            }
-
-            Microsoft.VisualStudio.Shell.Events.SolutionEvents.OnAfterOpenSolution += AfterOpenSolution;
-            Microsoft.VisualStudio.Shell.Events.SolutionEvents.OnAfterCloseSolution += AfterCloseSolution;
-        }
-
-        private async Task<bool> IsSolutionLoadedAsync(CancellationToken cancellationToken = default(CancellationToken))
-        {
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
             var solution = await GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
 
-            ErrorHandler.ThrowOnFailure(solution.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out object value));
+            ErrorHandler.ThrowOnFailure(solution.GetProperty((int)__VSPROPID.VSPROPID_SolutionFileName, out object solutionFileNameValue));
 
-            return value is bool isSolutionOpen && isSolutionOpen;
+            if (solutionFileNameValue is string solutionFileName
+                && !string.IsNullOrEmpty(solutionFileName))
+            {
+                SolutionFilePath = solutionFileName;
+                SolutionDirectoryPath = Path.GetDirectoryName(solutionFileName);
+                ConfigFilePath = Path.Combine(SolutionDirectoryPath, ConfigFileSettings.FileName);
+            }
+
+            ErrorHandler.ThrowOnFailure(solution.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out object isSolutionOpenValue));
+
+            if (isSolutionOpenValue is bool isSolutionOpen
+                && isSolutionOpen)
+            {
+                AfterOpenSolution();
+            }
+
+            SolutionEvents.OnAfterOpenSolution += AfterOpenSolution;
+            SolutionEvents.OnAfterCloseSolution += AfterCloseSolution;
         }
 
         public void InitializeSettings()
@@ -96,27 +103,12 @@ namespace Roslynator.VisualStudio
 
         public ConfigFileSettings LoadConfigFileSettings()
         {
-            if (!(GetService(typeof(DTE)) is DTE dte))
-                return null;
-
-            string path = dte.Solution.FullName;
-
-            if (string.IsNullOrEmpty(path))
-                return null;
-
-            string directoryPath = Path.GetDirectoryName(path);
-
-            if (string.IsNullOrEmpty(directoryPath))
-                return null;
-
-            path = Path.Combine(directoryPath, ConfigFileSettings.FileName);
-
-            if (!File.Exists(path))
+            if (!File.Exists(ConfigFilePath))
                 return null;
 
             try
             {
-                return ConfigFileSettings.Load(path);
+                return ConfigFileSettings.Load(ConfigFilePath);
             }
             catch (IOException)
             {
@@ -133,20 +125,10 @@ namespace Roslynator.VisualStudio
 
         public void WatchConfigFile()
         {
-            if (!(GetService(typeof(DTE)) is DTE dte))
+            if (!Directory.Exists(SolutionDirectoryPath))
                 return;
 
-            string path = dte.Solution.FullName;
-
-            if (string.IsNullOrEmpty(path))
-                return;
-
-            string directoryPath = Path.GetDirectoryName(path);
-
-            if (string.IsNullOrEmpty(directoryPath))
-                return;
-
-            _watcher = new FileSystemWatcher(directoryPath, ConfigFileSettings.FileName)
+            _watcher = new FileSystemWatcher(SolutionDirectoryPath, ConfigFileSettings.FileName)
             {
                 EnableRaisingEvents = true,
                 IncludeSubdirectories = false,
