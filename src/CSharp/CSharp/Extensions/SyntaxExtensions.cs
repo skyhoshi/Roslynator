@@ -113,16 +113,6 @@ namespace Roslynator.CSharp
             }
         }
 
-        internal static bool ContainsYieldReturn(this BlockSyntax block, TextSpan? span = null)
-        {
-            return ContainsYieldWalker.ContainsYieldReturn(block, span);
-        }
-
-        internal static bool ContainsYieldBreak(this BlockSyntax block, TextSpan? span = null)
-        {
-            return ContainsYieldWalker.ContainsYieldBreak(block, span);
-        }
-
         internal static bool ContainsYield(this BlockSyntax block, TextSpan? span = null, bool yieldReturn = true, bool yieldBreak = true)
         {
             return ContainsYieldWalker.ContainsYield(block, span, yieldReturn, yieldBreak);
