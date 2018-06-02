@@ -2507,5 +2507,17 @@ namespace Roslynator.CSharp
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MarkParameterWithInModifier}", 
             customTags:         Array.Empty<string>());
 
+        /// <summary>RCSX002</summary>
+        public static readonly DiagnosticDescriptor SplitArgumentsValidationAndImplementation = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.SplitArgumentsValidationAndImplementation, 
+            title:              "Split arguments validation and implementation", 
+            messageFormat:      "", 
+            category:           DiagnosticCategories.Design, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.SplitArgumentsValidationAndImplementation}", 
+            customTags:         Array.Empty<string>());
+
     }
 }

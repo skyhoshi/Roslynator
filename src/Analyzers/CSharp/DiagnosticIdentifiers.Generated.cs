@@ -212,5 +212,6 @@ namespace Roslynator.CSharp
         public const string AddCommaAfterLastItemInList = "RCS1230";
         public const string ReplaceEnumeratorWithForEach = "RCS1231";
         public const string MarkParameterWithInModifier = "RCSX001";
+        public const string SplitArgumentsValidationAndImplementation = "RCSX002";
     }
 }
