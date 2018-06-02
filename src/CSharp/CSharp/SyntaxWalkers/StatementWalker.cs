@@ -1,11 +1,21 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Diagnostics;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Roslynator.CSharp.SyntaxWalkers
 {
     internal class StatementWalker : SkipFunctionWalker
     {
+        public override void Visit(SyntaxNode node)
+        {
+            Debug.Assert(CSharpFacts.IsStatement(node.Kind()) || !(node is StatementSyntax), node.Kind().ToString());
+
+            base.Visit(node);
+        }
+
         public override void VisitBlock(BlockSyntax node)
         {
             foreach (StatementSyntax statement in node.Statements)

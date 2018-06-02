@@ -2,14 +2,17 @@
 <Analyzers>
   <Analyzer Identifier="SplitArgumentsValidationAndImplementation">
     <Id>RCSX002</Id>
-    <Title>Split arguments validation and implementation</Title>
-    <MessageFormat></MessageFormat>
+    <Title>Split arguments validation and implementation.</Title>
+    <MessageFormat>Split arguments validation and implementation.</MessageFormat>
     <Category>Design</Category>
     <DefaultSeverity>Info</DefaultSeverity>
     <IsEnabledByDefault>true</IsEnabledByDefault>
     <SupportsFadeOut>false</SupportsFadeOut>
     <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
-    <Summary></Summary>
+    <Summary>An iterator method (a method that contains `yield`) will not validate arguments until the caller begins to enumerate the result sequence.
+
+To ensure that arguments are validated immediately (when the method is called), move
+the iterator to a separate method (local function).</Summary>
     <Samples>
       <Sample>
         <Before><![CDATA[IEnumerable<object> Foo(IEnumerable<object> sequence)

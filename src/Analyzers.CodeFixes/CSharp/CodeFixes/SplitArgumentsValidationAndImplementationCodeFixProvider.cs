@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
@@ -59,7 +60,11 @@ namespace Roslynator.CSharp.CodeFixes
 
             SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
 
-            string name = methodDeclaration.Identifier.ValueText + "Iterator";
+            string name = methodDeclaration.Identifier.ValueText;
+
+            name += (name.EndsWith("Iterator", StringComparison.Ordinal))
+                ? "2"
+                : "Iterator";
 
             name = NameGenerator.Default.EnsureUniqueLocalName(name, semanticModel, statement.SpanStart, cancellationToken: cancellationToken);
 
