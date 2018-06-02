@@ -21,7 +21,6 @@ namespace Roslynator.VisualStudio
     {
         private FileSystemWatcher _watcher;
 
-        private string SolutionFilePath { get; set; }
         private string SolutionDirectoryPath { get; set; }
         private string ConfigFilePath { get; set; }
 
@@ -40,7 +39,6 @@ namespace Roslynator.VisualStudio
             if (solutionFileNameValue is string solutionFileName
                 && !string.IsNullOrEmpty(solutionFileName))
             {
-                SolutionFilePath = solutionFileName;
                 SolutionDirectoryPath = Path.GetDirectoryName(solutionFileName);
                 ConfigFilePath = Path.Combine(SolutionDirectoryPath, ConfigFileSettings.FileName);
             }
@@ -101,28 +99,28 @@ namespace Roslynator.VisualStudio
             SettingsManager.Instance.ConfigFileSettings = LoadConfigFileSettings();
             SettingsManager.Instance.ApplyTo(RefactoringSettings.Current);
             SettingsManager.Instance.ApplyTo(CodeFixSettings.Current);
-        }
 
-        public ConfigFileSettings LoadConfigFileSettings()
-        {
-            if (!File.Exists(ConfigFilePath))
+            ConfigFileSettings LoadConfigFileSettings()
+            {
+                if (!File.Exists(ConfigFilePath))
+                    return null;
+
+                try
+                {
+                    return ConfigFileSettings.Load(ConfigFilePath);
+                }
+                catch (IOException)
+                {
+                }
+                catch (UnauthorizedAccessException)
+                {
+                }
+                catch (SecurityException)
+                {
+                }
+
                 return null;
-
-            try
-            {
-                return ConfigFileSettings.Load(ConfigFilePath);
             }
-            catch (IOException)
-            {
-            }
-            catch (UnauthorizedAccessException)
-            {
-            }
-            catch (SecurityException)
-            {
-            }
-
-            return null;
         }
 
         public void WatchConfigFile()
