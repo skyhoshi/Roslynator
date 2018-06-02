@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Analyzers>
+  <Analyzer Identifier="SplitArgumentsValidationAndImplementation">
+    <Id>RCSX002</Id>
+    <Title>Split arguments validation and implementation</Title>
+    <MessageFormat></MessageFormat>
+    <Category>Design</Category>
+    <DefaultSeverity>Info</DefaultSeverity>
+    <IsEnabledByDefault>true</IsEnabledByDefault>
+    <SupportsFadeOut>false</SupportsFadeOut>
+    <SupportsFadeOutAnalyzer>false</SupportsFadeOutAnalyzer>
+    <Summary></Summary>
+    <Samples>
+      <Sample>
+        <Before><![CDATA[IEnumerable<object> Foo(IEnumerable<object> sequence)
+{
+    if (sequence == null)
+        throw new ArgumentNullException(nameof(sequence));
+
+    foreach (object item in sequence) // RCSX002
+        yield return item;
+}]]></Before>
+        <After><![CDATA[IEnumerable<object> Foo(IEnumerable<object> sequence)
+{
+    if (sequence == null)
+        throw new ArgumentNullException(nameof(sequence));
+
+    return FooIterator();
+
+    IEnumerable<object> FooIterator()
+    {
+        foreach (object item in sequence)
+            yield return item;    
+    }
+}]]></After>
+      </Sample>
+    </Samples>
+  </Analyzer>
+</Analyzers>
