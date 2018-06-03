@@ -82,5 +82,27 @@ enum E
 }
 ", equivalenceKey: RefactoringId);
         }
+
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.WrapInElement)]
+        public async Task TestNoRefactoring_InvalidSpan()
+        {
+            await VerifyNoRefactoringAsync(@"
+class C
+{
+    /// <summary>
+    /// x [|nul|]l
+    /// </summary>
+    void M()
+    {
+    }
+
+    /// <summary>
+    /// n[|ull|] x
+    /// </summary>
+    void M2()
+    {
+    }
+}", equivalenceKey: RefactoringIdentifiers.WrapInElement);
+        }
     }
 }

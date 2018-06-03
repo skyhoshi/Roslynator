@@ -20,7 +20,7 @@ namespace Roslynator.CSharp.Refactorings.Tests
 class C
 {
     /// <summary>
-    /// x is [|null|] or y is [|null|]
+    /// x [|null|] x
     /// </summary>
     void M()
     {
@@ -30,7 +30,7 @@ class C
 class C
 {
     /// <summary>
-    /// x is <c>null</c> or y is <c>null</c>
+    /// x <c>null</c> x
     /// </summary>
     void M()
     {
@@ -39,22 +39,93 @@ class C
 ", equivalenceKey: RefactoringId);
         }
 
-        //[Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.AddBraces)]
-        public async Task TestNoRefactoring()
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.WrapInElement)]
+        public async Task Test_StartOfText()
         {
-            await VerifyNoRefactoringAsync(@"
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+            await VerifyRefactoringAsync(@"
 class C
 {
+    /// <summary>
+    /// [|null|] x
+    /// </summary>
+    void M()
+    {
+    }
+}
+", @"
+class C
+{
+    /// <summary>
+    /// <c>null</c> x
+    /// </summary>
     void M()
     {
     }
 }
 ", equivalenceKey: RefactoringId);
+        }
+
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.WrapInElement)]
+        public async Task Test_EndOfText()
+        {
+            await VerifyRefactoringAsync(@"
+class C
+{
+    /// <summary>
+    /// x [|null|]
+    /// </summary>
+    void M()
+    {
+    }
+}
+", @"
+class C
+{
+    /// <summary>
+    /// x <c>null</c>
+    /// </summary>
+    void M()
+    {
+    }
+}
+", equivalenceKey: RefactoringId);
+        }
+
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.WrapInElement)]
+        public async Task TestNoRefactoring_EmptySpan()
+        {
+            await VerifyNoRefactoringAsync(@"
+class C
+{
+    /// <summary>
+    /// x [||]null
+    /// </summary>
+    void M()
+    {
+    }
+}", equivalenceKey: RefactoringId);
+        }
+
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.WrapInElement)]
+        public async Task TestNoRefactoring_InvalidSpan()
+        {
+            await VerifyNoRefactoringAsync(@"
+class C
+{
+    /// <summary>
+    /// x [|nul|]l
+    /// </summary>
+    void M()
+    {
+    }
+
+    /// <summary>
+    /// n[|ull|] x
+    /// </summary>
+    void M2()
+    {
+    }
+}", equivalenceKey: RefactoringId);
         }
     }
 }

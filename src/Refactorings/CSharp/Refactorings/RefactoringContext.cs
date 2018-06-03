@@ -210,8 +210,8 @@ namespace Roslynator.CSharp.Refactorings
                                     && char.IsLetterOrDigit(text[Span.Start - span.Start])))
                             {
                                 if (span.End == Span.End
-                                    || (char.IsLetterOrDigit(text[Span.End - span.End - 1])
-                                        && !char.IsLetterOrDigit(text[Span.End - span.End])))
+                                    || (char.IsLetterOrDigit(text[Span.End - span.Start - 1])
+                                        && !char.IsLetterOrDigit(text[Span.End - span.Start])))
                                 {
                                     RegisterRefactoring(
                                         "Wrap in 'c' element",
