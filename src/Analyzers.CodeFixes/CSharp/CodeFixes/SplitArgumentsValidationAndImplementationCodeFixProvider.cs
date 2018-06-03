@@ -62,9 +62,8 @@ namespace Roslynator.CSharp.CodeFixes
 
             string name = methodDeclaration.Identifier.ValueText;
 
-            name += (name.EndsWith("Iterator", StringComparison.Ordinal))
-                ? "2"
-                : "Iterator";
+            if (!name.EndsWith("Iterator", StringComparison.Ordinal))
+                name += "Iterator";
 
             name = NameGenerator.Default.EnsureUniqueLocalName(name, semanticModel, statement.SpanStart, cancellationToken: cancellationToken);
 
