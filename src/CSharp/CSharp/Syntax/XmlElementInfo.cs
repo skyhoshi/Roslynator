@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -47,6 +48,54 @@ namespace Roslynator.CSharp.Syntax
         public bool IsEmptyElement
         {
             get { return Kind == SyntaxKind.XmlEmptyElement; }
+        }
+
+        internal bool IsContentEmptyOrWhitespace
+        {
+            get
+            {
+                if (!Success)
+                    return false;
+
+                if (IsEmptyElement)
+                    return true;
+
+                var element = (XmlElementSyntax)Element;
+
+                SyntaxList<XmlNodeSyntax> content = element.Content;
+
+                int count = content.Count;
+
+                if (count == 0)
+                    return true;
+
+                if (count == 1)
+                {
+                    XmlNodeSyntax node = content[0];
+
+                    if (node.IsKind(SyntaxKind.XmlText))
+                    {
+                        var xmlText = (XmlTextSyntax)node;
+
+                        return xmlText.TextTokens.All(IsWhitespaceOrNewLine);
+                    }
+                }
+
+                return false;
+
+                bool IsWhitespaceOrNewLine(SyntaxToken token)
+                {
+                    switch (token.Kind())
+                    {
+                        case SyntaxKind.XmlTextLiteralNewLineToken:
+                            return true;
+                        case SyntaxKind.XmlTextLiteralToken:
+                            return string.IsNullOrWhiteSpace(token.ValueText);
+                        default:
+                            return false;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -109,6 +158,9 @@ namespace Roslynator.CSharp.Syntax
                 case "exception":
                 case "EXCEPTION":
                     return XmlElementKind.Exception;
+                case "returns":
+                case "RETURNS":
+                    return XmlElementKind.Returns;
                 default:
                     return XmlElementKind.None;
             }

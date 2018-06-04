@@ -10,5 +10,6 @@ namespace Roslynator.CSharp.Syntax
         InheritDoc = 3,
         Summary = 4,
         Exception = 5,
+        Returns = 6,
     }
 }

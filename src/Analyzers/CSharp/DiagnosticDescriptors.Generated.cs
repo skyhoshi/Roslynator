@@ -2510,13 +2510,25 @@ namespace Roslynator.CSharp
         /// <summary>RCSX002</summary>
         public static readonly DiagnosticDescriptor SplitArgumentsValidationAndImplementation = new DiagnosticDescriptor(
             id:                 DiagnosticIdentifiers.SplitArgumentsValidationAndImplementation, 
-            title:              "Split arguments validation and implementation", 
-            messageFormat:      "", 
+            title:              "Split arguments validation and implementation.", 
+            messageFormat:      "Split arguments validation and implementation.", 
             category:           DiagnosticCategories.Design, 
             defaultSeverity:    DiagnosticSeverity.Info, 
             isEnabledByDefault: true, 
             description:        null, 
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.SplitArgumentsValidationAndImplementation}", 
+            customTags:         Array.Empty<string>());
+
+        /// <summary>RCSX003</summary>
+        public static readonly DiagnosticDescriptor UnusedElementInDocumentationComment = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.UnusedElementInDocumentationComment, 
+            title:              "Unused element in documentation comment.", 
+            messageFormat:      "Unused element in documentation comment.", 
+            category:           DiagnosticCategories.Readability, 
+            defaultSeverity:    DiagnosticSeverity.Hidden, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.UnusedElementInDocumentationComment}", 
             customTags:         Array.Empty<string>());
 
     }
