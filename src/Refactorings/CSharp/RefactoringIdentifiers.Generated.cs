@@ -198,6 +198,7 @@ namespace Roslynator.CSharp.Refactorings
         public const string UseStringBuilderInsteadOfConcatenation = Prefix + "0182";
         public const string UseStringEmptyInsteadOfEmptyStringLiteral = Prefix + "0171";
         public const string WrapInCondition = Prefix + "0172";
+        public const string WrapInElement = Prefix + "X001";
         public const string WrapInElseClause = Prefix + "0173";
         public const string WrapInIfDirective = Prefix + "0174";
         public const string WrapInRegion = Prefix + "0175";
