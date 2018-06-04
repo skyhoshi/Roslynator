@@ -203,20 +203,23 @@ namespace Roslynator.CSharp.Refactorings
                         {
                             TextSpan span = token.Span;
 
-                            string text = token.Text;
-
-                            if (span.Start == Span.Start
-                                || (!char.IsLetterOrDigit(text[Span.Start - span.Start - 1])
-                                    && char.IsLetterOrDigit(text[Span.Start - span.Start])))
+                            if (span.Contains(Span))
                             {
-                                if (span.End == Span.End
-                                    || (char.IsLetterOrDigit(text[Span.End - span.Start - 1])
-                                        && !char.IsLetterOrDigit(text[Span.End - span.Start])))
+                                string text = token.Text;
+
+                                if (span.Start == Span.Start
+                                    || (!char.IsLetterOrDigit(text[Span.Start - span.Start - 1])
+                                        && char.IsLetterOrDigit(text[Span.Start - span.Start])))
                                 {
-                                    RegisterRefactoring(
-                                        "Wrap in 'c' element",
-                                        ct => Document.WithTextChangeAsync(new TextChange(Span, $"<c>{token.ToString(Span)}</c>"), ct),
-                                        RefactoringIdentifiers.WrapInElement);
+                                    if (span.End == Span.End
+                                        || (char.IsLetterOrDigit(text[Span.End - span.Start - 1])
+                                            && !char.IsLetterOrDigit(text[Span.End - span.Start])))
+                                    {
+                                        RegisterRefactoring(
+                                            "Wrap in 'c' element",
+                                            ct => Document.WithTextChangeAsync(new TextChange(Span, $"<c>{token.ToString(Span)}</c>"), ct),
+                                            RefactoringIdentifiers.WrapInElement);
+                                    }
                                 }
                             }
                         }
