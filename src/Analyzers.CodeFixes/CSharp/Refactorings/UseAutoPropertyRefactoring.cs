@@ -18,9 +18,6 @@ namespace Roslynator.CSharp.Refactorings
     {
         private static readonly SyntaxAnnotation _removeAnnotation = new SyntaxAnnotation();
 
-        private static readonly SymbolDisplayFormat _symbolDisplayFormat = new SymbolDisplayFormat(
-            miscellaneousOptions: SymbolDisplayMiscellaneousOptions.EscapeKeywordIdentifiers);
-
         public static async Task<Solution> RefactorAsync(
             Document document,
             PropertyDeclarationSyntax propertyDeclaration,
@@ -68,9 +65,25 @@ namespace Roslynator.CSharp.Refactorings
                     {
                         case SyntaxKind.IdentifierName:
                             {
-                                return CreateNewExpression(node, propertyIdentifier, propertySymbol)
-                                    .WithTriviaFrom(node)
-                                    .WithFormatterAnnotation();
+                                SyntaxNode newNode = null;
+
+                                if (node.IsParentKind(SyntaxKind.SimpleMemberAccessExpression)
+                                    && ((MemberAccessExpressionSyntax)node.Parent).Name == node)
+                                {
+                                    newNode = IdentifierName(propertyIdentifier);
+                                }
+                                else if (propertySymbol.IsStatic)
+                                {
+                                    newNode = SimpleMemberAccessExpression(
+                                        propertySymbol.ContainingType.ToTypeSyntax(),
+                                        (SimpleNameSyntax)ParseName(propertySymbol.ToDisplayString(SymbolDisplayFormats.Default))).WithSimplifierAnnotation();
+                                }
+                                else
+                                {
+                                    newNode = IdentifierName(propertyIdentifier).QualifyWithThis();
+                                }
+
+                                return newNode.WithTriviaFrom(node);
                             }
                         case SyntaxKind.PropertyDeclaration:
                             {
@@ -124,24 +137,6 @@ namespace Roslynator.CSharp.Refactorings
                 {
                     return semanticModel.GetSymbol(getter.ExpressionBody.Expression, cancellationToken);
                 }
-            }
-        }
-
-        public static ExpressionSyntax CreateNewExpression(SyntaxNode node, SyntaxToken identifier, IPropertySymbol propertySymbol)
-        {
-            if (node.IsParentKind(SyntaxKind.SimpleMemberAccessExpression)
-                && ((MemberAccessExpressionSyntax)node.Parent).Name == node)
-            {
-                return IdentifierName(identifier);
-            }
-            else if (propertySymbol.IsStatic)
-            {
-                return ParseName($"{propertySymbol.ContainingType.ToTypeSyntax()}.{propertySymbol.ToDisplayString(_symbolDisplayFormat)}")
-                    .WithSimplifierAnnotation();
-            }
-            else
-            {
-                return IdentifierName(identifier).QualifyWithThis();
             }
         }
 

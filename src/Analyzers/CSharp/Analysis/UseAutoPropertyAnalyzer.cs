@@ -90,6 +90,12 @@ namespace Roslynator.CSharp.Analysis
             if (variableDeclarator.SyntaxTree != property.SyntaxTree)
                 return;
 
+            if (!CheckPreprocessorDirectives(property))
+                return;
+
+            if (!CheckPreprocessorDirectives(variableDeclarator))
+                return;
+
             IPropertySymbol propertySymbol = semanticModel.GetDeclaredSymbol(property, cancellationToken);
 
             if (propertySymbol?.IsStatic != fieldSymbol.IsStatic)
@@ -120,10 +126,7 @@ namespace Roslynator.CSharp.Analysis
             if (HasStructLayoutAttributeWithExplicitKind(propertySymbol.ContainingType))
                 return;
 
-            if (!IsFixableBackingField(property, fieldSymbol, context.Compilation, semanticModel, cancellationToken))
-                return;
-
-            if (!CheckPreprocessorDirectives(property, variableDeclarator))
+            if (!IsFixableBackingField(property, propertySymbol, fieldSymbol, context.Compilation, semanticModel, cancellationToken))
                 return;
 
             context.ReportDiagnostic(DiagnosticDescriptors.UseAutoProperty, property.Identifier);
@@ -171,23 +174,9 @@ namespace Roslynator.CSharp.Analysis
             }
         }
 
-        private static bool HasStructLayoutAttributeWithExplicitKind(INamedTypeSymbol typeSymbol)
-        {
-            AttributeData attribute = typeSymbol.GetAttribute(MetadataNames.System_Runtime_InteropServices_StructLayoutAttribute);
-
-            if (attribute != null)
-            {
-                TypedConstant typedConstant = attribute.ConstructorArguments.SingleOrDefault(shouldThrow: false);
-
-                return typedConstant.Type?.HasMetadataName(MetadataNames.System_Runtime_InteropServices_LayoutKind) == true
-                    && (((LayoutKind)typedConstant.Value) == LayoutKind.Explicit);
-            }
-
-            return false;
-        }
-
         private static bool IsFixableBackingField(
             PropertyDeclarationSyntax propertyDeclaration,
+            IPropertySymbol propertySymbol,
             IFieldSymbol fieldSymbol,
             Compilation compilation,
             SemanticModel semanticModel,
@@ -198,7 +187,8 @@ namespace Roslynator.CSharp.Analysis
             INamedTypeSymbol containingType = fieldSymbol.ContainingType;
 
             bool shouldSearchForReferenceInInstanceConstructor = !containingType.IsSealed
-                && propertyDeclaration.Modifiers.ContainsAny(SyntaxKind.VirtualKeyword, SyntaxKind.OverrideKeyword);
+                && !propertySymbol.IsStatic
+                && (propertySymbol.IsVirtual || propertySymbol.IsOverride);
 
             ImmutableArray<SyntaxReference> syntaxReferences = containingType.DeclaringSyntaxReferences;
 
@@ -402,9 +392,22 @@ namespace Roslynator.CSharp.Analysis
             return null;
         }
 
-        private static bool CheckPreprocessorDirectives(
-            PropertyDeclarationSyntax property,
-            VariableDeclaratorSyntax declarator)
+        private static bool HasStructLayoutAttributeWithExplicitKind(INamedTypeSymbol typeSymbol)
+        {
+            AttributeData attribute = typeSymbol.GetAttribute(MetadataNames.System_Runtime_InteropServices_StructLayoutAttribute);
+
+            if (attribute != null)
+            {
+                TypedConstant typedConstant = attribute.ConstructorArguments.SingleOrDefault(shouldThrow: false);
+
+                return typedConstant.Type?.HasMetadataName(MetadataNames.System_Runtime_InteropServices_LayoutKind) == true
+                    && (((LayoutKind)typedConstant.Value) == LayoutKind.Explicit);
+            }
+
+            return false;
+        }
+
+        private static bool CheckPreprocessorDirectives(PropertyDeclarationSyntax property)
         {
             ArrowExpressionClauseSyntax expressionBody = property.ExpressionBody;
 
@@ -418,6 +421,11 @@ namespace Roslynator.CSharp.Analysis
                 return false;
             }
 
+            return true;
+        }
+
+        private static bool CheckPreprocessorDirectives(VariableDeclaratorSyntax declarator)
+        {
             var variableDeclaration = (VariableDeclarationSyntax)declarator.Parent;
 
             if (variableDeclaration.Variables.Count == 1)
@@ -467,7 +475,7 @@ namespace Roslynator.CSharp.Analysis
                 IsReferencedInInstanceConstructor = false;
             }
 
-            public void Clear()
+            public void ClearValues()
             {
                 SetValues(
                     default(IFieldSymbol),
@@ -490,7 +498,7 @@ namespace Roslynator.CSharp.Analysis
             {
                 if (node.RefOrOutKeyword.IsKind(SyntaxKind.RefKeyword, SyntaxKind.OutKeyword))
                 {
-                    ExpressionSyntax expression = node.Expression;
+                    ExpressionSyntax expression = node.Expression?.WalkDownParentheses();
 
                     switch (expression?.Kind())
                     {
@@ -585,7 +593,7 @@ namespace Roslynator.CSharp.Analysis
 
             public static void Free(UseAutoPropertyWalker walker)
             {
-                walker.Clear();
+                walker.ClearValues();
                 _cachedInstance = walker;
             }
         }
