@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
@@ -15,7 +14,6 @@ using static Roslynator.CSharp.CSharpFactory;
 
 namespace Roslynator.CSharp.Refactorings
 {
-    //XPERF:
     internal static class UseAutoPropertyRefactoring
     {
         private static readonly SyntaxAnnotation _removeAnnotation = new SyntaxAnnotation();
@@ -147,9 +145,35 @@ namespace Roslynator.CSharp.Refactorings
             }
         }
 
-        public static PropertyDeclarationSyntax CreateAutoProperty(PropertyDeclarationSyntax propertyDeclaration, EqualsValueClauseSyntax initializer)
+        public static PropertyDeclarationSyntax CreateAutoProperty(PropertyDeclarationSyntax property, EqualsValueClauseSyntax initializer)
         {
-            AccessorListSyntax accessorList = CreateAccessorList(propertyDeclaration);
+            AccessorListSyntax accessorList = property.AccessorList;
+
+            if (accessorList != null)
+            {
+                SyntaxList<AccessorDeclarationSyntax> newAccessors = accessorList
+                    .Accessors
+                    .Select(accessor =>
+                    {
+                        accessor = accessor.Update(
+                            attributeLists: accessor.AttributeLists,
+                            modifiers: accessor.Modifiers,
+                            keyword: accessor.Keyword,
+                            body: null,
+                            expressionBody: null,
+                            semicolonToken: SemicolonToken());
+
+                        return accessor.WithTriviaFrom(accessor);
+                    })
+                    .ToSyntaxList();
+
+                accessorList = accessorList.WithAccessors(newAccessors);
+            }
+            else
+            {
+                accessorList = AccessorList(AutoGetAccessorDeclaration())
+                    .WithTriviaFrom(property.ExpressionBody);
+            }
 
             if (accessorList
                 .DescendantTrivia()
@@ -158,51 +182,20 @@ namespace Roslynator.CSharp.Refactorings
                 accessorList = accessorList.RemoveWhitespace();
             }
 
-            PropertyDeclarationSyntax newProperty = propertyDeclaration
-                .WithIdentifier(propertyDeclaration.Identifier.WithTrailingTrivia(Space))
-                .WithExpressionBody(null)
-                .WithAccessorList(accessorList);
-
-            if (initializer != null)
-            {
-                newProperty = newProperty
-                    .WithInitializer(initializer)
-                    .WithSemicolonToken(SemicolonToken());
-            }
-            else
-            {
-                newProperty = newProperty.WithSemicolonToken(default(SyntaxToken));
-            }
+            PropertyDeclarationSyntax newProperty = property.Update(
+                attributeLists: property.AttributeLists,
+                modifiers: property.Modifiers,
+                type: property.Type,
+                explicitInterfaceSpecifier: property.ExplicitInterfaceSpecifier,
+                identifier: property.Identifier.WithTrailingTrivia(Space),
+                accessorList: accessorList,
+                expressionBody: default(ArrowExpressionClauseSyntax),
+                initializer: initializer,
+                semicolonToken: (initializer != null) ? SemicolonToken() : default(SyntaxToken));
 
             return newProperty
-                .WithTriviaFrom(propertyDeclaration)
+                .WithTriviaFrom(property)
                 .WithFormatterAnnotation();
-        }
-
-        private static AccessorListSyntax CreateAccessorList(PropertyDeclarationSyntax property)
-        {
-            if (property.ExpressionBody != null)
-            {
-                return AccessorList(AutoGetAccessorDeclaration())
-                    .WithTriviaFrom(property.ExpressionBody);
-            }
-            else
-            {
-                AccessorListSyntax accessorList = property.AccessorList;
-
-                IEnumerable<AccessorDeclarationSyntax> newAccessors = accessorList
-                    .Accessors
-                    .Select(accessor =>
-                    {
-                        return accessor
-                            .WithBody(null)
-                            .WithExpressionBody(null)
-                            .WithSemicolonToken(SemicolonToken())
-                            .WithTriviaFrom(accessor);
-                    });
-
-                return accessorList.WithAccessors(List(newAccessors));
-            }
         }
     }
 }
