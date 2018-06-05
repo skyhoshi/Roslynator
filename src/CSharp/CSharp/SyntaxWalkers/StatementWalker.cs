@@ -11,7 +11,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
     {
         public override void Visit(SyntaxNode node)
         {
-            Debug.Assert(CSharpFacts.IsStatement(node.Kind()) || !(node is StatementSyntax), node.Kind().ToString());
+            Debug.Assert(node == null || CSharpFacts.IsStatement(node.Kind()) || !(node is StatementSyntax), node.Kind().ToString());
 
             base.Visit(node);
         }
@@ -22,13 +22,19 @@ namespace Roslynator.CSharp.SyntaxWalkers
                 Visit(statement);
         }
 
+        private void VisitBlockIfNotNull(BlockSyntax node)
+        {
+            if (node != null)
+                VisitBlock(node);
+        }
+
         public override void VisitBreakStatement(BreakStatementSyntax node)
         {
         }
 
         public override void VisitCheckedStatement(CheckedStatementSyntax node)
         {
-            VisitBlock(node.Block);
+            VisitBlockIfNotNull(node.Block);
         }
 
         public override void VisitContinueStatement(ContinueStatementSyntax node)
@@ -98,7 +104,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitLocalFunctionStatement(LocalFunctionStatementSyntax node)
         {
-            VisitBlock(node.Body);
+            VisitBlockIfNotNull(node.Body);
         }
 
         public override void VisitLockStatement(LockStatementSyntax node)
@@ -125,7 +131,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitTryStatement(TryStatementSyntax node)
         {
-            VisitBlock(node.Block);
+            VisitBlockIfNotNull(node.Block);
 
             foreach (CatchClauseSyntax catchClause in node.Catches)
                 VisitCatchClause(catchClause);
@@ -133,12 +139,12 @@ namespace Roslynator.CSharp.SyntaxWalkers
             FinallyClauseSyntax finallyClause = node.Finally;
 
             if (finallyClause != null)
-                VisitBlock(finallyClause.Block);
+                VisitBlockIfNotNull(finallyClause.Block);
         }
 
         public override void VisitUnsafeStatement(UnsafeStatementSyntax node)
         {
-            VisitBlock(node.Block);
+            VisitBlockIfNotNull(node.Block);
         }
 
         public override void VisitUsingStatement(UsingStatementSyntax node)
