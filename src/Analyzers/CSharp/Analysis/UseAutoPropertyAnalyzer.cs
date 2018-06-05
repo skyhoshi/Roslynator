@@ -475,7 +475,7 @@ namespace Roslynator.CSharp.Analysis
                 IsReferencedInInstanceConstructor = false;
             }
 
-            public void Clear()
+            public void ClearValues()
             {
                 SetValues(
                     default(IFieldSymbol),
@@ -498,7 +498,7 @@ namespace Roslynator.CSharp.Analysis
             {
                 if (node.RefOrOutKeyword.IsKind(SyntaxKind.RefKeyword, SyntaxKind.OutKeyword))
                 {
-                    ExpressionSyntax expression = node.Expression;
+                    ExpressionSyntax expression = node.Expression?.WalkDownParentheses();
 
                     switch (expression?.Kind())
                     {
@@ -593,7 +593,7 @@ namespace Roslynator.CSharp.Analysis
 
             public static void Free(UseAutoPropertyWalker walker)
             {
-                walker.Clear();
+                walker.ClearValues();
                 _cachedInstance = walker;
             }
         }
