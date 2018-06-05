@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.CodeRefactorings;
-using Roslynator.Tests;
 using Xunit;
 
 #pragma warning disable RCS1090
@@ -81,6 +79,34 @@ class C
     {
     }
     #endregion
+}
+", equivalenceKey: RefactoringId);
+        }
+
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.WrapInRegion)]
+        public async Task Test_StartsAndEndsInSingleLineDocumentationComment()
+        {
+            await VerifyRefactoringAsync(@"
+class C
+{
+    /// <summary>
+[|    /// 
+|]    /// </summary>
+    void M()
+    {
+    }
+}
+", @"
+class C
+{
+    /// <summary>
+    #region
+    /// 
+    #endregion
+    /// </summary>
+    void M()
+    {
+    }
 }
 ", equivalenceKey: RefactoringId);
         }
@@ -166,6 +192,26 @@ class C
     {
     }
 }
+", equivalenceKey: RefactoringId);
+        }
+
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.WrapInRegion)]
+        public async Task Test_EntireText()
+        {
+            await VerifyRefactoringAsync(@"[|class C
+{
+    void M()
+    {
+    }
+}
+|]", @"#region
+class C
+{
+    void M()
+    {
+    }
+}
+#endregion
 ", equivalenceKey: RefactoringId);
         }
 
