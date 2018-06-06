@@ -10,17 +10,10 @@ namespace Roslynator.CSharp.Analysis.Documentation
 {
     internal class AddParameterToDocumentationCommentAnalysis : DocumentationCommentAnalysis<ParameterSyntax>
     {
-        public override string ElementName
+        public override XmlElementKind ElementKind
         {
-            get { return "param"; }
+            get { return XmlElementKind.Param; }
         }
-
-        public override string ElementNameUppercase
-        {
-            get { return "PARAM"; }
-        }
-
-        public override ImmutableArray<string> ElementNames { get; } = ImmutableArray.Create("param", "PARAM", "typeparam", "TYPEPARAM", "summary", "SUMMARY");
 
         public static void Analyze(
             SyntaxNodeAnalysisContext context,
@@ -33,7 +26,7 @@ namespace Roslynator.CSharp.Analysis.Documentation
 
                 if (comment != null)
                 {
-                    ImmutableArray<string> values = DocumentationCommentAnalysis.GetAttributeValues(comment, "param", "PARAM", "name");
+                    ImmutableArray<string> values = DocumentationCommentAnalysis.GetAttributeValues(comment, XmlElementKind.Param, "name");
 
                     if (!values.IsDefault)
                     {
