@@ -107,29 +107,41 @@ namespace Roslynator.CSharp.Refactorings
             if (!span.IsEmpty)
             {
                 if (span.Start == 0
-                    || IsStartOrEndOfLine(span.Start, -1))
+                    || IsStartOrEndOfLine(span.Start, compareWithStart: false, offset: -1))
                 {
-                    return IsStartOrEndOfLine(span.End, -1)
-                        || IsStartOrEndOfLine(span.End);
+                    return IsStartOrEndOfLine(span.End, compareWithStart: false, offset: -1)
+                        || IsStartOrEndOfLine(span.End, compareWithStart: true);
                 }
             }
 
             return false;
 
-            bool IsStartOrEndOfLine(int position, int offset = 0)
+            bool IsStartOrEndOfLine(int position, bool compareWithStart, int offset = 0)
             {
-                SyntaxTrivia trivia = node.FindTrivia(position + offset);
+                int positionWithOffset = position + offset;
 
-                if (trivia.IsEndOfLineTrivia()
-                    && trivia.Span.End == position)
+                SyntaxNode n = node;
+
+                while (!n.FullSpan.Contains(positionWithOffset))
+                {
+                    n = n.Parent;
+
+                    if (n == null)
+                        return false;
+                }
+
+                SyntaxTrivia trivia = n.FindTrivia(positionWithOffset);
+
+                if (trivia.IsKind(SyntaxKind.EndOfLineTrivia)
+                    && position == ((compareWithStart) ? trivia.Span.Start : trivia.Span.End))
                 {
                     return true;
                 }
 
-                SyntaxToken token = node.FindToken(position + offset, findInsideTrivia: true);
+                SyntaxToken token = n.FindToken(positionWithOffset, findInsideTrivia: true);
 
                 return token.IsKind(SyntaxKind.XmlTextLiteralNewLineToken)
-                    && token.Span.End == position;
+                    && position == ((compareWithStart) ? token.Span.Start : token.Span.End);
             }
         }
 
