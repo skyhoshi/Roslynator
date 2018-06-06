@@ -14,10 +14,12 @@ namespace Roslynator.CSharp.Analysis.Tests
 {
     public class RCS1223MarkTypeWithDebuggerDisplayAttributeTests : AbstractCSharpCodeFixVerifier
     {
+        private readonly CodeVerificationOptions _options;
+
         public RCS1223MarkTypeWithDebuggerDisplayAttributeTests()
         {
             //TODO: Remove after upgrade to C# 7.2
-            Options = base.Options.AddAllowedCompilerDiagnosticId(CompilerDiagnosticIdentifiers.MoreThanOneProtectionModifier);
+            _options = base.Options.AddAllowedCompilerDiagnosticId(CompilerDiagnosticIdentifiers.MoreThanOneProtectionModifier);
         }
 
         public override DiagnosticDescriptor Descriptor { get; } = DiagnosticDescriptors.MarkTypeWithDebuggerDisplayAttribute;
@@ -26,9 +28,12 @@ namespace Roslynator.CSharp.Analysis.Tests
 
         public override CodeFixProvider FixProvider { get; } = new MarkTypeWithDebuggerDisplayAttributeCodeFixProvider();
 
-        public override CodeVerificationOptions Options { get; }
+        public override CodeVerificationOptions Options
+        {
+            get { return _options; }
+        }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MarkTypeWithDebuggerDisplayAttribute)]
         public async Task Test_PublicClass()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -55,7 +60,7 @@ public class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MarkTypeWithDebuggerDisplayAttribute)]
         public async Task Test_PublicClassWithDocComment()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -84,7 +89,7 @@ public class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MarkTypeWithDebuggerDisplayAttribute)]
         public async Task Test_PublicClassWithAttribute()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -115,7 +120,7 @@ public class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MarkTypeWithDebuggerDisplayAttribute)]
         public async Task Test_PublicClassWithDocCommentAndAttribute()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -152,7 +157,7 @@ public class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MarkTypeWithDebuggerDisplayAttribute)]
         public async Task Test_PublicStructWithDocCommentAndAttribute()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -189,7 +194,7 @@ public struct C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MarkTypeWithDebuggerDisplayAttribute)]
         public async Task TestNoDiagnostic_ClassWithDebuggerDisplayAttribute()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -202,7 +207,7 @@ public class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MarkTypeWithDebuggerDisplayAttribute)]
         public async Task TestNoDiagnostic_ClassWithDebuggerDisplayAttributeOnBaseClass()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -219,7 +224,7 @@ public class C : B
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MarkTypeWithDebuggerDisplayAttribute)]
         public async Task TestNoDiagnostic_StaticClass()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -229,7 +234,7 @@ static class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MarkTypeWithDebuggerDisplayAttribute)]
         public async Task TestNoDiagnostic_Interface()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -239,7 +244,7 @@ public interface IC
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MarkTypeWithDebuggerDisplayAttribute)]
         public async Task TestNoDiagnostic_NonPubliclyVisibleType()
         {
             await VerifyNoDiagnosticAsync(@"

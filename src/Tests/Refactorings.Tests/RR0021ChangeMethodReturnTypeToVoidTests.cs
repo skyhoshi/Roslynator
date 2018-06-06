@@ -10,16 +10,21 @@ namespace Roslynator.CSharp.Refactorings.Tests
 {
     public class RR0021ChangeMethodReturnTypeToVoidTests : AbstractCSharpCodeRefactoringVerifier
     {
+        private readonly CodeVerificationOptions _options;
+
         public RR0021ChangeMethodReturnTypeToVoidTests()
         {
-            Options = base.Options.AddAllowedCompilerDiagnosticId(CompilerDiagnosticIdentifiers.NotAllCodePathsReturnValue);
+            _options = base.Options.AddAllowedCompilerDiagnosticId(CompilerDiagnosticIdentifiers.NotAllCodePathsReturnValue);
         }
 
         public override string RefactoringId { get; } = RefactoringIdentifiers.ChangeMethodReturnTypeToVoid;
 
-        public override CodeVerificationOptions Options { get; }
+        public override CodeVerificationOptions Options
+        {
+            get { return _options; }
+        }
 
-        [Fact]
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeMethodReturnTypeToVoid)]
         public async Task Test_Method()
         {
             await VerifyRefactoringAsync(@"
@@ -38,10 +43,10 @@ class C
         M();
     }
 }
-", RefactoringId);
+", equivalenceKey: RefactoringId);
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeMethodReturnTypeToVoid)]
         public async Task Test_Method_IEnumerableOfT()
         {
             await VerifyRefactoringAsync(@"
@@ -60,10 +65,10 @@ class C
         M();
     }
 }
-", RefactoringId);
+", equivalenceKey: RefactoringId);
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeMethodReturnTypeToVoid)]
         public async Task Test_LocalFunction()
         {
             await VerifyRefactoringAsync(@"
@@ -88,10 +93,10 @@ class C
         }
     }
 }
-", RefactoringId);
+", equivalenceKey: RefactoringId);
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeMethodReturnTypeToVoid)]
         public async Task TestNoRefactoring_MethodWithReturn()
         {
             await VerifyNoRefactoringAsync(@"
@@ -102,10 +107,10 @@ class C
         return M();
     }
 }
-", RefactoringId);
+", equivalenceKey: RefactoringId);
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeMethodReturnTypeToVoid)]
         public async Task TestNoRefactoring_VoidMethod()
         {
             await VerifyNoRefactoringAsync(@"
@@ -116,10 +121,10 @@ class C
         M();
     }
 }
-", RefactoringId);
+", equivalenceKey: RefactoringId);
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeMethodReturnTypeToVoid)]
         public async Task TestNoRefactoring_Iterator()
         {
             await VerifyNoRefactoringAsync(@"
@@ -132,10 +137,10 @@ class C
         yield return null;
     }
 }
-", RefactoringId);
+", equivalenceKey: RefactoringId);
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeMethodReturnTypeToVoid)]
         public async Task TestNoRefactoring_Iterator_YieldBreak()
         {
             await VerifyNoRefactoringAsync(@"
@@ -148,10 +153,10 @@ class C
         yield break;
     }
 }
-", RefactoringId);
+", equivalenceKey: RefactoringId);
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeMethodReturnTypeToVoid)]
         public async Task TestNoRefactoring_ReturnsTask()
         {
             await VerifyNoRefactoringAsync(@"
@@ -164,10 +169,10 @@ class C
         string x = await Task.FromResult(default(string));
     }
 }
-", RefactoringId);
+", equivalenceKey: RefactoringId);
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeMethodReturnTypeToVoid)]
         public async Task TestNoRefactoring_Throws()
         {
             await VerifyNoRefactoringAsync(@"
@@ -180,10 +185,10 @@ class C
         throw new InvalidOperationException();
     }
 }
-", RefactoringId);
+", equivalenceKey: RefactoringId);
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeMethodReturnTypeToVoid)]
         public async Task TestNoRefactoring_InterfaceImplementation()
         {
             await VerifyNoRefactoringAsync(@"
@@ -199,10 +204,10 @@ class C : IFoo
         M();
     }
 }
-", RefactoringId);
+", equivalenceKey: RefactoringId);
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeMethodReturnTypeToVoid)]
         public async Task TestNoRefactoring_Override()
         {
             await VerifyNoRefactoringAsync(@"
@@ -218,7 +223,7 @@ class C : B
         object x = null;
     }
 }
-", RefactoringId);
+", equivalenceKey: RefactoringId);
         }
     }
 }

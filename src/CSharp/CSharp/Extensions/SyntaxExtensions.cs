@@ -87,7 +87,7 @@ namespace Roslynator.CSharp
         {
             if (recursive)
             {
-                StatementSyntax statement = null;
+                StatementSyntax statement;
 
                 do
                 {
@@ -488,14 +488,19 @@ namespace Roslynator.CSharp
             if (documentationComment == null)
                 throw new ArgumentNullException(nameof(documentationComment));
 
-            foreach (XmlNodeSyntax node in documentationComment.Content)
-            {
-                if (node.IsKind(SyntaxKind.XmlElement))
-                {
-                    var xmlElement = (XmlElementSyntax)node;
+            return ElementsIterator();
 
-                    if (xmlElement.IsLocalName(localName))
-                        yield return xmlElement;
+            IEnumerable<XmlElementSyntax> ElementsIterator()
+            {
+                foreach (XmlNodeSyntax node in documentationComment.Content)
+                {
+                    if (node.IsKind(SyntaxKind.XmlElement))
+                    {
+                        var xmlElement = (XmlElementSyntax)node;
+
+                        if (xmlElement.IsLocalName(localName))
+                            yield return xmlElement;
+                    }
                 }
             }
         }
@@ -868,26 +873,14 @@ namespace Roslynator.CSharp
             return SeparatedList<TNode>(nodesAndTokens);
         }
 
-        //TODO: make public ToSyntaxTokenList(IEnumerable<SyntaxToken>)
         /// <summary>
         /// Creates a list of syntax tokens from a sequence of tokens.
         /// </summary>
         /// <param name="tokens"></param>
         /// <returns></returns>
-        internal static SyntaxTokenList ToSyntaxTokenList(this IEnumerable<SyntaxToken> tokens)
+        public static SyntaxTokenList ToSyntaxTokenList(this IEnumerable<SyntaxToken> tokens)
         {
             return TokenList(tokens);
-        }
-
-        //TODO: make public ToSyntaxTriviaList(IEnumerable<SyntaxTrivia>)
-        /// <summary>
-        /// Creates a list of syntax trivia from a sequence of trivias.
-        /// </summary>
-        /// <param name="trivias"></param>
-        /// <returns></returns>
-        internal static SyntaxTriviaList ToSyntaxTriviaList(this IEnumerable<SyntaxTrivia> trivias)
-        {
-            return TriviaList(trivias);
         }
         #endregion IEnumerable<T>
 
@@ -1267,10 +1260,14 @@ namespace Roslynator.CSharp
 
             if (DocumentationCommentGenerator.CanGenerateFromBase(member.Kind()))
             {
-                DocumentationCommentData info = DocumentationCommentGenerator.GenerateFromBase(member, semanticModel, cancellationToken);
+                DocumentationCommentData data = DocumentationCommentGenerator.GenerateFromBase(member, semanticModel, cancellationToken);
 
-                if (info.Success)
-                    return member.WithDocumentationComment(info.Comment, indent: true);
+                if (data.Success)
+                {
+                    SyntaxTrivia comment = data.GetDocumentationCommentTrivia(semanticModel, member.SpanStart);
+
+                    return member.WithDocumentationComment(comment, indent: true);
+                }
             }
 
             return WithNewSingleLineDocumentationComment(member, settings);
@@ -1571,7 +1568,7 @@ namespace Roslynator.CSharp
             if (count == 0)
                 return false;
 
-            SyntaxNode firstNode = list.First();
+            TNode firstNode = list.First();
 
             if (count == 1)
                 return IsSingleLine(firstNode, includeExteriorTrivia, trim, cancellationToken);
@@ -1599,7 +1596,7 @@ namespace Roslynator.CSharp
             if (count == 0)
                 return false;
 
-            SyntaxNode firstNode = list.First();
+            TNode firstNode = list.First();
 
             if (count == 1)
                 return IsMultiLine(firstNode, includeExteriorTrivia, trim, cancellationToken);
@@ -1964,7 +1961,7 @@ namespace Roslynator.CSharp
             if (count == 0)
                 return false;
 
-            SyntaxNode firstNode = list.First();
+            TNode firstNode = list.First();
 
             if (count == 1)
                 return IsSingleLine(firstNode, includeExteriorTrivia, trim, cancellationToken);
@@ -1992,7 +1989,7 @@ namespace Roslynator.CSharp
             if (count == 0)
                 return false;
 
-            SyntaxNode firstNode = list.First();
+            TNode firstNode = list.First();
 
             if (count == 1)
                 return IsMultiLine(firstNode, includeExteriorTrivia, trim, cancellationToken);
@@ -2882,11 +2879,20 @@ namespace Roslynator.CSharp
             SemanticModel semanticModel,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            return IsInExpressionTree(
-                node,
-                semanticModel.GetTypeByMetadataName(MetadataNames.System_Linq_Expressions_Expression_1),
-                semanticModel,
-                cancellationToken);
+            for (SyntaxNode current = node; current != null; current = current.Parent)
+            {
+                if (CSharpFacts.IsLambdaExpression(current.Kind())
+                    && semanticModel
+                        .GetTypeInfo(current, cancellationToken)
+                        .ConvertedType?
+                        .OriginalDefinition
+                        .HasMetadataName(MetadataNames.System_Linq_Expressions_Expression_T) == true)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         internal static bool IsInExpressionTree(
@@ -2895,17 +2901,19 @@ namespace Roslynator.CSharp
             SemanticModel semanticModel,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (expressionType != null)
-            {
-                for (SyntaxNode current = node; current != null; current = current.Parent)
-                {
-                    if (current.IsKind(SyntaxKind.SimpleLambdaExpression, SyntaxKind.ParenthesizedLambdaExpression))
-                    {
-                        TypeInfo typeInfo = semanticModel.GetTypeInfo(current, cancellationToken);
+            if (expressionType == null)
+                return false;
 
-                        if (expressionType.Equals(typeInfo.ConvertedType?.OriginalDefinition))
-                            return true;
-                    }
+            for (SyntaxNode current = node; current != null; current = current.Parent)
+            {
+                if (CSharpFacts.IsLambdaExpression(current.Kind())
+                    && semanticModel
+                        .GetTypeInfo(current, cancellationToken)
+                        .ConvertedType?
+                        .OriginalDefinition
+                        .Equals(expressionType) == true)
+                {
+                    return true;
                 }
             }
 

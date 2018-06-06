@@ -5,7 +5,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Roslynator.CSharp.CodeFixes;
-using Roslynator.Tests;
 using Xunit;
 
 #pragma warning disable RCS1090
@@ -14,21 +13,13 @@ namespace Roslynator.CSharp.Analysis.Tests
 {
     public class RCS1218SimplifyCodeBranchingTests : AbstractCSharpCodeFixVerifier
     {
-        public RCS1218SimplifyCodeBranchingTests()
-        {
-            //TODO: 
-            Options = base.Options.AddAllowedCompilerDiagnosticId("CS1525");
-        }
-
         public override DiagnosticDescriptor Descriptor { get; } = DiagnosticDescriptors.SimplifyCodeBranching;
 
         public override DiagnosticAnalyzer Analyzer { get; } = new SimplifyCodeBranchingAnalyzer();
 
         public override CodeFixProvider FixProvider { get; } = new SimplifyCodeBranchingCodeFixProvider();
 
-        public override CodeVerificationOptions Options { get; }
-
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_IfElse_WithBraces()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -59,7 +50,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_IfElse_WithoutBraces()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -86,7 +77,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_IfElseIf_WithBraces()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -117,7 +108,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_IfElseIf_WithoutBraces()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -144,7 +135,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_IfElseWithBraces()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -179,7 +170,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_IfElseWithoutBraces()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -210,7 +201,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_IfElseWithMultipleStatements()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -247,7 +238,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_EmbeddedIfElseWithSingleStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -280,7 +271,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_EmbeddedIfElseWithMultipleStatements()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -315,19 +306,21 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_IfWithBraces_LastStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
 class C
 {
-    void M(bool f1 = false, bool f2 = false)
+    void M()
     {
+        bool f = false;
+
         while (true)
         {
             M();
 
-            [|if (f1)
+            [|if (f)
             {
                 break;
             }|]
@@ -337,25 +330,27 @@ class C
 ", @"
 class C
 {
-    void M(bool f1 = false, bool f2 = false)
+    void M()
     {
+        bool f = false;
+
         do
         {
             M();
         }
-        while (!f1);
+        while (!f);
     }
 }
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_IfWithoutBraces_LastStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
 class C
 {
-    void M(bool f1 = false, bool f2 = false)
+    void M(bool f1 = false)
     {
         while (true)
         {
@@ -369,7 +364,7 @@ class C
 ", @"
 class C
 {
-    void M(bool f1 = false, bool f2 = false)
+    void M(bool f1 = false)
     {
         do
         {
@@ -381,7 +376,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_IfWithBraces_FirstStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -413,7 +408,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_While_IfWithoutBraces_FirstStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -443,19 +438,21 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_Do_IfWithBraces_LastStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
 class C
 {
-    void M(bool f1 = false, bool f2 = false)
+    void M()
     {
+        bool f = false;
+
         do
         {
             M();
 
-            [|if (f1)
+            [|if (f)
             {
                 break;
             }|]
@@ -466,25 +463,27 @@ class C
 ", @"
 class C
 {
-    void M(bool f1 = false, bool f2 = false)
+    void M()
     {
+        bool f = false;
+
         do
         {
             M();
         }
-        while (!f1);
+        while (!f);
     }
 }
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_Do_IfWithoutBraces_LastStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
 class C
 {
-    void M(bool f1 = false, bool f2 = false)
+    void M(bool f1 = false)
     {
         do
         {
@@ -499,7 +498,7 @@ class C
 ", @"
 class C
 {
-    void M(bool f1 = false, bool f2 = false)
+    void M(bool f1 = false)
     {
         do
         {
@@ -511,7 +510,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_Do_IfWithBraces_FirstStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -544,7 +543,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task Test_Do_IfWithoutBraces_FirstStatement()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -575,7 +574,7 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task TestNoDiagnostic()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -643,10 +642,10 @@ class C
         }
     }
 }
-");
+", options: Options.AddAllowedCompilerDiagnosticId("CS1525"));
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task TestNoDiagnostic_While()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -768,10 +767,112 @@ class C
         }
     }
 }
+", options: Options.AddAllowedCompilerDiagnosticId("CS1525"));
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
+        public async Task TestNoDiagnostic_While_ConditionContainsLocalDefinedInLoopBody_LocalDeclaration()
+        {
+            await VerifyNoDiagnosticAsync(@"
+class C
+{
+    void M()
+    {
+        while (true)
+        {
+            bool f = false;
+
+            if (f)
+            {
+                break;
+            }
+        }
+    }
+}
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
+        public async Task TestNoDiagnostic_While_ConditionContainsLocalDefinedInLoopBody_IsPatternExpression()
+        {
+            await VerifyNoDiagnosticAsync(@"
+class C
+{
+    void M()
+    {
+        while (true)
+        {
+            object x = null;
+            if (!(x is bool f))
+            {
+                f = false;
+            }
+
+
+            if (f)
+            {
+                break;
+            }
+        }
+    }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
+        public async Task TestNoDiagnostic_While_ConditionContainsLocalDefinedInLoopBody_OutVariable()
+        {
+            await VerifyNoDiagnosticAsync(@"
+using System;
+
+class C
+{
+    void M()
+    {
+        while (true)
+        {
+            if (TryGet(out bool f))
+            {
+            }
+
+            if (f)
+            {
+                break;
+            }
+        }
+    }
+
+    private bool TryGet(out bool f)
+    {
+        throw new NotImplementedException();
+    }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
+        public async Task TestNoDiagnostic_While_ConditionContainsLocalDefinedInLoopBody_DeconstructionVariable()
+        {
+            await VerifyNoDiagnosticAsync(@"
+class C
+{
+    void M()
+    {
+        while (true)
+        {
+            (bool f, bool f2) = (false, false);
+
+            if (f)
+            {
+                break;
+            }
+        }
+    }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
         public async Task TestNoDiagnostic_Do()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -868,7 +969,113 @@ class C
         } while (f1);
     }
 }
+", options: Options.AddAllowedCompilerDiagnosticId("CS1525"));
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
+        public async Task TestNoDiagnostic_Do_ConditionContainsLocalDefinedInLoopBody_LocalDeclaration()
+        {
+            await VerifyNoDiagnosticAsync(@"
+class C
+{
+    void M()
+    {
+        do
+        {
+            bool f = false;
+
+            if (f)
+            {
+                break;
+            }
+        }
+        while (true);
+    }
+}
 ");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
+        public async Task TestNoDiagnostic_Do_ConditionContainsLocalDefinedInLoopBody_IsPatternExpression()
+        {
+            await VerifyNoDiagnosticAsync(@"
+class C
+{
+    void M()
+    {
+        do
+        {
+            object x = null;
+            if (!(x is bool f))
+            {
+                f = false;
+            }
+
+
+            if (f)
+            {
+                break;
+            }
+        }
+        while (true);
+    }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
+        public async Task TestNoDiagnostic_Do_ConditionContainsLocalDefinedInLoopBody_OutVariable()
+        {
+            await VerifyNoDiagnosticAsync(@"
+using System;
+
+class C
+{
+    void M()
+    {
+        do
+        {
+            if (TryGet(out bool f))
+            {
+            }
+
+            if (f)
+            {
+                break;
+            }
+        }
+        while (true);
+    }
+
+    private bool TryGet(out bool f)
+    {
+        throw new NotImplementedException();
+    }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SimplifyCodeBranching)]
+        public async Task TestNoDiagnostic_Do_ConditionContainsLocalDefinedInLoopBody_DeconstructionVariable()
+        {
+            await VerifyNoDiagnosticAsync(@"
+class C
+{
+    void M()
+    {
+        do
+        {
+            (bool f, bool f2) = (false, false);
+
+            if (f)
+            {
+                break;
+            }
+        }
+        while (true);
+    }
+}
+", options: Options.AddAllowedCompilerDiagnosticId("CS1525"));
         }
     }
 }

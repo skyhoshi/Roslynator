@@ -180,7 +180,10 @@ namespace Roslynator.CSharp.Syntax
                     }
                 case SyntaxKind.LogicalNotExpression:
                     {
-                        if ((allowedStyles & (NullCheckStyles.NotHasValue | NullCheckStyles.NotIsNull)) == 0)
+                        bool isNotHasValueAllowed = (allowedStyles & (NullCheckStyles.NotHasValue)) != 0;
+                        bool isNotIsNullAllowed = (allowedStyles & (NullCheckStyles.NotIsNull)) != 0;
+
+                        if (!isNotHasValueAllowed && !isNotIsNullAllowed)
                             break;
 
                         var logicalNotExpression = (PrefixUnaryExpressionSyntax)expression;
@@ -194,6 +197,9 @@ namespace Roslynator.CSharp.Syntax
                         {
                             case SyntaxKind.SimpleMemberAccessExpression:
                                 {
+                                    if (!isNotHasValueAllowed)
+                                        break;
+
                                     var memberAccessExpression = (MemberAccessExpressionSyntax)operand;
 
                                     if (!IsPropertyOfNullableOfT(memberAccessExpression.Name, "HasValue", semanticModel, cancellationToken))
@@ -203,6 +209,9 @@ namespace Roslynator.CSharp.Syntax
                                 }
                             case SyntaxKind.IsPatternExpression:
                                 {
+                                    if (!isNotIsNullAllowed)
+                                        break;
+
                                     var isPatternExpression = (IsPatternExpressionSyntax)operand;
 
                                     if (!(isPatternExpression.Pattern is ConstantPatternSyntax constantPattern))
@@ -363,12 +372,12 @@ namespace Roslynator.CSharp.Syntax
             return EqualityComparer<ExpressionSyntax>.Default.GetHashCode(NullCheckExpression);
         }
 
-        public static bool operator ==(NullCheckExpressionInfo info1, NullCheckExpressionInfo info2)
+        public static bool operator ==(in NullCheckExpressionInfo info1, in NullCheckExpressionInfo info2)
         {
             return info1.Equals(info2);
         }
 
-        public static bool operator !=(NullCheckExpressionInfo info1, NullCheckExpressionInfo info2)
+        public static bool operator !=(in NullCheckExpressionInfo info1, in NullCheckExpressionInfo info2)
         {
             return !(info1 == info2);
         }

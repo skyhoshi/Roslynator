@@ -36,7 +36,7 @@ namespace Roslynator.CSharp.Analysis
             context.RegisterSyntaxNodeAction(AnalyzeArgument, SyntaxKind.Argument);
         }
 
-        public static void Analyze(SyntaxNodeAnalysisContext context, SimpleMemberInvocationExpressionInfo invocationInfo)
+        public static void Analyze(SyntaxNodeAnalysisContext context, in SimpleMemberInvocationExpressionInfo invocationInfo)
         {
             ExpressionSyntax expression = invocationInfo.Expression;
 
@@ -53,7 +53,7 @@ namespace Roslynator.CSharp.Analysis
             if (containingType?.TypeKind != TypeKind.Enum)
                 return;
 
-            if (containingType.HasAttribute(context.GetTypeByMetadataName(MetadataNames.System_FlagsAttribute)))
+            if (containingType.HasAttribute(MetadataNames.System_FlagsAttribute))
                 return;
 
             context.ReportDiagnostic(DiagnosticDescriptors.UseNameOfOperator, invocationInfo.InvocationExpression);
@@ -84,7 +84,7 @@ namespace Roslynator.CSharp.Analysis
             SyntaxNodeAnalysisContext context,
             ArgumentSyntax argument,
             ExpressionSyntax expression,
-            ParameterInfo parameterInfo)
+            in ParameterInfo parameterInfo)
         {
             var literalExpression = (LiteralExpressionSyntax)expression;
 

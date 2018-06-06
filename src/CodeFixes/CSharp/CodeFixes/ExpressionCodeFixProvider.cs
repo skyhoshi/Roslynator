@@ -103,7 +103,9 @@ namespace Roslynator.CSharp.CodeFixes
                                             "Use coalesce expression",
                                             cancellationToken =>
                                             {
-                                                ExpressionSyntax defaultValue = convertedType.GetDefaultValueSyntax(semanticModel, expression.SpanStart);
+                                                ExpressionSyntax defaultValue = (context.Document.SupportsLanguageFeature(CSharpLanguageFeature.DefaultLiteral))
+                                                    ? DefaultLiteralExpression()
+                                                    : convertedType.GetDefaultValueSyntax(semanticModel, expression.SpanStart);
 
                                                 ExpressionSyntax newNode = CoalesceExpression(expression.WithoutTrivia(), defaultValue)
                                                     .WithTriviaFrom(expression)
@@ -369,7 +371,7 @@ namespace Roslynator.CSharp.CodeFixes
                                     if (Settings.IsCodeFixEnabled(CodeFixIdentifiers.IntroduceLocalVariable)
                                         && !expressionStatement.IsEmbedded())
                                     {
-                                        bool addAwait = typeSymbol.OriginalDefinition.EqualsOrInheritsFromTaskOfT(semanticModel)
+                                        bool addAwait = typeSymbol.OriginalDefinition.EqualsOrInheritsFromTaskOfT()
                                             && semanticModel.GetEnclosingSymbol(expressionStatement.SpanStart, context.CancellationToken).IsAsyncMethod();
 
                                         CodeAction codeAction = CodeAction.Create(

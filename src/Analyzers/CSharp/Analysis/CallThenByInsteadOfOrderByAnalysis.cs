@@ -11,7 +11,7 @@ namespace Roslynator.CSharp.Analysis
 {
     internal static class CallThenByInsteadOfOrderByAnalysis
     {
-        public static void Analyze(SyntaxNodeAnalysisContext context, SimpleMemberInvocationExpressionInfo invocationInfo)
+        public static void Analyze(SyntaxNodeAnalysisContext context, in SimpleMemberInvocationExpressionInfo invocationInfo)
         {
             ExpressionSyntax expression = invocationInfo.Expression;
 
@@ -41,7 +41,7 @@ namespace Roslynator.CSharp.Analysis
             IMethodSymbol methodSymbol = semanticModel.GetExtensionMethodInfo(invocationExpression, cancellationToken).Symbol;
 
             return methodSymbol?.IsName("OrderBy", "OrderByDescending") == true
-                && SymbolUtility.IsLinqExtensionOfIEnumerableOfT(methodSymbol, semanticModel);
+                && SymbolUtility.IsLinqExtensionOfIEnumerableOfT(methodSymbol);
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
-using Microsoft.CodeAnalysis;
 using System.Diagnostics;
+using Microsoft.CodeAnalysis;
 
 namespace Roslynator
 {
@@ -10,7 +11,7 @@ namespace Roslynator
     /// Represents an extension method symbol.
     /// </summary>
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
-    public readonly struct ExtensionMethodSymbolInfo
+    public readonly struct ExtensionMethodSymbolInfo : IEquatable<ExtensionMethodSymbolInfo>
     {
         internal ExtensionMethodSymbolInfo(IMethodSymbol symbol, IMethodSymbol reducedSymbol)
         {
@@ -71,12 +72,12 @@ namespace Roslynator
             return Symbol?.GetHashCode() ?? 0;
         }
 
-        public static bool operator ==(ExtensionMethodSymbolInfo info1, ExtensionMethodSymbolInfo info2)
+        public static bool operator ==(in ExtensionMethodSymbolInfo info1, in ExtensionMethodSymbolInfo info2)
         {
             return info1.Equals(info2);
         }
 
-        public static bool operator !=(ExtensionMethodSymbolInfo info1, ExtensionMethodSymbolInfo info2)
+        public static bool operator !=(in ExtensionMethodSymbolInfo info1, in ExtensionMethodSymbolInfo info2)
         {
             return !(info1 == info2);
         }

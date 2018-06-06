@@ -15,7 +15,7 @@ namespace Roslynator.CSharp.Analysis
     {
         public static void Analyze(
             SyntaxNodeAnalysisContext context,
-            SimpleMemberInvocationExpressionInfo invocationInfo)
+            in SimpleMemberInvocationExpressionInfo invocationInfo)
         {
             SimpleMemberInvocationExpressionInfo invocationInfo2 = SyntaxInfo.SimpleMemberInvocationExpressionInfo(invocationInfo.Expression);
 
@@ -36,18 +36,17 @@ namespace Roslynator.CSharp.Analysis
             if (methodSymbol2 == null)
                 return;
 
-            if (!SymbolUtility.IsLinqExtensionOfIEnumerableOfT(methodSymbol2, semanticModel, "Where", parameterCount: 2))
+            if (!SymbolUtility.IsLinqExtensionOfIEnumerableOfT(methodSymbol2, "Where", parameterCount: 2))
                 return;
 
             if (SymbolUtility.IsPredicateFunc(
                 methodSymbol2.Parameters[1].Type,
-                methodSymbol2.TypeArguments[0],
-                semanticModel))
+                methodSymbol2.TypeArguments[0]))
             {
                 IMethodSymbol methodSymbol = semanticModel.GetReducedExtensionMethodInfo(invocationInfo.InvocationExpression, cancellationToken).Symbol;
 
                 if (methodSymbol != null
-                    && SymbolUtility.IsLinqWhere(methodSymbol, semanticModel))
+                    && SymbolUtility.IsLinqWhere(methodSymbol))
                 {
                     Analyze(context, invocationInfo, invocationInfo2);
                 }
@@ -55,13 +54,12 @@ namespace Roslynator.CSharp.Analysis
             else if (SymbolUtility.IsPredicateFunc(
                 methodSymbol2.Parameters[1].Type,
                 methodSymbol2.TypeArguments[0],
-                semanticModel.Compilation.GetSpecialType(SpecialType.System_Int32),
-                semanticModel))
+                semanticModel.Compilation.GetSpecialType(SpecialType.System_Int32)))
             {
                 IMethodSymbol methodSymbol = semanticModel.GetReducedExtensionMethodInfo(invocationInfo.InvocationExpression, cancellationToken).Symbol;
 
                 if (methodSymbol != null
-                    && SymbolUtility.IsLinqWhereWithIndex(methodSymbol, semanticModel))
+                    && SymbolUtility.IsLinqWhereWithIndex(methodSymbol))
                 {
                     Analyze(context, invocationInfo, invocationInfo2);
                 }
@@ -70,8 +68,8 @@ namespace Roslynator.CSharp.Analysis
 
         private static void Analyze(
             SyntaxNodeAnalysisContext context,
-            SimpleMemberInvocationExpressionInfo invocationInfo,
-            SimpleMemberInvocationExpressionInfo invocationInfo2)
+            in SimpleMemberInvocationExpressionInfo invocationInfo,
+            in SimpleMemberInvocationExpressionInfo invocationInfo2)
         {
             ExpressionSyntax expression = invocationInfo.Arguments.First().Expression;
 

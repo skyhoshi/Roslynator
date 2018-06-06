@@ -19,8 +19,8 @@ namespace Roslynator.CSharp.Analysis.Tests
 
         public override CodeFixProvider FixProvider { get; } = new MemberDeclarationCodeFixProvider();
 
-        [Fact]
-        public async Task Test_ImplictlyInternal()
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
+        public async Task Test_Accessibility_ImplictlyInternal()
         {
             await VerifyDiagnosticAndFixAsync(@"
 static class FooExtensions
@@ -35,8 +35,8 @@ static class FooExtensions
 ");
         }
 
-        [Fact]
-        public async Task Test_Internal()
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
+        public async Task Test_Accessibility_Internal()
         {
             await VerifyDiagnosticAndFixAsync(@"
 internal static class FooExtensions
@@ -51,8 +51,8 @@ internal static class FooExtensions
 ");
         }
 
-        [Fact]
-        public async Task Test_Public()
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
+        public async Task Test_Accessibility_Public()
         {
             await VerifyDiagnosticAndFixAsync(@"
 public static class FooExtensions
@@ -67,7 +67,71 @@ public static class FooExtensions
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
+        public async Task Test_Modifier_In_ValueType()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+public static class FooExtensions
+{
+    public static void [|M|](in int i) { }
+}
+", @"
+public static class FooExtensions
+{
+    public static void M(this in int i) { }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
+        public async Task Test_Modifier_Ref_ValueType()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+public static class FooExtensions
+{
+    public static void [|M|](ref int i) { }
+}
+", @"
+public static class FooExtensions
+{
+    public static void M(this ref int i) { }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
+        public async Task Test_Modifier_Ref_StructConstraint()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+public static class FooExtensions
+{
+    public static void [|M|]<T>(ref T i) where T: struct { }
+}
+", @"
+public static class FooExtensions
+{
+    public static void M<T>(this ref T i) where T: struct { }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
+        public async Task Test_Modifier_Ref_UnmanagedConstraint()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+public static class FooExtensions
+{
+    public static void [|M|]<T>(ref T i) where T: unmanaged { }
+}
+", @"
+public static class FooExtensions
+{
+    public static void M<T>(this ref T i) where T: unmanaged { }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
         public async Task TestNoDiagnostic_NoSuffix()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -78,7 +142,7 @@ public static class Foo
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
         public async Task TestNoDiagnostic_NotStatic()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -89,7 +153,7 @@ public class FooExtensions
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
         public async Task TestNoDiagnostic_NestedClass()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -103,7 +167,7 @@ public static class Foo
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
         public async Task TestNoDiagnostic_PrivateMethod()
         {
             await VerifyNoDiagnosticAsync(@"
@@ -114,13 +178,57 @@ public static class FooExtensions
 ");
         }
 
-        [Fact]
-        public async Task TestNoDiagnostic_ExtensionMethod()
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
+        public async Task TestNoDiagnostic_Modifier_This()
         {
             await VerifyNoDiagnosticAsync(@"
 public static class FooExtensions
 {
     public static string M(this string s) => s;
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
+        public async Task TestNoDiagnostic_Modifier_In_ReferenceType()
+        {
+            await VerifyNoDiagnosticAsync(@"
+public static class FooExtensions
+{
+    public static void M(in object p) { }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
+        public async Task TestNoDiagnostic_Modifier_In_StructConstraint()
+        {
+            await VerifyNoDiagnosticAsync(@"
+public static class FooExtensions
+{
+        public static void M<T>(in T t) where T : struct { }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
+        public async Task TestNoDiagnostic_Modifier_In_UnmanagedConstraint()
+        {
+            await VerifyNoDiagnosticAsync(@"
+public static class FooExtensions
+{
+        public static void M<T>(in T t) where T : unmanaged { }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.MakeMethodExtensionMethod)]
+        public async Task TestNoDiagnostic_Modifier_Ref_ReferenceType()
+        {
+            await VerifyNoDiagnosticAsync(@"
+public static class FooExtensions
+{
+        public static void M(ref object p) { }
 }
 ");
         }

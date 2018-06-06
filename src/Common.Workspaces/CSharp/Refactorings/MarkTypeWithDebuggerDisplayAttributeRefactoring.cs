@@ -24,12 +24,12 @@ namespace Roslynator.CSharp.Refactorings
 
             AttributeListSyntax attributeList = AttributeList(
                 Attribute(
-                    ParseName(MetadataNames.System_Diagnostics_DebuggerDisplayAttribute).WithSimplifierAnnotation(),
+                    ParseName("System.Diagnostics.DebuggerDisplayAttribute").WithSimplifierAnnotation(),
                     AttributeArgument(LiteralExpression($"{{{propertyName},nq}}"))));
 
             PropertyDeclarationSyntax propertyDeclaration = DebuggerDisplayPropertyDeclaration(propertyName, InvocationExpression(IdentifierName("ToString")));
 
-            TypeDeclarationSyntax newTypeDeclaration = typeDeclaration;
+            TypeDeclarationSyntax newTypeDeclaration;
 
             if (typeDeclaration is ClassDeclarationSyntax classDeclaration)
             {
@@ -38,9 +38,8 @@ namespace Roslynator.CSharp.Refactorings
             else
             {
                 var structDeclaration = (StructDeclarationSyntax)typeDeclaration;
-                newTypeDeclaration = structDeclaration.AddAttributeLists(keepDocumentationCommentOnTop: true, attributeList);
 
-                StructDeclarationSyntax newStructDeclaration = structDeclaration.AddAttributeLists(attributeList);
+                newTypeDeclaration = structDeclaration.AddAttributeLists(keepDocumentationCommentOnTop: true, attributeList);
             }
 
             newTypeDeclaration = MemberDeclarationInserter.Default.Insert(newTypeDeclaration, propertyDeclaration);

@@ -202,7 +202,7 @@ namespace Roslynator.CSharp.Analysis
             }
         }
 
-        public static void Analyze(SyntaxNodeAnalysisContext context, SimpleMemberInvocationExpressionInfo invocationInfo)
+        public static void Analyze(SyntaxNodeAnalysisContext context, in SimpleMemberInvocationExpressionInfo invocationInfo)
         {
             InvocationExpressionSyntax invocationExpression = invocationInfo.InvocationExpression;
 
@@ -214,7 +214,7 @@ namespace Roslynator.CSharp.Analysis
             if (extensionInfo.Symbol == null)
                 return;
 
-            if (!SymbolUtility.IsLinqCast(extensionInfo.Symbol, semanticModel))
+            if (!SymbolUtility.IsLinqCast(extensionInfo.Symbol))
                 return;
 
             ITypeSymbol typeArgument = extensionInfo.ReducedSymbol.TypeArguments.SingleOrDefault(shouldThrow: false);
