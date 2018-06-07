@@ -9,17 +9,10 @@ namespace Roslynator.CSharp.Analysis.Documentation
 {
     internal class AddTypeParameterToDocumentationCommentAnalysis : DocumentationCommentAnalysis<TypeParameterSyntax>
     {
-        public override string ElementName
+        public override XmlElementKind ElementKind
         {
-            get { return "typeparam"; }
+            get { return XmlElementKind.TypeParam; }
         }
-
-        public override string ElementNameUppercase
-        {
-            get { return "TYPEPARAM"; }
-        }
-
-        public override ImmutableArray<string> ElementNames { get; } = ImmutableArray.Create("typeparam", "TYPEPARAM", "summary", "SUMMARY");
 
         public static void Analyze(
             SyntaxNodeAnalysisContext context,
@@ -32,7 +25,7 @@ namespace Roslynator.CSharp.Analysis.Documentation
 
                 if (comment != null)
                 {
-                    ImmutableArray<string> values = DocumentationCommentAnalysis.GetAttributeValues(comment, "typeparam", "TYPEPARAM", "name");
+                    ImmutableArray<string> values = DocumentationCommentAnalysis.GetAttributeValues(comment, XmlElementKind.TypeParam, "name");
 
                     if (!values.IsDefault)
                     {
