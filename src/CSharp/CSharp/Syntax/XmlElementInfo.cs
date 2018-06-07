@@ -141,9 +141,6 @@ namespace Roslynator.CSharp.Syntax
             return default;
         }
 
-                case "returns":
-                case "RETURNS":
-                    return XmlElementKind.Returns;
         internal bool IsLocalName(string localName, StringComparison comparison = StringComparison.Ordinal)
         {
             return string.Equals(LocalName, localName, comparison);
