@@ -350,6 +350,73 @@ abstract class B
         }
 
         [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UseAutoProperty)]
+        public async Task Test_PartialClassInMultipleDocuments()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+partial class C
+{
+    private string _f;
+
+    public string [|P|]
+    {
+        get { return _f; }
+        set { _f = value; }
+    }
+}
+
+partial class C
+{
+    public C()
+    {
+        _f = null;
+    }
+}
+", @"
+partial class C
+{
+
+    public string P { get; set; }
+}
+
+partial class C
+{
+    public C()
+    {
+        P = null;
+    }
+}
+",
+ additionalData: new (string, string)[]
+{ (@"
+partial class C
+{
+    public C(object p)
+    {
+        _f = null;
+    }
+
+    void M2()
+    {
+        _f = null;
+    }
+}
+", @"
+partial class C
+{
+    public C(object p)
+    {
+        P = null;
+    }
+
+    void M2()
+    {
+        P = null;
+    }
+}
+") });
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UseAutoProperty)]
         public async Task TestNoDiagnostic_ClassWithStructLayoutAttribute()
         {
             await VerifyNoDiagnosticAsync(@"
