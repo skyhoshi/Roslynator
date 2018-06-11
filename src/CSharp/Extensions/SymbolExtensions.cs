@@ -1226,7 +1226,6 @@ namespace Roslynator
                     yield return current;
                     current = current.BaseType;
                 }
-                }
             }
         }
 

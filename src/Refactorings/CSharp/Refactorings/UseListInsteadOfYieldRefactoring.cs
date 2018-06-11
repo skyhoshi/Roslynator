@@ -51,7 +51,6 @@ namespace Roslynator.CSharp.Refactorings
             SyntaxNode declaration,
             ITypeSymbol typeSymbol,
             SemanticModel semanticModel,
-            SemanticModel semanticModel,
             CancellationToken cancellationToken)
         {
             BlockSyntax body = GetBody();
