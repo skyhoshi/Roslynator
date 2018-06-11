@@ -51,12 +51,12 @@ namespace Roslynator.CSharp.Refactorings
             SyntaxNode declaration,
             ITypeSymbol typeSymbol,
             SemanticModel semanticModel,
+            SemanticModel semanticModel,
             CancellationToken cancellationToken)
         {
             BlockSyntax body = GetBody();
 
             SyntaxList<StatementSyntax> statements = body.Statements;
-
             int position = statements[0].SpanStart;
 
             string name = NameGenerator.Default.EnsureUniqueLocalName("items", semanticModel, position);
