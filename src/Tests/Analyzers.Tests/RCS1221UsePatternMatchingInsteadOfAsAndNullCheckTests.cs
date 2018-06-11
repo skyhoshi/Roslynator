@@ -20,7 +20,7 @@ namespace Roslynator.CSharp.Analysis.Tests
 
         public override CodeFixProvider FixProvider { get; } = new UsePatternMatchingInsteadOfAsAndNullCheckCodeFixProvider();
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck)]
         public async Task Test_EqualsToNull()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -53,7 +53,36 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck)]
+        public async Task Test_EqualsToNull_ExplicitType()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+class C
+{
+    void M()
+    {
+        object x = null;
+
+        [|string s = x as string;|]
+        if (s == null)
+            return;
+    }
+}
+", @"
+class C
+{
+    void M()
+    {
+        object x = null;
+
+        if (!(x is string s))
+            return;
+    }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck)]
         public async Task Test_IsNull()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -86,8 +115,8 @@ class C
 ");
         }
 
-        [Fact]
-        public async Task TestNoDiagnostic()
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck)]
+        public async Task TestNoDiagnostic_MultipleLocalDeclarations()
         {
             await VerifyNoDiagnosticAsync(@"
 class C
@@ -101,30 +130,66 @@ class C
         {
             return;
         }
+    }
+}
+");
+        }
 
-        var s2 = x as string;
-        if (s2 == null)
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck)]
+        public async Task TestNoDiagnostic_NotSimpleIf()
+        {
+            await VerifyNoDiagnosticAsync(@"
+class C
+{
+    void M()
+    {
+        object x = null;
+
+        var s = x as string;
+        if (s == null)
         {
             return;
         }
         else
         {
         }
+    }
+}
+");
+        }
 
-        var s3 = x as string;
-        if (s3 == null)
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck)]
+        public async Task TestNoDiagnostic_DoesNotContainJumpStatement()
+        {
+            await VerifyNoDiagnosticAsync(@"
+class C
+{
+    void M()
+    {
+        object x = null;
+
+        var s = x as string;
+        if (s == null)
         {
             M();
         }
-
-        var s4 = x as string;
-        if (s4 != null)
-        {
-            return;
+    }
+}
+");
         }
 
-        var s5 = x as string;
-        if (s4 == null)
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck)]
+        public async Task TestNoDiagnostic_NotEqualsToNull()
+        {
+            await VerifyNoDiagnosticAsync(@"
+class C
+{
+    void M()
+    {
+        object x = null;
+
+        var s = x as string;
+        if (s != null)
         {
             return;
         }
@@ -133,7 +198,48 @@ class C
 ");
         }
 
-        [Fact]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck)]
+        public async Task TestNoDiagnostic_OtherVariableCheckedForNull()
+        {
+            await VerifyNoDiagnosticAsync(@"
+class C
+{
+    void M()
+    {
+        object x = null;
+        string s = null;
+
+        var s2 = x as string;
+        if (s == null)
+        {
+            return;
+        }
+    }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck)]
+        public async Task TestNoDiagnostic_TypesDoNotEqual()
+        {
+            await VerifyNoDiagnosticAsync(@"
+class C
+{
+    void M()
+    {
+        object x = null;
+
+        object o = x as string;
+        if (o == null)
+        {
+            return;
+        }
+    }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UsePatternMatchingInsteadOfAsAndNullCheck)]
         public async Task TestNoDiagnostic_Directive()
         {
             await VerifyNoDiagnosticAsync(@"

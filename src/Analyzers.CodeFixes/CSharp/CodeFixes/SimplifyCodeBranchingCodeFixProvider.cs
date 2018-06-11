@@ -16,9 +16,9 @@ using static Roslynator.CSharp.CSharpFactory;
 
 namespace Roslynator.CSharp.CodeFixes
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(SimplifyConditionCodeFixProvider))]
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(SimplifyCodeBranchingCodeFixProvider))]
     [Shared]
-    public class SimplifyConditionCodeFixProvider : BaseCodeFixProvider
+    public class SimplifyCodeBranchingCodeFixProvider : BaseCodeFixProvider
     {
         private const string Title = "Simplify code branching";
 
@@ -84,9 +84,7 @@ namespace Roslynator.CSharp.CodeFixes
             }
             else if (elseClause != null)
             {
-                WhileStatementSyntax whileStatement = null;
-
-                SyntaxNode newNode = null;
+                WhileStatementSyntax whileStatement;
 
                 if (ifStatement.Parent is BlockSyntax block)
                 {
@@ -104,7 +102,7 @@ namespace Roslynator.CSharp.CodeFixes
                     ? block.WithStatements(ifBlock.Statements)
                     : block.WithStatements(SingletonList(ifStatement.Statement));
 
-                newNode = whileStatement.Update(
+                SyntaxNode newNode = whileStatement.Update(
                     whileStatement.WhileKeyword,
                     whileStatement.OpenParenToken,
                     ifStatement.Condition,

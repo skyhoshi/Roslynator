@@ -62,7 +62,7 @@ namespace Roslynator.CSharp.Analysis
             }
         }
 
-        public static void Analyze(SyntaxNodeAnalysisContext context, SimpleMemberInvocationExpressionInfo invocationInfo)
+        public static void Analyze(SyntaxNodeAnalysisContext context, in SimpleMemberInvocationExpressionInfo invocationInfo)
         {
             SyntaxNode parent = invocationInfo.InvocationExpression.WalkUpParentheses().Parent;
 
@@ -84,7 +84,7 @@ namespace Roslynator.CSharp.Analysis
             if (methodSymbol == null)
                 return;
 
-            if (!SymbolUtility.IsLinqExtensionOfIEnumerableOfTWithPredicate(methodSymbol, context.SemanticModel))
+            if (!SymbolUtility.IsLinqExtensionOfIEnumerableOfTWithPredicate(methodSymbol))
                 return;
 
             context.ReportDiagnostic(DiagnosticDescriptors.SimplifyLogicalNegation, parent);

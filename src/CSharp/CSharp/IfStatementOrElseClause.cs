@@ -214,12 +214,12 @@ namespace Roslynator.CSharp
         }
 
 #pragma warning disable CS1591
-        public static bool operator ==(IfStatementOrElseClause left, IfStatementOrElseClause right)
+        public static bool operator ==(in IfStatementOrElseClause left, in IfStatementOrElseClause right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(IfStatementOrElseClause left, IfStatementOrElseClause right)
+        public static bool operator !=(in IfStatementOrElseClause left, in IfStatementOrElseClause right)
         {
             return !left.Equals(right);
         }
@@ -229,7 +229,7 @@ namespace Roslynator.CSharp
             return new IfStatementOrElseClause(ifStatement);
         }
 
-        public static implicit operator IfStatementSyntax(IfStatementOrElseClause ifOrElse)
+        public static implicit operator IfStatementSyntax(in IfStatementOrElseClause ifOrElse)
         {
             return ifOrElse.AsIf();
         }
@@ -239,7 +239,7 @@ namespace Roslynator.CSharp
             return new IfStatementOrElseClause(elseClause);
         }
 
-        public static implicit operator ElseClauseSyntax(IfStatementOrElseClause ifOrElse)
+        public static implicit operator ElseClauseSyntax(in IfStatementOrElseClause ifOrElse)
         {
             return ifOrElse.AsElse();
         }

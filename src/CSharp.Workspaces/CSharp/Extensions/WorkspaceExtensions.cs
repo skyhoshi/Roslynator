@@ -20,6 +20,22 @@ namespace Roslynator.CSharp
     /// </summary>
     public static class WorkspaceExtensions
     {
+        internal static bool SupportsLanguageFeature(this Document document, CSharpLanguageFeature feature)
+        {
+            switch (feature)
+            {
+                case CSharpLanguageFeature.Unknown:
+                    return false;
+                case CSharpLanguageFeature.AsyncMain:
+                case CSharpLanguageFeature.DefaultLiteral:
+                case CSharpLanguageFeature.InferredTupleElementNames:
+                case CSharpLanguageFeature.PatternMatchingWithGenerics:
+                    return ((CSharpParseOptions)document.Project.ParseOptions).LanguageVersion >= LanguageVersion.CSharp7_1;
+            }
+
+            throw new ArgumentException($"Unknown enum value '{feature}'.", nameof(feature));
+        }
+
         internal static Task<Document> RemoveNodeAsync(
             this Document document,
             SyntaxNode node,
@@ -364,7 +380,7 @@ namespace Roslynator.CSharp
 
         internal static Task<Document> ReplaceStatementsAsync(
             this Document document,
-            StatementListInfo statementsInfo,
+            in StatementListInfo statementsInfo,
             IEnumerable<StatementSyntax> newStatements,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -373,7 +389,7 @@ namespace Roslynator.CSharp
 
         internal static Task<Document> ReplaceStatementsAsync(
             this Document document,
-            StatementListInfo statementsInfo,
+            in StatementListInfo statementsInfo,
             SyntaxList<StatementSyntax> newStatements,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -382,7 +398,7 @@ namespace Roslynator.CSharp
 
         internal static Task<Document> ReplaceMembersAsync(
             this Document document,
-            MemberDeclarationListInfo info,
+            in MemberDeclarationListInfo info,
             IEnumerable<MemberDeclarationSyntax> newMembers,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -394,7 +410,7 @@ namespace Roslynator.CSharp
 
         internal static Task<Document> ReplaceMembersAsync(
             this Document document,
-            MemberDeclarationListInfo info,
+            in MemberDeclarationListInfo info,
             SyntaxList<MemberDeclarationSyntax> newMembers,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -406,7 +422,7 @@ namespace Roslynator.CSharp
 
         internal static Task<Document> ReplaceModifiersAsync(
             this Document document,
-            ModifierListInfo modifiersInfo,
+            in ModifierListInfo modifiersInfo,
             IEnumerable<SyntaxToken> newModifiers,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -415,7 +431,7 @@ namespace Roslynator.CSharp
 
         internal static Task<Document> ReplaceModifiersAsync(
             this Document document,
-            ModifierListInfo modifiersInfo,
+            in ModifierListInfo modifiersInfo,
             SyntaxTokenList newModifiers,
             CancellationToken cancellationToken = default(CancellationToken))
         {

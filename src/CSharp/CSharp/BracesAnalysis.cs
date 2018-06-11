@@ -149,17 +149,17 @@ namespace Roslynator.CSharp
             return new BracesAnalysis(value);
         }
 
-        public static implicit operator BracesAnalysisFlags(BracesAnalysis value)
+        public static implicit operator BracesAnalysisFlags(in BracesAnalysis value)
         {
             return value.Flags;
         }
 
-        public static bool operator ==(BracesAnalysis analysis1, BracesAnalysis analysis2)
+        public static bool operator ==(in BracesAnalysis analysis1, in BracesAnalysis analysis2)
         {
             return analysis1.Equals(analysis2);
         }
 
-        public static bool operator !=(BracesAnalysis analysis1, BracesAnalysis analysis2)
+        public static bool operator !=(in BracesAnalysis analysis1, in BracesAnalysis analysis2)
         {
             return !(analysis1 == analysis2);
         }

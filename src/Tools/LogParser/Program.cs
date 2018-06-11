@@ -1,11 +1,10 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Roslynator.Diagnostics
 {
@@ -18,34 +17,46 @@ namespace Roslynator.Diagnostics
                 if (!Debugger.IsAttached)
                     return;
 
-                args = new string[] { @"..\..\..\..\..\msbuild.log" };
+                args = new string[] { @"..\..\..\..\..\..\tools\msbuild.log" };
             }
 
             string filePath = args[0];
 
             Console.WriteLine($"Reading file \"{filePath}\"");
 
-            string content = File.ReadAllText(filePath, Encoding.UTF8);
+            List<ProjectDiagnosticInfo> projectDiagnostics = LogParser.Parse(filePath).ToList();
 
-            int totalElapsed = 0;
+            IOrderedEnumerable<IGrouping<string, AnalyzerDiagnosticInfo>> groupedByRootNamespace = projectDiagnostics
+                .SelectMany(f => f.AnalyzerDiagnostics)
+                .Where(f => f.Elapsed > 0)
+                .GroupBy(f => f.RootNamespace)
+                .OrderBy(f => f.Key);
 
-            foreach (AnalyzerLogInfo info in LogParser.Parse(content)
-                .Where(f => f.FullName.StartsWith("Roslynator.", StringComparison.Ordinal))
-                .GroupBy(f => f.FullName)
-                .Select(f => new AnalyzerLogInfo(f.Key, f.Sum(g => g.Elapsed), f.Sum(g => g.Percent) / f.Count()))
-                .OrderBy(f => f.Elapsed))
+            foreach (IGrouping<string, AnalyzerDiagnosticInfo> grouping in groupedByRootNamespace)
             {
-                Console.WriteLine(info.Elapsed.ToString("n0", CultureInfo.InvariantCulture) + " " + info.Name);
+                Console.WriteLine(grouping.Key);
 
-                totalElapsed += info.Elapsed;
+                foreach (AnalyzerDiagnosticInfo info in grouping
+                    .OrderBy(f => f.Elapsed))
+                {
+                    Console.WriteLine(info.Elapsed.ToString("n0", CultureInfo.InvariantCulture) + " " + info.Name);
+                }
+
+                Console.WriteLine();
             }
 
-            Console.WriteLine();
-            Console.WriteLine($"Total seconds elapsed: {totalElapsed.ToString("n0", CultureInfo.InvariantCulture)}");
+            foreach ((string rootNamespace, int elapsed) in groupedByRootNamespace
+                .Select(f => (rootNamespace: f.Key, elapsed: f.Sum(info => info.Elapsed)))
+                .OrderBy(f => f.elapsed))
+            {
+                Console.WriteLine($"{rootNamespace}: {elapsed.ToString("n0", CultureInfo.InvariantCulture)}");
+            }
+
+            Console.WriteLine($"Total analyzer execution time: {projectDiagnostics.Sum(f => f.Total).ToString("n0", CultureInfo.InvariantCulture)}");
 
             if (Debugger.IsAttached)
             {
-                Console.WriteLine("Log parser finished");
+                Console.WriteLine("Done...");
                 Console.ReadKey();
             }
         }

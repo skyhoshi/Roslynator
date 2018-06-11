@@ -11,16 +11,13 @@ namespace Roslynator.CSharp.Analysis
 {
     internal static class CallStringConcatInsteadOfStringJoinAnalysis
     {
-        public static void Analyze(SyntaxNodeAnalysisContext context, SimpleMemberInvocationExpressionInfo invocationInfo)
+        public static void Analyze(SyntaxNodeAnalysisContext context, in SimpleMemberInvocationExpressionInfo invocationInfo)
         {
             InvocationExpressionSyntax invocation = invocationInfo.InvocationExpression;
 
             ArgumentSyntax firstArgument = invocationInfo.Arguments.FirstOrDefault();
 
             if (firstArgument == null)
-                return;
-
-            if (invocationInfo.NameText != "Join")
                 return;
 
             if (invocationInfo.MemberAccessExpression.SpanOrTrailingTriviaContainsDirectives()

@@ -14,7 +14,7 @@ namespace Roslynator.CSharp.Analysis
 {
     internal static class UseCountOrLengthPropertyInsteadOfAnyMethodAnalysis
     {
-        public static void Analyze(SyntaxNodeAnalysisContext context, SimpleMemberInvocationExpressionInfo invocationInfo)
+        public static void Analyze(SyntaxNodeAnalysisContext context, in SimpleMemberInvocationExpressionInfo invocationInfo)
         {
             InvocationExpressionSyntax invocationExpression = invocationInfo.InvocationExpression;
 
@@ -29,10 +29,17 @@ namespace Roslynator.CSharp.Analysis
             if (methodSymbol == null)
                 return;
 
-            if (!SymbolUtility.IsLinqExtensionOfIEnumerableOfTWithoutParameters(methodSymbol, "Any", semanticModel))
+            if (!SymbolUtility.IsLinqExtensionOfIEnumerableOfTWithoutParameters(methodSymbol, "Any"))
                 return;
 
-            string propertyName = CSharpUtility.GetCountOrLengthPropertyName(invocationInfo.Expression, semanticModel, cancellationToken);
+            ExpressionSyntax expression = invocationInfo.Expression;
+
+            ITypeSymbol typeSymbol = semanticModel.GetTypeSymbol(expression, cancellationToken);
+
+            if (typeSymbol == null)
+                return;
+
+            string propertyName = SymbolUtility.GetCountOrLengthPropertyName(typeSymbol, semanticModel, expression.SpanStart);
 
             if (propertyName == null)
                 return;
