@@ -17,7 +17,7 @@ using Roslynator.CSharp;
 using Roslynator.CSharp.Syntax;
 #endregion usings
 
-#pragma warning disable RCS1018, RCS1213, CA1822
+#pragma warning disable RCS1018, RCS1118, RCS1213, CA1822
 
 namespace Roslynator.Tests
 {
@@ -159,6 +159,93 @@ namespace Roslynator.Tests
                 {
                     x = "true";
                     break;
+                }
+            }
+        }
+    }
+
+    class C_FirstOrDefault
+    {
+        void M()
+        {
+            string s = null;
+            IEnumerable<string> items = Enumerable.Empty<string>();
+
+            var x = items.Select(f => new { P = f }).FirstOrDefault(f => object.Equals(f, s));
+        }
+    }
+
+    class C_Select
+    {
+        void M()
+        {
+            IEnumerable<string> items = Enumerable.Empty<string>();
+
+            foreach (int item in items.Select(f => f.Length))
+            {
+                int i = item;
+            }
+        }
+
+        void M2()
+        {
+            IEnumerable<object> items = Enumerable.Empty<object>();
+
+            foreach (string f in items)
+            {
+                int item = f.Length;
+                int i = item;
+            }
+        }
+    }
+
+    class C_Where
+    {
+        void M()
+        {
+            IEnumerable<object> items = Enumerable.Empty<object>();
+
+            foreach (string item in items.Where(f => f != null))
+            {
+                string s = item;
+            }
+        }
+
+        void M2()
+        {
+            IEnumerable<object> items = Enumerable.Empty<object>();
+
+            foreach (string item in items)
+            {
+                if (item != null)
+                {
+                    string s = item;
+                }
+            }
+        }
+    }
+
+    class C_OfType
+    {
+        void M()
+        {
+            IEnumerable<object> items = Enumerable.Empty<object>();
+
+            foreach (string item in items.OfType<string>())
+            {
+                string s = item;
+            }
+        }
+
+        void M2()
+        {
+            IEnumerable<object> items = Enumerable.Empty<object>();
+
+            foreach (object f in items)
+            {
+                if (f is string item)
+                {
+                    string s = item;
                 }
             }
         }

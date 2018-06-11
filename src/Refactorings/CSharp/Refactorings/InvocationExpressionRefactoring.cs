@@ -5,7 +5,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Roslynator.CSharp.Analysis;
 using Roslynator.CSharp.Refactorings.InlineDefinition;
-using Roslynator.CSharp.Refactorings.ExtractLinqToLocalFunction;
 using Roslynator.CSharp.Syntax;
 
 namespace Roslynator.CSharp.Refactorings
@@ -14,12 +13,13 @@ namespace Roslynator.CSharp.Refactorings
     {
         public static async Task ComputeRefactoringsAsync(RefactoringContext context, InvocationExpressionSyntax invocationExpression)
         {
-            if (context.IsAnyRefactoringEnabled(
-                RefactoringIdentifiers.UseElementAccessInsteadOfEnumerableMethod,
-                RefactoringIdentifiers.ExtractLinqToLocalFunction,
-                RefactoringIdentifiers.ReplaceAnyWithAllOrAllWithAny,
-                RefactoringIdentifiers.CallExtensionMethodAsInstanceMethod,
-                RefactoringIdentifiers.CallIndexOfInsteadOfContains))
+            if (context.IsRefactoringEnabled(RefactoringIdentifiers.UseElementAccessInsteadOfEnumerableMethod)
+                || context.IsRefactoringEnabled(RefactoringIdentifiers.ExtractLinqToLocalFunction)
+                || context.IsRefactoringEnabled(RefactoringIdentifiers.ReplaceLinqWithForEach)
+                || context.IsRefactoringEnabled(RefactoringIdentifiers.ReplaceAnyWithAllOrAllWithAny)
+                || context.IsRefactoringEnabled(RefactoringIdentifiers.ExpandLinqOperation)
+                || context.IsRefactoringEnabled(RefactoringIdentifiers.CallExtensionMethodAsInstanceMethod)
+                || context.IsRefactoringEnabled(RefactoringIdentifiers.CallIndexOfInsteadOfContains))
             {
                 SimpleMemberInvocationExpressionInfo invocationInfo = SyntaxInfo.SimpleMemberInvocationExpressionInfo(invocationExpression);
 
@@ -32,8 +32,13 @@ namespace Roslynator.CSharp.Refactorings
                         if (context.IsRefactoringEnabled(RefactoringIdentifiers.UseElementAccessInsteadOfEnumerableMethod))
                             UseElementAccessRefactoring.ComputeRefactorings(context, invocationInfo, semanticModel);
 
-                        if (context.IsRefactoringEnabled(RefactoringIdentifiers.ExtractLinqToLocalFunction))
-                            ExtractLinqToLocalFunctionRefactoring.ComputeRefactorings(context, invocationInfo, semanticModel);
+                        if (context.IsAnyRefactoringEnabled(
+                            RefactoringIdentifiers.ExtractLinqToLocalFunction,
+                            RefactoringIdentifiers.ReplaceLinqWithForEach,
+                            RefactoringIdentifiers.ExpandLinqOperation))
+                        {
+                            ExpandLinqOperationRefactoring.ComputeRefactorings(context, invocationInfo, semanticModel);
+                        }
 
                         if (context.IsRefactoringEnabled(RefactoringIdentifiers.ReplaceAnyWithAllOrAllWithAny))
                             ReplaceAnyWithAllOrAllWithAnyRefactoring.ComputeRefactoring(context, invocationExpression, semanticModel);
