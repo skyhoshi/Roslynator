@@ -132,7 +132,7 @@ namespace Roslynator.CSharp
                 if (value == null)
                     return NullLiteralExpression();
 
-                IFieldSymbol fieldSymbol = typeSymbol.FindFieldWithConstantValue(value);
+                IFieldSymbol fieldSymbol = FindFieldWithConstantValue();
 
                 TypeSyntax type = typeSymbol.ToMinimalTypeSyntax(semanticModel, position, format);
 
@@ -153,6 +153,25 @@ namespace Roslynator.CSharp
             }
 
             return LiteralExpression(value);
+
+            IFieldSymbol FindFieldWithConstantValue()
+            {
+                foreach (ISymbol symbol in typeSymbol.GetMembers())
+                {
+                    if (symbol.Kind == SymbolKind.Field)
+                    {
+                        var fieldSymbol = (IFieldSymbol)symbol;
+
+                        if (fieldSymbol.HasConstantValue
+                            && object.Equals(fieldSymbol.ConstantValue, value))
+                        {
+                            return fieldSymbol;
+                        }
+                    }
+                }
+
+                return null;
+            }
         }
         #endregion IParameterSymbol
 
@@ -239,6 +258,30 @@ namespace Roslynator.CSharp
         // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/default-values-table
         private static ExpressionSyntax GetDefaultValueSyntaxImpl(ITypeSymbol typeSymbol, TypeSyntax type, SemanticModel semanticModel, int position, SymbolDisplayFormat format = null)
         {
+            if (typeSymbol.IsReferenceType)
+                return NullLiteralExpression();
+
+            if (typeSymbol.IsNullableType())
+                return NullLiteralExpression();
+
+            if (typeSymbol.TypeKind == TypeKind.Enum)
+            {
+                IFieldSymbol fieldSymbol = CSharpUtility.FindEnumDefaultField((INamedTypeSymbol)typeSymbol);
+
+                if (fieldSymbol != null)
+                {
+                    type = type ?? (typeSymbol.ToMinimalTypeSyntax(semanticModel, position, format));
+
+                    Debug.Assert(type != null);
+
+                    return SimpleMemberAccessExpression(type, IdentifierName(fieldSymbol.Name));
+                }
+                else
+                {
+                    return NumericLiteralExpression(0);
+                }
+            }
+
             switch (typeSymbol.SpecialType)
             {
                 case SpecialType.System_Boolean:
@@ -258,30 +301,6 @@ namespace Roslynator.CSharp
                 case SpecialType.System_Double:
                     return NumericLiteralExpression(0);
             }
-
-            if (typeSymbol.IsNullableType())
-                return NullLiteralExpression();
-
-            if (typeSymbol.BaseType?.SpecialType == SpecialType.System_Enum)
-            {
-                IFieldSymbol fieldSymbol = typeSymbol.FindFieldWithConstantValue(0);
-
-                if (fieldSymbol != null)
-                {
-                    type = type ?? (typeSymbol.ToMinimalTypeSyntax(semanticModel, position, format));
-
-                    Debug.Assert(type != null);
-
-                    return SimpleMemberAccessExpression(type, IdentifierName(fieldSymbol.Name));
-                }
-                else
-                {
-                    return NumericLiteralExpression(0);
-                }
-            }
-
-            if (typeSymbol.IsReferenceType)
-                return NullLiteralExpression();
 
             type = type ?? (typeSymbol.ToMinimalTypeSyntax(semanticModel, position, format));
 
