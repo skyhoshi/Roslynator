@@ -15,7 +15,7 @@ namespace Roslynator.CSharp.Refactorings
 {
     internal static class InvertIfRefactoring
     {
-        public static readonly string RecursiveIdentifier = EquivalenceKey.Join(RefactoringIdentifiers.InvertIf, "Recursive");
+        public static readonly string RecursiveRefactoringIdentifier = EquivalenceKey.Join(RefactoringIdentifiers.InvertIf, "Recursive");
 
         public static void ComputeRefactoring(RefactoringContext context, IfStatementSyntax ifStatement)
         {
@@ -59,7 +59,7 @@ namespace Roslynator.CSharp.Refactorings
                         context.RegisterRefactoring(
                             "Invert if (recursively)",
                             ct => InvertIfAsync(document, ifStatement, recursive: true, ct),
-                            RecursiveIdentifier);
+                            RecursiveRefactoringIdentifier);
                     }
                 }
             }
@@ -70,6 +70,8 @@ namespace Roslynator.CSharp.Refactorings
             IfStatementSyntax ifStatement,
             CancellationToken cancellationToken = default(CancellationToken))
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             ElseClauseSyntax elseClause = ifStatement.Else;
             StatementSyntax whenTrue = ifStatement.Statement;
             StatementSyntax whenFalse = elseClause.Statement;
@@ -95,6 +97,8 @@ namespace Roslynator.CSharp.Refactorings
             bool recursive = false,
             CancellationToken cancellationToken = default(CancellationToken))
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             StatementSyntax statement = ifStatement.Statement;
 
             StatementListInfo statementsInfo = SyntaxInfo.StatementListInfo(ifStatement);
@@ -153,6 +157,8 @@ namespace Roslynator.CSharp.Refactorings
 
             void Refactor()
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 SyntaxList<StatementSyntax> nextStatements = newStatements
                     .Skip(ifStatementIndex + 1)
                     .Take(lastStatementIndex - ifStatementIndex)
