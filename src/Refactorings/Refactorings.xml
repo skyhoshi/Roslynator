@@ -1211,7 +1211,7 @@ i--;]]></After>
       <Syntax>empty line between member declarations</Syntax>
     </Syntaxes>
   </Refactoring>
-  <Refactoring Id="RR0162" Identifier="SwapIfElse" Title="Swap if-else">
+  <Refactoring Id="RR0162" Identifier="InvertIf" Title="Invert if">
     <Syntaxes>
       <Syntax>if statement</Syntax>
     </Syntaxes>

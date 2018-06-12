@@ -96,8 +96,8 @@ namespace Roslynator.CSharp.Refactorings
                     }
                 }
 
-                if (context.IsRefactoringEnabled(RefactoringIdentifiers.SwapIfElse))
-                    SwapIfElseRefactoring.ComputeRefactoring(context, ifStatement);
+                if (context.IsRefactoringEnabled(RefactoringIdentifiers.InvertIf))
+                    InvertIfRefactoring.ComputeRefactoring(context, ifStatement);
 
                 if (context.IsRefactoringEnabled(RefactoringIdentifiers.ReplaceIfWithSwitch))
                     await ReplaceIfWithSwitchRefactoring.ComputeRefactoringAsync(context, ifStatement).ConfigureAwait(false);
