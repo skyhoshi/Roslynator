@@ -117,6 +117,8 @@ namespace Roslynator.CSharp.Analysis
                 return;
             }
 
+            cancellationToken.ThrowIfCancellationRequested();
+
             foreach (AttributeData attributeData in fieldSymbol.GetAttributes())
             {
                 if (attributeData.AttributeClass.HasMetadataName(MetadataNames.System_NonSerializedAttribute))
@@ -496,6 +498,8 @@ namespace Roslynator.CSharp.Analysis
 
             public override void VisitArgument(ArgumentSyntax node)
             {
+                CancellationToken.ThrowIfCancellationRequested();
+
                 if (node.RefOrOutKeyword.IsKind(SyntaxKind.RefKeyword, SyntaxKind.OutKeyword))
                 {
                     ExpressionSyntax expression = node.Expression?.WalkDownParentheses();
@@ -532,6 +536,8 @@ namespace Roslynator.CSharp.Analysis
 
             public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
             {
+                CancellationToken.ThrowIfCancellationRequested();
+
                 Debug.Assert(!_isInInstanceConstructor);
 
                 if (ShouldSearchForReferenceInInstanceConstructor

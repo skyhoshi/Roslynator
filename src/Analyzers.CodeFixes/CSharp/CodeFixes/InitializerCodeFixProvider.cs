@@ -44,11 +44,13 @@ namespace Roslynator.CSharp.CodeFixes
                         {
                             CodeAction codeAction = CodeAction.Create(
                                 "Remove redundant comma",
-                                cancellationToken =>
+                                ct =>
                                 {
+                                    ct.ThrowIfCancellationRequested();
+
                                     InitializerExpressionSyntax newInitializer = RemoveTrailingComma(initializer);
 
-                                    return context.Document.ReplaceNodeAsync(initializer, newInitializer, cancellationToken);
+                                    return context.Document.ReplaceNodeAsync(initializer, newInitializer, ct);
                                 },
                                 GetEquivalenceKey(diagnostic));
 
@@ -59,7 +61,7 @@ namespace Roslynator.CSharp.CodeFixes
                         {
                             CodeAction codeAction = CodeAction.Create(
                                 "Format initializer on a single line",
-                                cancellationToken => FormatInitializerOnSingleLineAsync(context.Document, initializer, cancellationToken),
+                                ct => FormatInitializerOnSingleLineAsync(context.Document, initializer, ct),
                                 GetEquivalenceKey(diagnostic));
 
                             context.RegisterCodeFix(codeAction, diagnostic);
@@ -74,6 +76,8 @@ namespace Roslynator.CSharp.CodeFixes
             InitializerExpressionSyntax initializer,
             CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             SyntaxToken trailingComma = initializer.Expressions.GetTrailingSeparator();
 
             if (trailingComma == default)
@@ -93,7 +97,9 @@ namespace Roslynator.CSharp.CodeFixes
 
             initializer = initializer.WithExpressions(expressions);
 
-            return document.ReplaceNodeAsync(parent, GetNewParent(), cancellationToken);
+            SyntaxNode newParent = GetNewParent();
+
+            return document.ReplaceNodeAsync(parent, newParent, cancellationToken);
 
             SyntaxNode GetNewParent()
             {

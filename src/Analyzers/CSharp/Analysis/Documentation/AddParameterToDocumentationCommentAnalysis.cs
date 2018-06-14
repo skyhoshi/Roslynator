@@ -2,7 +2,6 @@
 
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
@@ -20,43 +19,32 @@ namespace Roslynator.CSharp.Analysis.Documentation
             MemberDeclarationSyntax memberDeclaration,
             SeparatedSyntaxList<ParameterSyntax> parameters)
         {
-            if (parameters.Any())
+            if (!parameters.Any())
+                return;
+
+            DocumentationCommentTriviaSyntax comment = memberDeclaration.GetSingleLineDocumentationComment();
+
+            if (comment == null)
+                return;
+
+            ImmutableArray<string> values = DocumentationCommentAnalysis.GetAttributeValues(comment, XmlElementKind.Param, "name");
+
+            if (values.IsDefault)
+                return;
+
+            foreach (ParameterSyntax parameter in parameters)
             {
-                DocumentationCommentTriviaSyntax comment = memberDeclaration.GetSingleLineDocumentationComment();
-
-                if (comment != null)
+                if (!parameter.IsMissing
+                    && !values.Contains(parameter.Identifier.ValueText))
                 {
-                    ImmutableArray<string> values = DocumentationCommentAnalysis.GetAttributeValues(comment, XmlElementKind.Param, "name");
-
-                    if (!values.IsDefault)
-                    {
-                        foreach (ParameterSyntax parameter in parameters)
-                        {
-                            if (!parameter.IsMissing
-                                && !values.Contains(parameter.Identifier.ValueText))
-                            {
-                                context.ReportDiagnostic(
-                                    DiagnosticDescriptors.AddParameterToDocumentationComment,
-                                    parameter.Identifier);
-                            }
-                        }
-                    }
+                    context.ReportDiagnostic(DiagnosticDescriptors.AddParameterToDocumentationComment, parameter.Identifier);
                 }
             }
         }
 
         public override SeparatedSyntaxList<ParameterSyntax> GetContainingList(ParameterSyntax node)
         {
-            SyntaxNode parent = node.Parent;
-
-            if (parent.IsKind(SyntaxKind.ParameterList))
-            {
-                return ((ParameterListSyntax)parent).Parameters;
-            }
-            else
-            {
-                return ((BracketedParameterListSyntax)parent).Parameters;
-            }
+            return ((BaseParameterListSyntax)node.Parent).Parameters;
         }
 
         public override string GetName(ParameterSyntax node)

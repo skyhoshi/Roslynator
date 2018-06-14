@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -35,8 +34,10 @@ namespace Roslynator.CSharp.Refactorings.DocumentationComment
         public async Task<Document> RefactorAsync(
             Document document,
             TNode node,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default(CancellationToken))
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             MemberDeclarationSyntax memberDeclaration = GetMemberDeclaration(node);
 
             DocumentationCommentTriviaSyntax comment = memberDeclaration.GetSingleLineDocumentationComment();
@@ -67,7 +68,7 @@ namespace Roslynator.CSharp.Refactorings.DocumentationComment
             return document;
         }
 
-        public string GetNewTrivia(
+        private string GetNewTrivia(
             DocumentationCommentTriviaSyntax comment,
             List<ElementInfo<TNode>> elementInfos)
         {

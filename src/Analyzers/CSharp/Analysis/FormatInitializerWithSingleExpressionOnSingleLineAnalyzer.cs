@@ -52,7 +52,7 @@ namespace Roslynator.CSharp.Analysis
             if (initializer.IsSingleLine())
                 return;
 
-            if (!TriviaWalker.ContainsOnlyWhiteSpaceOrEndOfLineTrivia(initializer, TextSpan.FromBounds(initializer.FullSpan.Start, initializer.Span.End)))
+            if (!TriviaWalker.ContainsOnlyWhitespaceOrEndOfLineTrivia(initializer, TextSpan.FromBounds(initializer.FullSpan.Start, initializer.Span.End)))
                 return;
 
             context.ReportDiagnostic(DiagnosticDescriptors.FormatInitializerWithSingleExpressionOnSingleLine, initializer);

@@ -23,6 +23,8 @@ namespace Roslynator.CSharp.Refactorings
             PropertyDeclarationSyntax propertyDeclaration,
             CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             SyntaxToken propertyIdentifier = propertyDeclaration.Identifier.WithoutTrivia();
 
             SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
@@ -43,6 +45,8 @@ namespace Roslynator.CSharp.Refactorings
 
             foreach (DocumentReferenceInfo info in await SyntaxFinder.FindReferencesByDocumentAsync(fieldSymbol, solution, allowCandidate: false, cancellationToken: cancellationToken).ConfigureAwait(false))
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 ImmutableArray<SyntaxNode> nodes = info.References;
 
                 if (propertyDeclaration.SyntaxTree == info.SyntaxTree)
@@ -154,8 +158,8 @@ namespace Roslynator.CSharp.Refactorings
                             attributeLists: accessor.AttributeLists,
                             modifiers: accessor.Modifiers,
                             keyword: accessor.Keyword,
-                            body: null,
-                            expressionBody: null,
+                            body: default(BlockSyntax),
+                            expressionBody: default(ArrowExpressionClauseSyntax),
                             semicolonToken: SemicolonToken());
 
                         return accessor.WithTriviaFrom(accessor);

@@ -16,15 +16,15 @@ namespace Roslynator.CSharp.SyntaxWalkers
             Span = span;
         }
 
-        public static bool ContainsOnlyWhiteSpaceOrEndOfLineTrivia(SyntaxNode node, TextSpan? span = null)
+        public static bool ContainsOnlyWhitespaceOrEndOfLineTrivia(SyntaxNode node, TextSpan? span = null)
         {
-            ContainsOnlyWhiteSpaceOrEndOfLineTriviaWalker walker = ContainsOnlyWhiteSpaceOrEndOfLineTriviaWalker.GetInstance(span ?? node.FullSpan);
+            ContainsOnlyWhitespaceOrEndOfLineTriviaWalker walker = ContainsOnlyWhitespaceOrEndOfLineTriviaWalker.GetInstance(span ?? node.FullSpan);
 
             walker.Visit(node);
 
             bool result = walker.Result;
 
-            ContainsOnlyWhiteSpaceOrEndOfLineTriviaWalker.Free(walker);
+            ContainsOnlyWhitespaceOrEndOfLineTriviaWalker.Free(walker);
 
             return result;
         }
@@ -77,14 +77,14 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         protected abstract void VisitTriviaCore(SyntaxTrivia trivia);
 
-        private sealed class ContainsOnlyWhiteSpaceOrEndOfLineTriviaWalker : TriviaWalker
+        private sealed class ContainsOnlyWhitespaceOrEndOfLineTriviaWalker : TriviaWalker
         {
             [ThreadStatic]
-            private static ContainsOnlyWhiteSpaceOrEndOfLineTriviaWalker _cachedInstance;
+            private static ContainsOnlyWhitespaceOrEndOfLineTriviaWalker _cachedInstance;
 
             public bool Result { get; private set; } = true;
 
-            public ContainsOnlyWhiteSpaceOrEndOfLineTriviaWalker(TextSpan span) : base(span)
+            public ContainsOnlyWhitespaceOrEndOfLineTriviaWalker(TextSpan span) : base(span)
             {
             }
 
@@ -100,9 +100,9 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     Result = false;
             }
 
-            public static ContainsOnlyWhiteSpaceOrEndOfLineTriviaWalker GetInstance(TextSpan span)
+            public static ContainsOnlyWhitespaceOrEndOfLineTriviaWalker GetInstance(TextSpan span)
             {
-                ContainsOnlyWhiteSpaceOrEndOfLineTriviaWalker walker = _cachedInstance;
+                ContainsOnlyWhitespaceOrEndOfLineTriviaWalker walker = _cachedInstance;
 
                 if (walker != null)
                 {
@@ -112,10 +112,10 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     return walker;
                 }
 
-                return new ContainsOnlyWhiteSpaceOrEndOfLineTriviaWalker(span);
+                return new ContainsOnlyWhitespaceOrEndOfLineTriviaWalker(span);
             }
 
-            public static void Free(ContainsOnlyWhiteSpaceOrEndOfLineTriviaWalker walker)
+            public static void Free(ContainsOnlyWhitespaceOrEndOfLineTriviaWalker walker)
             {
                 _cachedInstance = walker;
             }

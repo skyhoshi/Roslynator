@@ -23,6 +23,8 @@ namespace Roslynator.CSharp.Refactorings
             TextLineCollectionSelection selectedLines,
             CancellationToken cancellationToken = default(CancellationToken))
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             ImmutableArray<TextChange> textChanges = GetTextChanges(selectedLines);
 
             return document.WithTextChangesAsync(textChanges, cancellationToken);
@@ -73,6 +75,8 @@ namespace Roslynator.CSharp.Refactorings
 
                     foreach (TextLine line in selectedLines)
                     {
+                        context.ThrowIfCancellationRequested();
+
                         if (line.IsEmptyOrWhiteSpace()
                             && root.FindTrivia(line.End, findInsideTrivia: true).IsEndOfLineTrivia())
                         {
@@ -87,6 +91,8 @@ namespace Roslynator.CSharp.Refactorings
                             "Remove empty lines",
                             ct =>
                             {
+                                ct.ThrowIfCancellationRequested();
+
                                 IEnumerable<TextChange> textChanges = selectedLines
                                     .Where(line => line.IsEmptyOrWhiteSpace() && root.FindTrivia(line.End, findInsideTrivia: true).IsEndOfLineTrivia())
                                     .Select(line => new TextChange(line.SpanIncludingLineBreak, ""));
