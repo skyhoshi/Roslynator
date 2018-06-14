@@ -6,6 +6,7 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Roslynator.CSharp;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -193,6 +194,8 @@ namespace Roslynator.CodeGeneration.CSharp
 
             IEnumerable<StatementSyntax> CreateStatements(IParameterSymbol parameterSymbol)
             {
+                string parameterName = parameterSymbol.Name;
+
                 foreach (ISymbol symbol in parameterSymbol.Type.GetMembers())
                 {
                     if (symbol.Kind == SymbolKind.Property
@@ -205,28 +208,96 @@ namespace Roslynator.CodeGeneration.CSharp
                         {
                             string propertyName = propertySymbol.Name;
                             ITypeSymbol propertyType = propertySymbol.Type;
+                            ITypeSymbol originalDefinition = propertyType.OriginalDefinition;
 
-                            if (propertyType.OriginalDefinition.Equals(syntaxListSymbol))
+                            if (originalDefinition.Equals(syntaxListSymbol))
                             {
-                                yield return ExpressionStatement(
-                                    InvocationExpression(
-                                        IdentifierName("VisitList"),
-                                        ArgumentList(
-                                            Argument(
+                                ITypeSymbol typeArgument = ((INamedTypeSymbol)propertyType).TypeArguments.Single();
+                                string typeArgumentName = typeArgument.Name;
+
+                                switch (typeArgumentName)
+                                {
+                                    case "StatementSyntax":
+                                    case "MemberDeclarationSyntax":
+                                    case "XmlNodeSyntax":
+                                    case "InterpolatedStringContentSyntax":
+                                    case "QueryClauseSyntax":
+                                    case "SwitchLabelSyntax":
+                                    case "XmlAttributeSyntax":
+                                        {
+                                            yield return ExpressionStatement(
+                                                InvocationExpression(
+                                                    IdentifierName("VisitList"),
+                                                    ArgumentList(
+                                                        Argument(
+                                                            SimpleMemberAccessExpression(
+                                                                IdentifierName(parameterName),
+                                                                IdentifierName(propertyName))))));
+
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            string s = typeArgumentName.Remove(typeArgumentName.Length - 6);
+                                            string variableName = StringUtility.ToCamelCase(s);
+
+                                            yield return ForEachStatement(
+                                                IdentifierName(typeArgumentName),
+                                                variableName,
                                                 SimpleMemberAccessExpression(
-                                                    IdentifierName(parameterSymbol.Name),
-                                                    IdentifierName(propertyName))))));
+                                                    IdentifierName(parameterName),
+                                                    IdentifierName(propertyName)),
+                                                ExpressionStatement(
+                                                    InvocationExpression(
+                                                        IdentifierName("Visit" + s),
+                                                        ArgumentList(Argument(IdentifierName(variableName))))));
+
+                                            break;
+                                        }
+                                }
                             }
-                            else if (propertyType.OriginalDefinition.Equals(separatedSyntaxListSymbol))
+                            else if (originalDefinition.Equals(separatedSyntaxListSymbol))
                             {
-                                yield return ExpressionStatement(
-                                    InvocationExpression(
-                                        IdentifierName("VisitSeparatedList"),
-                                        ArgumentList(
-                                            Argument(
+                                ITypeSymbol typeArgument = ((INamedTypeSymbol)propertyType).TypeArguments.Single();
+                                string typeArgumentName = typeArgument.Name;
+
+                                switch (typeArgumentName)
+                                {
+                                    case "ExpressionSyntax":
+                                    case "VariableDesignationSyntax":
+                                    case "BaseTypeSyntax":
+                                    case "TypeParameterConstraintSyntax":
+                                        {
+                                            yield return ExpressionStatement(
+                                                InvocationExpression(
+                                                    IdentifierName("VisitSeparatedList"),
+                                                    ArgumentList(
+                                                        Argument(
+                                                            SimpleMemberAccessExpression(
+                                                                IdentifierName(parameterName),
+                                                                IdentifierName(propertyName))))));
+
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            string s = typeArgumentName.Remove(typeArgumentName.Length - 6);
+                                            string variableName = StringUtility.ToCamelCase(s);
+
+                                            yield return ForEachStatement(
+                                                IdentifierName(typeArgumentName),
+                                                variableName,
                                                 SimpleMemberAccessExpression(
-                                                    IdentifierName(parameterSymbol.Name),
-                                                    IdentifierName(propertyName))))));
+                                                    IdentifierName(parameterName),
+                                                    IdentifierName(propertyName)),
+                                                ExpressionStatement(
+                                                    InvocationExpression(
+                                                        IdentifierName("Visit" + s),
+                                                        ArgumentList(Argument(IdentifierName(variableName))))));
+
+                                            break;
+                                        }
+                                }
                             }
                             else if (propertyType.EqualsOrInheritsFrom(syntaxNodeSymbol))
                             {
@@ -244,7 +315,7 @@ namespace Roslynator.CodeGeneration.CSharp
                                             foreach (StatementSyntax statement in CreateVisitListListMethodDeclaration(propertySymbol))
                                                 yield return statement;
 
-                                            continue;
+                                            break;
                                         }
                                     case "ArrowExpressionClauseSyntax":
                                     case "BlockSyntax":
@@ -276,8 +347,10 @@ namespace Roslynator.CodeGeneration.CSharp
                                     case "CrefBracketedParameterListSyntax":
                                     case "ConstructorInitializerSyntax":
                                         {
-                                            yield return CreateVisitMethodDeclaration(propertySymbol, propertyType.Name.Remove(propertyType.Name.Length - 6));
-                                            continue;
+                                            foreach (StatementSyntax statement in CreateVisitMethodDeclaration(propertySymbol, propertyType.Name.Remove(propertyType.Name.Length - 6)))
+                                                yield return statement;
+
+                                            break;
                                         }
                                     case "NameSyntax":
                                     case "IdentifierNameSyntax":
@@ -293,12 +366,14 @@ namespace Roslynator.CodeGeneration.CSharp
                                     case "CrefSyntax":
                                     case "CSharpSyntaxNode":
                                         {
-                                            yield return CreateVisitMethodDeclaration(propertySymbol);
+                                            foreach (StatementSyntax statement in CreateVisitMethodDeclaration(propertySymbol))
+                                                yield return statement;
+
                                             break;
                                         }
                                     default:
                                         {
-                                            throw new InvalidOperationException();
+                                            throw new InvalidOperationException($"Unrecognized property type '{propertyType.ToDisplayString()}'.");
                                         }
                                 }
                             }
@@ -312,55 +387,91 @@ namespace Roslynator.CodeGeneration.CSharp
                     }
                 }
 
-                StatementSyntax CreateVisitMethodDeclaration(IPropertySymbol propertySymbol, string methodNameSuffix = null)
+                IEnumerable<StatementSyntax> CreateVisitMethodDeclaration(IPropertySymbol propertySymbol, string methodNameSuffix = null)
                 {
-                    string name;
-                    if (methodNameSuffix == null
-                        && propertySymbol.Type.EqualsOrInheritsFrom(typeSyntaxSymbol))
+                    if (methodNameSuffix == null)
                     {
-                        name = "VisitType";
+                        if (propertySymbol.Type.EqualsOrInheritsFrom(typeSyntaxSymbol))
+                        {
+                            yield return CreateExpressionStatement("VisitType");
+                        }
+                        else
+                        {
+                            yield return CreateExpressionStatement("Visit");
+                        }
                     }
                     else
                     {
-                        name = "Visit" + methodNameSuffix;
+                        string localName = StringUtility.ToCamelCase(propertySymbol.Name);
+
+                        switch (localName)
+                        {
+                            case "else":
+                            case "default":
+                            case "finally":
+                                {
+                                    localName = "@" + localName;
+                                    break;
+                                }
+                        }
+
+                        yield return LocalDeclarationStatement(
+                            propertySymbol.Type.ToTypeSyntax(_symbolDisplayFormat),
+                            localName,
+                            SimpleMemberAccessExpression(
+                                IdentifierName(parameterName),
+                                IdentifierName(propertySymbol.Name)));
+
+                        yield return IfStatement(
+                            NotEqualsExpression(
+                                IdentifierName(localName),
+                                NullLiteralExpression()),
+                            ExpressionStatement(
+                            InvocationExpression(
+                                IdentifierName("Visit" + methodNameSuffix),
+                                ArgumentList(
+                                    Argument(IdentifierName(localName))))));
                     }
 
-                    return ExpressionStatement(
-                        InvocationExpression(
-                            IdentifierName(name),
-                            ArgumentList(
-                                Argument(
-                                    SimpleMemberAccessExpression(
-                                        IdentifierName(parameterSymbol.Name),
-                                        IdentifierName(propertySymbol.Name))))));
+                    ExpressionStatementSyntax CreateExpressionStatement(string name)
+                    {
+                        return ExpressionStatement(
+                            InvocationExpression(
+                                IdentifierName(name),
+                                ArgumentList(
+                                    Argument(
+                                        SimpleMemberAccessExpression(
+                                            IdentifierName(parameterName),
+                                            IdentifierName(propertySymbol.Name))))));
+                    }
                 }
 
                 IEnumerable<StatementSyntax> CreateVisitListListMethodDeclaration(IPropertySymbol propertySymbol)
                 {
-                    string name = propertySymbol.Name;
+                    string propertyName = propertySymbol.Name;
 
-                    string localName = StringUtility.ToCamelCase(name);
+                    string localName = StringUtility.ToCamelCase(propertyName);
 
                     yield return LocalDeclarationStatement(
                         propertySymbol.Type.ToTypeSyntax(_symbolDisplayFormat),
                         localName,
                         SimpleMemberAccessExpression(
-                            IdentifierName(parameterSymbol.Name),
-                            IdentifierName(propertySymbol.Name)));
+                            IdentifierName(parameterName),
+                            IdentifierName(propertyName)));
 
                     string listPropertyName = null;
 
-                    if (propertySymbol.Name == "TypeArgumentList")
+                    if (propertyName == "TypeArgumentList")
                     {
                         listPropertyName = "Arguments";
                     }
-                    else if (propertySymbol.Name == "TypeParameterList")
+                    else if (propertyName == "TypeParameterList")
                     {
                         listPropertyName = "Parameters";
                     }
                     else
                     {
-                        listPropertyName = name.Remove(name.Length - 4) + "s";
+                        listPropertyName = propertyName.Remove(propertyName.Length - 4) + "s";
                     }
 
                     IPropertySymbol listProperty = FindListProperty();

@@ -39,14 +39,20 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitAccessorDeclaration(AccessorDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
-            VisitBlock(node.Body);
-            VisitArrowExpressionClause(node.ExpressionBody);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
+            BlockSyntax body = node.Body;
+            if (body != null)
+                VisitBlock(body);
+            ArrowExpressionClauseSyntax expressionBody = node.ExpressionBody;
+            if (expressionBody != null)
+                VisitArrowExpressionClause(expressionBody);
         }
 
         public override void VisitAccessorList(AccessorListSyntax node)
         {
-            VisitList(node.Accessors);
+            foreach (AccessorDeclarationSyntax accessorDeclaration in node.Accessors)
+                VisitAccessorDeclaration(accessorDeclaration);
         }
 
         public override void VisitAliasQualifiedName(AliasQualifiedNameSyntax node)
@@ -57,7 +63,9 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitAnonymousMethodExpression(AnonymousMethodExpressionSyntax node)
         {
-            VisitBlock(node.Block);
+            BlockSyntax block = node.Block;
+            if (block != null)
+                VisitBlock(block);
             ParameterListSyntax parameterList = node.ParameterList;
             if (parameterList != null)
                 VisitSeparatedList(parameterList.Parameters);
@@ -66,29 +74,37 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitAnonymousObjectCreationExpression(AnonymousObjectCreationExpressionSyntax node)
         {
-            VisitSeparatedList(node.Initializers);
+            foreach (AnonymousObjectMemberDeclaratorSyntax anonymousObjectMemberDeclarator in node.Initializers)
+                VisitAnonymousObjectMemberDeclarator(anonymousObjectMemberDeclarator);
         }
 
         public override void VisitAnonymousObjectMemberDeclarator(AnonymousObjectMemberDeclaratorSyntax node)
         {
-            VisitNameEquals(node.NameEquals);
+            NameEqualsSyntax nameEquals = node.NameEquals;
+            if (nameEquals != null)
+                VisitNameEquals(nameEquals);
             Visit(node.Expression);
         }
 
         public override void VisitArgument(ArgumentSyntax node)
         {
-            VisitNameColon(node.NameColon);
+            NameColonSyntax nameColon = node.NameColon;
+            if (nameColon != null)
+                VisitNameColon(nameColon);
             Visit(node.Expression);
         }
 
         public override void VisitArgumentList(ArgumentListSyntax node)
         {
-            VisitSeparatedList(node.Arguments);
+            foreach (ArgumentSyntax argument in node.Arguments)
+                VisitArgument(argument);
         }
 
         public override void VisitArrayCreationExpression(ArrayCreationExpressionSyntax node)
         {
-            VisitArrayType(node.Type);
+            ArrayTypeSyntax type = node.Type;
+            if (type != null)
+                VisitArrayType(type);
             Visit(node.Initializer);
         }
 
@@ -100,7 +116,8 @@ namespace Roslynator.CSharp.SyntaxWalkers
         public override void VisitArrayType(ArrayTypeSyntax node)
         {
             VisitType(node.ElementType);
-            VisitList(node.RankSpecifiers);
+            foreach (ArrayRankSpecifierSyntax arrayRankSpecifier in node.RankSpecifiers)
+                VisitArrayRankSpecifier(arrayRankSpecifier);
         }
 
         public override void VisitArrowExpressionClause(ArrowExpressionClauseSyntax node)
@@ -124,20 +141,28 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitAttributeArgument(AttributeArgumentSyntax node)
         {
-            VisitNameEquals(node.NameEquals);
-            VisitNameColon(node.NameColon);
+            NameEqualsSyntax nameEquals = node.NameEquals;
+            if (nameEquals != null)
+                VisitNameEquals(nameEquals);
+            NameColonSyntax nameColon = node.NameColon;
+            if (nameColon != null)
+                VisitNameColon(nameColon);
             Visit(node.Expression);
         }
 
         public override void VisitAttributeArgumentList(AttributeArgumentListSyntax node)
         {
-            VisitSeparatedList(node.Arguments);
+            foreach (AttributeArgumentSyntax attributeArgument in node.Arguments)
+                VisitAttributeArgument(attributeArgument);
         }
 
         public override void VisitAttributeList(AttributeListSyntax node)
         {
-            VisitAttributeTargetSpecifier(node.Target);
-            VisitSeparatedList(node.Attributes);
+            AttributeTargetSpecifierSyntax target = node.Target;
+            if (target != null)
+                VisitAttributeTargetSpecifier(target);
+            foreach (AttributeSyntax attribute in node.Attributes)
+                VisitAttribute(attribute);
         }
 
         public override void VisitAttributeTargetSpecifier(AttributeTargetSpecifierSyntax node)
@@ -175,12 +200,14 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitBracketedArgumentList(BracketedArgumentListSyntax node)
         {
-            VisitSeparatedList(node.Arguments);
+            foreach (ArgumentSyntax argument in node.Arguments)
+                VisitArgument(argument);
         }
 
         public override void VisitBracketedParameterList(BracketedParameterListSyntax node)
         {
-            VisitSeparatedList(node.Parameters);
+            foreach (ParameterSyntax parameter in node.Parameters)
+                VisitParameter(parameter);
         }
 
         public override void VisitBreakStatement(BreakStatementSyntax node)
@@ -190,7 +217,9 @@ namespace Roslynator.CSharp.SyntaxWalkers
         public override void VisitCasePatternSwitchLabel(CasePatternSwitchLabelSyntax node)
         {
             Visit(node.Pattern);
-            VisitWhenClause(node.WhenClause);
+            WhenClauseSyntax whenClause = node.WhenClause;
+            if (whenClause != null)
+                VisitWhenClause(whenClause);
         }
 
         public override void VisitCaseSwitchLabel(CaseSwitchLabelSyntax node)
@@ -206,9 +235,15 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitCatchClause(CatchClauseSyntax node)
         {
-            VisitCatchDeclaration(node.Declaration);
-            VisitCatchFilterClause(node.Filter);
-            VisitBlock(node.Block);
+            CatchDeclarationSyntax declaration = node.Declaration;
+            if (declaration != null)
+                VisitCatchDeclaration(declaration);
+            CatchFilterClauseSyntax filter = node.Filter;
+            if (filter != null)
+                VisitCatchFilterClause(filter);
+            BlockSyntax block = node.Block;
+            if (block != null)
+                VisitBlock(block);
         }
 
         public override void VisitCatchDeclaration(CatchDeclarationSyntax node)
@@ -223,12 +258,16 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
             TypeParameterListSyntax typeParameterList = node.TypeParameterList;
             if (typeParameterList != null)
                 VisitSeparatedList(typeParameterList.Parameters);
-            VisitBaseList(node.BaseList);
-            VisitList(node.ConstraintClauses);
+            BaseListSyntax baseList = node.BaseList;
+            if (baseList != null)
+                VisitBaseList(baseList);
+            foreach (TypeParameterConstraintClauseSyntax typeParameterConstraintClause in node.ConstraintClauses)
+                VisitTypeParameterConstraintClause(typeParameterConstraintClause);
             VisitList(node.Members);
         }
 
@@ -238,9 +277,12 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitCompilationUnit(CompilationUnitSyntax node)
         {
-            VisitList(node.Externs);
-            VisitList(node.Usings);
-            VisitList(node.AttributeLists);
+            foreach (ExternAliasDirectiveSyntax externAliasDirective in node.Externs)
+                VisitExternAliasDirective(externAliasDirective);
+            foreach (UsingDirectiveSyntax usingDirective in node.Usings)
+                VisitUsingDirective(usingDirective);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
             VisitList(node.Members);
         }
 
@@ -268,13 +310,20 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
             ParameterListSyntax parameterList = node.ParameterList;
             if (parameterList != null)
                 VisitSeparatedList(parameterList.Parameters);
-            VisitConstructorInitializer(node.Initializer);
-            VisitBlock(node.Body);
-            VisitArrowExpressionClause(node.ExpressionBody);
+            ConstructorInitializerSyntax initializer = node.Initializer;
+            if (initializer != null)
+                VisitConstructorInitializer(initializer);
+            BlockSyntax body = node.Body;
+            if (body != null)
+                VisitBlock(body);
+            ArrowExpressionClauseSyntax expressionBody = node.ExpressionBody;
+            if (expressionBody != null)
+                VisitArrowExpressionClause(expressionBody);
         }
 
         public override void VisitConstructorInitializer(ConstructorInitializerSyntax node)
@@ -290,24 +339,32 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitConversionOperatorDeclaration(ConversionOperatorDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
             VisitType(node.Type);
             ParameterListSyntax parameterList = node.ParameterList;
             if (parameterList != null)
                 VisitSeparatedList(parameterList.Parameters);
-            VisitBlock(node.Body);
-            VisitArrowExpressionClause(node.ExpressionBody);
+            BlockSyntax body = node.Body;
+            if (body != null)
+                VisitBlock(body);
+            ArrowExpressionClauseSyntax expressionBody = node.ExpressionBody;
+            if (expressionBody != null)
+                VisitArrowExpressionClause(expressionBody);
         }
 
         public override void VisitConversionOperatorMemberCref(ConversionOperatorMemberCrefSyntax node)
         {
             VisitType(node.Type);
-            VisitCrefParameterList(node.Parameters);
+            CrefParameterListSyntax parameters = node.Parameters;
+            if (parameters != null)
+                VisitCrefParameterList(parameters);
         }
 
         public override void VisitCrefBracketedParameterList(CrefBracketedParameterListSyntax node)
         {
-            VisitSeparatedList(node.Parameters);
+            foreach (CrefParameterSyntax crefParameter in node.Parameters)
+                VisitCrefParameter(crefParameter);
         }
 
         public override void VisitCrefParameter(CrefParameterSyntax node)
@@ -317,7 +374,8 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitCrefParameterList(CrefParameterListSyntax node)
         {
-            VisitSeparatedList(node.Parameters);
+            foreach (CrefParameterSyntax crefParameter in node.Parameters)
+                VisitCrefParameter(crefParameter);
         }
 
         public override void VisitDeclarationExpression(DeclarationExpressionSyntax node)
@@ -347,7 +405,8 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitDelegateDeclaration(DelegateDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
             VisitType(node.ReturnType);
             TypeParameterListSyntax typeParameterList = node.TypeParameterList;
             if (typeParameterList != null)
@@ -355,17 +414,23 @@ namespace Roslynator.CSharp.SyntaxWalkers
             ParameterListSyntax parameterList = node.ParameterList;
             if (parameterList != null)
                 VisitSeparatedList(parameterList.Parameters);
-            VisitList(node.ConstraintClauses);
+            foreach (TypeParameterConstraintClauseSyntax typeParameterConstraintClause in node.ConstraintClauses)
+                VisitTypeParameterConstraintClause(typeParameterConstraintClause);
         }
 
         public override void VisitDestructorDeclaration(DestructorDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
             ParameterListSyntax parameterList = node.ParameterList;
             if (parameterList != null)
                 VisitSeparatedList(parameterList.Parameters);
-            VisitBlock(node.Body);
-            VisitArrowExpressionClause(node.ExpressionBody);
+            BlockSyntax body = node.Body;
+            if (body != null)
+                VisitBlock(body);
+            ArrowExpressionClauseSyntax expressionBody = node.ExpressionBody;
+            if (expressionBody != null)
+                VisitArrowExpressionClause(expressionBody);
         }
 
         public override void VisitDiscardDesignation(DiscardDesignationSyntax node)
@@ -426,15 +491,22 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitEnumDeclaration(EnumDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
-            VisitBaseList(node.BaseList);
-            VisitSeparatedList(node.Members);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
+            BaseListSyntax baseList = node.BaseList;
+            if (baseList != null)
+                VisitBaseList(baseList);
+            foreach (EnumMemberDeclarationSyntax enumMemberDeclaration in node.Members)
+                VisitEnumMemberDeclaration(enumMemberDeclaration);
         }
 
         public override void VisitEnumMemberDeclaration(EnumMemberDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
-            VisitEqualsValueClause(node.EqualsValue);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
+            EqualsValueClauseSyntax equalsValue = node.EqualsValue;
+            if (equalsValue != null)
+                VisitEqualsValueClause(equalsValue);
         }
 
         public override void VisitEqualsValueClause(EqualsValueClauseSyntax node)
@@ -448,9 +520,12 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitEventDeclaration(EventDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
             VisitType(node.Type);
-            VisitExplicitInterfaceSpecifier(node.ExplicitInterfaceSpecifier);
+            ExplicitInterfaceSpecifierSyntax explicitInterfaceSpecifier = node.ExplicitInterfaceSpecifier;
+            if (explicitInterfaceSpecifier != null)
+                VisitExplicitInterfaceSpecifier(explicitInterfaceSpecifier);
             AccessorListSyntax accessorList = node.AccessorList;
             if (accessorList != null)
                 VisitList(accessorList.Accessors);
@@ -458,8 +533,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitEventFieldDeclaration(EventFieldDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
-            VisitVariableDeclaration(node.Declaration);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
+            VariableDeclarationSyntax declaration = node.Declaration;
+            if (declaration != null)
+                VisitVariableDeclaration(declaration);
         }
 
         public override void VisitExplicitInterfaceSpecifier(ExplicitInterfaceSpecifierSyntax node)
@@ -478,18 +556,25 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitFieldDeclaration(FieldDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
-            VisitVariableDeclaration(node.Declaration);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
+            VariableDeclarationSyntax declaration = node.Declaration;
+            if (declaration != null)
+                VisitVariableDeclaration(declaration);
         }
 
         public override void VisitFinallyClause(FinallyClauseSyntax node)
         {
-            VisitBlock(node.Block);
+            BlockSyntax block = node.Block;
+            if (block != null)
+                VisitBlock(block);
         }
 
         public override void VisitFixedStatement(FixedStatementSyntax node)
         {
-            VisitVariableDeclaration(node.Declaration);
+            VariableDeclarationSyntax declaration = node.Declaration;
+            if (declaration != null)
+                VisitVariableDeclaration(declaration);
             Visit(node.Statement);
         }
 
@@ -509,7 +594,9 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitForStatement(ForStatementSyntax node)
         {
-            VisitVariableDeclaration(node.Declaration);
+            VariableDeclarationSyntax declaration = node.Declaration;
+            if (declaration != null)
+                VisitVariableDeclaration(declaration);
             VisitSeparatedList(node.Initializers);
             Visit(node.Condition);
             VisitSeparatedList(node.Incrementors);
@@ -552,7 +639,9 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitCheckedStatement(CheckedStatementSyntax node)
         {
-            VisitBlock(node.Block);
+            BlockSyntax block = node.Block;
+            if (block != null)
+                VisitBlock(block);
         }
 
         public override void VisitIdentifierName(IdentifierNameSyntax node)
@@ -568,7 +657,9 @@ namespace Roslynator.CSharp.SyntaxWalkers
         {
             Visit(node.Condition);
             Visit(node.Statement);
-            VisitElseClause(node.Else);
+            ElseClauseSyntax @else = node.Else;
+            if (@else != null)
+                VisitElseClause(@else);
         }
 
         public override void VisitImplicitArrayCreationExpression(ImplicitArrayCreationExpressionSyntax node)
@@ -585,27 +676,35 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitIncompleteMember(IncompleteMemberSyntax node)
         {
-            VisitList(node.AttributeLists);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
             VisitType(node.Type);
         }
 
         public override void VisitIndexerDeclaration(IndexerDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
             VisitType(node.Type);
-            VisitExplicitInterfaceSpecifier(node.ExplicitInterfaceSpecifier);
+            ExplicitInterfaceSpecifierSyntax explicitInterfaceSpecifier = node.ExplicitInterfaceSpecifier;
+            if (explicitInterfaceSpecifier != null)
+                VisitExplicitInterfaceSpecifier(explicitInterfaceSpecifier);
             BracketedParameterListSyntax parameterList = node.ParameterList;
             if (parameterList != null)
                 VisitSeparatedList(parameterList.Parameters);
             AccessorListSyntax accessorList = node.AccessorList;
             if (accessorList != null)
                 VisitList(accessorList.Accessors);
-            VisitArrowExpressionClause(node.ExpressionBody);
+            ArrowExpressionClauseSyntax expressionBody = node.ExpressionBody;
+            if (expressionBody != null)
+                VisitArrowExpressionClause(expressionBody);
         }
 
         public override void VisitIndexerMemberCref(IndexerMemberCrefSyntax node)
         {
-            VisitCrefBracketedParameterList(node.Parameters);
+            CrefBracketedParameterListSyntax parameters = node.Parameters;
+            if (parameters != null)
+                VisitCrefBracketedParameterList(parameters);
         }
 
         public override void VisitInitializerExpression(InitializerExpressionSyntax node)
@@ -615,12 +714,16 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
             TypeParameterListSyntax typeParameterList = node.TypeParameterList;
             if (typeParameterList != null)
                 VisitSeparatedList(typeParameterList.Parameters);
-            VisitBaseList(node.BaseList);
-            VisitList(node.ConstraintClauses);
+            BaseListSyntax baseList = node.BaseList;
+            if (baseList != null)
+                VisitBaseList(baseList);
+            foreach (TypeParameterConstraintClauseSyntax typeParameterConstraintClause in node.ConstraintClauses)
+                VisitTypeParameterConstraintClause(typeParameterConstraintClause);
             VisitList(node.Members);
         }
 
@@ -636,8 +739,12 @@ namespace Roslynator.CSharp.SyntaxWalkers
         public override void VisitInterpolation(InterpolationSyntax node)
         {
             Visit(node.Expression);
-            VisitInterpolationAlignmentClause(node.AlignmentClause);
-            VisitInterpolationFormatClause(node.FormatClause);
+            InterpolationAlignmentClauseSyntax alignmentClause = node.AlignmentClause;
+            if (alignmentClause != null)
+                VisitInterpolationAlignmentClause(alignmentClause);
+            InterpolationFormatClauseSyntax formatClause = node.FormatClause;
+            if (formatClause != null)
+                VisitInterpolationFormatClause(formatClause);
         }
 
         public override void VisitInterpolationAlignmentClause(InterpolationAlignmentClauseSyntax node)
@@ -669,7 +776,9 @@ namespace Roslynator.CSharp.SyntaxWalkers
             Visit(node.InExpression);
             Visit(node.LeftExpression);
             Visit(node.RightExpression);
-            VisitJoinIntoClause(node.Into);
+            JoinIntoClauseSyntax into = node.Into;
+            if (into != null)
+                VisitJoinIntoClause(into);
         }
 
         public override void VisitJoinIntoClause(JoinIntoClauseSyntax node)
@@ -700,7 +809,9 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitLocalDeclarationStatement(LocalDeclarationStatementSyntax node)
         {
-            VisitVariableDeclaration(node.Declaration);
+            VariableDeclarationSyntax declaration = node.Declaration;
+            if (declaration != null)
+                VisitVariableDeclaration(declaration);
         }
 
         public override void VisitLocalFunctionStatement(LocalFunctionStatementSyntax node)
@@ -712,9 +823,14 @@ namespace Roslynator.CSharp.SyntaxWalkers
             ParameterListSyntax parameterList = node.ParameterList;
             if (parameterList != null)
                 VisitSeparatedList(parameterList.Parameters);
-            VisitList(node.ConstraintClauses);
-            VisitBlock(node.Body);
-            VisitArrowExpressionClause(node.ExpressionBody);
+            foreach (TypeParameterConstraintClauseSyntax typeParameterConstraintClause in node.ConstraintClauses)
+                VisitTypeParameterConstraintClause(typeParameterConstraintClause);
+            BlockSyntax body = node.Body;
+            if (body != null)
+                VisitBlock(body);
+            ArrowExpressionClauseSyntax expressionBody = node.ExpressionBody;
+            if (expressionBody != null)
+                VisitArrowExpressionClause(expressionBody);
         }
 
         public override void VisitLockStatement(LockStatementSyntax node)
@@ -741,18 +857,26 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
             VisitType(node.ReturnType);
-            VisitExplicitInterfaceSpecifier(node.ExplicitInterfaceSpecifier);
+            ExplicitInterfaceSpecifierSyntax explicitInterfaceSpecifier = node.ExplicitInterfaceSpecifier;
+            if (explicitInterfaceSpecifier != null)
+                VisitExplicitInterfaceSpecifier(explicitInterfaceSpecifier);
             TypeParameterListSyntax typeParameterList = node.TypeParameterList;
             if (typeParameterList != null)
                 VisitSeparatedList(typeParameterList.Parameters);
             ParameterListSyntax parameterList = node.ParameterList;
             if (parameterList != null)
                 VisitSeparatedList(parameterList.Parameters);
-            VisitList(node.ConstraintClauses);
-            VisitBlock(node.Body);
-            VisitArrowExpressionClause(node.ExpressionBody);
+            foreach (TypeParameterConstraintClauseSyntax typeParameterConstraintClause in node.ConstraintClauses)
+                VisitTypeParameterConstraintClause(typeParameterConstraintClause);
+            BlockSyntax body = node.Body;
+            if (body != null)
+                VisitBlock(body);
+            ArrowExpressionClauseSyntax expressionBody = node.ExpressionBody;
+            if (expressionBody != null)
+                VisitArrowExpressionClause(expressionBody);
         }
 
         public override void VisitNameColon(NameColonSyntax node)
@@ -768,14 +892,18 @@ namespace Roslynator.CSharp.SyntaxWalkers
         public override void VisitNameMemberCref(NameMemberCrefSyntax node)
         {
             VisitType(node.Name);
-            VisitCrefParameterList(node.Parameters);
+            CrefParameterListSyntax parameters = node.Parameters;
+            if (parameters != null)
+                VisitCrefParameterList(parameters);
         }
 
         public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
         {
             VisitType(node.Name);
-            VisitList(node.Externs);
-            VisitList(node.Usings);
+            foreach (ExternAliasDirectiveSyntax externAliasDirective in node.Externs)
+                VisitExternAliasDirective(externAliasDirective);
+            foreach (UsingDirectiveSyntax usingDirective in node.Usings)
+                VisitUsingDirective(usingDirective);
             VisitList(node.Members);
         }
 
@@ -803,23 +931,31 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitOperatorDeclaration(OperatorDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
             VisitType(node.ReturnType);
             ParameterListSyntax parameterList = node.ParameterList;
             if (parameterList != null)
                 VisitSeparatedList(parameterList.Parameters);
-            VisitBlock(node.Body);
-            VisitArrowExpressionClause(node.ExpressionBody);
+            BlockSyntax body = node.Body;
+            if (body != null)
+                VisitBlock(body);
+            ArrowExpressionClauseSyntax expressionBody = node.ExpressionBody;
+            if (expressionBody != null)
+                VisitArrowExpressionClause(expressionBody);
         }
 
         public override void VisitOperatorMemberCref(OperatorMemberCrefSyntax node)
         {
-            VisitCrefParameterList(node.Parameters);
+            CrefParameterListSyntax parameters = node.Parameters;
+            if (parameters != null)
+                VisitCrefParameterList(parameters);
         }
 
         public override void VisitOrderByClause(OrderByClauseSyntax node)
         {
-            VisitSeparatedList(node.Orderings);
+            foreach (OrderingSyntax ordering in node.Orderings)
+                VisitOrdering(ordering);
         }
 
         public override void VisitOrdering(OrderingSyntax node)
@@ -829,14 +965,18 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitParameter(ParameterSyntax node)
         {
-            VisitList(node.AttributeLists);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
             VisitType(node.Type);
-            VisitEqualsValueClause(node.Default);
+            EqualsValueClauseSyntax @default = node.Default;
+            if (@default != null)
+                VisitEqualsValueClause(@default);
         }
 
         public override void VisitParameterList(ParameterListSyntax node)
         {
-            VisitSeparatedList(node.Parameters);
+            foreach (ParameterSyntax parameter in node.Parameters)
+                VisitParameter(parameter);
         }
 
         public override void VisitParenthesizedExpression(ParenthesizedExpressionSyntax node)
@@ -887,14 +1027,21 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
             VisitType(node.Type);
-            VisitExplicitInterfaceSpecifier(node.ExplicitInterfaceSpecifier);
+            ExplicitInterfaceSpecifierSyntax explicitInterfaceSpecifier = node.ExplicitInterfaceSpecifier;
+            if (explicitInterfaceSpecifier != null)
+                VisitExplicitInterfaceSpecifier(explicitInterfaceSpecifier);
             AccessorListSyntax accessorList = node.AccessorList;
             if (accessorList != null)
                 VisitList(accessorList.Accessors);
-            VisitArrowExpressionClause(node.ExpressionBody);
-            VisitEqualsValueClause(node.Initializer);
+            ArrowExpressionClauseSyntax expressionBody = node.ExpressionBody;
+            if (expressionBody != null)
+                VisitArrowExpressionClause(expressionBody);
+            EqualsValueClauseSyntax initializer = node.Initializer;
+            if (initializer != null)
+                VisitEqualsValueClause(initializer);
         }
 
         public override void VisitQualifiedCref(QualifiedCrefSyntax node)
@@ -913,18 +1060,26 @@ namespace Roslynator.CSharp.SyntaxWalkers
         {
             VisitList(node.Clauses);
             Visit(node.SelectOrGroup);
-            VisitQueryContinuation(node.Continuation);
+            QueryContinuationSyntax continuation = node.Continuation;
+            if (continuation != null)
+                VisitQueryContinuation(continuation);
         }
 
         public override void VisitQueryContinuation(QueryContinuationSyntax node)
         {
-            VisitQueryBody(node.Body);
+            QueryBodySyntax body = node.Body;
+            if (body != null)
+                VisitQueryBody(body);
         }
 
         public override void VisitQueryExpression(QueryExpressionSyntax node)
         {
-            VisitFromClause(node.FromClause);
-            VisitQueryBody(node.Body);
+            FromClauseSyntax fromClause = node.FromClause;
+            if (fromClause != null)
+                VisitFromClause(fromClause);
+            QueryBodySyntax body = node.Body;
+            if (body != null)
+                VisitQueryBody(body);
         }
 
         public override void VisitReferenceDirectiveTrivia(ReferenceDirectiveTriviaSyntax node)
@@ -977,7 +1132,9 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
         {
-            VisitParameter(node.Parameter);
+            ParameterSyntax parameter = node.Parameter;
+            if (parameter != null)
+                VisitParameter(parameter);
             Visit(node.Body);
         }
 
@@ -1001,12 +1158,16 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitStructDeclaration(StructDeclarationSyntax node)
         {
-            VisitList(node.AttributeLists);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
             TypeParameterListSyntax typeParameterList = node.TypeParameterList;
             if (typeParameterList != null)
                 VisitSeparatedList(typeParameterList.Parameters);
-            VisitBaseList(node.BaseList);
-            VisitList(node.ConstraintClauses);
+            BaseListSyntax baseList = node.BaseList;
+            if (baseList != null)
+                VisitBaseList(baseList);
+            foreach (TypeParameterConstraintClauseSyntax typeParameterConstraintClause in node.ConstraintClauses)
+                VisitTypeParameterConstraintClause(typeParameterConstraintClause);
             VisitList(node.Members);
         }
 
@@ -1019,7 +1180,8 @@ namespace Roslynator.CSharp.SyntaxWalkers
         public override void VisitSwitchStatement(SwitchStatementSyntax node)
         {
             Visit(node.Expression);
-            VisitList(node.Sections);
+            foreach (SwitchSectionSyntax switchSection in node.Sections)
+                VisitSwitchSection(switchSection);
         }
 
         public override void VisitThisExpression(ThisExpressionSyntax node)
@@ -1038,9 +1200,14 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitTryStatement(TryStatementSyntax node)
         {
-            VisitBlock(node.Block);
-            VisitList(node.Catches);
-            VisitFinallyClause(node.Finally);
+            BlockSyntax block = node.Block;
+            if (block != null)
+                VisitBlock(block);
+            foreach (CatchClauseSyntax catchClause in node.Catches)
+                VisitCatchClause(catchClause);
+            FinallyClauseSyntax @finally = node.Finally;
+            if (@finally != null)
+                VisitFinallyClause(@finally);
         }
 
         public override void VisitTupleElement(TupleElementSyntax node)
@@ -1050,17 +1217,20 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitTupleExpression(TupleExpressionSyntax node)
         {
-            VisitSeparatedList(node.Arguments);
+            foreach (ArgumentSyntax argument in node.Arguments)
+                VisitArgument(argument);
         }
 
         public override void VisitTupleType(TupleTypeSyntax node)
         {
-            VisitSeparatedList(node.Elements);
+            foreach (TupleElementSyntax tupleElement in node.Elements)
+                VisitTupleElement(tupleElement);
         }
 
         public override void VisitTypeArgumentList(TypeArgumentListSyntax node)
         {
-            VisitSeparatedList(node.Arguments);
+            foreach (TypeSyntax type in node.Arguments)
+                VisitType(type);
         }
 
         public override void VisitTypeConstraint(TypeConstraintSyntax node)
@@ -1080,7 +1250,8 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitTypeParameter(TypeParameterSyntax node)
         {
-            VisitList(node.AttributeLists);
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+                VisitAttributeList(attributeList);
         }
 
         public override void VisitTypeParameterConstraintClause(TypeParameterConstraintClauseSyntax node)
@@ -1091,7 +1262,8 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitTypeParameterList(TypeParameterListSyntax node)
         {
-            VisitSeparatedList(node.Parameters);
+            foreach (TypeParameterSyntax typeParameter in node.Parameters)
+                VisitTypeParameter(typeParameter);
         }
 
         public override void VisitUndefDirectiveTrivia(UndefDirectiveTriviaSyntax node)
@@ -1100,18 +1272,24 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitUnsafeStatement(UnsafeStatementSyntax node)
         {
-            VisitBlock(node.Block);
+            BlockSyntax block = node.Block;
+            if (block != null)
+                VisitBlock(block);
         }
 
         public override void VisitUsingDirective(UsingDirectiveSyntax node)
         {
-            VisitNameEquals(node.Alias);
+            NameEqualsSyntax alias = node.Alias;
+            if (alias != null)
+                VisitNameEquals(alias);
             VisitType(node.Name);
         }
 
         public override void VisitUsingStatement(UsingStatementSyntax node)
         {
-            VisitVariableDeclaration(node.Declaration);
+            VariableDeclarationSyntax declaration = node.Declaration;
+            if (declaration != null)
+                VisitVariableDeclaration(declaration);
             Visit(node.Expression);
             Visit(node.Statement);
         }
@@ -1119,7 +1297,8 @@ namespace Roslynator.CSharp.SyntaxWalkers
         public override void VisitVariableDeclaration(VariableDeclarationSyntax node)
         {
             VisitType(node.Type);
-            VisitSeparatedList(node.Variables);
+            foreach (VariableDeclaratorSyntax variableDeclarator in node.Variables)
+                VisitVariableDeclarator(variableDeclarator);
         }
 
         public override void VisitVariableDeclarator(VariableDeclaratorSyntax node)
@@ -1127,7 +1306,9 @@ namespace Roslynator.CSharp.SyntaxWalkers
             BracketedArgumentListSyntax argumentList = node.ArgumentList;
             if (argumentList != null)
                 VisitSeparatedList(argumentList.Arguments);
-            VisitEqualsValueClause(node.Initializer);
+            EqualsValueClauseSyntax initializer = node.Initializer;
+            if (initializer != null)
+                VisitEqualsValueClause(initializer);
         }
 
         public override void VisitWarningDirectiveTrivia(WarningDirectiveTriviaSyntax node)
@@ -1160,42 +1341,58 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitXmlCrefAttribute(XmlCrefAttributeSyntax node)
         {
-            VisitXmlName(node.Name);
+            XmlNameSyntax name = node.Name;
+            if (name != null)
+                VisitXmlName(name);
             Visit(node.Cref);
         }
 
         public override void VisitXmlElement(XmlElementSyntax node)
         {
-            VisitXmlElementStartTag(node.StartTag);
+            XmlElementStartTagSyntax startTag = node.StartTag;
+            if (startTag != null)
+                VisitXmlElementStartTag(startTag);
             VisitList(node.Content);
-            VisitXmlElementEndTag(node.EndTag);
+            XmlElementEndTagSyntax endTag = node.EndTag;
+            if (endTag != null)
+                VisitXmlElementEndTag(endTag);
         }
 
         public override void VisitXmlElementEndTag(XmlElementEndTagSyntax node)
         {
-            VisitXmlName(node.Name);
+            XmlNameSyntax name = node.Name;
+            if (name != null)
+                VisitXmlName(name);
         }
 
         public override void VisitXmlElementStartTag(XmlElementStartTagSyntax node)
         {
-            VisitXmlName(node.Name);
+            XmlNameSyntax name = node.Name;
+            if (name != null)
+                VisitXmlName(name);
             VisitList(node.Attributes);
         }
 
         public override void VisitXmlEmptyElement(XmlEmptyElementSyntax node)
         {
-            VisitXmlName(node.Name);
+            XmlNameSyntax name = node.Name;
+            if (name != null)
+                VisitXmlName(name);
             VisitList(node.Attributes);
         }
 
         public override void VisitXmlName(XmlNameSyntax node)
         {
-            VisitXmlPrefix(node.Prefix);
+            XmlPrefixSyntax prefix = node.Prefix;
+            if (prefix != null)
+                VisitXmlPrefix(prefix);
         }
 
         public override void VisitXmlNameAttribute(XmlNameAttributeSyntax node)
         {
-            VisitXmlName(node.Name);
+            XmlNameSyntax name = node.Name;
+            if (name != null)
+                VisitXmlName(name);
             VisitType(node.Identifier);
         }
 
@@ -1205,7 +1402,9 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitXmlProcessingInstruction(XmlProcessingInstructionSyntax node)
         {
-            VisitXmlName(node.Name);
+            XmlNameSyntax name = node.Name;
+            if (name != null)
+                VisitXmlName(name);
         }
 
         public override void VisitXmlText(XmlTextSyntax node)
@@ -1214,7 +1413,9 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitXmlTextAttribute(XmlTextAttributeSyntax node)
         {
-            VisitXmlName(node.Name);
+            XmlNameSyntax name = node.Name;
+            if (name != null)
+                VisitXmlName(name);
         }
 
         public override void VisitYieldStatement(YieldStatementSyntax node)
