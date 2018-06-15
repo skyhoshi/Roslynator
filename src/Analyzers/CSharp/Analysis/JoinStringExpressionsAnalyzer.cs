@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Roslynator.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
 
 namespace Roslynator.CSharp.Analysis
 {
@@ -38,21 +38,90 @@ namespace Roslynator.CSharp.Analysis
             if (node.SpanContainsDirectives())
                 return;
 
-            var addExpression = (BinaryExpressionSyntax)node;
-
-            StringConcatenationExpressionInfo concatenationInfo = SyntaxInfo.StringConcatenationExpressionInfo(addExpression, context.SemanticModel, context.CancellationToken);
-
-            if (!concatenationInfo.Success)
+            if (node.IsParentKind(SyntaxKind.AddExpression))
                 return;
 
-            StringConcatenationAnalysis analysis = concatenationInfo.Analyze();
+            var addExpression = (BinaryExpressionSyntax)node;
 
-            if (!analysis.ContainsUnspecifiedExpression
-                && (analysis.ContainsStringLiteral ^ analysis.ContainsInterpolatedString)
-                && (analysis.ContainsNonVerbatimExpression ^ analysis.ContainsVerbatimExpression)
-                && (analysis.ContainsVerbatimExpression || addExpression.IsSingleLine(includeExteriorTrivia: false, cancellationToken: context.CancellationToken)))
+            ExpressionSyntax firstExpression = null;
+            ExpressionSyntax lastExpression = null;
+            bool isStringLiteral = false;
+            bool isVerbatim = false;
+
+            foreach (ExpressionSyntax expression in addExpression.AsChain())
             {
-                context.ReportDiagnostic(DiagnosticDescriptors.JoinStringExpressions, addExpression);
+                switch (expression.Kind())
+                {
+                    case SyntaxKind.StringLiteralExpression:
+                        {
+                            bool isVerbatim2 = SyntaxInfo.StringLiteralExpressionInfo(expression).IsVerbatim;
+
+                            if (firstExpression == null)
+                            {
+                                firstExpression = expression;
+                                isStringLiteral = true;
+                                isVerbatim = isVerbatim2;
+                            }
+                            else if (!isStringLiteral
+                                || isVerbatim != isVerbatim2)
+                            {
+                                if (lastExpression != null)
+                                    ReportDiagnostic(context, firstExpression, lastExpression, isVerbatim);
+
+                                firstExpression = null;
+                                lastExpression = null;
+                            }
+                            else
+                            {
+                                lastExpression = expression;
+                            }
+
+                            break;
+                        }
+                    case SyntaxKind.InterpolatedStringExpression:
+                        {
+                            bool isVerbatim2 = ((InterpolatedStringExpressionSyntax)expression).IsVerbatim();
+
+                            if (firstExpression == null)
+                            {
+                                firstExpression = expression;
+                                isStringLiteral = false;
+                                isVerbatim = isVerbatim2;
+                            }
+                            else if (isStringLiteral
+                                || isVerbatim != isVerbatim2)
+                            {
+                                if (lastExpression != null)
+                                    ReportDiagnostic(context, firstExpression, lastExpression, isVerbatim);
+
+                                firstExpression = null;
+                                lastExpression = null;
+                            }
+                            else
+                            {
+                                lastExpression = expression;
+                            }
+
+                            break;
+                        }
+                }
+            }
+
+            if (lastExpression != null)
+                ReportDiagnostic(context, firstExpression, lastExpression, isVerbatim);
+        }
+
+        private static void ReportDiagnostic(SyntaxNodeAnalysisContext context, ExpressionSyntax firstExpression, ExpressionSyntax lastExpression, bool isVerbatim)
+        {
+            SyntaxTree tree = firstExpression.SyntaxTree;
+            TextSpan span = TextSpan.FromBounds(lastExpression.SpanStart, firstExpression.Span.End);
+
+            if (isVerbatim
+                || tree.IsSingleLineSpan(span, context.CancellationToken))
+            {
+                context.ReportDiagnostic(
+                    DiagnosticDescriptors.JoinStringExpressions,
+                    Location.Create(tree, span));
             }
         }
     }
