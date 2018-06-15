@@ -12,9 +12,9 @@ namespace Roslynator.CSharp
 {
     internal class StringTextBuilder
     {
-        public StringTextBuilder(StringBuilder sb = null, bool isVerbatim = false, bool isInterpolated = false)
+        public StringTextBuilder(StringBuilder stringBuilder = null, bool isVerbatim = false, bool isInterpolated = false)
         {
-            StringBuilder = sb ?? new StringBuilder();
+            StringBuilder = stringBuilder ?? new StringBuilder();
             IsVerbatim = isVerbatim;
             IsInterpolated = isInterpolated;
         }
@@ -100,26 +100,26 @@ namespace Roslynator.CSharp
 
         private void Append(string value, bool isVerbatim)
         {
-            if (string.IsNullOrEmpty(value))
+            int length = value.Length;
+
+            if (length == 0)
                 return;
 
-            StringBuilder sb = StringBuilder;
-
-            for (int i = 0; i < value.Length; i++)
+            for (int i = 0; i < length; i++)
             {
                 if (IsSpecialChar(value[i]))
                 {
-                    sb.Append(value, 0, i);
+                    StringBuilder.Append(value, 0, i);
                     AppendSpecialChar(value[i]);
 
                     i++;
                     int lastIndex = i;
 
-                    while (i < value.Length)
+                    while (i < length)
                     {
                         if (IsSpecialChar(value[i]))
                         {
-                            sb.Append(value, lastIndex, i - lastIndex);
+                            StringBuilder.Append(value, lastIndex, i - lastIndex);
                             AppendSpecialChar(value[i]);
 
                             i++;
@@ -130,8 +130,7 @@ namespace Roslynator.CSharp
                             i++;
                         }
                     }
-
-                    sb.Append(value, lastIndex, value.Length - lastIndex);
+                    StringBuilder.Append(value, lastIndex, length - lastIndex);
                 }
             }
 

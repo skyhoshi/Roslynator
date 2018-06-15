@@ -43,9 +43,9 @@ namespace Roslynator.CSharp.Refactorings
 
             StringBuilder sb = StringBuilderCache.GetInstance();
 
-            var b = new StringTextBuilder(sb, isVerbatim: isVerbatim, isInterpolated: isInterpolated);
+            var builder = new StringTextBuilder(sb, isVerbatim: isVerbatim, isInterpolated: isInterpolated);
 
-            b.AppendStart();
+            builder.AppendStart();
 
             foreach (ExpressionSyntax expression in expressions)
             {
@@ -53,20 +53,20 @@ namespace Roslynator.CSharp.Refactorings
                 {
                     case SyntaxKind.StringLiteralExpression:
                         {
-                            b.Append((LiteralExpressionSyntax)expression);
+                            builder.Append((LiteralExpressionSyntax)expression);
                             break;
                         }
                     case SyntaxKind.InterpolatedStringExpression:
                         {
-                            b.Append((InterpolatedStringExpressionSyntax)expression);
+                            builder.Append((InterpolatedStringExpressionSyntax)expression);
                             break;
                         }
                 }
             }
 
-            b.AppendEnd();
+            builder.AppendEnd();
 
-            string newText = b.ToString();
+            string newText = builder.ToString();
 
             StringBuilderCache.Free(sb);
 

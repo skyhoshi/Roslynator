@@ -45,7 +45,7 @@ namespace Roslynator.CSharp.Analysis
 
             ExpressionSyntax firstExpression = null;
             ExpressionSyntax lastExpression = null;
-            bool isStringLiteral = false;
+            bool isLiteral = false;
             bool isVerbatim = false;
 
             foreach (ExpressionSyntax expression in addExpression.AsChain())
@@ -59,10 +59,10 @@ namespace Roslynator.CSharp.Analysis
                             if (firstExpression == null)
                             {
                                 firstExpression = expression;
-                                isStringLiteral = true;
+                                isLiteral = true;
                                 isVerbatim = isVerbatim2;
                             }
-                            else if (!isStringLiteral
+                            else if (!isLiteral
                                 || isVerbatim != isVerbatim2)
                             {
                                 if (lastExpression != null)
@@ -85,10 +85,10 @@ namespace Roslynator.CSharp.Analysis
                             if (firstExpression == null)
                             {
                                 firstExpression = expression;
-                                isStringLiteral = false;
+                                isLiteral = false;
                                 isVerbatim = isVerbatim2;
                             }
-                            else if (isStringLiteral
+                            else if (isLiteral
                                 || isVerbatim != isVerbatim2)
                             {
                                 if (lastExpression != null)

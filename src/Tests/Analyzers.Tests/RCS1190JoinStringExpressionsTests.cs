@@ -20,14 +20,14 @@ namespace Roslynator.CSharp.Analysis.Tests
         public override CodeFixProvider FixProvider { get; } = new BinaryExpressionCodeFixProvider();
 
         [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.JoinStringExpressions)]
-        public async Task Test_Regular()
+        public async Task Test_Literal_Regular()
         {
             await VerifyDiagnosticAndFixAsync(@"
 class C
 {
     void M(string s)
     {
-        s = [|""a"" + ""b""|];
+        s = [|""a"" + ""b"" + ""c""|];
     }
 }
 ", @"
@@ -35,7 +35,161 @@ class C
 {
     void M(string s)
     {
-        s = ""ab"";
+        s = ""abc"";
+    }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.JoinStringExpressions)]
+        public async Task Test_Literal_Regular2()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+class C
+{
+    void M(string s)
+    {
+        s = s + [|""a"" + ""b"" + ""c""|] + s;
+    }
+}
+", @"
+class C
+{
+    void M(string s)
+    {
+        s = s + ""abc"" + s;
+    }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.JoinStringExpressions)]
+        public async Task Test_Literal_Verbatim()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+class C
+{
+    void M(string s)
+    {
+        s = [|@""a"" + @""b"" + @""c""|];
+    }
+}
+", @"
+class C
+{
+    void M(string s)
+    {
+        s = @""abc"";
+    }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.JoinStringExpressions)]
+        public async Task Test_Literal_Verbatim2()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+class C
+{
+    void M(string s)
+    {
+        s = s + [|@""a"" + @""b"" + @""c""|] + s;
+    }
+}
+", @"
+class C
+{
+    void M(string s)
+    {
+        s = s + @""abc"" + s;
+    }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.JoinStringExpressions)]
+        public async Task Test_InterpolatedString_Regular()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+class C
+{
+    void M(string s)
+    {
+        s = [|$""a"" + $""b"" + $""c""|];
+    }
+}
+", @"
+class C
+{
+    void M(string s)
+    {
+        s = $""abc"";
+    }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.JoinStringExpressions)]
+        public async Task Test_InterpolatedString_Regular2()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+class C
+{
+    void M(string s)
+    {
+        s = s + [|$""a"" + $""b"" + $""c""|] + s;
+    }
+}
+", @"
+class C
+{
+    void M(string s)
+    {
+        s = s + $""abc"" + s;
+    }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.JoinStringExpressions)]
+        public async Task Test_InterpolatedString_Verbatim()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+class C
+{
+    void M(string s)
+    {
+        s = [|$@""a"" + $@""b"" + $@""c""|];
+    }
+}
+", @"
+class C
+{
+    void M(string s)
+    {
+        s = $@""abc"";
+    }
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.JoinStringExpressions)]
+        public async Task Test_InterpolatedString_Verbatim2()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+class C
+{
+    void M(string s)
+    {
+        s = s + [|$@""a"" + $@""b"" + $@""c""|] + s;
+    }
+}
+", @"
+class C
+{
+    void M(string s)
+    {
+        s = s + $@""abc"" + s;
     }
 }
 ");
@@ -49,9 +203,9 @@ class C
 {
     void M(string s)
     {
-            s = [|@""""""
-\{}"" + @""""""
-\{}""|];
+            s = [|@""a"" + @""b
+c"" + @""d
+e""|];
     }
 }
 ", @"
@@ -59,44 +213,53 @@ class C
 {
     void M(string s)
     {
-            s = @""""""
-\{}""""
-\{}"";
+            s = @""ab
+cd
+e"";
     }
 }
 ");
         }
 
-        [Theory, Trait(Traits.Analyzer, DiagnosticIdentifiers.JoinStringExpressions)]
-        [InlineData(@"""a"" + ""b""", @"""ab""")]
-        [InlineData(@"""\""\r\n\\{}"" + ""a""", @"""\""\r\n\\{}a""")]
-        public async Task Test_Regular_SpecialChars(string fromData, string toData)
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.JoinStringExpressions)]
+        public async Task Test_InterpolatedString_Multiline()
         {
             await VerifyDiagnosticAndFixAsync(@"
 class C
 {
     void M(string s)
     {
-        s = [||];
+            s = [|$@""a"" + $@""b
+c"" + $@""d
+e""|];
     }
 }
-", fromData, toData);
+", @"
+class C
+{
+    void M(string s)
+    {
+            s = $@""ab
+cd
+e"";
+    }
+}
+");
         }
 
-        [Theory, Trait(Traits.Analyzer, DiagnosticIdentifiers.JoinStringExpressions)]
-        [InlineData(@"@""a"" + @""b""", @"@""ab""")]
-        [InlineData(@"@""""""\r\n\\{}"" + @""a""", @"@""""""\r\n\\{}a""")]
-        public async Task Test_Verbatim_SpecialChars(string fromData, string toData)
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.JoinStringExpressions)]
+        public async Task TestNoDiagnostic_Regular_Multiline()
         {
-            await VerifyDiagnosticAndFixAsync(@"
+            await VerifyNoDiagnosticAsync(@"
 class C
 {
     void M(string s)
     {
-        s = [||];
+        s = ""a""
+            + ""b"";
     }
 }
-", fromData, toData);
+");
         }
 
         [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.JoinStringExpressions)]
@@ -105,10 +268,11 @@ class C
             await VerifyNoDiagnosticAsync(@"
 class C
 {
-    void M()
+    void M(string s)
     {
-        string s = ""a"" + @""b"";
-    }
+        s = ""a"" + @""b"";
+        s = @""a"" + ""b"";
+}
 }
 ");
         }
@@ -119,10 +283,26 @@ class C
             await VerifyNoDiagnosticAsync(@"
 class C
 {
-    void M()
+    void M(string s)
     {
-        string s = ""a"" + $""b"";
-    }
+        s = ""a"" + $""b"";
+        s = $""a"" + ""b"";
+}
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.JoinStringExpressions)]
+        public async Task TestNoDiagnostic_LiteralAndInterpolated_Verbatim()
+        {
+            await VerifyNoDiagnosticAsync(@"
+class C
+{
+    void M(string s)
+    {
+        s = @""a"" + $@""b"";
+        s = $@""a"" + @""b"";
+}
 }
 ");
         }
