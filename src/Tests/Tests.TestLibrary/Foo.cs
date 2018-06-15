@@ -21,10 +21,52 @@ using Roslynator.CSharp.Syntax;
 
 namespace Roslynator.Tests
 {
-    class C
+    internal static class JoinStringExpressions
     {
-        void M()
+        public static void Foo()
         {
+            string s = "ab";
+
+            s = $"\"\r\n\\{{}}{s}" + $"\"\r\n\\{{}}{s}";
+
+            s = $"\"\r\n\\{{}}{s}" + "\"\r\n\\{}";
+
+            s = $"\"\r\n\\{{}}{s}" + @"""
+\{}" + @"""
+\{}";
+
+            s = $@"""
+\{{}}{s}" + "\"\r\n\\{}";
+
+            s = $@"""
+\{{}}{s}" + $@"""
+\{{}}{s}";
+
+            // n
+
+            s = "x"
+                + "x";
+
+            s = "x" + @"x";
+
+            s = @"x" + "x";
+
+            s = "x" + $"{s}";
+
+            s = $"{s}" + "x";
+
+            s = "\"\r\n\\{}" + @"""
+\{}";
+
+            s = $"\"\r\n\\{{}}{s}" + $@"""
+\{{}}{s}";
+
+            s = "\"\r\n\\{}" + @"""
+\{}" + $"\"\r\n\\{{}}{s}";
+
+            s = "\"\r\n\\{}" + @"""
+\{}" + $@"""
+\{{}}{s}";
         }
     }
 }
