@@ -12,7 +12,47 @@ namespace Roslynator.CSharp.Refactorings.Tests
         public override string RefactoringId { get; } = RefactoringIdentifiers.InvertIf;
 
         [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.InvertIf)]
-        public async Task Test_SingleStatement()
+        public async Task Test_IfElse()
+        {
+            await VerifyRefactoringAsync(@"
+class C
+{
+    bool M(bool f = false)
+    {
+        {
+            [||]if (f)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+}
+", @"
+class C
+{
+    bool M(bool f = false)
+    {
+        {
+            if (!f)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+}
+", equivalenceKey: RefactoringId);
+        }
+
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.InvertIf)]
+        public async Task Test_If_SingleStatement()
         {
             await VerifyRefactoringAsync(@"
 class C
@@ -50,7 +90,7 @@ class C
         }
 
         [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.InvertIf)]
-        public async Task Test_SingleStatement_Recursive()
+        public async Task Test_If_SingleStatement_Recursive()
         {
             await VerifyRefactoringAsync(@"
 class C
@@ -96,7 +136,7 @@ class C
         }
 
         [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.InvertIf)]
-        public async Task Test_MultipleStatementsInIf_Recursive()
+        public async Task Test_If_MultipleStatementsInIf_Recursive()
         {
             await VerifyRefactoringAsync(@"
 class C
@@ -165,7 +205,7 @@ class C
         }
 
         [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.InvertIf)]
-        public async Task Test_SingleStatement_LastStatementIsRedundant()
+        public async Task Test_If_SingleStatement_LastStatementIsRedundant()
         {
             await VerifyRefactoringAsync(@"
 class C
@@ -195,7 +235,7 @@ class C
         }
 
         [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.InvertIf)]
-        public async Task Test_EmbeddedStatement()
+        public async Task Test_If_EmbeddedStatement()
         {
             await VerifyRefactoringAsync(@"
 class C
@@ -223,7 +263,7 @@ class C
         }
 
         [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.InvertIf)]
-        public async Task Test_MultipleStatementInIf()
+        public async Task Test_If_MultipleStatementInIf()
         {
             await VerifyRefactoringAsync(@"
 class C
@@ -262,7 +302,7 @@ class C
         }
 
         [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.InvertIf)]
-        public async Task Test_MultipleStatementAfterIf()
+        public async Task Test_If_MultipleStatementAfterIf()
         {
             await VerifyRefactoringAsync(@"
 class C
@@ -298,7 +338,7 @@ class C
         }
 
         [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.InvertIf)]
-        public async Task Test_MultipleStatements_LocalFunction()
+        public async Task Test_If_MultipleStatements_LocalFunction()
         {
             await VerifyRefactoringAsync(@"
 class C
@@ -345,7 +385,7 @@ class C
         }
 
         [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.InvertIf)]
-        public async Task Test_LastStatementIsJumpStatement()
+        public async Task Test_If_LastStatementIsJumpStatement()
         {
             await VerifyRefactoringAsync(@"
 class C
@@ -382,14 +422,25 @@ class C
 ", equivalenceKey: RefactoringId);
         }
 
-        //[Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.InvertIf)]
-        public async Task TestNoRefactoring()
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.InvertIf)]
+        public async Task TestNoRefactoring_IfElseIf()
         {
             await VerifyNoRefactoringAsync(@"
 class C
 {
-    void M()
+    void M(bool f = false, bool f2 = false)
     {
+        {
+            [||]if (f)
+            {
+                return;
+            }
+            else if (f2)
+            {
+            }
+
+            M();
+        }
     }
 }
 ", equivalenceKey: RefactoringId);

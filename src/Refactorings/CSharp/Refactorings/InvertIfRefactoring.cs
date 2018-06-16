@@ -35,7 +35,10 @@ namespace Roslynator.CSharp.Refactorings
 
             if (elseClause != null)
             {
-                if (elseClause.Statement?.IsMissing == false)
+                StatementSyntax elseStatement = elseClause.Statement;
+
+                if (elseStatement?.IsMissing == false
+                    && !elseStatement.IsKind(SyntaxKind.IfStatement))
                 {
                     context.RegisterRefactoring(
                         "Invert if-else",
