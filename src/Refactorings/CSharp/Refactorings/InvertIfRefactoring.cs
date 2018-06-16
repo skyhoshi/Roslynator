@@ -35,18 +35,21 @@ namespace Roslynator.CSharp.Refactorings
 
             if (elseClause != null)
             {
-                StatementSyntax elseStatement = elseClause.Statement;
-
-                if (elseStatement?.IsMissing == false
-                    && !elseStatement.IsKind(SyntaxKind.IfStatement))
+                if (context.IsRefactoringEnabled(RefactoringIdentifiers.InvertIfElse))
                 {
-                    context.RegisterRefactoring(
-                        "Invert if-else",
-                        ct => InvertIfElseAsync(document, ifStatement, ct),
-                        RefactoringIdentifiers.InvertIf);
+                    StatementSyntax elseStatement = elseClause.Statement;
+
+                    if (elseStatement?.IsMissing == false
+                        && !elseStatement.IsKind(SyntaxKind.IfStatement))
+                    {
+                        context.RegisterRefactoring(
+                            "Invert if-else",
+                            ct => InvertIfElseAsync(document, ifStatement, ct),
+                            RefactoringIdentifiers.InvertIf);
+                    }
                 }
             }
-            else
+            else if (context.IsRefactoringEnabled(RefactoringIdentifiers.InvertIf))
             {
                 InvertIfAnalysis analysis = InvertIfAnalysis.Create(ifStatement, statement);
 

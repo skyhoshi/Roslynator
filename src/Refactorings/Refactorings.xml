@@ -1211,11 +1211,11 @@ i--;]]></After>
       <Syntax>empty line between member declarations</Syntax>
     </Syntaxes>
   </Refactoring>
-  <Refactoring Id="RR0162" Identifier="InvertIf" Title="Invert if">
+  <Refactoring Id="RR0162" Identifier="InvertIfElse" Title="Invert if-else">
     <Syntaxes>
-      <Syntax>if statement</Syntax>
+      <Syntax>if-else statement</Syntax>
     </Syntaxes>
-    <Span>if keyword or selected if statement</Span>
+    <Span>if keyword</Span>
   </Refactoring>
   <Refactoring Id="RR0163" Identifier="UncommentSingleLineComment" Title="UncommentSingleLineComment">
     <Syntaxes>
@@ -1400,7 +1400,7 @@ i--;]]></After>
       </Sample>
     </Samples>
   </Refactoring>
-  <Refactoring Id="RR0189" Identifier="ReduceIfNesting" Title="Reduce if nesting">
+  <Refactoring Id="RR0189" Identifier="InvertIf" Title="Invert if">
     <Syntaxes>
       <Syntax>if statement</Syntax>
     </Syntaxes>
