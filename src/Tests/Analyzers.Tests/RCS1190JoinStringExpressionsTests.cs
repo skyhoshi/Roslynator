@@ -49,28 +49,6 @@ class C
 {
     void M(string s)
     {
-        s = [|""a"" + ""b"" + ""c""|] + s;
-    }
-}
-", @"
-class C
-{
-    void M(string s)
-    {
-        s = ""abc"" + s;
-    }
-}
-");
-        }
-
-        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.JoinStringExpressions)]
-        public async Task Test_Literal_Regular3()
-        {
-            await VerifyDiagnosticAndFixAsync(@"
-class C
-{
-    void M(string s)
-    {
         s = s + [|""a"" + ""b"" + ""c""|] + s;
     }
 }
