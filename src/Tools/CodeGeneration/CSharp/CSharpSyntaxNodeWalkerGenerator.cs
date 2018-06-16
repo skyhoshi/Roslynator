@@ -10,21 +10,12 @@ namespace Roslynator.CodeGeneration.CSharp
 {
     public static class CSharpSyntaxNodeWalkerGenerator
     {
-        private static readonly SymbolDisplayFormat _symbolDisplayFormat = new SymbolDisplayFormat(
-            genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
-            typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypes,
-            parameterOptions: SymbolDisplayParameterOptions.IncludeDefaultValue
-                | SymbolDisplayParameterOptions.IncludeExtensionThis
-                | SymbolDisplayParameterOptions.IncludeName
-                | SymbolDisplayParameterOptions.IncludeParamsRefOut
-                | SymbolDisplayParameterOptions.IncludeType,
-            miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes
-                | SymbolDisplayMiscellaneousOptions.EscapeKeywordIdentifiers
-                | SymbolDisplayMiscellaneousOptions.RemoveAttributeSuffix);
-
         public static CompilationUnitSyntax Generate()
         {
-            var generator = new CSharpSyntaxWalkerGenerator();
+            var generator = new CSharpSyntaxWalkerGenerator(
+                depth: SyntaxWalkerDepth.Node,
+                shouldVisitFunction: true,
+                shouldGenerateVisitType: true);
 
             return CompilationUnit(
                 UsingDirectives(
