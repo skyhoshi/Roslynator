@@ -66,7 +66,7 @@ namespace Roslynator.CSharp.Analysis
                                 || isVerbatim != isVerbatim2)
                             {
                                 if (lastExpression != null)
-                                    ReportDiagnostic(context, firstExpression, lastExpression, isVerbatim);
+                                    Analyze(context, firstExpression, lastExpression, isVerbatim);
 
                                 firstExpression = null;
                                 lastExpression = null;
@@ -92,7 +92,7 @@ namespace Roslynator.CSharp.Analysis
                                 || isVerbatim != isVerbatim2)
                             {
                                 if (lastExpression != null)
-                                    ReportDiagnostic(context, firstExpression, lastExpression, isVerbatim);
+                                    Analyze(context, firstExpression, lastExpression, isVerbatim);
 
                                 firstExpression = null;
                                 lastExpression = null;
@@ -108,13 +108,22 @@ namespace Roslynator.CSharp.Analysis
             }
 
             if (lastExpression != null)
-                ReportDiagnostic(context, firstExpression, lastExpression, isVerbatim);
+                Analyze(context, firstExpression, lastExpression, isVerbatim);
         }
 
-        private static void ReportDiagnostic(SyntaxNodeAnalysisContext context, ExpressionSyntax firstExpression, ExpressionSyntax lastExpression, bool isVerbatim)
+        private static void Analyze(SyntaxNodeAnalysisContext context, ExpressionSyntax firstExpression, ExpressionSyntax lastExpression, bool isVerbatim)
         {
-            SyntaxTree tree = firstExpression.SyntaxTree;
             TextSpan span = TextSpan.FromBounds(lastExpression.SpanStart, firstExpression.Span.End);
+
+            if (span != firstExpression.Parent.Span)
+            {
+                var addExpression = (BinaryExpressionSyntax)lastExpression.Parent;
+
+                if (!CSharpUtility.IsStringConcatenation(addExpression, context.SemanticModel, context.CancellationToken))
+                    return;
+            }
+
+            SyntaxTree tree = firstExpression.SyntaxTree;
 
             if (isVerbatim
                 || tree.IsSingleLineSpan(span, context.CancellationToken))
