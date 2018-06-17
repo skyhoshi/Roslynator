@@ -13,10 +13,10 @@ namespace Roslynator.CSharp
 {
     //TODO: make public
     /// <summary>
-    /// Enables to enumerate nested binary expressions of the same kind.
+    /// Enables to enumerate expressions of binary expression and expressions of nested binary expressions of the same kind.
     /// </summary>
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
-    internal readonly struct BinaryExpressionChain : IEquatable<BinaryExpressionChain>, IEnumerable<ExpressionSyntax>
+    internal partial struct BinaryExpressionChain : IEquatable<BinaryExpressionChain>, IEnumerable<ExpressionSyntax>
     {
         internal BinaryExpressionChain(BinaryExpressionSyntax binaryExpression)
         {
@@ -35,7 +35,32 @@ namespace Roslynator.CSharp
         /// </summary>
         public BinaryExpressionSyntax BinaryExpression { get; }
 
+        /// <summary>
+        /// The text span.
+        /// </summary>
         public TextSpan Span { get; }
+
+        internal TextSpan ExpressionsSpan
+        {
+            get
+            {
+                Enumerator en = GetEnumerator();
+
+                if (en.MoveNext())
+                {
+                    int end = en.Current.Span.End;
+
+                    int start = en.Current.SpanStart;
+
+                    while (en.MoveNext())
+                        start = en.Current.SpanStart;
+
+                    return TextSpan.FromBounds(start, end);
+                }
+
+                return default;
+            }
+        }
 
         private int Count
         {
@@ -51,14 +76,49 @@ namespace Roslynator.CSharp
             }
         }
 
+        internal ExpressionSyntax FirstExpression
+        {
+            get
+            {
+                Enumerator en = GetEnumerator();
+
+                return (en.MoveNext()) ? en.Current : null;
+            }
+        }
+
+        internal ExpressionSyntax LastExpression
+        {
+            get
+            {
+                Enumerator en = GetEnumerator();
+
+                if (en.MoveNext())
+                {
+                    ExpressionSyntax e = en.Current;
+
+                    while (en.MoveNext())
+                        e = en.Current;
+
+                    return e;
+                }
+
+                return default;
+            }
+        }
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string DebuggerDisplay
         {
             get { return (BinaryExpression != null) ? $"Count = {Count} {BinaryExpression}" : "Uninitialized"; }
         }
 
+        public Reversed Reverse()
+        {
+            return new Reversed(this);
+        }
+
         /// <summary>
-        /// Gets the enumerator for the binary expression.
+        /// Gets the enumerator for the expressions.
         /// </summary>
         /// <returns></returns>
         public Enumerator GetEnumerator()

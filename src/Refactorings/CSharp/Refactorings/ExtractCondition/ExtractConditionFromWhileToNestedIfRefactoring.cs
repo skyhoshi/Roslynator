@@ -45,8 +45,7 @@ namespace Roslynator.CSharp.Refactorings.ExtractCondition
         {
             WhileStatementSyntax newNode = RemoveExpressionFromCondition(whileStatement, condition, expression);
 
-            newNode = AddNestedIf(newNode, expression)
-                .WithFormatterAnnotation();
+            newNode = AddNestedIf(newNode, expression).WithFormatterAnnotation();
 
             return document.ReplaceNodeAsync(whileStatement, newNode, cancellationToken);
         }
@@ -55,13 +54,12 @@ namespace Roslynator.CSharp.Refactorings.ExtractCondition
             Document document,
             WhileStatementSyntax whileStatement,
             BinaryExpressionSyntax condition,
-            in BinaryExpressionSelection binaryExpressionSelection,
+            in BinaryExpressionChain binaryExpressionChain,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            WhileStatementSyntax newNode = RemoveExpressionsFromCondition(whileStatement, condition, binaryExpressionSelection);
+            WhileStatementSyntax newNode = RemoveExpressionsFromCondition(whileStatement, condition, binaryExpressionChain);
 
-            newNode = AddNestedIf(newNode, binaryExpressionSelection)
-                .WithFormatterAnnotation();
+            newNode = AddNestedIf(newNode, binaryExpressionChain).WithFormatterAnnotation();
 
             return document.ReplaceNodeAsync(whileStatement, newNode, cancellationToken);
         }

@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Roslynator.CSharp
 {
+    //TODO: remove BinaryExpressionSelection
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     internal readonly struct BinaryExpressionSelection
     {
