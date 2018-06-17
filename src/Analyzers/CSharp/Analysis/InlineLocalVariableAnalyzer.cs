@@ -154,6 +154,9 @@ namespace Roslynator.CSharp.Analysis
             int index,
             ExpressionStatementSyntax expressionStatement)
         {
+            if (expressionStatement.SpanOrLeadingTriviaContainsDirectives())
+                return;
+
             SimpleAssignmentExpressionInfo assignment = SyntaxInfo.SimpleAssignmentExpressionInfo(expressionStatement.Expression);
 
             if (!assignment.Success)
@@ -164,35 +167,29 @@ namespace Roslynator.CSharp.Analysis
 
             var identifierName = (IdentifierNameSyntax)assignment.Right;
 
-            string name = localDeclarationInfo.IdentifierText;
-
-            if (!string.Equals(name, identifierName.Identifier.ValueText, StringComparison.Ordinal))
+            if (!string.Equals(localDeclarationInfo.IdentifierText, identifierName.Identifier.ValueText, StringComparison.Ordinal))
                 return;
 
-            VariableDeclaratorSyntax declarator = localDeclarationInfo.Declarator;
+            SemanticModel semanticModel = context.SemanticModel;
+            CancellationToken cancellationToken = context.CancellationToken;
 
-            ISymbol localSymbol = context.SemanticModel.GetDeclaredSymbol(declarator, context.CancellationToken);
+            ISymbol localSymbol = semanticModel.GetDeclaredSymbol(localDeclarationInfo.Declarator, cancellationToken);
 
             if (localSymbol?.IsErrorType() != false)
                 return;
 
-            bool isReferenced = IsLocalVariableReferenced(localSymbol, assignment.Left, assignment.Left.Span, context.SemanticModel, context.CancellationToken);
+            if (IsLocalVariableReferenced(localSymbol, assignment.Left, assignment.Left.Span, semanticModel, cancellationToken))
+                return;
 
-            if (!isReferenced
-                && index < statements.Count - 2)
+            if (index < statements.Count - 2)
             {
                 TextSpan span = TextSpan.FromBounds(statements[index + 2].SpanStart, statements.Last().Span.End);
 
-                isReferenced = IsLocalVariableReferenced(localSymbol, localDeclarationInfo.Statement.Parent, span, context.SemanticModel, context.CancellationToken);
+                if (IsLocalVariableReferenced(localSymbol, localDeclarationInfo.Statement.Parent, span, semanticModel, cancellationToken))
+                    return;
             }
 
-            if (isReferenced)
-                return;
-
-            if (expressionStatement.SpanOrLeadingTriviaContainsDirectives())
-                return;
-
-            ReportDiagnostic(context, localDeclarationInfo, assignment.Right);
+            ReportDiagnostic(context, localDeclarationInfo, identifierName);
         }
 
         private static void Analyze(
@@ -202,39 +199,41 @@ namespace Roslynator.CSharp.Analysis
             int index,
             LocalDeclarationStatementSyntax localDeclaration2)
         {
-            ExpressionSyntax value2 = localDeclaration2
+            if (localDeclaration2.SpanOrLeadingTriviaContainsDirectives())
+                return;
+
+            ExpressionSyntax value = localDeclaration2
                 .Declaration?
                 .Variables
                 .SingleOrDefault(shouldThrow: false)?
                 .Initializer?
                 .Value;
 
-            if (value2?.Kind() != SyntaxKind.IdentifierName)
+            if (value?.Kind() != SyntaxKind.IdentifierName)
                 return;
 
-            var identifierName = (IdentifierNameSyntax)value2;
+            var identifierName = (IdentifierNameSyntax)value;
 
-            string name = localDeclarationInfo.IdentifierText;
-
-            if (!string.Equals(name, identifierName.Identifier.ValueText, StringComparison.Ordinal))
+            if (!string.Equals(localDeclarationInfo.IdentifierText, identifierName.Identifier.ValueText, StringComparison.Ordinal))
                 return;
 
-            bool isReferenced = false;
+            SemanticModel semanticModel = context.SemanticModel;
+            CancellationToken cancellationToken = context.CancellationToken;
+
+            ISymbol localSymbol = semanticModel.GetDeclaredSymbol(localDeclarationInfo.Declarator, cancellationToken);
+
+            if (localSymbol?.IsErrorType() != false)
+                return;
 
             if (index < statements.Count - 2)
             {
                 TextSpan span = TextSpan.FromBounds(statements[index + 2].SpanStart, statements.Last().Span.End);
 
-                isReferenced = IsLocalVariableReferenced(localDeclarationInfo.Declarator, localDeclarationInfo.Statement.Parent, span, context.SemanticModel, context.CancellationToken);
+                if (IsLocalVariableReferenced(localSymbol, localDeclarationInfo.Statement.Parent, span, semanticModel, cancellationToken))
+                    return;
             }
 
-            if (isReferenced)
-                return;
-
-            if (localDeclaration2.SpanOrLeadingTriviaContainsDirectives())
-                return;
-
-            ReportDiagnostic(context, localDeclarationInfo, value2);
+            ReportDiagnostic(context, localDeclarationInfo, identifierName);
         }
 
         private static void Analyze(
@@ -243,24 +242,30 @@ namespace Roslynator.CSharp.Analysis
             in SingleLocalDeclarationStatementInfo localDeclarationInfo,
             ExpressionSyntax expression)
         {
+            SyntaxNode parent = localDeclarationInfo.Statement.Parent;
+
+            if (parent.ContainsDirectives(TextSpan.FromBounds(expression.Parent.FullSpan.Start, expression.Span.End)))
+                return;
+
             if (expression?.Kind() != SyntaxKind.IdentifierName)
                 return;
 
             var identifierName = (IdentifierNameSyntax)expression;
 
-            string name = localDeclarationInfo.IdentifierText;
+            if (!string.Equals(localDeclarationInfo.IdentifierText, identifierName.Identifier.ValueText, StringComparison.Ordinal))
+                return;
 
-            if (!string.Equals(name, identifierName.Identifier.ValueText, StringComparison.Ordinal))
+            SemanticModel semanticModel = context.SemanticModel;
+            CancellationToken cancellationToken = context.CancellationToken;
+
+            ISymbol localSymbol = semanticModel.GetDeclaredSymbol(localDeclarationInfo.Declarator, cancellationToken);
+
+            if (localSymbol?.IsErrorType() != false)
                 return;
 
             TextSpan span = TextSpan.FromBounds(expression.Span.End, statements.Last().Span.End);
 
-            SyntaxNode parent = localDeclarationInfo.Statement.Parent;
-
-            if (IsLocalVariableReferenced(localDeclarationInfo.Declarator, parent, span, context.SemanticModel, context.CancellationToken))
-                return;
-
-            if (parent.ContainsDirectives(TextSpan.FromBounds(localDeclarationInfo.Statement.SpanStart, expression.Span.End)))
+            if (IsLocalVariableReferenced(localSymbol, parent, span, semanticModel, cancellationToken))
                 return;
 
             ReportDiagnostic(context, localDeclarationInfo, expression);
@@ -281,19 +286,6 @@ namespace Roslynator.CSharp.Analysis
             context.ReportToken(DiagnosticDescriptors.InlineLocalVariableFadeOut, localDeclarationInfo.EqualsToken);
             context.ReportToken(DiagnosticDescriptors.InlineLocalVariableFadeOut, localDeclarationInfo.SemicolonToken);
             context.ReportNode(DiagnosticDescriptors.InlineLocalVariableFadeOut, expression);
-        }
-
-        private static bool IsLocalVariableReferenced(
-            VariableDeclaratorSyntax declarator,
-            SyntaxNode node,
-            TextSpan span,
-            SemanticModel semanticModel,
-            CancellationToken cancellationToken)
-        {
-            ISymbol symbol = semanticModel.GetDeclaredSymbol(declarator, cancellationToken);
-
-            return symbol?.IsErrorType() == false
-                && IsLocalVariableReferenced(symbol, node, span, semanticModel, cancellationToken);
         }
 
         private static bool IsLocalVariableReferenced(
