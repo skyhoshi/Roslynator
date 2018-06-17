@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -64,6 +63,7 @@ namespace Roslynator.CSharp.Syntax
             get { return ToDebugString(Success, this, BinaryExpression); }
         }
 
+        //TODO: make obsolete
         /// <summary>
         /// Returns expressions of this binary expression, including expressions of nested binary expressions of the same kind.
         /// </summary>
@@ -144,35 +144,9 @@ namespace Roslynator.CSharp.Syntax
             }
         }
 
-        internal bool IsStringConcatenation(SemanticModel semanticModel, CancellationToken cancellationToken = default(CancellationToken))
+        internal BinaryExpressionChain AsChain()
         {
-            if (semanticModel == null)
-                throw new ArgumentNullException(nameof(semanticModel));
-
-            ThrowInvalidOperationIfNotInitialized();
-
-            BinaryExpressionSyntax binaryExpression = BinaryExpression;
-
-            while (true)
-            {
-                if (CSharpUtility.IsStringConcatenation(binaryExpression, semanticModel, cancellationToken))
-                {
-                    ExpressionSyntax left = binaryExpression.Left;
-
-                    if (left.IsKind(SyntaxKind.AddExpression))
-                    {
-                        binaryExpression = (BinaryExpressionSyntax)left;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
+            return new BinaryExpressionChain(BinaryExpression);
         }
 
         internal static BinaryExpressionInfo Create(

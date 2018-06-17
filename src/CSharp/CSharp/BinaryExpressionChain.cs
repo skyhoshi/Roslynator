@@ -5,12 +5,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Roslynator.CSharp
 {
+    //TODO: rename to ExpressionChain
     //TODO: make public
     /// <summary>
     /// Enables to enumerate expressions of binary expression and expressions of nested binary expressions of the same kind.
@@ -117,6 +120,56 @@ namespace Roslynator.CSharp
             return new Reversed(this);
         }
 
+        internal bool ContainsMultiLineExpression()
+        {
+            Enumerator en = GetEnumerator();
+
+            while (en.MoveNext())
+            {
+                if (en.Current.IsMultiLine(includeExteriorTrivia: false))
+                    return true;
+            }
+
+            return false;
+        }
+
+        internal bool IsStringConcatenation(
+            SemanticModel semanticModel,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (!BinaryExpression.IsKind(SyntaxKind.AddExpression))
+                return false;
+
+            Enumerator en = GetEnumerator();
+
+            if (!en.MoveNext())
+                return false;
+
+            var binaryExpression = (BinaryExpressionSyntax)en.Current.Parent;
+
+            if (!en.MoveNext())
+                return false;
+
+            while (true)
+            {
+                if (!CSharpUtility.IsStringConcatenation(binaryExpression, semanticModel, cancellationToken))
+                    return false;
+
+                ExpressionSyntax prev = en.Current;
+
+                if (en.MoveNext())
+                {
+                    binaryExpression = (BinaryExpressionSyntax)prev.Parent;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Gets the enumerator for the expressions.
         /// </summary>
@@ -193,7 +246,6 @@ namespace Roslynator.CSharp
         [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "<Pending>")]
         [SuppressMessage("Performance", "CA1815:Override equals and operator equals on value types", Justification = "<Pending>")]
         [SuppressMessage("Usage", "CA2231:Overload operator equals on overriding value type Equals", Justification = "<Pending>")]
-        [SuppressMessage("Usage", "RCS1224:Use DebuggerDisplay attribute for publicly visible type.", Justification = "<Pending>")]
         public struct Enumerator
         {
             private BinaryExpressionChain _binaryExpressionChain;

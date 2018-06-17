@@ -69,6 +69,7 @@ namespace Roslynator.CSharp.Refactorings
             return RefactorAsync(document, concatenationInfo, newExpression, cancellationToken);
         }
 
+        //TODO: span?
         private static Task<Document> RefactorAsync(
             Document document,
             in StringConcatenationExpressionInfo concatenationInfo,

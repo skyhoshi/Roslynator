@@ -130,6 +130,7 @@ namespace Roslynator.CSharp
                             i++;
                         }
                     }
+
                     StringBuilder.Append(value, lastIndex, length - lastIndex);
                 }
             }
