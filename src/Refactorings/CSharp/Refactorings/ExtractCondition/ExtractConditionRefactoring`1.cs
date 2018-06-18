@@ -63,7 +63,7 @@ namespace Roslynator.CSharp.Refactorings.ExtractCondition
             TStatement statement,
             in BinaryExpressionChain binaryExpressionChain)
         {
-            ExpressionSyntax expression = ParseExpression(binaryExpressionChain.BinaryExpression.ToString(binaryExpressionChain.ExpressionsSpan));
+            ExpressionSyntax expression = ParseExpression(binaryExpressionChain.ToString());
 
             return AddNestedIf(statement, expression);
         }

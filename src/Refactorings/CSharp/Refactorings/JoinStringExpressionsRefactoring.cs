@@ -69,20 +69,21 @@ namespace Roslynator.CSharp.Refactorings
             return RefactorAsync(document, concatenationInfo, newExpression, cancellationToken);
         }
 
-        //TODO: span?
         private static Task<Document> RefactorAsync(
             Document document,
             in StringConcatenationExpressionInfo concatenationInfo,
             ExpressionSyntax expression,
             CancellationToken cancellationToken)
         {
+            BinaryExpressionSyntax binaryExpression = concatenationInfo.BinaryExpression;
+
             if (concatenationInfo.Span.HasValue)
             {
                 TextSpan span = concatenationInfo.Span.Value;
 
-                int start = concatenationInfo.BinaryExpression.SpanStart;
+                int start = binaryExpression.SpanStart;
 
-                string s = concatenationInfo.BinaryExpression.ToString();
+                string s = binaryExpression.ToString();
 
                 s = s.Remove(span.Start - start)
                     + expression
@@ -92,10 +93,10 @@ namespace Roslynator.CSharp.Refactorings
             }
 
             expression = expression
-                .WithTriviaFrom(concatenationInfo.BinaryExpression)
+                .WithTriviaFrom(binaryExpression)
                 .WithFormatterAnnotation();
 
-            return document.ReplaceNodeAsync(concatenationInfo.BinaryExpression, expression, cancellationToken);
+            return document.ReplaceNodeAsync(binaryExpression, expression, cancellationToken);
         }
     }
 }

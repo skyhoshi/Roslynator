@@ -39,7 +39,8 @@ namespace Roslynator.CSharp.Refactorings
             ExpressionSyntax condition = ifStatement.Condition;
 
             List<IfStatementSyntax> ifStatements = SyntaxInfo.BinaryExpressionInfo(condition)
-                .Expressions(leftToRight: true)
+                .AsChain()
+                .Reverse()
                 .Select(expression => IfStatement(expression.TrimTrivia(), statement).WithFormatterAnnotation())
                 .ToList();
 

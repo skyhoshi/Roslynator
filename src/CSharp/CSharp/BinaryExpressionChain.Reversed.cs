@@ -91,7 +91,7 @@ namespace Roslynator.CSharp
 
                 private TextSpan Span
                 {
-                    get { return _chain.Span; }
+                    get { return _chain.OriginalSpan; }
                 }
 
                 public bool MoveNext()
