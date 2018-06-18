@@ -5,21 +5,32 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Roslynator.CSharp
 {
+    //TODO: rename to ExpressionChain
     //TODO: make public
     /// <summary>
-    /// Enables to enumerate nested binary expressions of the same kind.
+    /// Enables to enumerate expressions of binary expression and expressions of nested binary expressions of the same kind.
     /// </summary>
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
-    internal readonly struct BinaryExpressionChain : IEquatable<BinaryExpressionChain>, IEnumerable<ExpressionSyntax>
+    internal partial struct BinaryExpressionChain : IEquatable<BinaryExpressionChain>, IEnumerable<ExpressionSyntax>
     {
         internal BinaryExpressionChain(BinaryExpressionSyntax binaryExpression)
         {
             BinaryExpression = binaryExpression;
+            Span = binaryExpression.FullSpan;
+        }
+
+        internal BinaryExpressionChain(BinaryExpressionSyntax binaryExpression, TextSpan span)
+        {
+            BinaryExpression = binaryExpression;
+            Span = span;
         }
 
         /// <summary>
@@ -27,15 +38,74 @@ namespace Roslynator.CSharp
         /// </summary>
         public BinaryExpressionSyntax BinaryExpression { get; }
 
+        /// <summary>
+        /// The text span.
+        /// </summary>
+        public TextSpan Span { get; }
+
+        internal TextSpan ExpressionsSpan
+        {
+            get
+            {
+                Enumerator en = GetEnumerator();
+
+                if (en.MoveNext())
+                {
+                    int end = en.Current.Span.End;
+
+                    int start = en.Current.SpanStart;
+
+                    while (en.MoveNext())
+                        start = en.Current.SpanStart;
+
+                    return TextSpan.FromBounds(start, end);
+                }
+
+                return default;
+            }
+        }
+
         private int Count
         {
             get
             {
                 int count = 0;
-                foreach (ExpressionSyntax expression in this)
+
+                Enumerator en = GetEnumerator();
+                while (en.MoveNext())
                     count++;
 
                 return count;
+            }
+        }
+
+        internal ExpressionSyntax FirstExpression
+        {
+            get
+            {
+                Enumerator en = GetEnumerator();
+
+                return (en.MoveNext()) ? en.Current : null;
+            }
+        }
+
+        internal ExpressionSyntax LastExpression
+        {
+            get
+            {
+                Enumerator en = GetEnumerator();
+
+                if (en.MoveNext())
+                {
+                    ExpressionSyntax e = en.Current;
+
+                    while (en.MoveNext())
+                        e = en.Current;
+
+                    return e;
+                }
+
+                return default;
             }
         }
 
@@ -45,19 +115,74 @@ namespace Roslynator.CSharp
             get { return (BinaryExpression != null) ? $"Count = {Count} {BinaryExpression}" : "Uninitialized"; }
         }
 
+        public Reversed Reverse()
+        {
+            return new Reversed(this);
+        }
+
+        internal bool ContainsMultiLineExpression()
+        {
+            Enumerator en = GetEnumerator();
+
+            while (en.MoveNext())
+            {
+                if (en.Current.IsMultiLine(includeExteriorTrivia: false))
+                    return true;
+            }
+
+            return false;
+        }
+
+        internal bool IsStringConcatenation(
+            SemanticModel semanticModel,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (!BinaryExpression.IsKind(SyntaxKind.AddExpression))
+                return false;
+
+            Enumerator en = GetEnumerator();
+
+            if (!en.MoveNext())
+                return false;
+
+            var binaryExpression = (BinaryExpressionSyntax)en.Current.Parent;
+
+            if (!en.MoveNext())
+                return false;
+
+            while (true)
+            {
+                if (!CSharpUtility.IsStringConcatenation(binaryExpression, semanticModel, cancellationToken))
+                    return false;
+
+                ExpressionSyntax prev = en.Current;
+
+                if (en.MoveNext())
+                {
+                    binaryExpression = (BinaryExpressionSyntax)prev.Parent;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return true;
+        }
+
         /// <summary>
-        /// Gets the enumerator for the binary expression.
+        /// Gets the enumerator for the expressions.
         /// </summary>
         /// <returns></returns>
         public Enumerator GetEnumerator()
         {
-            return new Enumerator(BinaryExpression);
+            return new Enumerator(this);
         }
 
         IEnumerator<ExpressionSyntax> IEnumerable<ExpressionSyntax>.GetEnumerator()
         {
             if (BinaryExpression != null)
-                return new EnumeratorImpl(BinaryExpression);
+                return new EnumeratorImpl(this);
 
             return Empty.Enumerator<ExpressionSyntax>();
         }
@@ -65,7 +190,7 @@ namespace Roslynator.CSharp
         IEnumerator IEnumerable.GetEnumerator()
         {
             if (BinaryExpression != null)
-                return new EnumeratorImpl(BinaryExpression);
+                return new EnumeratorImpl(this);
 
             return Empty.Enumerator<ExpressionSyntax>();
         }
@@ -121,18 +246,27 @@ namespace Roslynator.CSharp
         [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "<Pending>")]
         [SuppressMessage("Performance", "CA1815:Override equals and operator equals on value types", Justification = "<Pending>")]
         [SuppressMessage("Usage", "CA2231:Overload operator equals on overriding value type Equals", Justification = "<Pending>")]
-        [SuppressMessage("Usage", "RCS1224:Use DebuggerDisplay attribute for publicly visible type.", Justification = "<Pending>")]
         public struct Enumerator
         {
-            private readonly BinaryExpressionSyntax _binaryExpression;
+            private BinaryExpressionChain _binaryExpressionChain;
             private ExpressionSyntax _current;
             private State _state;
 
-            internal Enumerator(BinaryExpressionSyntax binaryExpression)
+            internal Enumerator(in BinaryExpressionChain binaryExpressionChain)
             {
-                _binaryExpression = binaryExpression;
+                _binaryExpressionChain = binaryExpressionChain;
                 _current = null;
                 _state = State.Start;
+            }
+
+            private BinaryExpressionSyntax BinaryExpression
+            {
+                get { return _binaryExpressionChain.BinaryExpression; }
+            }
+
+            private TextSpan Span
+            {
+                get { return _binaryExpressionChain.Span; }
             }
 
             public bool MoveNext()
@@ -141,15 +275,55 @@ namespace Roslynator.CSharp
                 {
                     case State.Start:
                         {
-                            if (_binaryExpression == null)
+                            if (BinaryExpression == null)
                                 return false;
 
-                            _current = _binaryExpression.Right;
+                            ExpressionSyntax right = BinaryExpression.Right;
 
-                            Debug.Assert(_current != null, "BinaryExpressionSyntax.Right is null.");
+                            Debug.Assert(right != null, "BinaryExpressionSyntax.Right is null.");
 
-                            _state = State.Right;
-                            return true;
+                            if (IsInSpan(right.Span))
+                            {
+                                _current = right;
+                                _state = State.Right;
+                                return true;
+                            }
+
+                            BinaryExpressionSyntax binaryExpression = BinaryExpression;
+
+                            while (true)
+                            {
+                                ExpressionSyntax left = binaryExpression.Left;
+
+                                Debug.Assert(left != null, "BinaryExpressionSyntax.Left is null.");
+
+                                if (left.IsKind(binaryExpression.Kind()))
+                                {
+                                    binaryExpression = (BinaryExpressionSyntax)left;
+                                    right = binaryExpression.Right;
+
+                                    Debug.Assert(right != null, "BinaryExpressionSyntax.Right is null.");
+
+                                    if (IsInSpan(right.Span))
+                                    {
+                                        _current = right;
+                                        _state = State.Right;
+                                        return true;
+                                    }
+                                }
+                                else
+                                {
+                                    _state = State.Left;
+
+                                    if (IsInSpan(left.Span))
+                                    {
+                                        _current = left;
+                                        return true;
+                                    }
+
+                                    return false;
+                                }
+                            }
                         }
                     case State.Right:
                         {
@@ -157,23 +331,36 @@ namespace Roslynator.CSharp
 
                             ExpressionSyntax left = binaryExpression.Left;
 
+                            Debug.Assert(left != null, "BinaryExpressionSyntax.Left is null.");
+
                             if (left.IsKind(binaryExpression.Kind()))
                             {
                                 binaryExpression = (BinaryExpressionSyntax)left;
-                                _current = binaryExpression.Right;
-                                _state = State.Right;
 
-                                Debug.Assert(_current != null, "BinaryExpressionSyntax.Right is null.");
+                                ExpressionSyntax right = binaryExpression.Right;
+
+                                Debug.Assert(right != null, "BinaryExpressionSyntax.Right is null.");
+
+                                if (IsInSpan(right.Span))
+                                {
+                                    _current = right;
+                                    _state = State.Right;
+                                    return true;
+                                }
+                            }
+
+                            _state = State.Left;
+
+                            if (IsInSpan(left.Span))
+                            {
+                                _current = left;
+                                return true;
                             }
                             else
                             {
-                                _current = left;
-                                _state = State.Left;
-
-                                Debug.Assert(_current != null, "BinaryExpressionSyntax.Left is null.");
+                                _current = null;
+                                return false;
                             }
-
-                            return true;
                         }
                     case State.Left:
                         {
@@ -197,6 +384,12 @@ namespace Roslynator.CSharp
                 _state = State.Start;
             }
 
+            private bool IsInSpan(TextSpan span)
+            {
+                return Span.OverlapsWith(span)
+                    || (span.Length == 0 && Span.IntersectsWith(span));
+            }
+
             public override bool Equals(object obj)
             {
                 throw new NotSupportedException();
@@ -211,7 +404,7 @@ namespace Roslynator.CSharp
             {
                 Start = 0,
                 Left = 1,
-                Right = 2
+                Right = 2,
             }
         }
 
@@ -219,9 +412,9 @@ namespace Roslynator.CSharp
         {
             private Enumerator _en;
 
-            internal EnumeratorImpl(BinaryExpressionSyntax binaryExpression)
+            internal EnumeratorImpl(in BinaryExpressionChain binaryExpressionChain)
             {
-                _en = new Enumerator(binaryExpression);
+                _en = new Enumerator(binaryExpressionChain);
             }
 
             public ExpressionSyntax Current

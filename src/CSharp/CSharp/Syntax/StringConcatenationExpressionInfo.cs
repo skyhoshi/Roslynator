@@ -73,69 +73,21 @@ namespace Roslynator.CSharp.Syntax
             SemanticModel semanticModel,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (binaryExpression?.Kind() != SyntaxKind.AddExpression)
-                return default;
-
-            if (semanticModel == null)
-                throw new ArgumentNullException(nameof(semanticModel));
-
-            if (!IsStringConcatenation(binaryExpression, semanticModel, cancellationToken))
+            if (!binaryExpression.AsChain().IsStringConcatenation(semanticModel, cancellationToken))
                 return default;
 
             return new StringConcatenationExpressionInfo(binaryExpression);
         }
 
         internal static StringConcatenationExpressionInfo Create(
-            in BinaryExpressionSelection binaryExpressionSelection,
+            in BinaryExpressionChain chain,
             SemanticModel semanticModel,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            BinaryExpressionSyntax binaryExpression = binaryExpressionSelection.BinaryExpression;
-
-            if (binaryExpression?.Kind() != SyntaxKind.AddExpression)
+            if (!chain.IsStringConcatenation(semanticModel, cancellationToken))
                 return default;
 
-            if (semanticModel == null)
-                throw new ArgumentNullException(nameof(semanticModel));
-
-            foreach (ExpressionSyntax expression in binaryExpressionSelection.Expressions)
-            {
-                if (!CSharpUtility.IsStringExpression(expression, semanticModel, cancellationToken))
-                    return default;
-            }
-
-            return new StringConcatenationExpressionInfo(binaryExpression, binaryExpressionSelection.Span);
-        }
-
-        private static bool IsStringConcatenation(
-            BinaryExpressionSyntax binaryExpression,
-            SemanticModel semanticModel,
-            CancellationToken cancellationToken)
-        {
-            while (true)
-            {
-                if (binaryExpression.Right != null)
-                {
-                    ExpressionSyntax left = binaryExpression.Left;
-
-                    if (left != null
-                        && CSharpUtility.IsStringConcatenation(binaryExpression, semanticModel, cancellationToken))
-                    {
-                        if (left.Kind() == SyntaxKind.AddExpression)
-                        {
-                            binaryExpression = (BinaryExpressionSyntax)left;
-                        }
-                        else
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
+            return new StringConcatenationExpressionInfo(chain.BinaryExpression, chain.Span);
         }
 
         /// <summary>
@@ -145,7 +97,16 @@ namespace Roslynator.CSharp.Syntax
         /// <returns></returns>
         public IEnumerable<ExpressionSyntax> Expressions(bool leftToRight = false)
         {
-            return BinaryExpressionInfo.Create(BinaryExpression).Expressions(leftToRight);
+            var binaryExpressionChain = new BinaryExpressionChain(BinaryExpression, Span ?? BinaryExpression.FullSpan);
+
+            if (leftToRight)
+            {
+                return binaryExpressionChain.Reverse();
+            }
+            else
+            {
+                return binaryExpressionChain;
+            }
         }
 
         internal bool ContainsMultiLineExpression()
