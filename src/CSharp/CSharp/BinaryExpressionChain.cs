@@ -13,7 +13,6 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Roslynator.CSharp
 {
-    //TODO: rename to ExpressionChain, BinaryChain
     //TODO: make public
     /// <summary>
     /// Enables to enumerate expressions of binary expression and expressions of nested binary expressions of the same kind.
