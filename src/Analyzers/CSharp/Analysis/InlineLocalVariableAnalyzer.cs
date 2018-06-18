@@ -125,22 +125,62 @@ namespace Roslynator.CSharp.Analysis
                     }
                 case SyntaxKind.ForEachStatement:
                     {
-                        if (value.IsSingleLine()
-                            && !value.IsKind(SyntaxKind.ArrayInitializerExpression))
+                        if (!value.IsSingleLine())
+                            return;
+
+                        if (value.IsKind(SyntaxKind.ArrayInitializerExpression))
+                            return;
+
+                        var forEachStatement = (ForEachStatementSyntax)nextStatement;
+
+                        ISymbol localSymbol = GetLocalSymbol(localDeclarationInfo, forEachStatement.Expression, context.SemanticModel, context.CancellationToken);
+
+                        if (localSymbol?.IsErrorType() != false)
+                            return;
+
+                        ContainsLocalOrParameterReferenceWalker walker = ContainsLocalOrParameterReferenceWalker.GetInstance(localSymbol, context.SemanticModel, context.CancellationToken);
+
+                        walker.Visit(forEachStatement.Statement);
+
+                        if (!walker.Result
+                            && index < statements.Count - 2)
                         {
-                            var forEachStatement = (ForEachStatementSyntax)nextStatement;
-                            Analyze(context, statements, localDeclarationInfo, forEachStatement.Expression);
+                            walker.VisitList(statements, index + 2);
                         }
+
+                        if (ContainsLocalOrParameterReferenceWalker.GetResultAndFree(walker))
+                            return;
+
+                        ReportDiagnostic(context, localDeclarationInfo, forEachStatement.Expression);
 
                         break;
                     }
                 case SyntaxKind.SwitchStatement:
                     {
-                        if (value.IsSingleLine())
+                        if (!value.IsSingleLine())
+                            break;
+
+                        var switchStatement = (SwitchStatementSyntax)nextStatement;
+
+                        ISymbol localSymbol = GetLocalSymbol(localDeclarationInfo, switchStatement.Expression, context.SemanticModel, context.CancellationToken);
+
+                        if (localSymbol?.IsErrorType() != false)
+                            return;
+
+                        ContainsLocalOrParameterReferenceWalker walker = ContainsLocalOrParameterReferenceWalker.GetInstance(localSymbol, context.SemanticModel, context.CancellationToken);
+
+                        walker.VisitList(switchStatement.Sections);
+
+                        if (!walker.Result
+                            && index < statements.Count - 2)
                         {
-                            var switchStatement = (SwitchStatementSyntax)nextStatement;
-                            Analyze(context, statements, localDeclarationInfo, switchStatement.Expression);
+                            walker.VisitList(statements, index + 2);
                         }
+
+                        if (ContainsLocalOrParameterReferenceWalker.GetResultAndFree(walker))
+                            return;
+
+                        ReportDiagnostic(context, localDeclarationInfo, switchStatement.Expression);
 
                         break;
                     }
@@ -154,9 +194,6 @@ namespace Roslynator.CSharp.Analysis
             int index,
             ExpressionStatementSyntax expressionStatement)
         {
-            if (expressionStatement.SpanOrLeadingTriviaContainsDirectives())
-                return;
-
             SimpleAssignmentExpressionInfo assignment = SyntaxInfo.SimpleAssignmentExpressionInfo(expressionStatement.Expression);
 
             if (!assignment.Success)
@@ -170,24 +207,26 @@ namespace Roslynator.CSharp.Analysis
             if (!string.Equals(localDeclarationInfo.IdentifierText, identifierName.Identifier.ValueText, StringComparison.Ordinal))
                 return;
 
-            SemanticModel semanticModel = context.SemanticModel;
-            CancellationToken cancellationToken = context.CancellationToken;
+            if (expressionStatement.SpanOrLeadingTriviaContainsDirectives())
+                return;
 
-            ISymbol localSymbol = semanticModel.GetDeclaredSymbol(localDeclarationInfo.Declarator, cancellationToken);
+            ISymbol localSymbol = context.SemanticModel.GetDeclaredSymbol(localDeclarationInfo.Declarator, context.CancellationToken);
 
             if (localSymbol?.IsErrorType() != false)
                 return;
 
-            if (IsLocalVariableReferenced(localSymbol, assignment.Left, assignment.Left.Span, semanticModel, cancellationToken))
-                return;
+            ContainsLocalOrParameterReferenceWalker walker = ContainsLocalOrParameterReferenceWalker.GetInstance(localSymbol, context.SemanticModel, context.CancellationToken);
 
-            if (index < statements.Count - 2)
+            walker.Visit(assignment.Left);
+
+            if (!walker.Result
+                && index < statements.Count - 2)
             {
-                TextSpan span = TextSpan.FromBounds(statements[index + 2].SpanStart, statements.Last().Span.End);
-
-                if (IsLocalVariableReferenced(localSymbol, localDeclarationInfo.Statement.Parent, span, semanticModel, cancellationToken))
-                    return;
+                walker.VisitList(statements, index + 2);
             }
+
+            if (ContainsLocalOrParameterReferenceWalker.GetResultAndFree(walker))
+                return;
 
             ReportDiagnostic(context, localDeclarationInfo, identifierName);
         }
@@ -217,58 +256,44 @@ namespace Roslynator.CSharp.Analysis
             if (!string.Equals(localDeclarationInfo.IdentifierText, identifierName.Identifier.ValueText, StringComparison.Ordinal))
                 return;
 
-            SemanticModel semanticModel = context.SemanticModel;
-            CancellationToken cancellationToken = context.CancellationToken;
-
-            ISymbol localSymbol = semanticModel.GetDeclaredSymbol(localDeclarationInfo.Declarator, cancellationToken);
+            ISymbol localSymbol = context.SemanticModel.GetDeclaredSymbol(localDeclarationInfo.Declarator, context.CancellationToken);
 
             if (localSymbol?.IsErrorType() != false)
                 return;
 
             if (index < statements.Count - 2)
             {
-                TextSpan span = TextSpan.FromBounds(statements[index + 2].SpanStart, statements.Last().Span.End);
+                ContainsLocalOrParameterReferenceWalker walker = ContainsLocalOrParameterReferenceWalker.GetInstance(localSymbol, context.SemanticModel, context.CancellationToken);
 
-                if (IsLocalVariableReferenced(localSymbol, localDeclarationInfo.Statement.Parent, span, semanticModel, cancellationToken))
+                walker.VisitList(statements, index + 2);
+
+                if (ContainsLocalOrParameterReferenceWalker.GetResultAndFree(walker))
                     return;
             }
 
             ReportDiagnostic(context, localDeclarationInfo, identifierName);
         }
 
-        private static void Analyze(
-            SyntaxNodeAnalysisContext context,
-            SyntaxList<StatementSyntax> statements,
+        private static ISymbol GetLocalSymbol(
             in SingleLocalDeclarationStatementInfo localDeclarationInfo,
-            ExpressionSyntax expression)
+            ExpressionSyntax expression,
+            SemanticModel semanticModel,
+            CancellationToken cancellationToken)
         {
-            SyntaxNode parent = localDeclarationInfo.Statement.Parent;
-
-            if (parent.ContainsDirectives(TextSpan.FromBounds(expression.Parent.FullSpan.Start, expression.Span.End)))
-                return;
-
             if (expression?.Kind() != SyntaxKind.IdentifierName)
-                return;
+                return null;
 
             var identifierName = (IdentifierNameSyntax)expression;
 
             if (!string.Equals(localDeclarationInfo.IdentifierText, identifierName.Identifier.ValueText, StringComparison.Ordinal))
-                return;
+                return null;
 
-            SemanticModel semanticModel = context.SemanticModel;
-            CancellationToken cancellationToken = context.CancellationToken;
+            SyntaxNode parent = localDeclarationInfo.Statement.Parent;
 
-            ISymbol localSymbol = semanticModel.GetDeclaredSymbol(localDeclarationInfo.Declarator, cancellationToken);
+            if (parent.ContainsDirectives(TextSpan.FromBounds(expression.Parent.FullSpan.Start, expression.Span.End)))
+                return null;
 
-            if (localSymbol?.IsErrorType() != false)
-                return;
-
-            TextSpan span = TextSpan.FromBounds(expression.Span.End, statements.Last().Span.End);
-
-            if (IsLocalVariableReferenced(localSymbol, parent, span, semanticModel, cancellationToken))
-                return;
-
-            ReportDiagnostic(context, localDeclarationInfo, expression);
+            return semanticModel.GetDeclaredSymbol(localDeclarationInfo.Declarator, cancellationToken);
         }
 
         private static void ReportDiagnostic(
@@ -286,16 +311,6 @@ namespace Roslynator.CSharp.Analysis
             context.ReportToken(DiagnosticDescriptors.InlineLocalVariableFadeOut, localDeclarationInfo.EqualsToken);
             context.ReportToken(DiagnosticDescriptors.InlineLocalVariableFadeOut, localDeclarationInfo.SemicolonToken);
             context.ReportNode(DiagnosticDescriptors.InlineLocalVariableFadeOut, expression);
-        }
-
-        private static bool IsLocalVariableReferenced(
-            ISymbol symbol,
-            SyntaxNode node,
-            TextSpan span,
-            SemanticModel semanticModel,
-            CancellationToken cancellationToken)
-        {
-            return LocalOrParameterReferenceWalker.ContainsReference(node, symbol, semanticModel, span, cancellationToken);
         }
     }
 }
