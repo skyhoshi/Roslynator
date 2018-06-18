@@ -61,7 +61,7 @@ namespace Roslynator.CodeGeneration.CSharp
         private static INamedTypeSymbol SyntaxTokenListSymbol => _syntaxTokenListSymbol ?? (_syntaxTokenListSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.SyntaxTokenList"));
         private static INamedTypeSymbol TypeSyntaxSymbol => _typeSyntaxSymbol ?? (_typeSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.TypeSyntax"));
 
-        private static ImmutableArray<IMethodSymbol> VisitMethods
+        private static ImmutableArray<IMethodSymbol> VisitMethodSymbols
         {
             get
             {
@@ -125,7 +125,7 @@ namespace Roslynator.CodeGeneration.CSharp
             if (ShouldGenerateVisitType)
                 members.Add(GenerateVisitTypeMethodDeclaration());
 
-            foreach (ISymbol symbol in VisitMethods)
+            foreach (ISymbol symbol in VisitMethodSymbols)
             {
                 members.Add(GenerateVisitMethodDeclaration((IMethodSymbol)symbol));
             }
@@ -677,6 +677,7 @@ namespace Roslynator.CodeGeneration.CSharp
                                 "token",
                                 IdentifierName("list"),
                                 Block(
+                                    IfNotShouldVisitReturnStatement(),
                                     ExpressionStatement(
                                         InvocationExpression(
                                             IdentifierName("VisitToken"),
@@ -723,7 +724,7 @@ namespace Roslynator.CodeGeneration.CSharp
 
         private static IMethodSymbol FindVisitMethod(ITypeSymbol typeSymbol)
         {
-            foreach (IMethodSymbol methodSymbol in VisitMethods)
+            foreach (IMethodSymbol methodSymbol in VisitMethodSymbols)
             {
                 if (methodSymbol.Parameters.Single().Type.Equals(typeSymbol))
                     return methodSymbol;
