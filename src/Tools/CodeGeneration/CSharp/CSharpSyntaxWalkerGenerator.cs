@@ -13,7 +13,6 @@ using static Roslynator.CSharp.CSharpFactory;
 
 namespace Roslynator.CodeGeneration.CSharp
 {
-    //TODO: Options: VisitType, VisitFunction, Partial
     public class CSharpSyntaxWalkerGenerator
     {
         private static readonly SymbolDisplayFormat _symbolDisplayFormat = new SymbolDisplayFormat(
@@ -28,16 +27,64 @@ namespace Roslynator.CodeGeneration.CSharp
                 | SymbolDisplayMiscellaneousOptions.EscapeKeywordIdentifiers
                 | SymbolDisplayMiscellaneousOptions.RemoveAttributeSuffix);
 
-        private Compilation _compilation;
-        private INamedTypeSymbol _csharpSyntaxWalkerSymbol;
-        private INamedTypeSymbol _syntaxNodeSymbol;
-        private INamedTypeSymbol _syntaxListSymbol;
-        private INamedTypeSymbol _separatedSyntaxListSymbol;
-        private INamedTypeSymbol _syntaxTokenSymbol;
-        private INamedTypeSymbol _syntaxTokenListSymbol;
-        private INamedTypeSymbol _typeSyntaxSymbol;
+        private static Compilation _compilation;
+        private static INamedTypeSymbol _csharpSyntaxWalkerSymbol;
+        private static INamedTypeSymbol _syntaxNodeSymbol;
+        private static INamedTypeSymbol _syntaxListSymbol;
+        private static INamedTypeSymbol _separatedSyntaxListSymbol;
+        private static INamedTypeSymbol _syntaxTokenSymbol;
+        private static INamedTypeSymbol _syntaxTokenListSymbol;
+        private static INamedTypeSymbol _typeSyntaxSymbol;
+        private static ImmutableArray<IMethodSymbol> _visitMethods;
 
-        public Compilation Compilation
+        public CSharpSyntaxWalkerGenerator(
+            SyntaxWalkerDepth depth = SyntaxWalkerDepth.Node,
+            bool shouldVisitFunction = true,
+            bool shouldGenerateVisitType = false)
+        {
+            Depth = depth;
+            ShouldVisitFunction = shouldVisitFunction;
+            ShouldGenerateVisitType = shouldGenerateVisitType;
+        }
+
+        public SyntaxWalkerDepth Depth { get; }
+
+        public bool ShouldVisitFunction { get; }
+
+        public bool ShouldGenerateVisitType { get; }
+
+        private static INamedTypeSymbol CSharpSyntaxWalkerSymbol => _csharpSyntaxWalkerSymbol ?? (_csharpSyntaxWalkerSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.CSharpSyntaxWalker"));
+        private static INamedTypeSymbol SyntaxNodeSymbol => _syntaxNodeSymbol ?? (_syntaxNodeSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode"));
+        private static INamedTypeSymbol SyntaxListSymbol => _syntaxListSymbol ?? (_syntaxListSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.SyntaxList`1"));
+        private static INamedTypeSymbol SeparatedSyntaxListSymbol => _separatedSyntaxListSymbol ?? (_separatedSyntaxListSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.SeparatedSyntaxList`1"));
+        private static INamedTypeSymbol SyntaxTokenSymbol => _syntaxTokenSymbol ?? (_syntaxTokenSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.SyntaxToken"));
+        private static INamedTypeSymbol SyntaxTokenListSymbol => _syntaxTokenListSymbol ?? (_syntaxTokenListSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.SyntaxTokenList"));
+        private static INamedTypeSymbol TypeSyntaxSymbol => _typeSyntaxSymbol ?? (_typeSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.TypeSyntax"));
+
+        private static ImmutableArray<IMethodSymbol> VisitMethods
+        {
+            get
+            {
+                if (_visitMethods.IsDefault)
+                {
+                    _visitMethods = CSharpSyntaxWalkerSymbol
+                        .BaseType
+                        .GetMembers()
+                        .Where(f => f.Kind == SymbolKind.Method
+                            && f.DeclaredAccessibility == Accessibility.Public
+                            && f.IsVirtual
+                            && f.Name.Length > 5
+                            && f.Name.StartsWith("Visit", StringComparison.Ordinal))
+                        .OrderBy(f => f.Name)
+                        .Cast<IMethodSymbol>()
+                        .ToImmutableArray();
+                }
+
+                return _visitMethods;
+            }
+        }
+
+        private static Compilation Compilation
         {
             get
             {
@@ -58,34 +105,27 @@ namespace Roslynator.CodeGeneration.CSharp
             }
         }
 
-        public INamedTypeSymbol CSharpSyntaxWalkerSymbol => _csharpSyntaxWalkerSymbol ?? (_csharpSyntaxWalkerSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.CSharpSyntaxWalker"));
-        public INamedTypeSymbol SyntaxNodeSymbol => _syntaxNodeSymbol ?? (_syntaxNodeSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode"));
-        public INamedTypeSymbol SyntaxListSymbol => _syntaxListSymbol ?? (_syntaxListSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.SyntaxList`1"));
-        public INamedTypeSymbol SeparatedSyntaxListSymbol => _separatedSyntaxListSymbol ?? (_separatedSyntaxListSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.SeparatedSyntaxList`1"));
-        public INamedTypeSymbol SyntaxTokenSymbol => _syntaxTokenSymbol ?? (_syntaxTokenSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.SyntaxToken"));
-        public INamedTypeSymbol SyntaxTokenListSymbol => _syntaxTokenListSymbol ?? (_syntaxTokenListSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.SyntaxTokenList"));
-        public INamedTypeSymbol TypeSyntaxSymbol => _typeSyntaxSymbol ?? (_typeSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.TypeSyntax"));
-
         public SyntaxList<MemberDeclarationSyntax> GenerateMemberDeclarations()
         {
-            var members = new List<MemberDeclarationSyntax>()
-            {
-                GenerateVisitConstructorDeclaration(),
-                GenerateVisitListMethodDeclaration(),
-                GenerateVisitSeparatedSyntaxListMethodDeclaration(),
-                GenerateVisitTokenListMethodDeclaration(),
-                GenerateVisitTypeMethodDeclaration()
-            };
+            var members = new List<MemberDeclarationSyntax>() { GenerateVisitConstructorDeclaration() };
 
-            foreach (ISymbol symbol in CSharpSyntaxWalkerSymbol
-                .BaseType
-                .GetMembers()
-                .Where(f => f.Kind == SymbolKind.Method
-                    && f.DeclaredAccessibility == Accessibility.Public
-                    && f.IsVirtual
-                    && f.Name.Length > 5
-                    && f.Name.StartsWith("Visit", StringComparison.Ordinal))
-                .OrderBy(f => f.Name))
+            members.Add(GenerateShouldVisitMethodDeclaration());
+
+            members.Add(GenerateVisitMethodDeclaration());
+
+            if (Depth >= SyntaxWalkerDepth.Node)
+            {
+                members.Add(GenerateVisitListMethodDeclaration());
+                members.Add(GenerateVisitSeparatedSyntaxListMethodDeclaration());
+            }
+
+            if (Depth >= SyntaxWalkerDepth.Token)
+                members.Add(GenerateVisitTokenListMethodDeclaration());
+
+            if (ShouldGenerateVisitType)
+                members.Add(GenerateVisitTypeMethodDeclaration());
+
+            foreach (ISymbol symbol in VisitMethods)
             {
                 members.Add(GenerateVisitMethodDeclaration((IMethodSymbol)symbol));
             }
@@ -97,12 +137,38 @@ namespace Roslynator.CodeGeneration.CSharp
         {
             IParameterSymbol parameter = methodSymbol.Parameters.Single();
 
+            BlockSyntax body = null;
+
+            if (ShouldVisitFunction
+                || !IsVisitFunction())
+            {
+                body = Block(GenerateVisitStatements(parameter));
+            }
+            else
+            {
+                body = Block();
+            }
+
             return MethodDeclaration(
                 Modifiers.PublicOverride(),
                 VoidType(),
                 Identifier(methodSymbol.Name),
                 ParseParameterList($"({parameter.ToDisplayString(_symbolDisplayFormat)})"),
-                Block(GenerateVisitStatements(parameter)));
+                body);
+
+            bool IsVisitFunction()
+            {
+                switch (methodSymbol.Name)
+                {
+                    case "VisitSimpleLambdaExpression":
+                    case "VisitParenthesizedLambdaExpression":
+                    case "VisitAnonymousMethodExpression":
+                    case "VisitLocalFunctionStatement":
+                        return true;
+                    default:
+                        return false;
+                }
+            }
         }
 
         private IEnumerable<StatementSyntax> GenerateVisitStatements(IParameterSymbol parameterSymbol)
@@ -130,9 +196,9 @@ namespace Roslynator.CodeGeneration.CSharp
 
                 if (propertyType.OriginalDefinition.Equals(SyntaxListSymbol))
                 {
-                    string typeArgumentName = ((INamedTypeSymbol)propertyType).TypeArguments.Single().Name;
+                    ITypeSymbol typeArgumentSymbol = ((INamedTypeSymbol)propertyType).TypeArguments.Single();
 
-                    switch (typeArgumentName)
+                    switch (typeArgumentSymbol.Name)
                     {
                         case "InterpolatedStringContentSyntax":
                         case "MemberDeclarationSyntax":
@@ -145,18 +211,29 @@ namespace Roslynator.CodeGeneration.CSharp
                                 yield return GenerateVisitNonSpecificListStatement("VisitList", parameterName, propertyName);
                                 break;
                             }
+                        case "AccessorDeclarationSyntax":
+                        case "ArrayRankSpecifierSyntax":
+                        case "AttributeListSyntax":
+                        case "CatchClauseSyntax":
+                        case "ExternAliasDirectiveSyntax":
+                        case "SwitchSectionSyntax":
+                        case "TypeParameterConstraintClauseSyntax":
+                        case "UsingDirectiveSyntax":
+                            {
+                                yield return GenerateVisitSpecificListStatement(typeArgumentSymbol, parameterName, propertyName);
+                                break;
+                            }
                         default:
                             {
-                                yield return GenerateVisitSpecificListStatement(typeArgumentName, parameterName, propertyName);
-                                break;
+                                throw new InvalidOperationException($"Unrecognized type '{typeArgumentSymbol.ToDisplayString()}'.");
                             }
                     }
                 }
                 else if (propertyType.OriginalDefinition.Equals(SeparatedSyntaxListSymbol))
                 {
-                    string typeArgumentName = ((INamedTypeSymbol)propertyType).TypeArguments.Single().Name;
+                    ITypeSymbol typeArgumentSymbol = ((INamedTypeSymbol)propertyType).TypeArguments.Single();
 
-                    switch (typeArgumentName)
+                    switch (typeArgumentSymbol.Name)
                     {
                         case "BaseTypeSyntax":
                         case "ExpressionSyntax":
@@ -166,10 +243,25 @@ namespace Roslynator.CodeGeneration.CSharp
                                 yield return GenerateVisitNonSpecificListStatement("VisitSeparatedList", parameterName, propertyName);
                                 break;
                             }
+                        case "AnonymousObjectMemberDeclaratorSyntax":
+                        case "ArgumentSyntax":
+                        case "AttributeArgumentSyntax":
+                        case "AttributeSyntax":
+                        case "CrefParameterSyntax":
+                        case "EnumMemberDeclarationSyntax":
+                        case "OrderingSyntax":
+                        case "ParameterSyntax":
+                        case "TupleElementSyntax":
+                        case "TypeSyntax":
+                        case "TypeParameterSyntax":
+                        case "VariableDeclaratorSyntax":
+                            {
+                                yield return GenerateVisitSpecificListStatement(typeArgumentSymbol, parameterName, propertyName);
+                                break;
+                            }
                         default:
                             {
-                                yield return GenerateVisitSpecificListStatement(typeArgumentName, parameterName, propertyName);
-                                break;
+                                throw new InvalidOperationException($"Unrecognized type '{typeArgumentSymbol.ToDisplayString()}'.");
                             }
                     }
                 }
@@ -221,7 +313,9 @@ namespace Roslynator.CodeGeneration.CSharp
                         case "XmlNameSyntax":
                         case "XmlPrefixSyntax":
                             {
-                                foreach (StatementSyntax statement in GenerateVisitStatements(propertySymbol, parameterName, propertyType.Name.Remove(propertyType.Name.Length - 6)))
+                                string methodNameSuffix = propertyType.Name.Remove(propertyType.Name.Length - 6);
+
+                                foreach (StatementSyntax statement in GenerateVisitStatements(propertySymbol, parameterName, methodNameSuffix))
                                     yield return statement;
 
                                 break;
@@ -251,9 +345,35 @@ namespace Roslynator.CodeGeneration.CSharp
                             }
                     }
                 }
-                else if (!CSharpFacts.IsPredefinedType(propertyType.SpecialType)
-                    && !propertyType.Equals(SyntaxTokenSymbol)
-                    && !propertyType.Equals(SyntaxTokenListSymbol))
+                else if (propertyType.Equals(SyntaxTokenListSymbol))
+                {
+                    if (Depth >= SyntaxWalkerDepth.Token)
+                    {
+                        yield return ExpressionStatement(
+                            InvocationExpression(
+                                IdentifierName("VisitTokenList"),
+                                ArgumentList(
+                                    Argument(
+                                        SimpleMemberAccessExpression(
+                                            IdentifierName(parameterName),
+                                            IdentifierName(propertyName))))));
+                    }
+                }
+                else if (propertyType.Equals(SyntaxTokenSymbol))
+                {
+                    if (Depth >= SyntaxWalkerDepth.Token)
+                    {
+                        yield return ExpressionStatement(
+                            InvocationExpression(
+                                IdentifierName("VisitToken"),
+                                ArgumentList(
+                                    Argument(
+                                        SimpleMemberAccessExpression(
+                                            IdentifierName(parameterName),
+                                            IdentifierName(propertyName))))));
+                    }
+                }
+                else if (!CSharpFacts.IsPredefinedType(propertyType.SpecialType))
                 {
                     throw new InvalidOperationException();
                 }
@@ -275,13 +395,38 @@ namespace Roslynator.CodeGeneration.CSharp
                                 IdentifierName(propertyName))))));
         }
 
-        private static ForEachStatementSyntax GenerateVisitSpecificListStatement(
-            string typeName,
+        private StatementSyntax GenerateVisitSpecificListStatement(
+            ITypeSymbol typeSymbol,
             string parameterName,
             string propertyName)
         {
+            string typeName = typeSymbol.Name;
+
             string typeNameWithoutSyntax = typeName.Remove(typeName.Length - 6);
             string variableName = StringUtility.ToCamelCase(typeNameWithoutSyntax);
+
+            string methodName = "Visit" + typeNameWithoutSyntax;
+
+            if (!ShouldGenerateVisitType
+                || !typeSymbol.Equals(TypeSyntaxSymbol))
+            {
+                if (FindVisitMethod(typeSymbol) == null)
+                    methodName = "Visit";
+            }
+
+            StatementSyntax statement = ExpressionStatement(
+                            InvocationExpression(
+                                IdentifierName(methodName),
+                                ArgumentList(Argument(IdentifierName(variableName)))));
+
+            if (methodName != "Visit")
+            {
+                statement = IfStatement(
+                    InvocationExpression(
+                        IdentifierName("ShouldVisit"),
+                        ArgumentList(Argument(IdentifierName(variableName)))),
+                    Block(statement));
+            }
 
             return ForEachStatement(
                 IdentifierName(typeName),
@@ -289,10 +434,7 @@ namespace Roslynator.CodeGeneration.CSharp
                 SimpleMemberAccessExpression(
                     IdentifierName(parameterName),
                     IdentifierName(propertyName)),
-                ExpressionStatement(
-                    InvocationExpression(
-                        IdentifierName("Visit" + typeNameWithoutSyntax),
-                        ArgumentList(Argument(IdentifierName(variableName))))));
+                Block(statement));
         }
 
         private IEnumerable<StatementSyntax> GenerateVisitStatements(
@@ -302,7 +444,8 @@ namespace Roslynator.CodeGeneration.CSharp
         {
             if (methodNameSuffix == null)
             {
-                if (propertySymbol.Type.EqualsOrInheritsFrom(TypeSyntaxSymbol))
+                if (ShouldGenerateVisitType
+                    && propertySymbol.Type.EqualsOrInheritsFrom(TypeSyntaxSymbol))
                 {
                     yield return GenerateVisitStatement("VisitType");
                 }
@@ -333,15 +476,27 @@ namespace Roslynator.CodeGeneration.CSharp
                         IdentifierName(parameterName),
                         IdentifierName(propertySymbol.Name)));
 
-                yield return IfStatement(
-                    NotEqualsExpression(
+                ExpressionSyntax condition = NotEqualsExpression(
                         IdentifierName(variableName),
-                        NullLiteralExpression()),
-                    ExpressionStatement(
-                    InvocationExpression(
-                        IdentifierName("Visit" + methodNameSuffix),
-                        ArgumentList(
-                            Argument(IdentifierName(variableName))))));
+                        NullLiteralExpression());
+
+                if (methodNameSuffix != null)
+                {
+                    condition = LogicalAndExpression(
+                        condition,
+                        InvocationExpression(
+                            IdentifierName("ShouldVisit"),
+                            ArgumentList(Argument(IdentifierName(variableName)))));
+                }
+
+                yield return IfStatement(
+                    condition,
+                    Block(
+                        ExpressionStatement(
+                        InvocationExpression(
+                            IdentifierName("Visit" + methodNameSuffix),
+                            ArgumentList(
+                                Argument(IdentifierName(variableName)))))));
             }
 
             ExpressionStatementSyntax GenerateVisitStatement(string name)
@@ -357,7 +512,7 @@ namespace Roslynator.CodeGeneration.CSharp
             }
         }
 
-        private IEnumerable<StatementSyntax> GenerateVisitListStatements(IPropertySymbol propertySymbol, string parameterName)
+        private static IEnumerable<StatementSyntax> GenerateVisitListStatements(IPropertySymbol propertySymbol, string parameterName)
         {
             string propertyName = propertySymbol.Name;
             ITypeSymbol propertyType = propertySymbol.Type;
@@ -375,16 +530,49 @@ namespace Roslynator.CodeGeneration.CSharp
 
             IPropertySymbol listPropertySymbol = FindListProperty();
 
-            yield return IfStatement(
-                NotEqualsExpression(IdentifierName(variableName), NullLiteralExpression()),
-                ExpressionStatement(
+            ITypeSymbol typeSymbol = ((INamedTypeSymbol)listPropertySymbol.Type).TypeArguments.Single();
+
+            IMethodSymbol methodSymbol = FindVisitMethod(typeSymbol);
+
+            StatementSyntax statement;
+            if (methodSymbol != null)
+            {
+                string forEachVariableName = StringUtility.ToCamelCase(typeSymbol.Name.Remove(typeSymbol.Name.Length - 6));
+
+                statement = ForEachStatement(
+                    IdentifierName(typeSymbol.Name),
+                    forEachVariableName,
+                    SimpleMemberAccessExpression(
+                        IdentifierName(variableName),
+                        IdentifierName(listPropertySymbol.Name)),
+                    Block(
+                        IfStatement(
+                            InvocationExpression(
+                                IdentifierName("ShouldVisit"),
+                                ArgumentList(
+                                    Argument(
+                                        IdentifierName(forEachVariableName)))),
+                            Block(
+                                ExpressionStatement(
+                                    InvocationExpression(
+                                        IdentifierName(methodSymbol.Name),
+                                        ArgumentList(Argument(IdentifierName(forEachVariableName)))))))));
+            }
+            else
+            {
+                statement = ExpressionStatement(
                     InvocationExpression(
                         IdentifierName((listPropertySymbol.Type.OriginalDefinition.Equals(SyntaxListSymbol)) ? "VisitList" : "VisitSeparatedList"),
                         ArgumentList(
                             Argument(
                                 SimpleMemberAccessExpression(
                                     IdentifierName(variableName),
-                                    IdentifierName(listPropertyName)))))));
+                                    IdentifierName(listPropertyName))))));
+            }
+
+            yield return IfStatement(
+                NotEqualsExpression(IdentifierName(variableName), NullLiteralExpression()),
+                Block(statement));
 
             string GetListPropertyName()
             {
@@ -424,7 +612,7 @@ namespace Roslynator.CodeGeneration.CSharp
             }
         }
 
-        private static ConstructorDeclarationSyntax GenerateVisitConstructorDeclaration()
+        private ConstructorDeclarationSyntax GenerateVisitConstructorDeclaration()
         {
             return ConstructorDeclaration(
                 default(SyntaxList<AttributeListSyntax>),
@@ -435,7 +623,7 @@ namespace Roslynator.CodeGeneration.CSharp
                     ArgumentList(
                         Argument(
                             NameColon("depth"),
-                            SimpleMemberAccessExpression(IdentifierName("SyntaxWalkerDepth"), IdentifierName("Node"))))),
+                            SimpleMemberAccessExpression(IdentifierName("SyntaxWalkerDepth"), IdentifierName(Depth.ToString()))))),
                 Block());
         }
 
@@ -455,10 +643,11 @@ namespace Roslynator.CodeGeneration.CSharp
                         IdentifierName("TNode"),
                         "node",
                         IdentifierName("list"),
-                        ExpressionStatement(
-                            InvocationExpression(
-                                IdentifierName("Visit"),
-                                ArgumentList(Argument(IdentifierName("node"))))))),
+                        Block(
+                            ExpressionStatement(
+                                InvocationExpression(
+                                    IdentifierName("Visit"),
+                                    ArgumentList(Argument(IdentifierName("node")))))))),
                 default(ArrowExpressionClauseSyntax));
         }
 
@@ -478,10 +667,11 @@ namespace Roslynator.CodeGeneration.CSharp
                         IdentifierName("TNode"),
                         "node",
                         IdentifierName("list"),
-                        ExpressionStatement(
-                            InvocationExpression(
-                                IdentifierName("Visit"),
-                                ArgumentList(Argument(IdentifierName("node"))))))),
+                        Block(
+                            ExpressionStatement(
+                                InvocationExpression(
+                                    IdentifierName("Visit"),
+                                    ArgumentList(Argument(IdentifierName("node")))))))),
                 default(ArrowExpressionClauseSyntax));
         }
 
@@ -493,14 +683,18 @@ namespace Roslynator.CodeGeneration.CSharp
                 Identifier("VisitTokenList"),
                 ParameterList(Parameter(IdentifierName("SyntaxTokenList"), "list")),
                 Block(
-                    ForEachStatement(
-                        IdentifierName("SyntaxToken"),
-                        "token",
-                        IdentifierName("list"),
-                        ExpressionStatement(
-                            InvocationExpression(
-                                IdentifierName("VisitToken"),
-                                ArgumentList(Argument(IdentifierName("token"))))))));
+                    IfStatement(
+                        SimpleMemberInvocationExpression(IdentifierName("list"), IdentifierName("Any")),
+                        Block(
+                            ForEachStatement(
+                                IdentifierName("SyntaxToken"),
+                                "token",
+                                IdentifierName("list"),
+                                Block(
+                                    ExpressionStatement(
+                                        InvocationExpression(
+                                            IdentifierName("VisitToken"),
+                                            ArgumentList(Argument(IdentifierName("token")))))))))));
         }
 
         private static MethodDeclarationSyntax GenerateVisitTypeMethodDeclaration()
@@ -514,6 +708,48 @@ namespace Roslynator.CodeGeneration.CSharp
                     ExpressionStatement(
                         InvocationExpression(
                             IdentifierName("Visit"), ArgumentList(Argument(IdentifierName("node")))))));
+        }
+
+        private static MethodDeclarationSyntax GenerateShouldVisitMethodDeclaration()
+        {
+            return MethodDeclaration(
+                Modifiers.ProtectedVirtual(),
+                PredefinedBoolType(),
+                Identifier("ShouldVisit"),
+                ParameterList(Parameter(IdentifierName("SyntaxNode"), "node")),
+                Block(
+                    ReturnStatement(TrueLiteralExpression())));
+        }
+
+        private static MethodDeclarationSyntax GenerateVisitMethodDeclaration()
+        {
+            return MethodDeclaration(
+                Modifiers.PublicOverride(),
+                VoidType(),
+                Identifier("Visit"),
+                ParameterList(Parameter(IdentifierName("SyntaxNode"), "node")),
+                Block(
+                    IfStatement(
+                        InvocationExpression(
+                            IdentifierName("ShouldVisit"),
+                            ArgumentList(Argument(IdentifierName("node")))),
+                        Block(
+                            ExpressionStatement(
+                                SimpleMemberInvocationExpression(
+                                    BaseExpression(),
+                                    IdentifierName("Visit"),
+                                    ArgumentList(Argument(IdentifierName("node")))))))));
+        }
+
+        private static IMethodSymbol FindVisitMethod(ITypeSymbol typeSymbol)
+        {
+            foreach (IMethodSymbol methodSymbol in VisitMethods)
+            {
+                if (methodSymbol.Parameters.Single().Type.Equals(typeSymbol))
+                    return methodSymbol;
+            }
+
+            return null;
         }
     }
 }

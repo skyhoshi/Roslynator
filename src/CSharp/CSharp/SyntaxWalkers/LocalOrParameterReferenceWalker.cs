@@ -29,10 +29,10 @@ namespace Roslynator.CSharp.SyntaxWalkers
             return ContainsReferenceWalker.ContainsReference(node, localOrParameterSymbol, semanticModel, span, cancellationToken);
         }
 
-        public override void Visit(SyntaxNode node)
+        protected override bool ShouldVisit(SyntaxNode node)
         {
-            if (IsInSpan(node.FullSpan))
-                base.Visit(node);
+            return node != null
+                && IsInSpan(node.FullSpan);
         }
 
         private bool IsInSpan(TextSpan span)
@@ -126,10 +126,10 @@ namespace Roslynator.CSharp.SyntaxWalkers
                 return result;
             }
 
-            public override void Visit(SyntaxNode node)
+            protected override bool ShouldVisit(SyntaxNode node)
             {
-                if (!Result)
-                    base.Visit(node);
+                return !Result
+                    && base.ShouldVisit(node);
             }
 
             public override void VisitIdentifierName(IdentifierNameSyntax node)
