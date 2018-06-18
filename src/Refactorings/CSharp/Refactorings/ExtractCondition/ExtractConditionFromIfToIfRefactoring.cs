@@ -51,7 +51,7 @@ namespace Roslynator.CSharp.Refactorings.ExtractCondition
             IfStatementSyntax newIfStatement = RemoveExpressionsFromCondition(ifStatement, condition, binaryExpressionChain)
                 .WithFormatterAnnotation();
 
-            ExpressionSyntax expression = SyntaxFactory.ParseExpression(binaryExpressionChain.BinaryExpression.ToString(binaryExpressionChain.ExpressionsSpan));
+            ExpressionSyntax expression = SyntaxFactory.ParseExpression(binaryExpressionChain.ToString());
 
             SyntaxNode newNode = AddNextIf(statementsInfo, ifStatement, newIfStatement, expression);
 

@@ -52,21 +52,21 @@ namespace Roslynator.CSharp.Refactorings
                 && !context.Span.IsEmpty
                 && binaryExpression.IsKind(SyntaxKind.AddExpression, SyntaxKind.LogicalAndExpression, SyntaxKind.LogicalOrExpression))
             {
-                var binaryExpressionChain = new BinaryExpressionChain(binaryExpression, context.Span);
+                var chain = new BinaryExpressionChain(binaryExpression, context.Span);
 
-                BinaryExpressionChain.Enumerator en = binaryExpressionChain.GetEnumerator();
+                BinaryExpressionChain.Enumerator en = chain.GetEnumerator();
 
                 if (en.MoveNext()
                     && en.MoveNext())
                 {
                     if (context.IsRefactoringEnabled(RefactoringIdentifiers.ExtractExpressionFromCondition))
-                        ExtractConditionRefactoring.ComputeRefactoring(context, binaryExpressionChain);
+                        ExtractConditionRefactoring.ComputeRefactoring(context, chain);
 
                     if (binaryExpression.IsKind(SyntaxKind.AddExpression))
                     {
                         SemanticModel semanticModel = await context.GetSemanticModelAsync().ConfigureAwait(false);
 
-                        StringConcatenationExpressionInfo concatenationInfo = SyntaxInfo.StringConcatenationExpressionInfo(binaryExpressionChain, semanticModel, context.CancellationToken);
+                        StringConcatenationExpressionInfo concatenationInfo = SyntaxInfo.StringConcatenationExpressionInfo(chain, semanticModel, context.CancellationToken);
                         if (concatenationInfo.Success)
                         {
                             if (context.IsRefactoringEnabled(RefactoringIdentifiers.JoinStringExpressions))

@@ -13,7 +13,6 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Roslynator.CSharp
 {
-    //TODO: rename to ExpressionChain
     //TODO: make public
     /// <summary>
     /// Enables to enumerate expressions of binary expression and expressions of nested binary expressions of the same kind.
@@ -24,13 +23,13 @@ namespace Roslynator.CSharp
         internal BinaryExpressionChain(BinaryExpressionSyntax binaryExpression)
         {
             BinaryExpression = binaryExpression;
-            Span = binaryExpression.FullSpan;
+            OriginalSpan = binaryExpression.FullSpan;
         }
 
         internal BinaryExpressionChain(BinaryExpressionSyntax binaryExpression, TextSpan span)
         {
             BinaryExpression = binaryExpression;
-            Span = span;
+            OriginalSpan = span;
         }
 
         /// <summary>
@@ -39,11 +38,11 @@ namespace Roslynator.CSharp
         public BinaryExpressionSyntax BinaryExpression { get; }
 
         /// <summary>
-        /// The text span.
+        /// The span that was passed to the constructor or full span of the binary expression.
         /// </summary>
-        public TextSpan Span { get; }
+        internal TextSpan OriginalSpan { get; }
 
-        internal TextSpan ExpressionsSpan
+        public TextSpan Span
         {
             get
             {
@@ -57,6 +56,28 @@ namespace Roslynator.CSharp
 
                     while (en.MoveNext())
                         start = en.Current.SpanStart;
+
+                    return TextSpan.FromBounds(start, end);
+                }
+
+                return default;
+            }
+        }
+
+        public TextSpan FullSpan
+        {
+            get
+            {
+                Enumerator en = GetEnumerator();
+
+                if (en.MoveNext())
+                {
+                    int end = en.Current.FullSpan.End;
+
+                    int start = en.Current.FullSpan.Start;
+
+                    while (en.MoveNext())
+                        start = en.Current.FullSpan.Start;
 
                     return TextSpan.FromBounds(start, end);
                 }
@@ -89,48 +110,15 @@ namespace Roslynator.CSharp
             }
         }
 
-        internal ExpressionSyntax LastExpression
-        {
-            get
-            {
-                Enumerator en = GetEnumerator();
-
-                if (en.MoveNext())
-                {
-                    ExpressionSyntax e = en.Current;
-
-                    while (en.MoveNext())
-                        e = en.Current;
-
-                    return e;
-                }
-
-                return default;
-            }
-        }
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string DebuggerDisplay
         {
-            get { return (BinaryExpression != null) ? $"Count = {Count} {BinaryExpression}" : "Uninitialized"; }
+            get { return BinaryExpression?.ToString(Span) ?? "Uninitialized"; }
         }
 
         public Reversed Reverse()
         {
             return new Reversed(this);
-        }
-
-        internal bool ContainsMultiLineExpression()
-        {
-            Enumerator en = GetEnumerator();
-
-            while (en.MoveNext())
-            {
-                if (en.Current.IsMultiLine(includeExteriorTrivia: false))
-                    return true;
-            }
-
-            return false;
         }
 
         internal bool IsStringConcatenation(
@@ -201,7 +189,7 @@ namespace Roslynator.CSharp
         /// <returns></returns>
         public override string ToString()
         {
-            return BinaryExpression?.ToString() ?? "";
+            return BinaryExpression?.ToString(Span) ?? "";
         }
 
         /// <summary>
@@ -248,25 +236,25 @@ namespace Roslynator.CSharp
         [SuppressMessage("Usage", "CA2231:Overload operator equals on overriding value type Equals", Justification = "<Pending>")]
         public struct Enumerator
         {
-            private BinaryExpressionChain _binaryExpressionChain;
+            private BinaryExpressionChain _chain;
             private ExpressionSyntax _current;
             private State _state;
 
-            internal Enumerator(in BinaryExpressionChain binaryExpressionChain)
+            internal Enumerator(in BinaryExpressionChain chain)
             {
-                _binaryExpressionChain = binaryExpressionChain;
+                _chain = chain;
                 _current = null;
                 _state = State.Start;
             }
 
             private BinaryExpressionSyntax BinaryExpression
             {
-                get { return _binaryExpressionChain.BinaryExpression; }
+                get { return _chain.BinaryExpression; }
             }
 
             private TextSpan Span
             {
-                get { return _binaryExpressionChain.Span; }
+                get { return _chain.OriginalSpan; }
             }
 
             public bool MoveNext()
@@ -412,9 +400,9 @@ namespace Roslynator.CSharp
         {
             private Enumerator _en;
 
-            internal EnumeratorImpl(in BinaryExpressionChain binaryExpressionChain)
+            internal EnumeratorImpl(in BinaryExpressionChain chain)
             {
-                _en = new Enumerator(binaryExpressionChain);
+                _en = new Enumerator(chain);
             }
 
             public ExpressionSyntax Current

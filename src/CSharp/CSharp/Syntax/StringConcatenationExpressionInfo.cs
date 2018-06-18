@@ -95,29 +95,25 @@ namespace Roslynator.CSharp.Syntax
         /// </summary>
         /// <param name="leftToRight">If true expressions are enumerated as they are displayed in the source code.</param>
         /// <returns></returns>
+        [Obsolete("This method is obsolete. Use method 'AsChain' instead.")]
         public IEnumerable<ExpressionSyntax> Expressions(bool leftToRight = false)
         {
-            var binaryExpressionChain = new BinaryExpressionChain(BinaryExpression, Span ?? BinaryExpression.FullSpan);
+            var chain = new BinaryExpressionChain(BinaryExpression, Span ?? BinaryExpression.FullSpan);
 
             if (leftToRight)
             {
-                return binaryExpressionChain.Reverse();
+                return chain.Reverse();
             }
             else
             {
-                return binaryExpressionChain;
+                return chain;
             }
         }
 
-        internal bool ContainsMultiLineExpression()
+        //TODO: make public
+        internal BinaryExpressionChain AsChain()
         {
-            foreach (ExpressionSyntax expression in Expressions())
-            {
-                if (expression.IsMultiLine(includeExteriorTrivia: false))
-                    return true;
-            }
-
-            return false;
+            return new BinaryExpressionChain(BinaryExpression, Span ?? BinaryExpression.FullSpan);
         }
 
         internal InterpolatedStringExpressionSyntax ToInterpolatedStringExpression()
@@ -135,7 +131,7 @@ namespace Roslynator.CSharp.Syntax
 
             sb.Append('"');
 
-            foreach (ExpressionSyntax expression in Expressions(leftToRight: true))
+            foreach (ExpressionSyntax expression in AsChain().Reverse())
             {
                 SyntaxKind kind = expression.Kind();
 
@@ -232,7 +228,7 @@ namespace Roslynator.CSharp.Syntax
 
             sb.Append('"');
 
-            foreach (ExpressionSyntax expression in Expressions(leftToRight: true))
+            foreach (ExpressionSyntax expression in AsChain().Reverse())
             {
                 StringLiteralExpressionInfo literal = SyntaxInfo.StringLiteralExpressionInfo(expression);
 
@@ -270,7 +266,7 @@ namespace Roslynator.CSharp.Syntax
             sb.Append('@');
             sb.Append('"');
 
-            ExpressionSyntax[] expressions = Expressions(leftToRight: true).ToArray();
+            ExpressionSyntax[] expressions = AsChain().Reverse().ToArray();
 
             for (int i = 0; i < expressions.Length; i++)
             {

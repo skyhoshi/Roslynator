@@ -63,12 +63,12 @@ namespace Roslynator.CSharp.Syntax
             get { return ToDebugString(Success, this, BinaryExpression); }
         }
 
-        //TODO: make obsolete
         /// <summary>
         /// Returns expressions of this binary expression, including expressions of nested binary expressions of the same kind.
         /// </summary>
         /// <param name="leftToRight">If true expressions are enumerated as they are displayed in the source code.</param>
         /// <returns></returns>
+        [Obsolete("This method is obsolete. Use method 'AsChain' instead.")]
         public IEnumerable<ExpressionSyntax> Expressions(bool leftToRight = false)
         {
             ThrowInvalidOperationIfNotInitialized();

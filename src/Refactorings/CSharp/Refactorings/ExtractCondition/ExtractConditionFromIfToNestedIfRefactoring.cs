@@ -45,7 +45,7 @@ namespace Roslynator.CSharp.Refactorings.ExtractCondition
         {
             IfStatementSyntax newNode = RemoveExpressionsFromCondition(ifStatement, condition, binaryExpressionChain);
 
-            ExpressionSyntax expression = SyntaxFactory.ParseExpression(binaryExpressionChain.BinaryExpression.ToString(binaryExpressionChain.ExpressionsSpan));
+            ExpressionSyntax expression = SyntaxFactory.ParseExpression(binaryExpressionChain.ToString());
 
             newNode = AddNestedIf(newNode, expression).WithFormatterAnnotation();
 
