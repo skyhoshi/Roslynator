@@ -109,7 +109,7 @@ namespace Roslynator.CodeGeneration.CSharp
         {
             var members = new List<MemberDeclarationSyntax>() { GenerateVisitConstructorDeclaration() };
 
-            members.Add(GenerateShouldVisitMethodDeclaration());
+            members.Add(GenerateShouldVisitPropertyDeclaration());
 
             members.Add(GenerateVisitMethodDeclaration());
 
@@ -414,19 +414,18 @@ namespace Roslynator.CodeGeneration.CSharp
                     methodName = "Visit";
             }
 
-            StatementSyntax statement = ExpressionStatement(
-                            InvocationExpression(
-                                IdentifierName(methodName),
-                                ArgumentList(Argument(IdentifierName(variableName)))));
+            SyntaxList<StatementSyntax> statements = default;
 
             if (methodName != "Visit")
             {
-                statement = IfStatement(
-                    InvocationExpression(
-                        IdentifierName("ShouldVisit"),
-                        ArgumentList(Argument(IdentifierName(variableName)))),
-                    Block(statement));
+                statements = statements.Add(IfNotShouldVisitReturnStatement());
             }
+
+            statements = statements.Add(
+                ExpressionStatement(
+                    InvocationExpression(
+                        IdentifierName(methodName),
+                        ArgumentList(Argument(IdentifierName(variableName))))));
 
             return ForEachStatement(
                 IdentifierName(typeName),
@@ -434,7 +433,7 @@ namespace Roslynator.CodeGeneration.CSharp
                 SimpleMemberAccessExpression(
                     IdentifierName(parameterName),
                     IdentifierName(propertyName)),
-                Block(statement));
+                Block(statements));
         }
 
         private IEnumerable<StatementSyntax> GenerateVisitStatements(
@@ -469,6 +468,8 @@ namespace Roslynator.CodeGeneration.CSharp
                         }
                 }
 
+                yield return IfNotShouldVisitReturnStatement();
+
                 yield return LocalDeclarationStatement(
                     propertySymbol.Type.ToTypeSyntax(_symbolDisplayFormat),
                     variableName,
@@ -476,21 +477,10 @@ namespace Roslynator.CodeGeneration.CSharp
                         IdentifierName(parameterName),
                         IdentifierName(propertySymbol.Name)));
 
-                ExpressionSyntax condition = NotEqualsExpression(
-                        IdentifierName(variableName),
-                        NullLiteralExpression());
-
-                if (methodNameSuffix != null)
-                {
-                    condition = LogicalAndExpression(
-                        condition,
-                        InvocationExpression(
-                            IdentifierName("ShouldVisit"),
-                            ArgumentList(Argument(IdentifierName(variableName)))));
-                }
-
                 yield return IfStatement(
-                    condition,
+                    NotEqualsExpression(
+                        IdentifierName(variableName),
+                        NullLiteralExpression()),
                     Block(
                         ExpressionStatement(
                         InvocationExpression(
@@ -546,17 +536,11 @@ namespace Roslynator.CodeGeneration.CSharp
                         IdentifierName(variableName),
                         IdentifierName(listPropertySymbol.Name)),
                     Block(
-                        IfStatement(
+                        IfNotShouldVisitReturnStatement(),
+                        ExpressionStatement(
                             InvocationExpression(
-                                IdentifierName("ShouldVisit"),
-                                ArgumentList(
-                                    Argument(
-                                        IdentifierName(forEachVariableName)))),
-                            Block(
-                                ExpressionStatement(
-                                    InvocationExpression(
-                                        IdentifierName(methodSymbol.Name),
-                                        ArgumentList(Argument(IdentifierName(forEachVariableName)))))))));
+                                IdentifierName(methodSymbol.Name),
+                                ArgumentList(Argument(IdentifierName(forEachVariableName)))))));
             }
             else
             {
@@ -644,6 +628,7 @@ namespace Roslynator.CodeGeneration.CSharp
                         "node",
                         IdentifierName("list"),
                         Block(
+                            IfNotShouldVisitReturnStatement(),
                             ExpressionStatement(
                                 InvocationExpression(
                                     IdentifierName("Visit"),
@@ -668,6 +653,7 @@ namespace Roslynator.CodeGeneration.CSharp
                         "node",
                         IdentifierName("list"),
                         Block(
+                            IfNotShouldVisitReturnStatement(),
                             ExpressionStatement(
                                 InvocationExpression(
                                     IdentifierName("Visit"),
@@ -710,15 +696,13 @@ namespace Roslynator.CodeGeneration.CSharp
                             IdentifierName("Visit"), ArgumentList(Argument(IdentifierName("node")))))));
         }
 
-        private static MethodDeclarationSyntax GenerateShouldVisitMethodDeclaration()
+        private static PropertyDeclarationSyntax GenerateShouldVisitPropertyDeclaration()
         {
-            return MethodDeclaration(
+            return PropertyDeclaration(
                 Modifiers.ProtectedVirtual(),
                 PredefinedBoolType(),
                 Identifier("ShouldVisit"),
-                ParameterList(Parameter(IdentifierName("SyntaxNode"), "node")),
-                Block(
-                    ReturnStatement(TrueLiteralExpression())));
+                AccessorList(GetAccessorDeclaration(Block(ReturnStatement(TrueLiteralExpression())))));
         }
 
         private static MethodDeclarationSyntax GenerateVisitMethodDeclaration()
@@ -729,16 +713,12 @@ namespace Roslynator.CodeGeneration.CSharp
                 Identifier("Visit"),
                 ParameterList(Parameter(IdentifierName("SyntaxNode"), "node")),
                 Block(
-                    IfStatement(
-                        InvocationExpression(
-                            IdentifierName("ShouldVisit"),
-                            ArgumentList(Argument(IdentifierName("node")))),
-                        Block(
-                            ExpressionStatement(
-                                SimpleMemberInvocationExpression(
-                                    BaseExpression(),
-                                    IdentifierName("Visit"),
-                                    ArgumentList(Argument(IdentifierName("node")))))))));
+                    IfNotShouldVisitReturnStatement(),
+                    ExpressionStatement(
+                        SimpleMemberInvocationExpression(
+                            BaseExpression(),
+                            IdentifierName("Visit"),
+                            ArgumentList(Argument(IdentifierName("node")))))));
         }
 
         private static IMethodSymbol FindVisitMethod(ITypeSymbol typeSymbol)
@@ -750,6 +730,11 @@ namespace Roslynator.CodeGeneration.CSharp
             }
 
             return null;
+        }
+
+        private static StatementSyntax IfNotShouldVisitReturnStatement()
+        {
+            return IfStatement(LogicalNotExpression(IdentifierName("ShouldVisit")), Block(ReturnStatement()));
         }
     }
 }
