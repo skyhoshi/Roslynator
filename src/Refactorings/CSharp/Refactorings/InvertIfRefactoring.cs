@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -121,6 +120,8 @@ namespace Roslynator.CSharp.Refactorings
 
             bool isLastStatementRedundant = IsLastStatementRedundant();
 
+            bool shouldUseElseClause = !CSharpFacts.IsJumpStatement(lastStatement.Kind());
+
             SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
 
             SyntaxList<StatementSyntax> newStatements = statements;
@@ -143,6 +144,8 @@ namespace Roslynator.CSharp.Refactorings
 
                 } while (a.Success);
 
+                int firstLastStatementIndex = lastStatementIndex;
+
                 int index = statements.IndexOf(lastIfStatement);
 
                 int firstIndex = ifStatementIndex;
@@ -153,8 +156,8 @@ namespace Roslynator.CSharp.Refactorings
                     ifStatement = (IfStatementSyntax)statements[ifStatementIndex];
                     statement = ifStatement.Statement;
                     Refactor();
-                    lastStatementIndex = ifStatementIndex;
-                    lastStatement = statements[lastStatementIndex];
+                    lastStatementIndex = firstLastStatementIndex + newStatements.Count - statements.Count;
+                    lastStatement = (statement is BlockSyntax block) ? block.Statements.Last() : statement;
                     index--;
                 }
             }
@@ -191,7 +194,7 @@ namespace Roslynator.CSharp.Refactorings
                 ElseClauseSyntax elseClause = null;
 
                 if (newNextStatements.Any()
-                    && !CSharpFacts.IsJumpStatement(lastStatement.Kind()))
+                    && shouldUseElseClause)
                 {
                     elseClause = ElseClause(Block(newNextStatements));
                     newNextStatements = default;
@@ -281,7 +284,7 @@ namespace Roslynator.CSharp.Refactorings
                         return default;
                 }
 
-                if (!IsFixableJumpStatement())
+                if (!statement.IsKind(SyntaxKind.BreakStatement, SyntaxKind.ContinueStatement, SyntaxKind.ReturnStatement))
                     return default;
 
                 if (!ifStatement.TryGetContainingList(out SyntaxList<StatementSyntax> statements))
@@ -334,36 +337,6 @@ namespace Roslynator.CSharp.Refactorings
                     }
 
                     lastStatement = lastStatement ?? next;
-                }
-
-                bool IsFixableJumpStatement()
-                {
-                    switch (statement.Kind())
-                    {
-                        case SyntaxKind.BreakStatement:
-                        case SyntaxKind.ContinueStatement:
-                            {
-                                return true;
-                            }
-                        case SyntaxKind.ReturnStatement:
-                            {
-                                var returnStatement = (ReturnStatementSyntax)statement;
-
-                                ExpressionSyntax expression = returnStatement.Expression;
-
-                                if (expression == null)
-                                    return true;
-
-                                SyntaxKind kind = expression.Kind();
-
-                                Debug.Assert(!SyntaxFacts.IsLiteralExpression(SyntaxKind.DefaultLiteralExpression), "SyntaxFacts.IsLiteralExpression(SyntaxKind.DefaultLiteralExpression) finally returns true.");
-
-                                return kind.Is(SyntaxKind.DefaultLiteralExpression, SyntaxKind.DefaultExpression)
-                                    || SyntaxFacts.IsLiteralExpression(kind);
-                            }
-                    }
-
-                    return false;
                 }
             }
 

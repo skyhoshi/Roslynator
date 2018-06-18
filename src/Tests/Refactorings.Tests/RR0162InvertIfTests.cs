@@ -90,7 +90,7 @@ class C
         }
 
         [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.InvertIf)]
-        public async Task Test_If_SingleStatement_Recursive()
+        public async Task Test_If_Return_Recursive()
         {
             await VerifyRefactoringAsync(@"
 class C
@@ -132,7 +132,68 @@ class C
         }
     }
 }
-", equivalenceKey: EquivalenceKey.Join(RefactoringId, "Recursive"));
+", equivalenceKey: InvertIfRefactoring.RecursiveRefactoringIdentifier);
+        }
+
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.InvertIf)]
+        public async Task Test_If_ReturnBool_Recursive()
+        {
+            await VerifyRefactoringAsync(@"
+class C
+{
+    bool M(bool f1 = false, bool f2 = false, bool f3 = false)
+    {
+        [||]if (f1)
+        {
+            M(f1);
+            return f1;
+        }
+
+        if (f2)
+        {
+            M(f1);
+            M(f1, f2);
+            return f2;
+        }
+
+        if (f3)
+        {
+            M(f1);
+            M(f1, f2);
+            M(f1, f2, f3);
+            return f3;
+        }
+
+        return true;
+    }
+}
+", @"
+class C
+{
+    bool M(bool f1 = false, bool f2 = false, bool f3 = false)
+    {
+        if (!f1)
+        {
+            if (!f2)
+            {
+                if (!f3)
+                {
+                    return true;
+                }
+                M(f1);
+                M(f1, f2);
+                M(f1, f2, f3);
+                return f3;
+            }
+            M(f1);
+            M(f1, f2);
+            return f2;
+        }
+        M(f1);
+            return f1;
+    }
+}
+", equivalenceKey: InvertIfRefactoring.RecursiveRefactoringIdentifier);
         }
 
         [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.InvertIf)]
