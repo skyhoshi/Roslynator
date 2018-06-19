@@ -52,9 +52,9 @@ namespace Roslynator.CSharp.Refactorings
                 && !context.Span.IsEmpty
                 && binaryExpression.IsKind(SyntaxKind.AddExpression, SyntaxKind.LogicalAndExpression, SyntaxKind.LogicalOrExpression))
             {
-                var chain = new BinaryExpressionChain(binaryExpression, context.Span);
+                var chain = new ExpressionChain(binaryExpression, context.Span);
 
-                BinaryExpressionChain.Enumerator en = chain.GetEnumerator();
+                ExpressionChain.Enumerator en = chain.GetEnumerator();
 
                 if (en.MoveNext()
                     && en.MoveNext())

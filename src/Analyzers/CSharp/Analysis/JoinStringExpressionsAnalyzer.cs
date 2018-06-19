@@ -48,7 +48,7 @@ namespace Roslynator.CSharp.Analysis
             bool isLiteral = false;
             bool isVerbatim = false;
 
-            foreach (ExpressionSyntax expression in addExpression.AsChain())
+            foreach (ExpressionSyntax expression in addExpression.AsChain().Reverse())
             {
                 switch (expression.Kind())
                 {

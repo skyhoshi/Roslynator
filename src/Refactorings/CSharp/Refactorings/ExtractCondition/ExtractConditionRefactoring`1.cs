@@ -50,9 +50,9 @@ namespace Roslynator.CSharp.Refactorings.ExtractCondition
         protected static TStatement RemoveExpressionsFromCondition(
             TStatement statement,
             BinaryExpressionSyntax condition,
-            in BinaryExpressionChain binaryExpressionChain)
+            in ExpressionChain expressionChain)
         {
-            var binaryExpression = (BinaryExpressionSyntax)binaryExpressionChain.FirstExpression.Parent;
+            var binaryExpression = (BinaryExpressionSyntax)expressionChain.First().Parent;
 
             return statement.ReplaceNode(
                 condition,
@@ -61,9 +61,9 @@ namespace Roslynator.CSharp.Refactorings.ExtractCondition
 
         protected TStatement AddNestedIf(
             TStatement statement,
-            in BinaryExpressionChain binaryExpressionChain)
+            in ExpressionChain expressionChain)
         {
-            ExpressionSyntax expression = ParseExpression(binaryExpressionChain.ToString());
+            ExpressionSyntax expression = ParseExpression(expressionChain.ToString());
 
             return AddNestedIf(statement, expression);
         }

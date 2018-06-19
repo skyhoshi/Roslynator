@@ -73,47 +73,46 @@ namespace Roslynator.CSharp.Syntax
             SemanticModel semanticModel,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (!binaryExpression.AsChain().IsStringConcatenation(semanticModel, cancellationToken))
+            if (!binaryExpression.AsChain().Reverse().IsStringConcatenation(semanticModel, cancellationToken))
                 return default;
 
             return new StringConcatenationExpressionInfo(binaryExpression);
         }
 
         internal static StringConcatenationExpressionInfo Create(
-            in BinaryExpressionChain chain,
+            in ExpressionChain chain,
             SemanticModel semanticModel,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (!chain.IsStringConcatenation(semanticModel, cancellationToken))
+            if (!chain.Reverse().IsStringConcatenation(semanticModel, cancellationToken))
                 return default;
 
             return new StringConcatenationExpressionInfo(chain.BinaryExpression, chain.Span);
         }
 
         /// <summary>
-        /// Returns expressions of this binary expression, including expressions of nested binary expressions of the same kind.
+        /// Returns expressions of this binary expression, including expressions of nested binary expressions of the same kind as parent binary expression.
         /// </summary>
         /// <param name="leftToRight">If true expressions are enumerated as they are displayed in the source code.</param>
         /// <returns></returns>
         [Obsolete("This method is obsolete. Use method 'AsChain' instead.")]
         public IEnumerable<ExpressionSyntax> Expressions(bool leftToRight = false)
         {
-            var chain = new BinaryExpressionChain(BinaryExpression, Span ?? BinaryExpression.FullSpan);
+            ThrowInvalidOperationIfNotInitialized();
 
             if (leftToRight)
             {
-                return chain.Reverse();
+                return AsChain();
             }
             else
             {
-                return chain;
+                return AsChain().Reverse();
             }
         }
 
-        //TODO: make public
-        internal BinaryExpressionChain AsChain()
+        public ExpressionChain AsChain()
         {
-            return new BinaryExpressionChain(BinaryExpression, Span ?? BinaryExpression.FullSpan);
+            return new ExpressionChain(BinaryExpression, Span ?? BinaryExpression?.FullSpan ?? default);
         }
 
         internal InterpolatedStringExpressionSyntax ToInterpolatedStringExpression()
@@ -131,7 +130,7 @@ namespace Roslynator.CSharp.Syntax
 
             sb.Append('"');
 
-            foreach (ExpressionSyntax expression in AsChain().Reverse())
+            foreach (ExpressionSyntax expression in AsChain())
             {
                 SyntaxKind kind = expression.Kind();
 
@@ -228,7 +227,7 @@ namespace Roslynator.CSharp.Syntax
 
             sb.Append('"');
 
-            foreach (ExpressionSyntax expression in AsChain().Reverse())
+            foreach (ExpressionSyntax expression in AsChain())
             {
                 StringLiteralExpressionInfo literal = SyntaxInfo.StringLiteralExpressionInfo(expression);
 
@@ -266,7 +265,7 @@ namespace Roslynator.CSharp.Syntax
             sb.Append('@');
             sb.Append('"');
 
-            ExpressionSyntax[] expressions = AsChain().Reverse().ToArray();
+            ExpressionSyntax[] expressions = AsChain().ToArray();
 
             for (int i = 0; i < expressions.Length; i++)
             {
