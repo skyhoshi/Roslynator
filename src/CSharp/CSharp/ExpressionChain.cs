@@ -372,15 +372,9 @@ namespace Roslynator.CSharp
                     || (span.Length == 0 && Span.IntersectsWith(span));
             }
 
-            public override bool Equals(object obj)
-            {
-                throw new NotSupportedException();
-            }
+            public override bool Equals(object obj) => throw new NotSupportedException();
 
-            public override int GetHashCode()
-            {
-                throw new NotSupportedException();
-            }
+            public override int GetHashCode() => throw new NotSupportedException();
 
             private enum State
             {
@@ -400,25 +394,13 @@ namespace Roslynator.CSharp
                 _en = new Enumerator(chain);
             }
 
-            public ExpressionSyntax Current
-            {
-                get { return _en.Current; }
-            }
+            public ExpressionSyntax Current => _en.Current;
 
-            object IEnumerator.Current
-            {
-                get { return _en.Current; }
-            }
+            object IEnumerator.Current => _en.Current;
 
-            public bool MoveNext()
-            {
-                return _en.MoveNext();
-            }
+            public bool MoveNext() => _en.MoveNext();
 
-            public void Reset()
-            {
-                _en.Reset();
-            }
+            public void Reset() => _en.Reset();
 
             public void Dispose()
             {
