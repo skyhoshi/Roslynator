@@ -3,24 +3,65 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 
 namespace Roslynator.CSharp
 {
-    public readonly partial struct BinaryExpressionChain
+    public readonly partial struct ExpressionChain
     {
         /// <summary>
-        /// Enables to enumerate expressions of <see cref="BinaryExpressionChain"/> in a reversed order.
+        /// Enables to enumerate expressions of <see cref="ExpressionChain"/> in a reversed order.
         /// </summary>
         public readonly struct Reversed : IEquatable<Reversed>, IEnumerable<ExpressionSyntax>
         {
-            private readonly BinaryExpressionChain _chain;
+            private readonly ExpressionChain _chain;
 
-            public Reversed(in BinaryExpressionChain chain)
+            public Reversed(in ExpressionChain chain)
             {
                 _chain = chain;
+            }
+
+            internal bool IsStringConcatenation(
+                SemanticModel semanticModel,
+                CancellationToken cancellationToken = default(CancellationToken))
+            {
+                if (!_chain.BinaryExpression.IsKind(SyntaxKind.AddExpression))
+                    return false;
+
+                Enumerator en = GetEnumerator();
+
+                if (!en.MoveNext())
+                    return false;
+
+                var binaryExpression = (BinaryExpressionSyntax)en.Current.Parent;
+
+                if (!en.MoveNext())
+                    return false;
+
+                while (true)
+                {
+                    if (!CSharpUtility.IsStringConcatenation(binaryExpression, semanticModel, cancellationToken))
+                        return false;
+
+                    ExpressionSyntax prev = en.Current;
+
+                    if (en.MoveNext())
+                    {
+                        binaryExpression = (BinaryExpressionSyntax)prev.Parent;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                return true;
             }
 
             public Enumerator GetEnumerator()
@@ -79,17 +120,20 @@ namespace Roslynator.CSharp
             [SuppressMessage("Usage", "CA2231:Overload operator equals on overriding value type Equals", Justification = "<Pending>")]
             public struct Enumerator
             {
-                private BinaryExpressionChain _chain;
-                private ExpressionSyntax _last;
+                private ExpressionChain _chain;
                 private ExpressionSyntax _current;
                 private State _state;
 
-                internal Enumerator(in BinaryExpressionChain chain)
+                internal Enumerator(in ExpressionChain chain)
                 {
                     _chain = chain;
-                    _last = null;
                     _current = null;
                     _state = State.Start;
+                }
+
+                private BinaryExpressionSyntax BinaryExpression
+                {
+                    get { return _chain.BinaryExpression; }
                 }
 
                 private TextSpan Span
@@ -103,112 +147,94 @@ namespace Roslynator.CSharp
                     {
                         case State.Start:
                             {
-                                if (_chain.BinaryExpression == null)
+                                if (BinaryExpression == null)
                                     return false;
 
-                                BinaryExpressionSyntax binaryExpression = _chain.BinaryExpression;
-                                ExpressionSyntax left = null;
-                                ExpressionSyntax right = binaryExpression.Right;
+                                ExpressionSyntax right = BinaryExpression.Right;
+
+                                Debug.Assert(right != null, "BinaryExpressionSyntax.Right is null.");
 
                                 if (IsInSpan(right.Span))
                                 {
-                                    _last = right;
-                                }
-                                else
-                                {
-                                    while (true)
-                                    {
-                                        left = binaryExpression.Left;
-
-                                        if (left.RawKind == binaryExpression.RawKind)
-                                        {
-                                            binaryExpression = (BinaryExpressionSyntax)left;
-                                            right = binaryExpression.Right;
-
-                                            if (IsInSpan(right.Span))
-                                            {
-                                                _last = right;
-                                                break;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (IsInSpan(left.Span))
-                                            {
-                                                _last = left;
-                                                _current = left;
-                                                _state = State.Left;
-                                                return true;
-                                            }
-
-                                            return false;
-                                        }
-                                    }
+                                    _current = right;
+                                    _state = State.Right;
+                                    return true;
                                 }
 
-                                ExpressionSyntax first = _last;
-                                var state = State.Right;
+                                BinaryExpressionSyntax binaryExpression = BinaryExpression;
 
                                 while (true)
                                 {
-                                    left = binaryExpression.Left;
+                                    ExpressionSyntax left = binaryExpression.Left;
+
+                                    Debug.Assert(left != null, "BinaryExpressionSyntax.Left is null.");
 
                                     if (left.RawKind == binaryExpression.RawKind)
                                     {
                                         binaryExpression = (BinaryExpressionSyntax)left;
                                         right = binaryExpression.Right;
 
+                                        Debug.Assert(right != null, "BinaryExpressionSyntax.Right is null.");
+
                                         if (IsInSpan(right.Span))
                                         {
-                                            first = right;
-                                        }
-                                        else
-                                        {
-                                            break;
+                                            _current = right;
+                                            _state = State.Right;
+                                            return true;
                                         }
                                     }
                                     else
                                     {
+                                        _state = State.Left;
+
                                         if (IsInSpan(left.Span))
                                         {
-                                            first = left;
-                                            state = State.Left;
+                                            _current = left;
+                                            return true;
                                         }
 
-                                        break;
+                                        return false;
                                     }
                                 }
-
-                                _current = first;
-                                _state = state;
-                                return true;
                             }
                         case State.Right:
                             {
-                                if (_current == _last)
+                                var binaryExpression = (BinaryExpressionSyntax)_current.Parent;
+
+                                ExpressionSyntax left = binaryExpression.Left;
+
+                                Debug.Assert(left != null, "BinaryExpressionSyntax.Left is null.");
+
+                                if (left.RawKind == binaryExpression.RawKind)
                                 {
-                                    _current = null;
-                                    _last = null;
-                                    _state = State.End;
+                                    binaryExpression = (BinaryExpressionSyntax)left;
+
+                                    ExpressionSyntax right = binaryExpression.Right;
+
+                                    Debug.Assert(right != null, "BinaryExpressionSyntax.Right is null.");
+
+                                    if (IsInSpan(right.Span))
+                                    {
+                                        _current = right;
+                                        _state = State.Right;
+                                        return true;
+                                    }
                                 }
 
-                                _current = ((BinaryExpressionSyntax)_current.Parent.Parent).Right;
-                                return true;
+                                _state = State.Left;
+
+                                if (IsInSpan(left.Span))
+                                {
+                                    _current = left;
+                                    return true;
+                                }
+                                else
+                                {
+                                    _current = null;
+                                    return false;
+                                }
                             }
                         case State.Left:
-                            {
-                                if (_current == _last)
-                                {
-                                    _current = null;
-                                    _last = null;
-                                    _state = State.End;
-                                }
-
-                                _current = ((BinaryExpressionSyntax)_current.Parent).Right;
-                                _state = State.Right;
-                                return true;
-                            }
-                        case State.End:
                             {
                                 return false;
                             }
@@ -227,7 +253,6 @@ namespace Roslynator.CSharp
                 public void Reset()
                 {
                     _current = null;
-                    _last = null;
                     _state = State.Start;
                 }
 
@@ -252,7 +277,6 @@ namespace Roslynator.CSharp
                     Start = 0,
                     Left = 1,
                     Right = 2,
-                    End = 3,
                 }
             }
 
@@ -260,7 +284,7 @@ namespace Roslynator.CSharp
             {
                 private Enumerator _en;
 
-                internal EnumeratorImpl(in BinaryExpressionChain chain)
+                internal EnumeratorImpl(in ExpressionChain chain)
                 {
                     _en = new Enumerator(chain);
                 }

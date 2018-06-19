@@ -23,7 +23,6 @@ namespace Roslynator.CSharp.Refactorings
             ExpressionSyntax[] expressions = binaryExpression
                 .AsChain()
                 .Where(f => span.Contains(f.Span))
-                .Reverse()
                 .ToArray();
 
             ExpressionSyntax firstExpression = expressions[0];

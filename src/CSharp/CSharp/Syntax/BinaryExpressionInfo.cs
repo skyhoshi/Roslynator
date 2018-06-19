@@ -73,23 +73,19 @@ namespace Roslynator.CSharp.Syntax
         {
             ThrowInvalidOperationIfNotInitialized();
 
-            ThrowInvalidOperationIfNotInitialized();
-
-            var chain = new BinaryExpressionChain(BinaryExpression);
-
             if (leftToRight)
             {
-                return chain.Reverse();
+                return AsChain();
             }
             else
             {
-                return chain;
+                return AsChain().Reverse();
             }
         }
 
-        public BinaryExpressionChain AsChain()
+        public ExpressionChain AsChain()
         {
-            return new BinaryExpressionChain(BinaryExpression);
+            return new ExpressionChain(BinaryExpression);
         }
 
         internal static BinaryExpressionInfo Create(

@@ -1051,11 +1051,11 @@ namespace Roslynator.CSharp
         }
 
         internal static StringConcatenationExpressionInfo StringConcatenationExpressionInfo(
-            in BinaryExpressionChain binaryExpressionChain,
+            in ExpressionChain expressionChain,
             SemanticModel semanticModel,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            return Syntax.StringConcatenationExpressionInfo.Create(binaryExpressionChain, semanticModel, cancellationToken);
+            return Syntax.StringConcatenationExpressionInfo.Create(expressionChain, semanticModel, cancellationToken);
         }
 
         /// <summary>

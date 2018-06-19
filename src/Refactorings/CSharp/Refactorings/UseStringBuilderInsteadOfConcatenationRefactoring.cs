@@ -69,7 +69,7 @@ namespace Roslynator.CSharp.Refactorings
             };
 
             ExpressionSyntax newInvocation = null;
-            foreach (ExpressionSyntax expression in concatenationInfo.AsChain().Reverse())
+            foreach (ExpressionSyntax expression in concatenationInfo.AsChain())
             {
                 if (expression.IsKind(SyntaxKind.InterpolatedStringExpression))
                 {
