@@ -9,13 +9,16 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Roslynator.CSharp
 {
-    internal partial struct BinaryExpressionChain
+    public readonly partial struct BinaryExpressionChain
     {
-        public class Reversed : IEquatable<Reversed>, IEnumerable<ExpressionSyntax>
+        /// <summary>
+        /// Enables to enumerate expressions of <see cref="BinaryExpressionChain"/> in a reversed order.
+        /// </summary>
+        public readonly struct Reversed : IEquatable<Reversed>, IEnumerable<ExpressionSyntax>
         {
             private readonly BinaryExpressionChain _chain;
 
-            internal Reversed(in BinaryExpressionChain chain)
+            public Reversed(in BinaryExpressionChain chain)
             {
                 _chain = chain;
             }

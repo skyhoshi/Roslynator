@@ -64,7 +64,7 @@ namespace Roslynator.CSharp.Syntax
         }
 
         /// <summary>
-        /// Returns expressions of this binary expression, including expressions of nested binary expressions of the same kind.
+        /// Returns expressions of this binary expression, including expressions of nested binary expressions of the same kind as parent binary expression.
         /// </summary>
         /// <param name="leftToRight">If true expressions are enumerated as they are displayed in the source code.</param>
         /// <returns></returns>
@@ -73,78 +73,21 @@ namespace Roslynator.CSharp.Syntax
         {
             ThrowInvalidOperationIfNotInitialized();
 
-            BinaryExpressionSyntax binaryExpression = BinaryExpression;
-            SyntaxKind kind = Kind;
+            ThrowInvalidOperationIfNotInitialized();
 
-            return (leftToRight) ? EnumerateLeftToRight() : Enumerate();
+            var chain = new BinaryExpressionChain(BinaryExpression);
 
-            IEnumerable<ExpressionSyntax> Enumerate()
+            if (leftToRight)
             {
-                while (true)
-                {
-                    ExpressionSyntax right = binaryExpression.Right;
-
-                    if (right != null)
-                        yield return right;
-
-                    ExpressionSyntax left = binaryExpression.Left;
-
-                    if (left == null)
-                        break;
-
-                    if (left.Kind() == kind)
-                    {
-                        binaryExpression = (BinaryExpressionSyntax)left;
-                    }
-                    else
-                    {
-                        yield return left;
-                        break;
-                    }
-                }
+                return chain.Reverse();
             }
-
-            IEnumerable<ExpressionSyntax> EnumerateLeftToRight()
+            else
             {
-                int count = 0;
-
-                while (true)
-                {
-                    ExpressionSyntax left2 = binaryExpression.Left;
-
-                    if (left2?.Kind() != kind)
-                        break;
-
-                    binaryExpression = (BinaryExpressionSyntax)left2;
-                    count++;
-                }
-
-                ExpressionSyntax left = binaryExpression.Left;
-
-                if (left != null)
-                    yield return left;
-
-                while (true)
-                {
-                    ExpressionSyntax right = binaryExpression.Right;
-
-                    if (right != null)
-                        yield return right;
-
-                    if (count > 0)
-                    {
-                        binaryExpression = binaryExpression.FirstAncestor<BinaryExpressionSyntax>(ascendOutOfTrivia: false);
-                        count--;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
+                return chain;
             }
         }
 
-        internal BinaryExpressionChain AsChain()
+        public BinaryExpressionChain AsChain()
         {
             return new BinaryExpressionChain(BinaryExpression);
         }

@@ -91,13 +91,15 @@ namespace Roslynator.CSharp.Syntax
         }
 
         /// <summary>
-        /// Returns expressions of this binary expression, including expressions of nested binary expressions of the same kind.
+        /// Returns expressions of this binary expression, including expressions of nested binary expressions of the same kind as parent binary expression.
         /// </summary>
         /// <param name="leftToRight">If true expressions are enumerated as they are displayed in the source code.</param>
         /// <returns></returns>
         [Obsolete("This method is obsolete. Use method 'AsChain' instead.")]
         public IEnumerable<ExpressionSyntax> Expressions(bool leftToRight = false)
         {
+            ThrowInvalidOperationIfNotInitialized();
+
             var chain = new BinaryExpressionChain(BinaryExpression, Span ?? BinaryExpression.FullSpan);
 
             if (leftToRight)
@@ -110,10 +112,9 @@ namespace Roslynator.CSharp.Syntax
             }
         }
 
-        //TODO: make public
-        internal BinaryExpressionChain AsChain()
+        public BinaryExpressionChain AsChain()
         {
-            return new BinaryExpressionChain(BinaryExpression, Span ?? BinaryExpression.FullSpan);
+            return new BinaryExpressionChain(BinaryExpression, Span ?? BinaryExpression?.FullSpan ?? default);
         }
 
         internal InterpolatedStringExpressionSyntax ToInterpolatedStringExpression()

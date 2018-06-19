@@ -52,7 +52,7 @@ namespace Roslynator.CSharp.Refactorings.ExtractCondition
             BinaryExpressionSyntax condition,
             in BinaryExpressionChain binaryExpressionChain)
         {
-            var binaryExpression = (BinaryExpressionSyntax)binaryExpressionChain.FirstExpression.Parent;
+            var binaryExpression = (BinaryExpressionSyntax)binaryExpressionChain.First().Parent;
 
             return statement.ReplaceNode(
                 condition,

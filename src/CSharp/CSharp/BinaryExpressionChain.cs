@@ -13,17 +13,18 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Roslynator.CSharp
 {
-    //TODO: make public
     /// <summary>
-    /// Enables to enumerate expressions of binary expression and expressions of nested binary expressions of the same kind.
+    /// Enables to enumerate expressions of a binary expression and expressions of nested binary expressions of the same kind as parent binary expression.
+    /// Expressions are enumerated as they appeared in a syntax tree, i.e. right to left.
+    /// Use <see cref="Reversed"/> to enumerate expressions as they are displayed in a source code,.
     /// </summary>
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
-    internal partial struct BinaryExpressionChain : IEquatable<BinaryExpressionChain>, IEnumerable<ExpressionSyntax>
+    public readonly partial struct BinaryExpressionChain : IEquatable<BinaryExpressionChain>, IEnumerable<ExpressionSyntax>
     {
         internal BinaryExpressionChain(BinaryExpressionSyntax binaryExpression)
         {
             BinaryExpression = binaryExpression;
-            OriginalSpan = binaryExpression.FullSpan;
+            OriginalSpan = binaryExpression?.FullSpan ?? default;
         }
 
         internal BinaryExpressionChain(BinaryExpressionSyntax binaryExpression, TextSpan span)
@@ -38,10 +39,13 @@ namespace Roslynator.CSharp
         public BinaryExpressionSyntax BinaryExpression { get; }
 
         /// <summary>
-        /// The span that was passed to the constructor or full span of the binary expression.
+        /// The span that was passed to the constructor or a full span of the binary expression.
         /// </summary>
         internal TextSpan OriginalSpan { get; }
 
+        /// <summary>
+        /// The absolute span of expressions in characters, not including its leading and trailing trivia.
+        /// </summary>
         public TextSpan Span
         {
             get
@@ -64,6 +68,9 @@ namespace Roslynator.CSharp
             }
         }
 
+        /// <summary>
+        /// The absolute span of expressions in characters, including its leading and trailing trivia.
+        /// </summary>
         public TextSpan FullSpan
         {
             get
@@ -86,27 +93,18 @@ namespace Roslynator.CSharp
             }
         }
 
-        private int Count
+        internal int Count
         {
             get
             {
                 int count = 0;
 
                 Enumerator en = GetEnumerator();
+
                 while (en.MoveNext())
                     count++;
 
                 return count;
-            }
-        }
-
-        internal ExpressionSyntax FirstExpression
-        {
-            get
-            {
-                Enumerator en = GetEnumerator();
-
-                return (en.MoveNext()) ? en.Current : null;
             }
         }
 
@@ -116,9 +114,48 @@ namespace Roslynator.CSharp
             get { return BinaryExpression?.ToString(Span) ?? "Uninitialized"; }
         }
 
+        /// <summary>
+        /// Returns a chain which contains all expressions of <see cref="BinaryExpressionChain"/> in reversed order
+        /// </summary>
+        /// <returns></returns>
         public Reversed Reverse()
         {
             return new Reversed(this);
+        }
+
+        /// <summary>
+        /// Returns true if this chain contains any expression.
+        /// </summary>
+        /// <returns></returns>
+        public bool Any()
+        {
+            return BinaryExpression != null && GetEnumerator().MoveNext();
+        }
+
+        //TODO: make public
+        internal ExpressionSyntax First()
+        {
+            Enumerator en = GetEnumerator();
+
+            return (en.MoveNext()) ? en.Current : throw new InvalidOperationException();
+        }
+
+        //TODO: make public
+        internal ExpressionSyntax Last()
+        {
+            Enumerator en = GetEnumerator();
+
+            if (en.MoveNext())
+            {
+                ExpressionSyntax last = en.Current;
+
+                while (en.MoveNext())
+                    last = en.Current;
+
+                return last;
+            }
+
+            throw new InvalidOperationException();
         }
 
         internal bool IsStringConcatenation(
@@ -184,7 +221,7 @@ namespace Roslynator.CSharp
         }
 
         /// <summary>
-        /// Returns the string representation of the underlying syntax, not including its leading and trailing trivia.
+        /// Returns the string representation of the expressions, not including its leading and trailing trivia.
         /// </summary>
         /// <returns></returns>
         public override string ToString()

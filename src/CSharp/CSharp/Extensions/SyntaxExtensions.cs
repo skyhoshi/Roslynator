@@ -175,8 +175,7 @@ namespace Roslynator.CSharp
         #endregion BaseArgumentListSyntax
 
         #region BinaryExpressionSyntax
-        //TODO: make public
-        internal static BinaryExpressionChain AsChain(this BinaryExpressionSyntax binaryExpression)
+        public static BinaryExpressionChain AsChain(this BinaryExpressionSyntax binaryExpression)
         {
             return new BinaryExpressionChain(binaryExpression);
         }
