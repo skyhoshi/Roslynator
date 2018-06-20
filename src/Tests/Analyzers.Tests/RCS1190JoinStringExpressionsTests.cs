@@ -7,8 +7,6 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Roslynator.CSharp.CodeFixes;
 using Xunit;
 
-#pragma warning disable RCS1090
-
 namespace Roslynator.CSharp.Analysis.Tests
 {
     public class RCS1190JoinStringExpressionsTests : AbstractCSharpCodeFixVerifier
@@ -311,15 +309,29 @@ class C
         public async Task TestNoDiagnostic_AddExpressionIsNotStringConcatenation()
         {
             await VerifyNoDiagnosticAsync(@"
-    class C
+class C
+{
+    void M(string s)
     {
-        void M(string s)
-        {
-            s = default(C) + ""a"" + ""b"";
+        s = default(C) + ""a"" + ""b"";
+    }
+
+    public static string operator +(C left, string right) => null;
+}
+");
         }
 
-        public static string operator +(C left, string right) => null;
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.JoinStringExpressions)]
+        public async Task TestNoDiagnostic_LiteralsMixedWithExpressions()
+        {
+            await VerifyNoDiagnosticAsync(@"
+class C
+{
+    void M(string s1, string s2, string s3)
+    {
+        s1 = s1 + ""a"" + s2 +  ""b"" + s3;
     }
+}
 ");
         }
     }
