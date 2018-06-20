@@ -1,10 +1,7 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Threading.Tasks;
-using Roslynator.Tests;
 using Xunit;
-
-#pragma warning disable RCS1090
 
 namespace Roslynator.CSharp.Refactorings.Tests
 {
@@ -34,23 +31,26 @@ class C
 ", equivalenceKey: RefactoringId);
         }
 
-        //[Theory, Trait(Traits.Refactoring, RefactoringIdentifiers.JoinStringExpressions)]
-        //[InlineData("", "")]
-        public async Task Test2(string fromData, string toData)
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.JoinStringExpressions)]
+        public async Task Test_ToInterpolatedString()
         {
             await VerifyRefactoringAsync(@"
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 class C
 {
-    void M()
+    void M(string s1, string s2, string s3)
     {
+        s1 = [|s1 + ""a"" + s2 +  @""b"" + s3|];
     }
 }
-", fromData, toData, equivalenceKey: RefactoringId);
+", @"
+class C
+{
+    void M(string s1, string s2, string s3)
+    {
+        s1 = $""{s1}a{s2}b{s3}"";
+    }
+}
+", equivalenceKey: RefactoringId);
         }
 
         //[Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.JoinStringExpressions)]

@@ -45,7 +45,7 @@ namespace Roslynator.CSharp
         {
             get
             {
-                Enumerator en = GetEnumerator();
+                Reversed.Enumerator en = Reverse().GetEnumerator();
 
                 if (en.MoveNext())
                 {
@@ -70,7 +70,7 @@ namespace Roslynator.CSharp
         {
             get
             {
-                Enumerator en = GetEnumerator();
+                Reversed.Enumerator en = Reverse().GetEnumerator();
 
                 if (en.MoveNext())
                 {

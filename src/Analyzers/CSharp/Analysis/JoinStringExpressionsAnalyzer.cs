@@ -104,6 +104,15 @@ namespace Roslynator.CSharp.Analysis
 
                             break;
                         }
+                    default:
+                        {
+                            if (lastExpression != null)
+                                Analyze(context, firstExpression, lastExpression, isVerbatim);
+
+                            firstExpression = null;
+                            lastExpression = null;
+                            break;
+                        }
                 }
             }
 
