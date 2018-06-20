@@ -996,5 +996,21 @@ namespace Roslynator.CSharp
             return node.IsParentKind(SyntaxKind.ForEachStatement, SyntaxKind.ForEachVariableStatement)
                 && node == ((ForEachStatementSyntax)node.Parent).Expression;
         }
+
+        //TODO: make public
+        internal static bool IsOverridableDeclaration(SyntaxKind kind)
+        {
+            switch (kind)
+            {
+                case SyntaxKind.EventFieldDeclaration:
+                case SyntaxKind.MethodDeclaration:
+                case SyntaxKind.PropertyDeclaration:
+                case SyntaxKind.EventDeclaration:
+                case SyntaxKind.IndexerDeclaration:
+                    return true;
+                default:
+                    return false;
+            }
+        }
     }
 }
