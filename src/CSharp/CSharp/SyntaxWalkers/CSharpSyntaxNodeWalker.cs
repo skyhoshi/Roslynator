@@ -113,7 +113,17 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitAliasQualifiedName(AliasQualifiedNameSyntax node)
         {
-            VisitType(node.Alias);
+            if (!ShouldVisit)
+            {
+                return;
+            }
+
+            IdentifierNameSyntax alias = node.Alias;
+            if (alias != null)
+            {
+                VisitIdentifierName(alias);
+            }
+
             VisitType(node.Name);
         }
 
@@ -218,7 +228,16 @@ namespace Roslynator.CSharp.SyntaxWalkers
                 VisitArrayType(type);
             }
 
-            Visit(node.Initializer);
+            if (!ShouldVisit)
+            {
+                return;
+            }
+
+            InitializerExpressionSyntax initializer = node.Initializer;
+            if (initializer != null)
+            {
+                VisitInitializerExpression(initializer);
+            }
         }
 
         public override void VisitArrayRankSpecifier(ArrayRankSpecifierSyntax node)
@@ -1266,7 +1285,16 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitImplicitArrayCreationExpression(ImplicitArrayCreationExpressionSyntax node)
         {
-            Visit(node.Initializer);
+            if (!ShouldVisit)
+            {
+                return;
+            }
+
+            InitializerExpressionSyntax initializer = node.Initializer;
+            if (initializer != null)
+            {
+                VisitInitializerExpression(initializer);
+            }
         }
 
         public override void VisitImplicitElementAccess(ImplicitElementAccessSyntax node)
@@ -1733,12 +1761,30 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitNameColon(NameColonSyntax node)
         {
-            VisitType(node.Name);
+            if (!ShouldVisit)
+            {
+                return;
+            }
+
+            IdentifierNameSyntax name = node.Name;
+            if (name != null)
+            {
+                VisitIdentifierName(name);
+            }
         }
 
         public override void VisitNameEquals(NameEqualsSyntax node)
         {
-            VisitType(node.Name);
+            if (!ShouldVisit)
+            {
+                return;
+            }
+
+            IdentifierNameSyntax name = node.Name;
+            if (name != null)
+            {
+                VisitIdentifierName(name);
+            }
         }
 
         public override void VisitNameMemberCref(NameMemberCrefSyntax node)
@@ -1804,7 +1850,16 @@ namespace Roslynator.CSharp.SyntaxWalkers
                 }
             }
 
-            Visit(node.Initializer);
+            if (!ShouldVisit)
+            {
+                return;
+            }
+
+            InitializerExpressionSyntax initializer = node.Initializer;
+            if (initializer != null)
+            {
+                VisitInitializerExpression(initializer);
+            }
         }
 
         public override void VisitOmittedArraySizeExpression(OmittedArraySizeExpressionSyntax node)
@@ -2395,7 +2450,17 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitTypeParameterConstraintClause(TypeParameterConstraintClauseSyntax node)
         {
-            VisitType(node.Name);
+            if (!ShouldVisit)
+            {
+                return;
+            }
+
+            IdentifierNameSyntax name = node.Name;
+            if (name != null)
+            {
+                VisitIdentifierName(name);
+            }
+
             VisitSeparatedList(node.Constraints);
         }
 
@@ -2648,7 +2713,16 @@ namespace Roslynator.CSharp.SyntaxWalkers
                 VisitXmlName(name);
             }
 
-            VisitType(node.Identifier);
+            if (!ShouldVisit)
+            {
+                return;
+            }
+
+            IdentifierNameSyntax identifier = node.Identifier;
+            if (identifier != null)
+            {
+                VisitIdentifierName(identifier);
+            }
         }
 
         public override void VisitXmlPrefix(XmlPrefixSyntax node)
