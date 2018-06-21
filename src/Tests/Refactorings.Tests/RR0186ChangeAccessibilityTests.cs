@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Xunit;
 
-#pragma warning disable RCS1090
-
 namespace Roslynator.CSharp.Refactorings.Tests
 {
     public class RR0186ChangeAccessibilityTests : AbstractCSharpCodeRefactoringVerifier
@@ -29,6 +27,30 @@ class C
         }
 
         [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeAccessibility)]
+        public async Task Test_OverrideMethod()
+        {
+            await VerifyRefactoringAsync(@"
+class B
+{
+    public virtual string M() => null;
+}
+class C : B
+{
+    [||]public override string M() => null;
+}
+", @"
+class B
+{
+    internal virtual string M() => null;
+}
+class C : B
+{
+    internal override string M() => null;
+}
+", equivalenceKey: EquivalenceKey.Join(RefactoringId, nameof(Accessibility.Internal)));
+        }
+
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeAccessibility)]
         public async Task Test_MultipleDeclarations()
         {
             await VerifyRefactoringAsync(@"
@@ -47,7 +69,7 @@ class C
         }
 
         [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeAccessibility)]
-        public async Task TestNoRefactoring_OverriddenDeclarationWithoutBaseSource()
+        public async Task TestNoRefactoring_OverrideDeclarationWithoutBaseSource()
         {
             await VerifyNoRefactoringAsync(@"
 class C
@@ -58,7 +80,7 @@ class C
         }
 
         [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeAccessibility)]
-        public async Task TestNoRefactoring_OverriddenDeclarationsWithoutBaseSource()
+        public async Task TestNoRefactoring_OverrideDeclarationsWithoutBaseSource()
         {
             await VerifyNoRefactoringAsync(@"
 class C
@@ -67,6 +89,42 @@ class C
     public override int GetHashCode() => 0;|]
 }
 ", equivalenceKey: RefactoringId);
+        }
+
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeAccessibility)]
+        public async Task TestNoRefactoring_AbstractMethodToPrivate()
+        {
+            await VerifyNoRefactoringAsync(@"
+abstract class C
+{
+    [||]public abstract string M();
+}
+", equivalenceKey: EquivalenceKey.Join(RefactoringId, nameof(Accessibility.Private)));
+        }
+
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeAccessibility)]
+        public async Task TestNoRefactoring_VirtualMethodToPrivate()
+        {
+            await VerifyNoRefactoringAsync(@"
+class C
+{
+    [||]public virtual string M() => null;
+}
+", equivalenceKey: EquivalenceKey.Join(RefactoringId, nameof(Accessibility.Private)));
+        }
+
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.ChangeAccessibility)]
+        public async Task TestNoRefactoring_OverrideMethodToPrivate()
+        {
+            await VerifyNoRefactoringAsync(@"
+class B
+{
+    public virtual string M() => null;
+}
+class C : B
+{
+    [||]public override string M() => null;
+}", equivalenceKey: EquivalenceKey.Join(RefactoringId, nameof(Accessibility.Private)));
         }
     }
 }

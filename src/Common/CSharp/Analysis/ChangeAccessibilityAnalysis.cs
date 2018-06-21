@@ -8,6 +8,7 @@ using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Roslynator.CSharp.Syntax;
 
 namespace Roslynator.CSharp.Analysis
 {
@@ -80,7 +81,18 @@ namespace Roslynator.CSharp.Analysis
                         }
                 }
 
-                if (IsOverriddenDeclarationWithoutBaseSource(member, semanticModel, cancellationToken))
+                ModifierListInfo modifiersInfo = SyntaxInfo.ModifierListInfo(member);
+
+                if (modifiersInfo.Modifiers.ContainsAny(
+                    SyntaxKind.AbstractKeyword,
+                    SyntaxKind.VirtualKeyword,
+                    SyntaxKind.OverrideKeyword))
+                {
+                    valid &= ~Accessibilities.Private;
+                }
+
+                if (modifiersInfo.IsOverride
+                    && IsBaseDeclarationWithoutSource(member, semanticModel, cancellationToken))
                 {
                     switch (accessibility)
                     {
@@ -178,73 +190,22 @@ namespace Roslynator.CSharp.Analysis
             }
         }
 
-        private static bool IsOverriddenDeclarationWithoutBaseSource(
+        private static bool IsBaseDeclarationWithoutSource(
             MemberDeclarationSyntax member,
             SemanticModel semanticModel,
             CancellationToken cancellationToken)
         {
-            if (SyntaxInfo.ModifierListInfo(member).IsOverride)
+            switch (member.Kind())
             {
-                switch (member.Kind())
-                {
-                    case SyntaxKind.EventFieldDeclaration:
+                case SyntaxKind.EventFieldDeclaration:
+                    {
+                        var eventFieldDeclaration = (EventFieldDeclarationSyntax)member;
+
+                        foreach (VariableDeclaratorSyntax declarator in eventFieldDeclaration.Declaration.Variables)
                         {
-                            var eventFieldDeclaration = (EventFieldDeclarationSyntax)member;
+                            var symbol = (IEventSymbol)semanticModel.GetDeclaredSymbol(declarator, cancellationToken);
 
-                            foreach (VariableDeclaratorSyntax declarator in eventFieldDeclaration.Declaration.Variables)
-                            {
-                                var symbol = (IEventSymbol)semanticModel.GetDeclaredSymbol(declarator, cancellationToken);
-
-                                if (symbol?
-                                    .BaseOverriddenEvent()?
-                                    .Locations
-                                    .FirstOrDefault()?
-                                    .Kind != LocationKind.SourceFile)
-                                {
-                                    return true;
-                                }
-                            }
-
-                            break;
-                        }
-                    case SyntaxKind.MethodDeclaration:
-                        {
-                            var methodDeclaration = (MethodDeclarationSyntax)member;
-
-                            if (semanticModel
-                                .GetDeclaredSymbol(methodDeclaration, cancellationToken)?
-                                .BaseOverriddenMethod()?
-                                .Locations
-                                .FirstOrDefault()?
-                                .Kind != LocationKind.SourceFile)
-                            {
-                                return true;
-                            }
-
-                            break;
-                        }
-                    case SyntaxKind.PropertyDeclaration:
-                        {
-                            var propertyDeclaration = (PropertyDeclarationSyntax)member;
-
-                            if (semanticModel
-                                .GetDeclaredSymbol(propertyDeclaration, cancellationToken)?
-                                .BaseOverriddenProperty()?
-                                .Locations
-                                .FirstOrDefault()?
-                                .Kind != LocationKind.SourceFile)
-                            {
-                                return true;
-                            }
-
-                            break;
-                        }
-                    case SyntaxKind.EventDeclaration:
-                        {
-                            var eventDeclaration = (EventDeclarationSyntax)member;
-
-                            if (semanticModel
-                                .GetDeclaredSymbol(eventDeclaration, cancellationToken)?
+                            if (symbol?
                                 .BaseOverriddenEvent()?
                                 .Locations
                                 .FirstOrDefault()?
@@ -252,26 +213,74 @@ namespace Roslynator.CSharp.Analysis
                             {
                                 return true;
                             }
-
-                            break;
                         }
-                    case SyntaxKind.IndexerDeclaration:
+
+                        break;
+                    }
+                case SyntaxKind.MethodDeclaration:
+                    {
+                        var methodDeclaration = (MethodDeclarationSyntax)member;
+
+                        if (semanticModel
+                            .GetDeclaredSymbol(methodDeclaration, cancellationToken)?
+                            .BaseOverriddenMethod()?
+                            .Locations
+                            .FirstOrDefault()?
+                            .Kind != LocationKind.SourceFile)
                         {
-                            var indexerDeclaration = (IndexerDeclarationSyntax)member;
-
-                            if (semanticModel
-                                .GetDeclaredSymbol(indexerDeclaration, cancellationToken)?
-                                .BaseOverriddenProperty()?
-                                .Locations
-                                .FirstOrDefault()?
-                                .Kind != LocationKind.SourceFile)
-                            {
-                                return true;
-                            }
-
-                            break;
+                            return true;
                         }
-                }
+
+                        break;
+                    }
+                case SyntaxKind.PropertyDeclaration:
+                    {
+                        var propertyDeclaration = (PropertyDeclarationSyntax)member;
+
+                        if (semanticModel
+                            .GetDeclaredSymbol(propertyDeclaration, cancellationToken)?
+                            .BaseOverriddenProperty()?
+                            .Locations
+                            .FirstOrDefault()?
+                            .Kind != LocationKind.SourceFile)
+                        {
+                            return true;
+                        }
+
+                        break;
+                    }
+                case SyntaxKind.EventDeclaration:
+                    {
+                        var eventDeclaration = (EventDeclarationSyntax)member;
+
+                        if (semanticModel
+                            .GetDeclaredSymbol(eventDeclaration, cancellationToken)?
+                            .BaseOverriddenEvent()?
+                            .Locations
+                            .FirstOrDefault()?
+                            .Kind != LocationKind.SourceFile)
+                        {
+                            return true;
+                        }
+
+                        break;
+                    }
+                case SyntaxKind.IndexerDeclaration:
+                    {
+                        var indexerDeclaration = (IndexerDeclarationSyntax)member;
+
+                        if (semanticModel
+                            .GetDeclaredSymbol(indexerDeclaration, cancellationToken)?
+                            .BaseOverriddenProperty()?
+                            .Locations
+                            .FirstOrDefault()?
+                            .Kind != LocationKind.SourceFile)
+                        {
+                            return true;
+                        }
+
+                        break;
+                    }
             }
 
             return false;
