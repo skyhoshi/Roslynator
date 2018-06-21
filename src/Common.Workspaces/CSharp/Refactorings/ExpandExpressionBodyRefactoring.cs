@@ -52,8 +52,6 @@ namespace Roslynator.CSharp.Refactorings
             newNode = newNode.WithFormatterAnnotation();
 
             return await document.ReplaceNodeAsync(expressionBody.Parent, newNode, cancellationToken).ConfigureAwait(false);
-
-            return await document.ReplaceNodeAsync(expressionBody.Parent, newNode, cancellationToken).ConfigureAwait(false);
         }
 
         public static (SyntaxNode node, BlockSyntax body) Refactor(
