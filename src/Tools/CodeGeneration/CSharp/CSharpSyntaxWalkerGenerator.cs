@@ -3,8 +3,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Roslynator.CSharp;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -26,6 +28,8 @@ namespace Roslynator.CodeGeneration.CSharp
             miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes
                 | SymbolDisplayMiscellaneousOptions.EscapeKeywordIdentifiers
                 | SymbolDisplayMiscellaneousOptions.RemoveAttributeSuffix);
+
+        private static readonly ImmutableDictionary<ITypeSymbol, IMethodSymbol> _typeSymbolMethodSymbolMap = VisitMethodSymbols.ToImmutableDictionary(f => f.Parameters.Single().Type);
 
         private static Compilation _compilation;
         private static INamedTypeSymbol _csharpSyntaxWalkerSymbol;
@@ -137,6 +141,8 @@ namespace Roslynator.CodeGeneration.CSharp
         {
             IParameterSymbol parameter = methodSymbol.Parameters.Single();
 
+            Debug.Assert(parameter.Type.EqualsOrInheritsFrom(SyntaxNodeSymbol), parameter.Type.ToDisplayString());
+
             BlockSyntax body = null;
 
             if (ShouldVisitFunction
@@ -158,12 +164,12 @@ namespace Roslynator.CodeGeneration.CSharp
 
             bool IsVisitFunction()
             {
-                switch (methodSymbol.Name)
+                switch (parameter.Type.Name)
                 {
-                    case "VisitSimpleLambdaExpression":
-                    case "VisitParenthesizedLambdaExpression":
-                    case "VisitAnonymousMethodExpression":
-                    case "VisitLocalFunctionStatement":
+                    case "SimpleLambdaExpressionSyntax":
+                    case "ParenthesizedLambdaExpressionSyntax":
+                    case "AnonymousMethodExpressionSyntax":
+                    case "LocalFunctionStatementSyntax":
                         return true;
                     default:
                         return false;
@@ -175,22 +181,8 @@ namespace Roslynator.CodeGeneration.CSharp
         {
             string parameterName = parameterSymbol.Name;
 
-            foreach (ISymbol symbol in parameterSymbol.Type.GetMembers())
+            foreach (IPropertySymbol propertySymbol in GetPropertySymbols(parameterSymbol.Type))
             {
-                if (symbol.Kind != SymbolKind.Property)
-                    continue;
-
-                if (symbol.DeclaredAccessibility != Accessibility.Public)
-                    continue;
-
-                if (symbol.HasAttribute(MetadataNames.System_ObsoleteAttribute))
-                    continue;
-
-                var propertySymbol = (IPropertySymbol)symbol;
-
-                if (propertySymbol.IsIndexer)
-                    continue;
-
                 string propertyName = propertySymbol.Name;
                 ITypeSymbol propertyType = propertySymbol.Type;
 
@@ -312,14 +304,6 @@ namespace Roslynator.CodeGeneration.CSharp
                         case "XmlElementStartTagSyntax":
                         case "XmlNameSyntax":
                         case "XmlPrefixSyntax":
-                            {
-                                string methodNameSuffix = propertyType.Name.Remove(propertyType.Name.Length - 6);
-
-                                foreach (StatementSyntax statement in GenerateVisitStatements(propertySymbol, parameterName, methodNameSuffix))
-                                    yield return statement;
-
-                                break;
-                            }
                         case "CrefSyntax":
                         case "CSharpSyntaxNode":
                         case "ExpressionSyntax":
@@ -438,13 +422,17 @@ namespace Roslynator.CodeGeneration.CSharp
 
         private IEnumerable<StatementSyntax> GenerateVisitStatements(
             IPropertySymbol propertySymbol,
-            string parameterName,
-            string methodNameSuffix = null)
+            string parameterName)
         {
-            if (methodNameSuffix == null)
+            string propertyName = propertySymbol.Name;
+            ITypeSymbol propertyType = propertySymbol.Type;
+
+            IMethodSymbol methodSymbol = FindVisitMethod(propertyType);
+
+            if (methodSymbol == null)
             {
                 if (ShouldGenerateVisitType
-                    && propertySymbol.Type.EqualsOrInheritsFrom(TypeSyntaxSymbol))
+                    && propertyType.EqualsOrInheritsFrom(TypeSyntaxSymbol))
                 {
                     yield return GenerateVisitStatement("VisitType");
                 }
@@ -455,27 +443,63 @@ namespace Roslynator.CodeGeneration.CSharp
             }
             else
             {
-                string variableName = StringUtility.ToCamelCase(propertySymbol.Name);
+                string variableName = null;
 
-                switch (variableName)
+                if (Depth == SyntaxWalkerDepth.Node)
                 {
-                    case "else":
-                    case "default":
-                    case "finally":
+                    IPropertySymbol propertySymbol2 = GetSinglePropertySymbolOrDefault(propertySymbol.Type);
+
+                    if (propertySymbol2 != null)
+                    {
+                        variableName = StringUtility.ToCamelCase(propertySymbol2.Name);
+
+                        if (SyntaxFacts.GetKeywordKind(variableName) != SyntaxKind.None)
+                            variableName = $"@{variableName}";
+
+                        IMethodSymbol methodSymbol2 = FindVisitMethod(propertySymbol2.Type);
+
+                        if (methodSymbol2 != null)
                         {
-                            variableName = "@" + variableName;
-                            break;
+                            yield return IfNotShouldVisitReturnStatement();
                         }
+
+                        yield return LocalDeclarationStatement(
+                            propertySymbol2.Type.ToTypeSyntax(_symbolDisplayFormat),
+                            variableName,
+                            ConditionalAccessExpression(
+                                SimpleMemberAccessExpression(
+                                    IdentifierName(parameterName),
+                                    IdentifierName(propertyName)),
+                                MemberBindingExpression(IdentifierName(propertySymbol2.Name))));
+
+                        yield return IfStatement(
+                            NotEqualsExpression(
+                                IdentifierName(variableName),
+                                NullLiteralExpression()),
+                            Block(
+                                ExpressionStatement(
+                                InvocationExpression(
+                                    IdentifierName((methodSymbol2 != null) ? methodSymbol2.Name : "Visit"),
+                                    ArgumentList(
+                                        Argument(IdentifierName(variableName)))))));
+
+                        yield break;
+                    }
                 }
+
+                variableName = StringUtility.ToCamelCase(propertyName);
+
+                if (SyntaxFacts.GetKeywordKind(variableName) != SyntaxKind.None)
+                    variableName = $"@{variableName}";
 
                 yield return IfNotShouldVisitReturnStatement();
 
                 yield return LocalDeclarationStatement(
-                    propertySymbol.Type.ToTypeSyntax(_symbolDisplayFormat),
+                    propertyType.ToTypeSyntax(_symbolDisplayFormat),
                     variableName,
                     SimpleMemberAccessExpression(
                         IdentifierName(parameterName),
-                        IdentifierName(propertySymbol.Name)));
+                        IdentifierName(propertyName)));
 
                 yield return IfStatement(
                     NotEqualsExpression(
@@ -484,7 +508,7 @@ namespace Roslynator.CodeGeneration.CSharp
                     Block(
                         ExpressionStatement(
                         InvocationExpression(
-                            IdentifierName("Visit" + methodNameSuffix),
+                            IdentifierName(methodSymbol.Name),
                             ArgumentList(
                                 Argument(IdentifierName(variableName)))))));
             }
@@ -498,7 +522,7 @@ namespace Roslynator.CodeGeneration.CSharp
                             Argument(
                                 SimpleMemberAccessExpression(
                                     IdentifierName(parameterName),
-                                    IdentifierName(propertySymbol.Name))))));
+                                    IdentifierName(propertyName))))));
             }
         }
 
@@ -573,22 +597,12 @@ namespace Roslynator.CodeGeneration.CSharp
 
             IPropertySymbol FindListProperty()
             {
-                foreach (ISymbol symbol in propertyType.GetMembers(listPropertyName))
+                foreach (IPropertySymbol propertySymbol2 in GetPropertySymbols(propertyType, listPropertyName))
                 {
-                    if (symbol.Kind == SymbolKind.Property
-                        && symbol.DeclaredAccessibility == Accessibility.Public
-                        && !symbol.HasAttribute(MetadataNames.System_ObsoleteAttribute))
+                    if (propertySymbol2.Type.OriginalDefinition.Equals(SyntaxListSymbol)
+                        || propertySymbol2.Type.OriginalDefinition.Equals(SeparatedSyntaxListSymbol))
                     {
-                        var propertySymbol2 = (IPropertySymbol)symbol;
-
-                        if (!propertySymbol2.IsIndexer)
-                        {
-                            if (propertySymbol2.Type.OriginalDefinition.Equals(SyntaxListSymbol)
-                                || propertySymbol2.Type.OriginalDefinition.Equals(SeparatedSyntaxListSymbol))
-                            {
-                                return propertySymbol2;
-                            }
-                        }
+                        return propertySymbol2;
                     }
                 }
 
@@ -724,18 +738,143 @@ namespace Roslynator.CodeGeneration.CSharp
 
         private static IMethodSymbol FindVisitMethod(ITypeSymbol typeSymbol)
         {
-            foreach (IMethodSymbol methodSymbol in VisitMethodSymbols)
-            {
-                if (methodSymbol.Parameters.Single().Type.Equals(typeSymbol))
-                    return methodSymbol;
-            }
-
-            return null;
+            return (_typeSymbolMethodSymbolMap.TryGetValue(typeSymbol, out IMethodSymbol methodSymbol))
+                ? methodSymbol
+                : null;
         }
 
         private static StatementSyntax IfNotShouldVisitReturnStatement()
         {
             return IfStatement(LogicalNotExpression(IdentifierName("ShouldVisit")), Block(ReturnStatement()));
+        }
+
+        private static IEnumerable<IPropertySymbol> GetPropertySymbols(ITypeSymbol typeSymbol, string name = null)
+        {
+            foreach (ISymbol symbol in (name != null) ? typeSymbol.GetMembers(name) : typeSymbol.GetMembers())
+            {
+                if (symbol.Kind != SymbolKind.Property)
+                    continue;
+
+                if (symbol.DeclaredAccessibility != Accessibility.Public)
+                    continue;
+
+                if (symbol.HasAttribute(MetadataNames.System_ObsoleteAttribute))
+                    continue;
+
+                var propertySymbol = (IPropertySymbol)symbol;
+
+                if (propertySymbol.IsIndexer)
+                    continue;
+
+                yield return propertySymbol;
+            }
+        }
+
+        private static IPropertySymbol GetSinglePropertySymbolOrDefault(ITypeSymbol typeSymbol)
+        {
+            IPropertySymbol singlePropertySymbol = null;
+
+            foreach (IPropertySymbol propertySymbol in GetPropertySymbols(typeSymbol))
+            {
+                ITypeSymbol propertyType = propertySymbol.Type;
+
+                if (propertyType.OriginalDefinition.Equals(SyntaxListSymbol))
+                {
+                    return null;
+                }
+                else if (propertyType.OriginalDefinition.Equals(SeparatedSyntaxListSymbol))
+                {
+                    return null;
+                }
+                else if (propertyType.Equals(SyntaxTokenListSymbol))
+                {
+                    continue;
+                }
+                else if (propertyType.Equals(SyntaxTokenSymbol))
+                {
+                    continue;
+                }
+                else if (propertyType.EqualsOrInheritsFrom(SyntaxNodeSymbol))
+                {
+                    switch (propertyType.Name)
+                    {
+                        case "AccessorListSyntax":
+                        case "ArgumentListSyntax":
+                        case "AttributeArgumentListSyntax":
+                        case "BracketedArgumentListSyntax":
+                        case "BracketedParameterListSyntax":
+                        case "ParameterListSyntax":
+                        case "TypeArgumentListSyntax":
+                        case "TypeParameterListSyntax":
+                            {
+                                return null;
+                            }
+                        case "ArrayTypeSyntax":
+                        case "ArrowExpressionClauseSyntax":
+                        case "AttributeTargetSpecifierSyntax":
+                        case "BaseListSyntax":
+                        case "BlockSyntax":
+                        case "CatchDeclarationSyntax":
+                        case "CatchFilterClauseSyntax":
+                        case "ConstructorInitializerSyntax":
+                        case "CrefBracketedParameterListSyntax":
+                        case "CrefParameterListSyntax":
+                        case "ElseClauseSyntax":
+                        case "EqualsValueClauseSyntax":
+                        case "ExplicitInterfaceSpecifierSyntax":
+                        case "FinallyClauseSyntax":
+                        case "FromClauseSyntax":
+                        case "InterpolationAlignmentClauseSyntax":
+                        case "InterpolationFormatClauseSyntax":
+                        case "JoinIntoClauseSyntax":
+                        case "NameColonSyntax":
+                        case "NameEqualsSyntax":
+                        case "ParameterSyntax":
+                        case "QueryBodySyntax":
+                        case "QueryContinuationSyntax":
+                        case "VariableDeclarationSyntax":
+                        case "WhenClauseSyntax":
+                        case "XmlElementEndTagSyntax":
+                        case "XmlElementStartTagSyntax":
+                        case "XmlNameSyntax":
+                        case "XmlPrefixSyntax":
+                        case "CrefSyntax":
+                        case "CSharpSyntaxNode":
+                        case "ExpressionSyntax":
+                        case "IdentifierNameSyntax":
+                        case "InitializerExpressionSyntax":
+                        case "MemberCrefSyntax":
+                        case "NameSyntax":
+                        case "PatternSyntax":
+                        case "SelectOrGroupClauseSyntax":
+                        case "SimpleNameSyntax":
+                        case "StatementSyntax":
+                        case "TypeSyntax":
+                        case "VariableDesignationSyntax":
+                            {
+                                if (singlePropertySymbol == null)
+                                {
+                                    singlePropertySymbol = propertySymbol;
+                                    break;
+                                }
+                                else
+                                {
+                                    return null;
+                                }
+                            }
+                        default:
+                            {
+                                throw new InvalidOperationException($"Unrecognized property type '{propertyType.ToDisplayString()}'.");
+                            }
+                    }
+                }
+                else if (!CSharpFacts.IsPredefinedType(propertyType.SpecialType))
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+
+            return singlePropertySymbol;
         }
     }
 }
