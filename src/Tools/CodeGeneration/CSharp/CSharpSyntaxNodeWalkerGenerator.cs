@@ -15,9 +15,11 @@ namespace Roslynator.CodeGeneration.CSharp
             var generator = new CSharpSyntaxWalkerGenerator(
                 depth: SyntaxWalkerDepth.Node,
                 shouldVisitFunction: true,
+                useCustomVisitMethod: true,
                 shouldGenerateVisitType: true,
                 eliminateDefaultVisit: true,
-                inlineVisitWithSingleProperty: true);
+                inlineVisitWithSingleProperty: false,
+                inlineVisitListSyntax: false);
 
             return CompilationUnit(
                 UsingDirectives(

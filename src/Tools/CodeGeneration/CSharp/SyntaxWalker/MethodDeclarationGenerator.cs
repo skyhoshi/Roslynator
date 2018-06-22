@@ -15,19 +15,14 @@ using static Roslynator.CSharp.CSharpFactory;
 
 namespace Roslynator.CodeGeneration.CSharp
 {
-    public class MethodDeclarationGenerator
+    public partial class MethodDeclarationGenerator
     {
-        private static readonly SymbolDisplayFormat _symbolDisplayFormat = new SymbolDisplayFormat(
-            genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
-            typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypes,
-            parameterOptions: SymbolDisplayParameterOptions.IncludeDefaultValue
+        private static readonly SymbolDisplayFormat _symbolDisplayFormat = SymbolDisplayFormats.Default.WithParameterOptions(
+            SymbolDisplayParameterOptions.IncludeDefaultValue
                 | SymbolDisplayParameterOptions.IncludeExtensionThis
                 | SymbolDisplayParameterOptions.IncludeName
                 | SymbolDisplayParameterOptions.IncludeParamsRefOut
-                | SymbolDisplayParameterOptions.IncludeType,
-            miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes
-                | SymbolDisplayMiscellaneousOptions.EscapeKeywordIdentifiers
-                | SymbolDisplayMiscellaneousOptions.RemoveAttributeSuffix);
+                | SymbolDisplayParameterOptions.IncludeType);
 
         private readonly CSharpSyntaxWalkerGenerator _generator;
 
@@ -89,17 +84,34 @@ namespace Roslynator.CodeGeneration.CSharp
         {
             foreach (IPropertySymbol propertySymbol in GetPropertySymbols(_parameterType))
             {
+                if (!ShouldVisit(propertySymbol))
+                    continue;
+
                 _propertySymbol = propertySymbol;
                 _propertyType = propertySymbol.Type;
                 _propertyName = propertySymbol.Name;
 
                 if (_propertyType.OriginalDefinition.Equals(SyntaxListSymbol))
                 {
-                    GenerateVisitListStatement();
+                    if (_generator.UseCustomVisitMethod)
+                    {
+                        GenerateVisitListStatement();
+                    }
+                    else
+                    {
+                        Statements.Add(VisitStatement("VisitList", _parameterName, _propertyName));
+                    }
                 }
                 else if (_propertyType.OriginalDefinition.Equals(SeparatedSyntaxListSymbol))
                 {
-                    GenerateVisitListStatement(isSeparatedList: true);
+                    if (_generator.UseCustomVisitMethod)
+                    {
+                        GenerateVisitListStatement(isSeparatedList: true);
+                    }
+                    else
+                    {
+                        Statements.Add(VisitStatement("VisitSeparatedList", _parameterName, _propertyName));
+                    }
                 }
                 else if (_propertyType.EqualsOrInheritsFrom(SyntaxNodeSymbol))
                 {
@@ -114,7 +126,22 @@ namespace Roslynator.CodeGeneration.CSharp
                         case "TypeArgumentListSyntax":
                         case "TypeParameterListSyntax":
                             {
-                                GenerateVisitListSyntaxStatements();
+                                if (_generator.UseCustomVisitMethod)
+                                {
+                                    if (_generator.InlineVisitListSyntax)
+                                    {
+                                        GenerateVisitListSyntaxStatements();
+                                    }
+                                    else
+                                    {
+                                        GenerateTypeVisitStatements();
+                                    }
+                                }
+                                else
+                                {
+                                    Statements.Add(VisitStatement("Visit", _parameterName, _propertyName));
+                                }
+
                                 break;
                             }
                         case "ArrayTypeSyntax":
@@ -159,11 +186,25 @@ namespace Roslynator.CodeGeneration.CSharp
                         case "TypeSyntax":
                         case "VariableDesignationSyntax":
                             {
-                                GenerateTypeVisitStatements();
+                                if (_generator.UseCustomVisitMethod)
+                                {
+                                    GenerateTypeVisitStatements();
+                                }
+                                else
+                                {
+                                    Statements.Add(VisitStatement("Visit", _parameterName, _propertyName));
+                                }
+
                                 break;
                             }
                         case "CSharpSyntaxNode":
                             {
+                                if (!_generator.UseCustomVisitMethod)
+                                {
+                                    Statements.Add(VisitStatement("Visit", _parameterName, _propertyName));
+                                    break;
+                                }
+
                                 if (_generator.EliminateDefaultVisit
                                     && _propertyName == "Body"
                                     && (_methodSymbol.Name == "VisitAnonymousMethodExpression"
@@ -212,14 +253,7 @@ namespace Roslynator.CodeGeneration.CSharp
         {
             string variableName = GenerateLocalName(_propertyName);
 
-            LocalDeclarationStatementSyntax localDeclaration = LocalDeclarationStatement(
-                _propertyType.ToTypeSyntax(_symbolDisplayFormat),
-                variableName,
-                SimpleMemberAccessExpression(
-                    IdentifierName(_parameterName),
-                    IdentifierName(_propertyName)));
-
-            Statements.Add(localDeclaration);
+            Statements.Add(LocalDeclarationStatement(_propertyType, variableName, _parameterName, _propertyName));
 
             IfStatementSyntax ifStatement = IfStatement(
                 IsPatternExpression(
@@ -286,8 +320,19 @@ namespace Roslynator.CodeGeneration.CSharp
             {
                 if (_generator.EliminateDefaultVisit)
                 {
+                    Statements.Add(IfNotShouldVisitReturnStatement());
+
+                    string variableName = GenerateLocalName(_propertyName);
+
+                    Statements.Add(LocalDeclarationStatement(_propertyType, variableName, _parameterName, _propertyName));
+
                     string methodName = GetMethodName(_propertyType);
-                    Statements.Add(VisitStatement(methodName, _parameterName, _propertyName));
+
+                    IfStatementSyntax ifStatement = IfNotEqualsToNullStatement(
+                        variableName,
+                        VisitStatement(methodName, variableName));
+
+                    Statements.Add(ifStatement);
                 }
                 else
                 {
@@ -347,14 +392,7 @@ namespace Roslynator.CodeGeneration.CSharp
 
                 Statements.Add(IfNotShouldVisitReturnStatement());
 
-                LocalDeclarationStatementSyntax localDeclaration2 = LocalDeclarationStatement(
-                    _propertyType.ToTypeSyntax(_symbolDisplayFormat),
-                    variableName,
-                    SimpleMemberAccessExpression(
-                        IdentifierName(_parameterName),
-                        IdentifierName(_propertyName)));
-
-                Statements.Add(localDeclaration2);
+                Statements.Add(LocalDeclarationStatement(_propertyType, variableName, _parameterName, _propertyName));
 
                 Statements.Add(IfNotEqualsToNullStatement(variableName, VisitStatement(methodSymbol.Name, variableName)));
             }
@@ -364,14 +402,7 @@ namespace Roslynator.CodeGeneration.CSharp
         {
             string variableName = GenerateLocalName(_propertyName);
 
-            LocalDeclarationStatementSyntax localDeclaration = LocalDeclarationStatement(
-                _propertyType.ToTypeSyntax(_symbolDisplayFormat),
-                variableName,
-                SimpleMemberAccessExpression(
-                    IdentifierName(_parameterName),
-                    IdentifierName(_propertyName)));
-
-            Statements.Add(localDeclaration);
+            Statements.Add(LocalDeclarationStatement(_propertyType, variableName, _parameterName, _propertyName));
 
             IPropertySymbol listPropertySymbol = FindListPropertySymbol(_propertySymbol);
 

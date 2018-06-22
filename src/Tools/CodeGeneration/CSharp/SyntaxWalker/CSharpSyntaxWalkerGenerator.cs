@@ -14,26 +14,34 @@ namespace Roslynator.CodeGeneration.CSharp
         public CSharpSyntaxWalkerGenerator(
             SyntaxWalkerDepth depth = SyntaxWalkerDepth.Node,
             bool shouldVisitFunction = true,
+            bool useCustomVisitMethod = false,
             bool shouldGenerateVisitType = false,
             bool eliminateDefaultVisit = false,
-            bool inlineVisitWithSingleProperty = false)
+            bool inlineVisitWithSingleProperty = false,
+            bool inlineVisitListSyntax = false)
         {
             Depth = depth;
             ShouldVisitFunction = shouldVisitFunction;
+            UseCustomVisitMethod = useCustomVisitMethod;
             ShouldGenerateVisitType = shouldGenerateVisitType;
             EliminateDefaultVisit = eliminateDefaultVisit;
             InlineVisitWithSingleProperty = inlineVisitWithSingleProperty;
+            InlineVisitListSyntax = inlineVisitListSyntax;
         }
 
         public SyntaxWalkerDepth Depth { get; }
 
         public bool ShouldVisitFunction { get; }
 
+        public bool UseCustomVisitMethod { get; }
+
         public bool ShouldGenerateVisitType { get; }
 
         public bool EliminateDefaultVisit { get; }
 
         public bool InlineVisitWithSingleProperty { get; }
+
+        public bool InlineVisitListSyntax { get; }
 
         public SyntaxList<MemberDeclarationSyntax> GenerateMemberDeclarations()
         {

@@ -129,7 +129,6 @@ namespace Roslynator.CodeGeneration.CSharp
                 Identifier($"Visit{nameWithoutSyntax}"),
                 ParameterList(Parameter(IdentifierName(name), "node")),
                 Block(
-                    IfEqualsToNullStatement("node", Block(ReturnStatement())),
                     SwitchStatement(
                         SimpleMemberInvocationExpression(IdentifierName("node"), IdentifierName("Kind")),
                         GenerateSections().ToSyntaxList())));
@@ -148,15 +147,17 @@ namespace Roslynator.CodeGeneration.CSharp
 
                     yield return SwitchSection(
                         labels,
-                        Block(
+                        List(new StatementSyntax[]
+                        {
                             ExpressionStatement(
                                 InvocationExpression(
                                     IdentifierName("Visit" + nameWithoutSyntax2),
                                     ArgumentList(Argument(CastExpression(IdentifierName(name2), IdentifierName("node")))))),
-                            BreakStatement()));
+                            BreakStatement()
+                        }));
                 }
 
-                yield return DefaultSwitchSection(Block(ThrowNewInvalidOperationException()));
+                yield return DefaultSwitchSection(ThrowNewInvalidOperationException());
             }
         }
 
@@ -221,12 +222,36 @@ namespace Roslynator.CodeGeneration.CSharp
                 (statement.IsKind(SyntaxKind.Block)) ? statement : Block(statement));
         }
 
-        public static ThrowStatementSyntax ThrowNewInvalidOperationException()
+        public static ThrowStatementSyntax ThrowNewInvalidOperationException(ExpressionSyntax expression = null)
         {
+            ArgumentListSyntax argumentList;
+
+            if (expression != null)
+            {
+                argumentList = ArgumentList(Argument(expression));
+            }
+            else
+            {
+                argumentList = ArgumentList();
+            }
+
             return ThrowStatement(
                 ObjectCreationExpression(
-                    IdentifierName("InvalidOperationException"),
-                    ArgumentList()));
+                IdentifierName("InvalidOperationException"), argumentList));
+        }
+
+        public static LocalDeclarationStatementSyntax LocalDeclarationStatement(
+            ITypeSymbol typeSymbol,
+            string name,
+            string parameterName,
+            string propertyName)
+        {
+            return CSharpFactory.LocalDeclarationStatement(
+                typeSymbol.ToTypeSyntax(SymbolDisplayFormats.Default),
+                name,
+                SimpleMemberAccessExpression(
+                    IdentifierName(parameterName),
+                    IdentifierName(propertyName)));
         }
     }
 }

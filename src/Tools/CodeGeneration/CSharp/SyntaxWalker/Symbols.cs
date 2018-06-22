@@ -134,7 +134,7 @@ namespace Roslynator.CodeGeneration.CSharp
                 : null;
         }
 
-        public static IEnumerable<IPropertySymbol> GetPropertySymbols(ITypeSymbol typeSymbol, string name = null)
+        public static IEnumerable<IPropertySymbol> GetPropertySymbols(ITypeSymbol typeSymbol, string name = null, bool skipObsolete = true)
         {
             foreach (ISymbol symbol in (name != null) ? typeSymbol.GetMembers(name) : typeSymbol.GetMembers())
             {
@@ -144,7 +144,7 @@ namespace Roslynator.CodeGeneration.CSharp
                 if (symbol.DeclaredAccessibility != Accessibility.Public)
                     continue;
 
-                if (symbol.HasAttribute(MetadataNames.System_ObsoleteAttribute))
+                if (skipObsolete && symbol.HasAttribute(MetadataNames.System_ObsoleteAttribute))
                     continue;
 
                 var propertySymbol = (IPropertySymbol)symbol;

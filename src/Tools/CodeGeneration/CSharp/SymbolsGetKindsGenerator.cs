@@ -16,12 +16,6 @@ namespace Roslynator.CodeGeneration.CSharp
     {
         public static CompilationUnitSyntax Generate()
         {
-            var generator = new CSharpSyntaxWalkerGenerator(
-                depth: SyntaxWalkerDepth.Node,
-                shouldVisitFunction: true,
-                shouldGenerateVisitType: true,
-                eliminateDefaultVisit: true);
-
             return CompilationUnit(
                 UsingDirectives(
                     "System.Collections.Generic",
