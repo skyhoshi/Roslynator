@@ -3075,7 +3075,7 @@ namespace Roslynator.CSharp
             }
 
             Stopwatch sw = Stopwatch.StartNew();
-            const int count = 100;
+            const int count = 200;
 
             sw = Stopwatch.StartNew();
             for (int i = 0; i < count; i++)
@@ -3110,6 +3110,7 @@ namespace Roslynator.CSharp
 
             //string s = document.GetSyntaxRootAsync().Result.ToFullString();
             //Console.WriteLine(s);
+
             Console.ReadKey();
         }
 

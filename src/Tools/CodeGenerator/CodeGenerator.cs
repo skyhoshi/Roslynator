@@ -62,6 +62,10 @@ namespace Roslynator.CodeGeneration
             WriteCompilationUnit(
                 @"CSharp\CSharp\SyntaxWalkers\CSharpSyntaxNodeWalker.cs",
                 CSharpSyntaxNodeWalkerGenerator.Generate());
+
+            WriteCompilationUnit(
+                @"Tools\CodeGeneration\CSharp\SyntaxWalker\Symbols.GetKinds.cs",
+                SymbolsGetKindsGenerator.Generate());
         }
 
         private void WriteCompilationUnit(

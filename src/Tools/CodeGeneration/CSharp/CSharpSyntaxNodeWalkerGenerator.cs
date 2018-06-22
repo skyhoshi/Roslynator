@@ -15,10 +15,13 @@ namespace Roslynator.CodeGeneration.CSharp
             var generator = new CSharpSyntaxWalkerGenerator(
                 depth: SyntaxWalkerDepth.Node,
                 shouldVisitFunction: true,
-                shouldGenerateVisitType: true);
+                shouldGenerateVisitType: true,
+                eliminateDefaultVisit: true,
+                inlineVisitWithSingleProperty: true);
 
             return CompilationUnit(
                 UsingDirectives(
+                    "System",
                     "Microsoft.CodeAnalysis",
                     "Microsoft.CodeAnalysis.CSharp",
                     "Microsoft.CodeAnalysis.CSharp.Syntax"),
