@@ -1,10 +1,14 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Roslynator.CSharp;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Roslynator.CSharp.CSharpFactory;
+using static Roslynator.CodeGeneration.CSharp.Symbols;
+using static Roslynator.CodeGeneration.CSharp.CSharpFactory2;
 
 namespace Roslynator.CodeGeneration.CSharp
 {
@@ -12,12 +16,8 @@ namespace Roslynator.CodeGeneration.CSharp
     {
         public IdentifierNameWalkerGenerator(
             SyntaxWalkerDepth depth = SyntaxWalkerDepth.Node,
-            bool shouldVisitFunction = true,
             bool useCustomVisitMethod = false,
-            bool shouldGenerateVisitType = false,
-            bool eliminateDefaultVisit = false,
-            bool inlineVisitWithSingleProperty = false,
-            bool inlineVisitListSyntax = false) : base(depth, shouldVisitFunction, useCustomVisitMethod, shouldGenerateVisitType, eliminateDefaultVisit, inlineVisitWithSingleProperty, inlineVisitListSyntax)
+            bool eliminateDefaultVisit = false) : base(depth, useCustomVisitMethod, eliminateDefaultVisit)
         {
         }
 
@@ -25,12 +25,8 @@ namespace Roslynator.CodeGeneration.CSharp
         {
             var generator = new IdentifierNameWalkerGenerator(
                 depth: SyntaxWalkerDepth.Node,
-                shouldVisitFunction: true,
                 useCustomVisitMethod: true,
-                shouldGenerateVisitType: true,
-                eliminateDefaultVisit: true,
-                inlineVisitWithSingleProperty: false,
-                inlineVisitListSyntax: false);
+                eliminateDefaultVisit: true);
 
             return CompilationUnit(
                 UsingDirectives(
@@ -46,7 +42,7 @@ namespace Roslynator.CodeGeneration.CSharp
                         default(TypeParameterListSyntax),
                         default(BaseListSyntax),
                         default(SyntaxList<TypeParameterConstraintClauseSyntax>),
-                        generator.GenerateMemberDeclarations())));
+                        generator.CreateMemberDeclarations().ToSyntaxList())));
         }
 
         public override ConstructorDeclarationSyntax CreateConstructorDeclaration(SyntaxWalkerDepth depth)
@@ -58,6 +54,72 @@ namespace Roslynator.CodeGeneration.CSharp
                 ParameterList(),
                 default,
                 Block());
+        }
+
+        protected override MethodDeclarationSyntax CreateVisitMethodDeclaration(MethodGenerationContext context)
+        {
+            MethodDeclarationSyntax methodDeclaration = base.CreateVisitMethodDeclaration(context);
+
+            if (context.ParameterType.Name == "IdentifierNameSyntax")
+            {
+                return methodDeclaration.WithModifiers(Modifiers.PublicVirtual());
+            }
+            else
+            {
+                return methodDeclaration.WithModifiers(Modifiers.Public());
+            }
+        }
+
+        public override MethodDeclarationSyntax CreateVisitAbstractSyntaxMethodDeclaration(INamedTypeSymbol typeSymbol)
+        {
+            MethodDeclarationSyntax methodDeclaration = base.CreateVisitAbstractSyntaxMethodDeclaration(typeSymbol);
+
+            if (typeSymbol.Name != "TypeSyntax")
+            {
+                methodDeclaration = methodDeclaration.WithModifiers(Modifiers.Private());
+            }
+
+            return methodDeclaration;
+        }
+
+        public override MethodDeclarationSyntax CreateVisitNodeMethodDeclaration()
+        {
+            SwitchStatementSyntax switchStatement = SwitchStatement(
+                SimpleMemberInvocationExpression(IdentifierName("node"), IdentifierName("Kind")),
+                CreateSections().ToSyntaxList());
+
+            return MethodDeclaration(
+                Modifiers.Public(),
+                VoidType(),
+                Identifier("Visit"),
+                ParameterList(Parameter(IdentifierName("SyntaxNode"), "node")),
+                Block(switchStatement));
+
+            IEnumerable<SwitchSectionSyntax> CreateSections()
+            {
+                foreach (INamedTypeSymbol typeSymbol in SyntaxSymbols.Where(f => !f.IsAbstract))
+                {
+                    string name = typeSymbol.Name;
+
+                    SyntaxList<SwitchLabelSyntax> labels = GetKinds(typeSymbol)
+                        .Select(f => CaseSwitchLabel(SimpleMemberAccessExpression(IdentifierName("SyntaxKind"), IdentifierName(f.ToString()))))
+                        .ToSyntaxList<SwitchLabelSyntax>();
+
+                    yield return SwitchSection(
+                        labels,
+                        List(new StatementSyntax[]
+                        {
+                            ExpressionStatement(
+                                InvocationExpression(
+                                    IdentifierName("Visit" + name.Remove(name.Length - 6)),
+                                    ArgumentList(Argument(CastExpression(IdentifierName(name), IdentifierName("node")))))),
+
+                            BreakStatement()
+                        }));
+                }
+
+                yield return DefaultSwitchSection(ThrowNewArgumentException(ParseExpression(@"$""Unrecognized node '{node.Kind()}'."""), "node"));
+            }
         }
     }
 }

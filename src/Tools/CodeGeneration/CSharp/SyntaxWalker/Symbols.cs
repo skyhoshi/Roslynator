@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Roslynator.CSharp;
@@ -81,6 +82,8 @@ namespace Roslynator.CodeGeneration.CSharp
                         .OrderBy(f => f.Name)
                         .Cast<IMethodSymbol>()
                         .ToImmutableArray();
+
+                    Debug.Assert(_visitMethods.All(f => f.Parameters.SingleOrDefault(shouldThrow: false).Type.EqualsOrInheritsFrom(SyntaxNodeSymbol)));
                 }
 
                 return _visitMethods;
@@ -286,20 +289,6 @@ namespace Roslynator.CodeGeneration.CSharp
                     default:
                         return propertyName.Remove(propertyName.Length - 4) + "s";
                 }
-            }
-        }
-
-        public static bool IsVisitFunction(ITypeSymbol typeSymbol)
-        {
-            switch (typeSymbol.Name)
-            {
-                case "SimpleLambdaExpressionSyntax":
-                case "ParenthesizedLambdaExpressionSyntax":
-                case "AnonymousMethodExpressionSyntax":
-                case "LocalFunctionStatementSyntax":
-                    return true;
-                default:
-                    return false;
             }
         }
     }

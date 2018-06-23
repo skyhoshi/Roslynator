@@ -3069,27 +3069,27 @@ namespace Roslynator.CSharp
             }
 
             Stopwatch sw = null;
-            const int count = 300;
+            const int count = 1000;
 
             sw = Stopwatch.StartNew();
             for (int i = 0; i < count; i++)
             {
-                var walker = new NoVisitMethodWalker();
+                var walker = new CSharpSyntaxNodeWalker2();
                 walker.Visit(root);
             }
 
             sw.Stop();
-            Console.WriteLine(sw.Elapsed + " (no Visit method)");
+            Console.WriteLine(sw.Elapsed + " (CSharpSyntaxNodeWalker)");
 
             sw = Stopwatch.StartNew();
             for (int i = 0; i < count; i++)
             {
-                var walker = new NoInheritPrivateMethodWalker();
-                walker.VisitCompilationUnit((CompilationUnitSyntax)root);
+                var walker = new IdentifierNameWalker2();
+                walker.Visit(root);
             }
 
             sw.Stop();
-            Console.WriteLine(sw.Elapsed + " (no Visit method, not inherited from CSharpSyntaxWalker)");
+            Console.WriteLine(sw.Elapsed + " (IdentifierNameWalker)");
 
             sw = Stopwatch.StartNew();
             for (int i = 0; i < count; i++)
@@ -3128,15 +3128,11 @@ namespace Roslynator.CSharp
             Console.ReadKey();
         }
 
-        private class NoVisitMethodWalker : CSharpSyntaxNodeWalker
+        private class CSharpSyntaxNodeWalker2 : CSharpSyntaxNodeWalker
         {
         }
 
-        private class OnlyVisitMethodWalker : CSharpSyntaxNodeWalker2
-        {
-        }
-
-        private class NoInheritPrivateMethodWalker : CSharpSyntaxNodeWalker3
+        private class IdentifierNameWalker2 : IdentifierNameWalker
         {
         }
 

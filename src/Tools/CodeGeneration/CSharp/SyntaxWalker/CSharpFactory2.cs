@@ -90,6 +90,17 @@ namespace Roslynator.CodeGeneration.CSharp
                 IdentifierName("InvalidOperationException"), argumentList));
         }
 
+        public static ThrowStatementSyntax ThrowNewArgumentException(ExpressionSyntax messageExpression, string parameterName)
+        {
+            ArgumentListSyntax argumentList = ArgumentList(
+                Argument(messageExpression),
+                Argument(NameOfExpression(IdentifierName(parameterName))));
+
+            return ThrowStatement(
+                ObjectCreationExpression(
+                IdentifierName("ArgumentException"), argumentList));
+        }
+
         public static LocalDeclarationStatementSyntax LocalDeclarationStatement(
             ITypeSymbol typeSymbol,
             string name,

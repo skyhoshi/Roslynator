@@ -14,12 +14,8 @@ namespace Roslynator.CodeGeneration.CSharp
         {
             var generator = new CSharpSyntaxWalkerGenerator(
                 depth: SyntaxWalkerDepth.Node,
-                shouldVisitFunction: true,
                 useCustomVisitMethod: true,
-                shouldGenerateVisitType: true,
-                eliminateDefaultVisit: true,
-                inlineVisitWithSingleProperty: false,
-                inlineVisitListSyntax: false);
+                eliminateDefaultVisit: true);
 
             return CompilationUnit(
                 UsingDirectives(
@@ -35,7 +31,7 @@ namespace Roslynator.CodeGeneration.CSharp
                         default(TypeParameterListSyntax),
                         BaseList(SimpleBaseType(IdentifierName("CSharpSyntaxWalker"))),
                         default(SyntaxList<TypeParameterConstraintClauseSyntax>),
-                        generator.GenerateMemberDeclarations())));
+                        generator.CreateMemberDeclarations().ToSyntaxList())));
         }
     }
 }

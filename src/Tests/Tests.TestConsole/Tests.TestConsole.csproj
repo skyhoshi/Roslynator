@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Tests\Tests.csproj" />
     <ProjectReference Include="..\..\CSharp\CSharp.csproj" />
+    <ProjectReference Include="..\..\Common\Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

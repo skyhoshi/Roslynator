@@ -23,6 +23,16 @@ namespace Roslynator.CSharp.SyntaxWalkers
             }
         }
 
+        public override void Visit(SyntaxNode node)
+        {
+            if (!ShouldVisit)
+            {
+                return;
+            }
+
+            base.Visit(node);
+        }
+
         public override void VisitAccessorDeclaration(AccessorDeclarationSyntax node)
         {
             foreach (AttributeListSyntax attributeList in node.AttributeLists)
@@ -120,7 +130,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
             }
             else
             {
-                throw new InvalidOperationException();
+                Visit(body);
             }
         }
 
@@ -2807,7 +2817,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
             }
             else
             {
-                throw new InvalidOperationException();
+                Visit(body);
             }
         }
 
@@ -3209,7 +3219,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
             }
             else
             {
-                throw new InvalidOperationException();
+                Visit(body);
             }
         }
 
@@ -3935,7 +3945,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     VisitSimpleBaseType((SimpleBaseTypeSyntax)node);
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
             }
         }
 
@@ -3962,7 +3972,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     VisitTypeCref((TypeCrefSyntax)node);
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
             }
         }
 
@@ -4180,7 +4190,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     VisitTypeOfExpression((TypeOfExpressionSyntax)node);
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
             }
         }
 
@@ -4195,7 +4205,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     VisitInterpolation((InterpolationSyntax)node);
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
             }
         }
 
@@ -4216,7 +4226,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     VisitOperatorMemberCref((OperatorMemberCrefSyntax)node);
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
             }
         }
 
@@ -4282,7 +4292,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     VisitStructDeclaration((StructDeclarationSyntax)node);
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
             }
         }
 
@@ -4297,7 +4307,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     VisitDeclarationPattern((DeclarationPatternSyntax)node);
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
             }
         }
 
@@ -4321,7 +4331,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     VisitWhereClause((WhereClauseSyntax)node);
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
             }
         }
 
@@ -4336,7 +4346,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     VisitSelectClause((SelectClauseSyntax)node);
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
             }
         }
 
@@ -4424,7 +4434,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     VisitYieldStatement((YieldStatementSyntax)node);
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
             }
         }
 
@@ -4442,7 +4452,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     VisitDefaultSwitchLabel((DefaultSwitchLabelSyntax)node);
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
             }
         }
 
@@ -4461,7 +4471,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     VisitTypeConstraint((TypeConstraintSyntax)node);
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
             }
         }
 
@@ -4503,7 +4513,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     VisitTupleType((TupleTypeSyntax)node);
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
             }
         }
 
@@ -4521,7 +4531,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     VisitSingleVariableDesignation((SingleVariableDesignationSyntax)node);
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
             }
         }
 
@@ -4539,7 +4549,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     VisitXmlTextAttribute((XmlTextAttributeSyntax)node);
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
             }
         }
 
@@ -4566,7 +4576,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     VisitXmlText((XmlTextSyntax)node);
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
             }
         }
     }
