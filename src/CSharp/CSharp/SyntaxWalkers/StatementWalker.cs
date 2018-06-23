@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -19,7 +20,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
         public override void VisitBlock(BlockSyntax node)
         {
             foreach (StatementSyntax statement in node.Statements)
-                Visit(statement);
+                VisitStatement(statement);
         }
 
         private void VisitBlockIfNotNull(BlockSyntax node)
@@ -43,7 +44,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitDoStatement(DoStatementSyntax node)
         {
-            Visit(node.Statement);
+            VisitStatementIfNotNull(node.Statement);
         }
 
         public override void VisitEmptyStatement(EmptyStatementSyntax node)
@@ -56,27 +57,27 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitFixedStatement(FixedStatementSyntax node)
         {
-            Visit(node.Statement);
+            VisitStatementIfNotNull(node.Statement);
         }
 
         public override void VisitForEachStatement(ForEachStatementSyntax node)
         {
-            Visit(node.Statement);
+            VisitStatementIfNotNull(node.Statement);
         }
 
         public override void VisitForEachVariableStatement(ForEachVariableStatementSyntax node)
         {
-            Visit(node.Statement);
+            VisitStatementIfNotNull(node.Statement);
         }
 
         public override void VisitForStatement(ForStatementSyntax node)
         {
-            Visit(node.Statement);
+            VisitStatementIfNotNull(node.Statement);
         }
 
         public override void VisitGlobalStatement(GlobalStatementSyntax node)
         {
-            Visit(node.Statement);
+            VisitStatementIfNotNull(node.Statement);
         }
 
         public override void VisitGotoStatement(GotoStatementSyntax node)
@@ -85,17 +86,14 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitIfStatement(IfStatementSyntax node)
         {
-            Visit(node.Statement);
+            VisitStatementIfNotNull(node.Statement);
 
-            ElseClauseSyntax elseClause = node.Else;
-
-            if (elseClause != null)
-                Visit(elseClause.Statement);
+            VisitStatementIfNotNull(node.Else?.Statement);
         }
 
         public override void VisitLabeledStatement(LabeledStatementSyntax node)
         {
-            Visit(node.Statement);
+            VisitStatementIfNotNull(node.Statement);
         }
 
         public override void VisitLocalDeclarationStatement(LocalDeclarationStatementSyntax node)
@@ -109,7 +107,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitLockStatement(LockStatementSyntax node)
         {
-            Visit(node.Statement);
+            VisitStatementIfNotNull(node.Statement);
         }
 
         public override void VisitReturnStatement(ReturnStatementSyntax node)
@@ -121,7 +119,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
             foreach (SwitchSectionSyntax section in node.Sections)
             {
                 foreach (StatementSyntax statement in section.Statements)
-                    Visit(statement);
+                    VisitStatement(statement);
             }
         }
 
@@ -149,16 +147,162 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
         public override void VisitUsingStatement(UsingStatementSyntax node)
         {
-            Visit(node.Statement);
+            VisitStatementIfNotNull(node.Statement);
         }
 
         public override void VisitWhileStatement(WhileStatementSyntax node)
         {
-            Visit(node.Statement);
+            VisitStatementIfNotNull(node.Statement);
         }
 
         public override void VisitYieldStatement(YieldStatementSyntax node)
         {
+        }
+
+        private void VisitStatementIfNotNull(StatementSyntax node)
+        {
+            if (node != null)
+                VisitStatement(node);
+        }
+
+        protected virtual void VisitStatement(StatementSyntax node)
+        {
+            switch (node.Kind())
+            {
+                case SyntaxKind.Block:
+                    {
+                        VisitBlock((BlockSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.BreakStatement:
+                    {
+                        VisitBreakStatement((BreakStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.ContinueStatement:
+                    {
+                        VisitContinueStatement((ContinueStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.DoStatement:
+                    {
+                        VisitDoStatement((DoStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.EmptyStatement:
+                    {
+                        VisitEmptyStatement((EmptyStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.ExpressionStatement:
+                    {
+                        VisitExpressionStatement((ExpressionStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.FixedStatement:
+                    {
+                        VisitFixedStatement((FixedStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.ForEachStatement:
+                    {
+                        VisitForEachStatement((ForEachStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.ForEachVariableStatement:
+                    {
+                        VisitForEachVariableStatement((ForEachVariableStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.ForStatement:
+                    {
+                        VisitForStatement((ForStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.GotoStatement:
+                case SyntaxKind.GotoCaseStatement:
+                case SyntaxKind.GotoDefaultStatement:
+                    {
+                        VisitGotoStatement((GotoStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.CheckedStatement:
+                case SyntaxKind.UncheckedStatement:
+                    {
+                        VisitCheckedStatement((CheckedStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.IfStatement:
+                    {
+                        VisitIfStatement((IfStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.LabeledStatement:
+                    {
+                        VisitLabeledStatement((LabeledStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.LocalDeclarationStatement:
+                    {
+                        VisitLocalDeclarationStatement((LocalDeclarationStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.LocalFunctionStatement:
+                    {
+                        VisitLocalFunctionStatement((LocalFunctionStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.LockStatement:
+                    {
+                        VisitLockStatement((LockStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.ReturnStatement:
+                    {
+                        VisitReturnStatement((ReturnStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.SwitchStatement:
+                    {
+                        VisitSwitchStatement((SwitchStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.ThrowStatement:
+                    {
+                        VisitThrowStatement((ThrowStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.TryStatement:
+                    {
+                        VisitTryStatement((TryStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.UnsafeStatement:
+                    {
+                        VisitUnsafeStatement((UnsafeStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.UsingStatement:
+                    {
+                        VisitUsingStatement((UsingStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.WhileStatement:
+                    {
+                        VisitWhileStatement((WhileStatementSyntax)node);
+                        break;
+                    }
+                case SyntaxKind.YieldBreakStatement:
+                case SyntaxKind.YieldReturnStatement:
+                    {
+                        VisitYieldStatement((YieldStatementSyntax)node);
+                        break;
+                    }
+                default:
+                    {
+                        throw new ArgumentException($"Unknown statement '{node.Kind()}'.", nameof(node));
+                    }
+            }
         }
     }
 }
