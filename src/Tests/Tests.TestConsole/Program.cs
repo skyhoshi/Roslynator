@@ -3064,38 +3064,52 @@ namespace Roslynator.CSharp
 
             for (int i = 0; i < 1; i++)
             {
-                var walker = new MyWalker();
+                var walker = new Walker();
                 walker.Visit(root);
             }
 
-            for (int i = 0; i < 1; i++)
+            Stopwatch sw = null;
+            const int count = 1000;
+
+            sw = Stopwatch.StartNew();
+            for (int i = 0; i < count; i++)
+            {
+                var walker = new CSharpSyntaxNodeWalker2();
+                walker.Visit(root);
+            }
+
+            sw.Stop();
+            Console.WriteLine(sw.Elapsed + " (CSharpSyntaxNodeWalker)");
+
+            sw = Stopwatch.StartNew();
+            for (int i = 0; i < count; i++)
+            {
+                var walker = new IdentifierNameWalker2();
+                walker.Visit(root);
+            }
+
+            sw.Stop();
+            Console.WriteLine(sw.Elapsed + " (IdentifierNameWalker)");
+
+            sw = Stopwatch.StartNew();
+            for (int i = 0; i < count; i++)
+            {
+                var walker = new OnlyVisitMethodWalker();
+                walker.Visit(root);
+            }
+
+            sw.Stop();
+            Console.WriteLine(sw.Elapsed + " (only Visit method)");
+
+            sw = Stopwatch.StartNew();
+            for (int i = 0; i < count; i++)
             {
                 var walker = new Walker();
                 walker.Visit(root);
             }
 
-            Stopwatch sw = Stopwatch.StartNew();
-            const int count = 100;
-
-            sw = Stopwatch.StartNew();
-            for (int i = 0; i < count; i++)
-            {
-                var walker = new MyWalker();
-                walker.Visit(root);
-            }
-
             sw.Stop();
-            Console.WriteLine(sw.Elapsed);
-
-            sw = Stopwatch.StartNew();
-            for (int i = 0; i < count; i++)
-            {
-                var walker = new Walker();
-                walker.Visit(root);
-            }
-
-            sw.Stop();
-            Console.WriteLine(sw.Elapsed);
+            Console.WriteLine(sw.Elapsed + " (default Walker)");
 
             sw = Stopwatch.StartNew();
             for (int i = 0; i < count; i++)
@@ -3106,16 +3120,20 @@ namespace Roslynator.CSharp
             }
 
             sw.Stop();
-            Console.WriteLine(sw.Elapsed);
+            Console.WriteLine(sw.Elapsed + " (DescendantNodesAndSelf)");
 
             //string s = document.GetSyntaxRootAsync().Result.ToFullString();
             //Console.WriteLine(s);
+
             Console.ReadKey();
         }
 
-        private class MyWalker : CSharpSyntaxNodeWalker
+        private class CSharpSyntaxNodeWalker2 : CSharpSyntaxNodeWalker
         {
+        }
 
+        private class IdentifierNameWalker2 : IdentifierNameWalker
+        {
         }
 
         private class Walker : CSharpSyntaxWalker
