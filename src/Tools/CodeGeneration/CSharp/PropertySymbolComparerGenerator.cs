@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Roslynator.CSharp;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
-using static Roslynator.CodeGeneration.CSharp.Factory;
+using static Roslynator.CodeGeneration.CSharp.CSharpFactory2;
 using static Roslynator.CSharp.CSharpFactory;
 
 namespace Roslynator.CodeGeneration.CSharp

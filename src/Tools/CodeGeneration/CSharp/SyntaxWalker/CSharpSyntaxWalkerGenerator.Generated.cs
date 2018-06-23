@@ -7,9 +7,9 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.CodeGeneration.CSharp
 {
-    public partial class MethodDeclarationGenerator
+    public partial class CSharpSyntaxWalkerGenerator
     {
-        private static bool ShouldVisit(IPropertySymbol propertySymbol)
+        protected virtual bool ShouldVisit(IPropertySymbol propertySymbol)
         {
             switch (propertySymbol.ContainingType.Name)
             {

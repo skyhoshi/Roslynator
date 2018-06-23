@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Roslynator.CSharp;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
-using static Roslynator.CodeGeneration.CSharp.Factory;
+using static Roslynator.CodeGeneration.CSharp.CSharpFactory2;
 using static Roslynator.CSharp.CSharpFactory;
 
 namespace Roslynator.CodeGeneration.CSharp
@@ -24,7 +24,7 @@ namespace Roslynator.CodeGeneration.CSharp
                     ClassDeclaration(
                         default(SyntaxList<AttributeListSyntax>),
                         Modifiers.PublicPartial(),
-                        Identifier("MethodDeclarationGenerator"),
+                        Identifier("CSharpSyntaxWalkerGenerator"),
                         default(TypeParameterListSyntax),
                         default(BaseListSyntax),
                         default(SyntaxList<TypeParameterConstraintClauseSyntax>),
@@ -34,7 +34,7 @@ namespace Roslynator.CodeGeneration.CSharp
         private static MethodDeclarationSyntax GenerateMethodDeclaration()
         {
             return MethodDeclaration(
-                Modifiers.PrivateStatic(),
+                Modifiers.ProtectedVirtual(),
                 PredefinedBoolType(),
                 Identifier("ShouldVisit"),
                 ParameterList(Parameter(IdentifierName("IPropertySymbol"), "propertySymbol")),
