@@ -14,7 +14,7 @@ if errorlevel 1 (
 dotnet "..\src\Tools\AddCodeFileHeader\bin\Release\netcoreapp2.0\AddCodeFileHeader.dll" "..\src"
 dotnet "..\src\Tools\MetadataGenerator\bin\Release\netcoreapp2.0\MetadataGenerator.dll" "..\src"
 dotnet "..\src\Tools\CodeGenerator\bin\Release\netcoreapp2.0\CodeGenerator.dll" "..\src"
-dotnet "..\src\Tools\VersionUpdater\bin\Release\netcoreapp2.0\VersionUpdater.dll" "1.9.0.0"
+dotnet "..\src\Tools\VersionUpdater\bin\Release\netcoreapp2.0\VersionUpdater.dll" "1.9.0.1"
 
 "C:\Program Files\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild" "..\src\Roslynator.sln" ^
  /t:Clean ^
@@ -27,6 +27,20 @@ dotnet "..\src\Tools\VersionUpdater\bin\Release\netcoreapp2.0\VersionUpdater.dll
  /p:Configuration=Release,TreatWarningsAsErrors=true,WarningsNotAsErrors=1591 ^
  /v:normal ^
  /m
+
+if errorlevel 1 (
+ pause
+ exit
+)
+
+dotnet test -c Debug --no-build "..\src\Tests\CSharp.Tests\CSharp.Tests.csproj"
+
+if errorlevel 1 (
+ pause
+ exit
+)
+
+dotnet test -c Debug --no-build "..\src\Tests\CSharp.Workspaces.Tests\CSharp.Workspaces.Tests.csproj"
 
 if errorlevel 1 (
  pause
