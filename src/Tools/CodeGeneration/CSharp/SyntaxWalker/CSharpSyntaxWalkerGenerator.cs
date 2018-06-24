@@ -175,53 +175,53 @@ namespace Roslynator.CodeGeneration.CSharp
                 {
                     case "AccessorListSyntax":
                     case "ArgumentListSyntax":
-                    case "AttributeArgumentListSyntax":
-                    case "BracketedArgumentListSyntax":
-                    case "BracketedParameterListSyntax":
-                    case "ParameterListSyntax":
-                    case "TypeArgumentListSyntax":
-                    case "TypeParameterListSyntax":
                     case "ArrayTypeSyntax":
                     case "ArrowExpressionClauseSyntax":
+                    case "AttributeArgumentListSyntax":
                     case "AttributeTargetSpecifierSyntax":
                     case "BaseListSyntax":
                     case "BlockSyntax":
+                    case "BracketedArgumentListSyntax":
+                    case "BracketedParameterListSyntax":
                     case "CatchDeclarationSyntax":
                     case "CatchFilterClauseSyntax":
                     case "ConstructorInitializerSyntax":
                     case "CrefBracketedParameterListSyntax":
                     case "CrefParameterListSyntax":
+                    case "CrefSyntax":
                     case "ElseClauseSyntax":
                     case "EqualsValueClauseSyntax":
                     case "ExplicitInterfaceSpecifierSyntax":
+                    case "ExpressionSyntax":
                     case "FinallyClauseSyntax":
                     case "FromClauseSyntax":
+                    case "IdentifierNameSyntax":
+                    case "InitializerExpressionSyntax":
                     case "InterpolationAlignmentClauseSyntax":
                     case "InterpolationFormatClauseSyntax":
                     case "JoinIntoClauseSyntax":
+                    case "MemberCrefSyntax":
                     case "NameColonSyntax":
                     case "NameEqualsSyntax":
+                    case "NameSyntax":
+                    case "ParameterListSyntax":
                     case "ParameterSyntax":
+                    case "PatternSyntax":
                     case "QueryBodySyntax":
                     case "QueryContinuationSyntax":
+                    case "SelectOrGroupClauseSyntax":
+                    case "SimpleNameSyntax":
+                    case "StatementSyntax":
+                    case "TypeArgumentListSyntax":
+                    case "TypeParameterListSyntax":
+                    case "TypeSyntax":
                     case "VariableDeclarationSyntax":
+                    case "VariableDesignationSyntax":
                     case "WhenClauseSyntax":
                     case "XmlElementEndTagSyntax":
                     case "XmlElementStartTagSyntax":
                     case "XmlNameSyntax":
                     case "XmlPrefixSyntax":
-                    case "CrefSyntax":
-                    case "ExpressionSyntax":
-                    case "IdentifierNameSyntax":
-                    case "InitializerExpressionSyntax":
-                    case "MemberCrefSyntax":
-                    case "NameSyntax":
-                    case "PatternSyntax":
-                    case "SelectOrGroupClauseSyntax":
-                    case "SimpleNameSyntax":
-                    case "StatementSyntax":
-                    case "TypeSyntax":
-                    case "VariableDesignationSyntax":
                         {
                             if (UseCustomVisitMethod)
                             {
