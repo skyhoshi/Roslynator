@@ -791,7 +791,6 @@ class C
         }
 
         [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.UseExpressionBodiedMember)]
-        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.UseExpressionBodiedMember)]
         public async Task TestNoDiagnostic_PropertyWithMultipleStatement()
         {
             await VerifyNoRefactoringAsync(@"

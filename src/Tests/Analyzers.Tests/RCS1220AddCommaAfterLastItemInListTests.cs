@@ -17,7 +17,7 @@ namespace Roslynator.CSharp.Analysis.Tests
 
         public override DiagnosticAnalyzer Analyzer { get; } = new AddCommaAfterLastItemInListAnalyzer();
 
-        public override CodeFixProvider FixProvider { get; } = new EnumDeclarationCodeFixProvider();
+        public override CodeFixProvider FixProvider { get; } = new AddCommaAfterLastItemInListCodeFixProvider();
 
         [Fact]
         public async Task TestDiagnosticWithCodeFix()
@@ -38,32 +38,32 @@ public class C
         var x = new C()
         {
             P1 = null,
-            P2 = null<<<>>>
+            P2 = null[||]
         };
 
         var items = new string[]
         {
             null,
-            null<<<>>>
+            null[||]
         };
 
         var dic1 = new Dictionary<string, string>()
         {
             { s, null },
-            { s, null }<<<>>>
+            { s, null }[||]
         };
 
         var dic2 = new Dictionary<string, string>()
         {
             [s] = null,
-            [s] = null<<<>>>
+            [s] = null[||]
         };
     }
 
     public enum EnumName
     {
         A,
-        B<<<>>>
+        B[||]
     }
 }
 ",

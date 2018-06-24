@@ -5,14 +5,13 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Roslynator.CSharp.CodeFixes;
+using Roslynator.Tests;
 using Xunit;
 
 namespace Roslynator.CSharp.Analysis.Tests
 {
     public class RCS1218SimplifyCodeBranchingTests : AbstractCSharpCodeFixVerifier
     {
-        private readonly CodeVerificationOptions _options;
-
         public override DiagnosticDescriptor Descriptor { get; } = DiagnosticDescriptors.SimplifyCodeBranching;
 
         public override DiagnosticAnalyzer Analyzer { get; } = new SimplifyCodeBranchingAnalyzer();
