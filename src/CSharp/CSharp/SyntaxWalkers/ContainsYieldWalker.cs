@@ -1,125 +1,105 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.CodeAnalysis;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Text;
 
 namespace Roslynator.CSharp.SyntaxWalkers
 {
-    internal class ContainsYieldWalker : StatementWalker
+    internal sealed class ContainsYieldWalker : StatementWalker
     {
-        private bool _success;
-        private readonly TextSpan? _span;
-
-        protected ContainsYieldWalker(TextSpan? span = null)
+        public ContainsYieldWalker(
+            bool searchForYieldBreak = true,
+            bool searchForYieldReturn = true)
         {
-            _span = span;
+            SearchForYieldBreak = searchForYieldBreak;
+            SearchForYieldReturn = searchForYieldReturn;
         }
 
-        public virtual bool IsSearchingForYieldReturn
+        public override bool ShouldVisit
         {
-            get { return true; }
+            get { return YieldStatement == null; }
         }
 
-        public virtual bool IsSearchingForYieldBreak
-        {
-            get { return true; }
-        }
+        public bool SearchForYieldBreak { get; private set; }
 
-        public static bool ContainsYieldReturn(StatementSyntax statement, TextSpan? span = null)
-        {
-            return ContainsYield(statement, span, yieldReturn: true, yieldBreak: false);
-        }
+        public bool SearchForYieldReturn { get; private set; }
 
-        public static bool ContainsYieldBreak(StatementSyntax statement, TextSpan? span = null)
-        {
-            return ContainsYield(statement, span, yieldReturn: false, yieldBreak: true);
-        }
+        public YieldStatementSyntax YieldStatement { get; private set; }
 
-        public static bool ContainsYield(StatementSyntax statement, TextSpan? span = null, bool yieldReturn = true, bool yieldBreak = true)
+        public static bool ContainsYield(StatementSyntax statement, bool searchForYieldReturn = true, bool searchForYieldBreak = true)
         {
             if (statement == null)
                 throw new ArgumentNullException(nameof(statement));
 
-            ContainsYieldWalker walker = Create(span, yieldReturn, yieldBreak);
+            ContainsYieldWalker walker = Cache.GetInstance();
+            walker.SearchForYieldBreak = searchForYieldBreak;
+            walker.SearchForYieldReturn = searchForYieldReturn;
 
-            walker.Visit(statement);
+            walker.VisitStatement(statement);
 
-            return walker._success;
-        }
+            bool success = walker.YieldStatement != null;
 
-        private static ContainsYieldWalker Create(TextSpan? span = null, bool yieldReturn = true, bool yieldBreak = true)
-        {
-            if (yieldReturn)
-            {
-                if (yieldBreak)
-                {
-                    return new ContainsYieldWalker(span);
-                }
-                else
-                {
-                    return new ContainsYieldReturnWalker(span);
-                }
-            }
-            else if (yieldBreak)
-            {
-                return new ContainsYieldBreakWalker(span);
-            }
+            Cache.Free(walker);
 
-            throw new InvalidOperationException();
+            return success;
         }
 
         public override void VisitYieldStatement(YieldStatementSyntax node)
         {
             SyntaxKind kind = node.Kind();
 
+            Debug.Assert(kind.Is(SyntaxKind.YieldBreakStatement, SyntaxKind.YieldReturnStatement), kind.ToString());
+
             if (kind == SyntaxKind.YieldReturnStatement)
             {
-                if (IsSearchingForYieldReturn
-                    && _span?.Contains(node.FullSpan) != false)
-                {
-                    _success = true;
-                }
+                if (SearchForYieldReturn)
+                    YieldStatement = node;
             }
             else if (kind == SyntaxKind.YieldBreakStatement)
             {
-                if (IsSearchingForYieldBreak
-                    && _span?.Contains(node.FullSpan) != false)
+                if (SearchForYieldBreak)
+                    YieldStatement = node;
+            }
+        }
+
+        public override void VisitLocalFunctionStatement(LocalFunctionStatementSyntax node)
+        {
+        }
+
+        private void Reset()
+        {
+            SearchForYieldBreak = true;
+            SearchForYieldReturn = true;
+            YieldStatement = null;
+        }
+
+        internal static class Cache
+        {
+            [ThreadStatic]
+            private static ContainsYieldWalker _cachedInstance;
+
+            public static ContainsYieldWalker GetInstance()
+            {
+                ContainsYieldWalker walker = _cachedInstance;
+
+                if (walker != null)
                 {
-                    _success = true;
+                    _cachedInstance = null;
                 }
-            }
-        }
+                else
+                {
+                    walker = new ContainsYieldWalker();
+                }
 
-        public override void Visit(SyntaxNode node)
-        {
-            if (!_success)
-                base.Visit(node);
-        }
-
-        private sealed class ContainsYieldBreakWalker : ContainsYieldWalker
-        {
-            internal ContainsYieldBreakWalker(TextSpan? span = null) : base(span)
-            {
+                return walker;
             }
 
-            public override bool IsSearchingForYieldReturn
+            public static void Free(ContainsYieldWalker walker)
             {
-                get { return false; }
-            }
-        }
-
-        private sealed class ContainsYieldReturnWalker : ContainsYieldWalker
-        {
-            internal ContainsYieldReturnWalker(TextSpan? span = null) : base(span)
-            {
-            }
-
-            public override bool IsSearchingForYieldBreak
-            {
-                get { return false; }
+                walker.Reset();
+                _cachedInstance = walker;
             }
         }
     }

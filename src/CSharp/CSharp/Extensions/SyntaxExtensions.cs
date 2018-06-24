@@ -113,9 +113,9 @@ namespace Roslynator.CSharp
             }
         }
 
-        internal static bool ContainsYield(this BlockSyntax block, TextSpan? span = null, bool yieldReturn = true, bool yieldBreak = true)
+        internal static bool ContainsYield(this BlockSyntax block, bool yieldReturn = true, bool yieldBreak = true)
         {
-            return ContainsYieldWalker.ContainsYield(block, span, yieldReturn, yieldBreak);
+            return ContainsYieldWalker.ContainsYield(block, yieldReturn, yieldBreak);
         }
 
         internal static StatementSyntax LastStatementOrDefault(this BlockSyntax block, bool skipLocalFunction = false)
