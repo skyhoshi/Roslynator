@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using Microsoft.CodeAnalysis;
@@ -121,93 +120,35 @@ namespace Roslynator.CSharp.Syntax
 
             StringBuilder sb = StringBuilderCache.GetInstance();
 
-            sb.Append('$');
+            var builder = new StringTextBuilder(sb, isVerbatim: !Analyze().ContainsNonVerbatimExpression, isInterpolated: true);
 
-            bool containsRegular = Analyze().ContainsNonVerbatimExpression;
-
-            if (!containsRegular)
-                sb.Append('@');
-
-            sb.Append('"');
+            builder.AppendStart();
 
             foreach (ExpressionSyntax expression in AsChain())
             {
-                SyntaxKind kind = expression.Kind();
-
-                StringLiteralExpressionInfo stringLiteral = SyntaxInfo.StringLiteralExpressionInfo(expression);
-
-                if (stringLiteral.Success)
+                switch (expression.Kind())
                 {
-                    int startIndex = sb.Length;
-
-                    if (containsRegular
-                        && stringLiteral.IsVerbatim)
-                    {
-                        sb.Append(stringLiteral.ValueText);
-                        sb.Replace(@"\", @"\\", startIndex);
-                        sb.Replace("\"", @"\" + "\"", startIndex);
-                        sb.Replace("{", "{{", startIndex);
-                        sb.Replace("}", "}}", startIndex);
-                        sb.Replace("\n", @"\n", startIndex);
-                        sb.Replace("\r", @"\r", startIndex);
-                    }
-                    else
-                    {
-                        sb.Append(stringLiteral.InnerText);
-                        sb.Replace("{", "{{", startIndex);
-                        sb.Replace("}", "}}", startIndex);
-                    }
-                }
-                else if (kind == SyntaxKind.InterpolatedStringExpression)
-                {
-                    var interpolatedString = (InterpolatedStringExpressionSyntax)expression;
-
-                    bool isVerbatimInterpolatedString = interpolatedString.IsVerbatim();
-
-                    foreach (InterpolatedStringContentSyntax content in interpolatedString.Contents)
-                    {
-                        Debug.Assert(content.IsKind(SyntaxKind.Interpolation, SyntaxKind.InterpolatedStringText), content.Kind().ToString());
-
-                        switch (content.Kind())
+                    case SyntaxKind.StringLiteralExpression:
                         {
-                            case SyntaxKind.InterpolatedStringText:
-                                {
-                                    var text = (InterpolatedStringTextSyntax)content;
-
-                                    if (containsRegular
-                                        && isVerbatimInterpolatedString)
-                                    {
-                                        int startIndex = sb.Length;
-                                        sb.Append(text.TextToken.ValueText);
-                                        sb.Replace(@"\", @"\\", startIndex);
-                                        sb.Replace("\"", @"\" + "\"", startIndex);
-                                        sb.Replace("\n", @"\n", startIndex);
-                                        sb.Replace("\r", @"\r", startIndex);
-                                    }
-                                    else
-                                    {
-                                        sb.Append(content.ToString());
-                                    }
-
-                                    break;
-                                }
-                            case SyntaxKind.Interpolation:
-                                {
-                                    sb.Append(content.ToString());
-                                    break;
-                                }
+                            builder.Append((LiteralExpressionSyntax)expression);
+                            break;
                         }
-                    }
-                }
-                else
-                {
-                    sb.Append('{');
-                    sb.Append(expression.ToString());
-                    sb.Append('}');
+                    case SyntaxKind.InterpolatedStringExpression:
+                        {
+                            builder.Append((InterpolatedStringExpressionSyntax)expression);
+                            break;
+                        }
+                    default:
+                        {
+                            sb.Append('{');
+                            sb.Append(expression.ToString());
+                            sb.Append('}');
+                            break;
+                        }
                 }
             }
 
-            sb.Append("\"");
+            builder.AppendEnd();
 
             return (InterpolatedStringExpressionSyntax)ParseExpression(StringBuilderCache.GetStringAndFree(sb));
         }
@@ -222,34 +163,14 @@ namespace Roslynator.CSharp.Syntax
 
             StringBuilder sb = StringBuilderCache.GetInstance();
 
-            if (!analysis.ContainsNonVerbatimExpression)
-                sb.Append('@');
+            var builder = new StringTextBuilder(sb, isVerbatim: !analysis.ContainsNonVerbatimExpression);
 
-            sb.Append('"');
+            builder.AppendStart();
 
             foreach (ExpressionSyntax expression in AsChain())
-            {
-                StringLiteralExpressionInfo literal = SyntaxInfo.StringLiteralExpressionInfo(expression);
+                builder.Append((LiteralExpressionSyntax)expression);
 
-                if (literal.Success)
-                {
-                    if (analysis.ContainsNonVerbatimExpression && literal.IsVerbatim)
-                    {
-                        int startIndex = sb.Length;
-                        sb.Append(literal.ValueText);
-                        sb.Replace(@"\", @"\\", startIndex);
-                        sb.Replace("\"", @"\" + "\"", startIndex);
-                        sb.Replace("\n", @"\n", startIndex);
-                        sb.Replace("\r", @"\r", startIndex);
-                    }
-                    else
-                    {
-                        sb.Append(literal.InnerText);
-                    }
-                }
-            }
-
-            sb.Append('"');
+            builder.AppendEnd();
 
             return (LiteralExpressionSyntax)ParseExpression(StringBuilderCache.GetStringAndFree(sb));
         }
@@ -262,22 +183,23 @@ namespace Roslynator.CSharp.Syntax
 
             StringBuilder sb = StringBuilderCache.GetInstance();
 
-            sb.Append('@');
-            sb.Append('"');
+            var builder = new StringTextBuilder(sb, isVerbatim: true);
 
-            ExpressionSyntax[] expressions = AsChain().ToArray();
+            builder.AppendStart();
 
-            for (int i = 0; i < expressions.Length; i++)
+            ExpressionChain.Enumerator en = AsChain().GetEnumerator();
+
+            if (en.MoveNext())
             {
-                if (expressions[i].IsKind(SyntaxKind.StringLiteralExpression))
+                while (true)
                 {
-                    var literal = (LiteralExpressionSyntax)expressions[i];
+                    ExpressionSyntax expression = en.Current;
 
                     int length = sb.Length;
 
-                    sb.Append(literal.Token.ValueText);
+                    builder.Append((LiteralExpressionSyntax)expression);
 
-                    sb.Replace("\"", "\"\"", length);
+                    bool isLast = !en.MoveNext();
 
                     if (sb.Length > length
                         && sb[sb.Length - 1] == '\n')
@@ -292,17 +214,20 @@ namespace Roslynator.CSharp.Syntax
 
                         sb.AppendLine();
                     }
-                    else if (i < expressions.Length - 1)
+                    else if (!isLast)
                     {
-                        TextSpan span = TextSpan.FromBounds(expressions[i].Span.End, expressions[i + 1].SpanStart);
+                        TextSpan span = TextSpan.FromBounds(expression.Span.End, en.Current.SpanStart);
 
                         if (BinaryExpression.SyntaxTree.IsMultiLineSpan(span))
                             sb.AppendLine();
                     }
+
+                    if (isLast)
+                        break;
                 }
             }
 
-            sb.Append('"');
+            builder.AppendEnd();
 
             return (LiteralExpressionSyntax)ParseExpression(StringBuilderCache.GetStringAndFree(sb));
         }
