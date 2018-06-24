@@ -25,6 +25,11 @@ namespace Roslynator.CSharp
 
         public bool IsInterpolated { get; }
 
+        public int Length
+        {
+            get { return StringBuilder.Length; }
+        }
+
         public void Append(InterpolatedStringExpressionSyntax interpolatedString)
         {
             if (interpolatedString == null)
@@ -37,6 +42,8 @@ namespace Roslynator.CSharp
 
             foreach (InterpolatedStringContentSyntax content in interpolatedString.Contents)
             {
+                Debug.Assert(content.IsKind(SyntaxKind.Interpolation, SyntaxKind.InterpolatedStringText), content.Kind().ToString());
+
                 switch (content.Kind())
                 {
                     case SyntaxKind.Interpolation:
