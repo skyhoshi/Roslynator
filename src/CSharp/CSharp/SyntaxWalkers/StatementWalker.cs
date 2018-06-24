@@ -1,138 +1,150 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Diagnostics;
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Roslynator.CSharp.SyntaxWalkers
 {
-    internal class StatementWalker : SkipFunctionWalker
+    internal class StatementWalker
     {
-        public override void Visit(SyntaxNode node)
+        public virtual bool ShouldVisit
         {
-            Debug.Assert(node == null || CSharpFacts.IsStatement(node.Kind()) || !(node is StatementSyntax), node.Kind().ToString());
-
-            base.Visit(node);
-        }
-
-        public override void VisitBlock(BlockSyntax node)
-        {
-            foreach (StatementSyntax statement in node.Statements)
-                VisitStatement(statement);
+            get { return true; }
         }
 
         private void VisitBlockIfNotNull(BlockSyntax node)
         {
-            if (node != null)
+            if (node != null
+                && ShouldVisit)
+            {
                 VisitBlock(node);
+            }
         }
 
-        public override void VisitBreakStatement(BreakStatementSyntax node)
+        public virtual void VisitBlock(BlockSyntax node)
+        {
+            foreach (StatementSyntax statement in node.Statements)
+            {
+                if (!ShouldVisit)
+                    return;
+
+                VisitStatement(statement);
+            }
+        }
+
+        public virtual void VisitBreakStatement(BreakStatementSyntax node)
         {
         }
 
-        public override void VisitCheckedStatement(CheckedStatementSyntax node)
+        public virtual void VisitCheckedStatement(CheckedStatementSyntax node)
         {
             VisitBlockIfNotNull(node.Block);
         }
 
-        public override void VisitContinueStatement(ContinueStatementSyntax node)
+        public virtual void VisitContinueStatement(ContinueStatementSyntax node)
         {
         }
 
-        public override void VisitDoStatement(DoStatementSyntax node)
-        {
-            VisitStatementIfNotNull(node.Statement);
-        }
-
-        public override void VisitEmptyStatement(EmptyStatementSyntax node)
-        {
-        }
-
-        public override void VisitExpressionStatement(ExpressionStatementSyntax node)
-        {
-        }
-
-        public override void VisitFixedStatement(FixedStatementSyntax node)
+        public virtual void VisitDoStatement(DoStatementSyntax node)
         {
             VisitStatementIfNotNull(node.Statement);
         }
 
-        public override void VisitForEachStatement(ForEachStatementSyntax node)
+        public virtual void VisitEmptyStatement(EmptyStatementSyntax node)
+        {
+        }
+
+        public virtual void VisitExpressionStatement(ExpressionStatementSyntax node)
+        {
+        }
+
+        public virtual void VisitFixedStatement(FixedStatementSyntax node)
         {
             VisitStatementIfNotNull(node.Statement);
         }
 
-        public override void VisitForEachVariableStatement(ForEachVariableStatementSyntax node)
+        public virtual void VisitForEachStatement(ForEachStatementSyntax node)
         {
             VisitStatementIfNotNull(node.Statement);
         }
 
-        public override void VisitForStatement(ForStatementSyntax node)
+        public virtual void VisitForEachVariableStatement(ForEachVariableStatementSyntax node)
         {
             VisitStatementIfNotNull(node.Statement);
         }
 
-        public override void VisitGlobalStatement(GlobalStatementSyntax node)
+        public virtual void VisitForStatement(ForStatementSyntax node)
         {
             VisitStatementIfNotNull(node.Statement);
         }
 
-        public override void VisitGotoStatement(GotoStatementSyntax node)
+        public virtual void VisitGlobalStatement(GlobalStatementSyntax node)
+        {
+            VisitStatementIfNotNull(node.Statement);
+        }
+
+        public virtual void VisitGotoStatement(GotoStatementSyntax node)
         {
         }
 
-        public override void VisitIfStatement(IfStatementSyntax node)
+        public virtual void VisitIfStatement(IfStatementSyntax node)
         {
             VisitStatementIfNotNull(node.Statement);
 
             VisitStatementIfNotNull(node.Else?.Statement);
         }
 
-        public override void VisitLabeledStatement(LabeledStatementSyntax node)
+        public virtual void VisitLabeledStatement(LabeledStatementSyntax node)
         {
             VisitStatementIfNotNull(node.Statement);
         }
 
-        public override void VisitLocalDeclarationStatement(LocalDeclarationStatementSyntax node)
+        public virtual void VisitLocalDeclarationStatement(LocalDeclarationStatementSyntax node)
         {
         }
 
-        public override void VisitLocalFunctionStatement(LocalFunctionStatementSyntax node)
+        public virtual void VisitLocalFunctionStatement(LocalFunctionStatementSyntax node)
         {
             VisitBlockIfNotNull(node.Body);
         }
 
-        public override void VisitLockStatement(LockStatementSyntax node)
+        public virtual void VisitLockStatement(LockStatementSyntax node)
         {
             VisitStatementIfNotNull(node.Statement);
         }
 
-        public override void VisitReturnStatement(ReturnStatementSyntax node)
+        public virtual void VisitReturnStatement(ReturnStatementSyntax node)
         {
         }
 
-        public override void VisitSwitchStatement(SwitchStatementSyntax node)
+        public virtual void VisitSwitchStatement(SwitchStatementSyntax node)
         {
             foreach (SwitchSectionSyntax section in node.Sections)
             {
+                if (!ShouldVisit)
+                    return;
+
                 foreach (StatementSyntax statement in section.Statements)
+                {
                     VisitStatement(statement);
+
+                    if (!ShouldVisit)
+                        return;
+                }
             }
         }
 
-        public override void VisitThrowStatement(ThrowStatementSyntax node)
+        public virtual void VisitThrowStatement(ThrowStatementSyntax node)
         {
         }
 
-        public override void VisitTryStatement(TryStatementSyntax node)
+        public virtual void VisitTryStatement(TryStatementSyntax node)
         {
             VisitBlockIfNotNull(node.Block);
 
             foreach (CatchClauseSyntax catchClause in node.Catches)
-                VisitCatchClause(catchClause);
+                VisitBlockIfNotNull(catchClause.Block);
 
             FinallyClauseSyntax finallyClause = node.Finally;
 
@@ -140,32 +152,35 @@ namespace Roslynator.CSharp.SyntaxWalkers
                 VisitBlockIfNotNull(finallyClause.Block);
         }
 
-        public override void VisitUnsafeStatement(UnsafeStatementSyntax node)
+        public virtual void VisitUnsafeStatement(UnsafeStatementSyntax node)
         {
             VisitBlockIfNotNull(node.Block);
         }
 
-        public override void VisitUsingStatement(UsingStatementSyntax node)
+        public virtual void VisitUsingStatement(UsingStatementSyntax node)
         {
             VisitStatementIfNotNull(node.Statement);
         }
 
-        public override void VisitWhileStatement(WhileStatementSyntax node)
+        public virtual void VisitWhileStatement(WhileStatementSyntax node)
         {
             VisitStatementIfNotNull(node.Statement);
         }
 
-        public override void VisitYieldStatement(YieldStatementSyntax node)
+        public virtual void VisitYieldStatement(YieldStatementSyntax node)
         {
         }
 
         private void VisitStatementIfNotNull(StatementSyntax node)
         {
-            if (node != null)
+            if (node != null
+                && ShouldVisit)
+            {
                 VisitStatement(node);
+            }
         }
 
-        protected virtual void VisitStatement(StatementSyntax node)
+        public virtual void VisitStatement(StatementSyntax node)
         {
             switch (node.Kind())
             {

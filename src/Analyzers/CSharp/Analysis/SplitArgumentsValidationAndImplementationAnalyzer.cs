@@ -58,13 +58,13 @@ namespace Roslynator.CSharp.Analysis
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            YieldWalker walker = YieldWalkerCache.GetInstance();
+            ContainsYieldWalker walker = ContainsYieldWalker.Cache.GetInstance();
 
-            walker.Visit(body);
+            walker.VisitBlock(body);
 
             YieldStatementSyntax yieldStatement = walker.YieldStatement;
 
-            YieldWalkerCache.Free(walker);
+            ContainsYieldWalker.Cache.Free(walker);
 
             if (yieldStatement == null)
                 return;
@@ -94,64 +94,6 @@ namespace Roslynator.CSharp.Analysis
         {
             return statement.IsKind(SyntaxKind.IfStatement)
                 && ((IfStatementSyntax)statement).SingleNonBlockStatementOrDefault().IsKind(SyntaxKind.ThrowStatement);
-        }
-
-        private class YieldWalker : StatementWalker
-        {
-            private bool _containsYieldStatement;
-
-            public YieldStatementSyntax YieldStatement { get; private set; }
-
-            public void Reset()
-            {
-                YieldStatement = null;
-                _containsYieldStatement = false;
-            }
-
-            public override void Visit(SyntaxNode node)
-            {
-                if (!_containsYieldStatement)
-                    base.Visit(node);
-            }
-
-            public override void VisitLocalFunctionStatement(LocalFunctionStatementSyntax node)
-            {
-            }
-
-            public override void VisitYieldStatement(YieldStatementSyntax node)
-            {
-                YieldStatement = node;
-                _containsYieldStatement = true;
-            }
-        }
-
-        private static class YieldWalkerCache
-        {
-            [ThreadStatic]
-            private static YieldWalker _cachedInstance;
-
-            public static YieldWalker GetInstance()
-            {
-                YieldWalker walker = _cachedInstance;
-
-                if (walker != null)
-                {
-                    _cachedInstance = null;
-                    walker.Reset();
-                }
-                else
-                {
-                    walker = new YieldWalker();
-                }
-
-                return walker;
-            }
-
-            public static void Free(YieldWalker walker)
-            {
-                walker.Reset();
-                _cachedInstance = walker;
-            }
         }
     }
 }
