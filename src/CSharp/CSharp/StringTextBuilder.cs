@@ -139,8 +139,11 @@ namespace Roslynator.CSharp
                     }
 
                     StringBuilder.Append(value, lastIndex, length - lastIndex);
+                    return;
                 }
             }
+
+            StringBuilder.Append(value);
 
             bool IsSpecialChar(char ch)
             {
