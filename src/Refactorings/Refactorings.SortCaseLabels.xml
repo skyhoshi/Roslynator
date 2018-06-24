@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Refactorings>
+  <Refactoring Id="RRX004" Identifier="SortCaseLabels" Title="Sort case labels">
+    <Syntaxes>
+      <Syntax>case label with string literal</Syntax>
+    </Syntaxes>
+    <Span></Span>
+    <Samples>
+      <Sample>
+        <Before><![CDATA[bool Foo(string s)
+{
+    switch (s)
+    {
+        case "a":
+        case "d":
+        case "c":
+        case "b":
+            return true;
+        default:
+            return false;
+    }
+}]]></Before>
+        <After><![CDATA[bool Foo(string s)
+{
+    switch (s)
+    {
+        case "a":
+        case "b":
+        case "c":
+        case "d":
+            return true;
+        default:
+            return false;
+    }
+}]]></After>
+      </Sample>
+    </Samples>
+  </Refactoring>
+</Refactorings>
