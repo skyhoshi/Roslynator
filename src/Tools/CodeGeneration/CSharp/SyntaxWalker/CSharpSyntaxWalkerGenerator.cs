@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Roslynator.CSharp;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Roslynator.CodeGeneration.CSharp.CSharpFactory2;
+using static Roslynator.CodeGeneration.CSharp.MetadataNames2;
 using static Roslynator.CodeGeneration.CSharp.Symbols;
 using static Roslynator.CSharp.CSharpFactory;
 
@@ -71,22 +72,22 @@ namespace Roslynator.CodeGeneration.CSharp
 
             if (EliminateDefaultVisit)
             {
-                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(BaseTypeSyntaxSymbol));
-                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(CrefSyntaxSymbol));
-                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(ExpressionSyntaxSymbol));
-                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(InterpolatedStringContentSyntaxSymbol));
-                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(MemberCrefSyntaxSymbol));
-                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(MemberDeclarationSyntaxSymbol));
-                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(PatternSyntaxSymbol));
-                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(QueryClauseSyntaxSymbol));
-                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(SelectOrGroupClauseSyntaxSymbol));
-                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(StatementSyntaxSymbol));
-                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(SwitchLabelSyntaxSymbol));
-                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(TypeParameterConstraintSyntaxSymbol));
-                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(TypeSyntaxSymbol));
-                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(VariableDesignationSyntaxSymbol));
-                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(XmlAttributeSyntaxSymbol));
-                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(XmlNodeSyntaxSymbol));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_BaseTypeSyntax));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_CrefSyntax));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_ExpressionSyntax));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_InterpolatedStringContentSyntax));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_MemberCrefSyntax));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_MemberDeclarationSyntax));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_PatternSyntax));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_QueryClauseSyntax));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_SelectOrGroupClauseSyntax));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_StatementSyntax));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_SwitchLabelSyntax));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_TypeParameterConstraintSyntax));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_TypeSyntax));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_VariableDesignationSyntax));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_XmlAttributeSyntax));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_XmlNodeSyntax));
             }
 
             return members;
@@ -94,9 +95,7 @@ namespace Roslynator.CodeGeneration.CSharp
             void AddIfNotNull(MemberDeclarationSyntax memberDeclaration)
             {
                 if (memberDeclaration != null)
-                {
                     members.Add(memberDeclaration);
-                }
             }
         }
 
@@ -242,13 +241,9 @@ namespace Roslynator.CodeGeneration.CSharp
                                 break;
                             }
 
-                            string methodName = context.MethodName;
-
                             if (EliminateDefaultVisit
                                 && propertyName == "Body"
-                                && (methodName == "VisitAnonymousMethodExpression"
-                                || methodName == "VisitParenthesizedLambdaExpression"
-                                || methodName == "VisitSimpleLambdaExpression"))
+                                && context.ParameterType.InheritsFrom(Microsoft_CodeAnalysis_CSharp_Syntax_AnonymousFunctionExpressionSyntax))
                             {
                                 CreateVisitAnonymousFunctionStatements(context);
                             }
@@ -265,7 +260,7 @@ namespace Roslynator.CodeGeneration.CSharp
                         }
                 }
             }
-            else if (!CSharpFacts.IsPredefinedType(propertyType.SpecialType))
+            else if (!propertyType.SpecialType.Is(SpecialType.System_Int32, SpecialType.System_Boolean))
             {
                 throw new InvalidOperationException();
             }
@@ -425,53 +420,43 @@ namespace Roslynator.CodeGeneration.CSharp
 
         private static string GetMethodName(ITypeSymbol typeSymbol)
         {
-            if (typeSymbol.EqualsOrInheritsFrom(TypeSyntaxSymbol))
-                return "VisitType";
+            do
+            {
+                string name = typeSymbol.MetadataName;
 
-            if (typeSymbol.EqualsOrInheritsFrom(StatementSyntaxSymbol))
-                return "VisitStatement";
+                switch (name)
+                {
+                    case "BaseTypeSyntax":
+                    case "CrefSyntax":
+                    case "ExpressionSyntax":
+                    case "InterpolatedStringContentSyntax":
+                    case "MemberCrefSyntax":
+                    case "MemberDeclarationSyntax":
+                    case "PatternSyntax":
+                    case "QueryClauseSyntax":
+                    case "SelectOrGroupClauseSyntax":
+                    case "StatementSyntax":
+                    case "SwitchLabelSyntax":
+                    case "TypeSyntax":
+                    case "TypeParameterConstraintSyntax":
+                    case "VariableDesignationSyntax":
+                    case "XmlAttributeSyntax":
+                    case "XmlNodeSyntax":
+                        {
+                            if (typeSymbol
+                                .ContainingNamespace
+                                .HasMetadataName(Microsoft_CodeAnalysis_CSharp_Syntax))
+                            {
+                                return "Visit" + name.Remove(name.Length - 6);
+                            }
 
-            if (typeSymbol.EqualsOrInheritsFrom(ExpressionSyntaxSymbol))
-                return "VisitExpression";
+                            break;
+                        }
+                }
 
-            if (typeSymbol.EqualsOrInheritsFrom(PatternSyntaxSymbol))
-                return "VisitPattern";
+                typeSymbol = typeSymbol.BaseType;
 
-            if (typeSymbol.EqualsOrInheritsFrom(VariableDesignationSyntaxSymbol))
-                return "VisitVariableDesignation";
-
-            if (typeSymbol.EqualsOrInheritsFrom(MemberCrefSyntaxSymbol))
-                return "VisitMemberCref";
-
-            if (typeSymbol.EqualsOrInheritsFrom(SelectOrGroupClauseSyntaxSymbol))
-                return "VisitSelectOrGroupClause";
-
-            if (typeSymbol.EqualsOrInheritsFrom(CrefSyntaxSymbol))
-                return "VisitCref";
-
-            if (typeSymbol.EqualsOrInheritsFrom(BaseTypeSyntaxSymbol))
-                return "VisitBaseType";
-
-            if (typeSymbol.EqualsOrInheritsFrom(MemberDeclarationSyntaxSymbol))
-                return "VisitMemberDeclaration";
-
-            if (typeSymbol.EqualsOrInheritsFrom(XmlNodeSyntaxSymbol))
-                return "VisitXmlNode";
-
-            if (typeSymbol.EqualsOrInheritsFrom(InterpolatedStringContentSyntaxSymbol))
-                return "VisitInterpolatedStringContent";
-
-            if (typeSymbol.EqualsOrInheritsFrom(QueryClauseSyntaxSymbol))
-                return "VisitQueryClause";
-
-            if (typeSymbol.EqualsOrInheritsFrom(SwitchLabelSyntaxSymbol))
-                return "VisitSwitchLabel";
-
-            if (typeSymbol.EqualsOrInheritsFrom(TypeParameterConstraintSyntaxSymbol))
-                return "VisitTypeParameterConstraint";
-
-            if (typeSymbol.EqualsOrInheritsFrom(XmlAttributeSyntaxSymbol))
-                return "VisitXmlAttribute";
+            } while (typeSymbol != null);
 
             throw new ArgumentException("", nameof(typeSymbol));
         }
@@ -570,16 +555,14 @@ namespace Roslynator.CodeGeneration.CSharp
                                 VisitStatement("VisitToken", "token"), checkShouldVisit: true)))));
         }
 
-        public virtual MethodDeclarationSyntax CreateVisitAbstractSyntaxMethodDeclaration(INamedTypeSymbol typeSymbol)
+        internal virtual MethodDeclarationSyntax CreateVisitAbstractSyntaxMethodDeclaration(MetadataName metadataName)
         {
-            string name = typeSymbol.Name;
-
-            string nameWithoutSyntax = name.Remove(name.Length - 6);
+            string name = metadataName.Name;
 
             return MethodDeclaration(
                 Modifiers.ProtectedVirtual(),
                 VoidType(),
-                Identifier($"Visit{nameWithoutSyntax}"),
+                Identifier($"Visit{name.Remove(name.Length - 6)}"),
                 ParameterList(Parameter(IdentifierName(name), "node")),
                 Block(
                     SwitchStatement(
@@ -588,11 +571,9 @@ namespace Roslynator.CodeGeneration.CSharp
 
             IEnumerable<SwitchSectionSyntax> CreateSections()
             {
-                foreach (INamedTypeSymbol typeSymbol2 in SyntaxSymbols.Where(f => !f.IsAbstract && f.InheritsFrom(typeSymbol)))
+                foreach (INamedTypeSymbol typeSymbol2 in SyntaxSymbols.Where(f => !f.IsAbstract && f.InheritsFrom(metadataName)))
                 {
                     string name2 = typeSymbol2.Name;
-
-                    string nameWithoutSyntax2 = name2.Remove(name2.Length - 6);
 
                     SyntaxList<SwitchLabelSyntax> labels = GetKinds(typeSymbol2)
                         .Select(f => CaseSwitchLabel(SimpleMemberAccessExpression(IdentifierName("SyntaxKind"), IdentifierName(f.ToString()))))
@@ -604,7 +585,7 @@ namespace Roslynator.CodeGeneration.CSharp
                         {
                             ExpressionStatement(
                                 InvocationExpression(
-                                    IdentifierName("Visit" + nameWithoutSyntax2),
+                                    IdentifierName("Visit" + name2.Remove(name2.Length - 6)),
                                     ArgumentList(Argument(CastExpression(IdentifierName(name2), IdentifierName("node")))))),
                             BreakStatement()
                         }));

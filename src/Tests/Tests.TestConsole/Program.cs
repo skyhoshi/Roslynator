@@ -3128,15 +3128,15 @@ namespace Roslynator.CSharp
             Console.ReadKey();
         }
 
-        private class CSharpSyntaxNodeWalker2 : CSharpSyntaxNodeWalker
+        private sealed class CSharpSyntaxNodeWalker2 : CSharpSyntaxNodeWalker
         {
         }
 
-        private class IdentifierNameWalker2 : IdentifierNameWalker
+        private sealed class IdentifierNameWalker2 : IdentifierNameWalker
         {
         }
 
-        private class Walker : CSharpSyntaxWalker
+        private sealed class Walker : CSharpSyntaxWalker
         {
 
         }
