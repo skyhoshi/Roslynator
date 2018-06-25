@@ -70,11 +70,11 @@ namespace Roslynator.CodeGeneration.CSharp
             }
         }
 
-        public override MethodDeclarationSyntax CreateVisitAbstractSyntaxMethodDeclaration(INamedTypeSymbol typeSymbol)
+        internal override MethodDeclarationSyntax CreateVisitAbstractSyntaxMethodDeclaration(MetadataName metadataName)
         {
-            MethodDeclarationSyntax methodDeclaration = base.CreateVisitAbstractSyntaxMethodDeclaration(typeSymbol);
+            MethodDeclarationSyntax methodDeclaration = base.CreateVisitAbstractSyntaxMethodDeclaration(metadataName);
 
-            if (typeSymbol.Name != "TypeSyntax")
+            if (metadataName != MetadataNames2.Microsoft_CodeAnalysis_CSharp_Syntax_BaseTypeSyntax)
             {
                 methodDeclaration = methodDeclaration.WithModifiers(Modifiers.Private());
             }

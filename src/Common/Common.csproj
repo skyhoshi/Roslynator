@@ -31,4 +31,8 @@
     <ProjectReference Include="..\CSharp\CSharp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CSharp\SyntaxWalkers\" />
+  </ItemGroup>
+
 </Project>

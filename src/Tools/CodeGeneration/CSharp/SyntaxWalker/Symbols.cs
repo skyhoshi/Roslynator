@@ -25,22 +25,6 @@ namespace Roslynator.CodeGeneration.CSharp
         private static INamedTypeSymbol _separatedSyntaxListSymbol;
         private static INamedTypeSymbol _syntaxTokenSymbol;
         private static INamedTypeSymbol _syntaxTokenListSymbol;
-        private static INamedTypeSymbol _typeSyntaxSymbol;
-        private static INamedTypeSymbol _statementSyntaxSymbol;
-        private static INamedTypeSymbol _expressionSyntaxSymbol;
-        private static INamedTypeSymbol _patternSyntaxSymbol;
-        private static INamedTypeSymbol _variableDesignationSyntaxSymbol;
-        private static INamedTypeSymbol _memberCrefSyntaxSymbol;
-        private static INamedTypeSymbol _selectOrGroupClauseSyntaxSymbol;
-        private static INamedTypeSymbol _crefSyntaxSymbol;
-        private static INamedTypeSymbol _baseTypeSyntaxSymbol;
-        private static INamedTypeSymbol _memberDeclarationSyntaxSymbol;
-        private static INamedTypeSymbol _xmlNodeSyntaxSymbol;
-        private static INamedTypeSymbol _interpolatedStringContentSyntaxSymbol;
-        private static INamedTypeSymbol _queryClauseSyntaxSymbol;
-        private static INamedTypeSymbol _switchLabelSyntaxSymbol;
-        private static INamedTypeSymbol _typeParameterConstraintSyntaxSymbol;
-        private static INamedTypeSymbol _xmlAttributeSyntaxSymbol;
 
         public static INamedTypeSymbol CSharpSyntaxWalkerSymbol => _csharpSyntaxWalkerSymbol ?? (_csharpSyntaxWalkerSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.CSharpSyntaxWalker"));
         public static INamedTypeSymbol SyntaxNodeSymbol => _syntaxNodeSymbol ?? (_syntaxNodeSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode"));
@@ -48,22 +32,6 @@ namespace Roslynator.CodeGeneration.CSharp
         public static INamedTypeSymbol SeparatedSyntaxListSymbol => _separatedSyntaxListSymbol ?? (_separatedSyntaxListSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.SeparatedSyntaxList`1"));
         public static INamedTypeSymbol SyntaxTokenSymbol => _syntaxTokenSymbol ?? (_syntaxTokenSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.SyntaxToken"));
         public static INamedTypeSymbol SyntaxTokenListSymbol => _syntaxTokenListSymbol ?? (_syntaxTokenListSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.SyntaxTokenList"));
-        public static INamedTypeSymbol TypeSyntaxSymbol => _typeSyntaxSymbol ?? (_typeSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.TypeSyntax"));
-        public static INamedTypeSymbol StatementSyntaxSymbol => _statementSyntaxSymbol ?? (_statementSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.StatementSyntax"));
-        public static INamedTypeSymbol ExpressionSyntaxSymbol => _expressionSyntaxSymbol ?? (_expressionSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax"));
-        public static INamedTypeSymbol PatternSyntaxSymbol => _patternSyntaxSymbol ?? (_patternSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.PatternSyntax"));
-        public static INamedTypeSymbol VariableDesignationSyntaxSymbol => _variableDesignationSyntaxSymbol ?? (_variableDesignationSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.VariableDesignationSyntax"));
-        public static INamedTypeSymbol MemberCrefSyntaxSymbol => _memberCrefSyntaxSymbol ?? (_memberCrefSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.MemberCrefSyntax"));
-        public static INamedTypeSymbol SelectOrGroupClauseSyntaxSymbol => _selectOrGroupClauseSyntaxSymbol ?? (_selectOrGroupClauseSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.SelectOrGroupClauseSyntax"));
-        public static INamedTypeSymbol CrefSyntaxSymbol => _crefSyntaxSymbol ?? (_crefSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.CrefSyntax"));
-        public static INamedTypeSymbol BaseTypeSyntaxSymbol => _baseTypeSyntaxSymbol ?? (_baseTypeSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.BaseTypeSyntax"));
-        public static INamedTypeSymbol MemberDeclarationSyntaxSymbol => _memberDeclarationSyntaxSymbol ?? (_memberDeclarationSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.MemberDeclarationSyntax"));
-        public static INamedTypeSymbol XmlNodeSyntaxSymbol => _xmlNodeSyntaxSymbol ?? (_xmlNodeSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.XmlNodeSyntax"));
-        public static INamedTypeSymbol InterpolatedStringContentSyntaxSymbol => _interpolatedStringContentSyntaxSymbol ?? (_interpolatedStringContentSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.InterpolatedStringContentSyntax"));
-        public static INamedTypeSymbol QueryClauseSyntaxSymbol => _queryClauseSyntaxSymbol ?? (_queryClauseSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.QueryClauseSyntax"));
-        public static INamedTypeSymbol SwitchLabelSyntaxSymbol => _switchLabelSyntaxSymbol ?? (_switchLabelSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.SwitchLabelSyntax"));
-        public static INamedTypeSymbol TypeParameterConstraintSyntaxSymbol => _typeParameterConstraintSyntaxSymbol ?? (_typeParameterConstraintSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.TypeParameterConstraintSyntax"));
-        public static INamedTypeSymbol XmlAttributeSyntaxSymbol => _xmlAttributeSyntaxSymbol ?? (_xmlAttributeSyntaxSymbol = Compilation.GetTypeByMetadataName("Microsoft.CodeAnalysis.CSharp.Syntax.XmlAttributeSyntax"));
 
         public static ImmutableArray<IMethodSymbol> VisitMethodSymbols
         {
@@ -137,9 +105,14 @@ namespace Roslynator.CodeGeneration.CSharp
                 : null;
         }
 
-        public static IEnumerable<IPropertySymbol> GetPropertySymbols(ITypeSymbol typeSymbol, string name = null, bool skipObsolete = true)
+        public static IEnumerable<IPropertySymbol> GetPropertySymbols(
+            ITypeSymbol typeSymbol,
+            string name = null,
+            bool skipObsolete = true)
         {
-            foreach (ISymbol symbol in (name != null) ? typeSymbol.GetMembers(name) : typeSymbol.GetMembers())
+            foreach (ISymbol symbol in (name != null)
+                ? typeSymbol.GetMembers(name)
+                : typeSymbol.GetMembers())
             {
                 if (symbol.Kind != SymbolKind.Property)
                     continue;
@@ -159,120 +132,18 @@ namespace Roslynator.CodeGeneration.CSharp
             }
         }
 
-        public static IPropertySymbol GetSinglePropertySymbolOrDefault(ITypeSymbol typeSymbol)
-        {
-            IPropertySymbol singlePropertySymbol = null;
-
-            foreach (IPropertySymbol propertySymbol in GetPropertySymbols(typeSymbol))
-            {
-                ITypeSymbol propertyType = propertySymbol.Type.OriginalDefinition;
-
-                if (propertyType.Equals(SyntaxListSymbol))
-                    return null;
-
-                if (propertyType.Equals(SeparatedSyntaxListSymbol))
-                    return null;
-
-                if (propertyType.Equals(SyntaxTokenListSymbol))
-                    continue;
-
-                if (propertyType.Equals(SyntaxTokenSymbol))
-                    continue;
-
-                if (propertyType.EqualsOrInheritsFrom(SyntaxNodeSymbol))
-                {
-                    switch (propertyType.Name)
-                    {
-                        case "AccessorListSyntax":
-                        case "ArgumentListSyntax":
-                        case "AttributeArgumentListSyntax":
-                        case "BracketedArgumentListSyntax":
-                        case "BracketedParameterListSyntax":
-                        case "ParameterListSyntax":
-                        case "TypeArgumentListSyntax":
-                        case "TypeParameterListSyntax":
-                            {
-                                return null;
-                            }
-                        case "ArrayTypeSyntax":
-                        case "ArrowExpressionClauseSyntax":
-                        case "AttributeTargetSpecifierSyntax":
-                        case "BaseListSyntax":
-                        case "BlockSyntax":
-                        case "CatchDeclarationSyntax":
-                        case "CatchFilterClauseSyntax":
-                        case "ConstructorInitializerSyntax":
-                        case "CrefBracketedParameterListSyntax":
-                        case "CrefParameterListSyntax":
-                        case "ElseClauseSyntax":
-                        case "EqualsValueClauseSyntax":
-                        case "ExplicitInterfaceSpecifierSyntax":
-                        case "FinallyClauseSyntax":
-                        case "FromClauseSyntax":
-                        case "InterpolationAlignmentClauseSyntax":
-                        case "InterpolationFormatClauseSyntax":
-                        case "JoinIntoClauseSyntax":
-                        case "NameColonSyntax":
-                        case "NameEqualsSyntax":
-                        case "ParameterSyntax":
-                        case "QueryBodySyntax":
-                        case "QueryContinuationSyntax":
-                        case "VariableDeclarationSyntax":
-                        case "WhenClauseSyntax":
-                        case "XmlElementEndTagSyntax":
-                        case "XmlElementStartTagSyntax":
-                        case "XmlNameSyntax":
-                        case "XmlPrefixSyntax":
-                        case "CrefSyntax":
-                        case "CSharpSyntaxNode":
-                        case "ExpressionSyntax":
-                        case "IdentifierNameSyntax":
-                        case "InitializerExpressionSyntax":
-                        case "MemberCrefSyntax":
-                        case "NameSyntax":
-                        case "PatternSyntax":
-                        case "SelectOrGroupClauseSyntax":
-                        case "SimpleNameSyntax":
-                        case "StatementSyntax":
-                        case "TypeSyntax":
-                        case "VariableDesignationSyntax":
-                            {
-                                if (singlePropertySymbol == null)
-                                {
-                                    singlePropertySymbol = propertySymbol;
-                                    continue;
-                                }
-                                else
-                                {
-                                    return null;
-                                }
-                            }
-                        default:
-                            {
-                                throw new InvalidOperationException($"Unrecognized property type '{propertyType.ToDisplayString()}'.");
-                            }
-                    }
-                }
-
-                if (!CSharpFacts.IsPredefinedType(propertyType.SpecialType))
-                    throw new InvalidOperationException();
-            }
-
-            return singlePropertySymbol;
-        }
-
         public static IPropertySymbol FindListPropertySymbol(IPropertySymbol propertySymbol)
         {
             string propertyName = propertySymbol.Name;
 
             string name = GetListPropertyName();
 
-            foreach (IPropertySymbol propertySymbol2 in GetPropertySymbols(propertySymbol.Type, name))
+            foreach (IPropertySymbol symbol in GetPropertySymbols(propertySymbol.Type, name))
             {
-                if (propertySymbol2.Type.OriginalDefinition.Equals(SyntaxListSymbol)
-                    || propertySymbol2.Type.OriginalDefinition.Equals(SeparatedSyntaxListSymbol))
+                if (symbol.Type.OriginalDefinition.Equals(SyntaxListSymbol)
+                    || symbol.Type.OriginalDefinition.Equals(SeparatedSyntaxListSymbol))
                 {
-                    return propertySymbol2;
+                    return symbol;
                 }
             }
 
