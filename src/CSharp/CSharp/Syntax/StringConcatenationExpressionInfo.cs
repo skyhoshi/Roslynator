@@ -111,7 +111,7 @@ namespace Roslynator.CSharp.Syntax
 
         public ExpressionChain AsChain()
         {
-            return new ExpressionChain(BinaryExpression, Span ?? BinaryExpression?.FullSpan ?? default);
+            return ExpressionChain.Create(BinaryExpression, Span ?? BinaryExpression?.FullSpan ?? default);
         }
 
         internal InterpolatedStringExpressionSyntax ToInterpolatedStringExpression()
