@@ -152,50 +152,18 @@ namespace Roslynator.CSharp
 
                                 ExpressionSyntax right = BinaryExpression.Right;
 
-                                Debug.Assert(right != null, "BinaryExpressionSyntax.Right is null.");
-
                                 if (IsInSpan(right.Span))
                                 {
                                     _current = right;
                                     _state = State.Right;
-                                    return true;
                                 }
-
-                                BinaryExpressionSyntax binaryExpression = BinaryExpression;
-
-                                while (true)
+                                else
                                 {
-                                    ExpressionSyntax left = binaryExpression.Left;
-
-                                    Debug.Assert(left != null, "BinaryExpressionSyntax.Left is null.");
-
-                                    if (left.RawKind == binaryExpression.RawKind)
-                                    {
-                                        binaryExpression = (BinaryExpressionSyntax)left;
-                                        right = binaryExpression.Right;
-
-                                        Debug.Assert(right != null, "BinaryExpressionSyntax.Right is null.");
-
-                                        if (IsInSpan(right.Span))
-                                        {
-                                            _current = right;
-                                            _state = State.Right;
-                                            return true;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        _state = State.Left;
-
-                                        if (IsInSpan(left.Span))
-                                        {
-                                            _current = left;
-                                            return true;
-                                        }
-
-                                        return false;
-                                    }
+                                    _current = BinaryExpression.Left;
+                                    _state = State.Left;
                                 }
+
+                                return true;
                             }
                         case State.Right:
                             {
@@ -203,15 +171,11 @@ namespace Roslynator.CSharp
 
                                 ExpressionSyntax left = binaryExpression.Left;
 
-                                Debug.Assert(left != null, "BinaryExpressionSyntax.Left is null.");
-
                                 if (left.RawKind == binaryExpression.RawKind)
                                 {
                                     binaryExpression = (BinaryExpressionSyntax)left;
 
                                     ExpressionSyntax right = binaryExpression.Right;
-
-                                    Debug.Assert(right != null, "BinaryExpressionSyntax.Right is null.");
 
                                     if (IsInSpan(right.Span))
                                     {
