@@ -18,18 +18,18 @@ namespace Roslynator.CSharp
                 new KeyValuePair<string, XmlElementKind>[]
                 {
                     //new KeyValuePair<string, XmlElementKind>("c", XmlElementKind.C),
-                    //new KeyValuePair<string, XmlElementKind>("code", XmlElementKind.Code),
-                    //new KeyValuePair<string, XmlElementKind>("example", XmlElementKind.Example),
+                    new KeyValuePair<string, XmlElementKind>("code", XmlElementKind.Code),
+                    new KeyValuePair<string, XmlElementKind>("example", XmlElementKind.Example),
                     new KeyValuePair<string, XmlElementKind>("exception", XmlElementKind.Exception),
                     new KeyValuePair<string, XmlElementKind>("exclude", XmlElementKind.Exclude),
                     new KeyValuePair<string, XmlElementKind>("include", XmlElementKind.Include),
                     new KeyValuePair<string, XmlElementKind>("inheritdoc", XmlElementKind.InheritDoc),
-                    //new KeyValuePair<string, XmlElementKind>("list", XmlElementKind.List),
-                    //new KeyValuePair<string, XmlElementKind>("para", XmlElementKind.Para),
+                    new KeyValuePair<string, XmlElementKind>("list", XmlElementKind.List),
+                    new KeyValuePair<string, XmlElementKind>("para", XmlElementKind.Para),
                     new KeyValuePair<string, XmlElementKind>("param", XmlElementKind.Param),
                     //new KeyValuePair<string, XmlElementKind>("paramref", XmlElementKind.ParamRef),
                     //new KeyValuePair<string, XmlElementKind>("permission", XmlElementKind.Permission),
-                    //new KeyValuePair<string, XmlElementKind>("remarks", XmlElementKind.Remarks),
+                    new KeyValuePair<string, XmlElementKind>("remarks", XmlElementKind.Remarks),
                     new KeyValuePair<string, XmlElementKind>("returns", XmlElementKind.Returns),
                     //new KeyValuePair<string, XmlElementKind>("see", XmlElementKind.See),
                     //new KeyValuePair<string, XmlElementKind>("seealso", XmlElementKind.SeeAlso),
@@ -61,6 +61,10 @@ namespace Roslynator.CSharp
             {
                 case XmlElementKind.None:
                     return "";
+                case XmlElementKind.Code:
+                    return "code";
+                case XmlElementKind.Example:
+                    return "example";
                 case XmlElementKind.Exception:
                     return "exception";
                 case XmlElementKind.Exclude:
@@ -69,8 +73,14 @@ namespace Roslynator.CSharp
                     return "include";
                 case XmlElementKind.InheritDoc:
                     return "inheritdoc";
+                case XmlElementKind.List:
+                    return "list";
+                case XmlElementKind.Para:
+                    return "para";
                 case XmlElementKind.Param:
                     return "param";
+                case XmlElementKind.Remarks:
+                    return "remarks";
                 case XmlElementKind.Returns:
                     return "returns";
                 case XmlElementKind.Summary:
