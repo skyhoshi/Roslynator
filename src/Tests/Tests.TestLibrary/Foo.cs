@@ -17,7 +17,7 @@ using Roslynator.CSharp;
 using Roslynator.CSharp.Syntax;
 #endregion usings
 
-#pragma warning disable RCS1018, RCS1213, CA1822
+#pragma warning disable RCS1018, RCS1213, CA1822 
 
 namespace Roslynator.Tests
 {

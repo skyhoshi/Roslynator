@@ -239,6 +239,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
         {
             foreach (ExpressionSyntax expression in node.Sizes)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitExpression(expression);
             }
         }
@@ -434,6 +439,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
         {
             foreach (BaseTypeSyntax baseType in node.Types)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitBaseType(baseType);
             }
         }
@@ -467,6 +477,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
         {
             foreach (StatementSyntax statement in node.Statements)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitStatement(statement);
             }
         }
@@ -675,6 +690,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
             foreach (MemberDeclarationSyntax memberDeclaration in node.Members)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitMemberDeclaration(memberDeclaration);
             }
         }
@@ -717,6 +737,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
             foreach (MemberDeclarationSyntax memberDeclaration in node.Members)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitMemberDeclaration(memberDeclaration);
             }
         }
@@ -1179,6 +1204,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
         {
             foreach (XmlNodeSyntax xmlNode in node.Content)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitXmlNode(xmlNode);
             }
         }
@@ -1619,6 +1649,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
             foreach (ExpressionSyntax expression in node.Initializers)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitExpression(expression);
             }
 
@@ -1635,6 +1670,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
             foreach (ExpressionSyntax expression2 in node.Incrementors)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitExpression(expression2);
             }
 
@@ -1962,6 +2002,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
         {
             foreach (ExpressionSyntax expression in node.Expressions)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitExpression(expression);
             }
         }
@@ -2012,6 +2057,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
             foreach (MemberDeclarationSyntax memberDeclaration in node.Members)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitMemberDeclaration(memberDeclaration);
             }
         }
@@ -2020,6 +2070,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
         {
             foreach (InterpolatedStringContentSyntax interpolatedStringContent in node.Contents)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitInterpolatedStringContent(interpolatedStringContent);
             }
         }
@@ -2571,6 +2626,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
             foreach (MemberDeclarationSyntax memberDeclaration in node.Members)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitMemberDeclaration(memberDeclaration);
             }
         }
@@ -2825,6 +2885,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
         {
             foreach (VariableDesignationSyntax variableDesignation in node.Variables)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitVariableDesignation(variableDesignation);
             }
         }
@@ -2865,6 +2930,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
         {
             foreach (ExpressionSyntax expression in node.ErrorCodes)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitExpression(expression);
             }
         }
@@ -3009,6 +3079,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
         {
             foreach (QueryClauseSyntax queryClause in node.Clauses)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitQueryClause(queryClause);
             }
 
@@ -3305,6 +3380,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
             foreach (MemberDeclarationSyntax memberDeclaration in node.Members)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitMemberDeclaration(memberDeclaration);
             }
         }
@@ -3313,11 +3393,21 @@ namespace Roslynator.CSharp.SyntaxWalkers
         {
             foreach (SwitchLabelSyntax switchLabel in node.Labels)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitSwitchLabel(switchLabel);
             }
 
             foreach (StatementSyntax statement in node.Statements)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitStatement(statement);
             }
         }
@@ -3457,6 +3547,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
         {
             foreach (TypeSyntax type in node.Arguments)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitType(type);
             }
         }
@@ -3531,6 +3626,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
             foreach (TypeParameterConstraintSyntax typeParameterConstraint in node.Constraints)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitTypeParameterConstraint(typeParameterConstraint);
             }
         }
@@ -3781,6 +3881,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
             foreach (XmlNodeSyntax xmlNode in node.Content)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitXmlNode(xmlNode);
             }
 
@@ -3825,6 +3930,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
             foreach (XmlAttributeSyntax xmlAttribute in node.Attributes)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitXmlAttribute(xmlAttribute);
             }
         }
@@ -3844,6 +3954,11 @@ namespace Roslynator.CSharp.SyntaxWalkers
 
             foreach (XmlAttributeSyntax xmlAttribute in node.Attributes)
             {
+                if (!ShouldVisit)
+                {
+                    return;
+                }
+
                 VisitXmlAttribute(xmlAttribute);
             }
         }
