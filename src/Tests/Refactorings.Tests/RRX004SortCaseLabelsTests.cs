@@ -9,8 +9,8 @@ namespace Roslynator.CSharp.Refactorings.Tests
     {
         public override string RefactoringId { get; } = RefactoringIdentifiers.SortCaseLabels;
 
-        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.AddBraces)]
-        public async Task Test()
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.SortCaseLabels)]
+        public async Task Test_StringLiteral()
         {
             await VerifyRefactoringAsync(@"
 class C
@@ -49,8 +49,58 @@ class C
 ", equivalenceKey: RefactoringId);
         }
 
-        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.AddBraces)]
-        public async Task TestNoRefactoring_IsSorted()
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.SortCaseLabels)]
+        public async Task Test_SimpleMemberAccessExpression()
+        {
+            await VerifyRefactoringAsync(@"
+using System.Text.RegularExpressions;
+
+class C
+{
+    void M(RegexOptions options)
+    {
+        switch (options)
+        {
+            [||]case RegexOptions.CultureInvariant:
+            case RegexOptions.Compiled:
+            case RegexOptions.Singleline:
+            case RegexOptions.ExplicitCapture:
+            case RegexOptions.Multiline:
+            case RegexOptions.IgnoreCase:
+            case RegexOptions.IgnorePatternWhitespace:
+            case RegexOptions.ECMAScript:
+            case RegexOptions.RightToLeft:
+                break;
+        }
+    }
+}
+", @"
+using System.Text.RegularExpressions;
+
+class C
+{
+    void M(RegexOptions options)
+    {
+        switch (options)
+        {
+            case RegexOptions.Compiled:
+            case RegexOptions.CultureInvariant:
+            case RegexOptions.ECMAScript:
+            case RegexOptions.ExplicitCapture:
+            case RegexOptions.IgnoreCase:
+            case RegexOptions.IgnorePatternWhitespace:
+            case RegexOptions.Multiline:
+            case RegexOptions.RightToLeft:
+            case RegexOptions.Singleline:
+                break;
+        }
+    }
+}
+", equivalenceKey: RefactoringId);
+        }
+
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.SortCaseLabels)]
+        public async Task TestNoRefactoring_StringLiteral_IsSorted()
         {
             await VerifyNoRefactoringAsync(@"
 class C
@@ -65,6 +115,35 @@ class C
             case ""d"":
                 break;
             default:
+                break;
+        }
+    }
+}
+", equivalenceKey: RefactoringId);
+        }
+
+        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.SortCaseLabels)]
+        public async Task TestNoRefactoring_SimpleMemberAccessExpression_IsSorted()
+        {
+            await VerifyNoRefactoringAsync(@"
+using System.Text.RegularExpressions;
+
+class C
+{
+    void M(RegexOptions options)
+    {
+        switch (options)
+        {
+            [||]case RegexOptions.Compiled:
+            case RegexOptions.CultureInvariant:
+            case RegexOptions.ECMAScript:
+            case RegexOptions.ExplicitCapture:
+            case RegexOptions.IgnoreCase:
+            case RegexOptions.IgnorePatternWhitespace:
+            case RegexOptions.Multiline:
+            case RegexOptions.None:
+            case RegexOptions.RightToLeft:
+            case RegexOptions.Singleline:
                 break;
         }
     }
