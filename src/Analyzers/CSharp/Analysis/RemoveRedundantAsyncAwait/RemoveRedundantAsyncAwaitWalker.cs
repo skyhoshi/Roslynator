@@ -9,6 +9,7 @@ using Roslynator.CSharp.SyntaxWalkers;
 
 namespace Roslynator.CSharp.Analysis.RemoveRedundantAsyncAwait
 {
+    //TODO: 
     internal class RemoveRedundantAsyncAwaitWalker : SkipFunctionWalker
     {
         private bool _shouldStop;
