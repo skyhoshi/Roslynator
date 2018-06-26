@@ -81,6 +81,7 @@ namespace Roslynator.CodeGeneration.CSharp
                 AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_PatternSyntax));
                 AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_QueryClauseSyntax));
                 AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_SelectOrGroupClauseSyntax));
+                AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_SimpleNameSyntax));
                 AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_StatementSyntax));
                 AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_SwitchLabelSyntax));
                 AddIfNotNull(CreateVisitAbstractSyntaxMethodDeclaration(Microsoft_CodeAnalysis_CSharp_Syntax_TypeParameterConstraintSyntax));
@@ -435,6 +436,7 @@ namespace Roslynator.CodeGeneration.CSharp
                     case "PatternSyntax":
                     case "QueryClauseSyntax":
                     case "SelectOrGroupClauseSyntax":
+                    case "SimpleNameSyntax":
                     case "StatementSyntax":
                     case "SwitchLabelSyntax":
                     case "TypeSyntax":

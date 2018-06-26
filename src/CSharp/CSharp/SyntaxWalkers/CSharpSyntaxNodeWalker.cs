@@ -102,7 +102,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
             SimpleNameSyntax name = node.Name;
             if (name != null)
             {
-                VisitType(name);
+                VisitSimpleName(name);
             }
         }
 
@@ -2431,7 +2431,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
             SimpleNameSyntax name = node.Name;
             if (name != null)
             {
-                VisitType(name);
+                VisitSimpleName(name);
             }
         }
 
@@ -2445,7 +2445,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
             SimpleNameSyntax name = node.Name;
             if (name != null)
             {
-                VisitType(name);
+                VisitSimpleName(name);
             }
         }
 
@@ -3071,7 +3071,7 @@ namespace Roslynator.CSharp.SyntaxWalkers
             SimpleNameSyntax right = node.Right;
             if (right != null)
             {
-                VisitType(right);
+                VisitSimpleName(right);
             }
         }
 
@@ -4459,6 +4459,21 @@ namespace Roslynator.CSharp.SyntaxWalkers
                     break;
                 case SyntaxKind.SelectClause:
                     VisitSelectClause((SelectClauseSyntax)node);
+                    break;
+                default:
+                    throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
+            }
+        }
+
+        protected virtual void VisitSimpleName(SimpleNameSyntax node)
+        {
+            switch (node.Kind())
+            {
+                case SyntaxKind.GenericName:
+                    VisitGenericName((GenericNameSyntax)node);
+                    break;
+                case SyntaxKind.IdentifierName:
+                    VisitIdentifierName((IdentifierNameSyntax)node);
                     break;
                 default:
                     throw new ArgumentException($"Unrecognized node '{node.Kind()}'.", nameof(node));
