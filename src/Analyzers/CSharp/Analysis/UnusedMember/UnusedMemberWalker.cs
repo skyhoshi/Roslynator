@@ -279,6 +279,66 @@ namespace Roslynator.CSharp.Analysis.UnusedMember
             }
         }
 
+        public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
+        {
+            VisitAttributeLists(node.AttributeLists);
+
+            if (!ShouldVisit)
+                return;
+
+            EqualsValueClauseSyntax initializer = node.Initializer;
+
+            if (initializer != null)
+                VisitEqualsValueClause(initializer);
+
+            if (!ShouldVisit)
+                return;
+
+            AccessorListSyntax accessorList = node.AccessorList;
+
+            if (accessorList != null)
+            {
+                VisitAccessorList(accessorList);
+            }
+            else
+            {
+                ArrowExpressionClauseSyntax expressionBody = node.ExpressionBody;
+
+                if (expressionBody != null)
+                    VisitArrowExpressionClause(expressionBody);
+            }
+        }
+
+        public override void VisitIndexerDeclaration(IndexerDeclarationSyntax node)
+        {
+            VisitAttributeLists(node.AttributeLists);
+
+            if (!ShouldVisit)
+                return;
+
+            BracketedParameterListSyntax parameterList = node.ParameterList;
+
+            if (node != null)
+                VisitBracketedParameterList(parameterList);
+
+            if (!ShouldVisit)
+                return;
+
+            AccessorListSyntax accessorList = node.AccessorList;
+
+            if (accessorList != null)
+            {
+                VisitAccessorList(accessorList);
+            }
+            else
+            {
+                ArrowExpressionClauseSyntax expressionBody = node.ExpressionBody;
+
+                if (expressionBody != null)
+                    VisitArrowExpressionClause(expressionBody);
+            }
+        }
+
         public override void VisitLocalFunctionStatement(LocalFunctionStatementSyntax node)
         {
             VisitParameterList(node.ParameterList);
