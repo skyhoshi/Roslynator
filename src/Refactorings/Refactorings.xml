@@ -1409,16 +1409,9 @@ i--;]]></After>
       <Sample>
         <Before><![CDATA[if (condition1)
 {
-    Foo1();
-
     if (condition2)
     {
-        Foo2();
-
-        if (condition3)
-        {
-            Foo3();
-        }
+        Foo();
     }
 }]]></Before>
         <After><![CDATA[if (!condition1)
@@ -1426,23 +1419,34 @@ i--;]]></After>
     return;
 }
 
-Foo1();
+if (!condition2)
+{
+    return;
+}
+
+Foo();]]></After>
+      </Sample>
+      <Sample>
+        <Before><![CDATA[if (!condition1)
+{
+    return;
+}
 
 if (!condition2)
 {
     return;
 }
 
-Foo2();
-
-if (!condition3)
+Foo();]]></Before>
+        <After><![CDATA[if (condition1)
 {
-    return;
-}
-
-Foo3();]]></After>
+    if (condition2)
+    {
+        Foo();
+    }
+}]]></After>
       </Sample>
-    </Samples>
+  </Samples>
   </Refactoring>
   <Refactoring Id="RR0190" Identifier="SplitIfElse" Title="Split if-else">
     <Syntaxes>

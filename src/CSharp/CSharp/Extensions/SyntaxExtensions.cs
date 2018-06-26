@@ -117,34 +117,6 @@ namespace Roslynator.CSharp
         {
             return ContainsYieldWalker.ContainsYield(block, yieldReturn, yieldBreak);
         }
-
-        internal static StatementSyntax LastStatementOrDefault(this BlockSyntax block, bool skipLocalFunction = false)
-        {
-            if (block == null)
-                throw new ArgumentNullException(nameof(block));
-
-            SyntaxList<StatementSyntax> statements = block.Statements;
-
-            if (!statements.Any())
-                return null;
-
-            if (!skipLocalFunction)
-                return statements.Last();
-
-            int i = statements.Count - 1;
-
-            while (i >= 0)
-            {
-                StatementSyntax statement = statements[i];
-
-                if (statement.Kind() != SyntaxKind.LocalFunctionStatement)
-                    return statement;
-
-                i--;
-            }
-
-            return null;
-        }
         #endregion BlockSyntax
 
         #region BaseArgumentListSyntax
@@ -2192,9 +2164,9 @@ namespace Roslynator.CSharp
             return ReplaceRange(list, index, count, Empty.ReadOnlyList<TNode>());
         }
 
-        internal static StatementSyntax LastOrDefault(this SyntaxList<StatementSyntax> statements, bool skipLocalFunction)
+        internal static StatementSyntax LastOrDefault(this SyntaxList<StatementSyntax> statements, bool ignoreLocalFunction)
         {
-            if (!skipLocalFunction)
+            if (!ignoreLocalFunction)
                 return statements.LastOrDefault();
 
             int i = statements.Count - 1;

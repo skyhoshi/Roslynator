@@ -18,13 +18,13 @@ using static Roslynator.CSharp.CSharpFactory;
 
 namespace Roslynator.CSharp.CodeFixes
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(SplitArgumentsValidationAndImplementationCodeFixProvider))]
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(ValidateArgumentsCorrectlyCodeFixProvider))]
     [Shared]
-    public class SplitArgumentsValidationAndImplementationCodeFixProvider : BaseCodeFixProvider
+    public class ValidateArgumentsCorrectlyCodeFixProvider : BaseCodeFixProvider
     {
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
-            get { return ImmutableArray.Create(DiagnosticIdentifiers.SplitArgumentsValidationAndImplementation); }
+            get { return ImmutableArray.Create(DiagnosticIdentifiers.ValidateArgumentsCorrectly); }
         }
 
         public override FixAllProvider GetFixAllProvider()
@@ -42,7 +42,7 @@ namespace Roslynator.CSharp.CodeFixes
             Diagnostic diagnostic = context.Diagnostics[0];
 
             CodeAction codeAction = CodeAction.Create(
-                "Split arguments validation and implementation",
+                "Validate arguments correctly",
                 cancellationToken => RefactorAsync(context.Document, statement, cancellationToken),
                 GetEquivalenceKey(diagnostic));
 

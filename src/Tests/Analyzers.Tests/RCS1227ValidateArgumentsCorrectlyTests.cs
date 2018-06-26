@@ -5,22 +5,21 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Roslynator.CSharp.CodeFixes;
-using Roslynator.Tests;
 using Xunit;
 
 #pragma warning disable RCS1090
 
 namespace Roslynator.CSharp.Analysis.Tests
 {
-    public class RCSX002SplitArgumentsValidationAndImplementationTests : AbstractCSharpCodeFixVerifier
+    public class RCS1227ValidateArgumentsCorrectlyTests : AbstractCSharpCodeFixVerifier
     {
-        public override DiagnosticDescriptor Descriptor { get; } = DiagnosticDescriptors.SplitArgumentsValidationAndImplementation;
+        public override DiagnosticDescriptor Descriptor { get; } = DiagnosticDescriptors.ValidateArgumentsCorrectly;
 
-        public override DiagnosticAnalyzer Analyzer { get; } = new SplitArgumentsValidationAndImplementationAnalyzer();
+        public override DiagnosticAnalyzer Analyzer { get; } = new ValidateArgumentsCorrectlyAnalyzer();
 
-        public override CodeFixProvider FixProvider { get; } = new SplitArgumentsValidationAndImplementationCodeFixProvider();
+        public override CodeFixProvider FixProvider { get; } = new ValidateArgumentsCorrectlyCodeFixProvider();
 
-        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SplitArgumentsValidationAndImplementation)]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.ValidateArgumentsCorrectly)]
         public async Task Test()
         {
             await VerifyDiagnosticAndFixAsync(@"
@@ -66,7 +65,7 @@ class C
 ");
         }
 
-        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.SplitArgumentsValidationAndImplementation)]
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.ValidateArgumentsCorrectly)]
         public async Task TestNoDiagnostic_NoNullCheck()
         {
             await VerifyNoDiagnosticAsync(@"

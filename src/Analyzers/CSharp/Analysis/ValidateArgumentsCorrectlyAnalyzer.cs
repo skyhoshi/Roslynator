@@ -12,11 +12,11 @@ using Roslynator.CSharp.SyntaxWalkers;
 namespace Roslynator.CSharp.Analysis
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class SplitArgumentsValidationAndImplementationAnalyzer : BaseDiagnosticAnalyzer
+    public class ValidateArgumentsCorrectlyAnalyzer : BaseDiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
         {
-            get { return ImmutableArray.Create(DiagnosticDescriptors.SplitArgumentsValidationAndImplementation); }
+            get { return ImmutableArray.Create(DiagnosticDescriptors.ValidateArgumentsCorrectly); }
         }
 
         public override void Initialize(AnalysisContext context)
@@ -86,7 +86,7 @@ namespace Roslynator.CSharp.Analysis
                 return;
 
             context.ReportDiagnostic(
-                DiagnosticDescriptors.SplitArgumentsValidationAndImplementation,
+                DiagnosticDescriptors.ValidateArgumentsCorrectly,
                 Location.Create(body.SyntaxTree, new TextSpan(statements[index + 1].SpanStart, 0)));
         }
 

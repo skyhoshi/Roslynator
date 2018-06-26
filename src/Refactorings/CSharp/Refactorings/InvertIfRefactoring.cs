@@ -44,7 +44,7 @@ namespace Roslynator.CSharp.Refactorings
                         context.RegisterRefactoring(
                             "Invert if-else",
                             ct => InvertIfElseAsync(document, ifStatement, ct),
-                            RefactoringIdentifiers.InvertIf);
+                            RefactoringIdentifiers.InvertIfElse);
                     }
                 }
             }

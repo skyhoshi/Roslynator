@@ -2471,6 +2471,18 @@ namespace Roslynator.CSharp
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.AddParagraphToDocumentationComment}", 
             customTags:         Array.Empty<string>());
 
+        /// <summary>RCS1227</summary>
+        public static readonly DiagnosticDescriptor ValidateArgumentsCorrectly = new DiagnosticDescriptor(
+            id:                 DiagnosticIdentifiers.ValidateArgumentsCorrectly, 
+            title:              "Validate arguments correctly.", 
+            messageFormat:      "Validate arguments correctly.", 
+            category:           DiagnosticCategories.Design, 
+            defaultSeverity:    DiagnosticSeverity.Info, 
+            isEnabledByDefault: true, 
+            description:        null, 
+            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.ValidateArgumentsCorrectly}", 
+            customTags:         Array.Empty<string>());
+
         /// <summary>RCS1230</summary>
         public static readonly DiagnosticDescriptor AddCommaAfterLastItemInList = new DiagnosticDescriptor(
             id:                 DiagnosticIdentifiers.AddCommaAfterLastItemInList, 
@@ -2505,18 +2517,6 @@ namespace Roslynator.CSharp
             isEnabledByDefault: true, 
             description:        null, 
             helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.MarkParameterWithInModifier}", 
-            customTags:         Array.Empty<string>());
-
-        /// <summary>RCSX002</summary>
-        public static readonly DiagnosticDescriptor SplitArgumentsValidationAndImplementation = new DiagnosticDescriptor(
-            id:                 DiagnosticIdentifiers.SplitArgumentsValidationAndImplementation, 
-            title:              "Split arguments validation and implementation.", 
-            messageFormat:      "Split arguments validation and implementation.", 
-            category:           DiagnosticCategories.Design, 
-            defaultSeverity:    DiagnosticSeverity.Info, 
-            isEnabledByDefault: true, 
-            description:        null, 
-            helpLinkUri:        $"{HelpLinkUriRoot}{DiagnosticIdentifiers.SplitArgumentsValidationAndImplementation}", 
             customTags:         Array.Empty<string>());
 
         /// <summary>RCSX003</summary>
