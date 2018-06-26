@@ -316,7 +316,7 @@ namespace Roslynator.CodeGeneration.CSharp
                     variableName,
                     SimpleMemberAccessExpression(IdentifierName(context.ParameterName), IdentifierName(context.PropertyName)),
                     VisitStatement(methodName, variableName),
-                    checkShouldVisit: methodSymbol != null);
+                    checkShouldVisit: true);
 
                 context.AddStatement(forEachStatement);
             }
