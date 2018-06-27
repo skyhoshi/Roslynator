@@ -21,20 +21,25 @@ namespace Roslynator.CSharp.Syntax
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct StringConcatenationExpressionInfo : IEquatable<StringConcatenationExpressionInfo>
     {
-        private StringConcatenationExpressionInfo(
-            BinaryExpressionSyntax binaryExpression,
-            TextSpan? span = null)
+        private readonly ExpressionChain _chain;
+
+        private StringConcatenationExpressionInfo(in ExpressionChain chain)
         {
-            BinaryExpression = binaryExpression;
-            Span = span;
+            _chain = chain;
         }
 
         /// <summary>
         /// The binary expression that represents the string concatenation.
         /// </summary>
-        public BinaryExpressionSyntax BinaryExpression { get; }
+        public BinaryExpressionSyntax BinaryExpression
+        {
+            get { return _chain.BinaryExpression; }
+        }
 
-        internal TextSpan? Span { get; }
+        internal TextSpan? Span
+        {
+            get { return _chain.Span; }
+        }
 
         /// <summary>
         /// Determines whether this struct was initialized with an actual syntax.
@@ -47,7 +52,7 @@ namespace Roslynator.CSharp.Syntax
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string DebuggerDisplay
         {
-            get { return ToDebugString(Success, this, BinaryExpression, (Span != null) ? BinaryExpression.ToString(Span.Value) : null); }
+            get { return ToDebugString(Success, this, BinaryExpression, ToString()); }
         }
 
         internal StringConcatenationAnalysis Analyze()
@@ -72,10 +77,12 @@ namespace Roslynator.CSharp.Syntax
             SemanticModel semanticModel,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (!binaryExpression.AsChain().Reverse().IsStringConcatenation(semanticModel, cancellationToken))
+            ExpressionChain chain = binaryExpression.AsChain();
+
+            if (!chain.Reverse().IsStringConcatenation(semanticModel, cancellationToken))
                 return default;
 
-            return new StringConcatenationExpressionInfo(binaryExpression);
+            return new StringConcatenationExpressionInfo(chain);
         }
 
         internal static StringConcatenationExpressionInfo Create(
@@ -86,7 +93,7 @@ namespace Roslynator.CSharp.Syntax
             if (!chain.Reverse().IsStringConcatenation(semanticModel, cancellationToken))
                 return default;
 
-            return new StringConcatenationExpressionInfo(chain.BinaryExpression, chain.Span);
+            return new StringConcatenationExpressionInfo(chain);
         }
 
         /// <summary>
@@ -101,17 +108,17 @@ namespace Roslynator.CSharp.Syntax
 
             if (leftToRight)
             {
-                return AsChain();
+                return _chain;
             }
             else
             {
-                return AsChain().Reverse();
+                return _chain.Reverse();
             }
         }
 
         public ExpressionChain AsChain()
         {
-            return ExpressionChain.Create(BinaryExpression, Span ?? BinaryExpression?.FullSpan ?? default);
+            return new ExpressionChain(BinaryExpression, Span);
         }
 
         internal InterpolatedStringExpressionSyntax ToInterpolatedStringExpression()
@@ -124,7 +131,7 @@ namespace Roslynator.CSharp.Syntax
 
             builder.AppendStart();
 
-            foreach (ExpressionSyntax expression in AsChain())
+            foreach (ExpressionSyntax expression in _chain)
             {
                 switch (expression.Kind())
                 {
@@ -167,7 +174,7 @@ namespace Roslynator.CSharp.Syntax
 
             builder.AppendStart();
 
-            foreach (ExpressionSyntax expression in AsChain())
+            foreach (ExpressionSyntax expression in _chain)
                 builder.Append((LiteralExpressionSyntax)expression);
 
             builder.AppendEnd();
@@ -187,7 +194,7 @@ namespace Roslynator.CSharp.Syntax
 
             builder.AppendStart();
 
-            ExpressionChain.Enumerator en = AsChain().GetEnumerator();
+            ExpressionChain.Enumerator en = _chain.GetEnumerator();
 
             if (en.MoveNext())
             {
@@ -238,9 +245,7 @@ namespace Roslynator.CSharp.Syntax
         /// <returns></returns>
         public override string ToString()
         {
-            return (Span != null)
-                ? BinaryExpression.ToString(Span.Value)
-                : BinaryExpression.ToString();
+            return _chain.ToString();
         }
 
         private void ThrowInvalidOperationIfNotInitialized()

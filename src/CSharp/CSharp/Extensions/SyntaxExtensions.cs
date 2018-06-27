@@ -139,7 +139,7 @@ namespace Roslynator.CSharp
         #region BinaryExpressionSyntax
         public static ExpressionChain AsChain(this BinaryExpressionSyntax binaryExpression)
         {
-            return ExpressionChain.Create(binaryExpression);
+            return new ExpressionChain(binaryExpression);
         }
         #endregion BinaryExpressionSyntax
 

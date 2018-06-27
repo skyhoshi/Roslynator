@@ -20,10 +20,9 @@ namespace Roslynator.CSharp.Refactorings
             TextSpan span,
             CancellationToken cancellationToken)
         {
-            ExpressionSyntax[] expressions = binaryExpression
-                .AsChain()
-                .Where(f => span.Contains(f.Span))
-                .ToArray();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            ExpressionSyntax[] expressions = new ExpressionChain(binaryExpression, span).ToArray();
 
             ExpressionSyntax firstExpression = expressions[0];
 

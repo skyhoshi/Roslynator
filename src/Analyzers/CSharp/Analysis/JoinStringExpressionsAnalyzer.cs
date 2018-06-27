@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Immutable;
+using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -50,6 +51,8 @@ namespace Roslynator.CSharp.Analysis
 
             foreach (ExpressionSyntax expression in addExpression.AsChain().Reverse())
             {
+                context.ThrowIfCancellationRequested();
+
                 switch (expression.Kind())
                 {
                     case SyntaxKind.StringLiteralExpression:
@@ -122,20 +125,24 @@ namespace Roslynator.CSharp.Analysis
 
         private static void Analyze(SyntaxNodeAnalysisContext context, ExpressionSyntax firstExpression, ExpressionSyntax lastExpression, bool isVerbatim)
         {
+            CancellationToken cancellationToken = context.CancellationToken;
+
             TextSpan span = TextSpan.FromBounds(lastExpression.SpanStart, firstExpression.Span.End);
 
             if (span != firstExpression.Parent.Span)
             {
                 var addExpression = (BinaryExpressionSyntax)lastExpression.Parent;
 
-                if (!CSharpUtility.IsStringConcatenation(addExpression, context.SemanticModel, context.CancellationToken))
+                cancellationToken.ThrowIfCancellationRequested();
+
+                if (!CSharpUtility.IsStringConcatenation(addExpression, context.SemanticModel, cancellationToken))
                     return;
             }
 
             SyntaxTree tree = firstExpression.SyntaxTree;
 
             if (isVerbatim
-                || tree.IsSingleLineSpan(span, context.CancellationToken))
+                || tree.IsSingleLineSpan(span, cancellationToken))
             {
                 context.ReportDiagnostic(
                     DiagnosticDescriptors.JoinStringExpressions,

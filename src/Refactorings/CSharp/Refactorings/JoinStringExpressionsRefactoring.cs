@@ -77,6 +77,8 @@ namespace Roslynator.CSharp.Refactorings
             ExpressionSyntax expression,
             CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             BinaryExpressionSyntax binaryExpression = concatenationInfo.BinaryExpression;
 
             if (concatenationInfo.Span.HasValue)
