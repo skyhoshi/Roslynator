@@ -52,23 +52,5 @@ class C
 }
 ", equivalenceKey: RefactoringId);
         }
-
-        //[Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.JoinStringExpressions)]
-        public async Task TestNoRefactoring()
-        {
-            await VerifyNoRefactoringAsync(@"
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-class C
-{
-    void M()
-    {
-    }
-}
-", equivalenceKey: RefactoringId);
-        }
     }
 }

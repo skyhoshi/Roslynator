@@ -85,7 +85,7 @@ namespace Roslynator.CSharp.Syntax
 
         public ExpressionChain AsChain()
         {
-            return ExpressionChain.Create(BinaryExpression);
+            return new ExpressionChain(BinaryExpression);
         }
 
         internal static BinaryExpressionInfo Create(

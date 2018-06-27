@@ -16,13 +16,12 @@ namespace Roslynator.CSharp
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly partial struct ExpressionChain : IEquatable<ExpressionChain>, IEnumerable<ExpressionSyntax>
     {
-        private ExpressionChain(BinaryExpressionSyntax binaryExpression, TextSpan? span = null)
+        public ExpressionChain(BinaryExpressionSyntax binaryExpression, TextSpan? span = null)
         {
             BinaryExpression = binaryExpression;
-            OriginalSpan = span;
+            Span = span;
         }
 
-        //TODO: ExpressionChain: rename ContainingExpression
         /// <summary>
         /// The binary expression.
         /// </summary>
@@ -31,16 +30,16 @@ namespace Roslynator.CSharp
         /// <summary>
         /// The span that represents selected expressions.
         /// </summary>
-        internal TextSpan? OriginalSpan { get; }
+        public TextSpan? Span { get; }
 
         /// <summary>
         /// The absolute span of expressions in characters, not including its leading and trailing trivia.
         /// </summary>
-        public TextSpan Span
+        internal TextSpan ExpressionsSpan
         {
             get
             {
-                if (OriginalSpan == null)
+                if (Span == null)
                     return BinaryExpression?.Span ?? default;
 
                 Reversed.Enumerator en = Reverse().GetEnumerator();
@@ -53,34 +52,6 @@ namespace Roslynator.CSharp
 
                     while (en.MoveNext())
                         start = en.Current.SpanStart;
-
-                    return TextSpan.FromBounds(start, end);
-                }
-
-                return default;
-            }
-        }
-
-        /// <summary>
-        /// The absolute span of expressions in characters, including its leading and trailing trivia.
-        /// </summary>
-        public TextSpan FullSpan
-        {
-            get
-            {
-                if (OriginalSpan == null)
-                    return BinaryExpression?.FullSpan ?? default;
-
-                Reversed.Enumerator en = Reverse().GetEnumerator();
-
-                if (en.MoveNext())
-                {
-                    int end = en.Current.FullSpan.End;
-
-                    int start = en.Current.FullSpan.Start;
-
-                    while (en.MoveNext())
-                        start = en.Current.FullSpan.Start;
 
                     return TextSpan.FromBounds(start, end);
                 }
@@ -107,65 +78,7 @@ namespace Roslynator.CSharp
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string DebuggerDisplay
         {
-            get { return BinaryExpression?.ToString(Span) ?? "Uninitialized"; }
-        }
-
-        public static ExpressionChain Create(BinaryExpressionSyntax binaryExpression)
-        {
-            if (binaryExpression == null)
-                throw new ArgumentNullException(nameof(binaryExpression));
-
-            return new ExpressionChain(binaryExpression);
-        }
-
-        public static ExpressionChain Create(BinaryExpressionSyntax binaryExpression, TextSpan span)
-        {
-            //TODO: ExpressionChain: exception
-            if (!TryCreate(binaryExpression, span, out ExpressionChain chain))
-                throw new ArgumentException("Span contains no expression.", nameof(span));
-
-            return chain;
-        }
-
-        public static bool TryCreate(BinaryExpressionSyntax binaryExpression, TextSpan span, out ExpressionChain chain)
-        {
-            if (binaryExpression == null)
-                throw new ArgumentNullException(nameof(binaryExpression));
-
-            if (IsInSpan(span, binaryExpression.Right.Span))
-            {
-                chain = new ExpressionChain(binaryExpression, span);
-                return true;
-            }
-
-            ExpressionSyntax left = null;
-
-            while (true)
-            {
-                left = binaryExpression.Left;
-
-                if (left.RawKind == binaryExpression.RawKind)
-                {
-                    binaryExpression = (BinaryExpressionSyntax)left;
-
-                    if (IsInSpan(span, binaryExpression.Right.Span))
-                    {
-                        chain = new ExpressionChain(binaryExpression, span);
-                        return true;
-                    }
-                }
-                else
-                {
-                    if (IsInSpan(span, left.Span))
-                    {
-                        chain = new ExpressionChain(binaryExpression, span);
-                        return true;
-                    }
-
-                    chain = default;
-                    return false;
-                }
-            }
+            get { return BinaryExpression?.ToString(ExpressionsSpan) ?? "Uninitialized"; }
         }
 
         private static bool IsInSpan(TextSpan self, TextSpan span)
@@ -175,7 +88,7 @@ namespace Roslynator.CSharp
         }
 
         /// <summary>
-        /// Returns a chain which contains all expressions of <see cref="ExpressionChain"/> in reversed order
+        /// Returns a chain which contains all expressions of <see cref="ExpressionChain"/> in reversed order.
         /// </summary>
         /// <returns></returns>
         public Reversed Reverse()
@@ -221,7 +134,7 @@ namespace Roslynator.CSharp
         /// <returns></returns>
         public override string ToString()
         {
-            return BinaryExpression?.ToString(Span) ?? "";
+            return BinaryExpression?.ToString(ExpressionsSpan) ?? "";
         }
 
         /// <summary>
@@ -292,47 +205,33 @@ namespace Roslynator.CSharp
 
                             BinaryExpressionSyntax binaryExpression = _chain.BinaryExpression;
 
-                            if (_chain.OriginalSpan == null)
+                            ExpressionSyntax left = binaryExpression.Left;
+
+                            if (_chain.Span == null)
                             {
                                 _last = binaryExpression.Right;
 
-                                ExpressionSyntax left = binaryExpression.Left;
-
-                                while (true)
+                                while (left.RawKind == binaryExpression.RawKind)
                                 {
-                                    if (left.RawKind == binaryExpression.RawKind)
-                                    {
-                                        binaryExpression = (BinaryExpressionSyntax)left;
-                                        left = binaryExpression.Left;
-                                    }
-                                    else
-                                    {
-                                        _current = left;
-                                        _state = State.Left;
-                                        return true;
-                                    }
+                                    binaryExpression = (BinaryExpressionSyntax)left;
+                                    left = binaryExpression.Left;
                                 }
+
+                                _current = left;
+                                _state = State.Left;
+                                return true;
+                            }
+
+                            ExpressionSyntax right = binaryExpression.Right;
+
+                            TextSpan span = _chain.Span.Value;
+
+                            if (IsInSpan(span, right.Span))
+                            {
+                                _last = right;
                             }
                             else
                             {
-                                TextSpan span = _chain.OriginalSpan.Value;
-
-                                ExpressionSyntax right = binaryExpression.Right;
-
-                                if (!IsInSpan(span, right.Span))
-                                {
-                                    _last = binaryExpression.Left;
-                                    _current = _last;
-                                    _state = State.Left;
-                                    return true;
-                                }
-
-                                _last = right;
-                                ExpressionSyntax first = _last;
-                                var state = State.Right;
-
-                                ExpressionSyntax left = null;
-
                                 while (true)
                                 {
                                     left = binaryExpression.Left;
@@ -344,29 +243,62 @@ namespace Roslynator.CSharp
 
                                         if (IsInSpan(span, right.Span))
                                         {
-                                            first = right;
-                                        }
-                                        else
-                                        {
+                                            _last = right;
                                             break;
                                         }
                                     }
+                                    else if (IsInSpan(span, left.Span))
+                                    {
+                                        _last = left;
+                                        _current = _last;
+                                        _state = State.Left;
+                                        return true;
+                                    }
                                     else
                                     {
-                                        if (IsInSpan(span, left.Span))
-                                        {
-                                            first = left;
-                                            state = State.Left;
-                                        }
+                                        _state = State.End;
+                                        return false;
+                                    }
+                                }
+                            }
 
+                            ExpressionSyntax first = _last;
+
+                            while (true)
+                            {
+                                left = binaryExpression.Left;
+
+                                if (left.RawKind == binaryExpression.RawKind)
+                                {
+                                    binaryExpression = (BinaryExpressionSyntax)left;
+                                    right = binaryExpression.Right;
+
+                                    if (IsInSpan(span, right.Span))
+                                    {
+                                        first = right;
+                                    }
+                                    else
+                                    {
                                         break;
                                     }
                                 }
+                                else
+                                {
+                                    if (IsInSpan(span, left.Span))
+                                    {
+                                        _current = left;
+                                        _state = State.Left;
+                                        return true;
+                                    }
 
-                                _current = first;
-                                _state = state;
-                                return true;
+                                    break;
+                                }
                             }
+
+                            _current = first;
+                            _state = State.Right;
+
+                            return true;
                         }
                     case State.Right:
                         {

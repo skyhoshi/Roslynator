@@ -139,27 +139,56 @@ namespace Roslynator.CSharp
                                 if (_chain.BinaryExpression == null)
                                     return false;
 
-                                if (_chain.OriginalSpan == null)
+                                if (_chain.Span == null)
                                 {
                                     _current = _chain.BinaryExpression.Right;
                                     _state = State.Right;
                                     return true;
                                 }
 
-                                ExpressionSyntax right = _chain.BinaryExpression.Right;
+                                BinaryExpressionSyntax binaryExpression = _chain.BinaryExpression;
 
-                                if (IsInSpan(_chain.OriginalSpan.Value, right.Span))
+                                ExpressionSyntax right = binaryExpression.Right;
+
+                                TextSpan span = _chain.Span.Value;
+
+                                if (IsInSpan(span, right.Span))
                                 {
                                     _current = right;
                                     _state = State.Right;
-                                }
-                                else
-                                {
-                                    _current = _chain.BinaryExpression.Left;
-                                    _state = State.Left;
+                                    return true;
                                 }
 
-                                return true;
+                                ExpressionSyntax left = null;
+
+                                while (true)
+                                {
+                                    left = binaryExpression.Left;
+
+                                    if (left.RawKind == binaryExpression.RawKind)
+                                    {
+                                        binaryExpression = (BinaryExpressionSyntax)left;
+                                        right = binaryExpression.Right;
+
+                                        if (IsInSpan(span, right.Span))
+                                        {
+                                            _current = right;
+                                            _state = State.Right;
+                                            return true;
+                                        }
+                                    }
+                                    else if (IsInSpan(span, left.Span))
+                                    {
+                                        _current = left;
+                                        _state = State.Left;
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        _state = State.Left;
+                                        return false;
+                                    }
+                                }
                             }
                         case State.Right:
                             {
@@ -167,7 +196,7 @@ namespace Roslynator.CSharp
 
                                 ExpressionSyntax left = binaryExpression.Left;
 
-                                if (_chain.OriginalSpan == null)
+                                if (_chain.Span == null)
                                 {
                                     if (left.RawKind == binaryExpression.RawKind)
                                     {
@@ -186,7 +215,7 @@ namespace Roslynator.CSharp
                                 }
                                 else
                                 {
-                                    TextSpan span = _chain.OriginalSpan.Value;
+                                    TextSpan span = _chain.Span.Value;
 
                                     if (left.RawKind == binaryExpression.RawKind)
                                     {
