@@ -38,10 +38,12 @@ namespace Roslynator.CSharp.CodeFixes
                         {
                             XmlElementInfo elementInfo = SyntaxInfo.XmlElementInfo(xmlNode);
 
+                            string name = elementInfo.LocalName;
+
                             CodeAction codeAction = CodeAction.Create(
-                                $"Remove element '{elementInfo.LocalName}'",
+                                $"Remove element '{name}'",
                                 cancellationToken => RemoveUnusedElementInDocumentationCommentAsync(context.Document, elementInfo, cancellationToken),
-                                GetEquivalenceKey(diagnostic));
+                                base.GetEquivalenceKey(diagnostic, name));
 
                             context.RegisterCodeFix(codeAction, diagnostic);
                             break;
@@ -55,6 +57,8 @@ namespace Roslynator.CSharp.CodeFixes
             in XmlElementInfo elementInfo,
             CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             XmlNodeSyntax element = elementInfo.Element;
 
             var documentationComment = (DocumentationCommentTriviaSyntax)element.Parent;

@@ -24,6 +24,6 @@ namespace Roslynator.CSharp
         Summary,
         TypeParam,
         //TypeParamRef,
-        //Value,
+        Value,
     }
 }

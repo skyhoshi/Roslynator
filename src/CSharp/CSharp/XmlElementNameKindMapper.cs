@@ -36,7 +36,7 @@ namespace Roslynator.CSharp
                     new KeyValuePair<string, XmlElementKind>("summary", XmlElementKind.Summary),
                     new KeyValuePair<string, XmlElementKind>("typeparam", XmlElementKind.TypeParam),
                     //new KeyValuePair<string, XmlElementKind>("typeparamref", XmlElementKind.TypeParamRef),
-                    //new KeyValuePair<string, XmlElementKind>("value", XmlElementKind.Value),
+                    new KeyValuePair<string, XmlElementKind>("value", XmlElementKind.Value),
                 });
         }
 
@@ -87,6 +87,8 @@ namespace Roslynator.CSharp
                     return "summary";
                 case XmlElementKind.TypeParam:
                     return "typeparam";
+                case XmlElementKind.Value:
+                    return "value";
                 default:
                     throw new ArgumentException("", nameof(kind));
             }
