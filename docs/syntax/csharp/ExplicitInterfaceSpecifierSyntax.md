@@ -2,13 +2,18 @@
 
 ## Properties
 
-| Name     | Type        |
-| -------- | ----------- |
-| Name     | NameSyntax  |
-| DotToken | SyntaxToken |
+| Name     | Type                        |
+| -------- | --------------------------- |
+| Name     | [NameSyntax](NameSyntax.md) |
+| DotToken | SyntaxToken                 |
 
 ## SyntaxKinds
 
-* ExplicitInterfaceSpecifier
+* SyntaxKind\.ExplicitInterfaceSpecifier
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.explicitinterfacespecifiersyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

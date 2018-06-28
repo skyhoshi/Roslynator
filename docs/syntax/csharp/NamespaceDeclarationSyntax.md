@@ -5,7 +5,7 @@
 | Name             | Type                                    |
 | ---------------- | --------------------------------------- |
 | NamespaceKeyword | SyntaxToken                             |
-| Name             | NameSyntax                              |
+| Name             | [NameSyntax](NameSyntax.md)             |
 | OpenBraceToken   | SyntaxToken                             |
 | Externs          | SyntaxList\<ExternAliasDirectiveSyntax> |
 | Usings           | SyntaxList\<UsingDirectiveSyntax>       |
@@ -15,6 +15,11 @@
 
 ## SyntaxKinds
 
-* NamespaceDeclaration
+* SyntaxKind\.NamespaceDeclaration
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.namespacedeclarationsyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

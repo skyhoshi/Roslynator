@@ -2,15 +2,20 @@
 
 ## Properties
 
-| Name           | Type                      |
-| -------------- | ------------------------- |
-| IsConst        | bool                      |
-| Modifiers      | SyntaxTokenList           |
-| Declaration    | VariableDeclarationSyntax |
-| SemicolonToken | SyntaxToken               |
+| Name           | Type                                                      |
+| -------------- | --------------------------------------------------------- |
+| IsConst        | bool                                                      |
+| Modifiers      | SyntaxTokenList                                           |
+| Declaration    | [VariableDeclarationSyntax](VariableDeclarationSyntax.md) |
+| SemicolonToken | SyntaxToken                                               |
 
 ## SyntaxKinds
 
-* LocalDeclarationStatement
+* SyntaxKind\.LocalDeclarationStatement
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.localdeclarationstatementsyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

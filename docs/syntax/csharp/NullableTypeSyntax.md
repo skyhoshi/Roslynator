@@ -2,13 +2,18 @@
 
 ## Properties
 
-| Name          | Type        |
-| ------------- | ----------- |
-| ElementType   | TypeSyntax  |
-| QuestionToken | SyntaxToken |
+| Name          | Type                        |
+| ------------- | --------------------------- |
+| ElementType   | [TypeSyntax](TypeSyntax.md) |
+| QuestionToken | SyntaxToken                 |
 
 ## SyntaxKinds
 
-* NullableType
+* SyntaxKind\.NullableType
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.nullabletypesyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

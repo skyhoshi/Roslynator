@@ -2,13 +2,18 @@
 
 ## Properties
 
-| Name       | Type             |
-| ---------- | ---------------- |
-| CommaToken | SyntaxToken      |
-| Value      | ExpressionSyntax |
+| Name       | Type                                    |
+| ---------- | --------------------------------------- |
+| CommaToken | SyntaxToken                             |
+| Value      | [ExpressionSyntax](ExpressionSyntax.md) |
 
 ## SyntaxKinds
 
-* InterpolationAlignmentClause
+* SyntaxKind\.InterpolationAlignmentClause
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.interpolationalignmentclausesyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

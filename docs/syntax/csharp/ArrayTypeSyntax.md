@@ -4,11 +4,16 @@
 
 | Name           | Type                                  |
 | -------------- | ------------------------------------- |
-| ElementType    | TypeSyntax                            |
+| ElementType    | [TypeSyntax](TypeSyntax.md)           |
 | RankSpecifiers | SyntaxList\<ArrayRankSpecifierSyntax> |
 
 ## SyntaxKinds
 
-* ArrayType
+* SyntaxKind\.ArrayType
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.arraytypesyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

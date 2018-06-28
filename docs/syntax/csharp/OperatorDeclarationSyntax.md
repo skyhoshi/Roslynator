@@ -2,20 +2,25 @@
 
 ## Properties
 
-| Name            | Type                             |
-| --------------- | -------------------------------- |
-| AttributeLists  | SyntaxList\<AttributeListSyntax> |
-| Modifiers       | SyntaxTokenList                  |
-| ReturnType      | TypeSyntax                       |
-| OperatorKeyword | SyntaxToken                      |
-| OperatorToken   | SyntaxToken                      |
-| ParameterList   | ParameterListSyntax              |
-| Body            | BlockSyntax                      |
-| ExpressionBody  | ArrowExpressionClauseSyntax      |
-| SemicolonToken  | SyntaxToken                      |
+| Name            | Type                                                          |
+| --------------- | ------------------------------------------------------------- |
+| AttributeLists  | SyntaxList\<AttributeListSyntax>                              |
+| Modifiers       | SyntaxTokenList                                               |
+| ReturnType      | [TypeSyntax](TypeSyntax.md)                                   |
+| OperatorKeyword | SyntaxToken                                                   |
+| OperatorToken   | SyntaxToken                                                   |
+| ParameterList   | [ParameterListSyntax](ParameterListSyntax.md)                 |
+| Body            | [BlockSyntax](BlockSyntax.md)                                 |
+| ExpressionBody  | [ArrowExpressionClauseSyntax](ArrowExpressionClauseSyntax.md) |
+| SemicolonToken  | SyntaxToken                                                   |
 
 ## SyntaxKinds
 
-* OperatorDeclaration
+* SyntaxKind\.OperatorDeclaration
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.operatordeclarationsyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

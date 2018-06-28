@@ -59,17 +59,30 @@ namespace Roslynator.CodeGeneration.Markdown
             return doc.ToString();
         }
 
-        public static string GenerateCSharpSyntaxTypeMetadata(INamedTypeSymbol symbol)
+        public static string GenerateCSharpSyntaxTypeMetadata(INamedTypeSymbol typeSymbol)
         {
             var doc = new MDocument(
-                Heading1(symbol.Name),
+                Heading1(typeSymbol.Name),
                 Heading2("Properties"),
                 Table(
                     TableRow("Name", "Type"),
-                    Symbols.GetPropertySymbols(symbol)
-                        .Select(f => TableRow(f.Name, f.Type.ToDisplayString(SymbolDisplayFormats.Default)))),
+                    Symbols.GetPropertySymbols(typeSymbol).Select(f =>
+                    {
+                        INamedTypeSymbol typeSymbol2 = Symbols.SyntaxSymbols.FirstOrDefault(s => s == f.Type);
+
+                        if (typeSymbol2 != null)
+                        {
+                            return TableRow(f.Name, Link(f.Type.ToDisplayString(SymbolDisplayFormats.Default), $"{typeSymbol2.Name}.md"));
+                        }
+                        else
+                        {
+                            return TableRow(f.Name, f.Type.ToDisplayString(SymbolDisplayFormats.Default));
+                        }
+                    })),
                 Heading2("SyntaxKinds"),
-                BulletList(Symbols.GetKinds(symbol).Select(f => f.ToString())));
+                BulletList(Symbols.GetKinds(typeSymbol).Select(f => $"SyntaxKind.{f.ToString()}").OrderBy(f => f)),
+                Heading2("See Also"),
+                BulletList(Link("Official Documentation", $"https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.{typeSymbol.Name.ToLowerInvariant()}")));
 
             doc.AddFootnote();
 

@@ -2,13 +2,18 @@
 
 ## Properties
 
-| Name       | Type                 |
-| ---------- | -------------------- |
-| Name       | IdentifierNameSyntax |
-| ColonToken | SyntaxToken          |
+| Name       | Type                                            |
+| ---------- | ----------------------------------------------- |
+| Name       | [IdentifierNameSyntax](IdentifierNameSyntax.md) |
+| ColonToken | SyntaxToken                                     |
 
 ## SyntaxKinds
 
-* NameColon
+* SyntaxKind\.NameColon
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.namecolonsyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

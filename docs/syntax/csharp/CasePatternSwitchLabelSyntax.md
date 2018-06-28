@@ -2,15 +2,20 @@
 
 ## Properties
 
-| Name       | Type             |
-| ---------- | ---------------- |
-| Keyword    | SyntaxToken      |
-| Pattern    | PatternSyntax    |
-| WhenClause | WhenClauseSyntax |
-| ColonToken | SyntaxToken      |
+| Name       | Type                                    |
+| ---------- | --------------------------------------- |
+| Keyword    | SyntaxToken                             |
+| Pattern    | [PatternSyntax](PatternSyntax.md)       |
+| WhenClause | [WhenClauseSyntax](WhenClauseSyntax.md) |
+| ColonToken | SyntaxToken                             |
 
 ## SyntaxKinds
 
-* CasePatternSwitchLabel
+* SyntaxKind\.CasePatternSwitchLabel
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.casepatternswitchlabelsyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

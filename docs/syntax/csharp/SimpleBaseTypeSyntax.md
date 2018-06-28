@@ -2,12 +2,17 @@
 
 ## Properties
 
-| Name | Type       |
-| ---- | ---------- |
-| Type | TypeSyntax |
+| Name | Type                        |
+| ---- | --------------------------- |
+| Type | [TypeSyntax](TypeSyntax.md) |
 
 ## SyntaxKinds
 
-* SimpleBaseType
+* SyntaxKind\.SimpleBaseType
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.simplebasetypesyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

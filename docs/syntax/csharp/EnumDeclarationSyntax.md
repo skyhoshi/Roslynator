@@ -8,7 +8,7 @@
 | Modifiers       | SyntaxTokenList                                   |
 | EnumKeyword     | SyntaxToken                                       |
 | Identifier      | SyntaxToken                                       |
-| BaseList        | BaseListSyntax                                    |
+| BaseList        | [BaseListSyntax](BaseListSyntax.md)               |
 | OpenBraceToken  | SyntaxToken                                       |
 | Members         | SeparatedSyntaxList\<EnumMemberDeclarationSyntax> |
 | CloseBraceToken | SyntaxToken                                       |
@@ -16,6 +16,11 @@
 
 ## SyntaxKinds
 
-* EnumDeclaration
+* SyntaxKind\.EnumDeclaration
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.enumdeclarationsyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

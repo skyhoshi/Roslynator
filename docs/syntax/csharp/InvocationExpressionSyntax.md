@@ -2,13 +2,18 @@
 
 ## Properties
 
-| Name         | Type               |
-| ------------ | ------------------ |
-| Expression   | ExpressionSyntax   |
-| ArgumentList | ArgumentListSyntax |
+| Name         | Type                                        |
+| ------------ | ------------------------------------------- |
+| Expression   | [ExpressionSyntax](ExpressionSyntax.md)     |
+| ArgumentList | [ArgumentListSyntax](ArgumentListSyntax.md) |
 
 ## SyntaxKinds
 
-* InvocationExpression
+* SyntaxKind\.InvocationExpression
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.invocationexpressionsyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

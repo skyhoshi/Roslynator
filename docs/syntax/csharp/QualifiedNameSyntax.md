@@ -2,14 +2,19 @@
 
 ## Properties
 
-| Name     | Type             |
-| -------- | ---------------- |
-| Left     | NameSyntax       |
-| DotToken | SyntaxToken      |
-| Right    | SimpleNameSyntax |
+| Name     | Type                                    |
+| -------- | --------------------------------------- |
+| Left     | [NameSyntax](NameSyntax.md)             |
+| DotToken | SyntaxToken                             |
+| Right    | [SimpleNameSyntax](SimpleNameSyntax.md) |
 
 ## SyntaxKinds
 
-* QualifiedName
+* SyntaxKind\.QualifiedName
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.qualifiednamesyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

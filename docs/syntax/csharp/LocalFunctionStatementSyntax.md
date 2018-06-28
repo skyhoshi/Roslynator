@@ -2,20 +2,25 @@
 
 ## Properties
 
-| Name              | Type                                             |
-| ----------------- | ------------------------------------------------ |
-| Modifiers         | SyntaxTokenList                                  |
-| ReturnType        | TypeSyntax                                       |
-| Identifier        | SyntaxToken                                      |
-| TypeParameterList | TypeParameterListSyntax                          |
-| ParameterList     | ParameterListSyntax                              |
-| ConstraintClauses | SyntaxList\<TypeParameterConstraintClauseSyntax> |
-| Body              | BlockSyntax                                      |
-| ExpressionBody    | ArrowExpressionClauseSyntax                      |
-| SemicolonToken    | SyntaxToken                                      |
+| Name              | Type                                                          |
+| ----------------- | ------------------------------------------------------------- |
+| Modifiers         | SyntaxTokenList                                               |
+| ReturnType        | [TypeSyntax](TypeSyntax.md)                                   |
+| Identifier        | SyntaxToken                                                   |
+| TypeParameterList | [TypeParameterListSyntax](TypeParameterListSyntax.md)         |
+| ParameterList     | [ParameterListSyntax](ParameterListSyntax.md)                 |
+| ConstraintClauses | SyntaxList\<TypeParameterConstraintClauseSyntax>              |
+| Body              | [BlockSyntax](BlockSyntax.md)                                 |
+| ExpressionBody    | [ArrowExpressionClauseSyntax](ArrowExpressionClauseSyntax.md) |
+| SemicolonToken    | SyntaxToken                                                   |
 
 ## SyntaxKinds
 
-* LocalFunctionStatement
+* SyntaxKind\.LocalFunctionStatement
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.localfunctionstatementsyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

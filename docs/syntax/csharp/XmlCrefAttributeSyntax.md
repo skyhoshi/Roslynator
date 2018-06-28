@@ -2,16 +2,21 @@
 
 ## Properties
 
-| Name            | Type          |
-| --------------- | ------------- |
-| Name            | XmlNameSyntax |
-| EqualsToken     | SyntaxToken   |
-| StartQuoteToken | SyntaxToken   |
-| Cref            | CrefSyntax    |
-| EndQuoteToken   | SyntaxToken   |
+| Name            | Type                              |
+| --------------- | --------------------------------- |
+| Name            | [XmlNameSyntax](XmlNameSyntax.md) |
+| EqualsToken     | SyntaxToken                       |
+| StartQuoteToken | SyntaxToken                       |
+| Cref            | [CrefSyntax](CrefSyntax.md)       |
+| EndQuoteToken   | SyntaxToken                       |
 
 ## SyntaxKinds
 
-* XmlCrefAttribute
+* SyntaxKind\.XmlCrefAttribute
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.xmlcrefattributesyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

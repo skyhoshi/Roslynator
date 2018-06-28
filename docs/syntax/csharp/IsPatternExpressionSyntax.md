@@ -2,14 +2,19 @@
 
 ## Properties
 
-| Name       | Type             |
-| ---------- | ---------------- |
-| Expression | ExpressionSyntax |
-| IsKeyword  | SyntaxToken      |
-| Pattern    | PatternSyntax    |
+| Name       | Type                                    |
+| ---------- | --------------------------------------- |
+| Expression | [ExpressionSyntax](ExpressionSyntax.md) |
+| IsKeyword  | SyntaxToken                             |
+| Pattern    | [PatternSyntax](PatternSyntax.md)       |
 
 ## SyntaxKinds
 
-* IsPatternExpression
+* SyntaxKind\.IsPatternExpression
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.ispatternexpressionsyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

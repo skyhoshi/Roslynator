@@ -2,13 +2,18 @@
 
 ## Properties
 
-| Name         | Type             |
-| ------------ | ---------------- |
-| AwaitKeyword | SyntaxToken      |
-| Expression   | ExpressionSyntax |
+| Name         | Type                                    |
+| ------------ | --------------------------------------- |
+| AwaitKeyword | SyntaxToken                             |
+| Expression   | [ExpressionSyntax](ExpressionSyntax.md) |
 
 ## SyntaxKinds
 
-* AwaitExpression
+* SyntaxKind\.AwaitExpression
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.awaitexpressionsyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

@@ -2,18 +2,23 @@
 
 ## Properties
 
-| Name            | Type             |
-| --------------- | ---------------- |
-| DoKeyword       | SyntaxToken      |
-| Statement       | StatementSyntax  |
-| WhileKeyword    | SyntaxToken      |
-| OpenParenToken  | SyntaxToken      |
-| Condition       | ExpressionSyntax |
-| CloseParenToken | SyntaxToken      |
-| SemicolonToken  | SyntaxToken      |
+| Name            | Type                                    |
+| --------------- | --------------------------------------- |
+| DoKeyword       | SyntaxToken                             |
+| Statement       | [StatementSyntax](StatementSyntax.md)   |
+| WhileKeyword    | SyntaxToken                             |
+| OpenParenToken  | SyntaxToken                             |
+| Condition       | [ExpressionSyntax](ExpressionSyntax.md) |
+| CloseParenToken | SyntaxToken                             |
+| SemicolonToken  | SyntaxToken                             |
 
 ## SyntaxKinds
 
-* DoStatement
+* SyntaxKind\.DoStatement
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.dostatementsyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

@@ -2,19 +2,24 @@
 
 ## Properties
 
-| Name            | Type             |
-| --------------- | ---------------- |
-| ForEachKeyword  | SyntaxToken      |
-| OpenParenToken  | SyntaxToken      |
-| Type            | TypeSyntax       |
-| Identifier      | SyntaxToken      |
-| InKeyword       | SyntaxToken      |
-| Expression      | ExpressionSyntax |
-| CloseParenToken | SyntaxToken      |
-| Statement       | StatementSyntax  |
+| Name            | Type                                    |
+| --------------- | --------------------------------------- |
+| ForEachKeyword  | SyntaxToken                             |
+| OpenParenToken  | SyntaxToken                             |
+| Type            | [TypeSyntax](TypeSyntax.md)             |
+| Identifier      | SyntaxToken                             |
+| InKeyword       | SyntaxToken                             |
+| Expression      | [ExpressionSyntax](ExpressionSyntax.md) |
+| CloseParenToken | SyntaxToken                             |
+| Statement       | [StatementSyntax](StatementSyntax.md)   |
 
 ## SyntaxKinds
 
-* ForEachStatement
+* SyntaxKind\.ForEachStatement
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.foreachstatementsyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

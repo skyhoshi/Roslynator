@@ -2,15 +2,20 @@
 
 ## Properties
 
-| Name         | Type                    |
-| ------------ | ----------------------- |
-| CatchKeyword | SyntaxToken             |
-| Declaration  | CatchDeclarationSyntax  |
-| Filter       | CatchFilterClauseSyntax |
-| Block        | BlockSyntax             |
+| Name         | Type                                                  |
+| ------------ | ----------------------------------------------------- |
+| CatchKeyword | SyntaxToken                                           |
+| Declaration  | [CatchDeclarationSyntax](CatchDeclarationSyntax.md)   |
+| Filter       | [CatchFilterClauseSyntax](CatchFilterClauseSyntax.md) |
+| Block        | [BlockSyntax](BlockSyntax.md)                         |
 
 ## SyntaxKinds
 
-* CatchClause
+* SyntaxKind\.CatchClause
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.catchclausesyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

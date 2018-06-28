@@ -2,16 +2,21 @@
 
 ## Properties
 
-| Name           | Type                             |
-| -------------- | -------------------------------- |
-| AttributeLists | SyntaxList\<AttributeListSyntax> |
-| Modifiers      | SyntaxTokenList                  |
-| Type           | TypeSyntax                       |
-| Identifier     | SyntaxToken                      |
-| Default        | EqualsValueClauseSyntax          |
+| Name           | Type                                                  |
+| -------------- | ----------------------------------------------------- |
+| AttributeLists | SyntaxList\<AttributeListSyntax>                      |
+| Modifiers      | SyntaxTokenList                                       |
+| Type           | [TypeSyntax](TypeSyntax.md)                           |
+| Identifier     | SyntaxToken                                           |
+| Default        | [EqualsValueClauseSyntax](EqualsValueClauseSyntax.md) |
 
 ## SyntaxKinds
 
-* Parameter
+* SyntaxKind\.Parameter
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.parametersyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

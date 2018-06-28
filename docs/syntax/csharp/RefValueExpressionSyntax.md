@@ -2,17 +2,22 @@
 
 ## Properties
 
-| Name            | Type             |
-| --------------- | ---------------- |
-| Keyword         | SyntaxToken      |
-| OpenParenToken  | SyntaxToken      |
-| Expression      | ExpressionSyntax |
-| Comma           | SyntaxToken      |
-| Type            | TypeSyntax       |
-| CloseParenToken | SyntaxToken      |
+| Name            | Type                                    |
+| --------------- | --------------------------------------- |
+| Keyword         | SyntaxToken                             |
+| OpenParenToken  | SyntaxToken                             |
+| Expression      | [ExpressionSyntax](ExpressionSyntax.md) |
+| Comma           | SyntaxToken                             |
+| Type            | [TypeSyntax](TypeSyntax.md)             |
+| CloseParenToken | SyntaxToken                             |
 
 ## SyntaxKinds
 
-* RefValueExpression
+* SyntaxKind\.RefValueExpression
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.refvalueexpressionsyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

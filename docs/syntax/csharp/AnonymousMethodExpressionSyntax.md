@@ -2,16 +2,21 @@
 
 ## Properties
 
-| Name            | Type                |
-| --------------- | ------------------- |
-| Block           | BlockSyntax         |
-| AsyncKeyword    | SyntaxToken         |
-| DelegateKeyword | SyntaxToken         |
-| ParameterList   | ParameterListSyntax |
-| Body            | CSharpSyntaxNode    |
+| Name            | Type                                          |
+| --------------- | --------------------------------------------- |
+| Block           | [BlockSyntax](BlockSyntax.md)                 |
+| AsyncKeyword    | SyntaxToken                                   |
+| DelegateKeyword | SyntaxToken                                   |
+| ParameterList   | [ParameterListSyntax](ParameterListSyntax.md) |
+| Body            | CSharpSyntaxNode                              |
 
 ## SyntaxKinds
 
-* AnonymousMethodExpression
+* SyntaxKind\.AnonymousMethodExpression
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.anonymousmethodexpressionsyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

@@ -2,15 +2,20 @@
 
 ## Properties
 
-| Name                  | Type                            |
-| --------------------- | ------------------------------- |
-| LessThanToken         | SyntaxToken                     |
-| Name                  | XmlNameSyntax                   |
-| Attributes            | SyntaxList\<XmlAttributeSyntax> |
-| SlashGreaterThanToken | SyntaxToken                     |
+| Name                  | Type                              |
+| --------------------- | --------------------------------- |
+| LessThanToken         | SyntaxToken                       |
+| Name                  | [XmlNameSyntax](XmlNameSyntax.md) |
+| Attributes            | SyntaxList\<XmlAttributeSyntax>   |
+| SlashGreaterThanToken | SyntaxToken                       |
 
 ## SyntaxKinds
 
-* XmlEmptyElement
+* SyntaxKind\.XmlEmptyElement
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.xmlemptyelementsyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

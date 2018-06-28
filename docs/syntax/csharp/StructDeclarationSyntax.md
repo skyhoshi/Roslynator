@@ -2,22 +2,27 @@
 
 ## Properties
 
-| Name              | Type                                             |
-| ----------------- | ------------------------------------------------ |
-| AttributeLists    | SyntaxList\<AttributeListSyntax>                 |
-| Modifiers         | SyntaxTokenList                                  |
-| Keyword           | SyntaxToken                                      |
-| Identifier        | SyntaxToken                                      |
-| TypeParameterList | TypeParameterListSyntax                          |
-| BaseList          | BaseListSyntax                                   |
-| ConstraintClauses | SyntaxList\<TypeParameterConstraintClauseSyntax> |
-| OpenBraceToken    | SyntaxToken                                      |
-| Members           | SyntaxList\<MemberDeclarationSyntax>             |
-| CloseBraceToken   | SyntaxToken                                      |
-| SemicolonToken    | SyntaxToken                                      |
+| Name              | Type                                                  |
+| ----------------- | ----------------------------------------------------- |
+| AttributeLists    | SyntaxList\<AttributeListSyntax>                      |
+| Modifiers         | SyntaxTokenList                                       |
+| Keyword           | SyntaxToken                                           |
+| Identifier        | SyntaxToken                                           |
+| TypeParameterList | [TypeParameterListSyntax](TypeParameterListSyntax.md) |
+| BaseList          | [BaseListSyntax](BaseListSyntax.md)                   |
+| ConstraintClauses | SyntaxList\<TypeParameterConstraintClauseSyntax>      |
+| OpenBraceToken    | SyntaxToken                                           |
+| Members           | SyntaxList\<MemberDeclarationSyntax>                  |
+| CloseBraceToken   | SyntaxToken                                           |
+| SemicolonToken    | SyntaxToken                                           |
 
 ## SyntaxKinds
 
-* StructDeclaration
+* SyntaxKind\.StructDeclaration
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.structdeclarationsyntax)
+
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*
