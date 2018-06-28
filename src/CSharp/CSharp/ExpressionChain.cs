@@ -16,7 +16,7 @@ namespace Roslynator.CSharp
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly partial struct ExpressionChain : IEquatable<ExpressionChain>, IEnumerable<ExpressionSyntax>
     {
-        public ExpressionChain(BinaryExpressionSyntax binaryExpression, TextSpan? span = null)
+        internal ExpressionChain(BinaryExpressionSyntax binaryExpression, TextSpan? span = null)
         {
             BinaryExpression = binaryExpression;
             Span = span;

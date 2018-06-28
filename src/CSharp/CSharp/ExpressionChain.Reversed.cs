@@ -146,9 +146,7 @@ namespace Roslynator.CSharp
                                     return true;
                                 }
 
-                                BinaryExpressionSyntax binaryExpression = _chain.BinaryExpression;
-
-                                ExpressionSyntax right = binaryExpression.Right;
+                                ExpressionSyntax right = _chain.BinaryExpression.Right;
 
                                 TextSpan span = _chain.Span.Value;
 
@@ -158,6 +156,8 @@ namespace Roslynator.CSharp
                                     _state = State.Right;
                                     return true;
                                 }
+
+                                BinaryExpressionSyntax binaryExpression = _chain.BinaryExpression;
 
                                 ExpressionSyntax left = null;
 

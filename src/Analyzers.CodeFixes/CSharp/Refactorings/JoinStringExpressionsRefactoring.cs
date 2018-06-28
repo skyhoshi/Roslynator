@@ -22,7 +22,7 @@ namespace Roslynator.CSharp.Refactorings
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            ExpressionSyntax[] expressions = new ExpressionChain(binaryExpression, span).ToArray();
+            ExpressionSyntax[] expressions = binaryExpression.AsChain(span).ToArray();
 
             ExpressionSyntax firstExpression = expressions[0];
 
