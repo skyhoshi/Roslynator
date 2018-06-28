@@ -9,8 +9,8 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.CheckedStatement
-* SyntaxKind\.UncheckedStatement
+* CheckedStatement
+* UncheckedStatement
 
 ## See Also
 

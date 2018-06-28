@@ -9,14 +9,14 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.AddressOfExpression
-* SyntaxKind\.BitwiseNotExpression
-* SyntaxKind\.LogicalNotExpression
-* SyntaxKind\.PointerIndirectionExpression
-* SyntaxKind\.PreDecrementExpression
-* SyntaxKind\.PreIncrementExpression
-* SyntaxKind\.UnaryMinusExpression
-* SyntaxKind\.UnaryPlusExpression
+* AddressOfExpression
+* BitwiseNotExpression
+* LogicalNotExpression
+* PointerIndirectionExpression
+* PreDecrementExpression
+* PreIncrementExpression
+* UnaryMinusExpression
+* UnaryPlusExpression
 
 ## See Also
 

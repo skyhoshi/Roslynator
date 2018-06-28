@@ -11,8 +11,8 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.YieldBreakStatement
-* SyntaxKind\.YieldReturnStatement
+* YieldBreakStatement
+* YieldReturnStatement
 
 ## See Also
 

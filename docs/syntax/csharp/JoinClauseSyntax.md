@@ -15,8 +15,6 @@
 | RightExpression | [ExpressionSyntax](ExpressionSyntax.md)         |
 | Into            | [JoinIntoClauseSyntax](JoinIntoClauseSyntax.md) |
 
-## SyntaxKinds
-
 ## See Also
 
 * [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.joinclausesyntax)

@@ -7,8 +7,6 @@
 | Name         | [NameSyntax](NameSyntax.md)                                   |
 | ArgumentList | [AttributeArgumentListSyntax](AttributeArgumentListSyntax.md) |
 
-## SyntaxKinds
-
 ## See Also
 
 * [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.attributesyntax)

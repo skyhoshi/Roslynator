@@ -10,10 +10,10 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.ArrayInitializerExpression
-* SyntaxKind\.CollectionInitializerExpression
-* SyntaxKind\.ComplexElementInitializerExpression
-* SyntaxKind\.ObjectInitializerExpression
+* ArrayInitializerExpression
+* CollectionInitializerExpression
+* ComplexElementInitializerExpression
+* ObjectInitializerExpression
 
 ## See Also
 

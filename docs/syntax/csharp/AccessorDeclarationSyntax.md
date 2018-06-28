@@ -13,11 +13,11 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.AddAccessorDeclaration
-* SyntaxKind\.GetAccessorDeclaration
-* SyntaxKind\.RemoveAccessorDeclaration
-* SyntaxKind\.SetAccessorDeclaration
-* SyntaxKind\.UnknownAccessorDeclaration
+* AddAccessorDeclaration
+* GetAccessorDeclaration
+* RemoveAccessorDeclaration
+* SetAccessorDeclaration
+* UnknownAccessorDeclaration
 
 ## See Also
 

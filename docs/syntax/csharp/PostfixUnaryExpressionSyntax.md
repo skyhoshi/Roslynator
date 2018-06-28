@@ -9,8 +9,8 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.PostDecrementExpression
-* SyntaxKind\.PostIncrementExpression
+* PostDecrementExpression
+* PostIncrementExpression
 
 ## See Also
 

@@ -10,17 +10,17 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.AddAssignmentExpression
-* SyntaxKind\.AndAssignmentExpression
-* SyntaxKind\.DivideAssignmentExpression
-* SyntaxKind\.ExclusiveOrAssignmentExpression
-* SyntaxKind\.LeftShiftAssignmentExpression
-* SyntaxKind\.ModuloAssignmentExpression
-* SyntaxKind\.MultiplyAssignmentExpression
-* SyntaxKind\.OrAssignmentExpression
-* SyntaxKind\.RightShiftAssignmentExpression
-* SyntaxKind\.SimpleAssignmentExpression
-* SyntaxKind\.SubtractAssignmentExpression
+* AddAssignmentExpression
+* AndAssignmentExpression
+* DivideAssignmentExpression
+* ExclusiveOrAssignmentExpression
+* LeftShiftAssignmentExpression
+* ModuloAssignmentExpression
+* MultiplyAssignmentExpression
+* OrAssignmentExpression
+* RightShiftAssignmentExpression
+* SimpleAssignmentExpression
+* SubtractAssignmentExpression
 
 ## See Also
 

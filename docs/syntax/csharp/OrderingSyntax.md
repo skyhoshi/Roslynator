@@ -9,8 +9,8 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.AscendingOrdering
-* SyntaxKind\.DescendingOrdering
+* AscendingOrdering
+* DescendingOrdering
 
 ## See Also
 

@@ -8,8 +8,8 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.ClassConstraint
-* SyntaxKind\.StructConstraint
+* ClassConstraint
+* StructConstraint
 
 ## See Also
 

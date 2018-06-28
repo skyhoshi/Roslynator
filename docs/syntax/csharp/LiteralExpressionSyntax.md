@@ -8,14 +8,14 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.ArgListExpression
-* SyntaxKind\.DefaultLiteralExpression
-* SyntaxKind\.FalseLiteralExpression
-* SyntaxKind\.CharacterLiteralExpression
-* SyntaxKind\.NullLiteralExpression
-* SyntaxKind\.NumericLiteralExpression
-* SyntaxKind\.StringLiteralExpression
-* SyntaxKind\.TrueLiteralExpression
+* ArgListExpression
+* DefaultLiteralExpression
+* FalseLiteralExpression
+* CharacterLiteralExpression
+* NullLiteralExpression
+* NumericLiteralExpression
+* StringLiteralExpression
+* TrueLiteralExpression
 
 ## See Also
 

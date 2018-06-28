@@ -9,8 +9,8 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.MultiLineDocumentationCommentTrivia
-* SyntaxKind\.SingleLineDocumentationCommentTrivia
+* MultiLineDocumentationCommentTrivia
+* SingleLineDocumentationCommentTrivia
 
 ## See Also
 

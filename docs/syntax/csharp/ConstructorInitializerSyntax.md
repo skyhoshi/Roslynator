@@ -10,8 +10,8 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.BaseConstructorInitializer
-* SyntaxKind\.ThisConstructorInitializer
+* BaseConstructorInitializer
+* ThisConstructorInitializer
 
 ## See Also
 

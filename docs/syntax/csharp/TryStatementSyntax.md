@@ -9,8 +9,6 @@
 | Catches    | SyntaxList\<[CatchClauseSyntax](CatchClauseSyntax.md)> |
 | Finally    | [FinallyClauseSyntax](FinallyClauseSyntax.md)          |
 
-## SyntaxKinds
-
 ## See Also
 
 * [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.trystatementsyntax)

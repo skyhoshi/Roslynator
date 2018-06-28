@@ -10,27 +10,27 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.AddExpression
-* SyntaxKind\.AsExpression
-* SyntaxKind\.BitwiseAndExpression
-* SyntaxKind\.BitwiseOrExpression
-* SyntaxKind\.CoalesceExpression
-* SyntaxKind\.DivideExpression
-* SyntaxKind\.EqualsExpression
-* SyntaxKind\.ExclusiveOrExpression
-* SyntaxKind\.GreaterThanExpression
-* SyntaxKind\.GreaterThanOrEqualExpression
-* SyntaxKind\.IsExpression
-* SyntaxKind\.LeftShiftExpression
-* SyntaxKind\.LessThanExpression
-* SyntaxKind\.LessThanOrEqualExpression
-* SyntaxKind\.LogicalAndExpression
-* SyntaxKind\.LogicalOrExpression
-* SyntaxKind\.ModuloExpression
-* SyntaxKind\.MultiplyExpression
-* SyntaxKind\.NotEqualsExpression
-* SyntaxKind\.RightShiftExpression
-* SyntaxKind\.SubtractExpression
+* AddExpression
+* AsExpression
+* BitwiseAndExpression
+* BitwiseOrExpression
+* CoalesceExpression
+* DivideExpression
+* EqualsExpression
+* ExclusiveOrExpression
+* GreaterThanExpression
+* GreaterThanOrEqualExpression
+* IsExpression
+* LeftShiftExpression
+* LessThanExpression
+* LessThanOrEqualExpression
+* LogicalAndExpression
+* LogicalOrExpression
+* ModuloExpression
+* MultiplyExpression
+* NotEqualsExpression
+* RightShiftExpression
+* SubtractExpression
 
 ## See Also
 

@@ -11,9 +11,9 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.GotoCaseStatement
-* SyntaxKind\.GotoDefaultStatement
-* SyntaxKind\.GotoStatement
+* GotoCaseStatement
+* GotoDefaultStatement
+* GotoStatement
 
 ## See Also
 

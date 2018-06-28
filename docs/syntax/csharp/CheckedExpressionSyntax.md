@@ -11,8 +11,8 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.CheckedExpression
-* SyntaxKind\.UncheckedExpression
+* CheckedExpression
+* UncheckedExpression
 
 ## See Also
 

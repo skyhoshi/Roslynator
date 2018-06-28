@@ -10,8 +10,8 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.PointerMemberAccessExpression
-* SyntaxKind\.SimpleMemberAccessExpression
+* PointerMemberAccessExpression
+* SimpleMemberAccessExpression
 
 ## See Also
 

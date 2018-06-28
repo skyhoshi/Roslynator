@@ -94,8 +94,9 @@ namespace Roslynator.CodeGeneration.Markdown
                                 propertyType.ToDisplayString(SymbolDisplayFormats.Default));
                         }
                     })),
-                Heading2("SyntaxKinds"),
-                (kinds.Count > 1) ? BulletList(kinds.Select(f => $"SyntaxKind.{f.ToString()}").OrderBy(f => f)) : null,
+                (kinds.Count > 1)
+                    ? new object[] { Heading2("SyntaxKinds"), BulletList(kinds.Select(f => f.ToString()).OrderBy(f => f)) }
+                    : null,
                 Heading2("See Also"),
                 BulletList(Link("Official Documentation", $"https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.{typeSymbol.Name.ToLowerInvariant()}")));
 
