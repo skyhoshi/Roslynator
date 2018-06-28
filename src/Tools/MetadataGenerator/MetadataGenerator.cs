@@ -23,6 +23,13 @@ namespace Roslynator.CodeGeneration
         public void Generate()
         {
             WriteAllText(
+                @"..\docs\CSharpSyntaxObjectModel.md",
+                SyntaxObjectModelGenerator.GenerateCSharpSyntaxObjectModel());
+
+            //TODO: 
+            return;
+
+            WriteAllText(
                 @"CSharp\README.md",
                 MarkdownGenerator.GenerateAssemblyReadme("Roslynator.CSharp"));
 
