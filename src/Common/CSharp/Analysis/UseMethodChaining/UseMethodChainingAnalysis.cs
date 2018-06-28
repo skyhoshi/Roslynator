@@ -115,9 +115,7 @@ namespace Roslynator.CSharp.Analysis.UseMethodChaining
             SemanticModel semanticModel,
             CancellationToken cancellationToken);
 
-#pragma warning disable RCSX001 // Mark parameter with in modifier
         public static SimpleMemberInvocationExpressionInfo WalkDownMethodChain(SimpleMemberInvocationExpressionInfo invocationInfo)
-#pragma warning restore RCSX001 // Mark parameter with in modifier
         {
             while (true)
             {

@@ -13,9 +13,7 @@ namespace Roslynator.CSharp.Refactorings
 {
     internal static class JoinStringExpressionsRefactoring
     {
-#pragma warning disable RCSX001 // Mark parameter with in modifier
         public static void ComputeRefactoring(RefactoringContext context, StringConcatenationExpressionInfo concatenationInfo)
-#pragma warning restore RCSX001 // Mark parameter with in modifier
         {
             StringConcatenationAnalysis analysis = concatenationInfo.Analyze();
 

@@ -72,9 +72,7 @@ namespace Roslynator.CSharp.Refactorings
             RegisterRefactoring(context, constructorDeclaration, data, semanticModel);
         }
 
-#pragma warning disable RCSX001 // Mark parameter with in modifier
         private static void RegisterRefactoring(RefactoringContext context, MemberDeclarationSyntax memberDeclaration, DocumentationCommentData data, SemanticModel semanticModel)
-#pragma warning restore RCSX001 // Mark parameter with in modifier
         {
             context.RegisterRefactoring(
                 GetTitle(),

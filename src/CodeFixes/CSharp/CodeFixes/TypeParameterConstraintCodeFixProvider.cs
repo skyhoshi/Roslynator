@@ -138,9 +138,7 @@ namespace Roslynator.CSharp.CodeFixes
         private void MoveConstraint(
             CodeFixContext context,
             Diagnostic diagnostic,
-#pragma warning disable RCSX001 // Mark parameter with in modifier
             TypeParameterConstraintInfo constraintInfo,
-#pragma warning restore RCSX001 // Mark parameter with in modifier
             int index)
         {
             CodeAction codeAction = CodeAction.Create(

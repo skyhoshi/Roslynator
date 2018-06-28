@@ -109,9 +109,7 @@ namespace Roslynator.CSharp.Analysis
             ReportDiagnostic(context, literalExpression, parameter.Identifier.Text);
         }
 
-#pragma warning disable RCSX001 // Mark parameter with in modifier
         private static ParameterSyntax FindMatchingParameter(ParameterInfo parameterInfo, string name)
-#pragma warning restore RCSX001 // Mark parameter with in modifier
         {
             do
             {

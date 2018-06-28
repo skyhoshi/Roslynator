@@ -137,9 +137,9 @@ namespace Roslynator.CSharp
         #endregion BaseArgumentListSyntax
 
         #region BinaryExpressionSyntax
-        public static ExpressionChain AsChain(this BinaryExpressionSyntax binaryExpression)
+        public static ExpressionChain AsChain(this BinaryExpressionSyntax binaryExpression, TextSpan? span = null)
         {
-            return new ExpressionChain(binaryExpression);
+            return new ExpressionChain(binaryExpression, span);
         }
         #endregion BinaryExpressionSyntax
 

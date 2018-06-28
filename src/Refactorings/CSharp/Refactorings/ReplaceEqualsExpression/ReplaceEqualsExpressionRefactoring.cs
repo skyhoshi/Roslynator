@@ -42,9 +42,7 @@ namespace Roslynator.CSharp.Refactorings.ReplaceEqualsExpression
                 ReplaceEqualsExpressionWithStringIsNullOrWhiteSpaceRefactoring.Instance.RegisterRefactoring(context, nullCheck);
         }
 
-#pragma warning disable RCSX001 // Mark parameter with in modifier
         private void RegisterRefactoring(RefactoringContext context, NullCheckExpressionInfo nullCheck)
-#pragma warning restore RCSX001 // Mark parameter with in modifier
         {
             string title = (nullCheck.Style == NullCheckStyles.EqualsToNull)
                 ? $"Replace '{nullCheck.NullCheckExpression}' with 'string.{MethodName}({nullCheck.Expression})'"

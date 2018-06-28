@@ -38,9 +38,7 @@ namespace Roslynator.CSharp.Refactorings
             }
         }
 
-#pragma warning disable RCSX001 // Mark parameter with in modifier
         private static void RegisterRefactoring(RefactoringContext context, StringConcatenationExpressionInfo concatenationInfo, StatementSyntax statement)
-#pragma warning restore RCSX001 // Mark parameter with in modifier
         {
             context.RegisterRefactoring(
                 "Use StringBuilder instead of concatenation",
