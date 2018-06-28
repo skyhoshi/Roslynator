@@ -2,11 +2,11 @@
 
 ## Properties
 
-| Name            | Type                                                    |
-| --------------- | ------------------------------------------------------- |
-| OpenBraceToken  | SyntaxToken                                             |
-| Accessors       | SyntaxList\<[AccessorDeclarationSyntax](SyntaxList.md)> |
-| CloseBraceToken | SyntaxToken                                             |
+| Name            | Type                                                                   |
+| --------------- | ---------------------------------------------------------------------- |
+| OpenBraceToken  | SyntaxToken                                                            |
+| Accessors       | SyntaxList\<[AccessorDeclarationSyntax](AccessorDeclarationSyntax.md)> |
+| CloseBraceToken | SyntaxToken                                                            |
 
 ## SyntaxKinds
 

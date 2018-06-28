@@ -2,11 +2,11 @@
 
 ## Properties
 
-| Name           | Type                                                  |
-| -------------- | ----------------------------------------------------- |
-| AttributeLists | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>     |
-| Identifier     | SyntaxToken                                           |
-| EqualsValue    | [EqualsValueClauseSyntax](EqualsValueClauseSyntax.md) |
+| Name           | Type                                                       |
+| -------------- | ---------------------------------------------------------- |
+| AttributeLists | SyntaxList\<[AttributeListSyntax](AttributeListSyntax.md)> |
+| Identifier     | SyntaxToken                                                |
+| EqualsValue    | [EqualsValueClauseSyntax](EqualsValueClauseSyntax.md)      |
 
 ## SyntaxKinds
 

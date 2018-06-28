@@ -2,10 +2,10 @@
 
 ## Properties
 
-| Name           | Type                                                   |
-| -------------- | ------------------------------------------------------ |
-| ElementType    | [TypeSyntax](TypeSyntax.md)                            |
-| RankSpecifiers | SyntaxList\<[ArrayRankSpecifierSyntax](SyntaxList.md)> |
+| Name           | Type                                                                 |
+| -------------- | -------------------------------------------------------------------- |
+| ElementType    | [TypeSyntax](TypeSyntax.md)                                          |
+| RankSpecifiers | SyntaxList\<[ArrayRankSpecifierSyntax](ArrayRankSpecifierSyntax.md)> |
 
 ## SyntaxKinds
 

@@ -2,12 +2,12 @@
 
 ## Properties
 
-| Name              | Type                                                    |
-| ----------------- | ------------------------------------------------------- |
-| Rank              | int                                                     |
-| OpenBracketToken  | SyntaxToken                                             |
-| Sizes             | SyntaxList\<[ExpressionSyntax](SeparatedSyntaxList.md)> |
-| CloseBracketToken | SyntaxToken                                             |
+| Name              | Type                                                 |
+| ----------------- | ---------------------------------------------------- |
+| Rank              | int                                                  |
+| OpenBracketToken  | SyntaxToken                                          |
+| Sizes             | SyntaxList\<[ExpressionSyntax](ExpressionSyntax.md)> |
+| CloseBracketToken | SyntaxToken                                          |
 
 ## SyntaxKinds
 

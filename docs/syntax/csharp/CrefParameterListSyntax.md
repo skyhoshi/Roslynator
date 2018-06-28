@@ -5,7 +5,7 @@
 | Name            | Type                                                       |
 | --------------- | ---------------------------------------------------------- |
 | OpenParenToken  | SyntaxToken                                                |
-| Parameters      | SyntaxList\<[CrefParameterSyntax](SeparatedSyntaxList.md)> |
+| Parameters      | SyntaxList\<[CrefParameterSyntax](CrefParameterSyntax.md)> |
 | CloseParenToken | SyntaxToken                                                |
 
 ## SyntaxKinds

@@ -2,16 +2,16 @@
 
 ## Properties
 
-| Name             | Type                                                     |
-| ---------------- | -------------------------------------------------------- |
-| NamespaceKeyword | SyntaxToken                                              |
-| Name             | [NameSyntax](NameSyntax.md)                              |
-| OpenBraceToken   | SyntaxToken                                              |
-| Externs          | SyntaxList\<[ExternAliasDirectiveSyntax](SyntaxList.md)> |
-| Usings           | SyntaxList\<[UsingDirectiveSyntax](SyntaxList.md)>       |
-| Members          | SyntaxList\<[MemberDeclarationSyntax](SyntaxList.md)>    |
-| CloseBraceToken  | SyntaxToken                                              |
-| SemicolonToken   | SyntaxToken                                              |
+| Name             | Type                                                                     |
+| ---------------- | ------------------------------------------------------------------------ |
+| NamespaceKeyword | SyntaxToken                                                              |
+| Name             | [NameSyntax](NameSyntax.md)                                              |
+| OpenBraceToken   | SyntaxToken                                                              |
+| Externs          | SyntaxList\<[ExternAliasDirectiveSyntax](ExternAliasDirectiveSyntax.md)> |
+| Usings           | SyntaxList\<[UsingDirectiveSyntax](UsingDirectiveSyntax.md)>             |
+| Members          | SyntaxList\<[MemberDeclarationSyntax](MemberDeclarationSyntax.md)>       |
+| CloseBraceToken  | SyntaxToken                                                              |
+| SemicolonToken   | SyntaxToken                                                              |
 
 ## SyntaxKinds
 

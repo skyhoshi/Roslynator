@@ -2,11 +2,11 @@
 
 ## Properties
 
-| Name            | Type                                                      |
-| --------------- | --------------------------------------------------------- |
-| OpenParenToken  | SyntaxToken                                               |
-| Elements        | SyntaxList\<[TupleElementSyntax](SeparatedSyntaxList.md)> |
-| CloseParenToken | SyntaxToken                                               |
+| Name            | Type                                                     |
+| --------------- | -------------------------------------------------------- |
+| OpenParenToken  | SyntaxToken                                              |
+| Elements        | SyntaxList\<[TupleElementSyntax](TupleElementSyntax.md)> |
+| CloseParenToken | SyntaxToken                                              |
 
 ## SyntaxKinds
 

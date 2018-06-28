@@ -6,7 +6,7 @@
 | ----------------- | ------------------------------------------------------------------- |
 | OpenBracketToken  | SyntaxToken                                                         |
 | Target            | [AttributeTargetSpecifierSyntax](AttributeTargetSpecifierSyntax.md) |
-| Attributes        | SyntaxList\<[AttributeSyntax](SeparatedSyntaxList.md)>              |
+| Attributes        | SyntaxList\<[AttributeSyntax](AttributeSyntax.md)>                  |
 | CloseBracketToken | SyntaxToken                                                         |
 
 ## SyntaxKinds

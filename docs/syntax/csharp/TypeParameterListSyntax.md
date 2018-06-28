@@ -5,7 +5,7 @@
 | Name             | Type                                                       |
 | ---------------- | ---------------------------------------------------------- |
 | LessThanToken    | SyntaxToken                                                |
-| Parameters       | SyntaxList\<[TypeParameterSyntax](SeparatedSyntaxList.md)> |
+| Parameters       | SyntaxList\<[TypeParameterSyntax](TypeParameterSyntax.md)> |
 | GreaterThanToken | SyntaxToken                                                |
 
 ## SyntaxKinds

@@ -7,11 +7,11 @@
 | ForKeyword           | SyntaxToken                                               |
 | OpenParenToken       | SyntaxToken                                               |
 | Declaration          | [VariableDeclarationSyntax](VariableDeclarationSyntax.md) |
-| Initializers         | SyntaxList\<[ExpressionSyntax](SeparatedSyntaxList.md)>   |
+| Initializers         | SyntaxList\<[ExpressionSyntax](ExpressionSyntax.md)>      |
 | FirstSemicolonToken  | SyntaxToken                                               |
 | Condition            | [ExpressionSyntax](ExpressionSyntax.md)                   |
 | SecondSemicolonToken | SyntaxToken                                               |
-| Incrementors         | SyntaxList\<[ExpressionSyntax](SeparatedSyntaxList.md)>   |
+| Incrementors         | SyntaxList\<[ExpressionSyntax](ExpressionSyntax.md)>      |
 | CloseParenToken      | SyntaxToken                                               |
 | Statement            | [StatementSyntax](StatementSyntax.md)                     |
 

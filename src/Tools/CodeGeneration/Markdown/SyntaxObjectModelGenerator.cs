@@ -85,7 +85,7 @@ namespace Roslynator.CodeGeneration.Markdown
 
                             return TableRow(
                                 propertySymbol.Name,
-                                Inline("SyntaxList<", Link(typeArgument.Name, $"{propertyType.Name}.md"), ">"));
+                                Inline("SyntaxList<", Link(typeArgument.Name, $"{typeArgument.Name}.md"), ">"));
                         }
                         else
                         {

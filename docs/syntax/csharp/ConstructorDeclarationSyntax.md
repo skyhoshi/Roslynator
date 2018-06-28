@@ -4,7 +4,7 @@
 
 | Name           | Type                                                            |
 | -------------- | --------------------------------------------------------------- |
-| AttributeLists | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>               |
+| AttributeLists | SyntaxList\<[AttributeListSyntax](AttributeListSyntax.md)>      |
 | Modifiers      | SyntaxTokenList                                                 |
 | Identifier     | SyntaxToken                                                     |
 | ParameterList  | [ParameterListSyntax](ParameterListSyntax.md)                   |

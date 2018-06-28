@@ -2,11 +2,11 @@
 
 ## Properties
 
-| Name            | Type                                                  |
-| --------------- | ----------------------------------------------------- |
-| OpenParenToken  | SyntaxToken                                           |
-| Arguments       | SyntaxList\<[ArgumentSyntax](SeparatedSyntaxList.md)> |
-| CloseParenToken | SyntaxToken                                           |
+| Name            | Type                                             |
+| --------------- | ------------------------------------------------ |
+| OpenParenToken  | SyntaxToken                                      |
+| Arguments       | SyntaxList\<[ArgumentSyntax](ArgumentSyntax.md)> |
+| CloseParenToken | SyntaxToken                                      |
 
 ## SyntaxKinds
 

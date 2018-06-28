@@ -2,13 +2,13 @@
 
 ## Properties
 
-| Name           | Type                                                  |
-| -------------- | ----------------------------------------------------- |
-| AttributeLists | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>     |
-| Modifiers      | SyntaxTokenList                                       |
-| Type           | [TypeSyntax](TypeSyntax.md)                           |
-| Identifier     | SyntaxToken                                           |
-| Default        | [EqualsValueClauseSyntax](EqualsValueClauseSyntax.md) |
+| Name           | Type                                                       |
+| -------------- | ---------------------------------------------------------- |
+| AttributeLists | SyntaxList\<[AttributeListSyntax](AttributeListSyntax.md)> |
+| Modifiers      | SyntaxTokenList                                            |
+| Type           | [TypeSyntax](TypeSyntax.md)                                |
+| Identifier     | SyntaxToken                                                |
+| Default        | [EqualsValueClauseSyntax](EqualsValueClauseSyntax.md)      |
 
 ## SyntaxKinds
 

@@ -2,19 +2,19 @@
 
 ## Properties
 
-| Name              | Type                                                              |
-| ----------------- | ----------------------------------------------------------------- |
-| AttributeLists    | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>                 |
-| Modifiers         | SyntaxTokenList                                                   |
-| Keyword           | SyntaxToken                                                       |
-| Identifier        | SyntaxToken                                                       |
-| TypeParameterList | [TypeParameterListSyntax](TypeParameterListSyntax.md)             |
-| BaseList          | [BaseListSyntax](BaseListSyntax.md)                               |
-| ConstraintClauses | SyntaxList\<[TypeParameterConstraintClauseSyntax](SyntaxList.md)> |
-| OpenBraceToken    | SyntaxToken                                                       |
-| Members           | SyntaxList\<[MemberDeclarationSyntax](SyntaxList.md)>             |
-| CloseBraceToken   | SyntaxToken                                                       |
-| SemicolonToken    | SyntaxToken                                                       |
+| Name              | Type                                                                                       |
+| ----------------- | ------------------------------------------------------------------------------------------ |
+| AttributeLists    | SyntaxList\<[AttributeListSyntax](AttributeListSyntax.md)>                                 |
+| Modifiers         | SyntaxTokenList                                                                            |
+| Keyword           | SyntaxToken                                                                                |
+| Identifier        | SyntaxToken                                                                                |
+| TypeParameterList | [TypeParameterListSyntax](TypeParameterListSyntax.md)                                      |
+| BaseList          | [BaseListSyntax](BaseListSyntax.md)                                                        |
+| ConstraintClauses | SyntaxList\<[TypeParameterConstraintClauseSyntax](TypeParameterConstraintClauseSyntax.md)> |
+| OpenBraceToken    | SyntaxToken                                                                                |
+| Members           | SyntaxList\<[MemberDeclarationSyntax](MemberDeclarationSyntax.md)>                         |
+| CloseBraceToken   | SyntaxToken                                                                                |
+| SemicolonToken    | SyntaxToken                                                                                |
 
 ## SyntaxKinds
 

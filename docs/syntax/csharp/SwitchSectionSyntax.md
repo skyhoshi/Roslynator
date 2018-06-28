@@ -2,10 +2,10 @@
 
 ## Properties
 
-| Name       | Type                                            |
-| ---------- | ----------------------------------------------- |
-| Labels     | SyntaxList\<[SwitchLabelSyntax](SyntaxList.md)> |
-| Statements | SyntaxList\<[StatementSyntax](SyntaxList.md)>   |
+| Name       | Type                                                   |
+| ---------- | ------------------------------------------------------ |
+| Labels     | SyntaxList\<[SwitchLabelSyntax](SwitchLabelSyntax.md)> |
+| Statements | SyntaxList\<[StatementSyntax](StatementSyntax.md)>     |
 
 ## SyntaxKinds
 

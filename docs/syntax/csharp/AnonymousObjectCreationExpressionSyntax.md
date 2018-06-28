@@ -2,12 +2,12 @@
 
 ## Properties
 
-| Name            | Type                                                                         |
-| --------------- | ---------------------------------------------------------------------------- |
-| NewKeyword      | SyntaxToken                                                                  |
-| OpenBraceToken  | SyntaxToken                                                                  |
-| Initializers    | SyntaxList\<[AnonymousObjectMemberDeclaratorSyntax](SeparatedSyntaxList.md)> |
-| CloseBraceToken | SyntaxToken                                                                  |
+| Name            | Type                                                                                           |
+| --------------- | ---------------------------------------------------------------------------------------------- |
+| NewKeyword      | SyntaxToken                                                                                    |
+| OpenBraceToken  | SyntaxToken                                                                                    |
+| Initializers    | SyntaxList\<[AnonymousObjectMemberDeclaratorSyntax](AnonymousObjectMemberDeclaratorSyntax.md)> |
+| CloseBraceToken | SyntaxToken                                                                                    |
 
 ## SyntaxKinds
 

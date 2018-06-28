@@ -2,13 +2,13 @@
 
 ## Properties
 
-| Name           | Type                                                      |
-| -------------- | --------------------------------------------------------- |
-| AttributeLists | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>         |
-| Modifiers      | SyntaxTokenList                                           |
-| EventKeyword   | SyntaxToken                                               |
-| Declaration    | [VariableDeclarationSyntax](VariableDeclarationSyntax.md) |
-| SemicolonToken | SyntaxToken                                               |
+| Name           | Type                                                       |
+| -------------- | ---------------------------------------------------------- |
+| AttributeLists | SyntaxList\<[AttributeListSyntax](AttributeListSyntax.md)> |
+| Modifiers      | SyntaxTokenList                                            |
+| EventKeyword   | SyntaxToken                                                |
+| Declaration    | [VariableDeclarationSyntax](VariableDeclarationSyntax.md)  |
+| SemicolonToken | SyntaxToken                                                |
 
 ## SyntaxKinds
 

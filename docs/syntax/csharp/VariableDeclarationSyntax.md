@@ -2,10 +2,10 @@
 
 ## Properties
 
-| Name      | Type                                                            |
-| --------- | --------------------------------------------------------------- |
-| Type      | [TypeSyntax](TypeSyntax.md)                                     |
-| Variables | SyntaxList\<[VariableDeclaratorSyntax](SeparatedSyntaxList.md)> |
+| Name      | Type                                                                 |
+| --------- | -------------------------------------------------------------------- |
+| Type      | [TypeSyntax](TypeSyntax.md)                                          |
+| Variables | SyntaxList\<[VariableDeclaratorSyntax](VariableDeclaratorSyntax.md)> |
 
 ## SyntaxKinds
 

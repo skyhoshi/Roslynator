@@ -4,7 +4,7 @@
 
 | Name          | Type                                                      |
 | ------------- | --------------------------------------------------------- |
-| Clauses       | SyntaxList\<[QueryClauseSyntax](SyntaxList.md)>           |
+| Clauses       | SyntaxList\<[QueryClauseSyntax](QueryClauseSyntax.md)>    |
 | SelectOrGroup | [SelectOrGroupClauseSyntax](SelectOrGroupClauseSyntax.md) |
 | Continuation  | [QueryContinuationSyntax](QueryContinuationSyntax.md)     |
 

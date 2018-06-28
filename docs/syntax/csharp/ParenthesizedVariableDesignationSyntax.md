@@ -2,11 +2,11 @@
 
 ## Properties
 
-| Name            | Type                                                             |
-| --------------- | ---------------------------------------------------------------- |
-| OpenParenToken  | SyntaxToken                                                      |
-| Variables       | SyntaxList\<[VariableDesignationSyntax](SeparatedSyntaxList.md)> |
-| CloseParenToken | SyntaxToken                                                      |
+| Name            | Type                                                                   |
+| --------------- | ---------------------------------------------------------------------- |
+| OpenParenToken  | SyntaxToken                                                            |
+| Variables       | SyntaxList\<[VariableDesignationSyntax](VariableDesignationSyntax.md)> |
+| CloseParenToken | SyntaxToken                                                            |
 
 ## SyntaxKinds
 

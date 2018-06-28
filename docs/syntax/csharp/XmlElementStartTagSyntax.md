@@ -2,12 +2,12 @@
 
 ## Properties
 
-| Name             | Type                                             |
-| ---------------- | ------------------------------------------------ |
-| LessThanToken    | SyntaxToken                                      |
-| Name             | [XmlNameSyntax](XmlNameSyntax.md)                |
-| Attributes       | SyntaxList\<[XmlAttributeSyntax](SyntaxList.md)> |
-| GreaterThanToken | SyntaxToken                                      |
+| Name             | Type                                                     |
+| ---------------- | -------------------------------------------------------- |
+| LessThanToken    | SyntaxToken                                              |
+| Name             | [XmlNameSyntax](XmlNameSyntax.md)                        |
+| Attributes       | SyntaxList\<[XmlAttributeSyntax](XmlAttributeSyntax.md)> |
+| GreaterThanToken | SyntaxToken                                              |
 
 ## SyntaxKinds
 

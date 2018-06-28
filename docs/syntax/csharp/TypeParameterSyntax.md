@@ -2,11 +2,11 @@
 
 ## Properties
 
-| Name            | Type                                              |
-| --------------- | ------------------------------------------------- |
-| AttributeLists  | SyntaxList\<[AttributeListSyntax](SyntaxList.md)> |
-| VarianceKeyword | SyntaxToken                                       |
-| Identifier      | SyntaxToken                                       |
+| Name            | Type                                                       |
+| --------------- | ---------------------------------------------------------- |
+| AttributeLists  | SyntaxList\<[AttributeListSyntax](AttributeListSyntax.md)> |
+| VarianceKeyword | SyntaxToken                                                |
+| Identifier      | SyntaxToken                                                |
 
 ## SyntaxKinds
 

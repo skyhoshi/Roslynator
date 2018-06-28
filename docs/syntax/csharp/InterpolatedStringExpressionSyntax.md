@@ -2,11 +2,11 @@
 
 ## Properties
 
-| Name             | Type                                                          |
-| ---------------- | ------------------------------------------------------------- |
-| StringStartToken | SyntaxToken                                                   |
-| Contents         | SyntaxList\<[InterpolatedStringContentSyntax](SyntaxList.md)> |
-| StringEndToken   | SyntaxToken                                                   |
+| Name             | Type                                                                               |
+| ---------------- | ---------------------------------------------------------------------------------- |
+| StringStartToken | SyntaxToken                                                                        |
+| Contents         | SyntaxList\<[InterpolatedStringContentSyntax](InterpolatedStringContentSyntax.md)> |
+| StringEndToken   | SyntaxToken                                                                        |
 
 ## SyntaxKinds
 

@@ -2,12 +2,12 @@
 
 ## Properties
 
-| Name       | Type                                            |
-| ---------- | ----------------------------------------------- |
-| TryKeyword | SyntaxToken                                     |
-| Block      | [BlockSyntax](BlockSyntax.md)                   |
-| Catches    | SyntaxList\<[CatchClauseSyntax](SyntaxList.md)> |
-| Finally    | [FinallyClauseSyntax](FinallyClauseSyntax.md)   |
+| Name       | Type                                                   |
+| ---------- | ------------------------------------------------------ |
+| TryKeyword | SyntaxToken                                            |
+| Block      | [BlockSyntax](BlockSyntax.md)                          |
+| Catches    | SyntaxList\<[CatchClauseSyntax](CatchClauseSyntax.md)> |
+| Finally    | [FinallyClauseSyntax](FinallyClauseSyntax.md)          |
 
 ## SyntaxKinds
 

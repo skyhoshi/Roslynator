@@ -2,15 +2,15 @@
 
 ## Properties
 
-| Name                    | Type                                                    |
-| ----------------------- | ------------------------------------------------------- |
-| HashToken               | SyntaxToken                                             |
-| PragmaKeyword           | SyntaxToken                                             |
-| WarningKeyword          | SyntaxToken                                             |
-| DisableOrRestoreKeyword | SyntaxToken                                             |
-| ErrorCodes              | SyntaxList\<[ExpressionSyntax](SeparatedSyntaxList.md)> |
-| EndOfDirectiveToken     | SyntaxToken                                             |
-| IsActive                | bool                                                    |
+| Name                    | Type                                                 |
+| ----------------------- | ---------------------------------------------------- |
+| HashToken               | SyntaxToken                                          |
+| PragmaKeyword           | SyntaxToken                                          |
+| WarningKeyword          | SyntaxToken                                          |
+| DisableOrRestoreKeyword | SyntaxToken                                          |
+| ErrorCodes              | SyntaxList\<[ExpressionSyntax](ExpressionSyntax.md)> |
+| EndOfDirectiveToken     | SyntaxToken                                          |
+| IsActive                | bool                                                 |
 
 ## SyntaxKinds
 

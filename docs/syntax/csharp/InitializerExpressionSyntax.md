@@ -2,11 +2,11 @@
 
 ## Properties
 
-| Name            | Type                                                    |
-| --------------- | ------------------------------------------------------- |
-| OpenBraceToken  | SyntaxToken                                             |
-| Expressions     | SyntaxList\<[ExpressionSyntax](SeparatedSyntaxList.md)> |
-| CloseBraceToken | SyntaxToken                                             |
+| Name            | Type                                                 |
+| --------------- | ---------------------------------------------------- |
+| OpenBraceToken  | SyntaxToken                                          |
+| Expressions     | SyntaxList\<[ExpressionSyntax](ExpressionSyntax.md)> |
+| CloseBraceToken | SyntaxToken                                          |
 
 ## SyntaxKinds
 

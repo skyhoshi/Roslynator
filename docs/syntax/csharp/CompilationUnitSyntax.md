@@ -2,13 +2,13 @@
 
 ## Properties
 
-| Name           | Type                                                     |
-| -------------- | -------------------------------------------------------- |
-| Externs        | SyntaxList\<[ExternAliasDirectiveSyntax](SyntaxList.md)> |
-| Usings         | SyntaxList\<[UsingDirectiveSyntax](SyntaxList.md)>       |
-| AttributeLists | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>        |
-| Members        | SyntaxList\<[MemberDeclarationSyntax](SyntaxList.md)>    |
-| EndOfFileToken | SyntaxToken                                              |
+| Name           | Type                                                                     |
+| -------------- | ------------------------------------------------------------------------ |
+| Externs        | SyntaxList\<[ExternAliasDirectiveSyntax](ExternAliasDirectiveSyntax.md)> |
+| Usings         | SyntaxList\<[UsingDirectiveSyntax](UsingDirectiveSyntax.md)>             |
+| AttributeLists | SyntaxList\<[AttributeListSyntax](AttributeListSyntax.md)>               |
+| Members        | SyntaxList\<[MemberDeclarationSyntax](MemberDeclarationSyntax.md)>       |
+| EndOfFileToken | SyntaxToken                                                              |
 
 ## SyntaxKinds
 

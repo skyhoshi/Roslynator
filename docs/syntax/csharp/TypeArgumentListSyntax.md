@@ -2,11 +2,11 @@
 
 ## Properties
 
-| Name             | Type                                              |
-| ---------------- | ------------------------------------------------- |
-| LessThanToken    | SyntaxToken                                       |
-| Arguments        | SyntaxList\<[TypeSyntax](SeparatedSyntaxList.md)> |
-| GreaterThanToken | SyntaxToken                                       |
+| Name             | Type                                     |
+| ---------------- | ---------------------------------------- |
+| LessThanToken    | SyntaxToken                              |
+| Arguments        | SyntaxList\<[TypeSyntax](TypeSyntax.md)> |
+| GreaterThanToken | SyntaxToken                              |
 
 ## SyntaxKinds
 

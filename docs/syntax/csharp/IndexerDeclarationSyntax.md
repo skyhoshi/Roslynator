@@ -4,7 +4,7 @@
 
 | Name                       | Type                                                                    |
 | -------------------------- | ----------------------------------------------------------------------- |
-| AttributeLists             | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>                       |
+| AttributeLists             | SyntaxList\<[AttributeListSyntax](AttributeListSyntax.md)>              |
 | Modifiers                  | SyntaxTokenList                                                         |
 | Type                       | [TypeSyntax](TypeSyntax.md)                                             |
 | ExplicitInterfaceSpecifier | [ExplicitInterfaceSpecifierSyntax](ExplicitInterfaceSpecifierSyntax.md) |

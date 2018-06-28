@@ -5,7 +5,7 @@
 | Name     | Type                                                    |
 | -------- | ------------------------------------------------------- |
 | StartTag | [XmlElementStartTagSyntax](XmlElementStartTagSyntax.md) |
-| Content  | SyntaxList\<[XmlNodeSyntax](SyntaxList.md)>             |
+| Content  | SyntaxList\<[XmlNodeSyntax](XmlNodeSyntax.md)>          |
 | EndTag   | [XmlElementEndTagSyntax](XmlElementEndTagSyntax.md)     |
 
 ## SyntaxKinds

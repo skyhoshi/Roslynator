@@ -2,10 +2,10 @@
 
 ## Properties
 
-| Name         | Type                                        |
-| ------------ | ------------------------------------------- |
-| Content      | SyntaxList\<[XmlNodeSyntax](SyntaxList.md)> |
-| EndOfComment | SyntaxToken                                 |
+| Name         | Type                                           |
+| ------------ | ---------------------------------------------- |
+| Content      | SyntaxList\<[XmlNodeSyntax](XmlNodeSyntax.md)> |
+| EndOfComment | SyntaxToken                                    |
 
 ## SyntaxKinds
 

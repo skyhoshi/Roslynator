@@ -2,10 +2,10 @@
 
 ## Properties
 
-| Name           | Type                                                  |
-| -------------- | ----------------------------------------------------- |
-| OrderByKeyword | SyntaxToken                                           |
-| Orderings      | SyntaxList\<[OrderingSyntax](SeparatedSyntaxList.md)> |
+| Name           | Type                                             |
+| -------------- | ------------------------------------------------ |
+| OrderByKeyword | SyntaxToken                                      |
+| Orderings      | SyntaxList\<[OrderingSyntax](OrderingSyntax.md)> |
 
 ## SyntaxKinds
 

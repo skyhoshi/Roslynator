@@ -2,10 +2,10 @@
 
 ## Properties
 
-| Name       | Type                                                  |
-| ---------- | ----------------------------------------------------- |
-| ColonToken | SyntaxToken                                           |
-| Types      | SyntaxList\<[BaseTypeSyntax](SeparatedSyntaxList.md)> |
+| Name       | Type                                             |
+| ---------- | ------------------------------------------------ |
+| ColonToken | SyntaxToken                                      |
+| Types      | SyntaxList\<[BaseTypeSyntax](BaseTypeSyntax.md)> |
 
 ## SyntaxKinds
 

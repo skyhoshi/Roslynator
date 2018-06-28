@@ -2,17 +2,17 @@
 
 ## Properties
 
-| Name            | Type                                                               |
-| --------------- | ------------------------------------------------------------------ |
-| AttributeLists  | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>                  |
-| Modifiers       | SyntaxTokenList                                                    |
-| EnumKeyword     | SyntaxToken                                                        |
-| Identifier      | SyntaxToken                                                        |
-| BaseList        | [BaseListSyntax](BaseListSyntax.md)                                |
-| OpenBraceToken  | SyntaxToken                                                        |
-| Members         | SyntaxList\<[EnumMemberDeclarationSyntax](SeparatedSyntaxList.md)> |
-| CloseBraceToken | SyntaxToken                                                        |
-| SemicolonToken  | SyntaxToken                                                        |
+| Name            | Type                                                                       |
+| --------------- | -------------------------------------------------------------------------- |
+| AttributeLists  | SyntaxList\<[AttributeListSyntax](AttributeListSyntax.md)>                 |
+| Modifiers       | SyntaxTokenList                                                            |
+| EnumKeyword     | SyntaxToken                                                                |
+| Identifier      | SyntaxToken                                                                |
+| BaseList        | [BaseListSyntax](BaseListSyntax.md)                                        |
+| OpenBraceToken  | SyntaxToken                                                                |
+| Members         | SyntaxList\<[EnumMemberDeclarationSyntax](EnumMemberDeclarationSyntax.md)> |
+| CloseBraceToken | SyntaxToken                                                                |
+| SemicolonToken  | SyntaxToken                                                                |
 
 ## SyntaxKinds
 

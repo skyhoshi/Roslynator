@@ -2,11 +2,11 @@
 
 ## Properties
 
-| Name            | Type                                                   |
-| --------------- | ------------------------------------------------------ |
-| OpenParenToken  | SyntaxToken                                            |
-| Parameters      | SyntaxList\<[ParameterSyntax](SeparatedSyntaxList.md)> |
-| CloseParenToken | SyntaxToken                                            |
+| Name            | Type                                               |
+| --------------- | -------------------------------------------------- |
+| OpenParenToken  | SyntaxToken                                        |
+| Parameters      | SyntaxList\<[ParameterSyntax](ParameterSyntax.md)> |
+| CloseParenToken | SyntaxToken                                        |
 
 ## SyntaxKinds
 
