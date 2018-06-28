@@ -13,6 +13,8 @@ namespace Roslynator.CSharp.Refactorings
 {
     internal static class SortCaseLabelsRefactoring
     {
+        private const string Title = "Sort labels";
+
         public static void ComputeRefactoring(RefactoringContext context, CaseSwitchLabelSyntax caseLabel)
         {
             if (!caseLabel.Value.IsKind(SyntaxKind.StringLiteralExpression, SyntaxKind.SimpleMemberAccessExpression))
@@ -52,7 +54,7 @@ namespace Roslynator.CSharp.Refactorings
                     if (StringComparer.CurrentCulture.Compare(valueText, valueText2) > 0)
                     {
                         context.RegisterRefactoring(
-                            "Sort labels",
+                            Title,
                             ct => RefactorAsync(context.Document, section, StringLiteralExpressionLabelComparer.Instance, ct),
                             RefactoringIdentifiers.SortCaseLabels);
 
@@ -94,8 +96,94 @@ namespace Roslynator.CSharp.Refactorings
                     if (StringComparer.CurrentCulture.Compare(name, name2) > 0)
                     {
                         context.RegisterRefactoring(
-                            "Sort labels",
+                            Title,
                             ct => RefactorAsync(context.Document, section, SimpleMemberAccessExpressionLabelComparer.Instance, ct),
+                            RefactoringIdentifiers.SortCaseLabels);
+
+                        return;
+                    }
+
+                    name = name2;
+                }
+            }
+        }
+
+        public static void ComputeRefactoring(
+            RefactoringContext context,
+            SyntaxListSelection<SwitchLabelSyntax> selectedLabels)
+        {
+            SyntaxList<SwitchLabelSyntax> labels = selectedLabels.UnderlyingList;
+
+            int firstIndex = selectedLabels.FirstIndex;
+
+            if (!(labels[firstIndex] is CaseSwitchLabelSyntax label))
+                return;
+
+            ExpressionSyntax value = label.Value;
+
+            SyntaxKind kind = value.Kind();
+
+            if (kind == SyntaxKind.StringLiteralExpression)
+            {
+                string valueText = ((LiteralExpressionSyntax)value).Token.ValueText;
+
+                for (int i = firstIndex + 1; i <= selectedLabels.LastIndex; i++)
+                {
+                    if (!(labels[i] is CaseSwitchLabelSyntax label2))
+                        return;
+
+                    if (!label2.Value.IsKind(SyntaxKind.StringLiteralExpression))
+                        return;
+
+                    string valueText2 = ((LiteralExpressionSyntax)label2.Value).Token.ValueText;
+
+                    if (StringComparer.CurrentCulture.Compare(valueText, valueText2) > 0)
+                    {
+                        context.RegisterRefactoring(
+                            Title,
+                            ct => RefactorAsync(context.Document, selectedLabels, StringLiteralExpressionLabelComparer.Instance, ct),
+                            RefactoringIdentifiers.SortCaseLabels);
+
+                        return;
+                    }
+
+                    valueText = valueText2;
+                }
+            }
+            else if (kind == SyntaxKind.SimpleMemberAccessExpression)
+            {
+                var memberAccess = (MemberAccessExpressionSyntax)value;
+
+                string containingName = (memberAccess.Expression as IdentifierNameSyntax)?.Identifier.ValueText;
+
+                if (containingName == null)
+                    return;
+
+                string name = (memberAccess.Name as IdentifierNameSyntax)?.Identifier.ValueText;
+
+                if (name == null)
+                    return;
+
+                for (int i = firstIndex + 1; i <= selectedLabels.LastIndex; i++)
+                {
+                    if (!(labels[i] is CaseSwitchLabelSyntax label2))
+                        return;
+
+                    if (!label2.Value.IsKind(SyntaxKind.SimpleMemberAccessExpression))
+                        return;
+
+                    var memberAccess2 = (MemberAccessExpressionSyntax)label2.Value;
+
+                    if (!StringComparer.CurrentCulture.Equals(containingName, (memberAccess2.Expression as IdentifierNameSyntax)?.Identifier.ValueText))
+                        return;
+
+                    string name2 = (memberAccess2.Name as IdentifierNameSyntax)?.Identifier.ValueText;
+
+                    if (StringComparer.CurrentCulture.Compare(name, name2) > 0)
+                    {
+                        context.RegisterRefactoring(
+                            Title,
+                            ct => RefactorAsync(context.Document, selectedLabels, SimpleMemberAccessExpressionLabelComparer.Instance, ct),
                             RefactoringIdentifiers.SortCaseLabels);
 
                         return;
@@ -116,6 +204,26 @@ namespace Roslynator.CSharp.Refactorings
                 .Labels
                 .OrderBy(f => f, comparer)
                 .ToSyntaxList();
+
+            SwitchSectionSyntax newSection = section.WithLabels(newLabels);
+
+            return document.ReplaceNodeAsync(section, newSection, cancellationToken);
+        }
+
+        private static Task<Document> RefactorAsync(
+            Document document,
+            SyntaxListSelection<SwitchLabelSyntax> selectedLabels,
+            IComparer<SwitchLabelSyntax> comparer,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            SyntaxList<SwitchLabelSyntax> labels = selectedLabels.UnderlyingList;
+
+            SyntaxList<SwitchLabelSyntax> newLabels = labels.ReplaceRange(
+                selectedLabels.FirstIndex,
+                selectedLabels.Count,
+                selectedLabels.OrderBy(f => f, comparer));
+
+            var section = (SwitchSectionSyntax)labels.First().Parent;
 
             SwitchSectionSyntax newSection = section.WithLabels(newLabels);
 
