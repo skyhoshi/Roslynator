@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DotMarkdown.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Roslynator.CodeGeneration.CSharp;
 using static DotMarkdown.Linq.MFactory;
 
@@ -37,7 +38,19 @@ namespace Roslynator.CodeGeneration.Markdown
 
                 if (derivedSymbol != null)
                 {
-                    MBulletItem item2 = BulletItem(derivedSymbol.MetadataName);
+                    MBulletItem item2 = BulletItem(Bold(derivedSymbol.MetadataName));
+
+                    item2.Add(Symbols.GetPropertySymbols(derivedSymbol).Select(f => BulletItem(f.Name, " (", Italic(f.Type.ToDisplayString(SymbolDisplayFormats.Default)), ")")));
+
+                    List<SyntaxKind> kinds = Symbols.GetKinds(derivedSymbol).ToList();
+
+                    if (kinds.Count > 1)
+                    {
+                        item2.Add(BulletItem(
+                            "SyntaxKinds:",
+                            BulletList(kinds.Select(f => $"SyntaxKind.{f.ToString()}").OrderBy(f => f))));
+                    }
+
                     item.Add(item2);
 
                     stack.Push((derivedSymbol, item2));
