@@ -160,6 +160,8 @@ namespace Roslynator.CSharp.Analysis.UnusedMember
 
         protected override void VisitType(TypeSyntax node)
         {
+            if (IsAnyNodeDelegate)
+                base.VisitType(node);
         }
 
         public override void VisitGotoStatement(GotoStatementSyntax node)
@@ -198,30 +200,6 @@ namespace Roslynator.CSharp.Analysis.UnusedMember
         {
             if (node != null)
                 base.VisitParameterList(node);
-        }
-
-        public override void VisitParameter(ParameterSyntax node)
-        {
-            VisitAttributeLists(node.AttributeLists);
-
-            if (!ShouldVisit)
-                return;
-
-            EqualsValueClauseSyntax equalsValueClause = node.Default;
-
-            if (equalsValueClause != null)
-                VisitEqualsValueClause(equalsValueClause);
-
-            if (IsAnyNodeDelegate)
-            {
-                if (!ShouldVisit)
-                    return;
-
-                TypeSyntax type = node.Type;
-
-                if (type != null)
-                    base.VisitType(type);
-            }
         }
 
         public override void VisitCompilationUnit(CompilationUnitSyntax node)
