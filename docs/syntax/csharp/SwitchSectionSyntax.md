@@ -2,14 +2,12 @@
 
 ## Properties
 
-| Name       | Type                           |
-| ---------- | ------------------------------ |
-| Labels     | SyntaxList\<SwitchLabelSyntax> |
-| Statements | SyntaxList\<StatementSyntax>   |
+| Name       | Type                                            |
+| ---------- | ----------------------------------------------- |
+| Labels     | SyntaxList\<[SwitchLabelSyntax](SyntaxList.md)> |
+| Statements | SyntaxList\<[StatementSyntax](SyntaxList.md)>   |
 
 ## SyntaxKinds
-
-* SyntaxKind\.SwitchSection
 
 ## See Also
 

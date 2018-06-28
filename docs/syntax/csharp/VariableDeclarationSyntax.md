@@ -2,14 +2,12 @@
 
 ## Properties
 
-| Name      | Type                                           |
-| --------- | ---------------------------------------------- |
-| Type      | [TypeSyntax](TypeSyntax.md)                    |
-| Variables | SeparatedSyntaxList\<VariableDeclaratorSyntax> |
+| Name      | Type                                                            |
+| --------- | --------------------------------------------------------------- |
+| Type      | [TypeSyntax](TypeSyntax.md)                                     |
+| Variables | SyntaxList\<[VariableDeclaratorSyntax](SeparatedSyntaxList.md)> |
 
 ## SyntaxKinds
-
-* SyntaxKind\.VariableDeclaration
 
 ## See Also
 

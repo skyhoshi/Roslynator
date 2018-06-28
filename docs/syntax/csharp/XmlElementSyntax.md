@@ -5,12 +5,10 @@
 | Name     | Type                                                    |
 | -------- | ------------------------------------------------------- |
 | StartTag | [XmlElementStartTagSyntax](XmlElementStartTagSyntax.md) |
-| Content  | SyntaxList\<XmlNodeSyntax>                              |
+| Content  | SyntaxList\<[XmlNodeSyntax](SyntaxList.md)>             |
 | EndTag   | [XmlElementEndTagSyntax](XmlElementEndTagSyntax.md)     |
 
 ## SyntaxKinds
-
-* SyntaxKind\.XmlElement
 
 ## See Also
 

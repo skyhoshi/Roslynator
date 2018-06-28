@@ -2,15 +2,13 @@
 
 ## Properties
 
-| Name             | Type                                         |
-| ---------------- | -------------------------------------------- |
-| StringStartToken | SyntaxToken                                  |
-| Contents         | SyntaxList\<InterpolatedStringContentSyntax> |
-| StringEndToken   | SyntaxToken                                  |
+| Name             | Type                                                          |
+| ---------------- | ------------------------------------------------------------- |
+| StringStartToken | SyntaxToken                                                   |
+| Contents         | SyntaxList\<[InterpolatedStringContentSyntax](SyntaxList.md)> |
+| StringEndToken   | SyntaxToken                                                   |
 
 ## SyntaxKinds
-
-* SyntaxKind\.InterpolatedStringExpression
 
 ## See Also
 

@@ -4,7 +4,7 @@
 
 | Name           | Type                                                          |
 | -------------- | ------------------------------------------------------------- |
-| AttributeLists | SyntaxList\<AttributeListSyntax>                              |
+| AttributeLists | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>             |
 | Modifiers      | SyntaxTokenList                                               |
 | Keyword        | SyntaxToken                                                   |
 | Body           | [BlockSyntax](BlockSyntax.md)                                 |

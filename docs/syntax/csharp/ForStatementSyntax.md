@@ -7,17 +7,15 @@
 | ForKeyword           | SyntaxToken                                               |
 | OpenParenToken       | SyntaxToken                                               |
 | Declaration          | [VariableDeclarationSyntax](VariableDeclarationSyntax.md) |
-| Initializers         | SeparatedSyntaxList\<ExpressionSyntax>                    |
+| Initializers         | SyntaxList\<[ExpressionSyntax](SeparatedSyntaxList.md)>   |
 | FirstSemicolonToken  | SyntaxToken                                               |
 | Condition            | [ExpressionSyntax](ExpressionSyntax.md)                   |
 | SecondSemicolonToken | SyntaxToken                                               |
-| Incrementors         | SeparatedSyntaxList\<ExpressionSyntax>                    |
+| Incrementors         | SyntaxList\<[ExpressionSyntax](SeparatedSyntaxList.md)>   |
 | CloseParenToken      | SyntaxToken                                               |
 | Statement            | [StatementSyntax](StatementSyntax.md)                     |
 
 ## SyntaxKinds
-
-* SyntaxKind\.ForStatement
 
 ## See Also
 

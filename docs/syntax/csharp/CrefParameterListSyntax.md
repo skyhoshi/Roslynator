@@ -2,15 +2,13 @@
 
 ## Properties
 
-| Name            | Type                                      |
-| --------------- | ----------------------------------------- |
-| OpenParenToken  | SyntaxToken                               |
-| Parameters      | SeparatedSyntaxList\<CrefParameterSyntax> |
-| CloseParenToken | SyntaxToken                               |
+| Name            | Type                                                       |
+| --------------- | ---------------------------------------------------------- |
+| OpenParenToken  | SyntaxToken                                                |
+| Parameters      | SyntaxList\<[CrefParameterSyntax](SeparatedSyntaxList.md)> |
+| CloseParenToken | SyntaxToken                                                |
 
 ## SyntaxKinds
-
-* SyntaxKind\.CrefParameterList
 
 ## See Also
 

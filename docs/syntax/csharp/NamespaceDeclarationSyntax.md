@@ -2,20 +2,18 @@
 
 ## Properties
 
-| Name             | Type                                    |
-| ---------------- | --------------------------------------- |
-| NamespaceKeyword | SyntaxToken                             |
-| Name             | [NameSyntax](NameSyntax.md)             |
-| OpenBraceToken   | SyntaxToken                             |
-| Externs          | SyntaxList\<ExternAliasDirectiveSyntax> |
-| Usings           | SyntaxList\<UsingDirectiveSyntax>       |
-| Members          | SyntaxList\<MemberDeclarationSyntax>    |
-| CloseBraceToken  | SyntaxToken                             |
-| SemicolonToken   | SyntaxToken                             |
+| Name             | Type                                                     |
+| ---------------- | -------------------------------------------------------- |
+| NamespaceKeyword | SyntaxToken                                              |
+| Name             | [NameSyntax](NameSyntax.md)                              |
+| OpenBraceToken   | SyntaxToken                                              |
+| Externs          | SyntaxList\<[ExternAliasDirectiveSyntax](SyntaxList.md)> |
+| Usings           | SyntaxList\<[UsingDirectiveSyntax](SyntaxList.md)>       |
+| Members          | SyntaxList\<[MemberDeclarationSyntax](SyntaxList.md)>    |
+| CloseBraceToken  | SyntaxToken                                              |
+| SemicolonToken   | SyntaxToken                                              |
 
 ## SyntaxKinds
-
-* SyntaxKind\.NamespaceDeclaration
 
 ## See Also
 

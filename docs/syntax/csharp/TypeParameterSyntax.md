@@ -2,15 +2,13 @@
 
 ## Properties
 
-| Name            | Type                             |
-| --------------- | -------------------------------- |
-| AttributeLists  | SyntaxList\<AttributeListSyntax> |
-| VarianceKeyword | SyntaxToken                      |
-| Identifier      | SyntaxToken                      |
+| Name            | Type                                              |
+| --------------- | ------------------------------------------------- |
+| AttributeLists  | SyntaxList\<[AttributeListSyntax](SyntaxList.md)> |
+| VarianceKeyword | SyntaxToken                                       |
+| Identifier      | SyntaxToken                                       |
 
 ## SyntaxKinds
-
-* SyntaxKind\.TypeParameter
 
 ## See Also
 

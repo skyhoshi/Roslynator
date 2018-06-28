@@ -7,6 +7,7 @@ using DotMarkdown.Linq;
 using Microsoft.CodeAnalysis;
 using Roslynator.CodeGeneration.CSharp;
 using static DotMarkdown.Linq.MFactory;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Roslynator.CodeGeneration.Markdown
 {
@@ -61,26 +62,40 @@ namespace Roslynator.CodeGeneration.Markdown
 
         public static string GenerateCSharpSyntaxTypeMetadata(INamedTypeSymbol typeSymbol)
         {
+            List<SyntaxKind> kinds = Symbols.GetKinds(typeSymbol).ToList();
+
             var doc = new MDocument(
                 Heading1(typeSymbol.Name),
                 Heading2("Properties"),
                 Table(
                     TableRow("Name", "Type"),
-                    Symbols.GetPropertySymbols(typeSymbol).Select(f =>
+                    Symbols.GetPropertySymbols(typeSymbol).Select(propertySymbol =>
                     {
-                        INamedTypeSymbol typeSymbol2 = Symbols.SyntaxSymbols.FirstOrDefault(s => s == f.Type);
+                        ITypeSymbol propertyType = propertySymbol.Type;
+                        INamedTypeSymbol typeSymbol2 = Symbols.SyntaxSymbols.FirstOrDefault(s => s == propertyType);
 
                         if (typeSymbol2 != null)
                         {
-                            return TableRow(f.Name, Link(f.Type.ToDisplayString(SymbolDisplayFormats.Default), $"{typeSymbol2.Name}.md"));
+                            return TableRow(propertySymbol.Name, Link(propertyType.ToDisplayString(SymbolDisplayFormats.Default), $"{typeSymbol2.Name}.md"));
+                        }
+                        else if (propertyType.OriginalDefinition.Equals(Symbols.SyntaxListSymbol)
+                            || propertyType.OriginalDefinition.Equals(Symbols.SeparatedSyntaxListSymbol))
+                        {
+                            ITypeSymbol typeArgument = ((INamedTypeSymbol)propertyType).TypeArguments[0];
+
+                            return TableRow(
+                                propertySymbol.Name,
+                                Inline("SyntaxList<", Link(typeArgument.Name, $"{propertyType.Name}.md"), ">"));
                         }
                         else
                         {
-                            return TableRow(f.Name, f.Type.ToDisplayString(SymbolDisplayFormats.Default));
+                            return TableRow(
+                                propertySymbol.Name,
+                                propertyType.ToDisplayString(SymbolDisplayFormats.Default));
                         }
                     })),
                 Heading2("SyntaxKinds"),
-                BulletList(Symbols.GetKinds(typeSymbol).Select(f => $"SyntaxKind.{f.ToString()}").OrderBy(f => f)),
+                (kinds.Count > 1) ? BulletList(kinds.Select(f => $"SyntaxKind.{f.ToString()}").OrderBy(f => f)) : null,
                 Heading2("See Also"),
                 BulletList(Link("Official Documentation", $"https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.{typeSymbol.Name.ToLowerInvariant()}")));
 

@@ -4,7 +4,7 @@
 
 | Name                       | Type                                                                    |
 | -------------------------- | ----------------------------------------------------------------------- |
-| AttributeLists             | SyntaxList\<AttributeListSyntax>                                        |
+| AttributeLists             | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>                       |
 | Modifiers                  | SyntaxTokenList                                                         |
 | EventKeyword               | SyntaxToken                                                             |
 | Type                       | [TypeSyntax](TypeSyntax.md)                                             |
@@ -13,8 +13,6 @@
 | AccessorList               | [AccessorListSyntax](AccessorListSyntax.md)                             |
 
 ## SyntaxKinds
-
-* SyntaxKind\.EventDeclaration
 
 ## See Also
 

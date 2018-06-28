@@ -2,15 +2,13 @@
 
 ## Properties
 
-| Name              | Type                                  |
-| ----------------- | ------------------------------------- |
-| OpenBracketToken  | SyntaxToken                           |
-| Parameters        | SeparatedSyntaxList\<ParameterSyntax> |
-| CloseBracketToken | SyntaxToken                           |
+| Name              | Type                                                   |
+| ----------------- | ------------------------------------------------------ |
+| OpenBracketToken  | SyntaxToken                                            |
+| Parameters        | SyntaxList\<[ParameterSyntax](SeparatedSyntaxList.md)> |
+| CloseBracketToken | SyntaxToken                                            |
 
 ## SyntaxKinds
-
-* SyntaxKind\.BracketedParameterList
 
 ## See Also
 

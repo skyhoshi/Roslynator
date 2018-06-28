@@ -2,17 +2,15 @@
 
 ## Properties
 
-| Name           | Type                                    |
-| -------------- | --------------------------------------- |
-| Externs        | SyntaxList\<ExternAliasDirectiveSyntax> |
-| Usings         | SyntaxList\<UsingDirectiveSyntax>       |
-| AttributeLists | SyntaxList\<AttributeListSyntax>        |
-| Members        | SyntaxList\<MemberDeclarationSyntax>    |
-| EndOfFileToken | SyntaxToken                             |
+| Name           | Type                                                     |
+| -------------- | -------------------------------------------------------- |
+| Externs        | SyntaxList\<[ExternAliasDirectiveSyntax](SyntaxList.md)> |
+| Usings         | SyntaxList\<[UsingDirectiveSyntax](SyntaxList.md)>       |
+| AttributeLists | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>        |
+| Members        | SyntaxList\<[MemberDeclarationSyntax](SyntaxList.md)>    |
+| EndOfFileToken | SyntaxToken                                              |
 
 ## SyntaxKinds
-
-* SyntaxKind\.CompilationUnit
 
 ## See Also
 

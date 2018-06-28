@@ -4,7 +4,7 @@
 
 | Name                       | Type                                                                    |
 | -------------------------- | ----------------------------------------------------------------------- |
-| AttributeLists             | SyntaxList\<AttributeListSyntax>                                        |
+| AttributeLists             | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>                       |
 | Modifiers                  | SyntaxTokenList                                                         |
 | Type                       | [TypeSyntax](TypeSyntax.md)                                             |
 | ExplicitInterfaceSpecifier | [ExplicitInterfaceSpecifierSyntax](ExplicitInterfaceSpecifierSyntax.md) |
@@ -15,8 +15,6 @@
 | SemicolonToken             | SyntaxToken                                                             |
 
 ## SyntaxKinds
-
-* SyntaxKind\.PropertyDeclaration
 
 ## See Also
 

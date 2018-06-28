@@ -4,13 +4,11 @@
 
 | Name          | Type                                                      |
 | ------------- | --------------------------------------------------------- |
-| Clauses       | SyntaxList\<QueryClauseSyntax>                            |
+| Clauses       | SyntaxList\<[QueryClauseSyntax](SyntaxList.md)>           |
 | SelectOrGroup | [SelectOrGroupClauseSyntax](SelectOrGroupClauseSyntax.md) |
 | Continuation  | [QueryContinuationSyntax](QueryContinuationSyntax.md)     |
 
 ## SyntaxKinds
-
-* SyntaxKind\.QueryBody
 
 ## See Also
 

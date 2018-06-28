@@ -4,13 +4,11 @@
 
 | Name           | Type                                                  |
 | -------------- | ----------------------------------------------------- |
-| AttributeLists | SyntaxList\<AttributeListSyntax>                      |
+| AttributeLists | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>     |
 | Identifier     | SyntaxToken                                           |
 | EqualsValue    | [EqualsValueClauseSyntax](EqualsValueClauseSyntax.md) |
 
 ## SyntaxKinds
-
-* SyntaxKind\.EnumMemberDeclaration
 
 ## See Also
 

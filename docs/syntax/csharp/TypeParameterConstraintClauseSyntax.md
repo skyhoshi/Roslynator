@@ -2,16 +2,14 @@
 
 ## Properties
 
-| Name         | Type                                                |
-| ------------ | --------------------------------------------------- |
-| WhereKeyword | SyntaxToken                                         |
-| Name         | [IdentifierNameSyntax](IdentifierNameSyntax.md)     |
-| ColonToken   | SyntaxToken                                         |
-| Constraints  | SeparatedSyntaxList\<TypeParameterConstraintSyntax> |
+| Name         | Type                                                                 |
+| ------------ | -------------------------------------------------------------------- |
+| WhereKeyword | SyntaxToken                                                          |
+| Name         | [IdentifierNameSyntax](IdentifierNameSyntax.md)                      |
+| ColonToken   | SyntaxToken                                                          |
+| Constraints  | SyntaxList\<[TypeParameterConstraintSyntax](SeparatedSyntaxList.md)> |
 
 ## SyntaxKinds
-
-* SyntaxKind\.TypeParameterConstraintClause
 
 ## See Also
 

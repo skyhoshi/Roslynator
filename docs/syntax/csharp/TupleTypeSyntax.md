@@ -2,15 +2,13 @@
 
 ## Properties
 
-| Name            | Type                                     |
-| --------------- | ---------------------------------------- |
-| OpenParenToken  | SyntaxToken                              |
-| Elements        | SeparatedSyntaxList\<TupleElementSyntax> |
-| CloseParenToken | SyntaxToken                              |
+| Name            | Type                                                      |
+| --------------- | --------------------------------------------------------- |
+| OpenParenToken  | SyntaxToken                                               |
+| Elements        | SyntaxList\<[TupleElementSyntax](SeparatedSyntaxList.md)> |
+| CloseParenToken | SyntaxToken                                               |
 
 ## SyntaxKinds
-
-* SyntaxKind\.TupleType
 
 ## See Also
 

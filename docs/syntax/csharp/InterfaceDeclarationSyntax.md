@@ -2,23 +2,21 @@
 
 ## Properties
 
-| Name              | Type                                                  |
-| ----------------- | ----------------------------------------------------- |
-| AttributeLists    | SyntaxList\<AttributeListSyntax>                      |
-| Modifiers         | SyntaxTokenList                                       |
-| Keyword           | SyntaxToken                                           |
-| Identifier        | SyntaxToken                                           |
-| TypeParameterList | [TypeParameterListSyntax](TypeParameterListSyntax.md) |
-| BaseList          | [BaseListSyntax](BaseListSyntax.md)                   |
-| ConstraintClauses | SyntaxList\<TypeParameterConstraintClauseSyntax>      |
-| OpenBraceToken    | SyntaxToken                                           |
-| Members           | SyntaxList\<MemberDeclarationSyntax>                  |
-| CloseBraceToken   | SyntaxToken                                           |
-| SemicolonToken    | SyntaxToken                                           |
+| Name              | Type                                                              |
+| ----------------- | ----------------------------------------------------------------- |
+| AttributeLists    | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>                 |
+| Modifiers         | SyntaxTokenList                                                   |
+| Keyword           | SyntaxToken                                                       |
+| Identifier        | SyntaxToken                                                       |
+| TypeParameterList | [TypeParameterListSyntax](TypeParameterListSyntax.md)             |
+| BaseList          | [BaseListSyntax](BaseListSyntax.md)                               |
+| ConstraintClauses | SyntaxList\<[TypeParameterConstraintClauseSyntax](SyntaxList.md)> |
+| OpenBraceToken    | SyntaxToken                                                       |
+| Members           | SyntaxList\<[MemberDeclarationSyntax](SyntaxList.md)>             |
+| CloseBraceToken   | SyntaxToken                                                       |
+| SemicolonToken    | SyntaxToken                                                       |
 
 ## SyntaxKinds
-
-* SyntaxKind\.InterfaceDeclaration
 
 ## See Also
 

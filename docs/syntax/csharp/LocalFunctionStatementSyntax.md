@@ -2,21 +2,19 @@
 
 ## Properties
 
-| Name              | Type                                                          |
-| ----------------- | ------------------------------------------------------------- |
-| Modifiers         | SyntaxTokenList                                               |
-| ReturnType        | [TypeSyntax](TypeSyntax.md)                                   |
-| Identifier        | SyntaxToken                                                   |
-| TypeParameterList | [TypeParameterListSyntax](TypeParameterListSyntax.md)         |
-| ParameterList     | [ParameterListSyntax](ParameterListSyntax.md)                 |
-| ConstraintClauses | SyntaxList\<TypeParameterConstraintClauseSyntax>              |
-| Body              | [BlockSyntax](BlockSyntax.md)                                 |
-| ExpressionBody    | [ArrowExpressionClauseSyntax](ArrowExpressionClauseSyntax.md) |
-| SemicolonToken    | SyntaxToken                                                   |
+| Name              | Type                                                              |
+| ----------------- | ----------------------------------------------------------------- |
+| Modifiers         | SyntaxTokenList                                                   |
+| ReturnType        | [TypeSyntax](TypeSyntax.md)                                       |
+| Identifier        | SyntaxToken                                                       |
+| TypeParameterList | [TypeParameterListSyntax](TypeParameterListSyntax.md)             |
+| ParameterList     | [ParameterListSyntax](ParameterListSyntax.md)                     |
+| ConstraintClauses | SyntaxList\<[TypeParameterConstraintClauseSyntax](SyntaxList.md)> |
+| Body              | [BlockSyntax](BlockSyntax.md)                                     |
+| ExpressionBody    | [ArrowExpressionClauseSyntax](ArrowExpressionClauseSyntax.md)     |
+| SemicolonToken    | SyntaxToken                                                       |
 
 ## SyntaxKinds
-
-* SyntaxKind\.LocalFunctionStatement
 
 ## See Also
 

@@ -4,15 +4,13 @@
 
 | Name           | Type                                                      |
 | -------------- | --------------------------------------------------------- |
-| AttributeLists | SyntaxList\<AttributeListSyntax>                          |
+| AttributeLists | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>         |
 | Modifiers      | SyntaxTokenList                                           |
 | EventKeyword   | SyntaxToken                                               |
 | Declaration    | [VariableDeclarationSyntax](VariableDeclarationSyntax.md) |
 | SemicolonToken | SyntaxToken                                               |
 
 ## SyntaxKinds
-
-* SyntaxKind\.EventFieldDeclaration
 
 ## See Also
 

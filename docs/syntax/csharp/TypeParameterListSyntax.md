@@ -2,15 +2,13 @@
 
 ## Properties
 
-| Name             | Type                                      |
-| ---------------- | ----------------------------------------- |
-| LessThanToken    | SyntaxToken                               |
-| Parameters       | SeparatedSyntaxList\<TypeParameterSyntax> |
-| GreaterThanToken | SyntaxToken                               |
+| Name             | Type                                                       |
+| ---------------- | ---------------------------------------------------------- |
+| LessThanToken    | SyntaxToken                                                |
+| Parameters       | SyntaxList\<[TypeParameterSyntax](SeparatedSyntaxList.md)> |
+| GreaterThanToken | SyntaxToken                                                |
 
 ## SyntaxKinds
-
-* SyntaxKind\.TypeParameterList
 
 ## See Also
 

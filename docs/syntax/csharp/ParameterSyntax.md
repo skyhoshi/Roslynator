@@ -4,15 +4,13 @@
 
 | Name           | Type                                                  |
 | -------------- | ----------------------------------------------------- |
-| AttributeLists | SyntaxList\<AttributeListSyntax>                      |
+| AttributeLists | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>     |
 | Modifiers      | SyntaxTokenList                                       |
 | Type           | [TypeSyntax](TypeSyntax.md)                           |
 | Identifier     | SyntaxToken                                           |
 | Default        | [EqualsValueClauseSyntax](EqualsValueClauseSyntax.md) |
 
 ## SyntaxKinds
-
-* SyntaxKind\.Parameter
 
 ## See Also
 

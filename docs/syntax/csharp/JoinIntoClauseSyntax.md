@@ -9,8 +9,6 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.JoinIntoClause
-
 ## See Also
 
 * [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.joinintoclausesyntax)

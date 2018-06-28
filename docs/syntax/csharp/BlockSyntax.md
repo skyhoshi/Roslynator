@@ -2,15 +2,13 @@
 
 ## Properties
 
-| Name            | Type                         |
-| --------------- | ---------------------------- |
-| OpenBraceToken  | SyntaxToken                  |
-| Statements      | SyntaxList\<StatementSyntax> |
-| CloseBraceToken | SyntaxToken                  |
+| Name            | Type                                          |
+| --------------- | --------------------------------------------- |
+| OpenBraceToken  | SyntaxToken                                   |
+| Statements      | SyntaxList\<[StatementSyntax](SyntaxList.md)> |
+| CloseBraceToken | SyntaxToken                                   |
 
 ## SyntaxKinds
-
-* SyntaxKind\.Block
 
 ## See Also
 

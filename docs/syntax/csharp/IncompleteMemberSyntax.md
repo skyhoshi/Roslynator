@@ -2,15 +2,13 @@
 
 ## Properties
 
-| Name           | Type                             |
-| -------------- | -------------------------------- |
-| AttributeLists | SyntaxList\<AttributeListSyntax> |
-| Modifiers      | SyntaxTokenList                  |
-| Type           | [TypeSyntax](TypeSyntax.md)      |
+| Name           | Type                                              |
+| -------------- | ------------------------------------------------- |
+| AttributeLists | SyntaxList\<[AttributeListSyntax](SyntaxList.md)> |
+| Modifiers      | SyntaxTokenList                                   |
+| Type           | [TypeSyntax](TypeSyntax.md)                       |
 
 ## SyntaxKinds
-
-* SyntaxKind\.IncompleteMember
 
 ## See Also
 

@@ -4,14 +4,12 @@
 
 | Name           | Type                                                      |
 | -------------- | --------------------------------------------------------- |
-| AttributeLists | SyntaxList\<AttributeListSyntax>                          |
+| AttributeLists | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>         |
 | Modifiers      | SyntaxTokenList                                           |
 | Declaration    | [VariableDeclarationSyntax](VariableDeclarationSyntax.md) |
 | SemicolonToken | SyntaxToken                                               |
 
 ## SyntaxKinds
-
-* SyntaxKind\.FieldDeclaration
 
 ## See Also
 

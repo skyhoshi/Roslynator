@@ -8,8 +8,6 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.GlobalStatement
-
 ## See Also
 
 * [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.globalstatementsyntax)

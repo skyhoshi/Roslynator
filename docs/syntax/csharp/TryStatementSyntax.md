@@ -2,16 +2,14 @@
 
 ## Properties
 
-| Name       | Type                                          |
-| ---------- | --------------------------------------------- |
-| TryKeyword | SyntaxToken                                   |
-| Block      | [BlockSyntax](BlockSyntax.md)                 |
-| Catches    | SyntaxList\<CatchClauseSyntax>                |
-| Finally    | [FinallyClauseSyntax](FinallyClauseSyntax.md) |
+| Name       | Type                                            |
+| ---------- | ----------------------------------------------- |
+| TryKeyword | SyntaxToken                                     |
+| Block      | [BlockSyntax](BlockSyntax.md)                   |
+| Catches    | SyntaxList\<[CatchClauseSyntax](SyntaxList.md)> |
+| Finally    | [FinallyClauseSyntax](FinallyClauseSyntax.md)   |
 
 ## SyntaxKinds
-
-* SyntaxKind\.TryStatement
 
 ## See Also
 

@@ -2,15 +2,13 @@
 
 ## Properties
 
-| Name              | Type                                 |
-| ----------------- | ------------------------------------ |
-| OpenBracketToken  | SyntaxToken                          |
-| Arguments         | SeparatedSyntaxList\<ArgumentSyntax> |
-| CloseBracketToken | SyntaxToken                          |
+| Name              | Type                                                  |
+| ----------------- | ----------------------------------------------------- |
+| OpenBracketToken  | SyntaxToken                                           |
+| Arguments         | SyntaxList\<[ArgumentSyntax](SeparatedSyntaxList.md)> |
+| CloseBracketToken | SyntaxToken                                           |
 
 ## SyntaxKinds
-
-* SyntaxKind\.BracketedArgumentList
 
 ## See Also
 

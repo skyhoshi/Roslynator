@@ -2,15 +2,13 @@
 
 ## Properties
 
-| Name            | Type                                          |
-| --------------- | --------------------------------------------- |
-| OpenParenToken  | SyntaxToken                                   |
-| Arguments       | SeparatedSyntaxList\<AttributeArgumentSyntax> |
-| CloseParenToken | SyntaxToken                                   |
+| Name            | Type                                                           |
+| --------------- | -------------------------------------------------------------- |
+| OpenParenToken  | SyntaxToken                                                    |
+| Arguments       | SyntaxList\<[AttributeArgumentSyntax](SeparatedSyntaxList.md)> |
+| CloseParenToken | SyntaxToken                                                    |
 
 ## SyntaxKinds
-
-* SyntaxKind\.AttributeArgumentList
 
 ## See Also
 

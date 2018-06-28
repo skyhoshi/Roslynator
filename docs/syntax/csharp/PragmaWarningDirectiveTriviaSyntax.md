@@ -2,19 +2,17 @@
 
 ## Properties
 
-| Name                    | Type                                   |
-| ----------------------- | -------------------------------------- |
-| HashToken               | SyntaxToken                            |
-| PragmaKeyword           | SyntaxToken                            |
-| WarningKeyword          | SyntaxToken                            |
-| DisableOrRestoreKeyword | SyntaxToken                            |
-| ErrorCodes              | SeparatedSyntaxList\<ExpressionSyntax> |
-| EndOfDirectiveToken     | SyntaxToken                            |
-| IsActive                | bool                                   |
+| Name                    | Type                                                    |
+| ----------------------- | ------------------------------------------------------- |
+| HashToken               | SyntaxToken                                             |
+| PragmaKeyword           | SyntaxToken                                             |
+| WarningKeyword          | SyntaxToken                                             |
+| DisableOrRestoreKeyword | SyntaxToken                                             |
+| ErrorCodes              | SyntaxList\<[ExpressionSyntax](SeparatedSyntaxList.md)> |
+| EndOfDirectiveToken     | SyntaxToken                                             |
+| IsActive                | bool                                                    |
 
 ## SyntaxKinds
-
-* SyntaxKind\.PragmaWarningDirectiveTrivia
 
 ## See Also
 

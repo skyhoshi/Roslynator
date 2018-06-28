@@ -2,15 +2,13 @@
 
 ## Properties
 
-| Name            | Type                                  |
-| --------------- | ------------------------------------- |
-| OpenParenToken  | SyntaxToken                           |
-| Parameters      | SeparatedSyntaxList\<ParameterSyntax> |
-| CloseParenToken | SyntaxToken                           |
+| Name            | Type                                                   |
+| --------------- | ------------------------------------------------------ |
+| OpenParenToken  | SyntaxToken                                            |
+| Parameters      | SyntaxList\<[ParameterSyntax](SeparatedSyntaxList.md)> |
+| CloseParenToken | SyntaxToken                                            |
 
 ## SyntaxKinds
-
-* SyntaxKind\.ParameterList
 
 ## See Also
 

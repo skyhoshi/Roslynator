@@ -9,8 +9,6 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.XmlName
-
 ## See Also
 
 * [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.xmlnamesyntax)

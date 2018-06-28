@@ -2,15 +2,13 @@
 
 ## Properties
 
-| Name            | Type                                            |
-| --------------- | ----------------------------------------------- |
-| OpenParenToken  | SyntaxToken                                     |
-| Variables       | SeparatedSyntaxList\<VariableDesignationSyntax> |
-| CloseParenToken | SyntaxToken                                     |
+| Name            | Type                                                             |
+| --------------- | ---------------------------------------------------------------- |
+| OpenParenToken  | SyntaxToken                                                      |
+| Variables       | SyntaxList\<[VariableDesignationSyntax](SeparatedSyntaxList.md)> |
+| CloseParenToken | SyntaxToken                                                      |
 
 ## SyntaxKinds
-
-* SyntaxKind\.ParenthesizedVariableDesignation
 
 ## See Also
 

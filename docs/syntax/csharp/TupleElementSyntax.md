@@ -9,8 +9,6 @@
 
 ## SyntaxKinds
 
-* SyntaxKind\.TupleElement
-
 ## See Also
 
 * [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.tupleelementsyntax)

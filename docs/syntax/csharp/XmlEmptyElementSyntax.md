@@ -2,16 +2,14 @@
 
 ## Properties
 
-| Name                  | Type                              |
-| --------------------- | --------------------------------- |
-| LessThanToken         | SyntaxToken                       |
-| Name                  | [XmlNameSyntax](XmlNameSyntax.md) |
-| Attributes            | SyntaxList\<XmlAttributeSyntax>   |
-| SlashGreaterThanToken | SyntaxToken                       |
+| Name                  | Type                                             |
+| --------------------- | ------------------------------------------------ |
+| LessThanToken         | SyntaxToken                                      |
+| Name                  | [XmlNameSyntax](XmlNameSyntax.md)                |
+| Attributes            | SyntaxList\<[XmlAttributeSyntax](SyntaxList.md)> |
+| SlashGreaterThanToken | SyntaxToken                                      |
 
 ## SyntaxKinds
-
-* SyntaxKind\.XmlEmptyElement
 
 ## See Also
 

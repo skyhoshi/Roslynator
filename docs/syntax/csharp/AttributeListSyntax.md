@@ -6,12 +6,10 @@
 | ----------------- | ------------------------------------------------------------------- |
 | OpenBracketToken  | SyntaxToken                                                         |
 | Target            | [AttributeTargetSpecifierSyntax](AttributeTargetSpecifierSyntax.md) |
-| Attributes        | SeparatedSyntaxList\<AttributeSyntax>                               |
+| Attributes        | SyntaxList\<[AttributeSyntax](SeparatedSyntaxList.md)>              |
 | CloseBracketToken | SyntaxToken                                                         |
 
 ## SyntaxKinds
-
-* SyntaxKind\.AttributeList
 
 ## See Also
 

@@ -2,14 +2,12 @@
 
 ## Properties
 
-| Name           | Type                                 |
-| -------------- | ------------------------------------ |
-| OrderByKeyword | SyntaxToken                          |
-| Orderings      | SeparatedSyntaxList\<OrderingSyntax> |
+| Name           | Type                                                  |
+| -------------- | ----------------------------------------------------- |
+| OrderByKeyword | SyntaxToken                                           |
+| Orderings      | SyntaxList\<[OrderingSyntax](SeparatedSyntaxList.md)> |
 
 ## SyntaxKinds
-
-* SyntaxKind\.OrderByClause
 
 ## See Also
 

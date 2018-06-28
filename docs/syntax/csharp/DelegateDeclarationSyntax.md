@@ -2,22 +2,20 @@
 
 ## Properties
 
-| Name              | Type                                                  |
-| ----------------- | ----------------------------------------------------- |
-| Arity             | int                                                   |
-| AttributeLists    | SyntaxList\<AttributeListSyntax>                      |
-| Modifiers         | SyntaxTokenList                                       |
-| DelegateKeyword   | SyntaxToken                                           |
-| ReturnType        | [TypeSyntax](TypeSyntax.md)                           |
-| Identifier        | SyntaxToken                                           |
-| TypeParameterList | [TypeParameterListSyntax](TypeParameterListSyntax.md) |
-| ParameterList     | [ParameterListSyntax](ParameterListSyntax.md)         |
-| ConstraintClauses | SyntaxList\<TypeParameterConstraintClauseSyntax>      |
-| SemicolonToken    | SyntaxToken                                           |
+| Name              | Type                                                              |
+| ----------------- | ----------------------------------------------------------------- |
+| Arity             | int                                                               |
+| AttributeLists    | SyntaxList\<[AttributeListSyntax](SyntaxList.md)>                 |
+| Modifiers         | SyntaxTokenList                                                   |
+| DelegateKeyword   | SyntaxToken                                                       |
+| ReturnType        | [TypeSyntax](TypeSyntax.md)                                       |
+| Identifier        | SyntaxToken                                                       |
+| TypeParameterList | [TypeParameterListSyntax](TypeParameterListSyntax.md)             |
+| ParameterList     | [ParameterListSyntax](ParameterListSyntax.md)                     |
+| ConstraintClauses | SyntaxList\<[TypeParameterConstraintClauseSyntax](SyntaxList.md)> |
+| SemicolonToken    | SyntaxToken                                                       |
 
 ## SyntaxKinds
-
-* SyntaxKind\.DelegateDeclaration
 
 ## See Also
 

@@ -2,16 +2,14 @@
 
 ## Properties
 
-| Name              | Type                                   |
-| ----------------- | -------------------------------------- |
-| Rank              | int                                    |
-| OpenBracketToken  | SyntaxToken                            |
-| Sizes             | SeparatedSyntaxList\<ExpressionSyntax> |
-| CloseBracketToken | SyntaxToken                            |
+| Name              | Type                                                    |
+| ----------------- | ------------------------------------------------------- |
+| Rank              | int                                                     |
+| OpenBracketToken  | SyntaxToken                                             |
+| Sizes             | SyntaxList\<[ExpressionSyntax](SeparatedSyntaxList.md)> |
+| CloseBracketToken | SyntaxToken                                             |
 
 ## SyntaxKinds
-
-* SyntaxKind\.ArrayRankSpecifier
 
 ## See Also
 

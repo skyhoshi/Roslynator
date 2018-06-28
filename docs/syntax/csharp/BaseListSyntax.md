@@ -2,14 +2,12 @@
 
 ## Properties
 
-| Name       | Type                                 |
-| ---------- | ------------------------------------ |
-| ColonToken | SyntaxToken                          |
-| Types      | SeparatedSyntaxList\<BaseTypeSyntax> |
+| Name       | Type                                                  |
+| ---------- | ----------------------------------------------------- |
+| ColonToken | SyntaxToken                                           |
+| Types      | SyntaxList\<[BaseTypeSyntax](SeparatedSyntaxList.md)> |
 
 ## SyntaxKinds
-
-* SyntaxKind\.BaseList
 
 ## See Also
 
