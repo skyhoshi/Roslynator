@@ -45,7 +45,6 @@ namespace Roslynator.CSharp.Analysis
             bool containsInheritDoc = false;
             bool containsIncludeOrExclude = false;
             bool containsSummaryElement = false;
-            bool containsReturnsElement = false;
             bool isFirst = true;
 
             CancellationToken cancellationToken = context.CancellationToken;
@@ -84,7 +83,11 @@ namespace Roslynator.CSharp.Analysis
                                 containsSummaryElement = true;
                                 break;
                             }
+                        case XmlElementKind.Code:
+                        case XmlElementKind.Example:
+                        case XmlElementKind.Remarks:
                         case XmlElementKind.Returns:
+                        case XmlElementKind.Value:
                             {
                                 if (info.IsContentEmptyOrWhitespace)
                                 {
@@ -93,7 +96,6 @@ namespace Roslynator.CSharp.Analysis
                                         info.Element);
                                 }
 
-                                containsReturnsElement = true;
                                 break;
                             }
                     }
@@ -105,13 +107,6 @@ namespace Roslynator.CSharp.Analysis
                     else
                     {
                         containsIncludeOrExclude = false;
-                    }
-
-                    if (containsInheritDoc
-                        && containsSummaryElement
-                        && containsReturnsElement)
-                    {
-                        break;
                     }
                 }
             }

@@ -116,6 +116,82 @@ class C
         }
 
         [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UnusedElementInDocumentationComment)]
+        public async Task Test_CodeElement()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+class C
+{
+    /// <summary></summary>
+    /// [|<code></code>|]
+    void M() => M();
+}
+", @"
+class C
+{
+    /// <summary></summary>
+    void M() => M();
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UnusedElementInDocumentationComment)]
+        public async Task Test_ExampleElement()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+class C
+{
+    /// <summary></summary>
+    /// [|<example></example>|]
+    void M() => M();
+}
+", @"
+class C
+{
+    /// <summary></summary>
+    void M() => M();
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UnusedElementInDocumentationComment)]
+        public async Task Test_RemarksElement()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+class C
+{
+    /// <summary></summary>
+    /// [|<remarks></remarks>|]
+    void M() => M();
+}
+", @"
+class C
+{
+    /// <summary></summary>
+    void M() => M();
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UnusedElementInDocumentationComment)]
+        public async Task Test_ValueElement()
+        {
+            await VerifyDiagnosticAndFixAsync(@"
+class C
+{
+    /// <summary></summary>
+    /// [|<value></value>|]
+    void M() => M();
+}
+", @"
+class C
+{
+    /// <summary></summary>
+    void M() => M();
+}
+");
+        }
+
+        [Fact, Trait(Traits.Analyzer, DiagnosticIdentifiers.UnusedElementInDocumentationComment)]
         public async Task TestNoDiagnostic_NoReturnsElement()
         {
             await VerifyNoDiagnosticAsync(@"
