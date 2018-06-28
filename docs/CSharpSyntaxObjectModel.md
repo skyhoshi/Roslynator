@@ -2,1166 +2,243 @@
 
 * SyntaxNode
   * CSharpSyntaxNode
-    * **AccessorDeclarationSyntax**
-      * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-      * Modifiers \(*SyntaxTokenList*\)
-      * Keyword \(*SyntaxToken*\)
-      * Body \(*BlockSyntax*\)
-      * ExpressionBody \(*ArrowExpressionClauseSyntax*\)
-      * SemicolonToken \(*SyntaxToken*\)
-      * SyntaxKinds:
-        * SyntaxKind\.AddAccessorDeclaration
-        * SyntaxKind\.GetAccessorDeclaration
-        * SyntaxKind\.RemoveAccessorDeclaration
-        * SyntaxKind\.SetAccessorDeclaration
-        * SyntaxKind\.UnknownAccessorDeclaration
-
-    * **AccessorListSyntax**
-      * OpenBraceToken \(*SyntaxToken*\)
-      * Accessors \(*SyntaxList\<AccessorDeclarationSyntax>*\)
-      * CloseBraceToken \(*SyntaxToken*\)
-    * **AnonymousObjectMemberDeclaratorSyntax**
-      * NameEquals \(*NameEqualsSyntax*\)
-      * Expression \(*ExpressionSyntax*\)
-    * **ArgumentSyntax**
-      * NameColon \(*NameColonSyntax*\)
-      * RefOrOutKeyword \(*SyntaxToken*\)
-      * Expression \(*ExpressionSyntax*\)
-    * **ArrayRankSpecifierSyntax**
-      * Rank \(*int*\)
-      * OpenBracketToken \(*SyntaxToken*\)
-      * Sizes \(*SeparatedSyntaxList\<ExpressionSyntax>*\)
-      * CloseBracketToken \(*SyntaxToken*\)
-    * **ArrowExpressionClauseSyntax**
-      * ArrowToken \(*SyntaxToken*\)
-      * Expression \(*ExpressionSyntax*\)
-    * **AttributeArgumentListSyntax**
-      * OpenParenToken \(*SyntaxToken*\)
-      * Arguments \(*SeparatedSyntaxList\<AttributeArgumentSyntax>*\)
-      * CloseParenToken \(*SyntaxToken*\)
-    * **AttributeArgumentSyntax**
-      * NameEquals \(*NameEqualsSyntax*\)
-      * NameColon \(*NameColonSyntax*\)
-      * Expression \(*ExpressionSyntax*\)
-    * **AttributeListSyntax**
-      * OpenBracketToken \(*SyntaxToken*\)
-      * Target \(*AttributeTargetSpecifierSyntax*\)
-      * Attributes \(*SeparatedSyntaxList\<AttributeSyntax>*\)
-      * CloseBracketToken \(*SyntaxToken*\)
-    * **AttributeSyntax**
-      * Name \(*NameSyntax*\)
-      * ArgumentList \(*AttributeArgumentListSyntax*\)
-    * **AttributeTargetSpecifierSyntax**
-      * Identifier \(*SyntaxToken*\)
-      * ColonToken \(*SyntaxToken*\)
-    * **BaseArgumentListSyntax**
-      * Arguments \(*SeparatedSyntaxList\<ArgumentSyntax>*\)
-      * **ArgumentListSyntax**
-        * OpenParenToken \(*SyntaxToken*\)
-        * Arguments \(*SeparatedSyntaxList\<ArgumentSyntax>*\)
-        * CloseParenToken \(*SyntaxToken*\)
-      * **BracketedArgumentListSyntax**
-        * OpenBracketToken \(*SyntaxToken*\)
-        * Arguments \(*SeparatedSyntaxList\<ArgumentSyntax>*\)
-        * CloseBracketToken \(*SyntaxToken*\)
-    * **BaseCrefParameterListSyntax**
-      * Parameters \(*SeparatedSyntaxList\<CrefParameterSyntax>*\)
-      * **CrefBracketedParameterListSyntax**
-        * OpenBracketToken \(*SyntaxToken*\)
-        * Parameters \(*SeparatedSyntaxList\<CrefParameterSyntax>*\)
-        * CloseBracketToken \(*SyntaxToken*\)
-      * **CrefParameterListSyntax**
-        * OpenParenToken \(*SyntaxToken*\)
-        * Parameters \(*SeparatedSyntaxList\<CrefParameterSyntax>*\)
-        * CloseParenToken \(*SyntaxToken*\)
-    * **BaseListSyntax**
-      * ColonToken \(*SyntaxToken*\)
-      * Types \(*SeparatedSyntaxList\<BaseTypeSyntax>*\)
-    * **BaseParameterListSyntax**
-      * Parameters \(*SeparatedSyntaxList\<ParameterSyntax>*\)
-      * **BracketedParameterListSyntax**
-        * OpenBracketToken \(*SyntaxToken*\)
-        * Parameters \(*SeparatedSyntaxList\<ParameterSyntax>*\)
-        * CloseBracketToken \(*SyntaxToken*\)
-      * **ParameterListSyntax**
-        * OpenParenToken \(*SyntaxToken*\)
-        * Parameters \(*SeparatedSyntaxList\<ParameterSyntax>*\)
-        * CloseParenToken \(*SyntaxToken*\)
-    * **BaseTypeSyntax**
-      * Type \(*TypeSyntax*\)
-      * **SimpleBaseTypeSyntax**
-        * Type \(*TypeSyntax*\)
-    * **CatchClauseSyntax**
-      * CatchKeyword \(*SyntaxToken*\)
-      * Declaration \(*CatchDeclarationSyntax*\)
-      * Filter \(*CatchFilterClauseSyntax*\)
-      * Block \(*BlockSyntax*\)
-    * **CatchDeclarationSyntax**
-      * OpenParenToken \(*SyntaxToken*\)
-      * Type \(*TypeSyntax*\)
-      * Identifier \(*SyntaxToken*\)
-      * CloseParenToken \(*SyntaxToken*\)
-    * **CatchFilterClauseSyntax**
-      * WhenKeyword \(*SyntaxToken*\)
-      * OpenParenToken \(*SyntaxToken*\)
-      * FilterExpression \(*ExpressionSyntax*\)
-      * CloseParenToken \(*SyntaxToken*\)
-    * **CompilationUnitSyntax**
-      * Externs \(*SyntaxList\<ExternAliasDirectiveSyntax>*\)
-      * Usings \(*SyntaxList\<UsingDirectiveSyntax>*\)
-      * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-      * Members \(*SyntaxList\<MemberDeclarationSyntax>*\)
-      * EndOfFileToken \(*SyntaxToken*\)
-    * **ConstructorInitializerSyntax**
-      * ColonToken \(*SyntaxToken*\)
-      * ThisOrBaseKeyword \(*SyntaxToken*\)
-      * ArgumentList \(*ArgumentListSyntax*\)
-      * SyntaxKinds:
-        * SyntaxKind\.BaseConstructorInitializer
-        * SyntaxKind\.ThisConstructorInitializer
-
-    * **CrefParameterSyntax**
-      * RefOrOutKeyword \(*SyntaxToken*\)
-      * Type \(*TypeSyntax*\)
-    * **CrefSyntax**
-      * **MemberCrefSyntax**
-        * **ConversionOperatorMemberCrefSyntax**
-          * ImplicitOrExplicitKeyword \(*SyntaxToken*\)
-          * OperatorKeyword \(*SyntaxToken*\)
-          * Type \(*TypeSyntax*\)
-          * Parameters \(*CrefParameterListSyntax*\)
-        * **IndexerMemberCrefSyntax**
-          * ThisKeyword \(*SyntaxToken*\)
-          * Parameters \(*CrefBracketedParameterListSyntax*\)
-        * **NameMemberCrefSyntax**
-          * Name \(*TypeSyntax*\)
-          * Parameters \(*CrefParameterListSyntax*\)
-        * **OperatorMemberCrefSyntax**
-          * OperatorKeyword \(*SyntaxToken*\)
-          * OperatorToken \(*SyntaxToken*\)
-          * Parameters \(*CrefParameterListSyntax*\)
-      * **QualifiedCrefSyntax**
-        * Container \(*TypeSyntax*\)
-        * DotToken \(*SyntaxToken*\)
-        * Member \(*MemberCrefSyntax*\)
-      * **TypeCrefSyntax**
-        * Type \(*TypeSyntax*\)
-    * **ElseClauseSyntax**
-      * ElseKeyword \(*SyntaxToken*\)
-      * Statement \(*StatementSyntax*\)
-    * **EqualsValueClauseSyntax**
-      * EqualsToken \(*SyntaxToken*\)
-      * Value \(*ExpressionSyntax*\)
-    * **ExplicitInterfaceSpecifierSyntax**
-      * Name \(*NameSyntax*\)
-      * DotToken \(*SyntaxToken*\)
-    * **ExpressionSyntax**
-      * **AnonymousFunctionExpressionSyntax**
-        * AsyncKeyword \(*SyntaxToken*\)
-        * Body \(*CSharpSyntaxNode*\)
-        * **AnonymousMethodExpressionSyntax**
-          * Block \(*BlockSyntax*\)
-          * AsyncKeyword \(*SyntaxToken*\)
-          * DelegateKeyword \(*SyntaxToken*\)
-          * ParameterList \(*ParameterListSyntax*\)
-          * Body \(*CSharpSyntaxNode*\)
-        * **LambdaExpressionSyntax**
-          * ArrowToken \(*SyntaxToken*\)
-          * **ParenthesizedLambdaExpressionSyntax**
-            * AsyncKeyword \(*SyntaxToken*\)
-            * ParameterList \(*ParameterListSyntax*\)
-            * ArrowToken \(*SyntaxToken*\)
-            * Body \(*CSharpSyntaxNode*\)
-          * **SimpleLambdaExpressionSyntax**
-            * AsyncKeyword \(*SyntaxToken*\)
-            * Parameter \(*ParameterSyntax*\)
-            * ArrowToken \(*SyntaxToken*\)
-            * Body \(*CSharpSyntaxNode*\)
-      * **AnonymousObjectCreationExpressionSyntax**
-        * NewKeyword \(*SyntaxToken*\)
-        * OpenBraceToken \(*SyntaxToken*\)
-        * Initializers \(*SeparatedSyntaxList\<AnonymousObjectMemberDeclaratorSyntax>*\)
-        * CloseBraceToken \(*SyntaxToken*\)
-      * **ArrayCreationExpressionSyntax**
-        * NewKeyword \(*SyntaxToken*\)
-        * Type \(*ArrayTypeSyntax*\)
-        * Initializer \(*InitializerExpressionSyntax*\)
-      * **AssignmentExpressionSyntax**
-        * Left \(*ExpressionSyntax*\)
-        * OperatorToken \(*SyntaxToken*\)
-        * Right \(*ExpressionSyntax*\)
-        * SyntaxKinds:
-          * SyntaxKind\.AddAssignmentExpression
-          * SyntaxKind\.AndAssignmentExpression
-          * SyntaxKind\.DivideAssignmentExpression
-          * SyntaxKind\.ExclusiveOrAssignmentExpression
-          * SyntaxKind\.LeftShiftAssignmentExpression
-          * SyntaxKind\.ModuloAssignmentExpression
-          * SyntaxKind\.MultiplyAssignmentExpression
-          * SyntaxKind\.OrAssignmentExpression
-          * SyntaxKind\.RightShiftAssignmentExpression
-          * SyntaxKind\.SimpleAssignmentExpression
-          * SyntaxKind\.SubtractAssignmentExpression
-
-      * **AwaitExpressionSyntax**
-        * AwaitKeyword \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-      * **BinaryExpressionSyntax**
-        * Left \(*ExpressionSyntax*\)
-        * OperatorToken \(*SyntaxToken*\)
-        * Right \(*ExpressionSyntax*\)
-        * SyntaxKinds:
-          * SyntaxKind\.AddExpression
-          * SyntaxKind\.AsExpression
-          * SyntaxKind\.BitwiseAndExpression
-          * SyntaxKind\.BitwiseOrExpression
-          * SyntaxKind\.CoalesceExpression
-          * SyntaxKind\.DivideExpression
-          * SyntaxKind\.EqualsExpression
-          * SyntaxKind\.ExclusiveOrExpression
-          * SyntaxKind\.GreaterThanExpression
-          * SyntaxKind\.GreaterThanOrEqualExpression
-          * SyntaxKind\.IsExpression
-          * SyntaxKind\.LeftShiftExpression
-          * SyntaxKind\.LessThanExpression
-          * SyntaxKind\.LessThanOrEqualExpression
-          * SyntaxKind\.LogicalAndExpression
-          * SyntaxKind\.LogicalOrExpression
-          * SyntaxKind\.ModuloExpression
-          * SyntaxKind\.MultiplyExpression
-          * SyntaxKind\.NotEqualsExpression
-          * SyntaxKind\.RightShiftExpression
-          * SyntaxKind\.SubtractExpression
-
-      * **CastExpressionSyntax**
-        * OpenParenToken \(*SyntaxToken*\)
-        * Type \(*TypeSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-      * **ConditionalAccessExpressionSyntax**
-        * Expression \(*ExpressionSyntax*\)
-        * OperatorToken \(*SyntaxToken*\)
-        * WhenNotNull \(*ExpressionSyntax*\)
-      * **ConditionalExpressionSyntax**
-        * Condition \(*ExpressionSyntax*\)
-        * QuestionToken \(*SyntaxToken*\)
-        * WhenTrue \(*ExpressionSyntax*\)
-        * ColonToken \(*SyntaxToken*\)
-        * WhenFalse \(*ExpressionSyntax*\)
-      * **DeclarationExpressionSyntax**
-        * Type \(*TypeSyntax*\)
-        * Designation \(*VariableDesignationSyntax*\)
-      * **DefaultExpressionSyntax**
-        * Keyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * Type \(*TypeSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-      * **ElementAccessExpressionSyntax**
-        * Expression \(*ExpressionSyntax*\)
-        * ArgumentList \(*BracketedArgumentListSyntax*\)
-      * **ElementBindingExpressionSyntax**
-        * ArgumentList \(*BracketedArgumentListSyntax*\)
-      * **CheckedExpressionSyntax**
-        * Keyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-        * SyntaxKinds:
-          * SyntaxKind\.CheckedExpression
-          * SyntaxKind\.UncheckedExpression
-
-      * **ImplicitArrayCreationExpressionSyntax**
-        * NewKeyword \(*SyntaxToken*\)
-        * OpenBracketToken \(*SyntaxToken*\)
-        * Commas \(*SyntaxTokenList*\)
-        * CloseBracketToken \(*SyntaxToken*\)
-        * Initializer \(*InitializerExpressionSyntax*\)
-      * **ImplicitElementAccessSyntax**
-        * ArgumentList \(*BracketedArgumentListSyntax*\)
-      * **InitializerExpressionSyntax**
-        * OpenBraceToken \(*SyntaxToken*\)
-        * Expressions \(*SeparatedSyntaxList\<ExpressionSyntax>*\)
-        * CloseBraceToken \(*SyntaxToken*\)
-        * SyntaxKinds:
-          * SyntaxKind\.ArrayInitializerExpression
-          * SyntaxKind\.CollectionInitializerExpression
-          * SyntaxKind\.ComplexElementInitializerExpression
-          * SyntaxKind\.ObjectInitializerExpression
-
-      * **InstanceExpressionSyntax**
-        * **BaseExpressionSyntax**
-          * Token \(*SyntaxToken*\)
-        * **ThisExpressionSyntax**
-          * Token \(*SyntaxToken*\)
-      * **InterpolatedStringExpressionSyntax**
-        * StringStartToken \(*SyntaxToken*\)
-        * Contents \(*SyntaxList\<InterpolatedStringContentSyntax>*\)
-        * StringEndToken \(*SyntaxToken*\)
-      * **InvocationExpressionSyntax**
-        * Expression \(*ExpressionSyntax*\)
-        * ArgumentList \(*ArgumentListSyntax*\)
-      * **IsPatternExpressionSyntax**
-        * Expression \(*ExpressionSyntax*\)
-        * IsKeyword \(*SyntaxToken*\)
-        * Pattern \(*PatternSyntax*\)
-      * **LiteralExpressionSyntax**
-        * Token \(*SyntaxToken*\)
-        * SyntaxKinds:
-          * SyntaxKind\.ArgListExpression
-          * SyntaxKind\.DefaultLiteralExpression
-          * SyntaxKind\.FalseLiteralExpression
-          * SyntaxKind\.CharacterLiteralExpression
-          * SyntaxKind\.NullLiteralExpression
-          * SyntaxKind\.NumericLiteralExpression
-          * SyntaxKind\.StringLiteralExpression
-          * SyntaxKind\.TrueLiteralExpression
-
-      * **MakeRefExpressionSyntax**
-        * Keyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-      * **MemberAccessExpressionSyntax**
-        * Expression \(*ExpressionSyntax*\)
-        * OperatorToken \(*SyntaxToken*\)
-        * Name \(*SimpleNameSyntax*\)
-        * SyntaxKinds:
-          * SyntaxKind\.PointerMemberAccessExpression
-          * SyntaxKind\.SimpleMemberAccessExpression
-
-      * **MemberBindingExpressionSyntax**
-        * OperatorToken \(*SyntaxToken*\)
-        * Name \(*SimpleNameSyntax*\)
-      * **ObjectCreationExpressionSyntax**
-        * NewKeyword \(*SyntaxToken*\)
-        * Type \(*TypeSyntax*\)
-        * ArgumentList \(*ArgumentListSyntax*\)
-        * Initializer \(*InitializerExpressionSyntax*\)
-      * **OmittedArraySizeExpressionSyntax**
-        * OmittedArraySizeExpressionToken \(*SyntaxToken*\)
-      * **ParenthesizedExpressionSyntax**
-        * OpenParenToken \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-      * **PostfixUnaryExpressionSyntax**
-        * Operand \(*ExpressionSyntax*\)
-        * OperatorToken \(*SyntaxToken*\)
-        * SyntaxKinds:
-          * SyntaxKind\.PostDecrementExpression
-          * SyntaxKind\.PostIncrementExpression
-
-      * **PrefixUnaryExpressionSyntax**
-        * OperatorToken \(*SyntaxToken*\)
-        * Operand \(*ExpressionSyntax*\)
-        * SyntaxKinds:
-          * SyntaxKind\.AddressOfExpression
-          * SyntaxKind\.BitwiseNotExpression
-          * SyntaxKind\.LogicalNotExpression
-          * SyntaxKind\.PointerIndirectionExpression
-          * SyntaxKind\.PreDecrementExpression
-          * SyntaxKind\.PreIncrementExpression
-          * SyntaxKind\.UnaryMinusExpression
-          * SyntaxKind\.UnaryPlusExpression
-
-      * **QueryExpressionSyntax**
-        * FromClause \(*FromClauseSyntax*\)
-        * Body \(*QueryBodySyntax*\)
-      * **RefExpressionSyntax**
-        * RefKeyword \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-      * **RefTypeExpressionSyntax**
-        * Keyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-      * **RefValueExpressionSyntax**
-        * Keyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-        * Comma \(*SyntaxToken*\)
-        * Type \(*TypeSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-      * **SizeOfExpressionSyntax**
-        * Keyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * Type \(*TypeSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-      * **StackAllocArrayCreationExpressionSyntax**
-        * StackAllocKeyword \(*SyntaxToken*\)
-        * Type \(*TypeSyntax*\)
-      * **ThrowExpressionSyntax**
-        * ThrowKeyword \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-      * **TupleExpressionSyntax**
-        * OpenParenToken \(*SyntaxToken*\)
-        * Arguments \(*SeparatedSyntaxList\<ArgumentSyntax>*\)
-        * CloseParenToken \(*SyntaxToken*\)
-      * **TypeOfExpressionSyntax**
-        * Keyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * Type \(*TypeSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-      * **TypeSyntax**
-        * IsVar \(*bool*\)
-        * **ArrayTypeSyntax**
-          * ElementType \(*TypeSyntax*\)
-          * RankSpecifiers \(*SyntaxList\<ArrayRankSpecifierSyntax>*\)
-        * **NameSyntax**
-          * Arity \(*int*\)
-          * **AliasQualifiedNameSyntax**
-            * Alias \(*IdentifierNameSyntax*\)
-            * ColonColonToken \(*SyntaxToken*\)
-            * Name \(*SimpleNameSyntax*\)
-          * **QualifiedNameSyntax**
-            * Left \(*NameSyntax*\)
-            * DotToken \(*SyntaxToken*\)
-            * Right \(*SimpleNameSyntax*\)
-          * **SimpleNameSyntax**
-            * Identifier \(*SyntaxToken*\)
-            * **GenericNameSyntax**
-              * IsUnboundGenericName \(*bool*\)
-              * Identifier \(*SyntaxToken*\)
-              * TypeArgumentList \(*TypeArgumentListSyntax*\)
-            * **IdentifierNameSyntax**
-              * Identifier \(*SyntaxToken*\)
-        * **NullableTypeSyntax**
-          * ElementType \(*TypeSyntax*\)
-          * QuestionToken \(*SyntaxToken*\)
-        * **OmittedTypeArgumentSyntax**
-          * OmittedTypeArgumentToken \(*SyntaxToken*\)
-        * **PointerTypeSyntax**
-          * ElementType \(*TypeSyntax*\)
-          * AsteriskToken \(*SyntaxToken*\)
-        * **PredefinedTypeSyntax**
-          * Keyword \(*SyntaxToken*\)
-        * **RefTypeSyntax**
-          * RefKeyword \(*SyntaxToken*\)
-          * Type \(*TypeSyntax*\)
-        * **TupleTypeSyntax**
-          * OpenParenToken \(*SyntaxToken*\)
-          * Elements \(*SeparatedSyntaxList\<TupleElementSyntax>*\)
-          * CloseParenToken \(*SyntaxToken*\)
-    * **ExternAliasDirectiveSyntax**
-      * ExternKeyword \(*SyntaxToken*\)
-      * AliasKeyword \(*SyntaxToken*\)
-      * Identifier \(*SyntaxToken*\)
-      * SemicolonToken \(*SyntaxToken*\)
-    * **FinallyClauseSyntax**
-      * FinallyKeyword \(*SyntaxToken*\)
-      * Block \(*BlockSyntax*\)
-    * **InterpolatedStringContentSyntax**
-      * **InterpolatedStringTextSyntax**
-        * TextToken \(*SyntaxToken*\)
-      * **InterpolationSyntax**
-        * OpenBraceToken \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-        * AlignmentClause \(*InterpolationAlignmentClauseSyntax*\)
-        * FormatClause \(*InterpolationFormatClauseSyntax*\)
-        * CloseBraceToken \(*SyntaxToken*\)
-    * **InterpolationAlignmentClauseSyntax**
-      * CommaToken \(*SyntaxToken*\)
-      * Value \(*ExpressionSyntax*\)
-    * **InterpolationFormatClauseSyntax**
-      * ColonToken \(*SyntaxToken*\)
-      * FormatStringToken \(*SyntaxToken*\)
-    * **JoinIntoClauseSyntax**
-      * IntoKeyword \(*SyntaxToken*\)
-      * Identifier \(*SyntaxToken*\)
-    * **MemberDeclarationSyntax**
-      * **BaseFieldDeclarationSyntax**
-        * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-        * Modifiers \(*SyntaxTokenList*\)
-        * Declaration \(*VariableDeclarationSyntax*\)
-        * SemicolonToken \(*SyntaxToken*\)
-        * **EventFieldDeclarationSyntax**
-          * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-          * Modifiers \(*SyntaxTokenList*\)
-          * EventKeyword \(*SyntaxToken*\)
-          * Declaration \(*VariableDeclarationSyntax*\)
-          * SemicolonToken \(*SyntaxToken*\)
-        * **FieldDeclarationSyntax**
-          * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-          * Modifiers \(*SyntaxTokenList*\)
-          * Declaration \(*VariableDeclarationSyntax*\)
-          * SemicolonToken \(*SyntaxToken*\)
-      * **BaseMethodDeclarationSyntax**
-        * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-        * Modifiers \(*SyntaxTokenList*\)
-        * ParameterList \(*ParameterListSyntax*\)
-        * Body \(*BlockSyntax*\)
-        * ExpressionBody \(*ArrowExpressionClauseSyntax*\)
-        * SemicolonToken \(*SyntaxToken*\)
-        * **ConstructorDeclarationSyntax**
-          * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-          * Modifiers \(*SyntaxTokenList*\)
-          * Identifier \(*SyntaxToken*\)
-          * ParameterList \(*ParameterListSyntax*\)
-          * Initializer \(*ConstructorInitializerSyntax*\)
-          * Body \(*BlockSyntax*\)
-          * ExpressionBody \(*ArrowExpressionClauseSyntax*\)
-          * SemicolonToken \(*SyntaxToken*\)
-        * **ConversionOperatorDeclarationSyntax**
-          * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-          * Modifiers \(*SyntaxTokenList*\)
-          * ImplicitOrExplicitKeyword \(*SyntaxToken*\)
-          * OperatorKeyword \(*SyntaxToken*\)
-          * Type \(*TypeSyntax*\)
-          * ParameterList \(*ParameterListSyntax*\)
-          * Body \(*BlockSyntax*\)
-          * ExpressionBody \(*ArrowExpressionClauseSyntax*\)
-          * SemicolonToken \(*SyntaxToken*\)
-        * **DestructorDeclarationSyntax**
-          * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-          * Modifiers \(*SyntaxTokenList*\)
-          * TildeToken \(*SyntaxToken*\)
-          * Identifier \(*SyntaxToken*\)
-          * ParameterList \(*ParameterListSyntax*\)
-          * Body \(*BlockSyntax*\)
-          * ExpressionBody \(*ArrowExpressionClauseSyntax*\)
-          * SemicolonToken \(*SyntaxToken*\)
-        * **MethodDeclarationSyntax**
-          * Arity \(*int*\)
-          * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-          * Modifiers \(*SyntaxTokenList*\)
-          * ReturnType \(*TypeSyntax*\)
-          * ExplicitInterfaceSpecifier \(*ExplicitInterfaceSpecifierSyntax*\)
-          * Identifier \(*SyntaxToken*\)
-          * TypeParameterList \(*TypeParameterListSyntax*\)
-          * ParameterList \(*ParameterListSyntax*\)
-          * ConstraintClauses \(*SyntaxList\<TypeParameterConstraintClauseSyntax>*\)
-          * Body \(*BlockSyntax*\)
-          * ExpressionBody \(*ArrowExpressionClauseSyntax*\)
-          * SemicolonToken \(*SyntaxToken*\)
-        * **OperatorDeclarationSyntax**
-          * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-          * Modifiers \(*SyntaxTokenList*\)
-          * ReturnType \(*TypeSyntax*\)
-          * OperatorKeyword \(*SyntaxToken*\)
-          * OperatorToken \(*SyntaxToken*\)
-          * ParameterList \(*ParameterListSyntax*\)
-          * Body \(*BlockSyntax*\)
-          * ExpressionBody \(*ArrowExpressionClauseSyntax*\)
-          * SemicolonToken \(*SyntaxToken*\)
-      * **BasePropertyDeclarationSyntax**
-        * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-        * Modifiers \(*SyntaxTokenList*\)
-        * Type \(*TypeSyntax*\)
-        * ExplicitInterfaceSpecifier \(*ExplicitInterfaceSpecifierSyntax*\)
-        * AccessorList \(*AccessorListSyntax*\)
-        * **EventDeclarationSyntax**
-          * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-          * Modifiers \(*SyntaxTokenList*\)
-          * EventKeyword \(*SyntaxToken*\)
-          * Type \(*TypeSyntax*\)
-          * ExplicitInterfaceSpecifier \(*ExplicitInterfaceSpecifierSyntax*\)
-          * Identifier \(*SyntaxToken*\)
-          * AccessorList \(*AccessorListSyntax*\)
-        * **IndexerDeclarationSyntax**
-          * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-          * Modifiers \(*SyntaxTokenList*\)
-          * Type \(*TypeSyntax*\)
-          * ExplicitInterfaceSpecifier \(*ExplicitInterfaceSpecifierSyntax*\)
-          * ThisKeyword \(*SyntaxToken*\)
-          * ParameterList \(*BracketedParameterListSyntax*\)
-          * AccessorList \(*AccessorListSyntax*\)
-          * ExpressionBody \(*ArrowExpressionClauseSyntax*\)
-          * SemicolonToken \(*SyntaxToken*\)
-        * **PropertyDeclarationSyntax**
-          * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-          * Modifiers \(*SyntaxTokenList*\)
-          * Type \(*TypeSyntax*\)
-          * ExplicitInterfaceSpecifier \(*ExplicitInterfaceSpecifierSyntax*\)
-          * Identifier \(*SyntaxToken*\)
-          * AccessorList \(*AccessorListSyntax*\)
-          * ExpressionBody \(*ArrowExpressionClauseSyntax*\)
-          * Initializer \(*EqualsValueClauseSyntax*\)
-          * SemicolonToken \(*SyntaxToken*\)
-      * **BaseTypeDeclarationSyntax**
-        * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-        * Modifiers \(*SyntaxTokenList*\)
-        * Identifier \(*SyntaxToken*\)
-        * BaseList \(*BaseListSyntax*\)
-        * OpenBraceToken \(*SyntaxToken*\)
-        * CloseBraceToken \(*SyntaxToken*\)
-        * SemicolonToken \(*SyntaxToken*\)
-        * **EnumDeclarationSyntax**
-          * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-          * Modifiers \(*SyntaxTokenList*\)
-          * EnumKeyword \(*SyntaxToken*\)
-          * Identifier \(*SyntaxToken*\)
-          * BaseList \(*BaseListSyntax*\)
-          * OpenBraceToken \(*SyntaxToken*\)
-          * Members \(*SeparatedSyntaxList\<EnumMemberDeclarationSyntax>*\)
-          * CloseBraceToken \(*SyntaxToken*\)
-          * SemicolonToken \(*SyntaxToken*\)
-        * **TypeDeclarationSyntax**
-          * Arity \(*int*\)
-          * Keyword \(*SyntaxToken*\)
-          * TypeParameterList \(*TypeParameterListSyntax*\)
-          * ConstraintClauses \(*SyntaxList\<TypeParameterConstraintClauseSyntax>*\)
-          * Members \(*SyntaxList\<MemberDeclarationSyntax>*\)
-          * **ClassDeclarationSyntax**
-            * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-            * Modifiers \(*SyntaxTokenList*\)
-            * Keyword \(*SyntaxToken*\)
-            * Identifier \(*SyntaxToken*\)
-            * TypeParameterList \(*TypeParameterListSyntax*\)
-            * BaseList \(*BaseListSyntax*\)
-            * ConstraintClauses \(*SyntaxList\<TypeParameterConstraintClauseSyntax>*\)
-            * OpenBraceToken \(*SyntaxToken*\)
-            * Members \(*SyntaxList\<MemberDeclarationSyntax>*\)
-            * CloseBraceToken \(*SyntaxToken*\)
-            * SemicolonToken \(*SyntaxToken*\)
-          * **InterfaceDeclarationSyntax**
-            * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-            * Modifiers \(*SyntaxTokenList*\)
-            * Keyword \(*SyntaxToken*\)
-            * Identifier \(*SyntaxToken*\)
-            * TypeParameterList \(*TypeParameterListSyntax*\)
-            * BaseList \(*BaseListSyntax*\)
-            * ConstraintClauses \(*SyntaxList\<TypeParameterConstraintClauseSyntax>*\)
-            * OpenBraceToken \(*SyntaxToken*\)
-            * Members \(*SyntaxList\<MemberDeclarationSyntax>*\)
-            * CloseBraceToken \(*SyntaxToken*\)
-            * SemicolonToken \(*SyntaxToken*\)
-          * **StructDeclarationSyntax**
-            * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-            * Modifiers \(*SyntaxTokenList*\)
-            * Keyword \(*SyntaxToken*\)
-            * Identifier \(*SyntaxToken*\)
-            * TypeParameterList \(*TypeParameterListSyntax*\)
-            * BaseList \(*BaseListSyntax*\)
-            * ConstraintClauses \(*SyntaxList\<TypeParameterConstraintClauseSyntax>*\)
-            * OpenBraceToken \(*SyntaxToken*\)
-            * Members \(*SyntaxList\<MemberDeclarationSyntax>*\)
-            * CloseBraceToken \(*SyntaxToken*\)
-            * SemicolonToken \(*SyntaxToken*\)
-      * **DelegateDeclarationSyntax**
-        * Arity \(*int*\)
-        * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-        * Modifiers \(*SyntaxTokenList*\)
-        * DelegateKeyword \(*SyntaxToken*\)
-        * ReturnType \(*TypeSyntax*\)
-        * Identifier \(*SyntaxToken*\)
-        * TypeParameterList \(*TypeParameterListSyntax*\)
-        * ParameterList \(*ParameterListSyntax*\)
-        * ConstraintClauses \(*SyntaxList\<TypeParameterConstraintClauseSyntax>*\)
-        * SemicolonToken \(*SyntaxToken*\)
-      * **EnumMemberDeclarationSyntax**
-        * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-        * Identifier \(*SyntaxToken*\)
-        * EqualsValue \(*EqualsValueClauseSyntax*\)
-      * **GlobalStatementSyntax**
-        * Statement \(*StatementSyntax*\)
-      * **IncompleteMemberSyntax**
-        * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-        * Modifiers \(*SyntaxTokenList*\)
-        * Type \(*TypeSyntax*\)
-      * **NamespaceDeclarationSyntax**
-        * NamespaceKeyword \(*SyntaxToken*\)
-        * Name \(*NameSyntax*\)
-        * OpenBraceToken \(*SyntaxToken*\)
-        * Externs \(*SyntaxList\<ExternAliasDirectiveSyntax>*\)
-        * Usings \(*SyntaxList\<UsingDirectiveSyntax>*\)
-        * Members \(*SyntaxList\<MemberDeclarationSyntax>*\)
-        * CloseBraceToken \(*SyntaxToken*\)
-        * SemicolonToken \(*SyntaxToken*\)
-    * **NameColonSyntax**
-      * Name \(*IdentifierNameSyntax*\)
-      * ColonToken \(*SyntaxToken*\)
-    * **NameEqualsSyntax**
-      * Name \(*IdentifierNameSyntax*\)
-      * EqualsToken \(*SyntaxToken*\)
-    * **OrderingSyntax**
-      * Expression \(*ExpressionSyntax*\)
-      * AscendingOrDescendingKeyword \(*SyntaxToken*\)
-      * SyntaxKinds:
-        * SyntaxKind\.AscendingOrdering
-        * SyntaxKind\.DescendingOrdering
-
-    * **ParameterSyntax**
-      * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-      * Modifiers \(*SyntaxTokenList*\)
-      * Type \(*TypeSyntax*\)
-      * Identifier \(*SyntaxToken*\)
-      * Default \(*EqualsValueClauseSyntax*\)
-    * **PatternSyntax**
-      * **ConstantPatternSyntax**
-        * Expression \(*ExpressionSyntax*\)
-      * **DeclarationPatternSyntax**
-        * Type \(*TypeSyntax*\)
-        * Designation \(*VariableDesignationSyntax*\)
-    * **QueryBodySyntax**
-      * Clauses \(*SyntaxList\<QueryClauseSyntax>*\)
-      * SelectOrGroup \(*SelectOrGroupClauseSyntax*\)
-      * Continuation \(*QueryContinuationSyntax*\)
-    * **QueryClauseSyntax**
-      * **FromClauseSyntax**
-        * FromKeyword \(*SyntaxToken*\)
-        * Type \(*TypeSyntax*\)
-        * Identifier \(*SyntaxToken*\)
-        * InKeyword \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-      * **JoinClauseSyntax**
-        * JoinKeyword \(*SyntaxToken*\)
-        * Type \(*TypeSyntax*\)
-        * Identifier \(*SyntaxToken*\)
-        * InKeyword \(*SyntaxToken*\)
-        * InExpression \(*ExpressionSyntax*\)
-        * OnKeyword \(*SyntaxToken*\)
-        * LeftExpression \(*ExpressionSyntax*\)
-        * EqualsKeyword \(*SyntaxToken*\)
-        * RightExpression \(*ExpressionSyntax*\)
-        * Into \(*JoinIntoClauseSyntax*\)
-      * **LetClauseSyntax**
-        * LetKeyword \(*SyntaxToken*\)
-        * Identifier \(*SyntaxToken*\)
-        * EqualsToken \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-      * **OrderByClauseSyntax**
-        * OrderByKeyword \(*SyntaxToken*\)
-        * Orderings \(*SeparatedSyntaxList\<OrderingSyntax>*\)
-      * **WhereClauseSyntax**
-        * WhereKeyword \(*SyntaxToken*\)
-        * Condition \(*ExpressionSyntax*\)
-    * **QueryContinuationSyntax**
-      * IntoKeyword \(*SyntaxToken*\)
-      * Identifier \(*SyntaxToken*\)
-      * Body \(*QueryBodySyntax*\)
-    * **SelectOrGroupClauseSyntax**
-      * **GroupClauseSyntax**
-        * GroupKeyword \(*SyntaxToken*\)
-        * GroupExpression \(*ExpressionSyntax*\)
-        * ByKeyword \(*SyntaxToken*\)
-        * ByExpression \(*ExpressionSyntax*\)
-      * **SelectClauseSyntax**
-        * SelectKeyword \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-    * **StatementSyntax**
-      * **BlockSyntax**
-        * OpenBraceToken \(*SyntaxToken*\)
-        * Statements \(*SyntaxList\<StatementSyntax>*\)
-        * CloseBraceToken \(*SyntaxToken*\)
-      * **BreakStatementSyntax**
-        * BreakKeyword \(*SyntaxToken*\)
-        * SemicolonToken \(*SyntaxToken*\)
-      * **CommonForEachStatementSyntax**
-        * ForEachKeyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * InKeyword \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-        * Statement \(*StatementSyntax*\)
-        * **ForEachStatementSyntax**
-          * ForEachKeyword \(*SyntaxToken*\)
-          * OpenParenToken \(*SyntaxToken*\)
-          * Type \(*TypeSyntax*\)
-          * Identifier \(*SyntaxToken*\)
-          * InKeyword \(*SyntaxToken*\)
-          * Expression \(*ExpressionSyntax*\)
-          * CloseParenToken \(*SyntaxToken*\)
-          * Statement \(*StatementSyntax*\)
-        * **ForEachVariableStatementSyntax**
-          * ForEachKeyword \(*SyntaxToken*\)
-          * OpenParenToken \(*SyntaxToken*\)
-          * Variable \(*ExpressionSyntax*\)
-          * InKeyword \(*SyntaxToken*\)
-          * Expression \(*ExpressionSyntax*\)
-          * CloseParenToken \(*SyntaxToken*\)
-          * Statement \(*StatementSyntax*\)
-      * **ContinueStatementSyntax**
-        * ContinueKeyword \(*SyntaxToken*\)
-        * SemicolonToken \(*SyntaxToken*\)
-      * **DoStatementSyntax**
-        * DoKeyword \(*SyntaxToken*\)
-        * Statement \(*StatementSyntax*\)
-        * WhileKeyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * Condition \(*ExpressionSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-        * SemicolonToken \(*SyntaxToken*\)
-      * **EmptyStatementSyntax**
-        * SemicolonToken \(*SyntaxToken*\)
-      * **ExpressionStatementSyntax**
-        * AllowsAnyExpression \(*bool*\)
-        * Expression \(*ExpressionSyntax*\)
-        * SemicolonToken \(*SyntaxToken*\)
-      * **FixedStatementSyntax**
-        * FixedKeyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * Declaration \(*VariableDeclarationSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-        * Statement \(*StatementSyntax*\)
-      * **ForStatementSyntax**
-        * ForKeyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * Declaration \(*VariableDeclarationSyntax*\)
-        * Initializers \(*SeparatedSyntaxList\<ExpressionSyntax>*\)
-        * FirstSemicolonToken \(*SyntaxToken*\)
-        * Condition \(*ExpressionSyntax*\)
-        * SecondSemicolonToken \(*SyntaxToken*\)
-        * Incrementors \(*SeparatedSyntaxList\<ExpressionSyntax>*\)
-        * CloseParenToken \(*SyntaxToken*\)
-        * Statement \(*StatementSyntax*\)
-      * **GotoStatementSyntax**
-        * GotoKeyword \(*SyntaxToken*\)
-        * CaseOrDefaultKeyword \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-        * SemicolonToken \(*SyntaxToken*\)
-        * SyntaxKinds:
-          * SyntaxKind\.GotoCaseStatement
-          * SyntaxKind\.GotoDefaultStatement
-          * SyntaxKind\.GotoStatement
-
-      * **CheckedStatementSyntax**
-        * Keyword \(*SyntaxToken*\)
-        * Block \(*BlockSyntax*\)
-        * SyntaxKinds:
-          * SyntaxKind\.CheckedStatement
-          * SyntaxKind\.UncheckedStatement
-
-      * **IfStatementSyntax**
-        * IfKeyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * Condition \(*ExpressionSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-        * Statement \(*StatementSyntax*\)
-        * Else \(*ElseClauseSyntax*\)
-      * **LabeledStatementSyntax**
-        * Identifier \(*SyntaxToken*\)
-        * ColonToken \(*SyntaxToken*\)
-        * Statement \(*StatementSyntax*\)
-      * **LocalDeclarationStatementSyntax**
-        * IsConst \(*bool*\)
-        * Modifiers \(*SyntaxTokenList*\)
-        * Declaration \(*VariableDeclarationSyntax*\)
-        * SemicolonToken \(*SyntaxToken*\)
-      * **LocalFunctionStatementSyntax**
-        * Modifiers \(*SyntaxTokenList*\)
-        * ReturnType \(*TypeSyntax*\)
-        * Identifier \(*SyntaxToken*\)
-        * TypeParameterList \(*TypeParameterListSyntax*\)
-        * ParameterList \(*ParameterListSyntax*\)
-        * ConstraintClauses \(*SyntaxList\<TypeParameterConstraintClauseSyntax>*\)
-        * Body \(*BlockSyntax*\)
-        * ExpressionBody \(*ArrowExpressionClauseSyntax*\)
-        * SemicolonToken \(*SyntaxToken*\)
-      * **LockStatementSyntax**
-        * LockKeyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-        * Statement \(*StatementSyntax*\)
-      * **ReturnStatementSyntax**
-        * ReturnKeyword \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-        * SemicolonToken \(*SyntaxToken*\)
-      * **SwitchStatementSyntax**
-        * SwitchKeyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-        * OpenBraceToken \(*SyntaxToken*\)
-        * Sections \(*SyntaxList\<SwitchSectionSyntax>*\)
-        * CloseBraceToken \(*SyntaxToken*\)
-      * **ThrowStatementSyntax**
-        * ThrowKeyword \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-        * SemicolonToken \(*SyntaxToken*\)
-      * **TryStatementSyntax**
-        * TryKeyword \(*SyntaxToken*\)
-        * Block \(*BlockSyntax*\)
-        * Catches \(*SyntaxList\<CatchClauseSyntax>*\)
-        * Finally \(*FinallyClauseSyntax*\)
-      * **UnsafeStatementSyntax**
-        * UnsafeKeyword \(*SyntaxToken*\)
-        * Block \(*BlockSyntax*\)
-      * **UsingStatementSyntax**
-        * UsingKeyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * Declaration \(*VariableDeclarationSyntax*\)
-        * Expression \(*ExpressionSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-        * Statement \(*StatementSyntax*\)
-      * **WhileStatementSyntax**
-        * WhileKeyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * Condition \(*ExpressionSyntax*\)
-        * CloseParenToken \(*SyntaxToken*\)
-        * Statement \(*StatementSyntax*\)
-      * **YieldStatementSyntax**
-        * YieldKeyword \(*SyntaxToken*\)
-        * ReturnOrBreakKeyword \(*SyntaxToken*\)
-        * Expression \(*ExpressionSyntax*\)
-        * SemicolonToken \(*SyntaxToken*\)
-        * SyntaxKinds:
-          * SyntaxKind\.YieldBreakStatement
-          * SyntaxKind\.YieldReturnStatement
-
-    * **StructuredTriviaSyntax**
-      * ParentTrivia \(*SyntaxTrivia*\)
-      * **DirectiveTriviaSyntax**
-        * DirectiveNameToken \(*SyntaxToken*\)
-        * HashToken \(*SyntaxToken*\)
-        * EndOfDirectiveToken \(*SyntaxToken*\)
-        * IsActive \(*bool*\)
-        * **BadDirectiveTriviaSyntax**
-          * HashToken \(*SyntaxToken*\)
-          * Identifier \(*SyntaxToken*\)
-          * EndOfDirectiveToken \(*SyntaxToken*\)
-          * IsActive \(*bool*\)
-        * **BranchingDirectiveTriviaSyntax**
-          * BranchTaken \(*bool*\)
-          * **ConditionalDirectiveTriviaSyntax**
-            * Condition \(*ExpressionSyntax*\)
-            * ConditionValue \(*bool*\)
-            * **ElifDirectiveTriviaSyntax**
-              * HashToken \(*SyntaxToken*\)
-              * ElifKeyword \(*SyntaxToken*\)
-              * Condition \(*ExpressionSyntax*\)
-              * EndOfDirectiveToken \(*SyntaxToken*\)
-              * IsActive \(*bool*\)
-              * BranchTaken \(*bool*\)
-              * ConditionValue \(*bool*\)
-            * **IfDirectiveTriviaSyntax**
-              * HashToken \(*SyntaxToken*\)
-              * IfKeyword \(*SyntaxToken*\)
-              * Condition \(*ExpressionSyntax*\)
-              * EndOfDirectiveToken \(*SyntaxToken*\)
-              * IsActive \(*bool*\)
-              * BranchTaken \(*bool*\)
-              * ConditionValue \(*bool*\)
-          * **ElseDirectiveTriviaSyntax**
-            * HashToken \(*SyntaxToken*\)
-            * ElseKeyword \(*SyntaxToken*\)
-            * EndOfDirectiveToken \(*SyntaxToken*\)
-            * IsActive \(*bool*\)
-            * BranchTaken \(*bool*\)
-        * **DefineDirectiveTriviaSyntax**
-          * HashToken \(*SyntaxToken*\)
-          * DefineKeyword \(*SyntaxToken*\)
-          * Name \(*SyntaxToken*\)
-          * EndOfDirectiveToken \(*SyntaxToken*\)
-          * IsActive \(*bool*\)
-        * **EndIfDirectiveTriviaSyntax**
-          * HashToken \(*SyntaxToken*\)
-          * EndIfKeyword \(*SyntaxToken*\)
-          * EndOfDirectiveToken \(*SyntaxToken*\)
-          * IsActive \(*bool*\)
-        * **EndRegionDirectiveTriviaSyntax**
-          * HashToken \(*SyntaxToken*\)
-          * EndRegionKeyword \(*SyntaxToken*\)
-          * EndOfDirectiveToken \(*SyntaxToken*\)
-          * IsActive \(*bool*\)
-        * **ErrorDirectiveTriviaSyntax**
-          * HashToken \(*SyntaxToken*\)
-          * ErrorKeyword \(*SyntaxToken*\)
-          * EndOfDirectiveToken \(*SyntaxToken*\)
-          * IsActive \(*bool*\)
-        * **LineDirectiveTriviaSyntax**
-          * HashToken \(*SyntaxToken*\)
-          * LineKeyword \(*SyntaxToken*\)
-          * Line \(*SyntaxToken*\)
-          * File \(*SyntaxToken*\)
-          * EndOfDirectiveToken \(*SyntaxToken*\)
-          * IsActive \(*bool*\)
-        * **LoadDirectiveTriviaSyntax**
-          * HashToken \(*SyntaxToken*\)
-          * LoadKeyword \(*SyntaxToken*\)
-          * File \(*SyntaxToken*\)
-          * EndOfDirectiveToken \(*SyntaxToken*\)
-          * IsActive \(*bool*\)
-        * **PragmaChecksumDirectiveTriviaSyntax**
-          * HashToken \(*SyntaxToken*\)
-          * PragmaKeyword \(*SyntaxToken*\)
-          * ChecksumKeyword \(*SyntaxToken*\)
-          * File \(*SyntaxToken*\)
-          * Guid \(*SyntaxToken*\)
-          * Bytes \(*SyntaxToken*\)
-          * EndOfDirectiveToken \(*SyntaxToken*\)
-          * IsActive \(*bool*\)
-        * **PragmaWarningDirectiveTriviaSyntax**
-          * HashToken \(*SyntaxToken*\)
-          * PragmaKeyword \(*SyntaxToken*\)
-          * WarningKeyword \(*SyntaxToken*\)
-          * DisableOrRestoreKeyword \(*SyntaxToken*\)
-          * ErrorCodes \(*SeparatedSyntaxList\<ExpressionSyntax>*\)
-          * EndOfDirectiveToken \(*SyntaxToken*\)
-          * IsActive \(*bool*\)
-        * **ReferenceDirectiveTriviaSyntax**
-          * HashToken \(*SyntaxToken*\)
-          * ReferenceKeyword \(*SyntaxToken*\)
-          * File \(*SyntaxToken*\)
-          * EndOfDirectiveToken \(*SyntaxToken*\)
-          * IsActive \(*bool*\)
-        * **RegionDirectiveTriviaSyntax**
-          * HashToken \(*SyntaxToken*\)
-          * RegionKeyword \(*SyntaxToken*\)
-          * EndOfDirectiveToken \(*SyntaxToken*\)
-          * IsActive \(*bool*\)
-        * **ShebangDirectiveTriviaSyntax**
-          * HashToken \(*SyntaxToken*\)
-          * ExclamationToken \(*SyntaxToken*\)
-          * EndOfDirectiveToken \(*SyntaxToken*\)
-          * IsActive \(*bool*\)
-        * **UndefDirectiveTriviaSyntax**
-          * HashToken \(*SyntaxToken*\)
-          * UndefKeyword \(*SyntaxToken*\)
-          * Name \(*SyntaxToken*\)
-          * EndOfDirectiveToken \(*SyntaxToken*\)
-          * IsActive \(*bool*\)
-        * **WarningDirectiveTriviaSyntax**
-          * HashToken \(*SyntaxToken*\)
-          * WarningKeyword \(*SyntaxToken*\)
-          * EndOfDirectiveToken \(*SyntaxToken*\)
-          * IsActive \(*bool*\)
-      * **DocumentationCommentTriviaSyntax**
-        * Content \(*SyntaxList\<XmlNodeSyntax>*\)
-        * EndOfComment \(*SyntaxToken*\)
-        * SyntaxKinds:
-          * SyntaxKind\.MultiLineDocumentationCommentTrivia
-          * SyntaxKind\.SingleLineDocumentationCommentTrivia
-
-      * **SkippedTokensTriviaSyntax**
-        * Tokens \(*SyntaxTokenList*\)
-    * **SwitchLabelSyntax**
-      * Keyword \(*SyntaxToken*\)
-      * ColonToken \(*SyntaxToken*\)
-      * **CasePatternSwitchLabelSyntax**
-        * Keyword \(*SyntaxToken*\)
-        * Pattern \(*PatternSyntax*\)
-        * WhenClause \(*WhenClauseSyntax*\)
-        * ColonToken \(*SyntaxToken*\)
-      * **CaseSwitchLabelSyntax**
-        * Keyword \(*SyntaxToken*\)
-        * Value \(*ExpressionSyntax*\)
-        * ColonToken \(*SyntaxToken*\)
-      * **DefaultSwitchLabelSyntax**
-        * Keyword \(*SyntaxToken*\)
-        * ColonToken \(*SyntaxToken*\)
-    * **SwitchSectionSyntax**
-      * Labels \(*SyntaxList\<SwitchLabelSyntax>*\)
-      * Statements \(*SyntaxList\<StatementSyntax>*\)
-    * **TupleElementSyntax**
-      * Type \(*TypeSyntax*\)
-      * Identifier \(*SyntaxToken*\)
-    * **TypeArgumentListSyntax**
-      * LessThanToken \(*SyntaxToken*\)
-      * Arguments \(*SeparatedSyntaxList\<TypeSyntax>*\)
-      * GreaterThanToken \(*SyntaxToken*\)
-    * **TypeParameterConstraintClauseSyntax**
-      * WhereKeyword \(*SyntaxToken*\)
-      * Name \(*IdentifierNameSyntax*\)
-      * ColonToken \(*SyntaxToken*\)
-      * Constraints \(*SeparatedSyntaxList\<TypeParameterConstraintSyntax>*\)
-    * **TypeParameterConstraintSyntax**
-      * **ClassOrStructConstraintSyntax**
-        * ClassOrStructKeyword \(*SyntaxToken*\)
-        * SyntaxKinds:
-          * SyntaxKind\.ClassConstraint
-          * SyntaxKind\.StructConstraint
-
-      * **ConstructorConstraintSyntax**
-        * NewKeyword \(*SyntaxToken*\)
-        * OpenParenToken \(*SyntaxToken*\)
-        * CloseParenToken \(*SyntaxToken*\)
-      * **TypeConstraintSyntax**
-        * Type \(*TypeSyntax*\)
-    * **TypeParameterListSyntax**
-      * LessThanToken \(*SyntaxToken*\)
-      * Parameters \(*SeparatedSyntaxList\<TypeParameterSyntax>*\)
-      * GreaterThanToken \(*SyntaxToken*\)
-    * **TypeParameterSyntax**
-      * AttributeLists \(*SyntaxList\<AttributeListSyntax>*\)
-      * VarianceKeyword \(*SyntaxToken*\)
-      * Identifier \(*SyntaxToken*\)
-    * **UsingDirectiveSyntax**
-      * UsingKeyword \(*SyntaxToken*\)
-      * StaticKeyword \(*SyntaxToken*\)
-      * Alias \(*NameEqualsSyntax*\)
-      * Name \(*NameSyntax*\)
-      * SemicolonToken \(*SyntaxToken*\)
-    * **VariableDeclarationSyntax**
-      * Type \(*TypeSyntax*\)
-      * Variables \(*SeparatedSyntaxList\<VariableDeclaratorSyntax>*\)
-    * **VariableDeclaratorSyntax**
-      * Identifier \(*SyntaxToken*\)
-      * ArgumentList \(*BracketedArgumentListSyntax*\)
-      * Initializer \(*EqualsValueClauseSyntax*\)
-    * **VariableDesignationSyntax**
-      * **DiscardDesignationSyntax**
-        * UnderscoreToken \(*SyntaxToken*\)
-      * **ParenthesizedVariableDesignationSyntax**
-        * OpenParenToken \(*SyntaxToken*\)
-        * Variables \(*SeparatedSyntaxList\<VariableDesignationSyntax>*\)
-        * CloseParenToken \(*SyntaxToken*\)
-      * **SingleVariableDesignationSyntax**
-        * Identifier \(*SyntaxToken*\)
-    * **WhenClauseSyntax**
-      * WhenKeyword \(*SyntaxToken*\)
-      * Condition \(*ExpressionSyntax*\)
-    * **XmlAttributeSyntax**
-      * Name \(*XmlNameSyntax*\)
-      * EqualsToken \(*SyntaxToken*\)
-      * StartQuoteToken \(*SyntaxToken*\)
-      * EndQuoteToken \(*SyntaxToken*\)
-      * **XmlCrefAttributeSyntax**
-        * Name \(*XmlNameSyntax*\)
-        * EqualsToken \(*SyntaxToken*\)
-        * StartQuoteToken \(*SyntaxToken*\)
-        * Cref \(*CrefSyntax*\)
-        * EndQuoteToken \(*SyntaxToken*\)
-      * **XmlNameAttributeSyntax**
-        * Name \(*XmlNameSyntax*\)
-        * EqualsToken \(*SyntaxToken*\)
-        * StartQuoteToken \(*SyntaxToken*\)
-        * Identifier \(*IdentifierNameSyntax*\)
-        * EndQuoteToken \(*SyntaxToken*\)
-      * **XmlTextAttributeSyntax**
-        * Name \(*XmlNameSyntax*\)
-        * EqualsToken \(*SyntaxToken*\)
-        * StartQuoteToken \(*SyntaxToken*\)
-        * TextTokens \(*SyntaxTokenList*\)
-        * EndQuoteToken \(*SyntaxToken*\)
-    * **XmlElementEndTagSyntax**
-      * LessThanSlashToken \(*SyntaxToken*\)
-      * Name \(*XmlNameSyntax*\)
-      * GreaterThanToken \(*SyntaxToken*\)
-    * **XmlElementStartTagSyntax**
-      * LessThanToken \(*SyntaxToken*\)
-      * Name \(*XmlNameSyntax*\)
-      * Attributes \(*SyntaxList\<XmlAttributeSyntax>*\)
-      * GreaterThanToken \(*SyntaxToken*\)
-    * **XmlNameSyntax**
-      * Prefix \(*XmlPrefixSyntax*\)
-      * LocalName \(*SyntaxToken*\)
-    * **XmlNodeSyntax**
-      * **XmlCDataSectionSyntax**
-        * StartCDataToken \(*SyntaxToken*\)
-        * TextTokens \(*SyntaxTokenList*\)
-        * EndCDataToken \(*SyntaxToken*\)
-      * **XmlCommentSyntax**
-        * LessThanExclamationMinusMinusToken \(*SyntaxToken*\)
-        * TextTokens \(*SyntaxTokenList*\)
-        * MinusMinusGreaterThanToken \(*SyntaxToken*\)
-      * **XmlElementSyntax**
-        * StartTag \(*XmlElementStartTagSyntax*\)
-        * Content \(*SyntaxList\<XmlNodeSyntax>*\)
-        * EndTag \(*XmlElementEndTagSyntax*\)
-      * **XmlEmptyElementSyntax**
-        * LessThanToken \(*SyntaxToken*\)
-        * Name \(*XmlNameSyntax*\)
-        * Attributes \(*SyntaxList\<XmlAttributeSyntax>*\)
-        * SlashGreaterThanToken \(*SyntaxToken*\)
-      * **XmlProcessingInstructionSyntax**
-        * StartProcessingInstructionToken \(*SyntaxToken*\)
-        * Name \(*XmlNameSyntax*\)
-        * TextTokens \(*SyntaxTokenList*\)
-        * EndProcessingInstructionToken \(*SyntaxToken*\)
-      * **XmlTextSyntax**
-        * TextTokens \(*SyntaxTokenList*\)
-    * **XmlPrefixSyntax**
-      * Prefix \(*SyntaxToken*\)
-      * ColonToken \(*SyntaxToken*\)
+    * [AccessorDeclarationSyntax](syntax/csharp/AccessorDeclarationSyntax.md)
+    * [AccessorListSyntax](syntax/csharp/AccessorListSyntax.md)
+    * [AnonymousObjectMemberDeclaratorSyntax](syntax/csharp/AnonymousObjectMemberDeclaratorSyntax.md)
+    * [ArgumentSyntax](syntax/csharp/ArgumentSyntax.md)
+    * [ArrayRankSpecifierSyntax](syntax/csharp/ArrayRankSpecifierSyntax.md)
+    * [ArrowExpressionClauseSyntax](syntax/csharp/ArrowExpressionClauseSyntax.md)
+    * [AttributeArgumentListSyntax](syntax/csharp/AttributeArgumentListSyntax.md)
+    * [AttributeArgumentSyntax](syntax/csharp/AttributeArgumentSyntax.md)
+    * [AttributeListSyntax](syntax/csharp/AttributeListSyntax.md)
+    * [AttributeSyntax](syntax/csharp/AttributeSyntax.md)
+    * [AttributeTargetSpecifierSyntax](syntax/csharp/AttributeTargetSpecifierSyntax.md)
+    * [BaseArgumentListSyntax](syntax/csharp/BaseArgumentListSyntax.md)
+      * [ArgumentListSyntax](syntax/csharp/ArgumentListSyntax.md)
+      * [BracketedArgumentListSyntax](syntax/csharp/BracketedArgumentListSyntax.md)
+    * [BaseCrefParameterListSyntax](syntax/csharp/BaseCrefParameterListSyntax.md)
+      * [CrefBracketedParameterListSyntax](syntax/csharp/CrefBracketedParameterListSyntax.md)
+      * [CrefParameterListSyntax](syntax/csharp/CrefParameterListSyntax.md)
+    * [BaseListSyntax](syntax/csharp/BaseListSyntax.md)
+    * [BaseParameterListSyntax](syntax/csharp/BaseParameterListSyntax.md)
+      * [BracketedParameterListSyntax](syntax/csharp/BracketedParameterListSyntax.md)
+      * [ParameterListSyntax](syntax/csharp/ParameterListSyntax.md)
+    * [BaseTypeSyntax](syntax/csharp/BaseTypeSyntax.md)
+      * [SimpleBaseTypeSyntax](syntax/csharp/SimpleBaseTypeSyntax.md)
+    * [CatchClauseSyntax](syntax/csharp/CatchClauseSyntax.md)
+    * [CatchDeclarationSyntax](syntax/csharp/CatchDeclarationSyntax.md)
+    * [CatchFilterClauseSyntax](syntax/csharp/CatchFilterClauseSyntax.md)
+    * [CompilationUnitSyntax](syntax/csharp/CompilationUnitSyntax.md)
+    * [ConstructorInitializerSyntax](syntax/csharp/ConstructorInitializerSyntax.md)
+    * [CrefParameterSyntax](syntax/csharp/CrefParameterSyntax.md)
+    * [CrefSyntax](syntax/csharp/CrefSyntax.md)
+      * [MemberCrefSyntax](syntax/csharp/MemberCrefSyntax.md)
+        * [ConversionOperatorMemberCrefSyntax](syntax/csharp/ConversionOperatorMemberCrefSyntax.md)
+        * [IndexerMemberCrefSyntax](syntax/csharp/IndexerMemberCrefSyntax.md)
+        * [NameMemberCrefSyntax](syntax/csharp/NameMemberCrefSyntax.md)
+        * [OperatorMemberCrefSyntax](syntax/csharp/OperatorMemberCrefSyntax.md)
+      * [QualifiedCrefSyntax](syntax/csharp/QualifiedCrefSyntax.md)
+      * [TypeCrefSyntax](syntax/csharp/TypeCrefSyntax.md)
+    * [ElseClauseSyntax](syntax/csharp/ElseClauseSyntax.md)
+    * [EqualsValueClauseSyntax](syntax/csharp/EqualsValueClauseSyntax.md)
+    * [ExplicitInterfaceSpecifierSyntax](syntax/csharp/ExplicitInterfaceSpecifierSyntax.md)
+    * [ExpressionSyntax](syntax/csharp/ExpressionSyntax.md)
+      * [AnonymousFunctionExpressionSyntax](syntax/csharp/AnonymousFunctionExpressionSyntax.md)
+        * [AnonymousMethodExpressionSyntax](syntax/csharp/AnonymousMethodExpressionSyntax.md)
+        * [LambdaExpressionSyntax](syntax/csharp/LambdaExpressionSyntax.md)
+          * [ParenthesizedLambdaExpressionSyntax](syntax/csharp/ParenthesizedLambdaExpressionSyntax.md)
+          * [SimpleLambdaExpressionSyntax](syntax/csharp/SimpleLambdaExpressionSyntax.md)
+      * [AnonymousObjectCreationExpressionSyntax](syntax/csharp/AnonymousObjectCreationExpressionSyntax.md)
+      * [ArrayCreationExpressionSyntax](syntax/csharp/ArrayCreationExpressionSyntax.md)
+      * [AssignmentExpressionSyntax](syntax/csharp/AssignmentExpressionSyntax.md)
+      * [AwaitExpressionSyntax](syntax/csharp/AwaitExpressionSyntax.md)
+      * [BinaryExpressionSyntax](syntax/csharp/BinaryExpressionSyntax.md)
+      * [CastExpressionSyntax](syntax/csharp/CastExpressionSyntax.md)
+      * [ConditionalAccessExpressionSyntax](syntax/csharp/ConditionalAccessExpressionSyntax.md)
+      * [ConditionalExpressionSyntax](syntax/csharp/ConditionalExpressionSyntax.md)
+      * [DeclarationExpressionSyntax](syntax/csharp/DeclarationExpressionSyntax.md)
+      * [DefaultExpressionSyntax](syntax/csharp/DefaultExpressionSyntax.md)
+      * [ElementAccessExpressionSyntax](syntax/csharp/ElementAccessExpressionSyntax.md)
+      * [ElementBindingExpressionSyntax](syntax/csharp/ElementBindingExpressionSyntax.md)
+      * [CheckedExpressionSyntax](syntax/csharp/CheckedExpressionSyntax.md)
+      * [ImplicitArrayCreationExpressionSyntax](syntax/csharp/ImplicitArrayCreationExpressionSyntax.md)
+      * [ImplicitElementAccessSyntax](syntax/csharp/ImplicitElementAccessSyntax.md)
+      * [InitializerExpressionSyntax](syntax/csharp/InitializerExpressionSyntax.md)
+      * [InstanceExpressionSyntax](syntax/csharp/InstanceExpressionSyntax.md)
+        * [BaseExpressionSyntax](syntax/csharp/BaseExpressionSyntax.md)
+        * [ThisExpressionSyntax](syntax/csharp/ThisExpressionSyntax.md)
+      * [InterpolatedStringExpressionSyntax](syntax/csharp/InterpolatedStringExpressionSyntax.md)
+      * [InvocationExpressionSyntax](syntax/csharp/InvocationExpressionSyntax.md)
+      * [IsPatternExpressionSyntax](syntax/csharp/IsPatternExpressionSyntax.md)
+      * [LiteralExpressionSyntax](syntax/csharp/LiteralExpressionSyntax.md)
+      * [MakeRefExpressionSyntax](syntax/csharp/MakeRefExpressionSyntax.md)
+      * [MemberAccessExpressionSyntax](syntax/csharp/MemberAccessExpressionSyntax.md)
+      * [MemberBindingExpressionSyntax](syntax/csharp/MemberBindingExpressionSyntax.md)
+      * [ObjectCreationExpressionSyntax](syntax/csharp/ObjectCreationExpressionSyntax.md)
+      * [OmittedArraySizeExpressionSyntax](syntax/csharp/OmittedArraySizeExpressionSyntax.md)
+      * [ParenthesizedExpressionSyntax](syntax/csharp/ParenthesizedExpressionSyntax.md)
+      * [PostfixUnaryExpressionSyntax](syntax/csharp/PostfixUnaryExpressionSyntax.md)
+      * [PrefixUnaryExpressionSyntax](syntax/csharp/PrefixUnaryExpressionSyntax.md)
+      * [QueryExpressionSyntax](syntax/csharp/QueryExpressionSyntax.md)
+      * [RefExpressionSyntax](syntax/csharp/RefExpressionSyntax.md)
+      * [RefTypeExpressionSyntax](syntax/csharp/RefTypeExpressionSyntax.md)
+      * [RefValueExpressionSyntax](syntax/csharp/RefValueExpressionSyntax.md)
+      * [SizeOfExpressionSyntax](syntax/csharp/SizeOfExpressionSyntax.md)
+      * [StackAllocArrayCreationExpressionSyntax](syntax/csharp/StackAllocArrayCreationExpressionSyntax.md)
+      * [ThrowExpressionSyntax](syntax/csharp/ThrowExpressionSyntax.md)
+      * [TupleExpressionSyntax](syntax/csharp/TupleExpressionSyntax.md)
+      * [TypeOfExpressionSyntax](syntax/csharp/TypeOfExpressionSyntax.md)
+      * [TypeSyntax](syntax/csharp/TypeSyntax.md)
+        * [ArrayTypeSyntax](syntax/csharp/ArrayTypeSyntax.md)
+        * [NameSyntax](syntax/csharp/NameSyntax.md)
+          * [AliasQualifiedNameSyntax](syntax/csharp/AliasQualifiedNameSyntax.md)
+          * [QualifiedNameSyntax](syntax/csharp/QualifiedNameSyntax.md)
+          * [SimpleNameSyntax](syntax/csharp/SimpleNameSyntax.md)
+            * [GenericNameSyntax](syntax/csharp/GenericNameSyntax.md)
+            * [IdentifierNameSyntax](syntax/csharp/IdentifierNameSyntax.md)
+        * [NullableTypeSyntax](syntax/csharp/NullableTypeSyntax.md)
+        * [OmittedTypeArgumentSyntax](syntax/csharp/OmittedTypeArgumentSyntax.md)
+        * [PointerTypeSyntax](syntax/csharp/PointerTypeSyntax.md)
+        * [PredefinedTypeSyntax](syntax/csharp/PredefinedTypeSyntax.md)
+        * [RefTypeSyntax](syntax/csharp/RefTypeSyntax.md)
+        * [TupleTypeSyntax](syntax/csharp/TupleTypeSyntax.md)
+    * [ExternAliasDirectiveSyntax](syntax/csharp/ExternAliasDirectiveSyntax.md)
+    * [FinallyClauseSyntax](syntax/csharp/FinallyClauseSyntax.md)
+    * [InterpolatedStringContentSyntax](syntax/csharp/InterpolatedStringContentSyntax.md)
+      * [InterpolatedStringTextSyntax](syntax/csharp/InterpolatedStringTextSyntax.md)
+      * [InterpolationSyntax](syntax/csharp/InterpolationSyntax.md)
+    * [InterpolationAlignmentClauseSyntax](syntax/csharp/InterpolationAlignmentClauseSyntax.md)
+    * [InterpolationFormatClauseSyntax](syntax/csharp/InterpolationFormatClauseSyntax.md)
+    * [JoinIntoClauseSyntax](syntax/csharp/JoinIntoClauseSyntax.md)
+    * [MemberDeclarationSyntax](syntax/csharp/MemberDeclarationSyntax.md)
+      * [BaseFieldDeclarationSyntax](syntax/csharp/BaseFieldDeclarationSyntax.md)
+        * [EventFieldDeclarationSyntax](syntax/csharp/EventFieldDeclarationSyntax.md)
+        * [FieldDeclarationSyntax](syntax/csharp/FieldDeclarationSyntax.md)
+      * [BaseMethodDeclarationSyntax](syntax/csharp/BaseMethodDeclarationSyntax.md)
+        * [ConstructorDeclarationSyntax](syntax/csharp/ConstructorDeclarationSyntax.md)
+        * [ConversionOperatorDeclarationSyntax](syntax/csharp/ConversionOperatorDeclarationSyntax.md)
+        * [DestructorDeclarationSyntax](syntax/csharp/DestructorDeclarationSyntax.md)
+        * [MethodDeclarationSyntax](syntax/csharp/MethodDeclarationSyntax.md)
+        * [OperatorDeclarationSyntax](syntax/csharp/OperatorDeclarationSyntax.md)
+      * [BasePropertyDeclarationSyntax](syntax/csharp/BasePropertyDeclarationSyntax.md)
+        * [EventDeclarationSyntax](syntax/csharp/EventDeclarationSyntax.md)
+        * [IndexerDeclarationSyntax](syntax/csharp/IndexerDeclarationSyntax.md)
+        * [PropertyDeclarationSyntax](syntax/csharp/PropertyDeclarationSyntax.md)
+      * [BaseTypeDeclarationSyntax](syntax/csharp/BaseTypeDeclarationSyntax.md)
+        * [EnumDeclarationSyntax](syntax/csharp/EnumDeclarationSyntax.md)
+        * [TypeDeclarationSyntax](syntax/csharp/TypeDeclarationSyntax.md)
+          * [ClassDeclarationSyntax](syntax/csharp/ClassDeclarationSyntax.md)
+          * [InterfaceDeclarationSyntax](syntax/csharp/InterfaceDeclarationSyntax.md)
+          * [StructDeclarationSyntax](syntax/csharp/StructDeclarationSyntax.md)
+      * [DelegateDeclarationSyntax](syntax/csharp/DelegateDeclarationSyntax.md)
+      * [EnumMemberDeclarationSyntax](syntax/csharp/EnumMemberDeclarationSyntax.md)
+      * [GlobalStatementSyntax](syntax/csharp/GlobalStatementSyntax.md)
+      * [IncompleteMemberSyntax](syntax/csharp/IncompleteMemberSyntax.md)
+      * [NamespaceDeclarationSyntax](syntax/csharp/NamespaceDeclarationSyntax.md)
+    * [NameColonSyntax](syntax/csharp/NameColonSyntax.md)
+    * [NameEqualsSyntax](syntax/csharp/NameEqualsSyntax.md)
+    * [OrderingSyntax](syntax/csharp/OrderingSyntax.md)
+    * [ParameterSyntax](syntax/csharp/ParameterSyntax.md)
+    * [PatternSyntax](syntax/csharp/PatternSyntax.md)
+      * [ConstantPatternSyntax](syntax/csharp/ConstantPatternSyntax.md)
+      * [DeclarationPatternSyntax](syntax/csharp/DeclarationPatternSyntax.md)
+    * [QueryBodySyntax](syntax/csharp/QueryBodySyntax.md)
+    * [QueryClauseSyntax](syntax/csharp/QueryClauseSyntax.md)
+      * [FromClauseSyntax](syntax/csharp/FromClauseSyntax.md)
+      * [JoinClauseSyntax](syntax/csharp/JoinClauseSyntax.md)
+      * [LetClauseSyntax](syntax/csharp/LetClauseSyntax.md)
+      * [OrderByClauseSyntax](syntax/csharp/OrderByClauseSyntax.md)
+      * [WhereClauseSyntax](syntax/csharp/WhereClauseSyntax.md)
+    * [QueryContinuationSyntax](syntax/csharp/QueryContinuationSyntax.md)
+    * [SelectOrGroupClauseSyntax](syntax/csharp/SelectOrGroupClauseSyntax.md)
+      * [GroupClauseSyntax](syntax/csharp/GroupClauseSyntax.md)
+      * [SelectClauseSyntax](syntax/csharp/SelectClauseSyntax.md)
+    * [StatementSyntax](syntax/csharp/StatementSyntax.md)
+      * [BlockSyntax](syntax/csharp/BlockSyntax.md)
+      * [BreakStatementSyntax](syntax/csharp/BreakStatementSyntax.md)
+      * [CommonForEachStatementSyntax](syntax/csharp/CommonForEachStatementSyntax.md)
+        * [ForEachStatementSyntax](syntax/csharp/ForEachStatementSyntax.md)
+        * [ForEachVariableStatementSyntax](syntax/csharp/ForEachVariableStatementSyntax.md)
+      * [ContinueStatementSyntax](syntax/csharp/ContinueStatementSyntax.md)
+      * [DoStatementSyntax](syntax/csharp/DoStatementSyntax.md)
+      * [EmptyStatementSyntax](syntax/csharp/EmptyStatementSyntax.md)
+      * [ExpressionStatementSyntax](syntax/csharp/ExpressionStatementSyntax.md)
+      * [FixedStatementSyntax](syntax/csharp/FixedStatementSyntax.md)
+      * [ForStatementSyntax](syntax/csharp/ForStatementSyntax.md)
+      * [GotoStatementSyntax](syntax/csharp/GotoStatementSyntax.md)
+      * [CheckedStatementSyntax](syntax/csharp/CheckedStatementSyntax.md)
+      * [IfStatementSyntax](syntax/csharp/IfStatementSyntax.md)
+      * [LabeledStatementSyntax](syntax/csharp/LabeledStatementSyntax.md)
+      * [LocalDeclarationStatementSyntax](syntax/csharp/LocalDeclarationStatementSyntax.md)
+      * [LocalFunctionStatementSyntax](syntax/csharp/LocalFunctionStatementSyntax.md)
+      * [LockStatementSyntax](syntax/csharp/LockStatementSyntax.md)
+      * [ReturnStatementSyntax](syntax/csharp/ReturnStatementSyntax.md)
+      * [SwitchStatementSyntax](syntax/csharp/SwitchStatementSyntax.md)
+      * [ThrowStatementSyntax](syntax/csharp/ThrowStatementSyntax.md)
+      * [TryStatementSyntax](syntax/csharp/TryStatementSyntax.md)
+      * [UnsafeStatementSyntax](syntax/csharp/UnsafeStatementSyntax.md)
+      * [UsingStatementSyntax](syntax/csharp/UsingStatementSyntax.md)
+      * [WhileStatementSyntax](syntax/csharp/WhileStatementSyntax.md)
+      * [YieldStatementSyntax](syntax/csharp/YieldStatementSyntax.md)
+    * [StructuredTriviaSyntax](syntax/csharp/StructuredTriviaSyntax.md)
+      * [DirectiveTriviaSyntax](syntax/csharp/DirectiveTriviaSyntax.md)
+        * [BadDirectiveTriviaSyntax](syntax/csharp/BadDirectiveTriviaSyntax.md)
+        * [BranchingDirectiveTriviaSyntax](syntax/csharp/BranchingDirectiveTriviaSyntax.md)
+          * [ConditionalDirectiveTriviaSyntax](syntax/csharp/ConditionalDirectiveTriviaSyntax.md)
+            * [ElifDirectiveTriviaSyntax](syntax/csharp/ElifDirectiveTriviaSyntax.md)
+            * [IfDirectiveTriviaSyntax](syntax/csharp/IfDirectiveTriviaSyntax.md)
+          * [ElseDirectiveTriviaSyntax](syntax/csharp/ElseDirectiveTriviaSyntax.md)
+        * [DefineDirectiveTriviaSyntax](syntax/csharp/DefineDirectiveTriviaSyntax.md)
+        * [EndIfDirectiveTriviaSyntax](syntax/csharp/EndIfDirectiveTriviaSyntax.md)
+        * [EndRegionDirectiveTriviaSyntax](syntax/csharp/EndRegionDirectiveTriviaSyntax.md)
+        * [ErrorDirectiveTriviaSyntax](syntax/csharp/ErrorDirectiveTriviaSyntax.md)
+        * [LineDirectiveTriviaSyntax](syntax/csharp/LineDirectiveTriviaSyntax.md)
+        * [LoadDirectiveTriviaSyntax](syntax/csharp/LoadDirectiveTriviaSyntax.md)
+        * [PragmaChecksumDirectiveTriviaSyntax](syntax/csharp/PragmaChecksumDirectiveTriviaSyntax.md)
+        * [PragmaWarningDirectiveTriviaSyntax](syntax/csharp/PragmaWarningDirectiveTriviaSyntax.md)
+        * [ReferenceDirectiveTriviaSyntax](syntax/csharp/ReferenceDirectiveTriviaSyntax.md)
+        * [RegionDirectiveTriviaSyntax](syntax/csharp/RegionDirectiveTriviaSyntax.md)
+        * [ShebangDirectiveTriviaSyntax](syntax/csharp/ShebangDirectiveTriviaSyntax.md)
+        * [UndefDirectiveTriviaSyntax](syntax/csharp/UndefDirectiveTriviaSyntax.md)
+        * [WarningDirectiveTriviaSyntax](syntax/csharp/WarningDirectiveTriviaSyntax.md)
+      * [DocumentationCommentTriviaSyntax](syntax/csharp/DocumentationCommentTriviaSyntax.md)
+      * [SkippedTokensTriviaSyntax](syntax/csharp/SkippedTokensTriviaSyntax.md)
+    * [SwitchLabelSyntax](syntax/csharp/SwitchLabelSyntax.md)
+      * [CasePatternSwitchLabelSyntax](syntax/csharp/CasePatternSwitchLabelSyntax.md)
+      * [CaseSwitchLabelSyntax](syntax/csharp/CaseSwitchLabelSyntax.md)
+      * [DefaultSwitchLabelSyntax](syntax/csharp/DefaultSwitchLabelSyntax.md)
+    * [SwitchSectionSyntax](syntax/csharp/SwitchSectionSyntax.md)
+    * [TupleElementSyntax](syntax/csharp/TupleElementSyntax.md)
+    * [TypeArgumentListSyntax](syntax/csharp/TypeArgumentListSyntax.md)
+    * [TypeParameterConstraintClauseSyntax](syntax/csharp/TypeParameterConstraintClauseSyntax.md)
+    * [TypeParameterConstraintSyntax](syntax/csharp/TypeParameterConstraintSyntax.md)
+      * [ClassOrStructConstraintSyntax](syntax/csharp/ClassOrStructConstraintSyntax.md)
+      * [ConstructorConstraintSyntax](syntax/csharp/ConstructorConstraintSyntax.md)
+      * [TypeConstraintSyntax](syntax/csharp/TypeConstraintSyntax.md)
+    * [TypeParameterListSyntax](syntax/csharp/TypeParameterListSyntax.md)
+    * [TypeParameterSyntax](syntax/csharp/TypeParameterSyntax.md)
+    * [UsingDirectiveSyntax](syntax/csharp/UsingDirectiveSyntax.md)
+    * [VariableDeclarationSyntax](syntax/csharp/VariableDeclarationSyntax.md)
+    * [VariableDeclaratorSyntax](syntax/csharp/VariableDeclaratorSyntax.md)
+    * [VariableDesignationSyntax](syntax/csharp/VariableDesignationSyntax.md)
+      * [DiscardDesignationSyntax](syntax/csharp/DiscardDesignationSyntax.md)
+      * [ParenthesizedVariableDesignationSyntax](syntax/csharp/ParenthesizedVariableDesignationSyntax.md)
+      * [SingleVariableDesignationSyntax](syntax/csharp/SingleVariableDesignationSyntax.md)
+    * [WhenClauseSyntax](syntax/csharp/WhenClauseSyntax.md)
+    * [XmlAttributeSyntax](syntax/csharp/XmlAttributeSyntax.md)
+      * [XmlCrefAttributeSyntax](syntax/csharp/XmlCrefAttributeSyntax.md)
+      * [XmlNameAttributeSyntax](syntax/csharp/XmlNameAttributeSyntax.md)
+      * [XmlTextAttributeSyntax](syntax/csharp/XmlTextAttributeSyntax.md)
+    * [XmlElementEndTagSyntax](syntax/csharp/XmlElementEndTagSyntax.md)
+    * [XmlElementStartTagSyntax](syntax/csharp/XmlElementStartTagSyntax.md)
+    * [XmlNameSyntax](syntax/csharp/XmlNameSyntax.md)
+    * [XmlNodeSyntax](syntax/csharp/XmlNodeSyntax.md)
+      * [XmlCDataSectionSyntax](syntax/csharp/XmlCDataSectionSyntax.md)
+      * [XmlCommentSyntax](syntax/csharp/XmlCommentSyntax.md)
+      * [XmlElementSyntax](syntax/csharp/XmlElementSyntax.md)
+      * [XmlEmptyElementSyntax](syntax/csharp/XmlEmptyElementSyntax.md)
+      * [XmlProcessingInstructionSyntax](syntax/csharp/XmlProcessingInstructionSyntax.md)
+      * [XmlTextSyntax](syntax/csharp/XmlTextSyntax.md)
+    * [XmlPrefixSyntax](syntax/csharp/XmlPrefixSyntax.md)
 
 *\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

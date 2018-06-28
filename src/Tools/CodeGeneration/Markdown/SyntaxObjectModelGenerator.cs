@@ -2,9 +2,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using DotMarkdown;
 using DotMarkdown.Linq;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Roslynator.CodeGeneration.CSharp;
 using static DotMarkdown.Linq.MFactory;
 
@@ -38,18 +38,7 @@ namespace Roslynator.CodeGeneration.Markdown
 
                 if (derivedSymbol != null)
                 {
-                    MBulletItem item2 = BulletItem(Bold(derivedSymbol.MetadataName));
-
-                    item2.Add(Symbols.GetPropertySymbols(derivedSymbol).Select(f => BulletItem(f.Name, " (", Italic(f.Type.ToDisplayString(SymbolDisplayFormats.Default)), ")")));
-
-                    List<SyntaxKind> kinds = Symbols.GetKinds(derivedSymbol).ToList();
-
-                    if (kinds.Count > 1)
-                    {
-                        item2.Add(BulletItem(
-                            "SyntaxKinds:",
-                            BulletList(kinds.Select(f => $"SyntaxKind.{f.ToString()}").OrderBy(f => f))));
-                    }
+                    MBulletItem item2 = BulletItem(Link(derivedSymbol.MetadataName, $"syntax/csharp/{derivedSymbol.MetadataName}.md"));
 
                     item.Add(item2);
 
@@ -68,6 +57,25 @@ namespace Roslynator.CodeGeneration.Markdown
             doc.AddFootnote();
 
             return doc.ToString();
+        }
+
+        public static string GenerateCSharpSyntaxTypeMetadata(INamedTypeSymbol symbol)
+        {
+            var doc = new MDocument(
+                Heading1(symbol.Name),
+                Heading2("Properties"),
+                Table(
+                    TableRow("Name", "Type"),
+                    Symbols.GetPropertySymbols(symbol)
+                        .Select(f => TableRow(f.Name, f.Type.ToDisplayString(SymbolDisplayFormats.Default)))),
+                Heading2("SyntaxKinds"),
+                BulletList(Symbols.GetKinds(symbol).Select(f => f.ToString())));
+
+            doc.AddFootnote();
+
+            var format = new MarkdownFormat(tableOptions: MarkdownFormat.Default.TableOptions | TableOptions.FormatContent);
+
+            return doc.ToString(format);
         }
     }
 }
