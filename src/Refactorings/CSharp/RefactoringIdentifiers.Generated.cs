@@ -84,6 +84,8 @@ namespace Roslynator.CSharp.Refactorings
         public const string IntroduceConstructor = Prefix + "0066";
         public const string IntroduceFieldToLockOn = Prefix + "0067";
         public const string IntroduceLocalVariable = Prefix + "0068";
+        public const string InvertIf = Prefix + "0189";
+        public const string InvertIfElse = Prefix + "0162";
         public const string InvertPrefixOrPostfixUnaryOperator = Prefix + "0134";
         public const string JoinStringExpressions = Prefix + "0078";
         public const string MakeMemberAbstract = Prefix + "0069";
@@ -101,7 +103,6 @@ namespace Roslynator.CSharp.Refactorings
         public const string NotifyPropertyChanged = Prefix + "0083";
         public const string ParenthesizeExpression = Prefix + "0084";
         public const string PromoteLocalToParameter = Prefix + "0085";
-        public const string ReduceIfNesting = Prefix + "0189";
         public const string RemoveAllComments = Prefix + "0086";
         public const string RemoveAllCommentsExceptDocumentationComments = Prefix + "0087";
         public const string RemoveAllDocumentationComments = Prefix + "0088";
@@ -144,6 +145,7 @@ namespace Roslynator.CSharp.Refactorings
         public const string ReplaceEqualsExpressionWithStringEquals = Prefix + "0124";
         public const string ReplaceEqualsExpressionWithStringIsNullOrEmpty = Prefix + "0125";
         public const string ReplaceEqualsExpressionWithStringIsNullOrWhiteSpace = Prefix + "0126";
+        public const string ReplaceForEachWithEnumerator = Prefix + "0206";
         public const string ReplaceForEachWithFor = Prefix + "0129";
         public const string ReplaceForEachWithForAndReverseLoop = Prefix + "0188";
         public const string ReplaceForWithForEach = Prefix + "0130";
@@ -180,7 +182,6 @@ namespace Roslynator.CSharp.Refactorings
         public const string SplitVariableDeclaration = Prefix + "0158";
         public const string SwapBinaryOperands = Prefix + "0159";
         public const string SwapExpressionsInConditionalExpression = Prefix + "0160";
-        public const string SwapIfElse = Prefix + "0162";
         public const string SwapMemberDeclarations = Prefix + "0161";
         public const string UncommentMultiLineComment = Prefix + "0200";
         public const string UncommentSingleLineComment = Prefix + "0163";
