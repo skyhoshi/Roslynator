@@ -1,6 +1,14 @@
 # ElementBindingExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * ElementBindingExpressionSyntax
+
+## Syntax Properties
 
 | Name         | Type                                                          |
 | ------------ | ------------------------------------------------------------- |

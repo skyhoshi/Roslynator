@@ -1,6 +1,15 @@
 # PragmaWarningDirectiveTriviaSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StructuredTriviaSyntax](StructuredTriviaSyntax.md)
+        * [DirectiveTriviaSyntax](DirectiveTriviaSyntax.md)
+          * PragmaWarningDirectiveTriviaSyntax
+
+## Syntax Properties
 
 | Name                    | Type                                                 |
 | ----------------------- | ---------------------------------------------------- |
@@ -10,7 +19,12 @@
 | DisableOrRestoreKeyword | SyntaxToken                                          |
 | ErrorCodes              | SyntaxList\<[ExpressionSyntax](ExpressionSyntax.md)> |
 | EndOfDirectiveToken     | SyntaxToken                                          |
-| IsActive                | bool                                                 |
+
+## Other Properties
+
+| Name     | Type |
+| -------- | ---- |
+| IsActive | bool |
 
 ## See Also
 

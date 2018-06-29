@@ -1,6 +1,14 @@
 # TryStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * TryStatementSyntax
+
+## Syntax Properties
 
 | Name       | Type                                                   |
 | ---------- | ------------------------------------------------------ |

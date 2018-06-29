@@ -1,6 +1,14 @@
 # ParameterListSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [BaseParameterListSyntax](BaseParameterListSyntax.md)
+        * ParameterListSyntax
+
+## Syntax Properties
 
 | Name            | Type                                               |
 | --------------- | -------------------------------------------------- |

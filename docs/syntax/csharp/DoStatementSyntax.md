@@ -1,6 +1,14 @@
 # DoStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * DoStatementSyntax
+
+## Syntax Properties
 
 | Name            | Type                                    |
 | --------------- | --------------------------------------- |

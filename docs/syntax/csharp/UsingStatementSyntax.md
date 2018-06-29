@@ -1,6 +1,14 @@
 # UsingStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * UsingStatementSyntax
+
+## Syntax Properties
 
 | Name            | Type                                                      |
 | --------------- | --------------------------------------------------------- |

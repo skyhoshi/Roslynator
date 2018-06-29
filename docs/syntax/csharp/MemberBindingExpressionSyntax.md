@@ -1,6 +1,14 @@
 # MemberBindingExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * MemberBindingExpressionSyntax
+
+## Syntax Properties
 
 | Name          | Type                                    |
 | ------------- | --------------------------------------- |

@@ -1,6 +1,14 @@
 # ReturnStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * ReturnStatementSyntax
+
+## Syntax Properties
 
 | Name           | Type                                    |
 | -------------- | --------------------------------------- |

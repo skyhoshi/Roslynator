@@ -1,6 +1,15 @@
 # EventFieldDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * [BaseFieldDeclarationSyntax](BaseFieldDeclarationSyntax.md)
+          * EventFieldDeclarationSyntax
+
+## Syntax Properties
 
 | Name           | Type                                                       |
 | -------------- | ---------------------------------------------------------- |

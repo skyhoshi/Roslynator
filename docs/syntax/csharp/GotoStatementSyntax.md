@@ -1,6 +1,14 @@
 # GotoStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * GotoStatementSyntax
+
+## Syntax Properties
 
 | Name                 | Type                                    |
 | -------------------- | --------------------------------------- |

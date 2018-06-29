@@ -1,6 +1,15 @@
 # IndexerMemberCrefSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [CrefSyntax](CrefSyntax.md)
+        * [MemberCrefSyntax](MemberCrefSyntax.md)
+          * IndexerMemberCrefSyntax
+
+## Syntax Properties
 
 | Name        | Type                                                                    |
 | ----------- | ----------------------------------------------------------------------- |

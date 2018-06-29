@@ -1,6 +1,14 @@
 # ConstructorConstraintSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [TypeParameterConstraintSyntax](TypeParameterConstraintSyntax.md)
+        * ConstructorConstraintSyntax
+
+## Syntax Properties
 
 | Name            | Type        |
 | --------------- | ----------- |

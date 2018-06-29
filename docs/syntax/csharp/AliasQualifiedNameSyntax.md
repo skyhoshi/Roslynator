@@ -1,6 +1,16 @@
 # AliasQualifiedNameSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * [TypeSyntax](TypeSyntax.md)
+          * [NameSyntax](NameSyntax.md)
+            * AliasQualifiedNameSyntax
+
+## Syntax Properties
 
 | Name            | Type                                            |
 | --------------- | ----------------------------------------------- |

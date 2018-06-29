@@ -1,6 +1,14 @@
 # InitializerExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * InitializerExpressionSyntax
+
+## Syntax Properties
 
 | Name            | Type                                                 |
 | --------------- | ---------------------------------------------------- |

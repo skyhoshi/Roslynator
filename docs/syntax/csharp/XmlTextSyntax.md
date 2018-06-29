@@ -1,6 +1,14 @@
 # XmlTextSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [XmlNodeSyntax](XmlNodeSyntax.md)
+        * XmlTextSyntax
+
+## Syntax Properties
 
 | Name       | Type            |
 | ---------- | --------------- |

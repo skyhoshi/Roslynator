@@ -1,6 +1,17 @@
 # IfDirectiveTriviaSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StructuredTriviaSyntax](StructuredTriviaSyntax.md)
+        * [DirectiveTriviaSyntax](DirectiveTriviaSyntax.md)
+          * [BranchingDirectiveTriviaSyntax](BranchingDirectiveTriviaSyntax.md)
+            * [ConditionalDirectiveTriviaSyntax](ConditionalDirectiveTriviaSyntax.md)
+              * IfDirectiveTriviaSyntax
+
+## Syntax Properties
 
 | Name                | Type                                    |
 | ------------------- | --------------------------------------- |
@@ -8,9 +19,14 @@
 | IfKeyword           | SyntaxToken                             |
 | Condition           | [ExpressionSyntax](ExpressionSyntax.md) |
 | EndOfDirectiveToken | SyntaxToken                             |
-| IsActive            | bool                                    |
-| BranchTaken         | bool                                    |
-| ConditionValue      | bool                                    |
+
+## Other Properties
+
+| Name           | Type |
+| -------------- | ---- |
+| IsActive       | bool |
+| BranchTaken    | bool |
+| ConditionValue | bool |
 
 ## See Also
 

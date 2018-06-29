@@ -1,6 +1,14 @@
 # SizeOfExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * SizeOfExpressionSyntax
+
+## Syntax Properties
 
 | Name            | Type                        |
 | --------------- | --------------------------- |

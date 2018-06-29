@@ -1,6 +1,14 @@
 # QueryExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * QueryExpressionSyntax
+
+## Syntax Properties
 
 | Name       | Type                                    |
 | ---------- | --------------------------------------- |

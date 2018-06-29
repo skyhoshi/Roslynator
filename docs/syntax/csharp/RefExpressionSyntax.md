@@ -1,6 +1,14 @@
 # RefExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * RefExpressionSyntax
+
+## Syntax Properties
 
 | Name       | Type                                    |
 | ---------- | --------------------------------------- |

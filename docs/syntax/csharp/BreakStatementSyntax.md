@@ -1,6 +1,14 @@
 # BreakStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * BreakStatementSyntax
+
+## Syntax Properties
 
 | Name           | Type        |
 | -------------- | ----------- |

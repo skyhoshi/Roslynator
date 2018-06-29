@@ -1,6 +1,15 @@
 # LineDirectiveTriviaSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StructuredTriviaSyntax](StructuredTriviaSyntax.md)
+        * [DirectiveTriviaSyntax](DirectiveTriviaSyntax.md)
+          * LineDirectiveTriviaSyntax
+
+## Syntax Properties
 
 | Name                | Type        |
 | ------------------- | ----------- |
@@ -9,7 +18,12 @@
 | Line                | SyntaxToken |
 | File                | SyntaxToken |
 | EndOfDirectiveToken | SyntaxToken |
-| IsActive            | bool        |
+
+## Other Properties
+
+| Name     | Type |
+| -------- | ---- |
+| IsActive | bool |
 
 ## See Also
 

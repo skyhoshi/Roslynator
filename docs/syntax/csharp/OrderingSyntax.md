@@ -1,6 +1,13 @@
 # OrderingSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * OrderingSyntax
+
+## Syntax Properties
 
 | Name                         | Type                                    |
 | ---------------------------- | --------------------------------------- |

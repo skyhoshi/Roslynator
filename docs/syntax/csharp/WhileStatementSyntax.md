@@ -1,6 +1,14 @@
 # WhileStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * WhileStatementSyntax
+
+## Syntax Properties
 
 | Name            | Type                                    |
 | --------------- | --------------------------------------- |

@@ -1,6 +1,15 @@
 # DestructorDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * [BaseMethodDeclarationSyntax](BaseMethodDeclarationSyntax.md)
+          * DestructorDeclarationSyntax
+
+## Syntax Properties
 
 | Name           | Type                                                          |
 | -------------- | ------------------------------------------------------------- |

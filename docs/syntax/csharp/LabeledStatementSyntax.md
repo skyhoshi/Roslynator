@@ -1,6 +1,14 @@
 # LabeledStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * LabeledStatementSyntax
+
+## Syntax Properties
 
 | Name       | Type                                  |
 | ---------- | ------------------------------------- |

@@ -1,6 +1,13 @@
 # InterpolationFormatClauseSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * InterpolationFormatClauseSyntax
+
+## Syntax Properties
 
 | Name              | Type        |
 | ----------------- | ----------- |

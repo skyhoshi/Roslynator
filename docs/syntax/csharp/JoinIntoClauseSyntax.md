@@ -1,6 +1,13 @@
 # JoinIntoClauseSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * JoinIntoClauseSyntax
+
+## Syntax Properties
 
 | Name        | Type        |
 | ----------- | ----------- |

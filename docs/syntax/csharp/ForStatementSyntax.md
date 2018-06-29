@@ -1,6 +1,14 @@
 # ForStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * ForStatementSyntax
+
+## Syntax Properties
 
 | Name                 | Type                                                      |
 | -------------------- | --------------------------------------------------------- |

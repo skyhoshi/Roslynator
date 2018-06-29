@@ -1,6 +1,14 @@
 # DefaultSwitchLabelSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [SwitchLabelSyntax](SwitchLabelSyntax.md)
+        * DefaultSwitchLabelSyntax
+
+## Syntax Properties
 
 | Name       | Type        |
 | ---------- | ----------- |

@@ -1,6 +1,13 @@
 # CatchDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * CatchDeclarationSyntax
+
+## Syntax Properties
 
 | Name            | Type                        |
 | --------------- | --------------------------- |

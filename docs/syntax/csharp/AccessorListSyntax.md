@@ -1,6 +1,13 @@
 # AccessorListSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * AccessorListSyntax
+
+## Syntax Properties
 
 | Name            | Type                                                                   |
 | --------------- | ---------------------------------------------------------------------- |

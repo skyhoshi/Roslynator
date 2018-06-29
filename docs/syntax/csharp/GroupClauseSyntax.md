@@ -1,6 +1,14 @@
 # GroupClauseSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [SelectOrGroupClauseSyntax](SelectOrGroupClauseSyntax.md)
+        * GroupClauseSyntax
+
+## Syntax Properties
 
 | Name            | Type                                    |
 | --------------- | --------------------------------------- |

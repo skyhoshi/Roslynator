@@ -1,6 +1,14 @@
 # DeclarationExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * DeclarationExpressionSyntax
+
+## Syntax Properties
 
 | Name        | Type                                                      |
 | ----------- | --------------------------------------------------------- |

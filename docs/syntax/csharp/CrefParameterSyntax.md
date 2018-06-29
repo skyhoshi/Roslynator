@@ -1,6 +1,13 @@
 # CrefParameterSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * CrefParameterSyntax
+
+## Syntax Properties
 
 | Name            | Type                        |
 | --------------- | --------------------------- |

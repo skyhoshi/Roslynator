@@ -28,7 +28,7 @@ namespace Roslynator.CodeGeneration
                 @"..\docs\CSharpSyntaxObjectModel.md",
                 SyntaxObjectModelGenerator.GenerateCSharpSyntaxObjectModel());
 
-            foreach (INamedTypeSymbol syntaxSymbol in Symbols.SyntaxSymbols.Where(f => !f.IsAbstract))
+            foreach (INamedTypeSymbol syntaxSymbol in Symbols.SyntaxSymbols)
             {
                 WriteAllText(
                     $@"..\docs\syntax\csharp\{syntaxSymbol.MetadataName}.md",

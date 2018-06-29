@@ -1,6 +1,14 @@
 # AnonymousObjectCreationExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * AnonymousObjectCreationExpressionSyntax
+
+## Syntax Properties
 
 | Name            | Type                                                                                           |
 | --------------- | ---------------------------------------------------------------------------------------------- |

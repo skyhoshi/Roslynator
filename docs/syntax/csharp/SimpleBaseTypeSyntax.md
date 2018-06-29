@@ -1,6 +1,14 @@
 # SimpleBaseTypeSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [BaseTypeSyntax](BaseTypeSyntax.md)
+        * SimpleBaseTypeSyntax
+
+## Syntax Properties
 
 | Name | Type                        |
 | ---- | --------------------------- |

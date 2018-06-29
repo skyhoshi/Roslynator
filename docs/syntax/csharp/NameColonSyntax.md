@@ -1,6 +1,13 @@
 # NameColonSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * NameColonSyntax
+
+## Syntax Properties
 
 | Name       | Type                                            |
 | ---------- | ----------------------------------------------- |

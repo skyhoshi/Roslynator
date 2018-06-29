@@ -1,6 +1,15 @@
 # ReferenceDirectiveTriviaSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StructuredTriviaSyntax](StructuredTriviaSyntax.md)
+        * [DirectiveTriviaSyntax](DirectiveTriviaSyntax.md)
+          * ReferenceDirectiveTriviaSyntax
+
+## Syntax Properties
 
 | Name                | Type        |
 | ------------------- | ----------- |
@@ -8,7 +17,12 @@
 | ReferenceKeyword    | SyntaxToken |
 | File                | SyntaxToken |
 | EndOfDirectiveToken | SyntaxToken |
-| IsActive            | bool        |
+
+## Other Properties
+
+| Name     | Type |
+| -------- | ---- |
+| IsActive | bool |
 
 ## See Also
 

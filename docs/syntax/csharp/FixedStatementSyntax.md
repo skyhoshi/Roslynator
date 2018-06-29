@@ -1,6 +1,14 @@
 # FixedStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * FixedStatementSyntax
+
+## Syntax Properties
 
 | Name            | Type                                                      |
 | --------------- | --------------------------------------------------------- |

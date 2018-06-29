@@ -1,6 +1,13 @@
 # TypeParameterConstraintClauseSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * TypeParameterConstraintClauseSyntax
+
+## Syntax Properties
 
 | Name         | Type                                                                           |
 | ------------ | ------------------------------------------------------------------------------ |

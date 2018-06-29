@@ -1,6 +1,17 @@
 # IdentifierNameSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * [TypeSyntax](TypeSyntax.md)
+          * [NameSyntax](NameSyntax.md)
+            * [SimpleNameSyntax](SimpleNameSyntax.md)
+              * IdentifierNameSyntax
+
+## Syntax Properties
 
 | Name       | Type        |
 | ---------- | ----------- |

@@ -1,6 +1,14 @@
 # ParenthesizedExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * ParenthesizedExpressionSyntax
+
+## Syntax Properties
 
 | Name            | Type                                    |
 | --------------- | --------------------------------------- |

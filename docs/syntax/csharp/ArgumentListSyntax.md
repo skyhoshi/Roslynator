@@ -1,6 +1,14 @@
 # ArgumentListSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [BaseArgumentListSyntax](BaseArgumentListSyntax.md)
+        * ArgumentListSyntax
+
+## Syntax Properties
 
 | Name            | Type                                             |
 | --------------- | ------------------------------------------------ |

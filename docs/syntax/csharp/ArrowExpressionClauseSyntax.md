@@ -1,6 +1,13 @@
 # ArrowExpressionClauseSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * ArrowExpressionClauseSyntax
+
+## Syntax Properties
 
 | Name       | Type                                    |
 | ---------- | --------------------------------------- |

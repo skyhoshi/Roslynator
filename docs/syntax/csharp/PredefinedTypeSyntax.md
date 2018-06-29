@@ -1,6 +1,15 @@
 # PredefinedTypeSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * [TypeSyntax](TypeSyntax.md)
+          * PredefinedTypeSyntax
+
+## Syntax Properties
 
 | Name    | Type        |
 | ------- | ----------- |

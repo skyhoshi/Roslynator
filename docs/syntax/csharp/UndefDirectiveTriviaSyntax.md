@@ -1,6 +1,15 @@
 # UndefDirectiveTriviaSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StructuredTriviaSyntax](StructuredTriviaSyntax.md)
+        * [DirectiveTriviaSyntax](DirectiveTriviaSyntax.md)
+          * UndefDirectiveTriviaSyntax
+
+## Syntax Properties
 
 | Name                | Type        |
 | ------------------- | ----------- |
@@ -8,7 +17,12 @@
 | UndefKeyword        | SyntaxToken |
 | Name                | SyntaxToken |
 | EndOfDirectiveToken | SyntaxToken |
-| IsActive            | bool        |
+
+## Other Properties
+
+| Name     | Type |
+| -------- | ---- |
+| IsActive | bool |
 
 ## See Also
 

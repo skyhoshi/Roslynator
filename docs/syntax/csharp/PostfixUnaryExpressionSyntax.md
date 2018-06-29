@@ -1,6 +1,14 @@
 # PostfixUnaryExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * PostfixUnaryExpressionSyntax
+
+## Syntax Properties
 
 | Name          | Type                                    |
 | ------------- | --------------------------------------- |

@@ -1,12 +1,25 @@
 # ExpressionStatementSyntax
 
-## Properties
+## Inheritance
 
-| Name                | Type                                    |
-| ------------------- | --------------------------------------- |
-| AllowsAnyExpression | bool                                    |
-| Expression          | [ExpressionSyntax](ExpressionSyntax.md) |
-| SemicolonToken      | SyntaxToken                             |
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * ExpressionStatementSyntax
+
+## Syntax Properties
+
+| Name           | Type                                    |
+| -------------- | --------------------------------------- |
+| Expression     | [ExpressionSyntax](ExpressionSyntax.md) |
+| SemicolonToken | SyntaxToken                             |
+
+## Other Properties
+
+| Name                | Type |
+| ------------------- | ---- |
+| AllowsAnyExpression | bool |
 
 ## See Also
 

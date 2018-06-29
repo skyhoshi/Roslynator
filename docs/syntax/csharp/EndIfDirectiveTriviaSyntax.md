@@ -1,13 +1,27 @@
 # EndIfDirectiveTriviaSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StructuredTriviaSyntax](StructuredTriviaSyntax.md)
+        * [DirectiveTriviaSyntax](DirectiveTriviaSyntax.md)
+          * EndIfDirectiveTriviaSyntax
+
+## Syntax Properties
 
 | Name                | Type        |
 | ------------------- | ----------- |
 | HashToken           | SyntaxToken |
 | EndIfKeyword        | SyntaxToken |
 | EndOfDirectiveToken | SyntaxToken |
-| IsActive            | bool        |
+
+## Other Properties
+
+| Name     | Type |
+| -------- | ---- |
+| IsActive | bool |
 
 ## See Also
 

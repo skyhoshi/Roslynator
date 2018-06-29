@@ -1,14 +1,29 @@
 # ElseDirectiveTriviaSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StructuredTriviaSyntax](StructuredTriviaSyntax.md)
+        * [DirectiveTriviaSyntax](DirectiveTriviaSyntax.md)
+          * [BranchingDirectiveTriviaSyntax](BranchingDirectiveTriviaSyntax.md)
+            * ElseDirectiveTriviaSyntax
+
+## Syntax Properties
 
 | Name                | Type        |
 | ------------------- | ----------- |
 | HashToken           | SyntaxToken |
 | ElseKeyword         | SyntaxToken |
 | EndOfDirectiveToken | SyntaxToken |
-| IsActive            | bool        |
-| BranchTaken         | bool        |
+
+## Other Properties
+
+| Name        | Type |
+| ----------- | ---- |
+| IsActive    | bool |
+| BranchTaken | bool |
 
 ## See Also
 

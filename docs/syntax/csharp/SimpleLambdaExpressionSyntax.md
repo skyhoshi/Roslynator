@@ -1,6 +1,16 @@
 # SimpleLambdaExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * [AnonymousFunctionExpressionSyntax](AnonymousFunctionExpressionSyntax.md)
+          * [LambdaExpressionSyntax](LambdaExpressionSyntax.md)
+            * SimpleLambdaExpressionSyntax
+
+## Syntax Properties
 
 | Name         | Type                                  |
 | ------------ | ------------------------------------- |

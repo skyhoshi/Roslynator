@@ -1,6 +1,14 @@
 # XmlProcessingInstructionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [XmlNodeSyntax](XmlNodeSyntax.md)
+        * XmlProcessingInstructionSyntax
+
+## Syntax Properties
 
 | Name                            | Type                              |
 | ------------------------------- | --------------------------------- |

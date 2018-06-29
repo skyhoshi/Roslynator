@@ -1,6 +1,16 @@
 # StructDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * [BaseTypeDeclarationSyntax](BaseTypeDeclarationSyntax.md)
+          * [TypeDeclarationSyntax](TypeDeclarationSyntax.md)
+            * StructDeclarationSyntax
+
+## Syntax Properties
 
 | Name              | Type                                                                                       |
 | ----------------- | ------------------------------------------------------------------------------------------ |

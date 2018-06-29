@@ -1,6 +1,16 @@
 # InterfaceDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * [BaseTypeDeclarationSyntax](BaseTypeDeclarationSyntax.md)
+          * [TypeDeclarationSyntax](TypeDeclarationSyntax.md)
+            * InterfaceDeclarationSyntax
+
+## Syntax Properties
 
 | Name              | Type                                                                                       |
 | ----------------- | ------------------------------------------------------------------------------------------ |

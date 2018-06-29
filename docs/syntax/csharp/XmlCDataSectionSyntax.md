@@ -1,6 +1,14 @@
 # XmlCDataSectionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [XmlNodeSyntax](XmlNodeSyntax.md)
+        * XmlCDataSectionSyntax
+
+## Syntax Properties
 
 | Name            | Type            |
 | --------------- | --------------- |

@@ -1,6 +1,13 @@
 # ConstructorInitializerSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * ConstructorInitializerSyntax
+
+## Syntax Properties
 
 | Name              | Type                                        |
 | ----------------- | ------------------------------------------- |

@@ -1,6 +1,15 @@
 # PointerTypeSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * [TypeSyntax](TypeSyntax.md)
+          * PointerTypeSyntax
+
+## Syntax Properties
 
 | Name          | Type                        |
 | ------------- | --------------------------- |

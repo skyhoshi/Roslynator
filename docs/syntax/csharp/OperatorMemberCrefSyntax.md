@@ -1,6 +1,15 @@
 # OperatorMemberCrefSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [CrefSyntax](CrefSyntax.md)
+        * [MemberCrefSyntax](MemberCrefSyntax.md)
+          * OperatorMemberCrefSyntax
+
+## Syntax Properties
 
 | Name            | Type                                                  |
 | --------------- | ----------------------------------------------------- |

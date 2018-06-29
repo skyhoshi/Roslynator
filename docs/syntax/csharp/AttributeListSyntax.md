@@ -1,6 +1,13 @@
 # AttributeListSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * AttributeListSyntax
+
+## Syntax Properties
 
 | Name              | Type                                                                |
 | ----------------- | ------------------------------------------------------------------- |

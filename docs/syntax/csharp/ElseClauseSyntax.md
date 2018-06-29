@@ -1,6 +1,13 @@
 # ElseClauseSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * ElseClauseSyntax
+
+## Syntax Properties
 
 | Name        | Type                                  |
 | ----------- | ------------------------------------- |

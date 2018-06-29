@@ -1,6 +1,13 @@
 # BaseListSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * BaseListSyntax
+
+## Syntax Properties
 
 | Name       | Type                                             |
 | ---------- | ------------------------------------------------ |

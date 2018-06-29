@@ -1,6 +1,13 @@
 # XmlPrefixSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * XmlPrefixSyntax
+
+## Syntax Properties
 
 | Name       | Type        |
 | ---------- | ----------- |

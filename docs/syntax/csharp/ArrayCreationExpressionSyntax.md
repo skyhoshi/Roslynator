@@ -1,6 +1,14 @@
 # ArrayCreationExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * ArrayCreationExpressionSyntax
+
+## Syntax Properties
 
 | Name        | Type                                                          |
 | ----------- | ------------------------------------------------------------- |

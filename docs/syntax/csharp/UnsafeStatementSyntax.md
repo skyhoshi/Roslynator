@@ -1,6 +1,14 @@
 # UnsafeStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * UnsafeStatementSyntax
+
+## Syntax Properties
 
 | Name          | Type                          |
 | ------------- | ----------------------------- |

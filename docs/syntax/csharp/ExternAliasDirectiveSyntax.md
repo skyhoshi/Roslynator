@@ -1,6 +1,13 @@
 # ExternAliasDirectiveSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * ExternAliasDirectiveSyntax
+
+## Syntax Properties
 
 | Name           | Type        |
 | -------------- | ----------- |

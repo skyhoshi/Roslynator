@@ -1,6 +1,14 @@
 # DocumentationCommentTriviaSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StructuredTriviaSyntax](StructuredTriviaSyntax.md)
+        * DocumentationCommentTriviaSyntax
+
+## Syntax Properties
 
 | Name         | Type                                           |
 | ------------ | ---------------------------------------------- |

@@ -1,6 +1,13 @@
 # SwitchSectionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * SwitchSectionSyntax
+
+## Syntax Properties
 
 | Name       | Type                                                   |
 | ---------- | ------------------------------------------------------ |

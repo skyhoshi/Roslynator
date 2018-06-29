@@ -1,6 +1,15 @@
 # IndexerDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * [BasePropertyDeclarationSyntax](BasePropertyDeclarationSyntax.md)
+          * IndexerDeclarationSyntax
+
+## Syntax Properties
 
 | Name                       | Type                                                                    |
 | -------------------------- | ----------------------------------------------------------------------- |

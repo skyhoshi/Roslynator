@@ -1,6 +1,14 @@
 # TupleExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * TupleExpressionSyntax
+
+## Syntax Properties
 
 | Name            | Type                                             |
 | --------------- | ------------------------------------------------ |

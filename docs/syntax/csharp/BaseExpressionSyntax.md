@@ -1,6 +1,15 @@
 # BaseExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * [InstanceExpressionSyntax](InstanceExpressionSyntax.md)
+          * BaseExpressionSyntax
+
+## Syntax Properties
 
 | Name  | Type        |
 | ----- | ----------- |

@@ -1,6 +1,14 @@
 # WhereClauseSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [QueryClauseSyntax](QueryClauseSyntax.md)
+        * WhereClauseSyntax
+
+## Syntax Properties
 
 | Name         | Type                                    |
 | ------------ | --------------------------------------- |

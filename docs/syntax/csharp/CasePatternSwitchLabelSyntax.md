@@ -1,6 +1,14 @@
 # CasePatternSwitchLabelSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [SwitchLabelSyntax](SwitchLabelSyntax.md)
+        * CasePatternSwitchLabelSyntax
+
+## Syntax Properties
 
 | Name       | Type                                    |
 | ---------- | --------------------------------------- |

@@ -1,6 +1,14 @@
 # EmptyStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * EmptyStatementSyntax
+
+## Syntax Properties
 
 | Name           | Type        |
 | -------------- | ----------- |

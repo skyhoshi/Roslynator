@@ -1,6 +1,14 @@
 # JoinClauseSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [QueryClauseSyntax](QueryClauseSyntax.md)
+        * JoinClauseSyntax
+
+## Syntax Properties
 
 | Name            | Type                                            |
 | --------------- | ----------------------------------------------- |

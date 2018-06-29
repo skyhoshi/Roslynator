@@ -1,6 +1,14 @@
 # ConditionalExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * ConditionalExpressionSyntax
+
+## Syntax Properties
 
 | Name          | Type                                    |
 | ------------- | --------------------------------------- |

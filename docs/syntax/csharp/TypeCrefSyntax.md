@@ -1,6 +1,14 @@
 # TypeCrefSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [CrefSyntax](CrefSyntax.md)
+        * TypeCrefSyntax
+
+## Syntax Properties
 
 | Name | Type                        |
 | ---- | --------------------------- |

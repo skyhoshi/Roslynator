@@ -1,6 +1,15 @@
 # ForEachStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * [CommonForEachStatementSyntax](CommonForEachStatementSyntax.md)
+          * ForEachStatementSyntax
+
+## Syntax Properties
 
 | Name            | Type                                    |
 | --------------- | --------------------------------------- |

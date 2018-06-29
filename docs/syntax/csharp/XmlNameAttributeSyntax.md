@@ -1,6 +1,14 @@
 # XmlNameAttributeSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [XmlAttributeSyntax](XmlAttributeSyntax.md)
+        * XmlNameAttributeSyntax
+
+## Syntax Properties
 
 | Name            | Type                                            |
 | --------------- | ----------------------------------------------- |

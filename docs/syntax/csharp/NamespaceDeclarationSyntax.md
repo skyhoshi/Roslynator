@@ -1,6 +1,14 @@
 # NamespaceDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * NamespaceDeclarationSyntax
+
+## Syntax Properties
 
 | Name             | Type                                                                     |
 | ---------------- | ------------------------------------------------------------------------ |

@@ -1,6 +1,14 @@
 # SingleVariableDesignationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [VariableDesignationSyntax](VariableDesignationSyntax.md)
+        * SingleVariableDesignationSyntax
+
+## Syntax Properties
 
 | Name       | Type        |
 | ---------- | ----------- |

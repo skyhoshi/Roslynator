@@ -1,6 +1,13 @@
 # AnonymousObjectMemberDeclaratorSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * AnonymousObjectMemberDeclaratorSyntax
+
+## Syntax Properties
 
 | Name       | Type                                    |
 | ---------- | --------------------------------------- |

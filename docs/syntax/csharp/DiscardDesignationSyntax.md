@@ -1,6 +1,14 @@
 # DiscardDesignationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [VariableDesignationSyntax](VariableDesignationSyntax.md)
+        * DiscardDesignationSyntax
+
+## Syntax Properties
 
 | Name            | Type        |
 | --------------- | ----------- |

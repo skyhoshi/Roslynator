@@ -1,6 +1,13 @@
 # CatchFilterClauseSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * CatchFilterClauseSyntax
+
+## Syntax Properties
 
 | Name             | Type                                    |
 | ---------------- | --------------------------------------- |

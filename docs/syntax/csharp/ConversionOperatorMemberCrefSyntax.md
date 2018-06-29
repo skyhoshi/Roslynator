@@ -1,6 +1,15 @@
 # ConversionOperatorMemberCrefSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [CrefSyntax](CrefSyntax.md)
+        * [MemberCrefSyntax](MemberCrefSyntax.md)
+          * ConversionOperatorMemberCrefSyntax
+
+## Syntax Properties
 
 | Name                      | Type                                                  |
 | ------------------------- | ----------------------------------------------------- |

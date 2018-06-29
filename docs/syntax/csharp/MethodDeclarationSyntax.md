@@ -1,10 +1,18 @@
 # MethodDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * [BaseMethodDeclarationSyntax](BaseMethodDeclarationSyntax.md)
+          * MethodDeclarationSyntax
+
+## Syntax Properties
 
 | Name                       | Type                                                                                       |
 | -------------------------- | ------------------------------------------------------------------------------------------ |
-| Arity                      | int                                                                                        |
 | AttributeLists             | SyntaxList\<[AttributeListSyntax](AttributeListSyntax.md)>                                 |
 | Modifiers                  | SyntaxTokenList                                                                            |
 | ReturnType                 | [TypeSyntax](TypeSyntax.md)                                                                |
@@ -16,6 +24,12 @@
 | Body                       | [BlockSyntax](BlockSyntax.md)                                                              |
 | ExpressionBody             | [ArrowExpressionClauseSyntax](ArrowExpressionClauseSyntax.md)                              |
 | SemicolonToken             | SyntaxToken                                                                                |
+
+## Other Properties
+
+| Name  | Type |
+| ----- | ---- |
+| Arity | int  |
 
 ## See Also
 

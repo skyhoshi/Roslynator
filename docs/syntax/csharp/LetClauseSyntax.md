@@ -1,6 +1,14 @@
 # LetClauseSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [QueryClauseSyntax](QueryClauseSyntax.md)
+        * LetClauseSyntax
+
+## Syntax Properties
 
 | Name        | Type                                    |
 | ----------- | --------------------------------------- |

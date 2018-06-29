@@ -1,6 +1,13 @@
 # ExplicitInterfaceSpecifierSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * ExplicitInterfaceSpecifierSyntax
+
+## Syntax Properties
 
 | Name     | Type                        |
 | -------- | --------------------------- |

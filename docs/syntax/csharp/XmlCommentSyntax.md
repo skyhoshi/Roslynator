@@ -1,6 +1,14 @@
 # XmlCommentSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [XmlNodeSyntax](XmlNodeSyntax.md)
+        * XmlCommentSyntax
+
+## Syntax Properties
 
 | Name                               | Type            |
 | ---------------------------------- | --------------- |

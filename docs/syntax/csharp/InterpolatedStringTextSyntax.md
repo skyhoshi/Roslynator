@@ -1,6 +1,14 @@
 # InterpolatedStringTextSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [InterpolatedStringContentSyntax](InterpolatedStringContentSyntax.md)
+        * InterpolatedStringTextSyntax
+
+## Syntax Properties
 
 | Name      | Type        |
 | --------- | ----------- |

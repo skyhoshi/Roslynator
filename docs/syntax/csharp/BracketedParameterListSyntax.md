@@ -1,6 +1,14 @@
 # BracketedParameterListSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [BaseParameterListSyntax](BaseParameterListSyntax.md)
+        * BracketedParameterListSyntax
+
+## Syntax Properties
 
 | Name              | Type                                               |
 | ----------------- | -------------------------------------------------- |

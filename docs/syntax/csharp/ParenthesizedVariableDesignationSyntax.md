@@ -1,6 +1,14 @@
 # ParenthesizedVariableDesignationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [VariableDesignationSyntax](VariableDesignationSyntax.md)
+        * ParenthesizedVariableDesignationSyntax
+
+## Syntax Properties
 
 | Name            | Type                                                                   |
 | --------------- | ---------------------------------------------------------------------- |

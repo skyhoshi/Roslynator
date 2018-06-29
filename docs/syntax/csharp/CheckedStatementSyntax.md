@@ -1,6 +1,14 @@
 # CheckedStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * CheckedStatementSyntax
+
+## Syntax Properties
 
 | Name    | Type                          |
 | ------- | ----------------------------- |

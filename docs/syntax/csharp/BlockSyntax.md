@@ -1,6 +1,14 @@
 # BlockSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * BlockSyntax
+
+## Syntax Properties
 
 | Name            | Type                                               |
 | --------------- | -------------------------------------------------- |

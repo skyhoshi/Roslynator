@@ -1,6 +1,15 @@
 # RefTypeSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * [TypeSyntax](TypeSyntax.md)
+          * RefTypeSyntax
+
+## Syntax Properties
 
 | Name       | Type                        |
 | ---------- | --------------------------- |

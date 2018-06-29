@@ -1,6 +1,13 @@
 # EqualsValueClauseSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * EqualsValueClauseSyntax
+
+## Syntax Properties
 
 | Name        | Type                                    |
 | ----------- | --------------------------------------- |

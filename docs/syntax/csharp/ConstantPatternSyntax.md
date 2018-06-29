@@ -1,6 +1,14 @@
 # ConstantPatternSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [PatternSyntax](PatternSyntax.md)
+        * ConstantPatternSyntax
+
+## Syntax Properties
 
 | Name       | Type                                    |
 | ---------- | --------------------------------------- |

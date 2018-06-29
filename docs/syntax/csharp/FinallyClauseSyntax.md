@@ -1,6 +1,13 @@
 # FinallyClauseSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * FinallyClauseSyntax
+
+## Syntax Properties
 
 | Name           | Type                          |
 | -------------- | ----------------------------- |

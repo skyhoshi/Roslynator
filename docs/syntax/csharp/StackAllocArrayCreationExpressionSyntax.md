@@ -1,6 +1,14 @@
 # StackAllocArrayCreationExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * StackAllocArrayCreationExpressionSyntax
+
+## Syntax Properties
 
 | Name              | Type                        |
 | ----------------- | --------------------------- |

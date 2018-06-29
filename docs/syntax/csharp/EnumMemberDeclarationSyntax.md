@@ -1,6 +1,14 @@
 # EnumMemberDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * EnumMemberDeclarationSyntax
+
+## Syntax Properties
 
 | Name           | Type                                                       |
 | -------------- | ---------------------------------------------------------- |

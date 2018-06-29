@@ -1,6 +1,14 @@
 # BracketedArgumentListSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [BaseArgumentListSyntax](BaseArgumentListSyntax.md)
+        * BracketedArgumentListSyntax
+
+## Syntax Properties
 
 | Name              | Type                                             |
 | ----------------- | ------------------------------------------------ |

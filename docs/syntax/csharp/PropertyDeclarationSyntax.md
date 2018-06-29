@@ -1,6 +1,15 @@
 # PropertyDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * [BasePropertyDeclarationSyntax](BasePropertyDeclarationSyntax.md)
+          * PropertyDeclarationSyntax
+
+## Syntax Properties
 
 | Name                       | Type                                                                    |
 | -------------------------- | ----------------------------------------------------------------------- |

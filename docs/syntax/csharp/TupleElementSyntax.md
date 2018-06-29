@@ -1,6 +1,13 @@
 # TupleElementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * TupleElementSyntax
+
+## Syntax Properties
 
 | Name       | Type                        |
 | ---------- | --------------------------- |

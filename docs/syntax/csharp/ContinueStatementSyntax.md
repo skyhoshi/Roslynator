@@ -1,6 +1,14 @@
 # ContinueStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * ContinueStatementSyntax
+
+## Syntax Properties
 
 | Name            | Type        |
 | --------------- | ----------- |

@@ -1,6 +1,15 @@
 # ConstructorDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * [BaseMethodDeclarationSyntax](BaseMethodDeclarationSyntax.md)
+          * ConstructorDeclarationSyntax
+
+## Syntax Properties
 
 | Name           | Type                                                            |
 | -------------- | --------------------------------------------------------------- |

@@ -1,6 +1,14 @@
 # AwaitExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * AwaitExpressionSyntax
+
+## Syntax Properties
 
 | Name         | Type                                    |
 | ------------ | --------------------------------------- |

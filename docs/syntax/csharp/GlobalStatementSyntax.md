@@ -1,6 +1,14 @@
 # GlobalStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * GlobalStatementSyntax
+
+## Syntax Properties
 
 | Name      | Type                                  |
 | --------- | ------------------------------------- |

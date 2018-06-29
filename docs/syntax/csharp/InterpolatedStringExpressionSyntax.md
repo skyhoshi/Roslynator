@@ -1,6 +1,14 @@
 # InterpolatedStringExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * InterpolatedStringExpressionSyntax
+
+## Syntax Properties
 
 | Name             | Type                                                                               |
 | ---------------- | ---------------------------------------------------------------------------------- |

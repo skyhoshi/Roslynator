@@ -1,6 +1,15 @@
 # FieldDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * [BaseFieldDeclarationSyntax](BaseFieldDeclarationSyntax.md)
+          * FieldDeclarationSyntax
+
+## Syntax Properties
 
 | Name           | Type                                                       |
 | -------------- | ---------------------------------------------------------- |

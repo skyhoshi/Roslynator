@@ -1,6 +1,13 @@
 # QueryBodySyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * QueryBodySyntax
+
+## Syntax Properties
 
 | Name          | Type                                                      |
 | ------------- | --------------------------------------------------------- |

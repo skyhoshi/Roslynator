@@ -1,6 +1,13 @@
 # TypeParameterSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * TypeParameterSyntax
+
+## Syntax Properties
 
 | Name            | Type                                                       |
 | --------------- | ---------------------------------------------------------- |

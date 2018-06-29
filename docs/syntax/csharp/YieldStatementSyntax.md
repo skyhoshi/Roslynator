@@ -1,6 +1,14 @@
 # YieldStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * YieldStatementSyntax
+
+## Syntax Properties
 
 | Name                 | Type                                    |
 | -------------------- | --------------------------------------- |

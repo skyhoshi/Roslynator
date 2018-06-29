@@ -1,6 +1,14 @@
 # XmlCrefAttributeSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [XmlAttributeSyntax](XmlAttributeSyntax.md)
+        * XmlCrefAttributeSyntax
+
+## Syntax Properties
 
 | Name            | Type                              |
 | --------------- | --------------------------------- |

@@ -1,6 +1,16 @@
 # ClassDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * [BaseTypeDeclarationSyntax](BaseTypeDeclarationSyntax.md)
+          * [TypeDeclarationSyntax](TypeDeclarationSyntax.md)
+            * ClassDeclarationSyntax
+
+## Syntax Properties
 
 | Name              | Type                                                                                       |
 | ----------------- | ------------------------------------------------------------------------------------------ |

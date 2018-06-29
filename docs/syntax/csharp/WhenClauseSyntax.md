@@ -1,6 +1,13 @@
 # WhenClauseSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * WhenClauseSyntax
+
+## Syntax Properties
 
 | Name        | Type                                    |
 | ----------- | --------------------------------------- |

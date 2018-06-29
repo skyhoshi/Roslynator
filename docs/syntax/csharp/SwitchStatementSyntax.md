@@ -1,6 +1,14 @@
 # SwitchStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * SwitchStatementSyntax
+
+## Syntax Properties
 
 | Name            | Type                                                       |
 | --------------- | ---------------------------------------------------------- |

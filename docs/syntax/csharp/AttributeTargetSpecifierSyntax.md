@@ -1,6 +1,13 @@
 # AttributeTargetSpecifierSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * AttributeTargetSpecifierSyntax
+
+## Syntax Properties
 
 | Name       | Type        |
 | ---------- | ----------- |

@@ -1,6 +1,13 @@
 # NameEqualsSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * NameEqualsSyntax
+
+## Syntax Properties
 
 | Name        | Type                                            |
 | ----------- | ----------------------------------------------- |

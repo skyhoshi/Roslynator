@@ -1,6 +1,14 @@
 # ElementAccessExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * ElementAccessExpressionSyntax
+
+## Syntax Properties
 
 | Name         | Type                                                          |
 | ------------ | ------------------------------------------------------------- |

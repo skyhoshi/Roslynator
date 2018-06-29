@@ -1,6 +1,14 @@
 # OrderByClauseSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [QueryClauseSyntax](QueryClauseSyntax.md)
+        * OrderByClauseSyntax
+
+## Syntax Properties
 
 | Name           | Type                                             |
 | -------------- | ------------------------------------------------ |

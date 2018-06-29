@@ -1,6 +1,14 @@
 # DeclarationPatternSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [PatternSyntax](PatternSyntax.md)
+        * DeclarationPatternSyntax
+
+## Syntax Properties
 
 | Name        | Type                                                      |
 | ----------- | --------------------------------------------------------- |

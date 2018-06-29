@@ -1,6 +1,14 @@
 # QualifiedCrefSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [CrefSyntax](CrefSyntax.md)
+        * QualifiedCrefSyntax
+
+## Syntax Properties
 
 | Name      | Type                                    |
 | --------- | --------------------------------------- |

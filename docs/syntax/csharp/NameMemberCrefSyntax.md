@@ -1,6 +1,15 @@
 # NameMemberCrefSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [CrefSyntax](CrefSyntax.md)
+        * [MemberCrefSyntax](MemberCrefSyntax.md)
+          * NameMemberCrefSyntax
+
+## Syntax Properties
 
 | Name       | Type                                                  |
 | ---------- | ----------------------------------------------------- |

@@ -1,6 +1,15 @@
 # ConversionOperatorDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * [BaseMethodDeclarationSyntax](BaseMethodDeclarationSyntax.md)
+          * ConversionOperatorDeclarationSyntax
+
+## Syntax Properties
 
 | Name                      | Type                                                          |
 | ------------------------- | ------------------------------------------------------------- |

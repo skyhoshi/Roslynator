@@ -1,6 +1,14 @@
 # LocalFunctionStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * LocalFunctionStatementSyntax
+
+## Syntax Properties
 
 | Name              | Type                                                                                       |
 | ----------------- | ------------------------------------------------------------------------------------------ |

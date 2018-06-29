@@ -1,6 +1,13 @@
 # CompilationUnitSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * CompilationUnitSyntax
+
+## Syntax Properties
 
 | Name           | Type                                                                     |
 | -------------- | ------------------------------------------------------------------------ |

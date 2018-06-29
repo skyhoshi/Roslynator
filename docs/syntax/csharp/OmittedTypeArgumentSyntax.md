@@ -1,6 +1,15 @@
 # OmittedTypeArgumentSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * [TypeSyntax](TypeSyntax.md)
+          * OmittedTypeArgumentSyntax
+
+## Syntax Properties
 
 | Name                     | Type        |
 | ------------------------ | ----------- |

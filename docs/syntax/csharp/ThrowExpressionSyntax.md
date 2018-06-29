@@ -1,6 +1,14 @@
 # ThrowExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * ThrowExpressionSyntax
+
+## Syntax Properties
 
 | Name         | Type                                    |
 | ------------ | --------------------------------------- |

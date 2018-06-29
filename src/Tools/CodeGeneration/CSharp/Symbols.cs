@@ -162,5 +162,39 @@ namespace Roslynator.CodeGeneration.CSharp
                 }
             }
         }
+
+        public static bool IsSyntaxTypeSymbol(ITypeSymbol typeSymbol)
+        {
+            if (typeSymbol.Equals(SyntaxTokenListSymbol))
+                return true;
+
+            if (typeSymbol.Equals(SyntaxTokenSymbol))
+                return true;
+
+            ITypeSymbol originalDefinition = typeSymbol.OriginalDefinition;
+
+            if (originalDefinition.Equals(SyntaxListSymbol))
+                return true;
+
+            if (originalDefinition.Equals(SeparatedSyntaxListSymbol))
+                return true;
+
+            if (typeSymbol.EqualsOrInheritsFrom(SyntaxNodeSymbol))
+                return true;
+
+            return false;
+        }
+
+        public static IEnumerable<INamedTypeSymbol> GetDerivedTypes(INamedTypeSymbol syntaxSymbol, Func<INamedTypeSymbol, bool> predicate = null)
+        {
+            foreach (INamedTypeSymbol symbol in SyntaxSymbols)
+            {
+                if (symbol.InheritsFrom(syntaxSymbol)
+                    && predicate?.Invoke(symbol) != false)
+                {
+                    yield return symbol;
+                }
+            }
+        }
     }
 }

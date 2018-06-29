@@ -1,10 +1,17 @@
 # DelegateDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * DelegateDeclarationSyntax
+
+## Syntax Properties
 
 | Name              | Type                                                                                       |
 | ----------------- | ------------------------------------------------------------------------------------------ |
-| Arity             | int                                                                                        |
 | AttributeLists    | SyntaxList\<[AttributeListSyntax](AttributeListSyntax.md)>                                 |
 | Modifiers         | SyntaxTokenList                                                                            |
 | DelegateKeyword   | SyntaxToken                                                                                |
@@ -14,6 +21,12 @@
 | ParameterList     | [ParameterListSyntax](ParameterListSyntax.md)                                              |
 | ConstraintClauses | SyntaxList\<[TypeParameterConstraintClauseSyntax](TypeParameterConstraintClauseSyntax.md)> |
 | SemicolonToken    | SyntaxToken                                                                                |
+
+## Other Properties
+
+| Name  | Type |
+| ----- | ---- |
+| Arity | int  |
 
 ## See Also
 

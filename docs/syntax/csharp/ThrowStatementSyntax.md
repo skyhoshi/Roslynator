@@ -1,6 +1,14 @@
 # ThrowStatementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * ThrowStatementSyntax
+
+## Syntax Properties
 
 | Name           | Type                                    |
 | -------------- | --------------------------------------- |

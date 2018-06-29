@@ -1,6 +1,15 @@
 # OperatorDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * [BaseMethodDeclarationSyntax](BaseMethodDeclarationSyntax.md)
+          * OperatorDeclarationSyntax
+
+## Syntax Properties
 
 | Name            | Type                                                          |
 | --------------- | ------------------------------------------------------------- |

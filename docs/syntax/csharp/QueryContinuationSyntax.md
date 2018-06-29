@@ -1,6 +1,13 @@
 # QueryContinuationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * QueryContinuationSyntax
+
+## Syntax Properties
 
 | Name        | Type                                  |
 | ----------- | ------------------------------------- |

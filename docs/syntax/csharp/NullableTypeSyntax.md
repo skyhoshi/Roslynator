@@ -1,6 +1,15 @@
 # NullableTypeSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * [TypeSyntax](TypeSyntax.md)
+          * NullableTypeSyntax
+
+## Syntax Properties
 
 | Name          | Type                        |
 | ------------- | --------------------------- |

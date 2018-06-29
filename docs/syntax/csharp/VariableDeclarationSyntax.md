@@ -1,6 +1,13 @@
 # VariableDeclarationSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * VariableDeclarationSyntax
+
+## Syntax Properties
 
 | Name      | Type                                                                 |
 | --------- | -------------------------------------------------------------------- |

@@ -1,6 +1,13 @@
 # UsingDirectiveSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * UsingDirectiveSyntax
+
+## Syntax Properties
 
 | Name           | Type                                    |
 | -------------- | --------------------------------------- |

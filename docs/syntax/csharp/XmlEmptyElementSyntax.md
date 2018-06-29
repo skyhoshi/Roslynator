@@ -1,6 +1,14 @@
 # XmlEmptyElementSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [XmlNodeSyntax](XmlNodeSyntax.md)
+        * XmlEmptyElementSyntax
+
+## Syntax Properties
 
 | Name                  | Type                                                     |
 | --------------------- | -------------------------------------------------------- |

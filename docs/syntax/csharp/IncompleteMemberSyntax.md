@@ -1,6 +1,14 @@
 # IncompleteMemberSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [MemberDeclarationSyntax](MemberDeclarationSyntax.md)
+        * IncompleteMemberSyntax
+
+## Syntax Properties
 
 | Name           | Type                                                       |
 | -------------- | ---------------------------------------------------------- |

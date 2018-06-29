@@ -1,6 +1,13 @@
 # XmlElementStartTagSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * XmlElementStartTagSyntax
+
+## Syntax Properties
 
 | Name             | Type                                                     |
 | ---------------- | -------------------------------------------------------- |

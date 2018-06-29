@@ -1,6 +1,14 @@
 # FromClauseSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [QueryClauseSyntax](QueryClauseSyntax.md)
+        * FromClauseSyntax
+
+## Syntax Properties
 
 | Name        | Type                                    |
 | ----------- | --------------------------------------- |

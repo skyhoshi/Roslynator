@@ -1,6 +1,15 @@
 # ArrayTypeSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * [TypeSyntax](TypeSyntax.md)
+          * ArrayTypeSyntax
+
+## Syntax Properties
 
 | Name           | Type                                                                 |
 | -------------- | -------------------------------------------------------------------- |

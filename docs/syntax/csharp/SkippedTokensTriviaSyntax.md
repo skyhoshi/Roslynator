@@ -1,6 +1,14 @@
 # SkippedTokensTriviaSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StructuredTriviaSyntax](StructuredTriviaSyntax.md)
+        * SkippedTokensTriviaSyntax
+
+## Syntax Properties
 
 | Name   | Type            |
 | ------ | --------------- |

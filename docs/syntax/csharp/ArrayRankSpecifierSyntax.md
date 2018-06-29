@@ -1,13 +1,25 @@
 # ArrayRankSpecifierSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * ArrayRankSpecifierSyntax
+
+## Syntax Properties
 
 | Name              | Type                                                 |
 | ----------------- | ---------------------------------------------------- |
-| Rank              | int                                                  |
 | OpenBracketToken  | SyntaxToken                                          |
 | Sizes             | SyntaxList\<[ExpressionSyntax](ExpressionSyntax.md)> |
 | CloseBracketToken | SyntaxToken                                          |
+
+## Other Properties
+
+| Name | Type |
+| ---- | ---- |
+| Rank | int  |
 
 ## See Also
 

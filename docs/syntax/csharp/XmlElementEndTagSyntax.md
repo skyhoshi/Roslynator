@@ -1,6 +1,13 @@
 # XmlElementEndTagSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * XmlElementEndTagSyntax
+
+## Syntax Properties
 
 | Name               | Type                              |
 | ------------------ | --------------------------------- |

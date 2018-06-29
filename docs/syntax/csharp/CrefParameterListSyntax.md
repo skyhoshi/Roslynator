@@ -1,6 +1,14 @@
 # CrefParameterListSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [BaseCrefParameterListSyntax](BaseCrefParameterListSyntax.md)
+        * CrefParameterListSyntax
+
+## Syntax Properties
 
 | Name            | Type                                                       |
 | --------------- | ---------------------------------------------------------- |

@@ -1,6 +1,14 @@
 # TypeConstraintSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [TypeParameterConstraintSyntax](TypeParameterConstraintSyntax.md)
+        * TypeConstraintSyntax
+
+## Syntax Properties
 
 | Name | Type                        |
 | ---- | --------------------------- |

@@ -1,6 +1,15 @@
 # AnonymousMethodExpressionSyntax
 
-## Properties
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * [AnonymousFunctionExpressionSyntax](AnonymousFunctionExpressionSyntax.md)
+          * AnonymousMethodExpressionSyntax
+
+## Syntax Properties
 
 | Name            | Type                                          |
 | --------------- | --------------------------------------------- |
