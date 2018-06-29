@@ -1,0 +1,26 @@
+# WhileStatementSyntax
+
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [StatementSyntax](StatementSyntax.md)
+        * WhileStatementSyntax
+
+## Syntax Properties
+
+| Name            | Type                                    |
+| --------------- | --------------------------------------- |
+| WhileKeyword    | SyntaxToken                             |
+| OpenParenToken  | SyntaxToken                             |
+| Condition       | [ExpressionSyntax](ExpressionSyntax.md) |
+| CloseParenToken | SyntaxToken                             |
+| Statement       | [StatementSyntax](StatementSyntax.md)   |
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.whilestatementsyntax)
+
+
+*\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

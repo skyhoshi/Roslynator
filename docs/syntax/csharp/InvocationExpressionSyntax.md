@@ -1,0 +1,23 @@
+# InvocationExpressionSyntax
+
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * InvocationExpressionSyntax
+
+## Syntax Properties
+
+| Name         | Type                                        |
+| ------------ | ------------------------------------------- |
+| Expression   | [ExpressionSyntax](ExpressionSyntax.md)     |
+| ArgumentList | [ArgumentListSyntax](ArgumentListSyntax.md) |
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.invocationexpressionsyntax)
+
+
+*\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

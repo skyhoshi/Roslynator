@@ -1,0 +1,22 @@
+# DiscardDesignationSyntax
+
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [VariableDesignationSyntax](VariableDesignationSyntax.md)
+        * DiscardDesignationSyntax
+
+## Syntax Properties
+
+| Name            | Type        |
+| --------------- | ----------- |
+| UnderscoreToken | SyntaxToken |
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.discarddesignationsyntax)
+
+
+*\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

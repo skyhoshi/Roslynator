@@ -4,10 +4,12 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Roslynator.CodeGeneration.CSharp;
 using Roslynator.CodeGeneration.Markdown;
 using Roslynator.CodeGeneration.Xml;
 using Roslynator.Metadata;
 using Roslynator.Utilities;
+using Microsoft.CodeAnalysis;
 
 namespace Roslynator.CodeGeneration
 {
@@ -22,6 +24,21 @@ namespace Roslynator.CodeGeneration
 
         public void Generate()
         {
+            WriteAllText(
+                @"..\docs\CSharpSyntaxObjectModel.md",
+                SyntaxObjectModelGenerator.GenerateCSharpSyntaxObjectModel());
+
+            foreach (INamedTypeSymbol syntaxSymbol in Symbols.SyntaxSymbols)
+            {
+                WriteAllText(
+                    $@"..\docs\syntax\csharp\{syntaxSymbol.MetadataName}.md",
+                    SyntaxObjectModelGenerator.GenerateCSharpSyntaxTypeMetadata(syntaxSymbol),
+                    fileMustExists: false);
+            }
+
+            //TODO: 
+            return;
+
             WriteAllText(
                 @"CSharp\README.md",
                 MarkdownGenerator.GenerateAssemblyReadme("Roslynator.CSharp"));
