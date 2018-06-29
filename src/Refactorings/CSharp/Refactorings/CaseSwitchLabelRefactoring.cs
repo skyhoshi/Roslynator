@@ -30,12 +30,6 @@ namespace Roslynator.CSharp.Refactorings
                     }
                 }
             }
-
-            if (context.IsRefactoringEnabled(RefactoringIdentifiers.SortCaseLabels)
-                && context.Span.IsEmptyAndContainedInSpan(caseLabel))
-            {
-                SortCaseLabelsRefactoring.ComputeRefactoring(context, caseLabel);
-            }
         }
     }
 }
