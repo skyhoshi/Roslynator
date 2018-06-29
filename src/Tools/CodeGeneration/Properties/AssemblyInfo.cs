@@ -1,5 +1,3 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("MetadataGenerator, PublicKey=0024000004800000940000000602000000240000525341310004000001000100f11e689f6d1bbc99083bbc0415365927d315b52a503c9ca473ee24f76eaf1b361c0118bc3dc5a9bb5eb5c98b4a5ad332a2a0a393f7d6e7a280331e0f90d9ce043a36518f649b4665d1e91aa8ec92422d79e506dd957bc79b1b3c0da1c9a543d3f30ff2a7a35786246775994caf4923ea3b602672390deaac1af63e59362cecf3")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1093:Remove file with no code.", Justification = "<Pending>")]
