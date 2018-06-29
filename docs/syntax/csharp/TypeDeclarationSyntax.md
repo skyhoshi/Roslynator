@@ -24,6 +24,8 @@
 | ----- | ---- |
 | Arity | int  |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [ClassDeclarationSyntax](ClassDeclarationSyntax.md)

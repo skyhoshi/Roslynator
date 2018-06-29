@@ -7,6 +7,8 @@
     * CSharpSyntaxNode
       * TypeParameterConstraintSyntax
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [ClassOrStructConstraintSyntax](ClassOrStructConstraintSyntax.md)

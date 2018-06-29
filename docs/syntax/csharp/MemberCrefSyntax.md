@@ -8,6 +8,8 @@
       * [CrefSyntax](CrefSyntax.md)
         * MemberCrefSyntax
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [ConversionOperatorMemberCrefSyntax](ConversionOperatorMemberCrefSyntax.md)

@@ -7,6 +7,8 @@
     * CSharpSyntaxNode
       * StatementSyntax
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [BlockSyntax](BlockSyntax.md)

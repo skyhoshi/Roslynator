@@ -22,6 +22,8 @@
 | -------------- | ---- |
 | ConditionValue | bool |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [ElifDirectiveTriviaSyntax](ElifDirectiveTriviaSyntax.md)

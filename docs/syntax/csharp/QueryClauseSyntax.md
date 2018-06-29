@@ -7,6 +7,8 @@
     * CSharpSyntaxNode
       * QueryClauseSyntax
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [FromClauseSyntax](FromClauseSyntax.md)

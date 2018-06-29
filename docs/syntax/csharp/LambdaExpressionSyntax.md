@@ -15,6 +15,8 @@
 | ---------- | ----------- |
 | ArrowToken | SyntaxToken |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [ParenthesizedLambdaExpressionSyntax](ParenthesizedLambdaExpressionSyntax.md)

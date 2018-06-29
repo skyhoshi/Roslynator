@@ -15,6 +15,8 @@
 | AsyncKeyword | SyntaxToken      |
 | Body         | CSharpSyntaxNode |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [AnonymousMethodExpressionSyntax](AnonymousMethodExpressionSyntax.md)

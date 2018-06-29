@@ -22,6 +22,8 @@
 | -------- | ---- |
 | IsActive | bool |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [BadDirectiveTriviaSyntax](BadDirectiveTriviaSyntax.md)

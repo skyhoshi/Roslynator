@@ -7,6 +7,8 @@
     * CSharpSyntaxNode
       * XmlNodeSyntax
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [XmlCDataSectionSyntax](XmlCDataSectionSyntax.md)

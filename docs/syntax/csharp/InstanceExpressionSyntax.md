@@ -8,6 +8,8 @@
       * [ExpressionSyntax](ExpressionSyntax.md)
         * InstanceExpressionSyntax
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [BaseExpressionSyntax](BaseExpressionSyntax.md)

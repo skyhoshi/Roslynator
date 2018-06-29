@@ -7,6 +7,8 @@
     * CSharpSyntaxNode
       * CrefSyntax
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [QualifiedCrefSyntax](QualifiedCrefSyntax.md)

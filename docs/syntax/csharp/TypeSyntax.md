@@ -14,6 +14,8 @@
 | ----- | ---- |
 | IsVar | bool |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [ArrayTypeSyntax](ArrayTypeSyntax.md)

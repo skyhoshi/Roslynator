@@ -18,6 +18,8 @@
 | ExplicitInterfaceSpecifier | [ExplicitInterfaceSpecifierSyntax](ExplicitInterfaceSpecifierSyntax.md) |
 | AccessorList               | [AccessorListSyntax](AccessorListSyntax.md)                             |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [EventDeclarationSyntax](EventDeclarationSyntax.md)

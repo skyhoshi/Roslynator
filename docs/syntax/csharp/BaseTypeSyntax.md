@@ -13,6 +13,8 @@
 | ---- | --------------------------- |
 | Type | [TypeSyntax](TypeSyntax.md) |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [SimpleBaseTypeSyntax](SimpleBaseTypeSyntax.md)

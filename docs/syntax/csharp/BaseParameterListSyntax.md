@@ -13,6 +13,8 @@
 | ---------- | -------------------------------------------------- |
 | Parameters | SyntaxList\<[ParameterSyntax](ParameterSyntax.md)> |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [BracketedParameterListSyntax](BracketedParameterListSyntax.md)

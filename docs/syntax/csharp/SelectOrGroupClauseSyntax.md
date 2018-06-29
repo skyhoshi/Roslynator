@@ -7,6 +7,8 @@
     * CSharpSyntaxNode
       * SelectOrGroupClauseSyntax
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [GroupClauseSyntax](GroupClauseSyntax.md)

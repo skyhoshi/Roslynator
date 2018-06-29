@@ -16,6 +16,8 @@
 | StartQuoteToken | SyntaxToken                       |
 | EndQuoteToken   | SyntaxToken                       |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [XmlCrefAttributeSyntax](XmlCrefAttributeSyntax.md)

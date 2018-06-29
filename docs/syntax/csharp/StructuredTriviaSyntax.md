@@ -13,6 +13,8 @@
 | ------------ | ------------ |
 | ParentTrivia | SyntaxTrivia |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [DocumentationCommentTriviaSyntax](DocumentationCommentTriviaSyntax.md)

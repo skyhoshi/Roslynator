@@ -17,6 +17,8 @@
 | Declaration    | [VariableDeclarationSyntax](VariableDeclarationSyntax.md)  |
 | SemicolonToken | SyntaxToken                                                |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [EventFieldDeclarationSyntax](EventFieldDeclarationSyntax.md)

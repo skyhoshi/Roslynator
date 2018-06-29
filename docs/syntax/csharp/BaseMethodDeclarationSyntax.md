@@ -19,6 +19,8 @@
 | ExpressionBody | [ArrowExpressionClauseSyntax](ArrowExpressionClauseSyntax.md) |
 | SemicolonToken | SyntaxToken                                                   |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [ConstructorDeclarationSyntax](ConstructorDeclarationSyntax.md)

@@ -7,6 +7,8 @@
     * CSharpSyntaxNode
       * PatternSyntax
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [ConstantPatternSyntax](ConstantPatternSyntax.md)

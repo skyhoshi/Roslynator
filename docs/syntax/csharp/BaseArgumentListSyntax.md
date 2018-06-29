@@ -13,6 +13,8 @@
 | --------- | ------------------------------------------------ |
 | Arguments | SyntaxList\<[ArgumentSyntax](ArgumentSyntax.md)> |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [ArgumentListSyntax](ArgumentListSyntax.md)

@@ -7,6 +7,8 @@
     * CSharpSyntaxNode
       * MemberDeclarationSyntax
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [DelegateDeclarationSyntax](DelegateDeclarationSyntax.md)

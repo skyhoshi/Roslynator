@@ -7,6 +7,8 @@
     * CSharpSyntaxNode
       * InterpolatedStringContentSyntax
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [InterpolatedStringTextSyntax](InterpolatedStringTextSyntax.md)

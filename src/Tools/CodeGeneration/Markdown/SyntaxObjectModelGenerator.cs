@@ -100,6 +100,8 @@ namespace Roslynator.CodeGeneration.Markdown
 
                 if (derivedTypes.Count > 0)
                 {
+                    yield return Heading2("Derived Types");
+
                     List<INamedTypeSymbol> directlyDerived = derivedTypes.Where(f => f.BaseType == typeSymbol).ToList();
 
                     if (directlyDerived.Count > 0)

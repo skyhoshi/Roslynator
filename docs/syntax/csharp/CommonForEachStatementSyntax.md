@@ -19,6 +19,8 @@
 | CloseParenToken | SyntaxToken                             |
 | Statement       | [StatementSyntax](StatementSyntax.md)   |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [ForEachStatementSyntax](ForEachStatementSyntax.md)

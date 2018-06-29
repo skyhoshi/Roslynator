@@ -7,6 +7,8 @@
     * CSharpSyntaxNode
       * ExpressionSyntax
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [AnonymousObjectCreationExpressionSyntax](AnonymousObjectCreationExpressionSyntax.md)

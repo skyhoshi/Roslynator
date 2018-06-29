@@ -15,6 +15,8 @@
 | ----------- | ---- |
 | BranchTaken | bool |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [ElseDirectiveTriviaSyntax](ElseDirectiveTriviaSyntax.md)

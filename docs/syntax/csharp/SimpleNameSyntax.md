@@ -16,6 +16,8 @@
 | ---------- | ----------- |
 | Identifier | SyntaxToken |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [GenericNameSyntax](GenericNameSyntax.md)

@@ -15,6 +15,8 @@
 | ----- | ---- |
 | Arity | int  |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [AliasQualifiedNameSyntax](AliasQualifiedNameSyntax.md)

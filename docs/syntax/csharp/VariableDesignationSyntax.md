@@ -7,6 +7,8 @@
     * CSharpSyntaxNode
       * VariableDesignationSyntax
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [DiscardDesignationSyntax](DiscardDesignationSyntax.md)

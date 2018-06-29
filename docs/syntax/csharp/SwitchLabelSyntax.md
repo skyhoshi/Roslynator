@@ -14,6 +14,8 @@
 | Keyword    | SyntaxToken |
 | ColonToken | SyntaxToken |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [CasePatternSwitchLabelSyntax](CasePatternSwitchLabelSyntax.md)

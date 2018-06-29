@@ -20,6 +20,8 @@
 | CloseBraceToken | SyntaxToken                                                |
 | SemicolonToken  | SyntaxToken                                                |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [EnumDeclarationSyntax](EnumDeclarationSyntax.md)

@@ -13,6 +13,8 @@
 | ---------- | ---------------------------------------------------------- |
 | Parameters | SyntaxList\<[CrefParameterSyntax](CrefParameterSyntax.md)> |
 
+## Derived Types
+
 ### Directly Derived Types
 
 * [CrefBracketedParameterListSyntax](CrefBracketedParameterListSyntax.md)
