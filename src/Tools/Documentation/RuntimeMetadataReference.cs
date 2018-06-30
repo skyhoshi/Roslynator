@@ -35,13 +35,7 @@ namespace Roslynator
         {
             string path = TrustedPlatformAssemblies[assemblyName];
 
-            string xmlPath = Path.ChangeExtension(path, "xml");
-
-            DocumentationProvider documentation = (File.Exists(path))
-                ? XmlDocumentationProvider.CreateFromFile(xmlPath)
-                : DocumentationProvider.Default;
-
-            return MetadataReference.CreateFromFile(path, documentation: documentation);
+            return MetadataReference.CreateFromFile(path);
         }
     }
 }
