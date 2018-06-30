@@ -6,6 +6,7 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Roslynator.CSharp;
 using static Roslynator.CodeGeneration.CSharp.RuntimeMetadataReference;
 
@@ -81,20 +82,15 @@ namespace Roslynator.CodeGeneration.CSharp
         {
             get
             {
-                if (_compilation == null)
-                {
-                    Project project = new AdhocWorkspace()
-                        .CurrentSolution
-                        .AddProject("Project", "Assembly", LanguageNames.CSharp)
-                        .WithMetadataReferences(ImmutableArray.Create(
-                            CorLibReference,
-                            CreateFromAssemblyName("Microsoft.CodeAnalysis.dll"),
-                            CreateFromAssemblyName("Microsoft.CodeAnalysis.CSharp.dll")));
-
-                    _compilation = project.GetCompilationAsync().Result;
-                }
-
-                return _compilation;
+                return _compilation ?? (_compilation = CSharpCompilation.Create(
+                    assemblyName: "Temp",
+                    syntaxTrees: null,
+                    references: new MetadataReference[]
+                    {
+                        CorLibReference,
+                        CreateFromAssemblyName("Microsoft.CodeAnalysis.dll"),
+                        CreateFromAssemblyName("Microsoft.CodeAnalysis.CSharp.dll")
+                    }));
             }
         }
 
