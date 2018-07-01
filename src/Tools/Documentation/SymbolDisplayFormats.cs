@@ -53,11 +53,11 @@ namespace Roslynator.Documentation
              genericsOptions: DefaultGenericsOptions
                 | SymbolDisplayGenericsOptions.IncludeTypeParameters,
              memberOptions: DefaultMemberOptions
-                 | SymbolDisplayMemberOptions.IncludeParameters,
-             delegateStyle: DefaultDelegateStyle,
+                | SymbolDisplayMemberOptions.IncludeParameters,
+             delegateStyle: SymbolDisplayDelegateStyle.NameAndParameters,
              extensionMethodStyle: DefaultExtensionMethodStyle,
              parameterOptions: DefaultParameterOptions
-                 | SymbolDisplayParameterOptions.IncludeType,
+                | SymbolDisplayParameterOptions.IncludeType,
              propertyStyle: DefaultPropertyStyle,
              localOptions: DefaultLocalOptions,
              kindOptions: DefaultKindOptions,

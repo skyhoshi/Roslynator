@@ -62,12 +62,14 @@ namespace Roslynator.Documentation
             _writer.WriteString("Namespace: ");
             _writer.WriteString(typeSymbol.ContainingNamespace.ToDisplayString(FormatProvider.NamespaceFormat));
             _writer.WriteLine();
+            _writer.WriteLine();
         }
 
         public override void WriteAssembly(ITypeSymbol typeSymbol)
         {
             _writer.WriteString("Assembly: ");
             _writer.WriteString(Path.ChangeExtension(typeSymbol.ContainingAssembly.Name, "dll"));
+            _writer.WriteLine();
             _writer.WriteLine();
         }
 

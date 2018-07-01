@@ -6,20 +6,20 @@ namespace Roslynator.Documentation
 {
     internal class SymbolDocumentationInfo
     {
-        public SymbolDocumentationInfo(ISymbol symbol, string commentId, string documentId, string filePath)
+        public SymbolDocumentationInfo(ISymbol symbol, string commentId, string url, string fileUrl)
         {
             Symbol = symbol;
             CommentId = commentId;
-            DocumentId = documentId;
-            FilePath = filePath;
+            Url = url;
+            FileUrl = fileUrl;
         }
 
         public ISymbol Symbol { get; }
 
         public string CommentId { get; }
 
-        public string DocumentId { get; }
+        public string Url { get; }
 
-        public string FilePath { get; }
+        public string FileUrl { get; }
     }
 }

@@ -9,11 +9,15 @@ using Microsoft.CodeAnalysis;
 using System.Text;
 using System.Diagnostics;
 using System;
+using System.Text.RegularExpressions;
+using System.IO;
 
 namespace Roslynator.Documentation
 {
     public class DocumentationGenerator
     {
+        private static readonly Regex _newLineWithWhitespaceRegex = new Regex(@"\r?\n\s*");
+
         private readonly ImmutableArray<DocumentationSource> _sources;
         private ImmutableArray<ITypeSymbol> _typeSymbols;
 
@@ -152,6 +156,14 @@ namespace Roslynator.Documentation
             }
         }
 
+        internal SymbolDocumentationInfo GetDocumentationInfo(ISymbol symbol)
+        {
+            if (!TryGetDocumentationInfo(symbol, out SymbolDocumentationInfo info))
+                throw new InvalidOperationException();
+
+            return info;
+        }
+
         internal bool TryGetDocumentationInfo(ISymbol symbol, out SymbolDocumentationInfo info)
         {
             if (_symbolDocumentationCache.TryGetValue(symbol, out SymbolDocumentationInfo value))
@@ -160,15 +172,15 @@ namespace Roslynator.Documentation
                 return true;
             }
 
-            if (TypeSymbols.Contains(symbol))
+            if (_sources.Any(f => f.AssemblySymbol == symbol.ContainingAssembly))
             {
-                string documentId = CreateDocumentId2((ITypeSymbol)symbol);
+                string url = GetUrl(symbol);
 
                 info = new SymbolDocumentationInfo(
                     symbol,
                     symbol.GetDocumentationCommentId(),
-                    documentId,
-                    documentId + ".md");
+                    url,
+                    url + "/README.md");
 
                 _symbolDocumentationCache[symbol] = info;
                 return true;
@@ -178,84 +190,25 @@ namespace Roslynator.Documentation
             return false;
         }
 
-        internal string GetDocumentationCommentId2(ISymbol symbol)
+        public virtual string GetUrl(ISymbol symbol)
         {
-            if (!TryGetDocumentationCommentId2(symbol, out string commentId))
-                throw new InvalidOperationException();
+            string s = symbol.Name;
 
-            return commentId;
-        }
+            int arity = GetArity();
 
-        internal bool TryGetDocumentationCommentId2(ISymbol symbol, out string commentId)
-        {
-            if (TryGetDocumentationInfo(symbol, out SymbolDocumentationInfo info))
+            if (arity > 0)
             {
-                commentId = info.CommentId;
-                return true;
+                s += "-";
+                s += arity.ToString();
             }
 
-            commentId = null;
-            return false;
-        }
-
-        internal string GetOrCreateDocumentationCommentId2(ISymbol symbol)
-        {
-            if (TryGetDocumentationInfo(symbol, out SymbolDocumentationInfo info))
-                return info.CommentId;
-
-            return symbol.GetDocumentationCommentId();
-        }
-
-        internal string GetDocumentId2(ITypeSymbol typeSymbol)
-        {
-            if (!TryGetDocumentId2(typeSymbol, out string documentId))
-                throw new InvalidOperationException();
-
-            return documentId;
-        }
-
-        internal bool TryGetDocumentId2(ITypeSymbol typeSymbol, out string documentId)
-        {
-            if (TryGetDocumentationInfo(typeSymbol, out SymbolDocumentationInfo info))
-            {
-                documentId = info.DocumentId;
-                return true;
-            }
-
-            documentId = null;
-            return false;
-        }
-
-        internal string GetOrCreateDocumentId2(ITypeSymbol typeSymbol)
-        {
-            if (TryGetDocumentId2(typeSymbol, out string documentId))
-                return documentId;
-
-            return CreateDocumentId2(typeSymbol);
-        }
-
-        public virtual string CreateDocumentId2(ITypeSymbol typeSymbol)
-        {
-            string s = typeSymbol.Name;
-
-            if (typeSymbol is INamedTypeSymbol namedTypeSymbol)
-            {
-                int arity = namedTypeSymbol.Arity;
-
-                if (arity > 0)
-                {
-                    s += "-";
-                    s += arity.ToString();
-                }
-            }
-
-            INamedTypeSymbol containingType = typeSymbol.ContainingType;
+            INamedTypeSymbol containingType = symbol.ContainingType;
 
             while (containingType != null)
             {
                 string name = containingType.Name;
 
-                int arity = containingType.Arity;
+                arity = containingType.Arity;
 
                 if (arity > 0)
                 {
@@ -263,42 +216,39 @@ namespace Roslynator.Documentation
                     name += arity.ToString();
                 }
 
-                s = name + "." + s;
+                s = name + "/" + s;
 
                 containingType = containingType.ContainingType;
             }
 
-            INamespaceSymbol containingNamespace = typeSymbol.ContainingNamespace;
+            INamespaceSymbol containingNamespace = symbol.ContainingNamespace;
 
             while (containingNamespace?.IsGlobalNamespace == false)
             {
-                s = containingNamespace.Name + "." + s;
+                s = containingNamespace.Name + "/" + s;
 
                 containingNamespace = containingNamespace.ContainingNamespace;
             }
 
             return s;
-        }
 
-        public virtual string CreateDocumentId2(INamespaceSymbol namespaceSymbol)
-        {
-            string s = namespaceSymbol.Name;
-
-            INamespaceSymbol containingNamespace = namespaceSymbol.ContainingNamespace;
-
-            while (containingNamespace?.IsGlobalNamespace == false)
+            int GetArity()
             {
-                s = containingNamespace.Name + "." + s;
+                switch (symbol.Kind)
+                {
+                    case SymbolKind.Method:
+                        return ((IMethodSymbol)symbol).Arity;
+                    case SymbolKind.NamedType:
+                        return ((INamedTypeSymbol)symbol).Arity;
+                }
 
-                containingNamespace = containingNamespace.ContainingNamespace;
+                return 0;
             }
-
-            return s;
         }
 
         internal XElement GetDocumentationElement(ISymbol symbol, string name)
         {
-            return _xmlDocumentations[symbol.ContainingAssembly].GetElement(GetDocumentationCommentId2(symbol), name);
+            return _xmlDocumentations[symbol.ContainingAssembly].GetElement(GetDocumentationInfo(symbol).CommentId, name);
         }
 
         internal void WriteTable(
@@ -354,15 +304,24 @@ namespace Roslynator.Documentation
             writer.WriteStartTableRow();
             writer.WriteStartTableCell();
 
-            string url = null;
-            if (TryGetDocumentationInfo(symbol, out SymbolDocumentationInfo info))
-                url = info.FilePath;
+            SymbolDocumentationInfo info = GetDocumentationInfo(symbol);
 
-            writer.WriteLinkOrText(symbol.ToDisplayString(format), url);
+            writer.WriteLinkOrText(symbol.ToDisplayString(format), info.FileUrl);
 
             writer.WriteEndTableCell();
             writer.WriteStartTableCell();
-            writer.WriteString(_xmlDocumentations[symbol.ContainingAssembly].GetElement(GetOrCreateDocumentationCommentId2(symbol), "summary")?.Value.Trim());
+
+            string s = _xmlDocumentations[symbol.ContainingAssembly]
+                .GetElement(info.CommentId, "summary")?
+                .Value;
+
+            if (s != null)
+            {
+                s = s.Trim();
+                s = _newLineWithWhitespaceRegex.Replace(s, " ");
+            }
+
+            writer.WriteString(s);
             writer.WriteEndTableCell();
             writer.WriteEndTableRow();
         }

@@ -41,10 +41,11 @@ namespace Roslynator.Documentation
             {
                 string content = generator.GenerateDocument(namespaceSymbol);
 
-                string fileName = generator.CreateDocumentId2(namespaceSymbol);
+                string path = generator.GetUrl(namespaceSymbol).Replace('/', '\\');
 
-                string path = rootPath + fileName + ".md";
+                path = rootPath + path + @"\README.md";
 
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
                 FileHelper.WriteAllText(path, content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
             }
 
@@ -52,10 +53,11 @@ namespace Roslynator.Documentation
             {
                 string content = generator.GenerateDocument(typeSymbol);
 
-                string fileName = generator.GetDocumentId2(typeSymbol);
+                string path = generator.GetUrl(typeSymbol).Replace('/', '\\');
 
-                string path = rootPath + fileName + ".md";
+                path = rootPath + path + @"\README.md";
 
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
                 FileHelper.WriteAllText(path, content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
             }
 
