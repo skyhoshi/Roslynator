@@ -47,6 +47,22 @@ namespace Roslynator.Documentation
              kindOptions: DefaultKindOptions,
              miscellaneousOptions: DefaultMiscellaneousOptions);
 
+        public static SymbolDisplayFormat MemberSignature { get; } = new SymbolDisplayFormat(
+             globalNamespaceStyle: DefaultGlobalNamespaceStyle,
+             typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameOnly,
+             genericsOptions: DefaultGenericsOptions
+                | SymbolDisplayGenericsOptions.IncludeTypeParameters,
+             memberOptions: DefaultMemberOptions
+                 | SymbolDisplayMemberOptions.IncludeParameters,
+             delegateStyle: DefaultDelegateStyle,
+             extensionMethodStyle: DefaultExtensionMethodStyle,
+             parameterOptions: DefaultParameterOptions
+                 | SymbolDisplayParameterOptions.IncludeType,
+             propertyStyle: DefaultPropertyStyle,
+             localOptions: DefaultLocalOptions,
+             kindOptions: DefaultKindOptions,
+             miscellaneousOptions: DefaultMiscellaneousOptions);
+
         internal const SymbolDisplayGlobalNamespaceStyle DefaultGlobalNamespaceStyle
             = SymbolDisplayGlobalNamespaceStyle.Omitted;
             //= SymbolDisplayGlobalNamespaceStyle.OmittedAsContaining;
@@ -83,12 +99,12 @@ namespace Roslynator.Documentation
             //= SymbolDisplayExtensionMethodStyle.StaticMethod;
 
         internal const SymbolDisplayParameterOptions DefaultParameterOptions = SymbolDisplayParameterOptions.None;
-            //| IncludeExtensionThis
-            //| IncludeParamsRefOut
-            //| IncludeType
-            //| IncludeName
-            //| IncludeDefaultValue
-            //| IncludeOptionalBrackets
+            //| SymbolDisplayParameterOptions.IncludeExtensionThis
+            //| SymbolDisplayParameterOptions.IncludeParamsRefOut
+            //| SymbolDisplayParameterOptions.IncludeType
+            //| SymbolDisplayParameterOptions.IncludeName
+            //| SymbolDisplayParameterOptions.IncludeDefaultValue
+            //| SymbolDisplayParameterOptions.IncludeOptionalBrackets
 
         internal const SymbolDisplayPropertyStyle DefaultPropertyStyle
             = SymbolDisplayPropertyStyle.NameOnly;

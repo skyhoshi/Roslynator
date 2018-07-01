@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -47,23 +47,36 @@ namespace Roslynator.Documentation
                 {
                     writer.WriteTitle(typeSymbol);
                     writer.WriteNamespace(typeSymbol);
-                    writer.WriteAssemblies(typeSymbol);
+                    writer.WriteAssembly(typeSymbol);
                     writer.WriteSummary(typeSymbol);
                     writer.WriteTypeParameters(typeSymbol);
+                    writer.WriteParameters(typeSymbol);
+                    writer.WriteReturnValue(typeSymbol);
                     writer.WriteInheritance(typeSymbol);
+                    writer.WriteAttributes(typeSymbol);
                     writer.WriteDerived(typeSymbol);
                     writer.WriteImplements(typeSymbol);
                     writer.WriteExamples(typeSymbol);
                     writer.WriteRemarks(typeSymbol);
 
-                    ImmutableArray<ISymbol> members = typeSymbol.GetMembers();
+                    IEnumerable<ISymbol> members = typeSymbol.GetMembers().Where(f => f.IsPubliclyVisible());
+
+                    IEnumerable<IFieldSymbol> fields = members
+                        .Where(f => f.Kind == SymbolKind.Field)
+                        .Cast<IFieldSymbol>();
+
+                    if (typeSymbol.TypeKind == TypeKind.Enum)
+                        writer.WriteEnumFields(fields);
 
                     IEnumerable<IMethodSymbol> constructors = members
                         .Where(f => f.Kind == SymbolKind.Method)
                         .Cast<IMethodSymbol>()
-                        .Where(f => f.MethodKind == MethodKind.Constructor);
+                        .Where(f => f.MethodKind == MethodKind.Constructor
+                            && (f.ContainingType.TypeKind != TypeKind.Struct || f.Parameters.Any()));
 
                     writer.WriteConstructors(constructors);
+
+                    writer.WriteFields(fields);
 
                     IEnumerable<IPropertySymbol> properties = members
                         .Where(f => f.Kind == SymbolKind.Property)
@@ -78,13 +91,6 @@ namespace Roslynator.Documentation
 
                     writer.WriteMethods(methods);
 
-                    IEnumerable<IMethodSymbol> explicitInterfaceImplementations = members
-                        .Where(f => f.Kind == SymbolKind.Method)
-                        .Cast<IMethodSymbol>()
-                        .Where(f => f.MethodKind == MethodKind.ExplicitInterfaceImplementation);
-
-                    writer.WriteExplicitInterfaceImplementations(explicitInterfaceImplementations);
-
                     IEnumerable<IMethodSymbol> operators = members
                         .Where(f => f.Kind == SymbolKind.Method)
                         .Cast<IMethodSymbol>()
@@ -92,10 +98,24 @@ namespace Roslynator.Documentation
 
                     writer.WriteOperators(operators);
 
+                    IEnumerable<IEventSymbol> events = members
+                        .Where(f => f.Kind == SymbolKind.Event)
+                        .Cast<IEventSymbol>();
+
+                    writer.WriteEvents(events);
+
+                    IEnumerable<IMethodSymbol> explicitInterfaceImplementations = members
+                        .Where(f => f.Kind == SymbolKind.Method)
+                        .Cast<IMethodSymbol>()
+                        .Where(f => f.MethodKind == MethodKind.ExplicitInterfaceImplementation);
+
+                    writer.WriteExplicitInterfaceImplementations(explicitInterfaceImplementations);
+
                     writer.WriteExtensionMethods(typeSymbol);
                     writer.WriteSeeAlso(typeSymbol);
 
                     Console.WriteLine(writer.ToString());
+                    Debug.WriteLine(writer.ToString());
                 }
             }
 

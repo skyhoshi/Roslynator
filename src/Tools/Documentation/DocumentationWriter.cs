@@ -14,13 +14,19 @@ namespace Roslynator.Documentation
 
         public abstract void WriteNamespace(ITypeSymbol typeSymbol);
 
-        public abstract void WriteAssemblies(ITypeSymbol typeSymbol);
+        public abstract void WriteAssembly(ITypeSymbol typeSymbol);
 
         public abstract void WriteSummary(ITypeSymbol typeSymbol);
 
         public abstract void WriteTypeParameters(ITypeSymbol typeSymbol);
 
+        public abstract void WriteParameters(ITypeSymbol typeSymbol);
+
+        public abstract void WriteReturnValue(ITypeSymbol typeSymbol);
+
         public abstract void WriteInheritance(ITypeSymbol typeSymbol);
+
+        public abstract void WriteAttributes(ITypeSymbol typeSymbol);
 
         public abstract void WriteDerived(ITypeSymbol typeSymbol);
 
@@ -30,21 +36,21 @@ namespace Roslynator.Documentation
 
         public abstract void WriteRemarks(ITypeSymbol typeSymbol);
 
+        public abstract void WriteEnumFields(IEnumerable<IFieldSymbol> fields);
+
         public abstract void WriteConstructors(IEnumerable<IMethodSymbol> constructors);
 
-        public abstract void WriteConstructor(IMethodSymbol constructor);
+        public abstract void WriteFields(IEnumerable<IFieldSymbol> fields);
 
         public abstract void WriteProperties(IEnumerable<IPropertySymbol> properties);
 
-        public abstract void WriteProperty(IPropertySymbol propertySymbol);
-
         public abstract void WriteMethods(IEnumerable<IMethodSymbol> methods);
 
-        public abstract void WriteMethod(IMethodSymbol methods);
+        public abstract void WriteOperators(IEnumerable<IMethodSymbol> operators);
+
+        public abstract void WriteEvents(IEnumerable<IEventSymbol> events);
 
         public abstract void WriteExplicitInterfaceImplementations(IEnumerable<IMethodSymbol> explicitInterfaceImplementations);
-
-        public abstract void WriteOperators(IEnumerable<IMethodSymbol> operators);
 
         public abstract void WriteExtensionMethods(ITypeSymbol typeSymbol);
 

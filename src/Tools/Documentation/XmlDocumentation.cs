@@ -8,7 +8,7 @@ namespace Roslynator.Documentation
 {
     public sealed class XmlDocumentation
     {
-        private Dictionary<string, XElement> _cache;
+        private readonly Dictionary<string, XElement> _cache;
         private readonly XDocument _document;
         private readonly XElement _members;
 
@@ -29,6 +29,21 @@ namespace Roslynator.Documentation
         public string GetSummary(string id)
         {
             return GetOrAddElement(id)?.Element("summary").Value;
+        }
+
+        public string GetRemarks(string id)
+        {
+            return GetOrAddElement(id)?.Element("remarks").Value;
+        }
+
+        public string GetExamples(string id)
+        {
+            return GetOrAddElement(id)?.Element("examples").Value;
+        }
+
+        public string GetElementValue(string id, string name)
+        {
+            return GetOrAddElement(id)?.Element(name)?.Value;
         }
 
         public XElement GetOrAddElement(string id)
