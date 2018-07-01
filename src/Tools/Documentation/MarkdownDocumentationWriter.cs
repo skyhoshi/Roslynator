@@ -15,23 +15,24 @@ namespace Roslynator.Documentation
 {
     public class MarkdownDocumentationWriter : DocumentationWriter
     {
+        private readonly DocumentationGenerator _generator;
         private readonly MarkdownWriter _writer;
-        private readonly XmlDocumentation _xmlDocumentation;
-        private readonly SymbolDisplayFormatProvider _formatProvider;
 
-        public MarkdownDocumentationWriter(
-            XmlDocumentation xmlDocumentation,
-            SymbolDisplayFormatProvider formatProvider = null)
+        public MarkdownDocumentationWriter(DocumentationGenerator generator)
         {
-            _xmlDocumentation = xmlDocumentation;
-            _formatProvider = formatProvider ?? SymbolDisplayFormatProvider.Default;
+            _generator = generator;
             _writer = MarkdownWriter.Create(new StringBuilder());
+        }
+
+        private SymbolDisplayFormatProvider FormatProvider
+        {
+            get { return _generator.FormatProvider; }
         }
 
         public override void WriteTitle(ITypeSymbol typeSymbol)
         {
             _writer.WriteStartHeading(1);
-            _writer.WriteString(typeSymbol.ToDisplayString(_formatProvider.TitleFormat));
+            _writer.WriteString(typeSymbol.ToDisplayString(FormatProvider.TitleFormat));
             _writer.WriteString(" ");
             _writer.WriteString(GetTypeName());
             _writer.WriteEndHeading();
@@ -59,7 +60,7 @@ namespace Roslynator.Documentation
         public override void WriteNamespace(ITypeSymbol typeSymbol)
         {
             _writer.WriteString("Namespace: ");
-            _writer.WriteString(typeSymbol.ContainingNamespace.ToDisplayString(_formatProvider.NamespaceFormat));
+            _writer.WriteString(typeSymbol.ContainingNamespace.ToDisplayString(FormatProvider.NamespaceFormat));
             _writer.WriteLine();
         }
 
@@ -81,7 +82,7 @@ namespace Roslynator.Documentation
             {
                 ImmutableArray<ITypeParameterSymbol> typeParameters = namedTypeSymbol.TypeParameters;
 
-                WriteTable(typeParameters, "Type Parameters", 4, "Type Parameter", "Summary", _formatProvider.TypeParameterFormat);
+                WriteTable(typeParameters, "Type Parameters", 4, "Type Parameter", "Summary", FormatProvider.TypeParameterFormat);
             }
         }
 
@@ -95,7 +96,7 @@ namespace Roslynator.Documentation
                 {
                     ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
 
-                    WriteTable(parameters, "Parameters", 4, "Parameter", "Summary", _formatProvider.ParameterFormat);
+                    WriteTable(parameters, "Parameters", 4, "Parameter", "Summary", FormatProvider.ParameterFormat);
                 }
             }
         }
@@ -109,10 +110,10 @@ namespace Roslynator.Documentation
                 if (methodSymbol != null)
                 {
                     _writer.WriteHeading3("Return Value");
-                    _writer.WriteString(methodSymbol.ReturnType.ToDisplayString(_formatProvider.ReturnValueFormat));
+                    _writer.WriteString(methodSymbol.ReturnType.ToDisplayString(FormatProvider.ReturnValueFormat));
                     _writer.WriteLine();
 
-                    string returns = _xmlDocumentation.GetElementValue(methodSymbol.GetDocumentationCommentId(), "returns");
+                    string returns = _generator.GetDocumentationElement(methodSymbol, "returns")?.Value;
 
                     if (returns != null)
                     {
@@ -127,13 +128,13 @@ namespace Roslynator.Documentation
         {
             _writer.WriteHeading4("Inheritance");
 
-            MBulletItem item = BulletItem(typeSymbol.ToDisplayString(_formatProvider.InheritanceFormat));
+            MBulletItem item = BulletItem(typeSymbol.ToDisplayString(FormatProvider.InheritanceFormat));
 
             typeSymbol = typeSymbol.BaseType;
 
             while (typeSymbol != null)
             {
-                item = BulletItem(typeSymbol.ToDisplayString(_formatProvider.InheritanceFormat), item);
+                item = BulletItem(typeSymbol.ToDisplayString(FormatProvider.InheritanceFormat), item);
 
                 typeSymbol = typeSymbol.BaseType;
             }
@@ -149,7 +150,7 @@ namespace Roslynator.Documentation
             {
                 _writer.WriteHeading4("Attributes");
 
-                _writer.WriteString(string.Join(", ", attributes.Select(f => f.AttributeClass.ToDisplayString(_formatProvider.AttributeFormat))));
+                _writer.WriteString(string.Join(", ", attributes.Select(f => f.AttributeClass.ToDisplayString(FormatProvider.AttributeFormat))));
                 _writer.WriteLine();
             }
         }
@@ -200,13 +201,13 @@ namespace Roslynator.Documentation
 
                         _writer.WriteStartTableRow();
                         _writer.WriteStartTableCell();
-                        _writer.WriteString(fieldSymbol.ToDisplayString(_formatProvider.FieldFormat));
+                        _writer.WriteString(fieldSymbol.ToDisplayString(FormatProvider.FieldFormat));
                         _writer.WriteEndTableCell();
                         _writer.WriteStartTableCell();
                         _writer.WriteString(fieldSymbol.ConstantValue.ToString());
                         _writer.WriteEndTableCell();
                         _writer.WriteStartTableCell();
-                        _writer.WriteString(_xmlDocumentation.GetSummary(fieldSymbol.GetDocumentationCommentId())?.Trim());
+                        _writer.WriteString(_generator.GetDocumentationElement(fieldSymbol, "summary")?.Value.Trim());
                         _writer.WriteEndTableCell();
                         _writer.WriteEndTableRow();
                     }
@@ -219,37 +220,37 @@ namespace Roslynator.Documentation
 
         public override void WriteConstructors(IEnumerable<IMethodSymbol> constructors)
         {
-            WriteTable(constructors, "Constructors", 2, "Constructor", "Summary", _formatProvider.ConstructorFormat);
+            WriteTable(constructors, "Constructors", 2, "Constructor", "Summary", FormatProvider.ConstructorFormat);
         }
 
         public override void WriteFields(IEnumerable<IFieldSymbol> fields)
         {
-            WriteTable(fields, "Fields", 2, "Field", "Summary", _formatProvider.FieldFormat);
+            WriteTable(fields, "Fields", 2, "Field", "Summary", FormatProvider.FieldFormat);
         }
 
         public override void WriteProperties(IEnumerable<IPropertySymbol> properties)
         {
-            WriteTable(properties, "Properties", 2, "Property", "Summary", _formatProvider.PropertyFormat);
+            WriteTable(properties, "Properties", 2, "Property", "Summary", FormatProvider.PropertyFormat);
         }
 
         public override void WriteMethods(IEnumerable<IMethodSymbol> methods)
         {
-            WriteTable(methods, "Methods", 2, "Method", "Summary", _formatProvider.MethodFormat);
+            WriteTable(methods, "Methods", 2, "Method", "Summary", FormatProvider.MethodFormat);
         }
 
         public override void WriteOperators(IEnumerable<IMethodSymbol> operators)
         {
-            WriteTable(operators, "Operators", 2, "Operator", "Summary", _formatProvider.MethodFormat);
+            WriteTable(operators, "Operators", 2, "Operator", "Summary", FormatProvider.MethodFormat);
         }
 
         public override void WriteEvents(IEnumerable<IEventSymbol> events)
         {
-            WriteTable(events, "Events", 2, "Event", "Summary", _formatProvider.MethodFormat);
+            WriteTable(events, "Events", 2, "Event", "Summary", FormatProvider.MethodFormat);
         }
 
         public override void WriteExplicitInterfaceImplementations(IEnumerable<IMethodSymbol> explicitInterfaceImplementations)
         {
-            WriteTable(explicitInterfaceImplementations, "Explicit Interface Implementations", 2, "Member", "Summary", _formatProvider.MethodFormat);
+            WriteTable(explicitInterfaceImplementations, "Explicit Interface Implementations", 2, "Member", "Summary", FormatProvider.MethodFormat);
         }
 
         public override void WriteExtensionMethods(ITypeSymbol typeSymbol)
@@ -262,7 +263,7 @@ namespace Roslynator.Documentation
 
         private void WriteChapter(ITypeSymbol typeSymbol, string heading, string name)
         {
-            string text = _xmlDocumentation.GetElementValue(typeSymbol.GetDocumentationCommentId(), name);
+            string text = _generator.GetDocumentationElement(typeSymbol, name)?.Value;
 
             if (text != null)
             {
@@ -281,56 +282,14 @@ namespace Roslynator.Documentation
         }
 
         private void WriteTable(
-            IEnumerable<ISymbol> properties,
+            IEnumerable<ISymbol> symbols,
             string heading,
             int headingLevel,
             string header1,
             string header2,
             SymbolDisplayFormat format)
         {
-            using (IEnumerator<ISymbol> en = properties.GetEnumerator())
-            {
-                if (en.MoveNext())
-                {
-                    _writer.WriteHeading(headingLevel, heading);
-
-                    WriteTableHeader(header1, header2);
-
-                    do
-                    {
-                        WriteTableRow(en.Current, format);
-                    }
-                    while (en.MoveNext());
-
-                    _writer.WriteEndTable();
-                }
-            }
-        }
-
-        private void WriteTableHeader(string header1, string header2)
-        {
-            _writer.WriteStartTable(2);
-            _writer.WriteStartTableRow();
-            _writer.WriteStartTableCell();
-            _writer.WriteString(header1);
-            _writer.WriteEndTableCell();
-            _writer.WriteStartTableCell();
-            _writer.WriteString(header2);
-            _writer.WriteEndTableCell();
-            _writer.WriteEndTableRow();
-            _writer.WriteTableHeaderSeparator();
-        }
-
-        private void WriteTableRow(ISymbol symbol, SymbolDisplayFormat format)
-        {
-            _writer.WriteStartTableRow();
-            _writer.WriteStartTableCell();
-            _writer.WriteString(symbol.ToDisplayString(format));
-            _writer.WriteEndTableCell();
-            _writer.WriteStartTableCell();
-            _writer.WriteString(_xmlDocumentation.GetSummary(symbol.GetDocumentationCommentId())?.Trim());
-            _writer.WriteEndTableCell();
-            _writer.WriteEndTableRow();
+            _generator.WriteTable(_writer, symbols, heading, headingLevel, header1, header2, format);
         }
 
         public override string ToString()

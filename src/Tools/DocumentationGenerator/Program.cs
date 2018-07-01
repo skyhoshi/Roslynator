@@ -1,122 +1,62 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
+using Roslynator.Utilities;
 
 namespace Roslynator.Documentation
 {
     internal static class Program
     {
+        private static readonly UTF8Encoding _utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
+
         [SuppressMessage("Redundancy", "RCS1163:Unused parameter.", Justification = "<Pending>")]
         private static void Main(string[] args)
         {
-            const string assemblyName = "Roslynator.CSharp.dll";
+            string rootPath = null;
 
-            string path = RuntimeMetadataReference.TrustedPlatformAssemblies[assemblyName];
+#if DEBUG
+            rootPath = @"..\..\..\..\..\..\docs\api\";
+#endif
 
-            string xmlDocPath = Path.ChangeExtension(path, "xml");
+            DocumentationSource source = DocumentationSource.CreateFromAssemblyName("Roslynator.CSharp.dll");
 
-            if (!File.Exists(xmlDocPath))
-                throw new InvalidOperationException();
+            var generator = new DocumentationGenerator(ImmutableArray.Create(source));
 
-            XmlDocumentation xmlDocumentation = XmlDocumentation.Load(xmlDocPath);
+            string indexContent = generator.GenerateIndex("Roslynator API");
 
-            IEnumerable<PortableExecutableReference> references = RuntimeMetadataReference
-                .TrustedPlatformAssemblies
-                .Select(f => MetadataReference.CreateFromFile(f.Value));
+            FileHelper.WriteAllText(
+                Path.Combine(rootPath, "README.md"),
+                indexContent,
+                _utf8NoBom,
+                onlyIfChanges: true,
+                fileMustExists: false);
 
-            CSharpCompilation compilation = CSharpCompilation.Create(
-                "Temp",
-                syntaxTrees: default(IEnumerable<SyntaxTree>),
-                references: references,
-                options: default(CSharpCompilationOptions));
-
-            MetadataReference reference = compilation.References.First(f => ((PortableExecutableReference)f).FilePath == path);
-
-            var assemblySymbol = (IAssemblySymbol)compilation.GetAssemblyOrModuleSymbol(reference);
-
-            foreach (ITypeSymbol typeSymbol in assemblySymbol.GetPubliclyVisibleTypes())
+            foreach (INamespaceSymbol namespaceSymbol in generator.TypeSymbols.Select(f => f.ContainingNamespace).Distinct())
             {
-                using (var writer = new MarkdownDocumentationWriter(xmlDocumentation))
-                {
-                    writer.WriteTitle(typeSymbol);
-                    writer.WriteNamespace(typeSymbol);
-                    writer.WriteAssembly(typeSymbol);
-                    writer.WriteSummary(typeSymbol);
-                    writer.WriteTypeParameters(typeSymbol);
-                    writer.WriteParameters(typeSymbol);
-                    writer.WriteReturnValue(typeSymbol);
-                    writer.WriteInheritance(typeSymbol);
-                    writer.WriteAttributes(typeSymbol);
-                    writer.WriteDerived(typeSymbol);
-                    writer.WriteImplements(typeSymbol);
-                    writer.WriteExamples(typeSymbol);
-                    writer.WriteRemarks(typeSymbol);
+                string content = generator.GenerateDocument(namespaceSymbol);
 
-                    IEnumerable<ISymbol> members = typeSymbol.GetMembers().Where(f => f.IsPubliclyVisible());
+                string fileName = generator.CreateDocumentId2(namespaceSymbol);
 
-                    IEnumerable<IFieldSymbol> fields = members
-                        .Where(f => f.Kind == SymbolKind.Field)
-                        .Cast<IFieldSymbol>();
+                string path = rootPath + fileName + ".md";
 
-                    if (typeSymbol.TypeKind == TypeKind.Enum)
-                        writer.WriteEnumFields(fields);
+                FileHelper.WriteAllText(path, content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
+            }
 
-                    IEnumerable<IMethodSymbol> constructors = members
-                        .Where(f => f.Kind == SymbolKind.Method)
-                        .Cast<IMethodSymbol>()
-                        .Where(f => f.MethodKind == MethodKind.Constructor
-                            && (f.ContainingType.TypeKind != TypeKind.Struct || f.Parameters.Any()));
+            foreach (ITypeSymbol typeSymbol in generator.TypeSymbols)
+            {
+                string content = generator.GenerateDocument(typeSymbol);
 
-                    writer.WriteConstructors(constructors);
+                string fileName = generator.GetDocumentId2(typeSymbol);
 
-                    writer.WriteFields(fields);
+                string path = rootPath + fileName + ".md";
 
-                    IEnumerable<IPropertySymbol> properties = members
-                        .Where(f => f.Kind == SymbolKind.Property)
-                        .Cast<IPropertySymbol>();
-
-                    writer.WriteProperties(properties);
-
-                    IEnumerable<IMethodSymbol> methods = members
-                        .Where(f => f.Kind == SymbolKind.Method)
-                        .Cast<IMethodSymbol>()
-                        .Where(f => f.MethodKind == MethodKind.Ordinary);
-
-                    writer.WriteMethods(methods);
-
-                    IEnumerable<IMethodSymbol> operators = members
-                        .Where(f => f.Kind == SymbolKind.Method)
-                        .Cast<IMethodSymbol>()
-                        .Where(f => f.MethodKind.Is(MethodKind.UserDefinedOperator, MethodKind.Conversion));
-
-                    writer.WriteOperators(operators);
-
-                    IEnumerable<IEventSymbol> events = members
-                        .Where(f => f.Kind == SymbolKind.Event)
-                        .Cast<IEventSymbol>();
-
-                    writer.WriteEvents(events);
-
-                    IEnumerable<IMethodSymbol> explicitInterfaceImplementations = members
-                        .Where(f => f.Kind == SymbolKind.Method)
-                        .Cast<IMethodSymbol>()
-                        .Where(f => f.MethodKind == MethodKind.ExplicitInterfaceImplementation);
-
-                    writer.WriteExplicitInterfaceImplementations(explicitInterfaceImplementations);
-
-                    writer.WriteExtensionMethods(typeSymbol);
-                    writer.WriteSeeAlso(typeSymbol);
-
-                    Console.WriteLine(writer.ToString());
-                    Debug.WriteLine(writer.ToString());
-                }
+                FileHelper.WriteAllText(path, content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
             }
 
             Console.WriteLine("OK");

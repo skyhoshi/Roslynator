@@ -26,27 +26,17 @@ namespace Roslynator.Documentation
             return new XmlDocumentation(document);
         }
 
-        public string GetSummary(string id)
-        {
-            return GetOrAddElement(id)?.Element("summary").Value;
-        }
-
-        public string GetRemarks(string id)
-        {
-            return GetOrAddElement(id)?.Element("remarks").Value;
-        }
-
-        public string GetExamples(string id)
-        {
-            return GetOrAddElement(id)?.Element("examples").Value;
-        }
-
         public string GetElementValue(string id, string name)
         {
-            return GetOrAddElement(id)?.Element(name)?.Value;
+            return GetElement(id, name).Value;
         }
 
-        public XElement GetOrAddElement(string id)
+        internal XElement GetElement(string id, string name)
+        {
+            return GetElement(id)?.Element(name);
+        }
+
+        internal XElement GetElement(string id)
         {
             if (!_cache.TryGetValue(id, out XElement element))
             {

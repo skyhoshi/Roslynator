@@ -3,7 +3,7 @@
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 
-namespace Roslynator
+namespace Roslynator.Documentation
 {
     internal static class Extensions
     {

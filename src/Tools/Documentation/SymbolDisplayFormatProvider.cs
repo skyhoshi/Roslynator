@@ -12,6 +12,8 @@ namespace Roslynator.Documentation
 
         public abstract SymbolDisplayFormat NamespaceFormat { get; }
 
+        public abstract SymbolDisplayFormat TypeFormat { get; }
+
         public abstract SymbolDisplayFormat TypeParameterFormat { get; }
 
         public abstract SymbolDisplayFormat ParameterFormat { get; }
@@ -42,6 +44,11 @@ namespace Roslynator.Documentation
             public override SymbolDisplayFormat NamespaceFormat
             {
                 get { return SymbolDisplayFormats.TypeNameAndContainingTypesAndNamespaces; }
+            }
+
+            public override SymbolDisplayFormat TypeFormat
+            {
+                get { return SymbolDisplayFormats.TypeNameAndContainingTypes; }
             }
 
             public override SymbolDisplayFormat TypeParameterFormat
