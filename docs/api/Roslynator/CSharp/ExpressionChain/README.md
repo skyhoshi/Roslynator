@@ -10,12 +10,12 @@ Enables to enumerate expressions of a binary expression and expressions of neste
 
 #### Inheritance
 
-Object &#x2192; ValueType &#x2192; ExpressionChain
+[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; ExpressionChain
 
 #### Implements
 
-* IEnumerable\<ExpressionSyntax>
-* IEquatable\<ExpressionChain>
+* [IEnumerable\<ExpressionSyntax>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)
+* [IEquatable\<ExpressionChain>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
 
 ## Properties
 
@@ -28,17 +28,17 @@ Object &#x2192; ValueType &#x2192; ExpressionChain
 
 | Method| Summary|
 | --- | --- |
-| [Reverse()](Reverse/README.md) | Returns a chain which contains all expressions of  in reversed order\. |
-| [GetEnumerator()](GetEnumerator/README.md) | Gets the enumerator for the expressions\. |
-| [ToString()](ToString/README.md) | Returns the string representation of the expressions, not including its leading and trailing trivia\. |
-| [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [Equals(ExpressionChain)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
+| [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
+| [GetEnumerator()](GetEnumerator/README.md) | Gets the enumerator for the expressions\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
+| [Reverse()](Reverse/README.md) | Returns a chain which contains all expressions of  in reversed order\. |
+| [ToString()](ToString/README.md) | Returns the string representation of the expressions, not including its leading and trailing trivia\. |
 
 ## Operators
 
 | Operator| Summary|
 | --- | --- |
-| [operator ==(ExpressionChain, ExpressionChain)](op_Equality/README.md) | |
 | [operator !=(ExpressionChain, ExpressionChain)](op_Inequality/README.md) | |
+| [operator ==(ExpressionChain, ExpressionChain)](op_Equality/README.md) | |
 

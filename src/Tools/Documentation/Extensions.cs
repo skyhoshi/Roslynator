@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Collections.Immutable;
+using System.Linq;
 using DotMarkdown;
 using Microsoft.CodeAnalysis;
 
@@ -53,9 +54,23 @@ namespace Roslynator.Documentation
             SymbolDocumentationInfo directoryInfo,
             SymbolDisplayFormat format)
         {
-            string url = (!symbolInfo.IsExternal)
-                ? symbolInfo.GetUrl(directoryInfo)
-                : null;
+            string url = null;
+            if (symbolInfo.IsExternal)
+            {
+                switch (symbolInfo.Names.LastOrDefault())
+                {
+                    case "System":
+                    case "Microsoft":
+                        {
+                            url = "https://docs.microsoft.com/en-us/dotnet/api/" + string.Join(".", symbolInfo.Names.Select(f => f.ToLowerInvariant()).Reverse());
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                url = symbolInfo.GetUrl(directoryInfo);
+            }
 
             writer.WriteLinkOrText(symbolInfo.Symbol.ToDisplayString(format), url);
         }

@@ -16,7 +16,7 @@ Represents a list of modifiers\.
 
 #### Inheritance
 
-Object &#x2192; ModifierList\<TNode>
+[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; ModifierList\<TNode>
 
 ## Properties
 
@@ -32,7 +32,7 @@ Object &#x2192; ModifierList\<TNode>
 | [Insert(TNode, SyntaxToken, IComparer\<SyntaxToken>)](Insert/README.md) | Creates a new node with the specified modifier inserted\. |
 | [Remove(TNode, SyntaxKind)](Remove/README.md) | Creates a new node with a modifier of the specified kind removed\. |
 | [Remove(TNode, SyntaxToken)](Remove/README.md) | Creates a new node with the specified modifier removed\. |
-| [RemoveAt(TNode, Int32)](RemoveAt/README.md) | Creates a new node with a modifier at the specified index removed\. |
 | [RemoveAll(TNode)](RemoveAll/README.md) | Creates a new node with all modifiers removed\. |
 | [RemoveAll(TNode, Func\<SyntaxToken, Boolean>)](RemoveAll/README.md) | Creates a new node with modifiers that matches the predicate removed\. |
+| [RemoveAt(TNode, Int32)](RemoveAt/README.md) | Creates a new node with a modifier at the specified index removed\. |
 

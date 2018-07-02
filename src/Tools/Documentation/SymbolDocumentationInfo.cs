@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
@@ -12,12 +14,14 @@ namespace Roslynator.Documentation
         private SymbolDocumentationInfo(
             ISymbol symbol,
             string commentId,
+            ImmutableArray<ISymbol> members,
             ImmutableArray<ISymbol> symbols,
             ImmutableArray<string> names,
             bool isExternal)
         {
             Symbol = symbol;
             CommentId = commentId;
+            Members = members;
             Symbols = symbols;
             Names = names;
             IsExternal = isExternal;
@@ -27,6 +31,9 @@ namespace Roslynator.Documentation
 
         public string CommentId { get; }
 
+        public ImmutableArray<ISymbol> Members { get; }
+
+        //TODO: rename
         public ImmutableArray<ISymbol> Symbols { get; }
 
         public ImmutableArray<string> Names { get; }
@@ -35,12 +42,36 @@ namespace Roslynator.Documentation
 
         public static SymbolDocumentationInfo Create(ISymbol symbol, bool isExternal)
         {
+            ImmutableArray<ISymbol> members = (symbol is ITypeSymbol typeSymbol)
+                ? typeSymbol.GetMembers()
+                : ImmutableArray<ISymbol>.Empty;
+
+            return Create(symbol, members, isExternal);
+        }
+
+        private static SymbolDocumentationInfo Create(ISymbol symbol, ImmutableArray<ISymbol> members, bool isExternal)
+        {
             ImmutableArray<ISymbol>.Builder symbols = ImmutableArray.CreateBuilder<ISymbol>();
             ImmutableArray<string>.Builder names = ImmutableArray.CreateBuilder<string>();
 
-            int arity = symbol.GetArity();
+            if (symbol.Kind == SymbolKind.Method
+                && ((IMethodSymbol)symbol).MethodKind == MethodKind.Constructor)
+            {
+                names.Add("-ctor");
+            }
+            else
+            {
+                int arity = symbol.GetArity();
 
-            names.Add((arity > 0) ? symbol.Name + "-" + arity.ToString(CultureInfo.InvariantCulture) : symbol.Name);
+                if (arity > 0)
+                {
+                    names.Add(symbol.Name + "-" + arity.ToString(CultureInfo.InvariantCulture));
+                }
+                else
+                {
+                    names.Add(symbol.Name);
+                }
+            }
 
             symbols.Add(symbol);
 
@@ -48,7 +79,7 @@ namespace Roslynator.Documentation
 
             while (containingType != null)
             {
-                arity = containingType.Arity;
+                int arity = containingType.Arity;
 
                 names.Add((arity > 0) ? containingType.Name + "-" + arity.ToString(CultureInfo.InvariantCulture) : containingType.Name);
 
@@ -71,63 +102,201 @@ namespace Roslynator.Documentation
             return new SymbolDocumentationInfo(
                 symbol,
                 symbol.GetDocumentationCommentId(),
+                members,
                 symbols.ToImmutableArray(),
                 names.ToImmutableArray(),
                 isExternal);
         }
 
-        internal string GetUrl(SymbolDocumentationInfo directoryInfo)
+        internal string GetUrl(SymbolDocumentationInfo directoryInfo = null)
         {
-            string s = null;
-
             if (directoryInfo == null)
-            {
                 return string.Join("/", Names.Reverse()) + "/README.md";
+
+            int count = 0;
+
+            int i = Symbols.Length - 1;
+            int j = directoryInfo.Symbols.Length - 1;
+
+            while (i >= 0
+                && j >= 0
+                && Symbols[i] == directoryInfo.Symbols[j])
+            {
+                count++;
+                i--;
+                j--;
             }
 
-            int count = Symbols.Length - directoryInfo.Symbols.Length;
+            int diff = directoryInfo.Symbols.Length - count;
 
-            if (count > 0)
+            var sb = new StringBuilder();
+
+            if (diff > 0)
             {
-                s = Names[0];
+                sb.Append("..");
+                diff--;
 
-                int i = 1;
-
-                while (i < count)
+                while (diff > 0)
                 {
-                    s = Names[i] + "/" + s;
-                    i++;
+                    sb.Append("/..");
+                    diff--;
                 }
             }
-            else
+
+            i = Names.Length - 1 - count;
+
+            if (i >= 0)
             {
-                count = 0;
+                if (sb.Length > 0)
+                    sb.Append("/");
 
-                int i = Symbols.Length - 1;
-                int j = directoryInfo.Symbols.Length - 1;
-
-                while (i >= 0
-                    && j >= 0
-                    && Symbols[i] == directoryInfo.Symbols[j])
-                {
-                    count++;
-                    i--;
-                    j--;
-                }
-
-                s = string.Join("/", Enumerable.Repeat("..", directoryInfo.Symbols.Length - count));
-
-                i = Names.Length - 1 - count;
+                sb.Append(Names[i]);
+                i--;
 
                 while (i >= 0)
                 {
-                    s = s + "/" + Names[i];
-
+                    sb.Append("/");
+                    sb.Append(Names[i]);
                     i--;
                 }
             }
 
-            return s += "/README.md";
+            sb.Append("/README.md");
+
+            return sb.ToString();
+        }
+
+        public IEnumerable<IFieldSymbol> GetFields()
+        {
+            foreach (ISymbol member in Members)
+            {
+                if (member.Kind == SymbolKind.Field
+                    && member.IsPubliclyVisible())
+                {
+                    yield return (IFieldSymbol)member;
+                }
+            }
+        }
+
+        public IEnumerable<IMethodSymbol> GetConstructors()
+        {
+            foreach (ISymbol member in Members)
+            {
+                if (member.Kind == SymbolKind.Method
+                    && member.IsPubliclyVisible())
+                {
+                    var methodSymbol = (IMethodSymbol)member;
+
+                    if (methodSymbol.MethodKind == MethodKind.Constructor)
+                    {
+                        if (methodSymbol.ContainingType.TypeKind != TypeKind.Struct
+                            || methodSymbol.Parameters.Any())
+                        {
+                            yield return methodSymbol;
+                        }
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<IPropertySymbol> GetProperties()
+        {
+            foreach (ISymbol member in Members)
+            {
+                if (member.Kind == SymbolKind.Property
+                    && member.IsPubliclyVisible())
+                {
+                    yield return (IPropertySymbol)member;
+                }
+            }
+        }
+
+        public IEnumerable<IMethodSymbol> GetMethods()
+        {
+            foreach (ISymbol member in Members)
+            {
+                if (member.Kind == SymbolKind.Method
+                    && member.IsPubliclyVisible())
+                {
+                    var methodSymbol = (IMethodSymbol)member;
+
+                    if (methodSymbol.MethodKind == MethodKind.Ordinary)
+                    {
+                        yield return methodSymbol;
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<IMethodSymbol> GetOperators()
+        {
+            foreach (ISymbol member in Members)
+            {
+                if (member.Kind == SymbolKind.Method
+                    && member.IsPubliclyVisible())
+                {
+                    var methodSymbol = (IMethodSymbol)member;
+
+                    if (methodSymbol.MethodKind.Is(
+                        MethodKind.UserDefinedOperator,
+                        MethodKind.Conversion))
+                    {
+                        yield return methodSymbol;
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<IEventSymbol> GetEvents()
+        {
+            foreach (ISymbol member in Members)
+            {
+                if (member.Kind == SymbolKind.Event
+                    && member.IsPubliclyVisible())
+                {
+                    yield return (IEventSymbol)member;
+                }
+            }
+        }
+
+        public IEnumerable<IMethodSymbol> GetExplicitInterfaceImplementations()
+        {
+            foreach (ISymbol member in Members)
+            {
+                if (member.Kind == SymbolKind.Method
+                    && member.IsPubliclyVisible())
+                {
+                    var methodSymbol = (IMethodSymbol)member;
+
+                    if (methodSymbol.MethodKind == MethodKind.ExplicitInterfaceImplementation)
+                    {
+                        yield return methodSymbol;
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<IMethodSymbol> GetExtensionMethods()
+        {
+            if (Symbol.Kind == SymbolKind.NamedType
+                && Symbol.IsStatic
+                && Symbol.ContainingType == null)
+            {
+                foreach (ISymbol member in Members)
+                {
+                    if (member.Kind == SymbolKind.Method
+                        && member.IsStatic
+                        && member.IsPubliclyVisible())
+                    {
+                        var methodSymbol = (IMethodSymbol)member;
+
+                        if (methodSymbol.IsExtensionMethod)
+                        {
+                            yield return methodSymbol;
+                        }
+                    }
+                }
+            }
         }
     }
 }

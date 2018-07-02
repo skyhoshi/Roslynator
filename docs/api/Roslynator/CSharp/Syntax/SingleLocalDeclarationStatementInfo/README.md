@@ -10,42 +10,42 @@ Provides information about a local declaration statement with a single variable\
 
 #### Inheritance
 
-Object &#x2192; ValueType &#x2192; SingleLocalDeclarationStatementInfo
+[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; SingleLocalDeclarationStatementInfo
 
 #### Implements
 
-* IEquatable\<SingleLocalDeclarationStatementInfo>
+* [IEquatable\<SingleLocalDeclarationStatementInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
 
 ## Properties
 
 | Property| Summary|
 | --- | --- |
-| [Statement](Statement/README.md) | The local declaration statement\. |
-| [Declarator](Declarator/README.md) | The variable declarator\. |
 | [Declaration](Declaration/README.md) | The variable declaration\. |
-| [Initializer](Initializer/README.md) | The variable initializer, if any\. |
-| [Value](Value/README.md) | The initialized value, if any\. |
-| [Modifiers](Modifiers/README.md) | The modifier list\. |
-| [Type](Type/README.md) | The type of a declaration\. |
+| [Declarator](Declarator/README.md) | The variable declarator\. |
+| [EqualsToken](EqualsToken/README.md) | The equals token\. |
 | [Identifier](Identifier/README.md) | Variable identifier\. |
 | [IdentifierText](IdentifierText/README.md) | Variable name\. |
-| [EqualsToken](EqualsToken/README.md) | The equals token\. |
+| [Initializer](Initializer/README.md) | The variable initializer, if any\. |
+| [Modifiers](Modifiers/README.md) | The modifier list\. |
 | [SemicolonToken](SemicolonToken/README.md) | The semicolon\. |
+| [Statement](Statement/README.md) | The local declaration statement\. |
 | [Success](Success/README.md) | Determines whether this struct was initialized with an actual syntax\. |
+| [Type](Type/README.md) | The type of a declaration\. |
+| [Value](Value/README.md) | The initialized value, if any\. |
 
 ## Methods
 
 | Method| Summary|
 | --- | --- |
-| [ToString()](ToString/README.md) | Returns the string representation of the underlying syntax, not including its leading and trailing trivia\. |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [Equals(SingleLocalDeclarationStatementInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
+| [ToString()](ToString/README.md) | Returns the string representation of the underlying syntax, not including its leading and trailing trivia\. |
 
 ## Operators
 
 | Operator| Summary|
 | --- | --- |
-| [operator ==(SingleLocalDeclarationStatementInfo, SingleLocalDeclarationStatementInfo)](op_Equality/README.md) | |
 | [operator !=(SingleLocalDeclarationStatementInfo, SingleLocalDeclarationStatementInfo)](op_Inequality/README.md) | |
+| [operator ==(SingleLocalDeclarationStatementInfo, SingleLocalDeclarationStatementInfo)](op_Equality/README.md) | |
 

@@ -6,7 +6,7 @@ Assembly: Roslynator\.dll
 
 #### Inheritance
 
-Object &#x2192; ValueType &#x2192; TextLineCollectionSelection\.Enumerator
+[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; TextLineCollectionSelection\.Enumerator
 
 ## Properties
 
@@ -18,8 +18,8 @@ Object &#x2192; ValueType &#x2192; TextLineCollectionSelection\.Enumerator
 
 | Method| Summary|
 | --- | --- |
-| [MoveNext()](MoveNext/README.md) | |
-| [Reset()](Reset/README.md) | |
 | [Equals(Object)](Equals/README.md) | |
 | [GetHashCode()](GetHashCode/README.md) | |
+| [MoveNext()](MoveNext/README.md) | |
+| [Reset()](Reset/README.md) | |
 

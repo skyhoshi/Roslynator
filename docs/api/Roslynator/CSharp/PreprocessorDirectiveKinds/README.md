@@ -10,11 +10,11 @@ Specifies C\# preprocessor directives\.
 
 #### Inheritance
 
-Object &#x2192; ValueType &#x2192; Enum &#x2192; PreprocessorDirectiveKinds
+[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; [Enum](https://docs.microsoft.com/en-us/dotnet/api/system.enum) &#x2192; PreprocessorDirectiveKinds
 
 #### Attributes
 
-FlagsAttribute
+[FlagsAttribute](https://docs.microsoft.com/en-us/dotnet/api/system.flagsattribute)
 
 ## Fields
 
@@ -40,10 +40,4 @@ FlagsAttribute
 | Bad | 32768 | Bad preprocessor directive\. |
 | Shebang | 65536 | Shebang preprocessor directive\. |
 | All | 131071 | All preprocessor directives\. |
-
-## Constructors
-
-| Constructor| Summary|
-| --- | --- |
-| [PreprocessorDirectiveKinds()](.ctor/README.md) | |
 

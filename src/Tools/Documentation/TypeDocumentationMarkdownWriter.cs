@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,12 +16,15 @@ namespace Roslynator.Documentation
         private readonly DocumentationGenerator _generator;
         private readonly MarkdownWriter _writer;
 
-        public TypeDocumentationMarkdownWriter(DocumentationGenerator generator, SymbolDocumentationInfo directoryInfo)
+        public TypeDocumentationMarkdownWriter(ITypeSymbol typeSymbol, SymbolDocumentationInfo directoryInfo, DocumentationGenerator generator)
         {
             _writer = MarkdownWriter.Create(new StringBuilder());
             _generator = generator;
             DirectoryInfo = directoryInfo;
+            TypeSymbol = typeSymbol;
         }
+
+        public override ITypeSymbol TypeSymbol { get; }
 
         public override SymbolDocumentationInfo DirectoryInfo { get; }
 
@@ -403,6 +405,9 @@ namespace Roslynator.Documentation
 
         public override void WriteConstructors(IEnumerable<IMethodSymbol> constructors)
         {
+            if (TypeSymbol.BaseType?.SpecialType == SpecialType.System_Enum)
+                return;
+
             WriteTable(constructors, "Constructors", 2, "Constructor", "Summary", FormatProvider.ConstructorFormat);
         }
 
@@ -436,9 +441,19 @@ namespace Roslynator.Documentation
             WriteTable(explicitInterfaceImplementations, "Explicit Interface Implementations", 2, "Member", "Summary", FormatProvider.MethodFormat);
         }
 
-        //TODO: WriteExtensionMethods
         public override void WriteExtensionMethods(ITypeSymbol typeSymbol)
         {
+            IEnumerable<IMethodSymbol> extensionMethods = _generator
+                .ExtensionMethodSymbols
+                .Where(f => f.Parameters[0].Type.OriginalDefinition == typeSymbol);
+
+            WriteTable(
+                extensionMethods,
+                "Extension Methods",
+                2,
+                "Method",
+                "Summary",
+                FormatProvider.MethodFormat);
         }
 
         //TODO: WriteSeeAlso

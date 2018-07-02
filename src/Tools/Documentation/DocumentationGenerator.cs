@@ -18,6 +18,7 @@ namespace Roslynator.Documentation
 
         private readonly ImmutableArray<DocumentationSource> _sources;
         private ImmutableArray<ITypeSymbol> _typeSymbols;
+        private ImmutableArray<IMethodSymbol> _extensionMethodSymbols;
 
         private readonly Dictionary<ISymbol, SymbolDocumentationInfo> _symbolDocumentationCache;
         private readonly Dictionary<IAssemblySymbol, XmlDocumentation> _xmlDocumentations;
@@ -45,6 +46,29 @@ namespace Roslynator.Documentation
                 }
 
                 return _typeSymbols;
+            }
+        }
+
+        public ImmutableArray<IMethodSymbol> ExtensionMethodSymbols
+        {
+            get
+            {
+                if (_extensionMethodSymbols.IsDefault)
+                {
+                    _extensionMethodSymbols = TypeSymbols
+                        .Where(f => f.TypeKind == TypeKind.Class
+                            && f.IsStatic
+                            && f.ContainingType == null)
+                        .SelectMany(f => f.GetMembers())
+                        .Where(f => f.Kind == SymbolKind.Method
+                            && f.IsStatic
+                            && f.IsPubliclyVisible())
+                        .Cast<IMethodSymbol>()
+                        .Where(f => f.IsExtensionMethod)
+                        .ToImmutableArray();
+                }
+
+                return _extensionMethodSymbols;
             }
         }
 
@@ -98,7 +122,7 @@ namespace Roslynator.Documentation
         {
             SymbolDocumentationInfo info = GetDocumentationInfo(typeSymbol);
 
-            using (var writer = new TypeDocumentationMarkdownWriter(this, info))
+            using (var writer = new TypeDocumentationMarkdownWriter(typeSymbol, info, this))
             {
                 writer.WriteTitle(typeSymbol);
                 writer.WriteNamespace(typeSymbol);
@@ -114,21 +138,19 @@ namespace Roslynator.Documentation
                 writer.WriteExamples(typeSymbol);
                 writer.WriteRemarks(typeSymbol);
 
-                TypeMembersInfo members = TypeMembersInfo.Create(typeSymbol);
-
                 if (typeSymbol.TypeKind == TypeKind.Enum)
-                    writer.WriteEnumFields(members.GetFields());
+                    writer.WriteEnumFields(info.GetFields());
 
-                writer.WriteConstructors(members.GetConstructors());
+                writer.WriteConstructors(info.GetConstructors());
 
                 if (typeSymbol.TypeKind != TypeKind.Enum)
-                    writer.WriteFields(members.GetFields());
+                    writer.WriteFields(info.GetFields());
 
-                writer.WriteProperties(members.GetProperties());
-                writer.WriteMethods(members.GetMethods());
-                writer.WriteOperators(members.GetOperators());
-                writer.WriteEvents(members.GetEvents());
-                writer.WriteExplicitInterfaceImplementations(members.GetExplicitInterfaceImplementations());
+                writer.WriteProperties(info.GetProperties());
+                writer.WriteMethods(info.GetMethods());
+                writer.WriteOperators(info.GetOperators());
+                writer.WriteEvents(info.GetEvents());
+                writer.WriteExplicitInterfaceImplementations(info.GetExplicitInterfaceImplementations());
                 writer.WriteExtensionMethods(typeSymbol);
                 writer.WriteSeeAlso(typeSymbol);
 
@@ -162,78 +184,66 @@ namespace Roslynator.Documentation
             SymbolDisplayFormat format,
             SymbolDocumentationInfo directoryInfo)
         {
-            using (IEnumerator<ISymbol> en = symbols.GetEnumerator())
+            using (IEnumerator<(ISymbol symbol, string displayString)> en = symbols
+                .Select(f => (symbol: f, displayString: f.ToDisplayString(format)))
+                .OrderBy(f => f.displayString)
+                .GetEnumerator())
             {
                 if (en.MoveNext())
                 {
                     writer.WriteHeading(headingLevel, heading);
 
-                    WriteTableHeader(writer, header1, header2);
+                    writer.WriteStartTable(2);
+                    writer.WriteStartTableRow();
+                    writer.WriteStartTableCell();
+                    writer.WriteString(header1);
+                    writer.WriteEndTableCell();
+                    writer.WriteStartTableCell();
+                    writer.WriteString(header2);
+                    writer.WriteEndTableCell();
+                    writer.WriteEndTableRow();
+                    writer.WriteTableHeaderSeparator();
 
                     do
                     {
-                        WriteTableRow(writer, en.Current, format, directoryInfo);
+                        ISymbol symbol = en.Current.symbol;
+
+                        writer.WriteStartTableRow();
+                        writer.WriteStartTableCell();
+
+                        SymbolDocumentationInfo info = GetDocumentationInfo(symbol);
+
+                        if (symbol.IsKind(SymbolKind.Parameter, SymbolKind.TypeParameter))
+                        {
+                            writer.WriteString(en.Current.displayString);
+                        }
+                        else
+                        {
+                            writer.WriteLink(info, directoryInfo, format);
+                        }
+
+                        writer.WriteEndTableCell();
+                        writer.WriteStartTableCell();
+
+                        string s = _xmlDocumentations[symbol.ContainingAssembly]
+                            .GetElement(info.CommentId, "summary")?
+                            .Value;
+
+                        if (s != null)
+                        {
+                            s = s.Trim();
+                            s = _newLineWithWhitespaceRegex.Replace(s, " ");
+                        }
+
+                        writer.WriteString(s);
+                        writer.WriteEndTableCell();
+                        writer.WriteEndTableRow();
                     }
                     while (en.MoveNext());
 
                     writer.WriteEndTable();
                 }
             }
-        }
-
-        private static void WriteTableHeader(
-            MarkdownWriter writer,
-            string header1,
-            string header2)
-        {
-            writer.WriteStartTable(2);
-            writer.WriteStartTableRow();
-            writer.WriteStartTableCell();
-            writer.WriteString(header1);
-            writer.WriteEndTableCell();
-            writer.WriteStartTableCell();
-            writer.WriteString(header2);
-            writer.WriteEndTableCell();
-            writer.WriteEndTableRow();
-            writer.WriteTableHeaderSeparator();
-        }
-
-        private void WriteTableRow(
-            MarkdownWriter writer,
-            ISymbol symbol,
-            SymbolDisplayFormat format,
-            SymbolDocumentationInfo directoryInfo)
-        {
-            writer.WriteStartTableRow();
-            writer.WriteStartTableCell();
-
-            SymbolDocumentationInfo info = GetDocumentationInfo(symbol);
-
-            if (symbol.IsKind(SymbolKind.Parameter, SymbolKind.TypeParameter))
-            {
-                writer.WriteString(symbol.ToDisplayString(format));
-            }
-            else
-            {
-                writer.WriteLink(info, directoryInfo, format);
-            }
-
-            writer.WriteEndTableCell();
-            writer.WriteStartTableCell();
-
-            string s = _xmlDocumentations[symbol.ContainingAssembly]
-                .GetElement(info.CommentId, "summary")?
-                .Value;
-
-            if (s != null)
-            {
-                s = s.Trim();
-                s = _newLineWithWhitespaceRegex.Replace(s, " ");
-            }
-
-            writer.WriteString(s);
-            writer.WriteEndTableCell();
-            writer.WriteEndTableRow();
         }
 
         private void WriteNamespaceContent(

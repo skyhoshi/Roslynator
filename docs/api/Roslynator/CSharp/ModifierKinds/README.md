@@ -10,11 +10,11 @@ Specifies C\# modifier\.
 
 #### Inheritance
 
-Object &#x2192; ValueType &#x2192; Enum &#x2192; ModifierKinds
+[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; [Enum](https://docs.microsoft.com/en-us/dotnet/api/system.enum) &#x2192; ModifierKinds
 
 #### Attributes
 
-FlagsAttribute
+[FlagsAttribute](https://docs.microsoft.com/en-us/dotnet/api/system.flagsattribute)
 
 ## Fields
 
@@ -45,10 +45,4 @@ FlagsAttribute
 | In | 524288 | An "in" modifier\. |
 | Params | 1048576 | A "params" modifier\. |
 | This | 2097152 | A "this" modifier\. |
-
-## Constructors
-
-| Constructor| Summary|
-| --- | --- |
-| [ModifierKinds()](.ctor/README.md) | |
 

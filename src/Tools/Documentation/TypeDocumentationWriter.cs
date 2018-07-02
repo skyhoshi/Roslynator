@@ -7,7 +7,7 @@ namespace Roslynator.Documentation
 {
     public abstract class TypeDocumentationWriter : DocumentationWriter
     {
-        public ITypeSymbol TypeSymbol { get; }
+        public abstract ITypeSymbol TypeSymbol { get; }
 
         public abstract void WriteTitle(ITypeSymbol typeSymbol);
 

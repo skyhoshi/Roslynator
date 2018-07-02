@@ -10,33 +10,33 @@ Represents an extension method symbol\.
 
 #### Inheritance
 
-Object &#x2192; ValueType &#x2192; ExtensionMethodSymbolInfo
+[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; ExtensionMethodSymbolInfo
 
 #### Implements
 
-* IEquatable\<ExtensionMethodSymbolInfo>
+* [IEquatable\<ExtensionMethodSymbolInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
 
 ## Properties
 
 | Property| Summary|
 | --- | --- |
-| [ReducedSymbol](ReducedSymbol/README.md) | The definition of extension method from which this symbol was reduced, or null, if the symbol was not reduced\. |
-| [Symbol](Symbol/README.md) | The extension method symbol\. |
-| [ReducedSymbolOrSymbol](ReducedSymbolOrSymbol/README.md) | The reduced symbol or the symbol if the reduced symbol is null\. |
 | [IsReduced](IsReduced/README.md) | True if the symbol was reduced\. |
+| [ReducedSymbol](ReducedSymbol/README.md) | The definition of extension method from which this symbol was reduced, or null, if the symbol was not reduced\. |
+| [ReducedSymbolOrSymbol](ReducedSymbolOrSymbol/README.md) | The reduced symbol or the symbol if the reduced symbol is null\. |
+| [Symbol](Symbol/README.md) | The extension method symbol\. |
 
 ## Methods
 
 | Method| Summary|
 | --- | --- |
-| [Equals(Object)](Equals/README.md) | |
 | [Equals(ExtensionMethodSymbolInfo)](Equals/README.md) | |
+| [Equals(Object)](Equals/README.md) | |
 | [GetHashCode()](GetHashCode/README.md) | |
 
 ## Operators
 
 | Operator| Summary|
 | --- | --- |
-| [operator ==(ExtensionMethodSymbolInfo, ExtensionMethodSymbolInfo)](op_Equality/README.md) | |
 | [operator !=(ExtensionMethodSymbolInfo, ExtensionMethodSymbolInfo)](op_Inequality/README.md) | |
+| [operator ==(ExtensionMethodSymbolInfo, ExtensionMethodSymbolInfo)](op_Equality/README.md) | |
 

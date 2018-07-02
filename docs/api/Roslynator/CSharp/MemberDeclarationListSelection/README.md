@@ -10,13 +10,13 @@ Represents selected member declarations in a \.
 
 #### Inheritance
 
-Object &#x2192; [Selection\<MemberDeclarationSyntax>](../../Selection-1/README.md) &#x2192; [SyntaxListSelection\<MemberDeclarationSyntax>](../../SyntaxListSelection-1/README.md) &#x2192; MemberDeclarationListSelection
+[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [Selection\<MemberDeclarationSyntax>](../../Selection-1/README.md) &#x2192; [SyntaxListSelection\<MemberDeclarationSyntax>](../../SyntaxListSelection-1/README.md) &#x2192; MemberDeclarationListSelection
 
 #### Implements
 
-* IEnumerable\<MemberDeclarationSyntax>
-* IReadOnlyCollection\<MemberDeclarationSyntax>
-* IReadOnlyList\<MemberDeclarationSyntax>
+* [IEnumerable\<MemberDeclarationSyntax>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)
+* [IReadOnlyCollection\<MemberDeclarationSyntax>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1)
+* [IReadOnlyList\<MemberDeclarationSyntax>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1)
 
 ## Properties
 

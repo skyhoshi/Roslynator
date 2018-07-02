@@ -10,11 +10,11 @@ Provides information about string concatenation, i\.e\. a binary expression that
 
 #### Inheritance
 
-Object &#x2192; ValueType &#x2192; StringConcatenationExpressionInfo
+[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; StringConcatenationExpressionInfo
 
 #### Implements
 
-* IEquatable\<StringConcatenationExpressionInfo>
+* [IEquatable\<StringConcatenationExpressionInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
 
 ## Properties
 
@@ -27,17 +27,17 @@ Object &#x2192; ValueType &#x2192; StringConcatenationExpressionInfo
 
 | Method| Summary|
 | --- | --- |
-| [Expressions(Boolean)](Expressions/README.md) | Returns expressions of this binary expression, including expressions of nested binary expressions of the same kind as parent binary expression\. |
 | [AsChain()](AsChain/README.md) | |
-| [ToString()](ToString/README.md) | Returns the string representation of the underlying syntax, not including its leading and trailing trivia\. |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [Equals(StringConcatenationExpressionInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
+| [Expressions(Boolean)](Expressions/README.md) | Returns expressions of this binary expression, including expressions of nested binary expressions of the same kind as parent binary expression\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
+| [ToString()](ToString/README.md) | Returns the string representation of the underlying syntax, not including its leading and trailing trivia\. |
 
 ## Operators
 
 | Operator| Summary|
 | --- | --- |
-| [operator ==(StringConcatenationExpressionInfo, StringConcatenationExpressionInfo)](op_Equality/README.md) | |
 | [operator !=(StringConcatenationExpressionInfo, StringConcatenationExpressionInfo)](op_Inequality/README.md) | |
+| [operator ==(StringConcatenationExpressionInfo, StringConcatenationExpressionInfo)](op_Equality/README.md) | |
 

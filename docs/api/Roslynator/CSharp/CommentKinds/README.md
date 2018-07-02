@@ -10,11 +10,11 @@ Specifies C\# comments\.
 
 #### Inheritance
 
-Object &#x2192; ValueType &#x2192; Enum &#x2192; CommentKinds
+[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; [Enum](https://docs.microsoft.com/en-us/dotnet/api/system.enum) &#x2192; CommentKinds
 
 #### Attributes
 
-FlagsAttribute
+[FlagsAttribute](https://docs.microsoft.com/en-us/dotnet/api/system.flagsattribute)
 
 ## Fields
 
@@ -28,10 +28,4 @@ FlagsAttribute
 | MultiLineDocumentation | 8 | Multi\-line documentation comment\. |
 | Documentation | 12 | Documentation comment \(single\-line or multi\-line\)\. |
 | All | 15 | Documentation or non\-documentation comment\. |
-
-## Constructors
-
-| Constructor| Summary|
-| --- | --- |
-| [CommentKinds()](.ctor/README.md) | |
 

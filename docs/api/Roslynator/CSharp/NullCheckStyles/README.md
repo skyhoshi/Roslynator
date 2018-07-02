@@ -10,11 +10,11 @@ Specifies a null check\.
 
 #### Inheritance
 
-Object &#x2192; ValueType &#x2192; Enum &#x2192; NullCheckStyles
+[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; [Enum](https://docs.microsoft.com/en-us/dotnet/api/system.enum) &#x2192; NullCheckStyles
 
 #### Attributes
 
-FlagsAttribute
+[FlagsAttribute](https://docs.microsoft.com/en-us/dotnet/api/system.flagsattribute)
 
 ## Fields
 
@@ -33,10 +33,4 @@ FlagsAttribute
 | CheckingNotNull | 42 | Expression that checks whether an expression is not null\. |
 | HasValueProperty | 48 | Expression that uses  property\. |
 | All | 63 | All null check styles\. |
-
-## Constructors
-
-| Constructor| Summary|
-| --- | --- |
-| [NullCheckStyles()](.ctor/README.md) | |
 
