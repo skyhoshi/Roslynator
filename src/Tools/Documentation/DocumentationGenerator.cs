@@ -1,16 +1,15 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using DotMarkdown;
 using Microsoft.CodeAnalysis;
-using System.Text;
-using System.Diagnostics;
-using System;
-using System.Text.RegularExpressions;
-using System.IO;
 
 namespace Roslynator.Documentation
 {
@@ -52,9 +51,55 @@ namespace Roslynator.Documentation
 
         public SymbolDisplayFormatProvider FormatProvider { get; }
 
-        public string GenerateDocument(ITypeSymbol typeSymbol)
+        public string GenerateRootDocument(string heading)
         {
-            using (var writer = new MarkdownDocumentationWriter(this))
+            using (MarkdownWriter writer = MarkdownWriter.Create(new StringBuilder()))
+            {
+                writer.WriteHeading1(heading);
+
+                foreach (IGrouping<INamespaceSymbol, ITypeSymbol> grouping in TypeSymbols
+                    .GroupBy(f => f.ContainingNamespace)
+                    .OrderBy(f => f.Key.ToDisplayString(FormatProvider.NamespaceFormat)))
+                {
+                    INamespaceSymbol namespaceSymbol = grouping.Key;
+
+                    writer.WriteStartHeading(2);
+
+                    SymbolDocumentationInfo info = GetDocumentationInfo(namespaceSymbol);
+
+                    writer.WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), string.Join("/", info.Names.Reverse()) + "/README.md");
+                    writer.WriteString(" Namespace");
+                    writer.WriteEndHeading();
+
+                    WriteNamespaceContent(writer, grouping, 3, null);
+                }
+
+                return writer.ToString();
+            }
+        }
+
+        public string GenerateNamespaceDocument(INamespaceSymbol namespaceSymbol)
+        {
+            using (MarkdownWriter writer = MarkdownWriter.Create(new StringBuilder()))
+            {
+                writer.WriteStartHeading(1);
+                writer.WriteString(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat));
+                writer.WriteString(" Namespace");
+                writer.WriteEndHeading();
+
+                SymbolDocumentationInfo info = GetDocumentationInfo(namespaceSymbol);
+
+                WriteNamespaceContent(writer, TypeSymbols.Where(f => f.ContainingNamespace == namespaceSymbol), 2, info);
+
+                return writer.ToString();
+            }
+        }
+
+        public string GenerateTypeDocument(ITypeSymbol typeSymbol)
+        {
+            SymbolDocumentationInfo info = GetDocumentationInfo(typeSymbol);
+
+            using (var writer = new MarkdownTypeDocumentationWriter(this, info))
             {
                 writer.WriteTitle(typeSymbol);
                 writer.WriteNamespace(typeSymbol);
@@ -70,89 +115,25 @@ namespace Roslynator.Documentation
                 writer.WriteExamples(typeSymbol);
                 writer.WriteRemarks(typeSymbol);
 
-                IEnumerable<ISymbol> members = typeSymbol.GetMembers().Where(f => f.IsPubliclyVisible());
-
-                IEnumerable<IFieldSymbol> fields = members
-                    .Where(f => f.Kind == SymbolKind.Field)
-                    .Cast<IFieldSymbol>();
+                TypeMembersInfo members = TypeMembersInfo.Create(typeSymbol);
 
                 if (typeSymbol.TypeKind == TypeKind.Enum)
-                    writer.WriteEnumFields(fields);
+                    writer.WriteEnumFields(members.GetFields());
 
-                IEnumerable<IMethodSymbol> constructors = members
-                    .Where(f => f.Kind == SymbolKind.Method)
-                    .Cast<IMethodSymbol>()
-                    .Where(f => f.MethodKind == MethodKind.Constructor
-                        && (f.ContainingType.TypeKind != TypeKind.Struct || f.Parameters.Any()));
+                writer.WriteConstructors(members.GetConstructors());
 
-                writer.WriteConstructors(constructors);
+                if (typeSymbol.TypeKind != TypeKind.Enum)
+                    writer.WriteFields(members.GetFields());
 
-                writer.WriteFields(fields);
-
-                IEnumerable<IPropertySymbol> properties = members
-                    .Where(f => f.Kind == SymbolKind.Property)
-                    .Cast<IPropertySymbol>();
-
-                writer.WriteProperties(properties);
-
-                IEnumerable<IMethodSymbol> methods = members
-                    .Where(f => f.Kind == SymbolKind.Method)
-                    .Cast<IMethodSymbol>()
-                    .Where(f => f.MethodKind == MethodKind.Ordinary);
-
-                writer.WriteMethods(methods);
-
-                IEnumerable<IMethodSymbol> operators = members
-                    .Where(f => f.Kind == SymbolKind.Method)
-                    .Cast<IMethodSymbol>()
-                    .Where(f => f.MethodKind.Is(MethodKind.UserDefinedOperator, MethodKind.Conversion));
-
-                writer.WriteOperators(operators);
-
-                IEnumerable<IEventSymbol> events = members
-                    .Where(f => f.Kind == SymbolKind.Event)
-                    .Cast<IEventSymbol>();
-
-                writer.WriteEvents(events);
-
-                IEnumerable<IMethodSymbol> explicitInterfaceImplementations = members
-                    .Where(f => f.Kind == SymbolKind.Method)
-                    .Cast<IMethodSymbol>()
-                    .Where(f => f.MethodKind == MethodKind.ExplicitInterfaceImplementation);
-
-                writer.WriteExplicitInterfaceImplementations(explicitInterfaceImplementations);
-
+                writer.WriteProperties(members.GetProperties());
+                writer.WriteMethods(members.GetMethods());
+                writer.WriteOperators(members.GetOperators());
+                writer.WriteEvents(members.GetEvents());
+                writer.WriteExplicitInterfaceImplementations(members.GetExplicitInterfaceImplementations());
                 writer.WriteExtensionMethods(typeSymbol);
                 writer.WriteSeeAlso(typeSymbol);
 
                 return writer.ToString();
-            }
-        }
-
-        public string GenerateDocument(INamespaceSymbol namespaceSymbol)
-        {
-            using (MarkdownWriter writer = MarkdownWriter.Create(new StringBuilder()))
-            {
-                WriteNamespaceContent(writer, namespaceSymbol, TypeSymbols.Where(f => f.ContainingNamespace == namespaceSymbol), 1);
-
-                return writer.ToString();
-            }
-        }
-
-        public string GenerateIndex(string heading)
-        {
-            using (MarkdownWriter w = MarkdownWriter.Create(new StringBuilder()))
-            {
-                w.WriteHeading1(heading);
-
-                foreach (IGrouping<INamespaceSymbol, ITypeSymbol> grouping in TypeSymbols
-                    .GroupBy(f => f.ContainingNamespace)
-                    .OrderBy(f => f.Key.ToDisplayString(FormatProvider.NamespaceFormat)))
-                {
-                    WriteNamespaceContent(w, grouping.Key, grouping, 2);
-                }
-
-                return w.ToString();
             }
         }
 
@@ -174,13 +155,7 @@ namespace Roslynator.Documentation
 
             if (_sources.Any(f => f.AssemblySymbol == symbol.ContainingAssembly))
             {
-                string url = GetUrl(symbol);
-
-                info = new SymbolDocumentationInfo(
-                    symbol,
-                    symbol.GetDocumentationCommentId(),
-                    url,
-                    url + "/README.md");
+                info = SymbolDocumentationInfo.Create(symbol);
 
                 _symbolDocumentationCache[symbol] = info;
                 return true;
@@ -188,62 +163,6 @@ namespace Roslynator.Documentation
 
             info = default;
             return false;
-        }
-
-        public virtual string GetUrl(ISymbol symbol)
-        {
-            string s = symbol.Name;
-
-            int arity = GetArity();
-
-            if (arity > 0)
-            {
-                s += "-";
-                s += arity.ToString();
-            }
-
-            INamedTypeSymbol containingType = symbol.ContainingType;
-
-            while (containingType != null)
-            {
-                string name = containingType.Name;
-
-                arity = containingType.Arity;
-
-                if (arity > 0)
-                {
-                    name += "-";
-                    name += arity.ToString();
-                }
-
-                s = name + "/" + s;
-
-                containingType = containingType.ContainingType;
-            }
-
-            INamespaceSymbol containingNamespace = symbol.ContainingNamespace;
-
-            while (containingNamespace?.IsGlobalNamespace == false)
-            {
-                s = containingNamespace.Name + "/" + s;
-
-                containingNamespace = containingNamespace.ContainingNamespace;
-            }
-
-            return s;
-
-            int GetArity()
-            {
-                switch (symbol.Kind)
-                {
-                    case SymbolKind.Method:
-                        return ((IMethodSymbol)symbol).Arity;
-                    case SymbolKind.NamedType:
-                        return ((INamedTypeSymbol)symbol).Arity;
-                }
-
-                return 0;
-            }
         }
 
         internal XElement GetDocumentationElement(ISymbol symbol, string name)
@@ -258,7 +177,8 @@ namespace Roslynator.Documentation
             int headingLevel,
             string header1,
             string header2,
-            SymbolDisplayFormat format)
+            SymbolDisplayFormat format,
+            SymbolDocumentationInfo directoryInfo)
         {
             using (IEnumerator<ISymbol> en = symbols.GetEnumerator())
             {
@@ -270,7 +190,7 @@ namespace Roslynator.Documentation
 
                     do
                     {
-                        WriteTableRow(writer, en.Current, format);
+                        WriteTableRow(writer, en.Current, format, directoryInfo);
                     }
                     while (en.MoveNext());
 
@@ -299,14 +219,15 @@ namespace Roslynator.Documentation
         private void WriteTableRow(
             MarkdownWriter writer,
             ISymbol symbol,
-            SymbolDisplayFormat format)
+            SymbolDisplayFormat format,
+            SymbolDocumentationInfo directoryInfo)
         {
             writer.WriteStartTableRow();
             writer.WriteStartTableCell();
 
             SymbolDocumentationInfo info = GetDocumentationInfo(symbol);
 
-            writer.WriteLinkOrText(symbol.ToDisplayString(format), info.FileUrl);
+            writer.WriteLink(info, directoryInfo, format);
 
             writer.WriteEndTableCell();
             writer.WriteStartTableCell();
@@ -328,17 +249,10 @@ namespace Roslynator.Documentation
 
         private void WriteNamespaceContent(
             MarkdownWriter writer,
-            INamespaceSymbol namespaceSymbol,
             IEnumerable<ITypeSymbol> typeSymbols,
-            int headingLevel)
+            int headingLevel,
+            SymbolDocumentationInfo directoryInfo)
         {
-            writer.WriteStartHeading(headingLevel);
-            writer.WriteString(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat));
-            writer.WriteString(" Namespace");
-            writer.WriteEndHeading();
-
-            headingLevel++;
-
             foreach (IGrouping<TypeKind, ITypeSymbol> grouping in typeSymbols
                 .OrderBy(f => f.ToDisplayString(FormatProvider.TypeFormat))
                 .GroupBy(f => f.TypeKind)
@@ -350,27 +264,27 @@ namespace Roslynator.Documentation
                 {
                     case TypeKind.Class:
                         {
-                            WriteTable(writer, grouping, "Classes", headingLevel, "Class", "Summary", FormatProvider.TypeFormat);
+                            WriteTable(writer, grouping, "Classes", headingLevel, "Class", "Summary", FormatProvider.TypeFormat, directoryInfo);
                             break;
                         }
                     case TypeKind.Struct:
                         {
-                            WriteTable(writer, grouping, "Structs", headingLevel, "Struct", "Summary", FormatProvider.TypeFormat);
+                            WriteTable(writer, grouping, "Structs", headingLevel, "Struct", "Summary", FormatProvider.TypeFormat, directoryInfo);
                             break;
                         }
                     case TypeKind.Interface:
                         {
-                            WriteTable(writer, grouping, "Interfaces", headingLevel, "Interface", "Summary", FormatProvider.TypeFormat);
+                            WriteTable(writer, grouping, "Interfaces", headingLevel, "Interface", "Summary", FormatProvider.TypeFormat, directoryInfo);
                             break;
                         }
                     case TypeKind.Enum:
                         {
-                            WriteTable(writer, grouping, "Enums", headingLevel, "Enum", "Summary", FormatProvider.TypeFormat);
+                            WriteTable(writer, grouping, "Enums", headingLevel, "Enum", "Summary", FormatProvider.TypeFormat, directoryInfo);
                             break;
                         }
                     case TypeKind.Delegate:
                         {
-                            WriteTable(writer, grouping, "Delegates", headingLevel, "Delegate", "Summary", FormatProvider.TypeFormat);
+                            WriteTable(writer, grouping, "Delegates", headingLevel, "Delegate", "Summary", FormatProvider.TypeFormat, directoryInfo);
                             break;
                         }
                     default:

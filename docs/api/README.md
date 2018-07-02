@@ -1,6 +1,6 @@
 # Roslynator API
 
-## Roslynator Namespace
+## [Roslynator](Roslynator/README.md) Namespace
 
 ### Classes
 
@@ -26,7 +26,7 @@
 | [SeparatedSyntaxListSelection\<TNode>.Enumerator](Roslynator/SeparatedSyntaxListSelection-1/Enumerator/README.md) | |
 | [SyntaxListSelection\<TNode>.Enumerator](Roslynator/SyntaxListSelection-1/Enumerator/README.md) | |
 
-## Roslynator\.CSharp Namespace
+## [Roslynator.CSharp](Roslynator/CSharp/README.md) Namespace
 
 ### Classes
 
@@ -63,7 +63,7 @@
 | [NullCheckStyles](Roslynator/CSharp/NullCheckStyles/README.md) | Specifies a null check\. |
 | [PreprocessorDirectiveKinds](Roslynator/CSharp/PreprocessorDirectiveKinds/README.md) | Specifies C\# preprocessor directives\. |
 
-## Roslynator\.CSharp\.Syntax Namespace
+## [Roslynator.CSharp.Syntax](Roslynator/CSharp/Syntax/README.md) Namespace
 
 ### Structs
 
@@ -94,7 +94,7 @@
 | [UsingDirectiveListInfo](Roslynator/CSharp/Syntax/UsingDirectiveListInfo/README.md) | Provides information about a list of using directives\. |
 | [XmlElementInfo](Roslynator/CSharp/Syntax/XmlElementInfo/README.md) | Provides information about a \. |
 
-## Roslynator\.Text Namespace
+## [Roslynator.Text](Roslynator/Text/README.md) Namespace
 
 ### Classes
 

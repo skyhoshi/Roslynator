@@ -28,20 +28,15 @@ namespace Roslynator.Documentation
 
             var generator = new DocumentationGenerator(ImmutableArray.Create(source));
 
-            string indexContent = generator.GenerateIndex("Roslynator API");
+            string indexContent = generator.GenerateRootDocument("Roslynator API");
 
-            FileHelper.WriteAllText(
-                Path.Combine(rootPath, "README.md"),
-                indexContent,
-                _utf8NoBom,
-                onlyIfChanges: true,
-                fileMustExists: false);
+            FileHelper.WriteAllText(Path.Combine(rootPath, "README.md"), indexContent, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
 
             foreach (INamespaceSymbol namespaceSymbol in generator.TypeSymbols.Select(f => f.ContainingNamespace).Distinct())
             {
-                string content = generator.GenerateDocument(namespaceSymbol);
+                string content = generator.GenerateNamespaceDocument(namespaceSymbol);
 
-                string path = generator.GetUrl(namespaceSymbol).Replace('/', '\\');
+                string path = string.Join(@"\", generator.GetDocumentationInfo(namespaceSymbol).Names.Reverse());
 
                 path = rootPath + path + @"\README.md";
 
@@ -51,9 +46,9 @@ namespace Roslynator.Documentation
 
             foreach (ITypeSymbol typeSymbol in generator.TypeSymbols)
             {
-                string content = generator.GenerateDocument(typeSymbol);
+                string content = generator.GenerateTypeDocument(typeSymbol);
 
-                string path = generator.GetUrl(typeSymbol).Replace('/', '\\');
+                string path = string.Join(@"\", generator.GetDocumentationInfo(typeSymbol).Names.Reverse());
 
                 path = rootPath + path + @"\README.md";
 

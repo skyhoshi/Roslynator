@@ -4,11 +4,11 @@
 
 | Class| Summary|
 | --- | --- |
-| [TextLineCollectionSelection](Roslynator/Text/TextLineCollectionSelection/README.md) | Represents selected lines in a \. |
+| [TextLineCollectionSelection](TextLineCollectionSelection/README.md) | Represents selected lines in a \. |
 
 ## Structs
 
 | Struct| Summary|
 | --- | --- |
-| [TextLineCollectionSelection.Enumerator](Roslynator/Text/TextLineCollectionSelection/Enumerator/README.md) | |
+| [TextLineCollectionSelection.Enumerator](TextLineCollectionSelection/Enumerator/README.md) | |
 

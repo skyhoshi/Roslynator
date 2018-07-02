@@ -13,16 +13,19 @@ using static DotMarkdown.Linq.MFactory;
 
 namespace Roslynator.Documentation
 {
-    public class MarkdownDocumentationWriter : DocumentationWriter
+    public class MarkdownTypeDocumentationWriter : TypeDocumentationWriter
     {
         private readonly DocumentationGenerator _generator;
         private readonly MarkdownWriter _writer;
 
-        public MarkdownDocumentationWriter(DocumentationGenerator generator)
+        public MarkdownTypeDocumentationWriter(DocumentationGenerator generator, SymbolDocumentationInfo directoryInfo)
         {
-            _generator = generator;
             _writer = MarkdownWriter.Create(new StringBuilder());
+            _generator = generator;
+            DirectoryInfo = directoryInfo;
         }
+
+        public override SymbolDocumentationInfo DirectoryInfo { get; }
 
         private SymbolDisplayFormatProvider FormatProvider
         {
@@ -60,7 +63,10 @@ namespace Roslynator.Documentation
         public override void WriteNamespace(ITypeSymbol typeSymbol)
         {
             _writer.WriteString("Namespace: ");
-            _writer.WriteString(typeSymbol.ContainingNamespace.ToDisplayString(FormatProvider.NamespaceFormat));
+
+            INamespaceSymbol containingNamespace = typeSymbol.ContainingNamespace;
+
+            _writer.WriteLink(_generator.GetDocumentationInfo(containingNamespace), DirectoryInfo, FormatProvider.NamespaceFormat);
             _writer.WriteLine();
             _writer.WriteLine();
         }
@@ -128,6 +134,12 @@ namespace Roslynator.Documentation
 
         public override void WriteInheritance(ITypeSymbol typeSymbol)
         {
+            if (typeSymbol.TypeKind == TypeKind.Class
+                && typeSymbol.IsStatic)
+            {
+                return;
+            }
+
             _writer.WriteHeading4("Inheritance");
 
             MBulletItem item = BulletItem(typeSymbol.ToDisplayString(FormatProvider.InheritanceFormat));
@@ -291,7 +303,7 @@ namespace Roslynator.Documentation
             string header2,
             SymbolDisplayFormat format)
         {
-            _generator.WriteTable(_writer, symbols, heading, headingLevel, header1, header2, format);
+            _generator.WriteTable(_writer, symbols, heading, headingLevel, header1, header2, format, DirectoryInfo);
         }
 
         public override string ToString()
