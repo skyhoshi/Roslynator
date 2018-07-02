@@ -4,6 +4,7 @@ Namespace: [Roslynator.CSharp](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Represents a list of modifiers\.
 
@@ -11,12 +12,11 @@ Represents a list of modifiers\.
 
 | Type Parameter| Summary|
 | --- | --- |
-| [TNode](TNode/README.md) | |
+| TNode | |
 
 #### Inheritance
 
-* Object
-  * ModifierList\<TNode>
+Object &#x2192; ModifierList\<TNode>
 
 ## Properties
 

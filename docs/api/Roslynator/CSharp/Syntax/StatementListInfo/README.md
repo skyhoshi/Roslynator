@@ -4,18 +4,20 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides information about a list of statements\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * StatementListInfo
+Object &#x2192; ValueType &#x2192; StatementListInfo
 
-#### Attributes
+#### Implements
 
-DefaultMemberAttribute, DebuggerDisplayAttribute
+* IEnumerable\<StatementSyntax>
+* IEquatable\<StatementListInfo>
+* IReadOnlyCollection\<StatementSyntax>
+* IReadOnlyList\<StatementSyntax>
 
 ## Properties
 

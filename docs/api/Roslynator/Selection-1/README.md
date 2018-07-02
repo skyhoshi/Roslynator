@@ -4,6 +4,7 @@ Namespace: [Roslynator](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Represents consecutive sequence of selected items in a collection\.
 
@@ -11,16 +12,25 @@ Represents consecutive sequence of selected items in a collection\.
 
 | Type Parameter| Summary|
 | --- | --- |
-| [T](T/README.md) | |
+| T | |
 
 #### Inheritance
 
-* Object
-  * Selection\<T>
+Object &#x2192; Selection\<T>
 
-#### Attributes
+#### Derived
 
-DefaultMemberAttribute, DebuggerDisplayAttribute
+* [Roslynator.CSharp.MemberDeclarationListSelection](MemberDeclarationListSelection/README.md)
+* [Roslynator.CSharp.StatementListSelection](StatementListSelection/README.md)
+* [Roslynator.SeparatedSyntaxListSelection\<TNode>](../SeparatedSyntaxListSelection-1/README.md)
+* [Roslynator.SyntaxListSelection\<TNode>](../SyntaxListSelection-1/README.md)
+* [Roslynator.Text.TextLineCollectionSelection](TextLineCollectionSelection/README.md)
+
+#### Implements
+
+* IEnumerable\<T>
+* IReadOnlyCollection\<T>
+* IReadOnlyList\<T>
 
 ## Constructors
 

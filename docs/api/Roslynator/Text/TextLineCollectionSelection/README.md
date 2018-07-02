@@ -4,18 +4,19 @@ Namespace: [Roslynator.Text](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Represents selected lines in a \.
 
 #### Inheritance
 
-* Object
-  * Selection\<TextLine>
-    * TextLineCollectionSelection
+Object &#x2192; [Selection\<TextLine>](../../Selection-1/README.md) &#x2192; TextLineCollectionSelection
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEnumerable\<TextLine>
+* IReadOnlyCollection\<TextLine>
+* IReadOnlyList\<TextLine>
 
 ## Constructors
 

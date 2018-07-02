@@ -4,6 +4,7 @@ Namespace: [Roslynator.CSharp](../README.md)
 
 Assembly: Roslynator\.dll
 
+
 ## Methods
 
 | Method| Summary|

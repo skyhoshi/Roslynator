@@ -4,18 +4,20 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides information about a list of using directives\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * UsingDirectiveListInfo
+Object &#x2192; ValueType &#x2192; UsingDirectiveListInfo
 
-#### Attributes
+#### Implements
 
-DefaultMemberAttribute, DebuggerDisplayAttribute
+* IEnumerable\<UsingDirectiveSyntax>
+* IEquatable\<UsingDirectiveListInfo>
+* IReadOnlyCollection\<UsingDirectiveSyntax>
+* IReadOnlyList\<UsingDirectiveSyntax>
 
 ## Properties
 

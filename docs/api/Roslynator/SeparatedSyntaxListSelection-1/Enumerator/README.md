@@ -6,9 +6,7 @@ Assembly: Roslynator\.dll
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * SeparatedSyntaxListSelection\<TNode>\.Enumerator
+Object &#x2192; ValueType &#x2192; SeparatedSyntaxListSelection\<TNode>\.Enumerator
 
 ## Properties
 

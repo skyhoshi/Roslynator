@@ -3,22 +3,21 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using DotMarkdown;
-using DotMarkdown.Linq;
 using Microsoft.CodeAnalysis;
-using static DotMarkdown.Linq.MFactory;
 
 namespace Roslynator.Documentation
 {
-    public class MarkdownTypeDocumentationWriter : TypeDocumentationWriter
+    public class TypeDocumentationMarkdownWriter : TypeDocumentationWriter
     {
         private readonly DocumentationGenerator _generator;
         private readonly MarkdownWriter _writer;
 
-        public MarkdownTypeDocumentationWriter(DocumentationGenerator generator, SymbolDocumentationInfo directoryInfo)
+        public TypeDocumentationMarkdownWriter(DocumentationGenerator generator, SymbolDocumentationInfo directoryInfo)
         {
             _writer = MarkdownWriter.Create(new StringBuilder());
             _generator = generator;
@@ -81,7 +80,7 @@ namespace Roslynator.Documentation
 
         public override void WriteSummary(ITypeSymbol typeSymbol)
         {
-            WriteChapter(typeSymbol, heading: null, "summary");
+            WriteSection(typeSymbol, heading: "Summary", "summary");
         }
 
         public override void WriteTypeParameters(ITypeSymbol typeSymbol)
@@ -111,23 +110,50 @@ namespace Roslynator.Documentation
 
         public override void WriteReturnValue(ITypeSymbol typeSymbol)
         {
-            if (typeSymbol is INamedTypeSymbol namedTypeSymbol)
+            switch (typeSymbol.Kind)
             {
-                IMethodSymbol methodSymbol = namedTypeSymbol.DelegateInvokeMethod;
-
-                if (methodSymbol != null)
-                {
-                    _writer.WriteHeading3("Return Value");
-                    _writer.WriteString(methodSymbol.ReturnType.ToDisplayString(FormatProvider.ReturnValueFormat));
-                    _writer.WriteLine();
-
-                    string returns = _generator.GetDocumentationElement(methodSymbol, "returns")?.Value;
-
-                    if (returns != null)
+                case SymbolKind.NamedType:
                     {
-                        _writer.WriteString(returns.Trim());
-                        _writer.WriteLine();
+                        var namedTypeSymbol = (INamedTypeSymbol)typeSymbol;
+
+                        IMethodSymbol methodSymbol = namedTypeSymbol.DelegateInvokeMethod;
+
+                        if (methodSymbol != null)
+                            WriteReturnValue("Return Value", typeSymbol, methodSymbol.ReturnType);
+
+                        break;
                     }
+                case SymbolKind.Method:
+                    {
+                        var methodSymbol = (IMethodSymbol)typeSymbol;
+
+                        WriteReturnValue("Returns", typeSymbol, methodSymbol.ReturnType);
+                        break;
+                    }
+                case SymbolKind.Property:
+                    {
+                        var propertySymbol = (IPropertySymbol)typeSymbol;
+
+                        WriteReturnValue("Property Value", typeSymbol, propertySymbol.Type);
+                        break;
+                    }
+            }
+
+            void WriteReturnValue(string heading, ISymbol symbol, ITypeSymbol returnType)
+            {
+                if (returnType.SpecialType == SpecialType.System_Void)
+                    return;
+
+                _writer.WriteHeading3(heading);
+                _writer.WriteLink(_generator.GetDocumentationInfo(returnType), DirectoryInfo, FormatProvider.ReturnValueFormat);
+                _writer.WriteLine();
+
+                string returns = _generator.GetDocumentationElement(symbol, "returns")?.Value;
+
+                if (returns != null)
+                {
+                    _writer.WriteString(returns.Trim());
+                    _writer.WriteLine();
                 }
             }
         }
@@ -142,49 +168,192 @@ namespace Roslynator.Documentation
 
             _writer.WriteHeading4("Inheritance");
 
-            MBulletItem item = BulletItem(typeSymbol.ToDisplayString(FormatProvider.InheritanceFormat));
-
-            typeSymbol = typeSymbol.BaseType;
-
-            while (typeSymbol != null)
+            using (IEnumerator<ITypeSymbol> en = typeSymbol.BaseTypesAndSelf().Reverse().GetEnumerator())
             {
-                item = BulletItem(typeSymbol.ToDisplayString(FormatProvider.InheritanceFormat), item);
+                if (en.MoveNext())
+                {
+                    ITypeSymbol symbol = en.Current;
 
-                typeSymbol = typeSymbol.BaseType;
+                    bool isLast = !en.MoveNext();
+
+                    WriterLinkOrText(symbol, isLast);
+
+                    do
+                    {
+                        _writer.WriteString(" ");
+                        _writer.WriteCharEntity('\u2192');
+                        _writer.WriteString(" ");
+
+                        symbol = en.Current;
+                        isLast = !en.MoveNext();
+
+                        WriterLinkOrText(symbol, isLast);
+                    }
+                    while (!isLast);
+                }
             }
 
-            item.WriteTo(_writer);
+            _writer.WriteLine();
+
+            void WriterLinkOrText(ISymbol symbol, bool isLast)
+            {
+                if (isLast)
+                {
+                    _writer.WriteString(symbol.ToDisplayString(FormatProvider.InheritanceFormat));
+                }
+                else
+                {
+                    _writer.WriteLink(_generator.GetDocumentationInfo(symbol), DirectoryInfo, FormatProvider.InheritanceFormat);
+                }
+            }
         }
 
         public override void WriteAttributes(ITypeSymbol typeSymbol)
         {
-            ImmutableArray<AttributeData> attributes = typeSymbol.GetAttributes();
-
-            if (attributes.Any())
+            using (IEnumerator<ITypeSymbol> en = typeSymbol
+                .GetAttributes()
+                .Select(f => f.AttributeClass)
+                .Where(f => !ShouldBeExcluded(f))
+                .GetEnumerator())
             {
-                _writer.WriteHeading4("Attributes");
+                if (en.MoveNext())
+                {
+                    _writer.WriteHeading4("Attributes");
 
-                _writer.WriteString(string.Join(", ", attributes.Select(f => f.AttributeClass.ToDisplayString(FormatProvider.AttributeFormat))));
-                _writer.WriteLine();
+                    WriterLink(en.Current);
+
+                    while (en.MoveNext())
+                    {
+                        _writer.WriteString(", ");
+
+                        WriterLink(en.Current);
+                    }
+                }
+            }
+
+            _writer.WriteLine();
+
+            void WriterLink(ISymbol symbol)
+            {
+                _writer.WriteLink(_generator.GetDocumentationInfo(symbol), DirectoryInfo, FormatProvider.AttributeFormat);
+            }
+
+            bool ShouldBeExcluded(INamedTypeSymbol attributeSymbol)
+            {
+                switch (attributeSymbol.MetadataName)
+                {
+                    case "DebuggerDisplayAttribute":
+                        {
+                            return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Diagnostics);
+                        }
+                    case "DefaultMemberAttribute":
+                        {
+                            return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Reflection);
+                        }
+                    default:
+                        {
+                            return false;
+                        }
+                }
             }
         }
 
         public override void WriteDerived(ITypeSymbol typeSymbol)
         {
+            TypeKind typeKind = typeSymbol.TypeKind;
+
+            if (typeKind.Is(TypeKind.Class, TypeKind.Interface)
+                && !typeSymbol.IsStatic)
+            {
+                using (IEnumerator<ITypeSymbol> en = _generator
+                    .TypeSymbols
+                    .Where(InheritsFrom)
+                    .OrderBy(f => f.ToDisplayString(FormatProvider.DerivedFormat))
+                    .GetEnumerator())
+                {
+                    if (en.MoveNext())
+                    {
+                        _writer.WriteHeading4("Derived");
+
+                        do
+                        {
+                            _writer.WriteStartBulletItem();
+                            _writer.WriteLink(_generator.GetDocumentationInfo(en.Current), DirectoryInfo, FormatProvider.DerivedFormat);
+                            _writer.WriteEndBulletItem();
+                        }
+                        while (en.MoveNext());
+                    }
+                }
+            }
+
+            //TODO: InheritsFrom bug
+            bool InheritsFrom(ITypeSymbol type)
+            {
+                INamedTypeSymbol t = type.BaseType;
+
+                while (t != null)
+                {
+                    if (t.OriginalDefinition.Equals(typeSymbol))
+                        return true;
+
+                    t = t.BaseType;
+                }
+
+                if (typeKind == TypeKind.Interface)
+                {
+                    foreach (INamedTypeSymbol interfaceType in type.AllInterfaces)
+                    {
+                        if (interfaceType.OriginalDefinition.Equals(typeSymbol))
+                            return true;
+                    }
+                }
+
+                return false;
+            }
         }
 
         public override void WriteImplements(ITypeSymbol typeSymbol)
         {
+            if (typeSymbol.BaseType?.SpecialType == SpecialType.System_Enum)
+                return;
+
+            if (!typeSymbol.IsStatic)
+            {
+                IEnumerable<INamedTypeSymbol> allInterfaces = typeSymbol.AllInterfaces;
+
+                if (allInterfaces.Any(f => f.OriginalDefinition.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T))
+                {
+                    allInterfaces = allInterfaces.Where(f => f.SpecialType != SpecialType.System_Collections_IEnumerable);
+                }
+
+                using (IEnumerator<INamedTypeSymbol> en = allInterfaces
+                    .OrderBy(f => f.ToDisplayString(FormatProvider.ImplementsFormat))
+                    .GetEnumerator())
+                {
+                    if (en.MoveNext())
+                    {
+                        _writer.WriteHeading4("Implements");
+
+                        do
+                        {
+                            _writer.WriteStartBulletItem();
+                            _writer.WriteLink(_generator.GetDocumentationInfo(en.Current), DirectoryInfo, FormatProvider.ImplementsFormat);
+                            _writer.WriteEndBulletItem();
+                        }
+                        while (en.MoveNext());
+                    }
+                }
+            }
         }
 
         public override void WriteExamples(ITypeSymbol typeSymbol)
         {
-            WriteChapter(typeSymbol, heading: "Examples", "examples");
+            WriteSection(typeSymbol, heading: "Examples", "examples");
         }
 
         public override void WriteRemarks(ITypeSymbol typeSymbol)
         {
-            WriteChapter(typeSymbol, heading: "Remarks", "remarks");
+            WriteSection(typeSymbol, heading: "Remarks", "remarks");
         }
 
         public override void WriteEnumFields(IEnumerable<IFieldSymbol> fields)
@@ -267,15 +436,17 @@ namespace Roslynator.Documentation
             WriteTable(explicitInterfaceImplementations, "Explicit Interface Implementations", 2, "Member", "Summary", FormatProvider.MethodFormat);
         }
 
+        //TODO: WriteExtensionMethods
         public override void WriteExtensionMethods(ITypeSymbol typeSymbol)
         {
         }
 
+        //TODO: WriteSeeAlso
         public override void WriteSeeAlso(ITypeSymbol typeSymbol)
         {
         }
 
-        private void WriteChapter(ITypeSymbol typeSymbol, string heading, string name)
+        private void WriteSection(ITypeSymbol typeSymbol, string heading, string name)
         {
             string text = _generator.GetDocumentationElement(typeSymbol, name)?.Value;
 

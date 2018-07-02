@@ -4,6 +4,7 @@ Namespace: [Roslynator.CSharp](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 A set of extension methods for syntax \(types derived from \)\.
 
@@ -15,6 +16,7 @@ A set of extension methods for syntax \(types derived from \)\.
 | [BodyOrExpressionBody(AccessorDeclarationSyntax)](BodyOrExpressionBody/README.md) | Returns accessor body or an expression body if the body is null\. |
 | [Getter(AccessorListSyntax)](Getter/README.md) | Returns a get accessor contained in the specified list\. |
 | [Setter(AccessorListSyntax)](Setter/README.md) | Returns a set accessor contained in the specified list\. |
+| [AsChain(BinaryExpressionSyntax, TextSpan?)](AsChain/README.md) | |
 | [ParenthesesSpan(CastExpressionSyntax)](ParenthesesSpan/README.md) | The absolute span of the parentheses, not including its leading and trailing trivia\. |
 | [WithMembers(ClassDeclarationSyntax, MemberDeclarationSyntax)](WithMembers/README.md) | Creates a new  with the members updated\. |
 | [WithMembers(ClassDeclarationSyntax, IEnumerable\<MemberDeclarationSyntax>)](WithMembers/README.md) | Creates a new  with the members updated\. |

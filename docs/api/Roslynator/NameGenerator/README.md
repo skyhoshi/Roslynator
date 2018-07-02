@@ -4,13 +4,13 @@ Namespace: [Roslynator](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides methods to obtain an unique identifier\.
 
 #### Inheritance
 
-* Object
-  * NameGenerator
+Object &#x2192; NameGenerator
 
 ## Constructors
 

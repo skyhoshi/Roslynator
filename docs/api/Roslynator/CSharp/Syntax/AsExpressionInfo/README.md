@@ -4,18 +4,17 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides information about "as" expression\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * AsExpressionInfo
+Object &#x2192; ValueType &#x2192; AsExpressionInfo
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEquatable\<AsExpressionInfo>
 
 ## Properties
 

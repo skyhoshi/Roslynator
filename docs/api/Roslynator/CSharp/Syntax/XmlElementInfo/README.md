@@ -4,18 +4,17 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
-Provides information about a \.
+Provides information about a  or \.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * XmlElementInfo
+Object &#x2192; ValueType &#x2192; XmlElementInfo
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEquatable\<XmlElementInfo>
 
 ## Properties
 

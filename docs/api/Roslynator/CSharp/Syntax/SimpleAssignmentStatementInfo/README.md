@@ -4,18 +4,17 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides information about a simple assignment expression in an expression statement\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * SimpleAssignmentStatementInfo
+Object &#x2192; ValueType &#x2192; SimpleAssignmentStatementInfo
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEquatable\<SimpleAssignmentStatementInfo>
 
 ## Properties
 

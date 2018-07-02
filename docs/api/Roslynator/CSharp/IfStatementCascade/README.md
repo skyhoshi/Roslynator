@@ -4,18 +4,18 @@ Namespace: [Roslynator.CSharp](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Enables to enumerate if statement cascade\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * IfStatementCascade
+Object &#x2192; ValueType &#x2192; IfStatementCascade
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEnumerable\<IfStatementOrElseClause>
+* IEquatable\<IfStatementCascade>
 
 ## Properties
 

@@ -4,15 +4,13 @@ Namespace: [Roslynator.CSharp](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Specifies C\# comments\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * Enum
-      * CommentKinds
+Object &#x2192; ValueType &#x2192; Enum &#x2192; CommentKinds
 
 #### Attributes
 

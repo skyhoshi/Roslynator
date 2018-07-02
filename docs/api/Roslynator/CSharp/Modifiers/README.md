@@ -4,6 +4,7 @@ Namespace: [Roslynator.CSharp](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Serves as a factory for a modifier list\.
 

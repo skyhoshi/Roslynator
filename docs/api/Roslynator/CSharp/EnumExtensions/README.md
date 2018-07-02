@@ -4,6 +4,7 @@ Namespace: [Roslynator.CSharp](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 A set of extension methods for enumerations\.
 

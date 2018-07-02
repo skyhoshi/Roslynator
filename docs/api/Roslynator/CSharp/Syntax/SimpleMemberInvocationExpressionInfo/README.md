@@ -4,18 +4,17 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides information about invocation expression\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * SimpleMemberInvocationExpressionInfo
+Object &#x2192; ValueType &#x2192; SimpleMemberInvocationExpressionInfo
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEquatable\<SimpleMemberInvocationExpressionInfo>
 
 ## Properties
 

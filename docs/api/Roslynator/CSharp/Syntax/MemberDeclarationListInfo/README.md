@@ -4,18 +4,20 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides information about a list of member declaration list\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * MemberDeclarationListInfo
+Object &#x2192; ValueType &#x2192; MemberDeclarationListInfo
 
-#### Attributes
+#### Implements
 
-DefaultMemberAttribute, DebuggerDisplayAttribute
+* IEnumerable\<MemberDeclarationSyntax>
+* IEquatable\<MemberDeclarationListInfo>
+* IReadOnlyCollection\<MemberDeclarationSyntax>
+* IReadOnlyList\<MemberDeclarationSyntax>
 
 ## Properties
 

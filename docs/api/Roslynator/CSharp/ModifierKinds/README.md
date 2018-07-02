@@ -4,15 +4,13 @@ Namespace: [Roslynator.CSharp](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Specifies C\# modifier\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * Enum
-      * ModifierKinds
+Object &#x2192; ValueType &#x2192; Enum &#x2192; ModifierKinds
 
 #### Attributes
 

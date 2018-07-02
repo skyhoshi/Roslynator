@@ -4,6 +4,7 @@ Namespace: [Roslynator](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 A set of extension method for a syntax\.
 

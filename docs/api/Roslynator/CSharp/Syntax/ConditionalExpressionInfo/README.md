@@ -4,18 +4,17 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides information about conditional expression\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * ConditionalExpressionInfo
+Object &#x2192; ValueType &#x2192; ConditionalExpressionInfo
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEquatable\<ConditionalExpressionInfo>
 
 ## Properties
 

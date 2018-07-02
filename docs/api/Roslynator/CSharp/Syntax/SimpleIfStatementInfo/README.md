@@ -4,19 +4,18 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides information about a simple if statement\.
             Simple if statement is defined as follows: it is not a child of an else clause and it has no else clause\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * SimpleIfStatementInfo
+Object &#x2192; ValueType &#x2192; SimpleIfStatementInfo
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEquatable\<SimpleIfStatementInfo>
 
 ## Properties
 

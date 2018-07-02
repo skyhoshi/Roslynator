@@ -22,6 +22,10 @@ namespace Roslynator.Documentation
 
         public abstract SymbolDisplayFormat InheritanceFormat { get; }
 
+        public abstract SymbolDisplayFormat DerivedFormat { get; }
+
+        public abstract SymbolDisplayFormat ImplementsFormat { get; }
+
         public abstract SymbolDisplayFormat AttributeFormat { get; }
 
         public abstract SymbolDisplayFormat ConstructorFormat { get; }
@@ -67,6 +71,16 @@ namespace Roslynator.Documentation
             }
 
             public override SymbolDisplayFormat InheritanceFormat
+            {
+                get { return SymbolDisplayFormats.TypeNameAndContainingTypes; }
+            }
+
+            public override SymbolDisplayFormat DerivedFormat
+            {
+                get { return SymbolDisplayFormats.TypeNameAndContainingTypesAndNamespaces; }
+            }
+
+            public override SymbolDisplayFormat ImplementsFormat
             {
                 get { return SymbolDisplayFormats.TypeNameAndContainingTypes; }
             }

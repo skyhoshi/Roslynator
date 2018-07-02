@@ -4,18 +4,17 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides information about a null check expression\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * NullCheckExpressionInfo
+Object &#x2192; ValueType &#x2192; NullCheckExpressionInfo
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEquatable\<NullCheckExpressionInfo>
 
 ## Properties
 

@@ -4,15 +4,13 @@ Namespace: [Roslynator.CSharp](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Specifies a null check\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * Enum
-      * NullCheckStyles
+Object &#x2192; ValueType &#x2192; Enum &#x2192; NullCheckStyles
 
 #### Attributes
 

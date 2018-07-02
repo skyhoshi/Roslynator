@@ -56,7 +56,7 @@ namespace Roslynator.Documentation
             string xmlDocPath = Path.ChangeExtension(_reference.FilePath, "xml");
 
             if (!File.Exists(xmlDocPath))
-                throw new FileNotFoundException();
+                throw new FileNotFoundException("Unable to find xml documentation file.", xmlDocPath);
 
             return XmlDocumentation.Load(xmlDocPath);
         }

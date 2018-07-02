@@ -4,15 +4,13 @@ Namespace: [Roslynator.CSharp](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Specifies C\# preprocessor directives\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * Enum
-      * PreprocessorDirectiveKinds
+Object &#x2192; ValueType &#x2192; Enum &#x2192; PreprocessorDirectiveKinds
 
 #### Attributes
 

@@ -4,18 +4,17 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides information about a region\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * RegionInfo
+Object &#x2192; ValueType &#x2192; RegionInfo
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEquatable\<RegionInfo>
 
 ## Properties
 

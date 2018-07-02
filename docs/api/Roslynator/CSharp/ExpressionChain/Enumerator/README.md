@@ -1,12 +1,12 @@
-# SyntaxListSelection\<TNode>\.Enumerator Struct
+# ExpressionChain\.Enumerator Struct
 
-Namespace: [Roslynator](../../README.md)
+Namespace: [Roslynator.CSharp](../../README.md)
 
 Assembly: Roslynator\.dll
 
 #### Inheritance
 
-Object &#x2192; ValueType &#x2192; SyntaxListSelection\<TNode>\.Enumerator
+Object &#x2192; ValueType &#x2192; ExpressionChain\.Enumerator
 
 ## Properties
 

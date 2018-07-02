@@ -6,9 +6,7 @@ Assembly: Roslynator\.dll
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * IfStatementCascade\.Enumerator
+Object &#x2192; ValueType &#x2192; IfStatementCascade\.Enumerator
 
 ## Properties
 

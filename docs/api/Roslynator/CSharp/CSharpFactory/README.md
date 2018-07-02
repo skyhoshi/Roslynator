@@ -4,6 +4,7 @@ Namespace: [Roslynator.CSharp](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 A factory for syntax nodes, tokens and trivia\. This class is built on top of  members\.
 

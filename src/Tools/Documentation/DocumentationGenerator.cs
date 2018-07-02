@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
@@ -99,7 +98,7 @@ namespace Roslynator.Documentation
         {
             SymbolDocumentationInfo info = GetDocumentationInfo(typeSymbol);
 
-            using (var writer = new MarkdownTypeDocumentationWriter(this, info))
+            using (var writer = new TypeDocumentationMarkdownWriter(this, info))
             {
                 writer.WriteTitle(typeSymbol);
                 writer.WriteNamespace(typeSymbol);
@@ -139,30 +138,13 @@ namespace Roslynator.Documentation
 
         internal SymbolDocumentationInfo GetDocumentationInfo(ISymbol symbol)
         {
-            if (!TryGetDocumentationInfo(symbol, out SymbolDocumentationInfo info))
-                throw new InvalidOperationException();
+            if (_symbolDocumentationCache.TryGetValue(symbol, out SymbolDocumentationInfo info))
+                return info;
 
+            info = SymbolDocumentationInfo.Create(symbol, isExternal: !_sources.Any(f => f.AssemblySymbol == symbol.ContainingAssembly));
+
+            _symbolDocumentationCache[symbol] = info;
             return info;
-        }
-
-        internal bool TryGetDocumentationInfo(ISymbol symbol, out SymbolDocumentationInfo info)
-        {
-            if (_symbolDocumentationCache.TryGetValue(symbol, out SymbolDocumentationInfo value))
-            {
-                info = value;
-                return true;
-            }
-
-            if (_sources.Any(f => f.AssemblySymbol == symbol.ContainingAssembly))
-            {
-                info = SymbolDocumentationInfo.Create(symbol);
-
-                _symbolDocumentationCache[symbol] = info;
-                return true;
-            }
-
-            info = default;
-            return false;
         }
 
         internal XElement GetDocumentationElement(ISymbol symbol, string name)
@@ -227,7 +209,14 @@ namespace Roslynator.Documentation
 
             SymbolDocumentationInfo info = GetDocumentationInfo(symbol);
 
-            writer.WriteLink(info, directoryInfo, format);
+            if (symbol.IsKind(SymbolKind.Parameter, SymbolKind.TypeParameter))
+            {
+                writer.WriteString(symbol.ToDisplayString(format));
+            }
+            else
+            {
+                writer.WriteLink(info, directoryInfo, format);
+            }
 
             writer.WriteEndTableCell();
             writer.WriteStartTableCell();

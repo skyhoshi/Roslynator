@@ -4,15 +4,19 @@ Namespace: [Roslynator.CSharp](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Represents selected member declarations in a \.
 
 #### Inheritance
 
-* Object
-  * Selection\<MemberDeclarationSyntax>
-    * SyntaxListSelection\<MemberDeclarationSyntax>
-      * MemberDeclarationListSelection
+Object &#x2192; [Selection\<MemberDeclarationSyntax>](../../Selection-1/README.md) &#x2192; [SyntaxListSelection\<MemberDeclarationSyntax>](../../SyntaxListSelection-1/README.md) &#x2192; MemberDeclarationListSelection
+
+#### Implements
+
+* IEnumerable\<MemberDeclarationSyntax>
+* IReadOnlyCollection\<MemberDeclarationSyntax>
+* IReadOnlyList\<MemberDeclarationSyntax>
 
 ## Properties
 

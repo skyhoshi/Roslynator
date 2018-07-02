@@ -4,18 +4,17 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides information about string literal expression\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * StringLiteralExpressionInfo
+Object &#x2192; ValueType &#x2192; StringLiteralExpressionInfo
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEquatable\<StringLiteralExpressionInfo>
 
 ## Properties
 

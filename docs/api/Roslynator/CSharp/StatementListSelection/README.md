@@ -4,15 +4,19 @@ Namespace: [Roslynator.CSharp](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Represents selected statements in a \.
 
 #### Inheritance
 
-* Object
-  * Selection\<StatementSyntax>
-    * SyntaxListSelection\<StatementSyntax>
-      * StatementListSelection
+Object &#x2192; [Selection\<StatementSyntax>](../../Selection-1/README.md) &#x2192; [SyntaxListSelection\<StatementSyntax>](../../SyntaxListSelection-1/README.md) &#x2192; StatementListSelection
+
+#### Implements
+
+* IEnumerable\<StatementSyntax>
+* IReadOnlyCollection\<StatementSyntax>
+* IReadOnlyList\<StatementSyntax>
 
 ## Methods
 

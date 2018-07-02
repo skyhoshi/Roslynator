@@ -22,6 +22,10 @@
 
 | Struct| Summary|
 | --- | --- |
+| [ExpressionChain](ExpressionChain/README.md) | Enables to enumerate expressions of a binary expression and expressions of nested binary expressions of the same kind as parent binary expression\. |
+| [ExpressionChain.Enumerator](ExpressionChain/Enumerator/README.md) | |
+| [ExpressionChain.Reversed](ExpressionChain/Reversed/README.md) | Enables to enumerate expressions of  in a reversed order\. |
+| [ExpressionChain.Reversed.Enumerator](ExpressionChain/Reversed/Enumerator/README.md) | |
 | [IfStatementCascade](IfStatementCascade/README.md) | Enables to enumerate if statement cascade\. |
 | [IfStatementCascade.Enumerator](IfStatementCascade/Enumerator/README.md) | |
 | [IfStatementOrElseClause](IfStatementOrElseClause/README.md) | A wrapper for either an  or an \. |

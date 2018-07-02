@@ -50,6 +50,10 @@
 
 | Struct| Summary|
 | --- | --- |
+| [ExpressionChain](Roslynator/CSharp/ExpressionChain/README.md) | Enables to enumerate expressions of a binary expression and expressions of nested binary expressions of the same kind as parent binary expression\. |
+| [ExpressionChain.Enumerator](Roslynator/CSharp/ExpressionChain/Enumerator/README.md) | |
+| [ExpressionChain.Reversed](Roslynator/CSharp/ExpressionChain/Reversed/README.md) | Enables to enumerate expressions of  in a reversed order\. |
+| [ExpressionChain.Reversed.Enumerator](Roslynator/CSharp/ExpressionChain/Reversed/Enumerator/README.md) | |
 | [IfStatementCascade](Roslynator/CSharp/IfStatementCascade/README.md) | Enables to enumerate if statement cascade\. |
 | [IfStatementCascade.Enumerator](Roslynator/CSharp/IfStatementCascade/Enumerator/README.md) | |
 | [IfStatementOrElseClause](Roslynator/CSharp/IfStatementOrElseClause/README.md) | A wrapper for either an  or an \. |
@@ -92,7 +96,7 @@
 | [StringConcatenationExpressionInfo](Roslynator/CSharp/Syntax/StringConcatenationExpressionInfo/README.md) | Provides information about string concatenation, i\.e\. a binary expression that binds to string '\+' operator\. |
 | [StringLiteralExpressionInfo](Roslynator/CSharp/Syntax/StringLiteralExpressionInfo/README.md) | Provides information about string literal expression\. |
 | [UsingDirectiveListInfo](Roslynator/CSharp/Syntax/UsingDirectiveListInfo/README.md) | Provides information about a list of using directives\. |
-| [XmlElementInfo](Roslynator/CSharp/Syntax/XmlElementInfo/README.md) | Provides information about a \. |
+| [XmlElementInfo](Roslynator/CSharp/Syntax/XmlElementInfo/README.md) | Provides information about a  or \. |
 
 ## [Roslynator.Text](Roslynator/Text/README.md) Namespace
 

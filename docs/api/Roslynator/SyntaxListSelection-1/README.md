@@ -4,6 +4,7 @@ Namespace: [Roslynator](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Represents selected nodes in a \.
 
@@ -11,17 +12,22 @@ Represents selected nodes in a \.
 
 | Type Parameter| Summary|
 | --- | --- |
-| [TNode](TNode/README.md) | |
+| TNode | |
 
 #### Inheritance
 
-* Object
-  * Selection\<TNode>
-    * SyntaxListSelection\<TNode>
+Object &#x2192; [Selection\<TNode>](../Selection-1/README.md) &#x2192; SyntaxListSelection\<TNode>
 
-#### Attributes
+#### Derived
 
-DebuggerDisplayAttribute
+* [Roslynator.CSharp.MemberDeclarationListSelection](MemberDeclarationListSelection/README.md)
+* [Roslynator.CSharp.StatementListSelection](StatementListSelection/README.md)
+
+#### Implements
+
+* IEnumerable\<TNode>
+* IReadOnlyCollection\<TNode>
+* IReadOnlyList\<TNode>
 
 ## Constructors
 

@@ -4,18 +4,17 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides information about generic syntax \(class, struct, interface, delegate, method or local function\)\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * GenericInfo
+Object &#x2192; ValueType &#x2192; GenericInfo
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEquatable\<GenericInfo>
 
 ## Properties
 

@@ -13,6 +13,7 @@ namespace Roslynator
         public static readonly MetadataName System_Collections_IDictionary = new MetadataName(Namespaces.System_Collections, "IDictionary");
         public static readonly MetadataName System_Collections_Immutable_ImmutableArray_T = new MetadataName(Namespaces.System_Collections_Immutable, "ImmutableArray`1");
         public static readonly MetadataName System_ComponentModel_INotifyPropertyChanged = new MetadataName(Namespaces.System_ComponentModel, "INotifyPropertyChanged");
+        public static readonly MetadataName System_Diagnostics = new MetadataName(Namespaces.System, "Diagnostics");
         public static readonly MetadataName System_Diagnostics_Debug = new MetadataName(Namespaces.System_Diagnostics, "Debug");
         public static readonly MetadataName System_Diagnostics_DebuggerDisplayAttribute = new MetadataName(Namespaces.System_Diagnostics, "DebuggerDisplayAttribute");
         public static readonly MetadataName System_Enum = new MetadataName(Namespaces.System, "Enum");
@@ -27,6 +28,7 @@ namespace Roslynator
         public static readonly MetadataName System_Linq_ImmutableArrayExtensions = new MetadataName(Namespaces.System_Linq, "ImmutableArrayExtensions");
         public static readonly MetadataName System_Linq_IOrderedEnumerable_T = new MetadataName(Namespaces.System_Linq, "IOrderedEnumerable`1");
         public static readonly MetadataName System_NonSerializedAttribute = new MetadataName(Namespaces.System, "NonSerializedAttribute");
+        public static readonly MetadataName System_Reflection = new MetadataName(Namespaces.System, "Reflection");
         public static readonly MetadataName System_Runtime_CompilerServices_ConfiguredTaskAwaitable = new MetadataName(Namespaces.System_Runtime_CompilerServices, "ConfiguredTaskAwaitable");
         public static readonly MetadataName System_Runtime_CompilerServices_ConfiguredTaskAwaitable_T = new MetadataName(Namespaces.System_Runtime_CompilerServices, "ConfiguredTaskAwaitable`1");
         public static readonly MetadataName System_Runtime_InteropServices_LayoutKind = new MetadataName(Namespaces.System_Runtime_InteropServices, "LayoutKind");

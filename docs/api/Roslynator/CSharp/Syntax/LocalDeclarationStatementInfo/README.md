@@ -4,18 +4,17 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides information about local declaration statement\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * LocalDeclarationStatementInfo
+Object &#x2192; ValueType &#x2192; LocalDeclarationStatementInfo
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEquatable\<LocalDeclarationStatementInfo>
 
 ## Properties
 

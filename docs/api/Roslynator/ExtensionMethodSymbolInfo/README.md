@@ -4,18 +4,17 @@ Namespace: [Roslynator](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Represents an extension method symbol\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * ExtensionMethodSymbolInfo
+Object &#x2192; ValueType &#x2192; ExtensionMethodSymbolInfo
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEquatable\<ExtensionMethodSymbolInfo>
 
 ## Properties
 

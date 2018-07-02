@@ -4,18 +4,17 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides information about modifier list\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * ModifierListInfo
+Object &#x2192; ValueType &#x2192; ModifierListInfo
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEquatable\<ModifierListInfo>
 
 ## Properties
 

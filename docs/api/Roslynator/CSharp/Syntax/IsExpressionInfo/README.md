@@ -4,18 +4,17 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides information about "is" expression\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * IsExpressionInfo
+Object &#x2192; ValueType &#x2192; IsExpressionInfo
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEquatable\<IsExpressionInfo>
 
 ## Properties
 

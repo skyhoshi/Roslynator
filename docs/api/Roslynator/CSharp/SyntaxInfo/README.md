@@ -4,6 +4,7 @@ Namespace: [Roslynator.CSharp](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Serves as a factory for types in Roslynator\.CSharp\.Syntax namespace\.
 
@@ -84,6 +85,7 @@ Serves as a factory for types in Roslynator\.CSharp\.Syntax namespace\.
 | [StatementListInfo(StatementSyntax)](StatementListInfo/README.md) | Creates a new  from the specified statement\. |
 | [StringConcatenationExpressionInfo(SyntaxNode, SemanticModel, Boolean, CancellationToken)](StringConcatenationExpressionInfo/README.md) | Creates a new  from the specified node\. |
 | [StringConcatenationExpressionInfo(BinaryExpressionSyntax, SemanticModel, CancellationToken)](StringConcatenationExpressionInfo/README.md) | Creates a new  from the specified node\. |
+| [StringConcatenationExpressionInfo(ExpressionChain, SemanticModel, CancellationToken)](StringConcatenationExpressionInfo/README.md) | Creates a new  from the specified expression chain\. |
 | [StringLiteralExpressionInfo(SyntaxNode, Boolean)](StringLiteralExpressionInfo/README.md) | Creates a new  from the specified node\. |
 | [StringLiteralExpressionInfo(LiteralExpressionSyntax)](StringLiteralExpressionInfo/README.md) | Creates a new  from the specified literal expression\. |
 | [UsingDirectiveListInfo(SyntaxNode)](UsingDirectiveListInfo/README.md) | Creates a new  from the specified node\. |

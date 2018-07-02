@@ -4,18 +4,17 @@ Namespace: [Roslynator.CSharp](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 A wrapper for either an  or an \.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * IfStatementOrElseClause
+Object &#x2192; ValueType &#x2192; IfStatementOrElseClause
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEquatable\<IfStatementOrElseClause>
 
 ## Properties
 

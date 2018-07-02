@@ -4,18 +4,17 @@ Namespace: [Roslynator.CSharp.Syntax](../README.md)
 
 Assembly: Roslynator\.dll
 
+## Summary
 
 Provides information about a lambda expression with a single parameter\.
 
 #### Inheritance
 
-* Object
-  * ValueType
-    * SingleParameterLambdaExpressionInfo
+Object &#x2192; ValueType &#x2192; SingleParameterLambdaExpressionInfo
 
-#### Attributes
+#### Implements
 
-DebuggerDisplayAttribute
+* IEquatable\<SingleParameterLambdaExpressionInfo>
 
 ## Properties
 
