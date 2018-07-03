@@ -19,46 +19,6 @@ class C
     {
         switch (s)
         {
-            [||]case ""a"":
-            case ""d"":
-            case ""c"":
-            case ""b"":
-                break;
-            default:
-                break;
-        }
-    }
-}
-", @"
-class C
-{
-    void M(string s)
-    {
-        switch (s)
-        {
-            case ""a"":
-            case ""b"":
-            case ""c"":
-            case ""d"":
-                break;
-            default:
-                break;
-        }
-    }
-}
-", equivalenceKey: RefactoringId);
-        }
-
-        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.SortCaseLabels)]
-        public async Task Test_StringLiteral_SelectedLabels()
-        {
-            await VerifyRefactoringAsync(@"
-class C
-{
-    void M(string s)
-    {
-        switch (s)
-        {
 [|            case ""d"":
             case ""a"":
             case ""c"":|]
@@ -91,56 +51,6 @@ class C
 
         [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.SortCaseLabels)]
         public async Task Test_SimpleMemberAccessExpression()
-        {
-            await VerifyRefactoringAsync(@"
-using System.Text.RegularExpressions;
-
-class C
-{
-    void M(RegexOptions options)
-    {
-        switch (options)
-        {
-            [||]case RegexOptions.CultureInvariant:
-            case RegexOptions.Compiled:
-            case RegexOptions.Singleline:
-            case RegexOptions.ExplicitCapture:
-            case RegexOptions.Multiline:
-            case RegexOptions.IgnoreCase:
-            case RegexOptions.IgnorePatternWhitespace:
-            case RegexOptions.ECMAScript:
-            case RegexOptions.RightToLeft:
-                break;
-        }
-    }
-}
-", @"
-using System.Text.RegularExpressions;
-
-class C
-{
-    void M(RegexOptions options)
-    {
-        switch (options)
-        {
-            case RegexOptions.Compiled:
-            case RegexOptions.CultureInvariant:
-            case RegexOptions.ECMAScript:
-            case RegexOptions.ExplicitCapture:
-            case RegexOptions.IgnoreCase:
-            case RegexOptions.IgnorePatternWhitespace:
-            case RegexOptions.Multiline:
-            case RegexOptions.RightToLeft:
-            case RegexOptions.Singleline:
-                break;
-        }
-    }
-}
-", equivalenceKey: RefactoringId);
-        }
-
-        [Fact, Trait(Traits.Refactoring, RefactoringIdentifiers.SortCaseLabels)]
-        public async Task Test_SimpleMemberAccessExpression_SelectedLabels()
         {
             await VerifyRefactoringAsync(@"
 using System.Text.RegularExpressions;
@@ -199,10 +109,10 @@ class C
     {
         switch (s)
         {
-            [||]case ""a"":
+[|            case ""a"":
             case ""b"":
             case ""c"":
-            case ""d"":
+            case ""d"":|]
                 break;
             default:
                 break;
@@ -224,7 +134,7 @@ class C
     {
         switch (options)
         {
-            [||]case RegexOptions.Compiled:
+[|            case RegexOptions.Compiled:
             case RegexOptions.CultureInvariant:
             case RegexOptions.ECMAScript:
             case RegexOptions.ExplicitCapture:
@@ -233,7 +143,7 @@ class C
             case RegexOptions.Multiline:
             case RegexOptions.None:
             case RegexOptions.RightToLeft:
-            case RegexOptions.Singleline:
+            case RegexOptions.Singleline:|]
                 break;
         }
     }
