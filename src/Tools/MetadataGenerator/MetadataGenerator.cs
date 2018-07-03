@@ -25,6 +25,21 @@ namespace Roslynator.CodeGeneration
         public void Generate()
         {
             WriteAllText(
+                @"..\docs\CSharpSyntaxObjectModel.md",
+                SyntaxObjectModelGenerator.GenerateCSharpSyntaxObjectModel());
+
+            foreach (INamedTypeSymbol syntaxSymbol in Symbols.SyntaxSymbols)
+            {
+                WriteAllText(
+                    $@"..\docs\syntax\csharp\{syntaxSymbol.MetadataName}.md",
+                    SyntaxObjectModelGenerator.GenerateCSharpSyntaxTypeMetadata(syntaxSymbol),
+                    fileMustExists: false);
+            }
+
+            //TODO: 
+            return;
+
+            WriteAllText(
                 @"CSharp\README.md",
                 MarkdownGenerator.GenerateAssemblyReadme("Roslynator.CSharp"));
 

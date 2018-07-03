@@ -1,0 +1,25 @@
+# AnonymousObjectCreationExpressionSyntax
+
+## Inheritance
+
+* Object
+  * SyntaxNode
+    * CSharpSyntaxNode
+      * [ExpressionSyntax](ExpressionSyntax.md)
+        * AnonymousObjectCreationExpressionSyntax
+
+## Syntax Properties
+
+| Name            | Type                                                                                           |
+| --------------- | ---------------------------------------------------------------------------------------------- |
+| NewKeyword      | SyntaxToken                                                                                    |
+| OpenBraceToken  | SyntaxToken                                                                                    |
+| Initializers    | SyntaxList\<[AnonymousObjectMemberDeclaratorSyntax](AnonymousObjectMemberDeclaratorSyntax.md)> |
+| CloseBraceToken | SyntaxToken                                                                                    |
+
+## See Also
+
+* [Official Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.anonymousobjectcreationexpressionsyntax)
+
+
+*\(Generated with [DotMarkdown](http://github.com/JosefPihrt/DotMarkdown)\)*

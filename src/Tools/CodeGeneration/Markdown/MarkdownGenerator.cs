@@ -15,7 +15,7 @@ namespace Roslynator.CodeGeneration.Markdown
 {
     public static class MarkdownGenerator
     {
-        private static void AddFootnote(this MDocument document)
+        internal static void AddFootnote(this MDocument document)
         {
             document.Add(NewLine, Italic("(Generated with ", Link("DotMarkdown", "http://github.com/JosefPihrt/DotMarkdown"), ")"));
         }
