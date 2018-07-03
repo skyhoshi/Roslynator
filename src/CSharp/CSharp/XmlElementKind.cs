@@ -5,7 +5,7 @@ namespace Roslynator.CSharp
     internal enum XmlElementKind
     {
         None,
-        //C,
+        C,
         Code,
         Example,
         Exception,
@@ -15,15 +15,15 @@ namespace Roslynator.CSharp
         List,
         Para,
         Param,
-        //ParamRef,
-        //Permission,
+        ParamRef,
+        Permission,
         Remarks,
         Returns,
-        //See,
-        //SeeAlso,
+        See,
+        SeeAlso,
         Summary,
         TypeParam,
-        //TypeParamRef,
+        TypeParamRef,
         Value,
     }
 }
