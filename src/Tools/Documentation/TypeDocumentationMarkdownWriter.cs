@@ -84,6 +84,26 @@ namespace Roslynator.Documentation
             _writer.WriteLine();
         }
 
+        public override void WriteObsolete(ITypeSymbol typeSymbol)
+        {
+            _writer.WriteBold("WARNING: This API is now obsolete.");
+            _writer.WriteLine();
+
+            TypedConstant typedConstant = typeSymbol.GetAttribute(MetadataNames.System_ObsoleteAttribute).ConstructorArguments.FirstOrDefault();
+
+            if (typedConstant.Type?.SpecialType == SpecialType.System_String)
+            {
+                string message = typedConstant.Value?.ToString();
+
+                if (!string.IsNullOrEmpty(message))
+                    _writer.WriteString(message);
+
+                _writer.WriteLine();
+            }
+
+            _writer.WriteLine();
+        }
+
         public override void WriteSummary(ITypeSymbol typeSymbol)
         {
             WriteSection(typeSymbol, heading: "Summary", "summary");
@@ -193,7 +213,7 @@ namespace Roslynator.Documentation
                         symbol = en.Current;
                         isLast = !en.MoveNext();
 
-                        WriterLinkOrText(symbol, isLast);
+                        WriterLinkOrText(symbol.OriginalDefinition, isLast);
                     }
                     while (!isLast);
                 }
@@ -249,12 +269,18 @@ namespace Roslynator.Documentation
                 switch (attributeSymbol.MetadataName)
                 {
                     case "DebuggerDisplayAttribute":
+                    case "DebuggerTypeProxyAttribute":
                         {
                             return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Diagnostics);
                         }
                     case "DefaultMemberAttribute":
                         {
                             return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Reflection);
+                        }
+                    case "TypeForwardedFromAttribute":
+                    case "TypeForwardedToAttribute":
+                        {
+                            return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Runtime_CompilerServices);
                         }
                     default:
                         {
@@ -447,160 +473,303 @@ namespace Roslynator.Documentation
             if (element == null)
                 return;
 
-            bool isFirst = false;
-
-            foreach (XNode node in element.Nodes())
+            if (heading != null)
             {
-                if (node is XText t)
-                {
-                    _writer.WriteString(t.Value);
-                }
-                else if (node is XElement e)
-                {
-                    switch (XmlElementNameKindMapper.GetKindOrDefault(e.Name.LocalName))
-                    {
-                        case XmlElementKind.None:
-                            break;
-                        case XmlElementKind.C:
-                            {
-                                _writer.WriteInlineCode(e.Value);
-                                break;
-                            }
-                        case XmlElementKind.Code:
-                            {
-                                _writer.WriteFencedCodeBlock(e.Value);
-                                break;
-                            }
-                        case XmlElementKind.List:
-                            {
-                                break;
-                            }
-                        case XmlElementKind.Para:
-                            {
-                                break;
-                            }
-                        case XmlElementKind.ParamRef:
-                            {
-                                string parameterName = e.Attribute("name")?.Value;
-
-                                if (parameterName != null)
-                                    _writer.WriteBold(parameterName);
-
-                                break;
-                            }
-                        case XmlElementKind.See:
-                            {
-                                string commentId = e.Attribute("cref")?.Value;
-
-                                if (commentId != null)
-                                {
-                                    ISymbol symbol = DocumentationCommentId.GetFirstSymbolForReferenceId(commentId, DocumentationSource.SharedCompilation);
-
-                                    if (symbol != null)
-                                    {
-                                        _writer.WriteLink(_generator.GetDocumentationInfo(symbol), DirectoryInfo, FormatProvider.CrefFormat);
-                                    }
-                                    else
-                                    {
-                                        //TODO: 
-                                        _writer.WriteBold(commentId);
-                                    }
-                                }
-
-                                break;
-                            }
-                        case XmlElementKind.TypeParamRef:
-                            {
-                                string typeParameterName = e.Attribute("name")?.Value;
-
-                                if (typeParameterName != null)
-                                    _writer.WriteBold(typeParameterName);
-
-                                break;
-                            }
-                        case XmlElementKind.Example:
-                        case XmlElementKind.Exception:
-                        case XmlElementKind.Exclude:
-                        case XmlElementKind.Include:
-                        case XmlElementKind.InheritDoc:
-                        case XmlElementKind.Param:
-                        case XmlElementKind.Permission:
-                        case XmlElementKind.Remarks:
-                        case XmlElementKind.Returns:
-                        case XmlElementKind.SeeAlso:
-                        case XmlElementKind.Summary:
-                        case XmlElementKind.TypeParam:
-                        case XmlElementKind.Value:
-                            {
-                                break;
-                            }
-                        default:
-                            {
-                                Debug.Fail(e.Name.LocalName);
-                                break;
-                            }
-                    }
-                }
-                Debug.WriteLine(node.NodeType);
-                Debug.WriteLine(node.ToString());
-                Debug.WriteLine("");
+                _writer.WriteHeading2(heading);
+            }
+            else
+            {
+                _writer.WriteLine();
             }
 
-            XmlReader reader = null;
+            WriteElementContent(element);
+        }
 
-            try
+        private void WriteElementContent(XElement element)
+        {
+            using (IEnumerator<XNode> en = element.Nodes().GetEnumerator())
             {
-                reader = _generator.CreateReader(typeSymbol, name);
-
-                if (reader != null)
+                if (en.MoveNext())
                 {
-                    while (reader.Read())
+                    XNode node = null;
+
+                    bool isFirst = true;
+                    bool isLast = false;
+
+                    do
                     {
-                        switch (reader.NodeType)
+                        node = en.Current;
+
+                        isLast = !en.MoveNext();
+
+                        if (node is XText t)
                         {
-                            case XmlNodeType.Attribute:
-                            case XmlNodeType.CDATA:
-                            case XmlNodeType.Comment:
-                            case XmlNodeType.Document:
-                            case XmlNodeType.DocumentFragment:
-                            case XmlNodeType.DocumentType:
-                            case XmlNodeType.Element:
-                            case XmlNodeType.EndElement:
-                            case XmlNodeType.EndEntity:
-                            case XmlNodeType.Entity:
-                            case XmlNodeType.EntityReference:
-                            case XmlNodeType.None:
-                            case XmlNodeType.Notation:
-                            case XmlNodeType.ProcessingInstruction:
-                            case XmlNodeType.SignificantWhitespace:
-                            case XmlNodeType.Text:
-                            case XmlNodeType.Whitespace:
-                            case XmlNodeType.XmlDeclaration:
-                                break;
+                            string value = t.Value;
+                            value = TextUtility.RemoveLeadingTrailingNewLine(value, isFirst, isLast);
+
+                            _writer.WriteString(value);
+                        }
+                        else if (node is XElement e)
+                        {
+                            switch (XmlElementNameKindMapper.GetKindOrDefault(e.Name.LocalName))
+                            {
+                                case XmlElementKind.C:
+                                    {
+                                        _writer.WriteInlineCode(e.Value);
+                                        break;
+                                    }
+                                case XmlElementKind.Code:
+                                    {
+                                        string value = e.Value;
+                                        value = TextUtility.RemoveLeadingTrailingNewLine(value);
+                                        _writer.WriteFencedCodeBlock(value);
+                                        break;
+                                    }
+                                case XmlElementKind.List:
+                                    {
+                                        string type = e.Attribute("type")?.Value;
+
+                                        if (!string.IsNullOrEmpty(type))
+                                        {
+                                            switch (type)
+                                            {
+                                                case "bullet":
+                                                    {
+                                                        WriteList(e.Elements());
+                                                        break;
+                                                    }
+                                                case "number":
+                                                    {
+                                                        WriteList(e.Elements(), isNumbered: true);
+                                                        break;
+                                                    }
+                                                case "table":
+                                                    {
+                                                        WriteTable(e.Elements());
+                                                        break;
+                                                    }
+                                                default:
+                                                    {
+                                                        Debug.Fail(type);
+                                                        break;
+                                                    }
+                                            }
+                                        }
+
+                                        break;
+                                    }
+                                case XmlElementKind.Para:
+                                    {
+                                        //TODO: write paragraph
+                                        break;
+                                    }
+                                case XmlElementKind.ParamRef:
+                                    {
+                                        string parameterName = e.Attribute("name")?.Value;
+
+                                        if (parameterName != null)
+                                            _writer.WriteBold(parameterName);
+
+                                        break;
+                                    }
+                                case XmlElementKind.See:
+                                    {
+                                        string commentId = e.Attribute("cref")?.Value;
+
+                                        if (commentId != null)
+                                        {
+                                            ISymbol symbol = DocumentationCommentId.GetFirstSymbolForReferenceId(commentId, DocumentationSource.SharedCompilation);
+
+                                            Debug.Assert(symbol != null, commentId);
+
+                                            if (symbol != null)
+                                            {
+                                                _writer.WriteLink(_generator.GetDocumentationInfo(symbol), DirectoryInfo, FormatProvider.CrefFormat);
+                                            }
+                                            else
+                                            {
+                                                //TODO: documentation comment id not found
+                                                _writer.WriteBold(commentId);
+                                            }
+                                        }
+
+                                        break;
+                                    }
+                                case XmlElementKind.TypeParamRef:
+                                    {
+                                        string typeParameterName = e.Attribute("name")?.Value;
+
+                                        if (typeParameterName != null)
+                                            _writer.WriteBold(typeParameterName);
+
+                                        break;
+                                    }
+                                case XmlElementKind.Example:
+                                case XmlElementKind.Exception:
+                                case XmlElementKind.Exclude:
+                                case XmlElementKind.Include:
+                                case XmlElementKind.InheritDoc:
+                                case XmlElementKind.Param:
+                                case XmlElementKind.Permission:
+                                case XmlElementKind.Remarks:
+                                case XmlElementKind.Returns:
+                                case XmlElementKind.SeeAlso:
+                                case XmlElementKind.Summary:
+                                case XmlElementKind.TypeParam:
+                                case XmlElementKind.Value:
+                                    {
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        Debug.Fail(e.Name.LocalName);
+                                        break;
+                                    }
+                            }
+                        }
+                        else
+                        {
+                            Debug.Fail(node.NodeType.ToString());
+                        }
+
+                        isFirst = false;
+                    }
+                    while (!isLast);
+                }
+            }
+        }
+
+        private void WriteList(IEnumerable<XElement> elements, bool isNumbered = false)
+        {
+            int number = 1;
+
+            foreach (XElement element in elements)
+            {
+                if (element.Name.LocalName == "item")
+                {
+                    using (IEnumerator<XElement> en = element.Elements().GetEnumerator())
+                    {
+                        if (en.MoveNext())
+                        {
+                            XElement element2 = en.Current;
+
+                            switch (element2.Name.LocalName)
+                            {
+                                case "term":
+                                    {
+                                        if (en.MoveNext())
+                                        {
+                                            XElement element3 = en.Current;
+
+                                            if (element3.Name.LocalName == "description")
+                                            {
+                                                WriteStartItem();
+                                                _writer.WriteBold(element2.Value);
+                                                _writer.WriteString(" - ");
+                                                _writer.WriteString(element3.Value);
+                                                WriteEndItem();
+                                            }
+                                        }
+
+                                        break;
+                                    }
+                                case "description":
+                                    {
+                                        WriteStartItem();
+                                        _writer.WriteString(element2.Value);
+                                        WriteEndItem();
+                                        break;
+                                    }
+                            }
                         }
                     }
                 }
             }
-            finally
-            {
-                reader?.Dispose();
-            }
 
-            string text = element?.Value;
-
-            if (text != null)
+            void WriteStartItem()
             {
-                if (heading != null)
+                if (isNumbered)
                 {
-                    _writer.WriteHeading2(heading);
+                    _writer.WriteStartOrderedItem(number);
+                    number++;
                 }
                 else
                 {
-                    _writer.WriteLine();
+                    _writer.WriteStartBulletItem();
                 }
+            }
 
-                _writer.WriteString(text.Trim());
-                _writer.WriteLine();
+            void WriteEndItem()
+            {
+                if (isNumbered)
+                {
+                    _writer.WriteEndOrderedItem();
+                }
+                else
+                {
+                    _writer.WriteEndBulletItem();
+                }
+            }
+        }
+
+        private void WriteTable(IEnumerable<XElement> elements)
+        {
+            using (IEnumerator<XElement> en = elements.GetEnumerator())
+            {
+                if (en.MoveNext())
+                {
+                    XElement element = en.Current;
+
+                    string name = element.Name.LocalName;
+
+                    if (name == "listheader"
+                        && en.MoveNext())
+                    {
+                        int columnCount = element.Elements().Count();
+
+                        _writer.WriteStartTable(columnCount);
+                        _writer.WriteStartTableRow();
+
+                        foreach (XElement element2 in element.Elements())
+                        {
+                            _writer.WriteStartTableCell();
+                            _writer.WriteString(element2.Value);
+                            _writer.WriteEndTableCell();
+                        }
+
+                        _writer.WriteEndTableRow();
+                        _writer.WriteTableHeaderSeparator();
+
+                        do
+                        {
+                            element = en.Current;
+
+                            _writer.WriteStartTableRow();
+
+                            int count = 0;
+                            foreach (XElement element2 in element.Elements())
+                            {
+                                _writer.WriteStartTableCell();
+                                _writer.WriteString(element2.Value);
+                                _writer.WriteEndTableCell();
+                                count++;
+
+                                if (count == columnCount)
+                                    break;
+                            }
+
+                            while (count < columnCount)
+                            {
+                                _writer.WriteStartTableCell();
+                                _writer.WriteEndTableCell();
+                                count++;
+                            }
+
+                            _writer.WriteEndTableRow();
+                        }
+                        while (en.MoveNext());
+                    }
+                }
             }
         }
 

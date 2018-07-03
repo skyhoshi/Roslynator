@@ -10,7 +10,7 @@ Represents selected statements in a \.
 
 #### Inheritance
 
-[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [Selection\<StatementSyntax>](../../Selection-1/README.md) &#x2192; [SyntaxListSelection\<StatementSyntax>](../../SyntaxListSelection-1/README.md) &#x2192; StatementListSelection
+[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [Selection\<T>](../../Selection-1/README.md) &#x2192; [SyntaxListSelection\<TNode>](../../SyntaxListSelection-1/README.md) &#x2192; StatementListSelection
 
 #### Implements
 

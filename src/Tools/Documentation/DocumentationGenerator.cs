@@ -128,6 +128,10 @@ namespace Roslynator.Documentation
                 writer.WriteTitle(typeSymbol);
                 writer.WriteNamespace(typeSymbol);
                 writer.WriteAssembly(typeSymbol);
+
+                if (typeSymbol.HasAttribute(MetadataNames.System_ObsoleteAttribute))
+                    writer.WriteObsolete(typeSymbol);
+
                 writer.WriteSummary(typeSymbol);
                 writer.WriteTypeParameters(typeSymbol);
                 writer.WriteParameters(typeSymbol);

@@ -15,6 +15,8 @@ namespace Roslynator.Documentation
 
         public abstract void WriteAssembly(ITypeSymbol typeSymbol);
 
+        public abstract void WriteObsolete(ITypeSymbol typeSymbol);
+
         public abstract void WriteSummary(ITypeSymbol typeSymbol);
 
         public abstract void WriteTypeParameters(ITypeSymbol typeSymbol);

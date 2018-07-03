@@ -10,7 +10,7 @@ Represents selected lines in a \.
 
 #### Inheritance
 
-[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [Selection\<TextLine>](../../Selection-1/README.md) &#x2192; TextLineCollectionSelection
+[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [Selection\<T>](../../Selection-1/README.md) &#x2192; TextLineCollectionSelection
 
 #### Implements
 

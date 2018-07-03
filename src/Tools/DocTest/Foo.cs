@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 namespace Roslynator.Documentation
 {
     /// <summary>
@@ -15,9 +16,11 @@ namespace Roslynator.Documentation
     /// paratext
     /// </para>
     /// <list type="bullet">
-    /// <item>itemtext</item>
+    /// <item><description>This is the first bullet</description></item>
+    /// <item><description>This is the second bullet</description></item>
     /// </list>
     /// </remarks>
+    [Obsolete("Foo is obsolete.")]
     public class Foo
     {
         /// <summary>
@@ -30,6 +33,19 @@ namespace Roslynator.Documentation
         public void Bar<T>(string value, string value2)
         {
             Bar<T>(value, value2);
+        }
+
+        /// <summary>abc</summary>
+        public void Bar()
+        {
+        }
+
+        /// <summary>
+        ///     1
+        /// 2
+        /// </summary>
+        public void Bar2()
+        {
         }
     }
 }

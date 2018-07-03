@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public sealed class SymbolDocumentationInfo
     {
         private SymbolDocumentationInfo(
@@ -39,6 +41,12 @@ namespace Roslynator.Documentation
         public ImmutableArray<string> Names { get; }
 
         public bool IsExternal { get; }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return $"{Symbol.Kind} {Symbol.ToDisplayString(Roslynator.SymbolDisplayFormats.Test)}"; }
+        }
 
         public static SymbolDocumentationInfo Create(ISymbol symbol, bool isExternal)
         {
@@ -112,6 +120,9 @@ namespace Roslynator.Documentation
         {
             if (directoryInfo == null)
                 return string.Join("/", Names.Reverse()) + "/README.md";
+
+            if (this == directoryInfo)
+                return "./README.md";
 
             int count = 0;
 

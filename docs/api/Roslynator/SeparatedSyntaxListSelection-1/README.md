@@ -16,7 +16,7 @@ Represents selected nodes in a \.
 
 #### Inheritance
 
-[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [Selection\<TNode>](../Selection-1/README.md) &#x2192; SeparatedSyntaxListSelection\<TNode>
+[Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [Selection\<T>](../Selection-1/README.md) &#x2192; SeparatedSyntaxListSelection\<TNode>
 
 #### Implements
 

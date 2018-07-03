@@ -28,7 +28,9 @@ namespace Roslynator
         public static readonly MetadataName System_Linq_ImmutableArrayExtensions = new MetadataName(Namespaces.System_Linq, "ImmutableArrayExtensions");
         public static readonly MetadataName System_Linq_IOrderedEnumerable_T = new MetadataName(Namespaces.System_Linq, "IOrderedEnumerable`1");
         public static readonly MetadataName System_NonSerializedAttribute = new MetadataName(Namespaces.System, "NonSerializedAttribute");
+        public static readonly MetadataName System_ObsoleteAttribute = new MetadataName(Namespaces.System, "ObsoleteAttribute");
         public static readonly MetadataName System_Reflection = new MetadataName(Namespaces.System, "Reflection");
+        public static readonly MetadataName System_Runtime_CompilerServices = new MetadataName(Namespaces.System_Runtime, "CompilerServices");
         public static readonly MetadataName System_Runtime_CompilerServices_ConfiguredTaskAwaitable = new MetadataName(Namespaces.System_Runtime_CompilerServices, "ConfiguredTaskAwaitable");
         public static readonly MetadataName System_Runtime_CompilerServices_ConfiguredTaskAwaitable_T = new MetadataName(Namespaces.System_Runtime_CompilerServices, "ConfiguredTaskAwaitable`1");
         public static readonly MetadataName System_Runtime_InteropServices_LayoutKind = new MetadataName(Namespaces.System_Runtime_InteropServices, "LayoutKind");
@@ -53,6 +55,7 @@ namespace Roslynator
             public static readonly ImmutableArray<string> System_Diagnostics = ImmutableArray.Create("System", "Diagnostics");
             public static readonly ImmutableArray<string> System_Linq = ImmutableArray.Create("System", "Linq");
             public static readonly ImmutableArray<string> System_Linq_Expressions = ImmutableArray.Create("System", "Linq", "Expressions");
+            public static readonly ImmutableArray<string> System_Runtime = ImmutableArray.Create("System", "Runtime");
             public static readonly ImmutableArray<string> System_Runtime_CompilerServices = ImmutableArray.Create("System", "Runtime", "CompilerServices");
             public static readonly ImmutableArray<string> System_Runtime_InteropServices = ImmutableArray.Create("System", "Runtime", "InteropServices");
             public static readonly ImmutableArray<string> System_Runtime_Serialization = ImmutableArray.Create("System", "Runtime", "Serialization");

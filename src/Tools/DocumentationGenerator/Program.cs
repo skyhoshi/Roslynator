@@ -22,8 +22,8 @@ namespace Roslynator.Documentation
 
             GenerateDocumentation(@"..\..\..\..\..\..\docs\apitest\", "Foo API", "Roslynator.Documentation.DocTest.dll");
 
-            Console.WriteLine("OK");
-            Console.ReadKey();
+            //Console.WriteLine("OK");
+            //Console.ReadKey();
         }
 
         private static void GenerateDocumentation(string rootPath, string name, params string[] assemblyNames)
