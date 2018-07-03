@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml;
 using System.Xml.Linq;
 using DotMarkdown;
 using Microsoft.CodeAnalysis;
@@ -15,8 +16,6 @@ namespace Roslynator.Documentation
     public class DocumentationGenerator
     {
         private static readonly Regex _newLineWithWhitespaceRegex = new Regex(@"\r?\n\s*");
-
-        private readonly ImmutableArray<DocumentationSource> _sources;
         private ImmutableArray<ITypeSymbol> _typeSymbols;
         private ImmutableArray<IMethodSymbol> _extensionMethodSymbols;
 
@@ -25,11 +24,11 @@ namespace Roslynator.Documentation
 
         public DocumentationGenerator(ImmutableArray<DocumentationSource> sources, SymbolDisplayFormatProvider formatProvider = null)
         {
-            _sources = sources;
+            Sources = sources;
 
             FormatProvider = formatProvider ?? SymbolDisplayFormatProvider.Default;
 
-            _xmlDocumentations = _sources.ToDictionary(f => f.AssemblySymbol, f => f.GetXmlDocumentation());
+            _xmlDocumentations = Sources.ToDictionary(f => f.AssemblySymbol, f => f.GetXmlDocumentation());
 
             _symbolDocumentationCache = new Dictionary<ISymbol, SymbolDocumentationInfo>();
         }
@@ -40,7 +39,7 @@ namespace Roslynator.Documentation
             {
                 if (_typeSymbols.IsDefault)
                 {
-                    _typeSymbols = _sources
+                    _typeSymbols = Sources
                         .SelectMany(f => f.AssemblySymbol.GetPubliclyVisibleTypes())
                         .ToImmutableArray();
                 }
@@ -73,6 +72,8 @@ namespace Roslynator.Documentation
         }
 
         public SymbolDisplayFormatProvider FormatProvider { get; }
+
+        public ImmutableArray<DocumentationSource> Sources { get; }
 
         public string GenerateRootDocument(string heading)
         {
@@ -163,7 +164,7 @@ namespace Roslynator.Documentation
             if (_symbolDocumentationCache.TryGetValue(symbol, out SymbolDocumentationInfo info))
                 return info;
 
-            info = SymbolDocumentationInfo.Create(symbol, isExternal: !_sources.Any(f => f.AssemblySymbol == symbol.ContainingAssembly));
+            info = SymbolDocumentationInfo.Create(symbol, isExternal: !Sources.Any(f => f.AssemblySymbol == symbol.ContainingAssembly));
 
             _symbolDocumentationCache[symbol] = info;
             return info;
@@ -172,6 +173,11 @@ namespace Roslynator.Documentation
         internal XElement GetDocumentationElement(ISymbol symbol, string name)
         {
             return _xmlDocumentations[symbol.ContainingAssembly].GetElement(GetDocumentationInfo(symbol).CommentId, name);
+        }
+
+        internal XmlReader CreateReader(ISymbol symbol, string name)
+        {
+            return _xmlDocumentations[symbol.ContainingAssembly].CreateReader(GetDocumentationInfo(symbol).CommentId, name);
         }
 
         internal void WriteTable(

@@ -2,7 +2,7 @@
 
 Namespace: [Roslynator.Text](../README.md)
 
-Assembly: Roslynator\.dll
+Assembly: Roslynator\.CSharp\.dll
 
 ## Summary
 

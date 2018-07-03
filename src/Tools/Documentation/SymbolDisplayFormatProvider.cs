@@ -38,6 +38,8 @@ namespace Roslynator.Documentation
 
         public abstract SymbolDisplayFormat EventFormat { get; }
 
+        public abstract SymbolDisplayFormat CrefFormat { get; }
+
         private class DefaultSymbolDisplayFormatProvider : SymbolDisplayFormatProvider
         {
             public override SymbolDisplayFormat TitleFormat
@@ -113,6 +115,11 @@ namespace Roslynator.Documentation
             public override SymbolDisplayFormat EventFormat
             {
                 get { return SymbolDisplayFormats.MemberSignature; }
+            }
+
+            public override SymbolDisplayFormat CrefFormat
+            {
+                get { return SymbolDisplayFormats.TypeNameAndContainingTypes; }
             }
         }
     }

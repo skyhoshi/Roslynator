@@ -18,17 +18,23 @@ namespace Roslynator.Documentation
         [SuppressMessage("Redundancy", "RCS1163:Unused parameter.", Justification = "<Pending>")]
         private static void Main(string[] args)
         {
-            string rootPath = null;
+            //GenerateDocumentation(@"..\..\..\..\..\..\docs\api\", "Roslynator API", "Roslynator.CSharp.dll");
 
-#if DEBUG
-            rootPath = @"..\..\..\..\..\..\docs\api\";
-#endif
+            GenerateDocumentation(@"..\..\..\..\..\..\docs\apitest\", "Foo API", "Roslynator.Documentation.DocTest.dll");
 
-            DocumentationSource source = DocumentationSource.CreateFromAssemblyName("Roslynator.CSharp.dll");
+            Console.WriteLine("OK");
+            Console.ReadKey();
+        }
 
-            var generator = new DocumentationGenerator(ImmutableArray.Create(source));
+        private static void GenerateDocumentation(string rootPath, string name, params string[] assemblyNames)
+        {
+            ImmutableArray<DocumentationSource> sources = assemblyNames
+                .Select(DocumentationSource.CreateFromAssemblyName)
+                .ToImmutableArray();
 
-            string indexContent = generator.GenerateRootDocument("Roslynator API");
+            var generator = new DocumentationGenerator(sources);
+
+            string indexContent = generator.GenerateRootDocument(name);
 
             FileHelper.WriteAllText(Path.Combine(rootPath, "README.md"), indexContent, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
 
@@ -55,9 +61,6 @@ namespace Roslynator.Documentation
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
                 FileHelper.WriteAllText(path, content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
             }
-
-            Console.WriteLine("OK");
-            Console.ReadKey();
         }
     }
 }

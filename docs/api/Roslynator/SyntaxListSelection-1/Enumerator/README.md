@@ -2,7 +2,7 @@
 
 Namespace: [Roslynator](../../README.md)
 
-Assembly: Roslynator\.dll
+Assembly: Roslynator\.CSharp\.dll
 
 #### Inheritance
 

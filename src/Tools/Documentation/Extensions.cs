@@ -55,6 +55,7 @@ namespace Roslynator.Documentation
             SymbolDisplayFormat format)
         {
             string url = null;
+
             if (symbolInfo.IsExternal)
             {
                 switch (symbolInfo.Names.LastOrDefault())

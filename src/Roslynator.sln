@@ -94,6 +94,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Documentation", "Tools\Docu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentationGenerator", "Tools\DocumentationGenerator\DocumentationGenerator.csproj", "{68184FAE-2C5D-41F0-9846-6FDD9CB3F7A8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocTest", "Tools\DocTest\DocTest.csproj", "{976AF9EC-420A-4709-AB60-E95D63DF992C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -370,6 +372,13 @@ Global
 		{68184FAE-2C5D-41F0-9846-6FDD9CB3F7A8}.DebugVS|Any CPU.ActiveCfg = Debug|Any CPU
 		{68184FAE-2C5D-41F0-9846-6FDD9CB3F7A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68184FAE-2C5D-41F0-9846-6FDD9CB3F7A8}.ReleaseTools|Any CPU.ActiveCfg = Release|Any CPU
+		{976AF9EC-420A-4709-AB60-E95D63DF992C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{976AF9EC-420A-4709-AB60-E95D63DF992C}.DebugDoc|Any CPU.ActiveCfg = Debug|Any CPU
+		{976AF9EC-420A-4709-AB60-E95D63DF992C}.DebugDoc|Any CPU.Build.0 = Debug|Any CPU
+		{976AF9EC-420A-4709-AB60-E95D63DF992C}.DebugTests|Any CPU.ActiveCfg = Debug|Any CPU
+		{976AF9EC-420A-4709-AB60-E95D63DF992C}.DebugVS|Any CPU.ActiveCfg = Debug|Any CPU
+		{976AF9EC-420A-4709-AB60-E95D63DF992C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{976AF9EC-420A-4709-AB60-E95D63DF992C}.ReleaseTools|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -399,6 +408,7 @@ Global
 		{97FBDF71-F240-48F2-B29A-E6B27597E38B} = {228E25E1-FDE6-40C1-98AF-8E636D174D94}
 		{BE5E7831-F687-47E6-BC60-969BDEA93EAC} = {CC69BDBB-35E9-43A9-9397-4B2832270BB8}
 		{68184FAE-2C5D-41F0-9846-6FDD9CB3F7A8} = {CC69BDBB-35E9-43A9-9397-4B2832270BB8}
+		{976AF9EC-420A-4709-AB60-E95D63DF992C} = {CC69BDBB-35E9-43A9-9397-4B2832270BB8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D1943010-8F47-4798-9A3D-97BC24CF1AC4}

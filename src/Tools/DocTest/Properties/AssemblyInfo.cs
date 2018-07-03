@@ -1,0 +1,5 @@
+﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Roslynator.Documentation.DocumentationGenerator, PublicKey=0024000004800000940000000602000000240000525341310004000001000100310a14d6d13d389ac3de864d244b9bce36cd95923bb20dec4de152e0b84efbdd7013de802297a8dc858d3448fc1a20b540b1931fd6d91ec6337c26f280822ffe9931f37ca3c6822e182101c5300eaa2970bad664c9553673266ed21a0f632bdc8767acbd73d35dd06a58d89a5102f21126a681e28db4cee189aa6447d08c30ca")]

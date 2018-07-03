@@ -3,11 +3,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.IO;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Xml;
+using System.Xml.Linq;
 using DotMarkdown;
 using Microsoft.CodeAnalysis;
+using Roslynator.CSharp;
 
 namespace Roslynator.Documentation
 {
@@ -75,7 +78,8 @@ namespace Roslynator.Documentation
         public override void WriteAssembly(ITypeSymbol typeSymbol)
         {
             _writer.WriteString("Assembly: ");
-            _writer.WriteString(Path.ChangeExtension(typeSymbol.ContainingAssembly.Name, "dll"));
+            _writer.WriteString(typeSymbol.ContainingAssembly.Name);
+            _writer.WriteString(".dll");
             _writer.WriteLine();
             _writer.WriteLine();
         }
@@ -269,7 +273,7 @@ namespace Roslynator.Documentation
             {
                 using (IEnumerator<ITypeSymbol> en = _generator
                     .TypeSymbols
-                    .Where(InheritsFrom)
+                    .Where(f => f.InheritsFrom(typeSymbol))
                     .OrderBy(f => f.ToDisplayString(FormatProvider.DerivedFormat))
                     .GetEnumerator())
                 {
@@ -286,31 +290,6 @@ namespace Roslynator.Documentation
                         while (en.MoveNext());
                     }
                 }
-            }
-
-            //TODO: InheritsFrom bug
-            bool InheritsFrom(ITypeSymbol type)
-            {
-                INamedTypeSymbol t = type.BaseType;
-
-                while (t != null)
-                {
-                    if (t.OriginalDefinition.Equals(typeSymbol))
-                        return true;
-
-                    t = t.BaseType;
-                }
-
-                if (typeKind == TypeKind.Interface)
-                {
-                    foreach (INamedTypeSymbol interfaceType in type.AllInterfaces)
-                    {
-                        if (interfaceType.OriginalDefinition.Equals(typeSymbol))
-                            return true;
-                    }
-                }
-
-                return false;
             }
         }
 
@@ -463,7 +442,151 @@ namespace Roslynator.Documentation
 
         private void WriteSection(ITypeSymbol typeSymbol, string heading, string name)
         {
-            string text = _generator.GetDocumentationElement(typeSymbol, name)?.Value;
+            XElement element = _generator.GetDocumentationElement(typeSymbol, name);
+
+            if (element == null)
+                return;
+
+            bool isFirst = false;
+
+            foreach (XNode node in element.Nodes())
+            {
+                if (node is XText t)
+                {
+                    _writer.WriteString(t.Value);
+                }
+                else if (node is XElement e)
+                {
+                    switch (XmlElementNameKindMapper.GetKindOrDefault(e.Name.LocalName))
+                    {
+                        case XmlElementKind.None:
+                            break;
+                        case XmlElementKind.C:
+                            {
+                                _writer.WriteInlineCode(e.Value);
+                                break;
+                            }
+                        case XmlElementKind.Code:
+                            {
+                                _writer.WriteFencedCodeBlock(e.Value);
+                                break;
+                            }
+                        case XmlElementKind.List:
+                            {
+                                break;
+                            }
+                        case XmlElementKind.Para:
+                            {
+                                break;
+                            }
+                        case XmlElementKind.ParamRef:
+                            {
+                                string parameterName = e.Attribute("name")?.Value;
+
+                                if (parameterName != null)
+                                    _writer.WriteBold(parameterName);
+
+                                break;
+                            }
+                        case XmlElementKind.See:
+                            {
+                                string commentId = e.Attribute("cref")?.Value;
+
+                                if (commentId != null)
+                                {
+                                    ISymbol symbol = DocumentationCommentId.GetFirstSymbolForReferenceId(commentId, DocumentationSource.SharedCompilation);
+
+                                    if (symbol != null)
+                                    {
+                                        _writer.WriteLink(_generator.GetDocumentationInfo(symbol), DirectoryInfo, FormatProvider.CrefFormat);
+                                    }
+                                    else
+                                    {
+                                        //TODO: 
+                                        _writer.WriteBold(commentId);
+                                    }
+                                }
+
+                                break;
+                            }
+                        case XmlElementKind.TypeParamRef:
+                            {
+                                string typeParameterName = e.Attribute("name")?.Value;
+
+                                if (typeParameterName != null)
+                                    _writer.WriteBold(typeParameterName);
+
+                                break;
+                            }
+                        case XmlElementKind.Example:
+                        case XmlElementKind.Exception:
+                        case XmlElementKind.Exclude:
+                        case XmlElementKind.Include:
+                        case XmlElementKind.InheritDoc:
+                        case XmlElementKind.Param:
+                        case XmlElementKind.Permission:
+                        case XmlElementKind.Remarks:
+                        case XmlElementKind.Returns:
+                        case XmlElementKind.SeeAlso:
+                        case XmlElementKind.Summary:
+                        case XmlElementKind.TypeParam:
+                        case XmlElementKind.Value:
+                            {
+                                break;
+                            }
+                        default:
+                            {
+                                Debug.Fail(e.Name.LocalName);
+                                break;
+                            }
+                    }
+                }
+                Debug.WriteLine(node.NodeType);
+                Debug.WriteLine(node.ToString());
+                Debug.WriteLine("");
+            }
+
+            XmlReader reader = null;
+
+            try
+            {
+                reader = _generator.CreateReader(typeSymbol, name);
+
+                if (reader != null)
+                {
+                    while (reader.Read())
+                    {
+                        switch (reader.NodeType)
+                        {
+                            case XmlNodeType.Attribute:
+                            case XmlNodeType.CDATA:
+                            case XmlNodeType.Comment:
+                            case XmlNodeType.Document:
+                            case XmlNodeType.DocumentFragment:
+                            case XmlNodeType.DocumentType:
+                            case XmlNodeType.Element:
+                            case XmlNodeType.EndElement:
+                            case XmlNodeType.EndEntity:
+                            case XmlNodeType.Entity:
+                            case XmlNodeType.EntityReference:
+                            case XmlNodeType.None:
+                            case XmlNodeType.Notation:
+                            case XmlNodeType.ProcessingInstruction:
+                            case XmlNodeType.SignificantWhitespace:
+                            case XmlNodeType.Text:
+                            case XmlNodeType.Whitespace:
+                            case XmlNodeType.XmlDeclaration:
+                                break;
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                reader?.Dispose();
+            }
+
+            string text = element?.Value;
 
             if (text != null)
             {
@@ -499,7 +622,7 @@ namespace Roslynator.Documentation
 
         public override void Close()
         {
-            if (_writer.WriteState != WriteState.Closed)
+            if (_writer.WriteState != DotMarkdown.WriteState.Closed)
                 _writer.Close();
         }
     }
