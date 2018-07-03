@@ -88,6 +88,7 @@ namespace Roslynator.Documentation
         {
             _writer.WriteBold("WARNING: This API is now obsolete.");
             _writer.WriteLine();
+            _writer.WriteLine();
 
             TypedConstant typedConstant = typeSymbol.GetAttribute(MetadataNames.System_ObsoleteAttribute).ConstructorArguments.FirstOrDefault();
 
