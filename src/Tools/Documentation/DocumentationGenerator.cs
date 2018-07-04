@@ -92,7 +92,7 @@ namespace Roslynator.Documentation
                     writer.WriteString(" Namespace");
                     writer.WriteEndHeading();
 
-                    using (var writer2 = new TypeDocumentationMarkdownWriter(null, null, this, writer))
+                    using (var writer2 = new DocumentationMarkdownWriter(null, null, this, writer))
                     {
                         writer2.WriteNamespaceContent(grouping, 3);
                     }
@@ -113,7 +113,7 @@ namespace Roslynator.Documentation
 
                 SymbolDocumentationInfo info = GetDocumentationInfo(namespaceSymbol);
 
-                using (var writer2 = new TypeDocumentationMarkdownWriter(null, info, this, writer))
+                using (var writer2 = new DocumentationMarkdownWriter(null, info, this, writer))
                 {
                     writer2.WriteNamespaceContent(TypeSymbols.Where(f => f.ContainingNamespace == namespaceSymbol), 2);
                 }
@@ -126,7 +126,7 @@ namespace Roslynator.Documentation
         {
             SymbolDocumentationInfo info = GetDocumentationInfo(typeSymbol);
 
-            using (var writer = new TypeDocumentationMarkdownWriter(typeSymbol, info, this))
+            using (var writer = new DocumentationMarkdownWriter(typeSymbol, info, this))
             {
                 writer.WriteTitle(typeSymbol);
                 writer.WriteNamespace(typeSymbol);

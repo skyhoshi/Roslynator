@@ -32,12 +32,12 @@ Represents selected member declarations in a [SyntaxList\<TNode>](https://docs.m
 | [Create(NamespaceDeclarationSyntax, TextSpan)](Create/README.md) | Creates a new [MemberDeclarationListSelection](./README.md) based on the specified namespace declaration and span\. |
 | [Create(TypeDeclarationSyntax, TextSpan)](Create/README.md) | Creates a new [MemberDeclarationListSelection](./README.md) based on the specified type declaration and span\. |
 | [Equals(Object)](https://docs.microsoft.com/en-us/dotnet/api/system.object.equals) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
-| [First()](../../Selection-1/First/README.md) |  \(Inherited from [Selection](../../Selection-1/README.md)\<[MemberDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.memberdeclarationsyntax)>\) |
-| [GetEnumerator()](../../SyntaxListSelection-1/GetEnumerator/README.md) |  \(Inherited from [SyntaxListSelection](../../SyntaxListSelection-1/README.md)\<[MemberDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.memberdeclarationsyntax)>\) |
-| [GetEnumeratorCore()](../../SyntaxListSelection-1/GetEnumeratorCore/README.md) |  \(Inherited from [SyntaxListSelection](../../SyntaxListSelection-1/README.md)\<[MemberDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.memberdeclarationsyntax)>\) |
+| [First()](../../Selection-1/First/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
+| [GetEnumerator()](../../SyntaxListSelection-1/GetEnumerator/README.md) |  \(Inherited from [SyntaxListSelection\<TNode>](../../SyntaxListSelection-1/README.md)\) |
+| [GetEnumeratorCore()](../../SyntaxListSelection-1/GetEnumeratorCore/README.md) |  \(Inherited from [SyntaxListSelection\<TNode>](../../SyntaxListSelection-1/README.md)\) |
 | [GetHashCode()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gethashcode) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
 | [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
-| [Last()](../../Selection-1/Last/README.md) |  \(Inherited from [Selection](../../Selection-1/README.md)\<[MemberDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.memberdeclarationsyntax)>\) |
+| [Last()](../../Selection-1/Last/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
 | [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
 | [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.object.tostring) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
 | [TryCreate(NamespaceDeclarationSyntax, TextSpan, MemberDeclarationListSelection)](TryCreate/README.md) | Creates a new [MemberDeclarationListSelection](./README.md) based on the specified namespace declaration and span\. |

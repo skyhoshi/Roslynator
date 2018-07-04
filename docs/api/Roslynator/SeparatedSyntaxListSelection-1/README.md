@@ -43,12 +43,12 @@ Represents selected nodes in a [SeparatedSyntaxList\<TNode>](https://docs.micros
 | ------ | ------- |
 | [Create(SeparatedSyntaxList\<TNode>, TextSpan)](Create/README.md) | Creates a new [SeparatedSyntaxListSelection\<TNode>](./README.md) based on the specified list and span\. |
 | [Equals(Object)](https://docs.microsoft.com/en-us/dotnet/api/system.object.equals) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
-| [First()](../Selection-1/First/README.md) |  \(Inherited from [Selection\<TNode>](../Selection-1/README.md)\) |
+| [First()](../Selection-1/First/README.md) |  \(Inherited from [Selection\<T>](../Selection-1/README.md)\) |
 | [GetEnumerator()](GetEnumerator/README.md) | Returns an enumerator that iterates through selected items\. |
 | [GetEnumeratorCore()](GetEnumeratorCore/README.md) | |
 | [GetHashCode()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gethashcode) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
 | [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
-| [Last()](../Selection-1/Last/README.md) |  \(Inherited from [Selection\<TNode>](../Selection-1/README.md)\) |
+| [Last()](../Selection-1/Last/README.md) |  \(Inherited from [Selection\<T>](../Selection-1/README.md)\) |
 | [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
 | [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.object.tostring) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
 | [TryCreate(SeparatedSyntaxList\<TNode>, TextSpan, SeparatedSyntaxListSelection\<TNode>)](TryCreate/README.md) | Creates a new [SeparatedSyntaxListSelection\<TNode>](./README.md) based on the specified list and span\. |

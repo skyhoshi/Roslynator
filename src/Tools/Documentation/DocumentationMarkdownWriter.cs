@@ -13,12 +13,12 @@ using Roslynator.CSharp;
 
 namespace Roslynator.Documentation
 {
-    public class TypeDocumentationMarkdownWriter : DocumentationWriter
+    public class DocumentationMarkdownWriter : DocumentationWriter
     {
         private readonly DocumentationGenerator _generator;
         private readonly MarkdownWriter _writer;
 
-        public TypeDocumentationMarkdownWriter(
+        public DocumentationMarkdownWriter(
             ISymbol symbol,
             SymbolDocumentationInfo directoryInfo,
             DocumentationGenerator generator,
@@ -873,7 +873,7 @@ namespace Roslynator.Documentation
                             && symbol.ContainingType != Symbol)
                         {
                             _writer.WriteString(" (Inherited from ");
-                            WriteLink(_generator.GetDocumentationInfo(symbol.ContainingType));
+                            WriteLink(_generator.GetDocumentationInfo(symbol.ContainingType.OriginalDefinition));
                             _writer.WriteString(")");
                         }
 
