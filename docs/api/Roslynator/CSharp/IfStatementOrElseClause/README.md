@@ -14,7 +14,7 @@ A wrapper for either an [IfStatementSyntax](https://docs.microsoft.com/en-us/dot
 
 #### Implements
 
-* [IEquatable\<IfStatementOrElseClause>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[IfStatementOrElseClause](./README.md)>
 
 ## Properties
 

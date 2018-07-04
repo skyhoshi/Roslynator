@@ -14,7 +14,7 @@ Provides information about binary expression\.
 
 #### Implements
 
-* [IEquatable\<BinaryExpressionInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[BinaryExpressionInfo](./README.md)>
 
 ## Properties
 

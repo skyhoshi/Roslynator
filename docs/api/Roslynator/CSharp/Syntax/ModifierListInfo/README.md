@@ -14,7 +14,7 @@ Provides information about modifier list\.
 
 #### Implements
 
-* [IEquatable\<ModifierListInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[ModifierListInfo](./README.md)>
 
 ## Properties
 

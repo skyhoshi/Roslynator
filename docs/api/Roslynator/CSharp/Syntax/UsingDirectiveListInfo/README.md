@@ -14,10 +14,10 @@ Provides information about a list of using directives\.
 
 #### Implements
 
-* [IEnumerable\<UsingDirectiveSyntax>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)
-* [IEquatable\<UsingDirectiveListInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
-* [IReadOnlyCollection\<UsingDirectiveSyntax>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1)
-* [IReadOnlyList\<UsingDirectiveSyntax>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1)
+* [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)\<[UsingDirectiveSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.usingdirectivesyntax)>
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[UsingDirectiveListInfo](./README.md)>
+* [IReadOnlyCollection](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1)\<[UsingDirectiveSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.usingdirectivesyntax)>
+* [IReadOnlyList](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1)\<[UsingDirectiveSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.usingdirectivesyntax)>
 
 ## Properties
 
@@ -74,6 +74,6 @@ Provides information about a list of using directives\.
 
 | Member | Summary |
 | ------ | ------- |
-| [GetEnumerator()](System-Collections-Generic-IEnumerable-1-GetEnumerator/README.md) | |
-| [GetEnumerator()](System-Collections-IEnumerable-GetEnumerator/README.md) | |
+| [IEnumerable.GetEnumerator()](System-Collections-IEnumerable-GetEnumerator/README.md) | |
+| [IEnumerable\<UsingDirectiveSyntax>.GetEnumerator()](System-Collections-Generic-IEnumerable-1-GetEnumerator/README.md) | |
 

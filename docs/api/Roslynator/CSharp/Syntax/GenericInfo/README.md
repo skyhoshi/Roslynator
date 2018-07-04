@@ -14,7 +14,7 @@ Provides information about generic syntax \(class, struct, interface, delegate, 
 
 #### Implements
 
-* [IEquatable\<GenericInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[GenericInfo](./README.md)>
 
 ## Properties
 

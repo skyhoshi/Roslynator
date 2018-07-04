@@ -14,7 +14,7 @@ Provides information about a local declaration statement with a single variable\
 
 #### Implements
 
-* [IEquatable\<SingleLocalDeclarationStatementInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[SingleLocalDeclarationStatementInfo](./README.md)>
 
 ## Properties
 

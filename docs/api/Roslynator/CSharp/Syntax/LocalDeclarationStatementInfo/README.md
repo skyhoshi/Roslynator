@@ -14,7 +14,7 @@ Provides information about local declaration statement\.
 
 #### Implements
 
-* [IEquatable\<LocalDeclarationStatementInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[LocalDeclarationStatementInfo](./README.md)>
 
 ## Properties
 

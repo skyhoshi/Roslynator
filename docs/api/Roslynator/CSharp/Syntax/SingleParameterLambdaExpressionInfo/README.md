@@ -14,7 +14,7 @@ Provides information about a lambda expression with a single parameter\.
 
 #### Implements
 
-* [IEquatable\<SingleParameterLambdaExpressionInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[SingleParameterLambdaExpressionInfo](./README.md)>
 
 ## Properties
 

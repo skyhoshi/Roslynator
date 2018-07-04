@@ -14,7 +14,7 @@ Provides information about "is" expression\.
 
 #### Implements
 
-* [IEquatable\<IsExpressionInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[IsExpressionInfo](./README.md)>
 
 ## Properties
 

@@ -14,7 +14,7 @@ Provides information about conditional expression\.
 
 #### Implements
 
-* [IEquatable\<ConditionalExpressionInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[ConditionalExpressionInfo](./README.md)>
 
 ## Properties
 

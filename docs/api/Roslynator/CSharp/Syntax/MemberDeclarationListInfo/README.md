@@ -14,10 +14,10 @@ Provides information about a list of member declaration list\.
 
 #### Implements
 
-* [IEnumerable\<MemberDeclarationSyntax>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)
-* [IEquatable\<MemberDeclarationListInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
-* [IReadOnlyCollection\<MemberDeclarationSyntax>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1)
-* [IReadOnlyList\<MemberDeclarationSyntax>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1)
+* [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)\<[MemberDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.memberdeclarationsyntax)>
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[MemberDeclarationListInfo](./README.md)>
+* [IReadOnlyCollection](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1)\<[MemberDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.memberdeclarationsyntax)>
+* [IReadOnlyList](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1)\<[MemberDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.memberdeclarationsyntax)>
 
 ## Properties
 
@@ -74,6 +74,6 @@ Provides information about a list of member declaration list\.
 
 | Member | Summary |
 | ------ | ------- |
-| [GetEnumerator()](System-Collections-Generic-IEnumerable-1-GetEnumerator/README.md) | |
-| [GetEnumerator()](System-Collections-IEnumerable-GetEnumerator/README.md) | |
+| [IEnumerable.GetEnumerator()](System-Collections-IEnumerable-GetEnumerator/README.md) | |
+| [IEnumerable\<MemberDeclarationSyntax>.GetEnumerator()](System-Collections-Generic-IEnumerable-1-GetEnumerator/README.md) | |
 

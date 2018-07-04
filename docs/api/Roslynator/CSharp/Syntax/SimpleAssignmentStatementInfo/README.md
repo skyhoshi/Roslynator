@@ -14,7 +14,7 @@ Provides information about a simple assignment expression in an expression state
 
 #### Implements
 
-* [IEquatable\<SimpleAssignmentStatementInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[SimpleAssignmentStatementInfo](./README.md)>
 
 ## Properties
 

@@ -198,6 +198,18 @@ namespace Roslynator.Documentation
 
         internal string GetUrl(SymbolDocumentationInfo directoryInfo = null)
         {
+            if (IsExternal)
+            {
+                switch (Names.LastOrDefault())
+                {
+                    case "System":
+                    case "Microsoft":
+                        return "https://docs.microsoft.com/en-us/dotnet/api/" + string.Join(".", Names.Select(f => f.ToLowerInvariant()).Reverse());
+                    default:
+                        return null;
+                }
+            }
+
             if (directoryInfo == null)
                 return string.Join("/", Names.Reverse()) + "/README.md";
 

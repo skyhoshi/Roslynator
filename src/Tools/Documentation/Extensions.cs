@@ -84,24 +84,7 @@ namespace Roslynator.Documentation
             SymbolDocumentationInfo directoryInfo,
             SymbolDisplayFormat format)
         {
-            string url = null;
-
-            if (symbolInfo.IsExternal)
-            {
-                switch (symbolInfo.Names.LastOrDefault())
-                {
-                    case "System":
-                    case "Microsoft":
-                        {
-                            url = "https://docs.microsoft.com/en-us/dotnet/api/" + string.Join(".", symbolInfo.Names.Select(f => f.ToLowerInvariant()).Reverse());
-                            break;
-                        }
-                }
-            }
-            else
-            {
-                url = symbolInfo.GetUrl(directoryInfo);
-            }
+            string url = symbolInfo.GetUrl(directoryInfo);
 
             writer.WriteLinkOrText(symbolInfo.Symbol.ToDisplayString(format), url);
         }

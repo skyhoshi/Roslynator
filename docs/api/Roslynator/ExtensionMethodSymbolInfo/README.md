@@ -14,7 +14,7 @@ Represents an extension method symbol\.
 
 #### Implements
 
-* [IEquatable\<ExtensionMethodSymbolInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[ExtensionMethodSymbolInfo](./README.md)>
 
 ## Properties
 

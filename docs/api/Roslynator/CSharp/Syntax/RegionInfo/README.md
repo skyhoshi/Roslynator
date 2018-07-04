@@ -14,7 +14,7 @@ Provides information about a region\.
 
 #### Implements
 
-* [IEquatable\<RegionInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[RegionInfo](./README.md)>
 
 ## Properties
 

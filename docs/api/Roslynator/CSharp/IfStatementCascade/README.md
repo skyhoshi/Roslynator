@@ -14,8 +14,8 @@ Enables to enumerate if statement cascade\.
 
 #### Implements
 
-* [IEnumerable\<IfStatementOrElseClause>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)
-* [IEquatable\<IfStatementCascade>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)\<[IfStatementOrElseClause](../IfStatementOrElseClause/README.md)>
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[IfStatementCascade](./README.md)>
 
 ## Properties
 
@@ -46,6 +46,6 @@ Enables to enumerate if statement cascade\.
 
 | Member | Summary |
 | ------ | ------- |
-| [GetEnumerator()](System-Collections-Generic-IEnumerable-1-GetEnumerator/README.md) | |
-| [GetEnumerator()](System-Collections-IEnumerable-GetEnumerator/README.md) | |
+| [IEnumerable.GetEnumerator()](System-Collections-IEnumerable-GetEnumerator/README.md) | |
+| [IEnumerable\<IfStatementOrElseClause>.GetEnumerator()](System-Collections-Generic-IEnumerable-1-GetEnumerator/README.md) | |
 

@@ -14,7 +14,7 @@ Provides information about simple assignment expression\.
 
 #### Implements
 
-* [IEquatable\<AssignmentExpressionInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[AssignmentExpressionInfo](./README.md)>
 
 ## Properties
 

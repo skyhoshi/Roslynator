@@ -14,7 +14,7 @@ Provides information about invocation expression in an expression statement\.
 
 #### Implements
 
-* [IEquatable\<SimpleMemberInvocationStatementInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[SimpleMemberInvocationStatementInfo](./README.md)>
 
 ## Properties
 

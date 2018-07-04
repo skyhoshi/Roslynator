@@ -14,7 +14,7 @@ Provides information about string concatenation, i\.e\. a binary expression that
 
 #### Implements
 
-* [IEquatable\<StringConcatenationExpressionInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[StringConcatenationExpressionInfo](./README.md)>
 
 ## Properties
 

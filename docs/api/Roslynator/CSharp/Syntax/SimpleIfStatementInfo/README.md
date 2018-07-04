@@ -15,7 +15,7 @@ Simple if statement is defined as follows: it is not a child of an else clause a
 
 #### Implements
 
-* [IEquatable\<SimpleIfStatementInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[SimpleIfStatementInfo](./README.md)>
 
 ## Properties
 

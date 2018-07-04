@@ -53,6 +53,7 @@ namespace Roslynator.Documentation
              genericsOptions: DefaultGenericsOptions
                 | SymbolDisplayGenericsOptions.IncludeTypeParameters,
              memberOptions: DefaultMemberOptions
+                | SymbolDisplayMemberOptions.IncludeExplicitInterface
                 | SymbolDisplayMemberOptions.IncludeParameters,
              delegateStyle: SymbolDisplayDelegateStyle.NameAndParameters,
              extensionMethodStyle: DefaultExtensionMethodStyle,

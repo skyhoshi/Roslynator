@@ -14,8 +14,8 @@ Enables to enumerate expressions of a binary expression and expressions of neste
 
 #### Implements
 
-* [IEnumerable\<ExpressionSyntax>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)
-* [IEquatable\<ExpressionChain>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)\<[ExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.expressionsyntax)>
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[ExpressionChain](./README.md)>
 
 ## Properties
 
@@ -48,6 +48,6 @@ Enables to enumerate expressions of a binary expression and expressions of neste
 
 | Member | Summary |
 | ------ | ------- |
-| [GetEnumerator()](System-Collections-Generic-IEnumerable-1-GetEnumerator/README.md) | |
-| [GetEnumerator()](System-Collections-IEnumerable-GetEnumerator/README.md) | |
+| [IEnumerable.GetEnumerator()](System-Collections-IEnumerable-GetEnumerator/README.md) | |
+| [IEnumerable\<ExpressionSyntax>.GetEnumerator()](System-Collections-Generic-IEnumerable-1-GetEnumerator/README.md) | |
 

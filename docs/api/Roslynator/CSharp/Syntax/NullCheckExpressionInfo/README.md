@@ -14,7 +14,7 @@ Provides information about a null check expression\.
 
 #### Implements
 
-* [IEquatable\<NullCheckExpressionInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[NullCheckExpressionInfo](./README.md)>
 
 ## Properties
 

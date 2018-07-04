@@ -14,7 +14,7 @@ Provides information about a [XmlElementSyntax](https://docs.microsoft.com/en-us
 
 #### Implements
 
-* [IEquatable\<XmlElementInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[XmlElementInfo](./README.md)>
 
 ## Properties
 

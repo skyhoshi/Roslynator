@@ -14,7 +14,7 @@ Provides information about string literal expression\.
 
 #### Implements
 
-* [IEquatable\<StringLiteralExpressionInfo>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)
+* [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[StringLiteralExpressionInfo](./README.md)>
 
 ## Properties
 
