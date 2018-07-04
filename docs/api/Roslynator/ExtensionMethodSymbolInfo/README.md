@@ -32,6 +32,9 @@ Represents an extension method symbol\.
 | [Equals(ExtensionMethodSymbolInfo)](Equals/README.md) | |
 | [Equals(Object)](Equals/README.md) | |
 | [GetHashCode()](GetHashCode/README.md) | |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
+| [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype.tostring) | |
 
 ## Operators
 

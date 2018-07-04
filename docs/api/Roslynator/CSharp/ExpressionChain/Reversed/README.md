@@ -31,6 +31,8 @@ Enables to enumerate expressions of [ExpressionChain](../README.md) in a reverse
 | [Equals(Reversed)](Equals/README.md) | |
 | [GetEnumerator()](GetEnumerator/README.md) | |
 | [GetHashCode()](GetHashCode/README.md) | |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
 | [ToString()](ToString/README.md) | |
 
 ## Operators

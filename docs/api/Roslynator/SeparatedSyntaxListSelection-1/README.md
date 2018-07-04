@@ -42,7 +42,14 @@ Represents selected nodes in a [SeparatedSyntaxList\<TNode>](https://docs.micros
 | Method | Summary |
 | ------ | ------- |
 | [Create(SeparatedSyntaxList\<TNode>, TextSpan)](Create/README.md) | Creates a new  based on the specified list and span\. |
+| [Equals(Object)](https://docs.microsoft.com/en-us/dotnet/api/system.object.equals) | |
+| [First()](../Selection-1/First/README.md) | |
 | [GetEnumerator()](GetEnumerator/README.md) | Returns an enumerator that iterates through selected items\. |
 | [GetEnumeratorCore()](GetEnumeratorCore/README.md) | |
+| [GetHashCode()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gethashcode) | |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
+| [Last()](../Selection-1/Last/README.md) | |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
+| [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.object.tostring) | |
 | [TryCreate(SeparatedSyntaxList\<TNode>, TextSpan, SeparatedSyntaxListSelection\<TNode>)](TryCreate/README.md) | Creates a new  based on the specified list and span\. |
 

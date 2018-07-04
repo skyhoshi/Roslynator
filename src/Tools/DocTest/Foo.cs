@@ -20,6 +20,8 @@ namespace Roslynator.Documentation
     /// <item><description>This is the second bullet</description></item>
     /// </list>
     /// </remarks>
+    /// <seealso cref="object"/>
+    /// <seealso cref="Foo"/>
     [Obsolete("Foo is obsolete.")]
     public class Foo
     {

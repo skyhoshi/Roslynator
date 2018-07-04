@@ -428,6 +428,7 @@ namespace Roslynator.Documentation
 
         public override void WriteMethods(IEnumerable<IMethodSymbol> methods)
         {
+            //TODO: pro zděděné metody přidat: (Inherited from T)
             WriteTable(methods, "Methods", 2, "Method", "Summary", FormatProvider.MethodFormat);
         }
 
@@ -461,9 +462,42 @@ namespace Roslynator.Documentation
                 FormatProvider.MethodFormat);
         }
 
-        //TODO: WriteSeeAlso
         public override void WriteSeeAlso(ITypeSymbol typeSymbol)
         {
+            using (IEnumerator<ISymbol> en = GetSymbols().GetEnumerator())
+            {
+                if (en.MoveNext())
+                {
+                    _writer.WriteHeading2("See Also");
+                    WriteBulletItem(en.Current);
+
+                    while (en.MoveNext())
+                        WriteBulletItem(en.Current);
+                }
+            }
+
+            void WriteBulletItem(ISymbol symbol)
+            {
+                _writer.WriteStartBulletItem();
+                _writer.WriteLink(_generator.GetDocumentationInfo(symbol), DirectoryInfo, FormatProvider.CrefFormat);
+                _writer.WriteEndBulletItem();
+            }
+
+            IEnumerable<ISymbol> GetSymbols()
+            {
+                foreach (XElement element in _generator.GetDocumentationElement(typeSymbol).Elements("seealso"))
+                {
+                    string commentId = element.Attribute("cref")?.Value;
+
+                    if (commentId != null)
+                    {
+                        ISymbol symbol = DocumentationCommentId.GetFirstSymbolForReferenceId(commentId, DocumentationSource.SharedCompilation);
+
+                        if (symbol != null)
+                            yield return symbol;
+                    }
+                }
+            }
         }
 
         private void WriteSection(ITypeSymbol typeSymbol, string heading, string name)

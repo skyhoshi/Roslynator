@@ -46,6 +46,7 @@ Provides information about a list of statements\.
 | [FirstOrDefault()](FirstOrDefault/README.md) | The first statement in the list or null if the list is empty\. |
 | [GetEnumerator()](GetEnumerator/README.md) | Gets the enumerator the list of statements\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
 | [IndexOf(Func\<StatementSyntax, Boolean>)](IndexOf/README.md) | Searches for a statement that matches the predicate and returns returns zero\-based index of the first occurrence in the list\. |
 | [IndexOf(StatementSyntax)](IndexOf/README.md) | The index of the statement in the list\. |
 | [Insert(Int32, StatementSyntax)](Insert/README.md) | Creates a new  with the specified statement inserted at the index\. |
@@ -54,6 +55,7 @@ Provides information about a list of statements\.
 | [LastIndexOf(Func\<StatementSyntax, Boolean>)](LastIndexOf/README.md) | Searches for a statement that matches the predicate and returns returns zero\-based index of the last occurrence in the list\. |
 | [LastIndexOf(StatementSyntax)](LastIndexOf/README.md) | Searches for a statement and returns zero\-based index of the last occurrence in the list\. |
 | [LastOrDefault()](LastOrDefault/README.md) | The last statement in the list or null if the list is empty\. |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
 | [Remove(StatementSyntax)](Remove/README.md) | Creates a new  with the specified statement removed\. |
 | [RemoveAt(Int32)](RemoveAt/README.md) | Creates a new  with the statement at the specified index removed\. |
 | [RemoveNode(SyntaxNode, SyntaxRemoveOptions)](RemoveNode/README.md) | Creates a new  with the specified node removed\. |

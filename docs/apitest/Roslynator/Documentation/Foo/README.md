@@ -47,4 +47,13 @@ bla2
 | [Bar()](Bar/README.md) | abc |
 | [Bar\<T>(String, String)](Bar-1/README.md) | s |
 | [Bar2()](Bar2/README.md) | 1 2 |
+| [Equals(Object)](https://docs.microsoft.com/en-us/dotnet/api/system.object.equals) | |
+| [GetHashCode()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gethashcode) | |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
+| [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.object.tostring) | |
 
+## See Also
+
+* [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)
+* [Foo](./README.md)

@@ -198,6 +198,11 @@ namespace Roslynator.Documentation
             return xmlDocumentation;
         }
 
+        internal XElement GetDocumentationElement(ISymbol symbol)
+        {
+            return GetXmlDocumentation(symbol.ContainingAssembly)?.GetElement(GetDocumentationInfo(symbol).CommentId);
+        }
+
         internal XElement GetDocumentationElement(ISymbol symbol, string name)
         {
             return GetXmlDocumentation(symbol.ContainingAssembly)?.GetElement(GetDocumentationInfo(symbol).CommentId, name);

@@ -41,17 +41,46 @@ namespace Roslynator.Documentation
         {
             get
             {
+                if (Symbol.IsStatic)
+                    return Members;
+
                 if (_allPubliclyVisibleMembers.IsDefault)
                 {
                     ImmutableArray<ISymbol>.Builder builder = ImmutableArray.CreateBuilder<ISymbol>();
 
-                    builder.AddRange(Members.Where(f => f.IsPubliclyVisible()));
+                    var overriddenSymbols = new HashSet<ISymbol>();
+
+                    foreach (ISymbol symbol in Members)
+                    {
+                        if (symbol.IsPubliclyVisible())
+                        {
+                            ISymbol overriddenSymbol = symbol.OverriddenSymbol();
+
+                            if (overriddenSymbol != null)
+                                overriddenSymbols.Add(overriddenSymbol);
+
+                            builder.Add(symbol);
+                        }
+                    }
 
                     INamedTypeSymbol baseType = (Symbol as ITypeSymbol)?.BaseType;
 
                     while (baseType != null)
                     {
-                        builder.AddRange(baseType.GetMembers().Where(f => f.IsPubliclyVisible()));
+                        foreach (ISymbol symbol in baseType.GetMembers())
+                        {
+                            if (!symbol.IsStatic
+                                && symbol.IsPubliclyVisible())
+                            {
+                                if (!overriddenSymbols.Remove(symbol))
+                                    builder.Add(symbol);
+
+                                ISymbol overriddenSymbol = symbol.OverriddenSymbol();
+
+                                if (overriddenSymbol != null)
+                                    overriddenSymbols.Add(overriddenSymbol);
+                            }
+                        }
 
                         baseType = baseType.BaseType;
                     }

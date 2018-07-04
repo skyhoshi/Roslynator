@@ -63,6 +63,21 @@ namespace Roslynator.Documentation
             return null;
         }
 
+        public static ISymbol OverriddenSymbol(this ISymbol symbol)
+        {
+            switch (symbol.Kind)
+            {
+                case SymbolKind.Method:
+                    return ((IMethodSymbol)symbol).OverriddenMethod;
+                case SymbolKind.Property:
+                    return ((IPropertySymbol)symbol).OverriddenProperty;
+                case SymbolKind.Event:
+                    return ((IEventSymbol)symbol).OverriddenEvent;
+            }
+
+            return null;
+        }
+
         public static void WriteLink(
             this MarkdownWriter writer,
             SymbolDocumentationInfo symbolInfo,

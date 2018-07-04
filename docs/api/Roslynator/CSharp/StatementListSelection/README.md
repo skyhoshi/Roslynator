@@ -25,6 +25,15 @@ Represents selected statements in a [SyntaxList\<TNode>](https://docs.microsoft.
 | [Create(BlockSyntax, TextSpan)](Create/README.md) | Creates a new  based on the specified block and span\. |
 | [Create(StatementListInfo, TextSpan)](Create/README.md) | Creates a new  based on the specified  and span\. |
 | [Create(SwitchSectionSyntax, TextSpan)](Create/README.md) | Creates a new  based on the specified switch section and span\. |
+| [Equals(Object)](https://docs.microsoft.com/en-us/dotnet/api/system.object.equals) | |
+| [First()](../../Selection-1/First/README.md) | |
+| [GetEnumerator()](../../SyntaxListSelection-1/GetEnumerator/README.md) | |
+| [GetEnumeratorCore()](../../SyntaxListSelection-1/GetEnumeratorCore/README.md) | |
+| [GetHashCode()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gethashcode) | |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
+| [Last()](../../Selection-1/Last/README.md) | |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
+| [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.object.tostring) | |
 | [TryCreate(BlockSyntax, TextSpan, StatementListSelection)](TryCreate/README.md) | Creates a new  based on the specified block and span\. |
 | [TryCreate(SwitchSectionSyntax, TextSpan, StatementListSelection)](TryCreate/README.md) | Creates a new  based on the specified switch section and span\. |
 

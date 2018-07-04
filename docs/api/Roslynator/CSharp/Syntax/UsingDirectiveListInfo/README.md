@@ -42,6 +42,7 @@ Provides information about a list of using directives\.
 | [FirstOrDefault()](FirstOrDefault/README.md) | The first using directive in the list or null if the list is empty\. |
 | [GetEnumerator()](GetEnumerator/README.md) | Gets the enumerator for the list of usings\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
 | [IndexOf(Func\<UsingDirectiveSyntax, Boolean>)](IndexOf/README.md) | Searches for an using directive that matches the predicate and returns returns zero\-based index of the first occurrence in the list\. |
 | [IndexOf(UsingDirectiveSyntax)](IndexOf/README.md) | The index of the using directive in the list\. |
 | [Insert(Int32, UsingDirectiveSyntax)](Insert/README.md) | Creates a new  with the specified using directive inserted at the index\. |
@@ -50,6 +51,7 @@ Provides information about a list of using directives\.
 | [LastIndexOf(Func\<UsingDirectiveSyntax, Boolean>)](LastIndexOf/README.md) | Searches for an using directive that matches the predicate and returns returns zero\-based index of the last occurrence in the list\. |
 | [LastIndexOf(UsingDirectiveSyntax)](LastIndexOf/README.md) | Searches for an using directive and returns zero\-based index of the last occurrence in the list\. |
 | [LastOrDefault()](LastOrDefault/README.md) | The last using directive in the list or null if the list is empty\. |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
 | [Remove(UsingDirectiveSyntax)](Remove/README.md) | Creates a new  with the specified using directive removed\. |
 | [RemoveAt(Int32)](RemoveAt/README.md) | Creates a new  with the using directive at the specified index removed\. |
 | [RemoveNode(SyntaxNode, SyntaxRemoveOptions)](RemoveNode/README.md) | Creates a new  with the specified node removed\. |

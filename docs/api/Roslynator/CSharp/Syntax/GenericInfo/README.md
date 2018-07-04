@@ -36,6 +36,8 @@ Provides information about generic syntax \(class, struct, interface, delegate, 
 | [FindConstraintClause(String)](FindConstraintClause/README.md) | Searches for a constraint clause with the specified type parameter name and returns the first occurrence within the constraint clauses\. |
 | [FindTypeParameter(String)](FindTypeParameter/README.md) | Searches for a type parameter with the specified name and returns the first occurrence within the type parameters\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
 | [RemoveAllConstraintClauses()](RemoveAllConstraintClauses/README.md) | Creates a new  with all constraint clauses removed\. |
 | [RemoveConstraintClause(TypeParameterConstraintClauseSyntax)](RemoveConstraintClause/README.md) | Creates a new  with the specified constraint clause removed\. |
 | [RemoveTypeParameter(TypeParameterSyntax)](RemoveTypeParameter/README.md) | Creates a new  with the specified type parameter removed\. |

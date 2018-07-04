@@ -42,6 +42,7 @@ Provides information about a list of member declaration list\.
 | [FirstOrDefault()](FirstOrDefault/README.md) | The first member in the list or null if the list is empty\. |
 | [GetEnumerator()](GetEnumerator/README.md) | Gets the enumerator for the list of members\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
 | [IndexOf(Func\<MemberDeclarationSyntax, Boolean>)](IndexOf/README.md) | Searches for a member that matches the predicate and returns returns zero\-based index of the first occurrence in the list\. |
 | [IndexOf(MemberDeclarationSyntax)](IndexOf/README.md) | The index of the member in the list\. |
 | [Insert(Int32, MemberDeclarationSyntax)](Insert/README.md) | Creates a new  with the specified member inserted at the index\. |
@@ -50,6 +51,7 @@ Provides information about a list of member declaration list\.
 | [LastIndexOf(Func\<MemberDeclarationSyntax, Boolean>)](LastIndexOf/README.md) | Searches for a member that matches the predicate and returns returns zero\-based index of the last occurrence in the list\. |
 | [LastIndexOf(MemberDeclarationSyntax)](LastIndexOf/README.md) | Searches for a member and returns zero\-based index of the last occurrence in the list\. |
 | [LastOrDefault()](LastOrDefault/README.md) | The last member in the list or null if the list is empty\. |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
 | [Remove(MemberDeclarationSyntax)](Remove/README.md) | Creates a new  with the specified member removed\. |
 | [RemoveAt(Int32)](RemoveAt/README.md) | Creates a new  with the member at the specified index removed\. |
 | [RemoveNode(SyntaxNode, SyntaxRemoveOptions)](RemoveNode/README.md) | Creates a new  with the specified node removed\. |

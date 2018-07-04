@@ -53,9 +53,14 @@ Represents consecutive sequence of selected items in a collection\.
 
 | Method | Summary |
 | ------ | ------- |
+| [Equals(Object)](https://docs.microsoft.com/en-us/dotnet/api/system.object.equals) | |
 | [First()](First/README.md) | Gets the first selected item\. |
 | [GetEnumeratorCore()](GetEnumeratorCore/README.md) | |
+| [GetHashCode()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gethashcode) | |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
 | [Last()](Last/README.md) | Gets the last selected item\. |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
+| [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.object.tostring) | |
 
 ## Explicit Interface Implementations
 

@@ -32,6 +32,8 @@ Enables to enumerate expressions of a binary expression and expressions of neste
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [GetEnumerator()](GetEnumerator/README.md) | Gets the enumerator for the expressions\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
 | [Reverse()](Reverse/README.md) | Returns a chain which contains all expressions of  in reversed order\. |
 | [ToString()](ToString/README.md) | Returns the string representation of the expressions, not including its leading and trailing trivia\. |
 
