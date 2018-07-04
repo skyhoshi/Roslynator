@@ -51,7 +51,7 @@ namespace Roslynator.Documentation
 
         public abstract void WriteEvents(IEnumerable<IEventSymbol> events);
 
-        public abstract void WriteExplicitInterfaceImplementations(IEnumerable<IMethodSymbol> explicitInterfaceImplementations);
+        public abstract void WriteExplicitInterfaceImplementations(IEnumerable<ISymbol> explicitInterfaceImplementations);
 
         public abstract void WriteExtensionMethods(ITypeSymbol typeSymbol);
 

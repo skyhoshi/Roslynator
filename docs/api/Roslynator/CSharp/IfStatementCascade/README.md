@@ -40,3 +40,10 @@ Enables to enumerate if statement cascade\.
 | [operator !=(IfStatementCascade, IfStatementCascade)](op_Inequality/README.md) | |
 | [operator ==(IfStatementCascade, IfStatementCascade)](op_Equality/README.md) | |
 
+## Explicit Interface Implementations
+
+| Member | Summary |
+| ------ | ------- |
+| [GetEnumerator()](System.Collections.Generic.IEnumerable<Roslynator.CSharp.IfStatementOrElseClause>.GetEnumerator/README.md) | |
+| [GetEnumerator()](System.Collections.IEnumerable.GetEnumerator/README.md) | |
+

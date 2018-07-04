@@ -57,3 +57,10 @@ Represents consecutive sequence of selected items in a collection\.
 | [GetEnumeratorCore()](GetEnumeratorCore/README.md) | |
 | [Last()](Last/README.md) | Gets the last selected item\. |
 
+## Explicit Interface Implementations
+
+| Member | Summary |
+| ------ | ------- |
+| [GetEnumerator()](System.Collections.Generic.IEnumerable<T>.GetEnumerator/README.md) | |
+| [GetEnumerator()](System.Collections.IEnumerable.GetEnumerator/README.md) | |
+

@@ -68,3 +68,10 @@ Provides information about a list of using directives\.
 | [operator !=(UsingDirectiveListInfo, UsingDirectiveListInfo)](op_Inequality/README.md) | |
 | [operator ==(UsingDirectiveListInfo, UsingDirectiveListInfo)](op_Equality/README.md) | |
 
+## Explicit Interface Implementations
+
+| Member | Summary |
+| ------ | ------- |
+| [GetEnumerator()](System.Collections.Generic.IEnumerable<Microsoft.CodeAnalysis.CSharp.Syntax.UsingDirectiveSyntax>.GetEnumerator/README.md) | |
+| [GetEnumerator()](System.Collections.IEnumerable.GetEnumerator/README.md) | |
+

@@ -72,3 +72,10 @@ Provides information about a list of statements\.
 | [operator !=(StatementListInfo, StatementListInfo)](op_Inequality/README.md) | |
 | [operator ==(StatementListInfo, StatementListInfo)](op_Equality/README.md) | |
 
+## Explicit Interface Implementations
+
+| Member | Summary |
+| ------ | ------- |
+| [GetEnumerator()](System.Collections.Generic.IEnumerable<Microsoft.CodeAnalysis.CSharp.Syntax.StatementSyntax>.GetEnumerator/README.md) | |
+| [GetEnumerator()](System.Collections.IEnumerable.GetEnumerator/README.md) | |
+

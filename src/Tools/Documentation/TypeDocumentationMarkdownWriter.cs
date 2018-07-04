@@ -6,7 +6,6 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Xml;
 using System.Xml.Linq;
 using DotMarkdown;
 using Microsoft.CodeAnalysis;
@@ -442,7 +441,7 @@ namespace Roslynator.Documentation
             WriteTable(events, "Events", 2, "Event", "Summary", FormatProvider.MethodFormat);
         }
 
-        public override void WriteExplicitInterfaceImplementations(IEnumerable<IMethodSymbol> explicitInterfaceImplementations)
+        public override void WriteExplicitInterfaceImplementations(IEnumerable<ISymbol> explicitInterfaceImplementations)
         {
             WriteTable(explicitInterfaceImplementations, "Explicit Interface Implementations", 2, "Member", "Summary", FormatProvider.MethodFormat);
         }

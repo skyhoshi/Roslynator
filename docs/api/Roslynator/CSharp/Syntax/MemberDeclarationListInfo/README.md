@@ -68,3 +68,10 @@ Provides information about a list of member declaration list\.
 | [operator !=(MemberDeclarationListInfo, MemberDeclarationListInfo)](op_Inequality/README.md) | |
 | [operator ==(MemberDeclarationListInfo, MemberDeclarationListInfo)](op_Equality/README.md) | |
 
+## Explicit Interface Implementations
+
+| Member | Summary |
+| ------ | ------- |
+| [GetEnumerator()](System.Collections.Generic.IEnumerable<Microsoft.CodeAnalysis.CSharp.Syntax.MemberDeclarationSyntax>.GetEnumerator/README.md) | |
+| [GetEnumerator()](System.Collections.IEnumerable.GetEnumerator/README.md) | |
+

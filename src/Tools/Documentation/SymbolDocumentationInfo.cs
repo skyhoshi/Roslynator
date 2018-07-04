@@ -270,19 +270,43 @@ namespace Roslynator.Documentation
             }
         }
 
-        public IEnumerable<IMethodSymbol> GetExplicitInterfaceImplementations()
+        public IEnumerable<ISymbol> GetExplicitInterfaceImplementations()
         {
             foreach (ISymbol member in Members)
             {
-                if (member.Kind == SymbolKind.Method
-                    && member.IsPubliclyVisible())
+                switch (member.Kind)
                 {
-                    var methodSymbol = (IMethodSymbol)member;
+                    case SymbolKind.Event:
+                        {
+                            var eventSymbol = (IEventSymbol)member;
 
-                    if (methodSymbol.MethodKind == MethodKind.ExplicitInterfaceImplementation)
-                    {
-                        yield return methodSymbol;
-                    }
+                            if (!eventSymbol.ExplicitInterfaceImplementations.IsDefaultOrEmpty)
+                                yield return eventSymbol;
+
+                            break;
+                        }
+
+                    case SymbolKind.Method:
+                        {
+                            var methodSymbol = (IMethodSymbol)member;
+
+                            if (!methodSymbol.ExplicitInterfaceImplementations.IsDefaultOrEmpty)
+                            {
+                                yield return methodSymbol;
+                            }
+
+                            break;
+                        }
+
+                    case SymbolKind.Property:
+                        {
+                            var propertySymbol = (IPropertySymbol)member;
+
+                            if (!propertySymbol.ExplicitInterfaceImplementations.IsDefaultOrEmpty)
+                                yield return propertySymbol;
+
+                            break;
+                        }
                 }
             }
         }
