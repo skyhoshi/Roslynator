@@ -13,20 +13,24 @@ using Roslynator.CSharp;
 
 namespace Roslynator.Documentation
 {
-    public class TypeDocumentationMarkdownWriter : TypeDocumentationWriter
+    public class TypeDocumentationMarkdownWriter : DocumentationWriter
     {
         private readonly DocumentationGenerator _generator;
         private readonly MarkdownWriter _writer;
 
-        public TypeDocumentationMarkdownWriter(ITypeSymbol typeSymbol, SymbolDocumentationInfo directoryInfo, DocumentationGenerator generator)
+        public TypeDocumentationMarkdownWriter(
+            ISymbol symbol,
+            SymbolDocumentationInfo directoryInfo,
+            DocumentationGenerator generator,
+            MarkdownWriter writer = null)
         {
-            _writer = MarkdownWriter.Create(new StringBuilder());
+            _writer = writer ?? MarkdownWriter.Create(new StringBuilder());
             _generator = generator;
             DirectoryInfo = directoryInfo;
-            TypeSymbol = typeSymbol;
+            Symbol = symbol;
         }
 
-        public override ITypeSymbol TypeSymbol { get; }
+        public override ISymbol Symbol { get; }
 
         public override SymbolDocumentationInfo DirectoryInfo { get; }
 
@@ -373,15 +377,9 @@ namespace Roslynator.Documentation
 
                     _writer.WriteStartTable(3);
                     _writer.WriteStartTableRow();
-                    _writer.WriteStartTableCell();
-                    _writer.WriteString("Name");
-                    _writer.WriteEndTableCell();
-                    _writer.WriteStartTableCell();
-                    _writer.WriteString("Value");
-                    _writer.WriteEndTableCell();
-                    _writer.WriteStartTableCell();
-                    _writer.WriteString("Summary");
-                    _writer.WriteEndTableCell();
+                    _writer.WriteTableCell("Name");
+                    _writer.WriteTableCell("Value");
+                    _writer.WriteTableCell("Summary");
                     _writer.WriteEndTableRow();
                     _writer.WriteTableHeaderSeparator();
 
@@ -390,15 +388,9 @@ namespace Roslynator.Documentation
                         IFieldSymbol fieldSymbol = en.Current;
 
                         _writer.WriteStartTableRow();
-                        _writer.WriteStartTableCell();
-                        _writer.WriteString(fieldSymbol.ToDisplayString(FormatProvider.FieldFormat));
-                        _writer.WriteEndTableCell();
-                        _writer.WriteStartTableCell();
-                        _writer.WriteString(fieldSymbol.ConstantValue.ToString());
-                        _writer.WriteEndTableCell();
-                        _writer.WriteStartTableCell();
-                        _writer.WriteString(_generator.GetDocumentationElement(fieldSymbol, "summary")?.Value.Trim());
-                        _writer.WriteEndTableCell();
+                        _writer.WriteTableCell(fieldSymbol.ToDisplayString(FormatProvider.FieldFormat));
+                        _writer.WriteTableCell(fieldSymbol.ConstantValue.ToString());
+                        _writer.WriteTableCell(_generator.GetDocumentationElement(fieldSymbol, "summary")?.Value.Trim());
                         _writer.WriteEndTableRow();
                     }
                     while (en.MoveNext());
@@ -410,9 +402,6 @@ namespace Roslynator.Documentation
 
         public override void WriteConstructors(IEnumerable<IMethodSymbol> constructors)
         {
-            if (TypeSymbol.BaseType?.SpecialType == SpecialType.System_Enum)
-                return;
-
             WriteTable(constructors, "Constructors", 2, "Constructor", "Summary", FormatProvider.ConstructorFormat);
         }
 
@@ -423,13 +412,12 @@ namespace Roslynator.Documentation
 
         public override void WriteProperties(IEnumerable<IPropertySymbol> properties)
         {
-            WriteTable(properties, "Properties", 2, "Property", "Summary", FormatProvider.PropertyFormat);
+            WriteTable(properties, "Properties", 2, "Property", "Summary", FormatProvider.PropertyFormat, addInheritedFrom: true);
         }
 
         public override void WriteMethods(IEnumerable<IMethodSymbol> methods)
         {
-            //TODO: pro zděděné metody přidat: (Inherited from T)
-            WriteTable(methods, "Methods", 2, "Method", "Summary", FormatProvider.MethodFormat);
+            WriteTable(methods, "Methods", 2, "Method", "Summary", FormatProvider.MethodFormat, addInheritedFrom: true);
         }
 
         public override void WriteOperators(IEnumerable<IMethodSymbol> operators)
@@ -439,7 +427,7 @@ namespace Roslynator.Documentation
 
         public override void WriteEvents(IEnumerable<IEventSymbol> events)
         {
-            WriteTable(events, "Events", 2, "Event", "Summary", FormatProvider.MethodFormat);
+            WriteTable(events, "Events", 2, "Event", "Summary", FormatProvider.MethodFormat, addInheritedFrom: true);
         }
 
         public override void WriteExplicitInterfaceImplementations(IEnumerable<ISymbol> explicitInterfaceImplementations)
@@ -524,7 +512,7 @@ namespace Roslynator.Documentation
             WriteElementContent(element);
         }
 
-        private void WriteElementContent(XElement element)
+        private void WriteElementContent(XElement element, bool isNested = false)
         {
             using (IEnumerator<XNode> en = element.Nodes().GetEnumerator())
             {
@@ -546,6 +534,9 @@ namespace Roslynator.Documentation
                             string value = t.Value;
                             value = TextUtility.RemoveLeadingTrailingNewLine(value, isFirst, isLast);
 
+                            if (isNested)
+                                value = TextUtility.ToSingleLine(value);
+
                             _writer.WriteString(value);
                         }
                         else if (node is XElement e)
@@ -554,18 +545,27 @@ namespace Roslynator.Documentation
                             {
                                 case XmlElementKind.C:
                                     {
-                                        _writer.WriteInlineCode(e.Value);
+                                        string value = e.Value;
+                                        value = TextUtility.ToSingleLine(value);
+                                        _writer.WriteInlineCode(value);
                                         break;
                                     }
                                 case XmlElementKind.Code:
                                     {
+                                        if (isNested)
+                                            break;
+
                                         string value = e.Value;
                                         value = TextUtility.RemoveLeadingTrailingNewLine(value);
-                                        _writer.WriteFencedCodeBlock(value);
+                                        _writer.WriteFencedCodeBlock(value, GetLanguageIdentifier());
+
                                         break;
                                     }
                                 case XmlElementKind.List:
                                     {
+                                        if (isNested)
+                                            break;
+
                                         string type = e.Attribute("type")?.Value;
 
                                         if (!string.IsNullOrEmpty(type))
@@ -599,7 +599,11 @@ namespace Roslynator.Documentation
                                     }
                                 case XmlElementKind.Para:
                                     {
-                                        //TODO: write paragraph
+                                        _writer.WriteLine();
+                                        _writer.WriteLine();
+                                        WriteElementContent(e);
+                                        _writer.WriteLine();
+                                        _writer.WriteLine();
                                         break;
                                     }
                                 case XmlElementKind.ParamRef:
@@ -617,7 +621,7 @@ namespace Roslynator.Documentation
 
                                         if (commentId != null)
                                         {
-                                            ISymbol symbol = DocumentationCommentId.GetFirstSymbolForReferenceId(commentId, DocumentationSource.SharedCompilation);
+                                            ISymbol symbol = DocumentationCommentId.GetFirstSymbolForDeclarationId(commentId, DocumentationSource.SharedCompilation);
 
                                             Debug.Assert(symbol != null, commentId);
 
@@ -676,6 +680,22 @@ namespace Roslynator.Documentation
                     while (!isLast);
                 }
             }
+
+            string GetLanguageIdentifier()
+            {
+                switch (Symbol.Language)
+                {
+                    case LanguageNames.CSharp:
+                        return LanguageIdentifiers.CSharp;
+                    case LanguageNames.VisualBasic:
+                        return LanguageIdentifiers.VisualBasic;
+                    case LanguageNames.FSharp:
+                        return LanguageIdentifiers.FSharp;
+                }
+
+                Debug.Fail(Symbol.Language);
+                return null;
+            }
         }
 
         private void WriteList(IEnumerable<XElement> elements, bool isNumbered = false)
@@ -692,34 +712,18 @@ namespace Roslynator.Documentation
                         {
                             XElement element2 = en.Current;
 
-                            switch (element2.Name.LocalName)
+                            if (element2.Name.LocalName == "description")
                             {
-                                case "term":
-                                    {
-                                        if (en.MoveNext())
-                                        {
-                                            XElement element3 = en.Current;
-
-                                            if (element3.Name.LocalName == "description")
-                                            {
-                                                WriteStartItem();
-                                                _writer.WriteBold(element2.Value);
-                                                _writer.WriteString(" - ");
-                                                _writer.WriteString(element3.Value);
-                                                WriteEndItem();
-                                            }
-                                        }
-
-                                        break;
-                                    }
-                                case "description":
-                                    {
-                                        WriteStartItem();
-                                        _writer.WriteString(element2.Value);
-                                        WriteEndItem();
-                                        break;
-                                    }
+                                WriteStartItem();
+                                WriteElementContent(element2, isNested: true);
+                                WriteEndItem();
                             }
+                        }
+                        else
+                        {
+                            WriteStartItem();
+                            WriteElementContent(element, isNested: true);
+                            WriteEndItem();
                         }
                     }
                 }
@@ -772,7 +776,7 @@ namespace Roslynator.Documentation
                         foreach (XElement element2 in element.Elements())
                         {
                             _writer.WriteStartTableCell();
-                            _writer.WriteString(element2.Value);
+                            WriteElementContent(element2, isNested: true);
                             _writer.WriteEndTableCell();
                         }
 
@@ -789,7 +793,7 @@ namespace Roslynator.Documentation
                             foreach (XElement element2 in element.Elements())
                             {
                                 _writer.WriteStartTableCell();
-                                _writer.WriteString(element2.Value);
+                                WriteElementContent(element2, isNested: true);
                                 _writer.WriteEndTableCell();
                                 count++;
 
@@ -799,14 +803,15 @@ namespace Roslynator.Documentation
 
                             while (count < columnCount)
                             {
-                                _writer.WriteStartTableCell();
-                                _writer.WriteEndTableCell();
+                                _writer.WriteTableCell(null);
                                 count++;
                             }
 
                             _writer.WriteEndTableRow();
                         }
                         while (en.MoveNext());
+
+                        _writer.WriteEndTable();
                     }
                 }
             }
@@ -818,9 +823,68 @@ namespace Roslynator.Documentation
             int headingLevel,
             string header1,
             string header2,
-            SymbolDisplayFormat format)
+            SymbolDisplayFormat format,
+            bool addInheritedFrom = false)
         {
-            _generator.WriteTable(_writer, symbols, heading, headingLevel, header1, header2, format, DirectoryInfo);
+            using (IEnumerator<(ISymbol symbol, string displayString)> en = symbols
+                .Select(f => (symbol: f, displayString: f.ToDisplayString(format)))
+                .OrderBy(f => f.displayString)
+                .GetEnumerator())
+            {
+                if (en.MoveNext())
+                {
+                    _writer.WriteHeading(headingLevel, heading);
+
+                    _writer.WriteStartTable(2);
+                    _writer.WriteStartTableRow();
+                    _writer.WriteTableCell(header1);
+                    _writer.WriteTableCell(header2);
+                    _writer.WriteEndTableRow();
+                    _writer.WriteTableHeaderSeparator();
+
+                    do
+                    {
+                        ISymbol symbol = en.Current.symbol;
+
+                        _writer.WriteStartTableRow();
+                        _writer.WriteStartTableCell();
+
+                        SymbolDocumentationInfo info = _generator.GetDocumentationInfo(symbol);
+
+                        if (symbol.IsKind(SymbolKind.Parameter, SymbolKind.TypeParameter))
+                        {
+                            _writer.WriteString(en.Current.displayString);
+                        }
+                        else
+                        {
+                            _writer.WriteLink(info, DirectoryInfo, format);
+                        }
+
+                        _writer.WriteEndTableCell();
+                        _writer.WriteStartTableCell();
+
+                        XElement element = _generator.GetDocumentationElement(symbol, "summary");
+
+                        if (element != null)
+                            WriteElementContent(element, isNested: true);
+
+                        if (addInheritedFrom
+                            && Symbol != null
+                            && symbol.ContainingType != Symbol)
+                        {
+                            _writer.WriteString(" (Inherited from ");
+                            WriteLink(_generator.GetDocumentationInfo(symbol.ContainingType));
+                            _writer.WriteString(")");
+                        }
+
+                        _writer.WriteEndTableCell();
+                        _writer.WriteEndTableRow();
+                    }
+                    while (en.MoveNext());
+
+                    _writer.WriteEndTable();
+                }
+            }
         }
 
         public void WriteLink(SymbolDocumentationInfo symbolInfo)
@@ -866,6 +930,53 @@ namespace Roslynator.Documentation
             {
                 string url = symbolInfo.GetUrl(DirectoryInfo);
                 _writer.WriteLinkOrText(symbolInfo.Symbol.ToDisplayString(SymbolDisplayFormats.TypeNameAndContainingTypes), url);
+            }
+        }
+
+        public void WriteNamespaceContent(
+            IEnumerable<ITypeSymbol> typeSymbols,
+            int headingLevel)
+        {
+            foreach (IGrouping<TypeKind, ITypeSymbol> grouping in typeSymbols
+                .OrderBy(f => f.ToDisplayString(FormatProvider.TypeFormat))
+                .GroupBy(f => f.TypeKind)
+                .OrderBy(f => f.Key, TypeKindComparer.Instance))
+            {
+                TypeKind typeKind = grouping.Key;
+
+                switch (typeKind)
+                {
+                    case TypeKind.Class:
+                        {
+                            WriteTable(grouping, "Classes", headingLevel, "Class", "Summary", FormatProvider.TypeFormat);
+                            break;
+                        }
+                    case TypeKind.Struct:
+                        {
+                            WriteTable(grouping, "Structs", headingLevel, "Struct", "Summary", FormatProvider.TypeFormat);
+                            break;
+                        }
+                    case TypeKind.Interface:
+                        {
+                            WriteTable(grouping, "Interfaces", headingLevel, "Interface", "Summary", FormatProvider.TypeFormat);
+                            break;
+                        }
+                    case TypeKind.Enum:
+                        {
+                            WriteTable(grouping, "Enums", headingLevel, "Enum", "Summary", FormatProvider.TypeFormat);
+                            break;
+                        }
+                    case TypeKind.Delegate:
+                        {
+                            WriteTable(grouping, "Delegates", headingLevel, "Delegate", "Summary", FormatProvider.TypeFormat);
+                            break;
+                        }
+                    default:
+                        {
+                            Debug.Fail(typeKind.ToString());
+                            break;
+                        }
+                }
             }
         }
 

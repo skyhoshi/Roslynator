@@ -20,9 +20,9 @@ Assembly: Roslynator\.CSharp\.dll
 | ------ | ------- |
 | [Equals(Object)](Equals/README.md) | |
 | [GetHashCode()](GetHashCode/README.md) | |
-| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
-| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
 | [MoveNext()](MoveNext/README.md) | |
 | [Reset()](Reset/README.md) | |
-| [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype.tostring) | |
+| [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype.tostring) |  \(Inherited from [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype)\) |
 

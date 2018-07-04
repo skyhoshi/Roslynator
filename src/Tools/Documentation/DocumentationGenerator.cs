@@ -2,12 +2,9 @@
 
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml;
 using System.Xml.Linq;
 using DotMarkdown;
 using Microsoft.CodeAnalysis;
@@ -16,7 +13,6 @@ namespace Roslynator.Documentation
 {
     public class DocumentationGenerator
     {
-        private static readonly Regex _newLineWithWhitespaceRegex = new Regex(@"\r?\n\s*");
         private ImmutableArray<ITypeSymbol> _typeSymbols;
         private ImmutableArray<IMethodSymbol> _extensionMethodSymbols;
 
@@ -96,7 +92,10 @@ namespace Roslynator.Documentation
                     writer.WriteString(" Namespace");
                     writer.WriteEndHeading();
 
-                    WriteNamespaceContent(writer, grouping, 3, null);
+                    using (var writer2 = new TypeDocumentationMarkdownWriter(null, null, this, writer))
+                    {
+                        writer2.WriteNamespaceContent(grouping, 3);
+                    }
                 }
 
                 return writer.ToString();
@@ -114,7 +113,10 @@ namespace Roslynator.Documentation
 
                 SymbolDocumentationInfo info = GetDocumentationInfo(namespaceSymbol);
 
-                WriteNamespaceContent(writer, TypeSymbols.Where(f => f.ContainingNamespace == namespaceSymbol), 2, info);
+                using (var writer2 = new TypeDocumentationMarkdownWriter(null, info, this, writer))
+                {
+                    writer2.WriteNamespaceContent(TypeSymbols.Where(f => f.ContainingNamespace == namespaceSymbol), 2);
+                }
 
                 return writer.ToString();
             }
@@ -144,19 +146,21 @@ namespace Roslynator.Documentation
                 writer.WriteExamples(typeSymbol);
                 writer.WriteRemarks(typeSymbol);
 
-                if (typeSymbol.TypeKind == TypeKind.Enum)
+                if (typeSymbol.BaseType?.SpecialType == SpecialType.System_Enum)
+                {
                     writer.WriteEnumFields(info.GetFields());
-
-                writer.WriteConstructors(info.GetConstructors());
-
-                if (typeSymbol.TypeKind != TypeKind.Enum)
+                }
+                else
+                {
+                    writer.WriteConstructors(info.GetConstructors());
                     writer.WriteFields(info.GetFields());
+                    writer.WriteProperties(info.GetProperties());
+                    writer.WriteMethods(info.GetMethods());
+                    writer.WriteOperators(info.GetOperators());
+                    writer.WriteEvents(info.GetEvents());
+                    writer.WriteExplicitInterfaceImplementations(info.GetExplicitInterfaceImplementations());
+                }
 
-                writer.WriteProperties(info.GetProperties());
-                writer.WriteMethods(info.GetMethods());
-                writer.WriteOperators(info.GetOperators());
-                writer.WriteEvents(info.GetEvents());
-                writer.WriteExplicitInterfaceImplementations(info.GetExplicitInterfaceImplementations());
                 writer.WriteExtensionMethods(typeSymbol);
                 writer.WriteSeeAlso(typeSymbol);
 
@@ -206,128 +210,6 @@ namespace Roslynator.Documentation
         internal XElement GetDocumentationElement(ISymbol symbol, string name)
         {
             return GetXmlDocumentation(symbol.ContainingAssembly)?.GetElement(GetDocumentationInfo(symbol).CommentId, name);
-        }
-
-        internal void WriteTable(
-            MarkdownWriter writer,
-            IEnumerable<ISymbol> symbols,
-            string heading,
-            int headingLevel,
-            string header1,
-            string header2,
-            SymbolDisplayFormat format,
-            SymbolDocumentationInfo directoryInfo)
-        {
-            using (IEnumerator<(ISymbol symbol, string displayString)> en = symbols
-                .Select(f => (symbol: f, displayString: f.ToDisplayString(format)))
-                .OrderBy(f => f.displayString)
-                .GetEnumerator())
-            {
-                if (en.MoveNext())
-                {
-                    writer.WriteHeading(headingLevel, heading);
-
-                    writer.WriteStartTable(2);
-                    writer.WriteStartTableRow();
-                    writer.WriteStartTableCell();
-                    writer.WriteString(header1);
-                    writer.WriteEndTableCell();
-                    writer.WriteStartTableCell();
-                    writer.WriteString(header2);
-                    writer.WriteEndTableCell();
-                    writer.WriteEndTableRow();
-                    writer.WriteTableHeaderSeparator();
-
-                    do
-                    {
-                        ISymbol symbol = en.Current.symbol;
-
-                        writer.WriteStartTableRow();
-                        writer.WriteStartTableCell();
-
-                        SymbolDocumentationInfo info = GetDocumentationInfo(symbol);
-
-                        if (symbol.IsKind(SymbolKind.Parameter, SymbolKind.TypeParameter))
-                        {
-                            writer.WriteString(en.Current.displayString);
-                        }
-                        else
-                        {
-                            writer.WriteLink(info, directoryInfo, format);
-                        }
-
-                        writer.WriteEndTableCell();
-                        writer.WriteStartTableCell();
-
-                        //TODO: write element content
-                        string s = GetXmlDocumentation(symbol.ContainingAssembly)?
-                            .GetElement(info.CommentId, "summary")?
-                            .Value;
-
-                        if (s != null)
-                        {
-                            s = s.Trim();
-                            s = _newLineWithWhitespaceRegex.Replace(s, " ");
-                        }
-
-                        writer.WriteString(s);
-                        writer.WriteEndTableCell();
-                        writer.WriteEndTableRow();
-                    }
-                    while (en.MoveNext());
-
-                    writer.WriteEndTable();
-                }
-            }
-        }
-
-        private void WriteNamespaceContent(
-            MarkdownWriter writer,
-            IEnumerable<ITypeSymbol> typeSymbols,
-            int headingLevel,
-            SymbolDocumentationInfo directoryInfo)
-        {
-            foreach (IGrouping<TypeKind, ITypeSymbol> grouping in typeSymbols
-                .OrderBy(f => f.ToDisplayString(FormatProvider.TypeFormat))
-                .GroupBy(f => f.TypeKind)
-                .OrderBy(f => f.Key, TypeKindComparer.Instance))
-            {
-                TypeKind typeKind = grouping.Key;
-
-                switch (typeKind)
-                {
-                    case TypeKind.Class:
-                        {
-                            WriteTable(writer, grouping, "Classes", headingLevel, "Class", "Summary", FormatProvider.TypeFormat, directoryInfo);
-                            break;
-                        }
-                    case TypeKind.Struct:
-                        {
-                            WriteTable(writer, grouping, "Structs", headingLevel, "Struct", "Summary", FormatProvider.TypeFormat, directoryInfo);
-                            break;
-                        }
-                    case TypeKind.Interface:
-                        {
-                            WriteTable(writer, grouping, "Interfaces", headingLevel, "Interface", "Summary", FormatProvider.TypeFormat, directoryInfo);
-                            break;
-                        }
-                    case TypeKind.Enum:
-                        {
-                            WriteTable(writer, grouping, "Enums", headingLevel, "Enum", "Summary", FormatProvider.TypeFormat, directoryInfo);
-                            break;
-                        }
-                    case TypeKind.Delegate:
-                        {
-                            WriteTable(writer, grouping, "Delegates", headingLevel, "Delegate", "Summary", FormatProvider.TypeFormat, directoryInfo);
-                            break;
-                        }
-                    default:
-                        {
-                            Debug.Fail(typeKind.ToString());
-                            break;
-                        }
-                }
-            }
         }
     }
 }

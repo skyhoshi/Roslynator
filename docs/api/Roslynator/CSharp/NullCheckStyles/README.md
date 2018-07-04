@@ -34,19 +34,3 @@ Specifies a null check\.
 | HasValueProperty | 48 | Expression that uses  property\. |
 | All | 63 | All null check styles\. |
 
-## Methods
-
-| Method | Summary |
-| ------ | ------- |
-| [CompareTo(Object)](https://docs.microsoft.com/en-us/dotnet/api/system.enum.compareto) | |
-| [Equals(Object)](https://docs.microsoft.com/en-us/dotnet/api/system.enum.equals) | |
-| [GetHashCode()](https://docs.microsoft.com/en-us/dotnet/api/system.enum.gethashcode) | |
-| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
-| [GetTypeCode()](https://docs.microsoft.com/en-us/dotnet/api/system.enum.gettypecode) | |
-| [HasFlag(Enum)](https://docs.microsoft.com/en-us/dotnet/api/system.enum.hasflag) | |
-| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
-| [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.enum.tostring) | |
-| [ToString(IFormatProvider)](https://docs.microsoft.com/en-us/dotnet/api/system.enum.tostring) | |
-| [ToString(String)](https://docs.microsoft.com/en-us/dotnet/api/system.enum.tostring) | |
-| [ToString(String, IFormatProvider)](https://docs.microsoft.com/en-us/dotnet/api/system.enum.tostring) | |
-

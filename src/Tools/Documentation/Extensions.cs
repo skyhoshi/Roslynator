@@ -88,5 +88,12 @@ namespace Roslynator.Documentation
 
             writer.WriteLinkOrText(symbolInfo.Symbol.ToDisplayString(format), url);
         }
+
+        public static void WriteTableCell(this MarkdownWriter writer, string text)
+        {
+            writer.WriteStartTableCell();
+            writer.WriteString(text);
+            writer.WriteEndTableCell();
+        }
     }
 }

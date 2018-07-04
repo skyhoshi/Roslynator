@@ -200,14 +200,17 @@ namespace Roslynator.Documentation
         {
             if (IsExternal)
             {
-                switch (Names.LastOrDefault())
+                if (Symbols.LastOrDefault()?.Kind == SymbolKind.Namespace)
                 {
-                    case "System":
-                    case "Microsoft":
-                        return "https://docs.microsoft.com/en-us/dotnet/api/" + string.Join(".", Names.Select(f => f.ToLowerInvariant()).Reverse());
-                    default:
-                        return null;
+                    switch (Names.Last())
+                    {
+                        case "System":
+                        case "Microsoft":
+                            return "https://docs.microsoft.com/en-us/dotnet/api/" + string.Join(".", Names.Select(f => f.ToLowerInvariant()).Reverse());
+                    }
                 }
+
+                return null;
             }
 
             if (directoryInfo == null)

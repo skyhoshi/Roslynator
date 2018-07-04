@@ -50,12 +50,12 @@ Provides information about modifier list\.
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
 | [GetKinds()](GetKinds/README.md) | Gets the modifier kinds\. |
-| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
-| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
 | [ToString()](ToString/README.md) | Returns the string representation of the underlying syntax, not including its leading and trailing trivia\. |
-| [WithExplicitAccessibility(Accessibility, IComparer\<SyntaxKind>)](WithExplicitAccessibility/README.md) | Creates a new  with accessibility modifiers updated\. |
-| [WithModifiers(SyntaxTokenList)](WithModifiers/README.md) | Creates a new  with the specified modifiers updated\. |
-| [WithoutExplicitAccessibility()](WithoutExplicitAccessibility/README.md) | Creates a new  with accessibility modifiers removed\. |
+| [WithExplicitAccessibility(Accessibility, IComparer\<SyntaxKind>)](WithExplicitAccessibility/README.md) | Creates a new [ModifierListInfo](./README.md) with accessibility modifiers updated\. |
+| [WithModifiers(SyntaxTokenList)](WithModifiers/README.md) | Creates a new [ModifierListInfo](./README.md) with the specified modifiers updated\. |
+| [WithoutExplicitAccessibility()](WithoutExplicitAccessibility/README.md) | Creates a new [ModifierListInfo](./README.md) with accessibility modifiers removed\. |
 
 ## Operators
 

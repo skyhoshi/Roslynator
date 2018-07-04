@@ -14,7 +14,7 @@ Assembly: Roslynator\.CSharp\.dll
 | [CanHaveExpressionBody(SyntaxKind)](CanHaveExpressionBody/README.md) | Returns true if a syntax of the specified kind can have expression body\. |
 | [CanHaveMembers(SyntaxKind)](CanHaveMembers/README.md) | Returns true if a syntax of the specified kind can have members\. |
 | [CanHaveModifiers(SyntaxKind)](CanHaveModifiers/README.md) | Returns true if a syntax of the specified kind can have modifiers\. |
-| [CanHaveStatements(SyntaxKind)](CanHaveStatements/README.md) | Returns true if a syntax of the specified kind can have statements\. It can be either  or \. |
+| [CanHaveStatements(SyntaxKind)](CanHaveStatements/README.md) | Returns true if a syntax of the specified kind can have statements\. It can be either [BlockSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.blocksyntax) or [SwitchSectionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.switchsectionsyntax)\. |
 | [IsAnonymousFunctionExpression(SyntaxKind)](IsAnonymousFunctionExpression/README.md) | Returns true if a syntax of the specified kind is an anonymous method or lambda expression\. |
 | [IsBooleanExpression(SyntaxKind)](IsBooleanExpression/README.md) | Returns true if a syntax of the specified kind is a boolean expression\. |
 | [IsBooleanLiteralExpression(SyntaxKind)](IsBooleanLiteralExpression/README.md) | Returns true if a syntax of the specified kind is true or false literal expression\. |

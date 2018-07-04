@@ -33,7 +33,7 @@ Represents selected nodes in a [SyntaxListSelection\<TNode>](./README.md)\.
 
 | Constructor | Summary |
 | ----------- | ------- |
-| [SyntaxListSelection(SyntaxList\<TNode>, TextSpan, Int32, Int32)](-ctor/README.md) | Initializes a new instance of the \. |
+| [SyntaxListSelection(SyntaxList\<TNode>, TextSpan, Int32, Int32)](-ctor/README.md) | Initializes a new instance of the [SyntaxListSelection\<TNode>](./README.md)\. |
 
 ## Properties
 
@@ -46,15 +46,15 @@ Represents selected nodes in a [SyntaxListSelection\<TNode>](./README.md)\.
 
 | Method | Summary |
 | ------ | ------- |
-| [Create(SyntaxList\<TNode>, TextSpan)](Create/README.md) | Creates a new  based on the specified list and span\. |
-| [Equals(Object)](https://docs.microsoft.com/en-us/dotnet/api/system.object.equals) | |
-| [First()](../Selection-1/First/README.md) | |
+| [Create(SyntaxList\<TNode>, TextSpan)](Create/README.md) | Creates a new [SyntaxListSelection\<TNode>](./README.md) based on the specified list and span\. |
+| [Equals(Object)](https://docs.microsoft.com/en-us/dotnet/api/system.object.equals) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
+| [First()](../Selection-1/First/README.md) |  \(Inherited from [Selection\<TNode>](../Selection-1/README.md)\) |
 | [GetEnumerator()](GetEnumerator/README.md) | Returns an enumerator that iterates through selected items\. |
 | [GetEnumeratorCore()](GetEnumeratorCore/README.md) | |
-| [GetHashCode()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gethashcode) | |
-| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
-| [Last()](../Selection-1/Last/README.md) | |
-| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
-| [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.object.tostring) | |
-| [TryCreate(SyntaxList\<TNode>, TextSpan, SyntaxListSelection\<TNode>)](TryCreate/README.md) | Creates a new  based on the specified list and span\. |
+| [GetHashCode()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gethashcode) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
+| [Last()](../Selection-1/Last/README.md) |  \(Inherited from [Selection\<TNode>](../Selection-1/README.md)\) |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
+| [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.object.tostring) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
+| [TryCreate(SyntaxList\<TNode>, TextSpan, SyntaxListSelection\<TNode>)](TryCreate/README.md) | Creates a new [SyntaxListSelection\<TNode>](./README.md) based on the specified list and span\. |
 

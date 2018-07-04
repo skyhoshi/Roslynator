@@ -36,7 +36,7 @@ Represents consecutive sequence of selected items in a collection\.
 
 | Constructor | Summary |
 | ----------- | ------- |
-| [Selection(TextSpan, Int32, Int32)](-ctor/README.md) | Initializes a new instance of the \. |
+| [Selection(TextSpan, Int32, Int32)](-ctor/README.md) | Initializes a new instance of the [Selection\<T>](./README.md)\. |
 
 ## Properties
 
@@ -53,14 +53,14 @@ Represents consecutive sequence of selected items in a collection\.
 
 | Method | Summary |
 | ------ | ------- |
-| [Equals(Object)](https://docs.microsoft.com/en-us/dotnet/api/system.object.equals) | |
+| [Equals(Object)](https://docs.microsoft.com/en-us/dotnet/api/system.object.equals) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
 | [First()](First/README.md) | Gets the first selected item\. |
 | [GetEnumeratorCore()](GetEnumeratorCore/README.md) | |
-| [GetHashCode()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gethashcode) | |
-| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
+| [GetHashCode()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gethashcode) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
 | [Last()](Last/README.md) | Gets the last selected item\. |
-| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
-| [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.object.tostring) | |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
+| [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.object.tostring) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
 
 ## Explicit Interface Implementations
 

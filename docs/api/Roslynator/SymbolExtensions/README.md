@@ -47,18 +47,18 @@ A set of extension methods for [ISymbol](https://docs.microsoft.com/en-us/dotnet
 | [InheritsFrom(ITypeSymbol, ITypeSymbol, Boolean)](InheritsFrom/README.md) | Returns true if the type inherits from a specified base type\. |
 | [IsAsyncMethod(ISymbol)](IsAsyncMethod/README.md) | Returns true if the symbol is an async method\. |
 | [IsErrorType(ISymbol)](IsErrorType/README.md) | Returns true if the symbol represents an error\. |
-| [IsIEnumerableOfT(ITypeSymbol)](IsIEnumerableOfT/README.md) | Returns true if the type is \. |
-| [IsIEnumerableOrIEnumerableOfT(ITypeSymbol)](IsIEnumerableOrIEnumerableOfT/README.md) | Returns true if the type is  or \. |
+| [IsIEnumerableOfT(ITypeSymbol)](IsIEnumerableOfT/README.md) | Returns true if the type is [IEnumerable\<T>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)\. |
+| [IsIEnumerableOrIEnumerableOfT(ITypeSymbol)](IsIEnumerableOrIEnumerableOfT/README.md) | Returns true if the type is [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.ienumerable) or [IEnumerable\<T>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)\. |
 | [IsKind(ISymbol, SymbolKind, SymbolKind)](IsKind/README.md) | Returns true if the symbol is one of the specified kinds\. |
 | [IsKind(ISymbol, SymbolKind, SymbolKind, SymbolKind)](IsKind/README.md) | Returns true if the symbol is one of the specified kinds\. |
 | [IsKind(ISymbol, SymbolKind, SymbolKind, SymbolKind, SymbolKind)](IsKind/README.md) | Returns true if the symbol is one of the specified kinds\. |
 | [IsKind(ISymbol, SymbolKind, SymbolKind, SymbolKind, SymbolKind, SymbolKind)](IsKind/README.md) | Returns true if the symbol is one of the specified kinds\. |
-| [IsNullableOf(INamedTypeSymbol, ITypeSymbol)](IsNullableOf/README.md) | Returns true if the type is  and it has specified type argument\. |
-| [IsNullableOf(INamedTypeSymbol, SpecialType)](IsNullableOf/README.md) | Returns true if the type is  and it has specified type argument\. |
-| [IsNullableOf(ITypeSymbol, ITypeSymbol)](IsNullableOf/README.md) | Returns true if the type is  and it has specified type argument\. |
-| [IsNullableOf(ITypeSymbol, SpecialType)](IsNullableOf/README.md) | Returns true if the type is  and it has specified type argument\. |
+| [IsNullableOf(INamedTypeSymbol, ITypeSymbol)](IsNullableOf/README.md) | Returns true if the type is [Nullable\<T>](https://docs.microsoft.com/en-us/dotnet/api/system.nullable-1) and it has specified type argument\. |
+| [IsNullableOf(INamedTypeSymbol, SpecialType)](IsNullableOf/README.md) | Returns true if the type is [Nullable\<T>](https://docs.microsoft.com/en-us/dotnet/api/system.nullable-1) and it has specified type argument\. |
+| [IsNullableOf(ITypeSymbol, ITypeSymbol)](IsNullableOf/README.md) | Returns true if the type is [Nullable\<T>](https://docs.microsoft.com/en-us/dotnet/api/system.nullable-1) and it has specified type argument\. |
+| [IsNullableOf(ITypeSymbol, SpecialType)](IsNullableOf/README.md) | Returns true if the type is [Nullable\<T>](https://docs.microsoft.com/en-us/dotnet/api/system.nullable-1) and it has specified type argument\. |
 | [IsNullableType(ITypeSymbol)](IsNullableType/README.md) | Returns true if the type is a nullable type\. |
-| [IsObject(ITypeSymbol)](IsObject/README.md) | Returns true if the type is \. |
+| [IsObject(ITypeSymbol)](IsObject/README.md) | Returns true if the type is [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\. |
 | [IsOrdinaryExtensionMethod(IMethodSymbol)](IsOrdinaryExtensionMethod/README.md) | Returns true if this method is an ordinary extension method \(i\.e\. "this" parameter has not been removed\)\. |
 | [IsParameterArrayOf(IParameterSymbol, SpecialType)](IsParameterArrayOf/README.md) | Returns true if the parameter was declared as a parameter array that has a specified element type\. |
 | [IsParameterArrayOf(IParameterSymbol, SpecialType, SpecialType)](IsParameterArrayOf/README.md) | Returns true if the parameter was declared as a parameter array that has one of specified element types\. |
@@ -67,8 +67,8 @@ A set of extension methods for [ISymbol](https://docs.microsoft.com/en-us/dotnet
 | [IsReducedExtensionMethod(IMethodSymbol)](IsReducedExtensionMethod/README.md) | Returns true if this method is a reduced extension method\. |
 | [IsReferenceTypeOrNullableType(ITypeSymbol)](IsReferenceTypeOrNullableType/README.md) | Returns true if the type is a reference type or a nullable type\. |
 | [IsRefOrOut(IParameterSymbol)](IsRefOrOut/README.md) | Returns true if the parameter was declared as "ref" or "out" parameter\. |
-| [IsString(ITypeSymbol)](IsString/README.md) | Returns true if the type is \. |
-| [IsVoid(ITypeSymbol)](IsVoid/README.md) | Returns true if the type is \. |
+| [IsString(ITypeSymbol)](IsString/README.md) | Returns true if the type is [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)\. |
+| [IsVoid(ITypeSymbol)](IsVoid/README.md) | Returns true if the type is [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)\. |
 | [ReducedFromOrSelf(IMethodSymbol)](ReducedFromOrSelf/README.md) | If this method is a reduced extension method, returns the definition of extension method from which this was reduced\. Otherwise, returns this symbol\. |
 | [SupportsExplicitDeclaration(ITypeSymbol)](SupportsExplicitDeclaration/README.md) | Returns true if the type can be declared explicitly in a source code\. |
 

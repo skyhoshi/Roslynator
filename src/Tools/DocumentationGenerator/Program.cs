@@ -19,7 +19,6 @@ namespace Roslynator.Documentation
         private static void Main(string[] args)
         {
             GenerateDocumentation(@"..\..\..\..\..\..\docs\api\", "Roslynator API", "Roslynator.CSharp.dll");
-
             GenerateDocumentation(@"..\..\..\..\..\..\docs\apitest\", "Foo API", "Roslynator.Documentation.DocTest.dll");
 
             //Console.WriteLine("OK");

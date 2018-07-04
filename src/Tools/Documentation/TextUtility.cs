@@ -1,10 +1,13 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Text.RegularExpressions;
 
 namespace Roslynator.Documentation
 {
     internal static class TextUtility
     {
+        private static readonly Regex _newLineAndSpacesRegex = new Regex(@"\r?\n[\s-[\r\n]]*");
+
         public static string RemoveLeadingTrailingNewLine(
             string s,
             bool leadingNewLine = true,
@@ -44,6 +47,11 @@ namespace Roslynator.Documentation
             }
 
             return s.Substring(startIndex, length - startIndex);
+        }
+
+        public static string ToSingleLine(string s, string replacement = " ")
+        {
+            return _newLineAndSpacesRegex.Replace(s, replacement);
         }
     }
 }

@@ -6,17 +6,17 @@
 
 | Class | Summary |
 | ----- | ------- |
-| [DiagnosticsExtensions](Roslynator/DiagnosticsExtensions/README.md) | A set of extension methods for ,  and \. |
+| [DiagnosticsExtensions](Roslynator/DiagnosticsExtensions/README.md) | A set of extension methods for [SymbolAnalysisContext](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.diagnostics.symbolanalysiscontext), [SyntaxNodeAnalysisContext](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.diagnostics.syntaxnodeanalysiscontext) and [SyntaxTreeAnalysisContext](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.diagnostics.syntaxtreeanalysiscontext)\. |
 | [EnumExtensions](Roslynator/EnumExtensions/README.md) | A set of extension methods for enumerations\. |
-| [FileLinePositionSpanExtensions](Roslynator/FileLinePositionSpanExtensions/README.md) | A set of extension methods for \. |
+| [FileLinePositionSpanExtensions](Roslynator/FileLinePositionSpanExtensions/README.md) | A set of extension methods for [FileLinePositionSpan](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.filelinepositionspan)\. |
 | [NameGenerator](Roslynator/NameGenerator/README.md) | Provides methods to obtain an unique identifier\. |
 | [Selection\<T>](Roslynator/Selection-1/README.md) | Represents consecutive sequence of selected items in a collection\. |
-| [SemanticModelExtensions](Roslynator/SemanticModelExtensions/README.md) | A set of extension methods for a \. |
-| [SeparatedSyntaxListSelection\<TNode>](Roslynator/SeparatedSyntaxListSelection-1/README.md) | Represents selected nodes in a \. |
-| [SymbolExtensions](Roslynator/SymbolExtensions/README.md) | A set of extension methods for  and its derived types\. |
+| [SemanticModelExtensions](Roslynator/SemanticModelExtensions/README.md) | A set of extension methods for a [SemanticModel](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.semanticmodel)\. |
+| [SeparatedSyntaxListSelection\<TNode>](Roslynator/SeparatedSyntaxListSelection-1/README.md) | Represents selected nodes in a [SeparatedSyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.separatedsyntaxlist-1)\. |
+| [SymbolExtensions](Roslynator/SymbolExtensions/README.md) | A set of extension methods for [ISymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.isymbol) and its derived types\. |
 | [SyntaxExtensions](Roslynator/SyntaxExtensions/README.md) | A set of extension method for a syntax\. |
-| [SyntaxListSelection\<TNode>](Roslynator/SyntaxListSelection-1/README.md) | Represents selected nodes in a \. |
-| [SyntaxTreeExtensions](Roslynator/SyntaxTreeExtensions/README.md) | A set of extension methods for \. |
+| [SyntaxListSelection\<TNode>](Roslynator/SyntaxListSelection-1/README.md) | Represents selected nodes in a [SyntaxListSelection\<TNode>](Roslynator/SyntaxListSelection-1/README.md)\. |
+| [SyntaxTreeExtensions](Roslynator/SyntaxTreeExtensions/README.md) | A set of extension methods for [SyntaxTree](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtree)\. |
 
 ### Structs
 
@@ -32,18 +32,18 @@
 
 | Class | Summary |
 | ----- | ------- |
-| [CSharpExtensions](Roslynator/CSharp/CSharpExtensions/README.md) | A set of extension methods for a \. |
-| [CSharpFactory](Roslynator/CSharp/CSharpFactory/README.md) | A factory for syntax nodes, tokens and trivia\. This class is built on top of  members\. |
+| [CSharpExtensions](Roslynator/CSharp/CSharpExtensions/README.md) | A set of extension methods for a [SemanticModel](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.semanticmodel)\. |
+| [CSharpFactory](Roslynator/CSharp/CSharpFactory/README.md) | A factory for syntax nodes, tokens and trivia\. This class is built on top of [SyntaxFactory](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntaxfactory) members\. |
 | [CSharpFacts](Roslynator/CSharp/CSharpFacts/README.md) | |
 | [EnumExtensions](Roslynator/CSharp/EnumExtensions/README.md) | A set of extension methods for enumerations\. |
-| [MemberDeclarationListSelection](Roslynator/CSharp/MemberDeclarationListSelection/README.md) | Represents selected member declarations in a \. |
+| [MemberDeclarationListSelection](Roslynator/CSharp/MemberDeclarationListSelection/README.md) | Represents selected member declarations in a [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)\. |
 | [ModifierList](Roslynator/CSharp/ModifierList/README.md) | A set of static methods that allows manipulation with modifiers\. |
 | [ModifierList\<TNode>](Roslynator/CSharp/ModifierList-1/README.md) | Represents a list of modifiers\. |
 | [Modifiers](Roslynator/CSharp/Modifiers/README.md) | Serves as a factory for a modifier list\. |
-| [StatementListSelection](Roslynator/CSharp/StatementListSelection/README.md) | Represents selected statements in a \. |
-| [SymbolExtensions](Roslynator/CSharp/SymbolExtensions/README.md) | A set of static methods for  and derived types\. |
+| [StatementListSelection](Roslynator/CSharp/StatementListSelection/README.md) | Represents selected statements in a [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)\. |
+| [SymbolExtensions](Roslynator/CSharp/SymbolExtensions/README.md) | A set of static methods for [ISymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.isymbol) and derived types\. |
 | [SyntaxAccessibility](Roslynator/CSharp/SyntaxAccessibility/README.md) | A set of static methods that are related to C\# accessibility\. |
-| [SyntaxExtensions](Roslynator/CSharp/SyntaxExtensions/README.md) | A set of extension methods for syntax \(types derived from \)\. |
+| [SyntaxExtensions](Roslynator/CSharp/SyntaxExtensions/README.md) | A set of extension methods for syntax \(types derived from [CSharpSyntaxNode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.csharpsyntaxnode)\)\. |
 | [SyntaxInfo](Roslynator/CSharp/SyntaxInfo/README.md) | Serves as a factory for types in Roslynator\.CSharp\.Syntax namespace\. |
 
 ### Structs
@@ -52,11 +52,11 @@
 | ------ | ------- |
 | [ExpressionChain](Roslynator/CSharp/ExpressionChain/README.md) | Enables to enumerate expressions of a binary expression and expressions of nested binary expressions of the same kind as parent binary expression\. |
 | [ExpressionChain.Enumerator](Roslynator/CSharp/ExpressionChain/Enumerator/README.md) | |
-| [ExpressionChain.Reversed](Roslynator/CSharp/ExpressionChain/Reversed/README.md) | Enables to enumerate expressions of  in a reversed order\. |
+| [ExpressionChain.Reversed](Roslynator/CSharp/ExpressionChain/Reversed/README.md) | Enables to enumerate expressions of [ExpressionChain](Roslynator/CSharp/ExpressionChain/README.md) in a reversed order\. |
 | [ExpressionChain.Reversed.Enumerator](Roslynator/CSharp/ExpressionChain/Reversed/Enumerator/README.md) | |
 | [IfStatementCascade](Roslynator/CSharp/IfStatementCascade/README.md) | Enables to enumerate if statement cascade\. |
 | [IfStatementCascade.Enumerator](Roslynator/CSharp/IfStatementCascade/Enumerator/README.md) | |
-| [IfStatementOrElseClause](Roslynator/CSharp/IfStatementOrElseClause/README.md) | A wrapper for either an  or an \. |
+| [IfStatementOrElseClause](Roslynator/CSharp/IfStatementOrElseClause/README.md) | A wrapper for either an [IfStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.ifstatementsyntax) or an [ElseClauseSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.elseclausesyntax)\. |
 
 ### Enums
 
@@ -96,7 +96,7 @@
 | [StringConcatenationExpressionInfo](Roslynator/CSharp/Syntax/StringConcatenationExpressionInfo/README.md) | Provides information about string concatenation, i\.e\. a binary expression that binds to string '\+' operator\. |
 | [StringLiteralExpressionInfo](Roslynator/CSharp/Syntax/StringLiteralExpressionInfo/README.md) | Provides information about string literal expression\. |
 | [UsingDirectiveListInfo](Roslynator/CSharp/Syntax/UsingDirectiveListInfo/README.md) | Provides information about a list of using directives\. |
-| [XmlElementInfo](Roslynator/CSharp/Syntax/XmlElementInfo/README.md) | Provides information about a  or \. |
+| [XmlElementInfo](Roslynator/CSharp/Syntax/XmlElementInfo/README.md) | Provides information about a [XmlElementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.xmlelementsyntax) or [XmlEmptyElementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.xmlemptyelementsyntax)\. |
 
 ## [Roslynator.Text](Roslynator/Text/README.md) Namespace
 
@@ -104,7 +104,7 @@
 
 | Class | Summary |
 | ----- | ------- |
-| [TextLineCollectionSelection](Roslynator/Text/TextLineCollectionSelection/README.md) | Represents selected lines in a \. |
+| [TextLineCollectionSelection](Roslynator/Text/TextLineCollectionSelection/README.md) | Represents selected lines in a [TextLineCollection](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textlinecollection)\. |
 
 ### Structs
 

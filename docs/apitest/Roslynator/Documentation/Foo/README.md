@@ -24,15 +24,29 @@ a → > b [Foo](./README.md)
 
 bla `null`
 
-```
+```csharp
 string s = null;
 ```
 
 
 bla2
 
+
+paratext
+
+
 * This is the first bullet
 * This is the second bullet
+
+| h1  | h2  |
+| --- | --- |
+| [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32) | int |
+| [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)2 | int2 |
+
+
+| h1  | h2  | h3  |
+| --- | --- | --- |
+| [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)1 | [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)2 | [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)3 |
 
 ## Constructors
 
@@ -45,13 +59,13 @@ bla2
 | Method | Summary |
 | ------ | ------- |
 | [Bar()](Bar/README.md) | abc |
-| [Bar\<T>(String, String)](Bar-1/README.md) | s |
-| [Bar2()](Bar2/README.md) | 1 2 |
-| [Equals(Object)](https://docs.microsoft.com/en-us/dotnet/api/system.object.equals) | |
-| [GetHashCode()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gethashcode) | |
-| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
-| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
-| [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.object.tostring) | |
+| [Bar\<T>(String, String)](Bar-1/README.md) | s **value** **T** |
+| [Bar2()](Bar2/README.md) |     1 2 |
+| [Equals(Object)](https://docs.microsoft.com/en-us/dotnet/api/system.object.equals) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
+| [GetHashCode()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gethashcode) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
+| [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.object.tostring) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
 
 ## See Also
 

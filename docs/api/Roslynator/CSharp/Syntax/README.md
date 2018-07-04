@@ -27,5 +27,5 @@
 | [StringConcatenationExpressionInfo](StringConcatenationExpressionInfo/README.md) | Provides information about string concatenation, i\.e\. a binary expression that binds to string '\+' operator\. |
 | [StringLiteralExpressionInfo](StringLiteralExpressionInfo/README.md) | Provides information about string literal expression\. |
 | [UsingDirectiveListInfo](UsingDirectiveListInfo/README.md) | Provides information about a list of using directives\. |
-| [XmlElementInfo](XmlElementInfo/README.md) | Provides information about a  or \. |
+| [XmlElementInfo](XmlElementInfo/README.md) | Provides information about a [XmlElementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.xmlelementsyntax) or [XmlEmptyElementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.xmlemptyelementsyntax)\. |
 

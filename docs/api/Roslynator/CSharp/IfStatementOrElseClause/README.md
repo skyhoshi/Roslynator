@@ -21,24 +21,24 @@ A wrapper for either an [IfStatementSyntax](https://docs.microsoft.com/en-us/dot
 | Property | Summary |
 | -------- | ------- |
 | [FullSpan](FullSpan/README.md) | The absolute span of this node in characters, including its leading and trailing trivia\. |
-| [IsElse](IsElse/README.md) | Determines whether this  is wrapping an else clause\. |
-| [IsIf](IsIf/README.md) | Determines whether this  is wrapping an if statement\. |
+| [IsElse](IsElse/README.md) | Determines whether this [IfStatementOrElseClause](./README.md) is wrapping an else clause\. |
+| [IsIf](IsIf/README.md) | Determines whether this [IfStatementOrElseClause](./README.md) is wrapping an if statement\. |
 | [Kind](Kind/README.md) | Gets an underlying node kind\. |
-| [Parent](Parent/README.md) | The node that contains the underlying node in its  collection\. |
+| [Parent](Parent/README.md) | The node that contains the underlying node in its [ChildNodes](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxnode.childnodes) collection\. |
 | [Span](Span/README.md) | The absolute span of this node in characters, not including its leading and trailing trivia\. |
-| [Statement](Statement/README.md) | Gets  or \. |
+| [Statement](Statement/README.md) | Gets [Statement](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.ifstatementsyntax.statement) or [Statement](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.elseclausesyntax.statement)\. |
 
 ## Methods
 
 | Method | Summary |
 | ------ | ------- |
-| [AsElse()](AsElse/README.md) | Returns the underlying else clause if this  is wrapping else clause\. |
-| [AsIf()](AsIf/README.md) | Returns the underlying if statement if this  is wrapping if statement\. |
+| [AsElse()](AsElse/README.md) | Returns the underlying else clause if this [ElseClauseSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.elseclausesyntax) is wrapping else clause\. |
+| [AsIf()](AsIf/README.md) | Returns the underlying if statement if this [IfStatementOrElseClause](./README.md) is wrapping if statement\. |
 | [Equals(IfStatementOrElseClause)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
-| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) | |
-| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) | |
+| [GetType()](https://docs.microsoft.com/en-us/dotnet/api/system.object.gettype) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
+| [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
 | [ToString()](ToString/README.md) | Returns the string representation of the underlying node, not including its leading and trailing trivia\. |
 
 ## Operators
