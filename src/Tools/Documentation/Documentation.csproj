@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.8.0" />
-    <PackageReference Include="DotMarkdown" Version="0.1.0-rc" />
+    <PackageReference Include="DotMarkdown" Version="0.1.0-rc2" />
   </ItemGroup>
 
   <ItemGroup>

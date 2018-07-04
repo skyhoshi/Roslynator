@@ -18,8 +18,8 @@ Specifies C\# modifier\.
 
 ## Fields
 
-| Name| Value| Summary|
-| --- | --- | --- |
+| Name | Value | Summary |
+| ---- | ----- | ------- |
 | None | 0 | None modifier\. |
 | New | 1 | A "new" modifier\. |
 | Public | 2 | A "public" modifier\. |

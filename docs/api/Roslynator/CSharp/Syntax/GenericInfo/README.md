@@ -18,8 +18,8 @@ Provides information about generic syntax \(class, struct, interface, delegate, 
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [ConstraintClauses](ConstraintClauses/README.md) | A list of constraint clauses\. |
 | [Kind](Kind/README.md) | The kind of this syntax node\. |
 | [Node](Node/README.md) | The syntax node that can be generic \(for example  for a class or  for a local function\)\. |
@@ -29,8 +29,8 @@ Provides information about generic syntax \(class, struct, interface, delegate, 
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(GenericInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [FindConstraintClause(String)](FindConstraintClause/README.md) | Searches for a constraint clause with the specified type parameter name and returns the first occurrence within the constraint clauses\. |
@@ -45,8 +45,8 @@ Provides information about generic syntax \(class, struct, interface, delegate, 
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(GenericInfo, GenericInfo)](op_Inequality/README.md) | |
 | [operator ==(GenericInfo, GenericInfo)](op_Equality/README.md) | |
 

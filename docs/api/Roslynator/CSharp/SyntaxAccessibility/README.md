@@ -10,8 +10,8 @@ A set of static methods that are related to C\# accessibility\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [GetAccessibility(AccessorDeclarationSyntax)](GetAccessibility/README.md) | Returns an accessibility of the specified declaration\. |
 | [GetAccessibility(ClassDeclarationSyntax)](GetAccessibility/README.md) | Returns an accessibility of the specified declaration\. |
 | [GetAccessibility(ConstructorDeclarationSyntax)](GetAccessibility/README.md) | Returns an accessibility of the specified declaration\. |

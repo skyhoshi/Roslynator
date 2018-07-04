@@ -18,8 +18,8 @@ Specifies a null check\.
 
 ## Fields
 
-| Name| Value| Summary|
-| --- | --- | --- |
+| Name | Value | Summary |
+| ---- | ----- | ------- |
 | None | 0 | No null check specified\. |
 | EqualsToNull | 1 | x == null |
 | NotEqualsToNull | 2 | x \!= null |

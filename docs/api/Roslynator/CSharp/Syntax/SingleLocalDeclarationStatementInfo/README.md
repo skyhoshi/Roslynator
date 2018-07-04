@@ -18,8 +18,8 @@ Provides information about a local declaration statement with a single variable\
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Declaration](Declaration/README.md) | The variable declaration\. |
 | [Declarator](Declarator/README.md) | The variable declarator\. |
 | [EqualsToken](EqualsToken/README.md) | The equals token\. |
@@ -35,8 +35,8 @@ Provides information about a local declaration statement with a single variable\
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [Equals(SingleLocalDeclarationStatementInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
@@ -44,8 +44,8 @@ Provides information about a local declaration statement with a single variable\
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(SingleLocalDeclarationStatementInfo, SingleLocalDeclarationStatementInfo)](op_Inequality/README.md) | |
 | [operator ==(SingleLocalDeclarationStatementInfo, SingleLocalDeclarationStatementInfo)](op_Equality/README.md) | |
 

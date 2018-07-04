@@ -10,8 +10,8 @@ Represents consecutive sequence of selected items in a collection\.
 
 #### Type Parameters
 
-| Type Parameter| Summary|
-| --- | --- |
+| Type Parameter | Summary |
+| -------------- | ------- |
 | T | |
 
 #### Inheritance
@@ -34,14 +34,14 @@ Represents consecutive sequence of selected items in a collection\.
 
 ## Constructors
 
-| Constructor| Summary|
-| --- | --- |
+| Constructor | Summary |
+| ----------- | ------- |
 | [Selection(TextSpan, Int32, Int32)](-ctor/README.md) | Initializes a new instance of the \. |
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Count](Count/README.md) | Gets a number of selected items\. |
 | [FirstIndex](FirstIndex/README.md) | Gets an index of the first selected item\. |
 | [Items](Items/README.md) | Gets an underlying list that contains selected items\. |
@@ -51,8 +51,8 @@ Represents consecutive sequence of selected items in a collection\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [First()](First/README.md) | Gets the first selected item\. |
 | [GetEnumeratorCore()](GetEnumeratorCore/README.md) | |
 | [Last()](Last/README.md) | Gets the last selected item\. |

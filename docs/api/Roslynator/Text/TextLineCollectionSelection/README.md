@@ -6,7 +6,7 @@ Assembly: Roslynator\.CSharp\.dll
 
 ## Summary
 
-Represents selected lines in a \.
+Represents selected lines in a [TextLineCollection](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textlinecollection)\.
 
 #### Inheritance
 
@@ -20,21 +20,21 @@ Represents selected lines in a \.
 
 ## Constructors
 
-| Constructor| Summary|
-| --- | --- |
+| Constructor | Summary |
+| ----------- | ------- |
 | [TextLineCollectionSelection(TextLineCollection, TextSpan, Int32, Int32)](-ctor/README.md) | |
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Items](Items/README.md) | Gets an underlying collection that contains selected lines\. |
 | [UnderlyingLines](UnderlyingLines/README.md) | Gets an underlying collection that contains selected lines\. |
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Create(TextLineCollection, TextSpan)](Create/README.md) | Creates a new  based on the specified list and span\. |
 | [GetEnumerator()](GetEnumerator/README.md) | Returns an enumerator that iterates through selected items\. |
 | [GetEnumeratorCore()](GetEnumeratorCore/README.md) | |

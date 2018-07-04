@@ -18,8 +18,8 @@ Specifies C\# preprocessor directives\.
 
 ## Fields
 
-| Name| Value| Summary|
-| --- | --- | --- |
+| Name | Value | Summary |
+| ---- | ----- | ------- |
 | None | 0 | No preprocessor directive\. |
 | If | 1 | \#if preprocessor directive\. |
 | Elif | 2 | \#elif preprocessor directive\. |

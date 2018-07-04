@@ -18,8 +18,8 @@ Provides information about "is" expression\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Expression](Expression/README.md) | The expression that is being casted\. |
 | [IsExpression](IsExpression/README.md) | The "is" expression\. |
 | [OperatorToken](OperatorToken/README.md) | The "is" operator token\. |
@@ -28,8 +28,8 @@ Provides information about "is" expression\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(IsExpressionInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
@@ -37,8 +37,8 @@ Provides information about "is" expression\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(IsExpressionInfo, IsExpressionInfo)](op_Inequality/README.md) | |
 | [operator ==(IsExpressionInfo, IsExpressionInfo)](op_Equality/README.md) | |
 

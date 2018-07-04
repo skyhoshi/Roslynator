@@ -7,7 +7,7 @@ Assembly: Roslynator\.CSharp\.dll
 ## Summary
 
 Provides information about a simple if\-else\.
-            Simple if\-else is defined as follows: it is not a child of an else clause and it has an else clause and the else clause does not continue with another if statement\.
+Simple if\-else is defined as follows: it is not a child of an else clause and it has an else clause and the else clause does not continue with another if statement\.
 
 #### Inheritance
 
@@ -19,8 +19,8 @@ Provides information about a simple if\-else\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Condition](Condition/README.md) | The condition\. |
 | [Else](Else/README.md) | The else clause\. |
 | [IfStatement](IfStatement/README.md) | The if statement\. |
@@ -30,8 +30,8 @@ Provides information about a simple if\-else\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [Equals(SimpleIfElseInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
@@ -39,8 +39,8 @@ Provides information about a simple if\-else\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(SimpleIfElseInfo, SimpleIfElseInfo)](op_Inequality/README.md) | |
 | [operator ==(SimpleIfElseInfo, SimpleIfElseInfo)](op_Equality/README.md) | |
 

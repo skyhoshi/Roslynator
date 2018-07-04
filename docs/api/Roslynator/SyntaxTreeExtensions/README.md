@@ -6,12 +6,12 @@ Assembly: Roslynator\.CSharp\.dll
 
 ## Summary
 
-A set of extension methods for \.
+A set of extension methods for [SyntaxTree](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtree)\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [GetEndLine(SyntaxTree, TextSpan, CancellationToken)](GetEndLine/README.md) | Returns zero\-based index of the end line of the specified span\. |
 | [GetStartLine(SyntaxTree, TextSpan, CancellationToken)](GetStartLine/README.md) | Returns zero\-based index of the start line of the specified span\. |
 | [IsMultiLineSpan(SyntaxTree, TextSpan, CancellationToken)](IsMultiLineSpan/README.md) | Returns true if the specified  spans over multiple lines\. |

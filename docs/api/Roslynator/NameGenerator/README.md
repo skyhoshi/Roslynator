@@ -14,20 +14,20 @@ Provides methods to obtain an unique identifier\.
 
 ## Constructors
 
-| Constructor| Summary|
-| --- | --- |
+| Constructor | Summary |
+| ----------- | ------- |
 | [NameGenerator()](-ctor/README.md) | |
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Default](Default/README.md) | Default implementation of  that adds number suffix to ensure uniqueness\. |
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [CreateName(ITypeSymbol, Boolean)](CreateName/README.md) | Creates a syntax identifier from the specified type symbol\. |
 | [EnsureUniqueLocalName(String, SemanticModel, Int32, Boolean, CancellationToken)](EnsureUniqueLocalName/README.md) | Return a local name that will be unique at the specified position\. |
 | [EnsureUniqueMemberName(String, INamedTypeSymbol, Boolean)](EnsureUniqueMemberName/README.md) | |

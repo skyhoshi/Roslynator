@@ -18,8 +18,8 @@ Provides information about simple assignment expression\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [AssignmentExpression](AssignmentExpression/README.md) | The simple assignment expression\. |
 | [Left](Left/README.md) | The expression on the left of the assignment operator\. |
 | [OperatorToken](OperatorToken/README.md) | The operator of the simple assignment expression\. |
@@ -28,8 +28,8 @@ Provides information about simple assignment expression\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [Equals(SimpleAssignmentExpressionInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
@@ -37,8 +37,8 @@ Provides information about simple assignment expression\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(SimpleAssignmentExpressionInfo, SimpleAssignmentExpressionInfo)](op_Inequality/README.md) | |
 | [operator ==(SimpleAssignmentExpressionInfo, SimpleAssignmentExpressionInfo)](op_Equality/README.md) | |
 

@@ -18,8 +18,8 @@ Provides information about a null check expression\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Expression](Expression/README.md) | The expression that is evaluated whether is \(not\) null\. for example "x" in "x == null"\. |
 | [IsCheckingNotNull](IsCheckingNotNull/README.md) | Determines whether this null check is checking if the expression is not null\. |
 | [IsCheckingNull](IsCheckingNull/README.md) | Determines whether this null check is checking if the expression is null\. |
@@ -29,8 +29,8 @@ Provides information about a null check expression\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(NullCheckExpressionInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
@@ -38,8 +38,8 @@ Provides information about a null check expression\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(NullCheckExpressionInfo, NullCheckExpressionInfo)](op_Inequality/README.md) | |
 | [operator ==(NullCheckExpressionInfo, NullCheckExpressionInfo)](op_Equality/README.md) | |
 

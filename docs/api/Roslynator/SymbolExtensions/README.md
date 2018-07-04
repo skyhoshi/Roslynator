@@ -6,12 +6,12 @@ Assembly: Roslynator\.CSharp\.dll
 
 ## Summary
 
-A set of extension methods for  and its derived types\.
+A set of extension methods for [ISymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.isymbol) and its derived types\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [BaseTypes(ITypeSymbol)](BaseTypes/README.md) | Gets a list of base types of this type\. |
 | [BaseTypesAndSelf(ITypeSymbol)](BaseTypesAndSelf/README.md) | Gets a list of base types of this type \(including this type\)\. |
 | [ContainsMember\<TSymbol>(ITypeSymbol, Func\<TSymbol, Boolean>)](ContainsMember-1/README.md) | Returns true if the type contains member that matches the conditions defined by the specified predicate, if any\. |

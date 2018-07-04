@@ -7,7 +7,7 @@ Assembly: Roslynator\.CSharp\.dll
 ## Summary
 
 Provides information about a simple if statement\.
-            Simple if statement is defined as follows: it is not a child of an else clause and it has no else clause\.
+Simple if statement is defined as follows: it is not a child of an else clause and it has no else clause\.
 
 #### Inheritance
 
@@ -19,8 +19,8 @@ Provides information about a simple if statement\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Condition](Condition/README.md) | The condition\. |
 | [IfStatement](IfStatement/README.md) | The if statement\. |
 | [Statement](Statement/README.md) | The statement\. |
@@ -28,8 +28,8 @@ Provides information about a simple if statement\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [Equals(SimpleIfStatementInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
@@ -37,8 +37,8 @@ Provides information about a simple if statement\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(SimpleIfStatementInfo, SimpleIfStatementInfo)](op_Inequality/README.md) | |
 | [operator ==(SimpleIfStatementInfo, SimpleIfStatementInfo)](op_Equality/README.md) | |
 

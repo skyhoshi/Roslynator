@@ -6,7 +6,7 @@ Assembly: Roslynator\.CSharp\.dll
 
 ## Summary
 
-Enables to enumerate expressions of  in a reversed order\.
+Enables to enumerate expressions of [ExpressionChain](../README.md) in a reversed order\.
 
 #### Inheritance
 
@@ -19,14 +19,14 @@ Enables to enumerate expressions of  in a reversed order\.
 
 ## Constructors
 
-| Constructor| Summary|
-| --- | --- |
+| Constructor | Summary |
+| ----------- | ------- |
 | [Reversed(ExpressionChain)](-ctor/README.md) | |
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(Object)](Equals/README.md) | |
 | [Equals(Reversed)](Equals/README.md) | |
 | [GetEnumerator()](GetEnumerator/README.md) | |
@@ -35,8 +35,8 @@ Enables to enumerate expressions of  in a reversed order\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(Reversed, Reversed)](op_Inequality/README.md) | |
 | [operator ==(Reversed, Reversed)](op_Equality/README.md) | |
 

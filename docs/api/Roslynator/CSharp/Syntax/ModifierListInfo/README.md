@@ -18,8 +18,8 @@ Provides information about modifier list\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [ExplicitAccessibility](ExplicitAccessibility/README.md) | The explicit accessibility\. |
 | [IsAbstract](IsAbstract/README.md) | True if the modifier list contains "abstract" modifier\. |
 | [IsAsync](IsAsync/README.md) | True if the modifier list contains "async" modifier\. |
@@ -44,8 +44,8 @@ Provides information about modifier list\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(ModifierListInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
@@ -57,8 +57,8 @@ Provides information about modifier list\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(ModifierListInfo, ModifierListInfo)](op_Inequality/README.md) | |
 | [operator ==(ModifierListInfo, ModifierListInfo)](op_Equality/README.md) | |
 

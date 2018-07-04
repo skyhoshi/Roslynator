@@ -10,8 +10,8 @@ A set of extension methods for enumerations\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Is(Accessibility, Accessibility, Accessibility)](Is/README.md) | Returns true if the accessibility is one of the specified accessibilities\. |
 | [Is(Accessibility, Accessibility, Accessibility, Accessibility)](Is/README.md) | Returns true if the accessibility is one of the specified accessibilities\. |
 | [Is(Accessibility, Accessibility, Accessibility, Accessibility, Accessibility)](Is/README.md) | Returns true if the accessibility is one of the specified accessibilities\. |

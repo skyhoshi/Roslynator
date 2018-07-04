@@ -18,8 +18,8 @@ Provides information about local declaration statement\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Declaration](Declaration/README.md) | The variable declaration\. |
 | [Modifiers](Modifiers/README.md) | The modifier list\. |
 | [SemicolonToken](SemicolonToken/README.md) | The semicolon token\. |
@@ -30,8 +30,8 @@ Provides information about local declaration statement\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(LocalDeclarationStatementInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
@@ -39,8 +39,8 @@ Provides information about local declaration statement\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(LocalDeclarationStatementInfo, LocalDeclarationStatementInfo)](op_Inequality/README.md) | |
 | [operator ==(LocalDeclarationStatementInfo, LocalDeclarationStatementInfo)](op_Equality/README.md) | |
 

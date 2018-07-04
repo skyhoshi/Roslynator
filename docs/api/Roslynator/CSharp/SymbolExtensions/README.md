@@ -6,12 +6,12 @@ Assembly: Roslynator\.CSharp\.dll
 
 ## Summary
 
-A set of static methods for  and derived types\.
+A set of static methods for [ISymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.isymbol) and derived types\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [GetDefaultValueSyntax(ITypeSymbol, SemanticModel, Int32, SymbolDisplayFormat)](GetDefaultValueSyntax/README.md) | Creates a new  that represents default value of the specified type symbol\. |
 | [GetDefaultValueSyntax(ITypeSymbol, TypeSyntax)](GetDefaultValueSyntax/README.md) | Creates a new  that represents default value of the specified type symbol\. |
 | [SupportsConstantValue(ITypeSymbol)](SupportsConstantValue/README.md) | Returns true if the specified type can be used to declare constant value\. |

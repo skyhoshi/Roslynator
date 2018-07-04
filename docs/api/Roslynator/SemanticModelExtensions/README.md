@@ -6,12 +6,12 @@ Assembly: Roslynator\.CSharp\.dll
 
 ## Summary
 
-A set of extension methods for a \.
+A set of extension methods for a [SemanticModel](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.semanticmodel)\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [GetEnclosingNamedType(SemanticModel, Int32, CancellationToken)](GetEnclosingNamedType/README.md) | Returns the innermost named type symbol that the specified position is considered inside of\. |
 | [GetEnclosingSymbol\<TSymbol>(SemanticModel, Int32, CancellationToken)](GetEnclosingSymbol-1/README.md) | Returns the innermost symbol of type  that the specified position is considered inside of\. |
 | [GetSymbol(SemanticModel, SyntaxNode, CancellationToken)](GetSymbol/README.md) | Returns what symbol, if any, the specified node bound to\. |

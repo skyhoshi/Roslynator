@@ -18,8 +18,8 @@ Specifies C\# comments\.
 
 ## Fields
 
-| Name| Value| Summary|
-| --- | --- | --- |
+| Name | Value | Summary |
+| ---- | ----- | ------- |
 | None | 0 | None comment specified\. |
 | SingleLine | 1 | Single\-line comment\. |
 | MultiLine | 2 | Multi\-line comment\. |

@@ -21,8 +21,8 @@ Provides information about a list of member declaration list\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Count](Count/README.md) | A number of members in the list\. |
 | [Members](Members/README.md) | A list of members\. |
 | [Parent](Parent/README.md) | The declaration that contains the members\. |
@@ -31,8 +31,8 @@ Provides information about a list of member declaration list\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Add(MemberDeclarationSyntax)](Add/README.md) | Creates a new  with the specified member added at the end\. |
 | [AddRange(IEnumerable\<MemberDeclarationSyntax>)](AddRange/README.md) | Creates a new  with the specified members added at the end\. |
 | [Any()](Any/README.md) | True if the list has at least one member\. |
@@ -63,8 +63,8 @@ Provides information about a list of member declaration list\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(MemberDeclarationListInfo, MemberDeclarationListInfo)](op_Inequality/README.md) | |
 | [operator ==(MemberDeclarationListInfo, MemberDeclarationListInfo)](op_Equality/README.md) | |
 

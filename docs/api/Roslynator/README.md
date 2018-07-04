@@ -2,8 +2,8 @@
 
 ## Classes
 
-| Class| Summary|
-| --- | --- |
+| Class | Summary |
+| ----- | ------- |
 | [DiagnosticsExtensions](DiagnosticsExtensions/README.md) | A set of extension methods for ,  and \. |
 | [EnumExtensions](EnumExtensions/README.md) | A set of extension methods for enumerations\. |
 | [FileLinePositionSpanExtensions](FileLinePositionSpanExtensions/README.md) | A set of extension methods for \. |
@@ -18,8 +18,8 @@
 
 ## Structs
 
-| Struct| Summary|
-| --- | --- |
+| Struct | Summary |
+| ------ | ------- |
 | [ExtensionMethodSymbolInfo](ExtensionMethodSymbolInfo/README.md) | Represents an extension method symbol\. |
 | [SeparatedSyntaxListSelection\<TNode>.Enumerator](SeparatedSyntaxListSelection-1/Enumerator/README.md) | |
 | [SyntaxListSelection\<TNode>.Enumerator](SyntaxListSelection-1/Enumerator/README.md) | |

@@ -18,15 +18,15 @@ Provides information about string concatenation, i\.e\. a binary expression that
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [BinaryExpression](BinaryExpression/README.md) | The binary expression that represents the string concatenation\. |
 | [Success](Success/README.md) | Determines whether this struct was initialized with an actual syntax\. |
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [AsChain()](AsChain/README.md) | |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [Equals(StringConcatenationExpressionInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
@@ -36,8 +36,8 @@ Provides information about string concatenation, i\.e\. a binary expression that
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(StringConcatenationExpressionInfo, StringConcatenationExpressionInfo)](op_Inequality/README.md) | |
 | [operator ==(StringConcatenationExpressionInfo, StringConcatenationExpressionInfo)](op_Equality/README.md) | |
 

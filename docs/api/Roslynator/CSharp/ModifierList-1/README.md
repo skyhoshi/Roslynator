@@ -10,8 +10,8 @@ Represents a list of modifiers\.
 
 #### Type Parameters
 
-| Type Parameter| Summary|
-| --- | --- |
+| Type Parameter | Summary |
+| -------------- | ------- |
 | TNode | |
 
 #### Inheritance
@@ -20,14 +20,14 @@ Represents a list of modifiers\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Instance](Instance/README.md) | Gets an instance of the  for a syntax specified by the generic argument\. |
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Insert(TNode, SyntaxKind, IComparer\<SyntaxKind>)](Insert/README.md) | Creates a new node with a modifier of the specified kind inserted\. |
 | [Insert(TNode, SyntaxToken, IComparer\<SyntaxToken>)](Insert/README.md) | Creates a new node with the specified modifier inserted\. |
 | [Remove(TNode, SyntaxKind)](Remove/README.md) | Creates a new node with a modifier of the specified kind removed\. |

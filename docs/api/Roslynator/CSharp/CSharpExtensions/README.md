@@ -6,12 +6,12 @@ Assembly: Roslynator\.CSharp\.dll
 
 ## Summary
 
-A set of extension methods for a \.
+A set of extension methods for a [SemanticModel](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.semanticmodel)\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [DetermineParameter(SemanticModel, ArgumentSyntax, Boolean, Boolean, CancellationToken)](DetermineParameter/README.md) | Determines a parameter symbol that matches to the specified argument\. Returns null if no matching parameter is found\. |
 | [DetermineParameter(SemanticModel, AttributeArgumentSyntax, Boolean, Boolean, CancellationToken)](DetermineParameter/README.md) | Determines a parameter symbol that matches to the specified attribute argument\. Returns null if not matching parameter is found\. |
 | [GetExtensionMethodInfo(SemanticModel, ExpressionSyntax, CancellationToken)](GetExtensionMethodInfo/README.md) | Returns what extension method symbol, if any, the specified expression syntax bound to\. |

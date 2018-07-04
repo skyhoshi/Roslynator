@@ -21,8 +21,8 @@ Provides information about a list of using directives\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Count](Count/README.md) | A number of usings in the list\. |
 | [Parent](Parent/README.md) | The declaration that contains the usings\. |
 | [Success](Success/README.md) | Determines whether this struct was initialized with an actual syntax\. |
@@ -31,8 +31,8 @@ Provides information about a list of using directives\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Add(UsingDirectiveSyntax)](Add/README.md) | Creates a new  with the specified using directive added at the end\. |
 | [AddRange(IEnumerable\<UsingDirectiveSyntax>)](AddRange/README.md) | Creates a new  with the specified usings added at the end\. |
 | [Any()](Any/README.md) | True if the list has at least one using directive\. |
@@ -63,8 +63,8 @@ Provides information about a list of using directives\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(UsingDirectiveListInfo, UsingDirectiveListInfo)](op_Inequality/README.md) | |
 | [operator ==(UsingDirectiveListInfo, UsingDirectiveListInfo)](op_Equality/README.md) | |
 

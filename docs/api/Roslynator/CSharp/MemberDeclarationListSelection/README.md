@@ -6,7 +6,7 @@ Assembly: Roslynator\.CSharp\.dll
 
 ## Summary
 
-Represents selected member declarations in a \.
+Represents selected member declarations in a [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)\.
 
 #### Inheritance
 
@@ -20,14 +20,14 @@ Represents selected member declarations in a \.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Parent](Parent/README.md) | Gets a node that contains selected members\. |
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Create(CompilationUnitSyntax, TextSpan)](Create/README.md) | Creates a new  based on the specified compilation unit and span\. |
 | [Create(NamespaceDeclarationSyntax, TextSpan)](Create/README.md) | Creates a new  based on the specified namespace declaration and span\. |
 | [Create(TypeDeclarationSyntax, TextSpan)](Create/README.md) | Creates a new  based on the specified type declaration and span\. |

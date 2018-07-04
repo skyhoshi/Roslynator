@@ -18,8 +18,8 @@ Provides information about string literal expression\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [ContainsEscapeSequence](ContainsEscapeSequence/README.md) | True if the string literal expression contains escape sequence\. |
 | [ContainsLinefeed](ContainsLinefeed/README.md) | True if the string literal contains linefeed\. |
 | [Expression](Expression/README.md) | The string literal expression\. |
@@ -33,8 +33,8 @@ Provides information about string literal expression\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [Equals(StringLiteralExpressionInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
@@ -42,8 +42,8 @@ Provides information about string literal expression\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(StringLiteralExpressionInfo, StringLiteralExpressionInfo)](op_Inequality/README.md) | |
 | [operator ==(StringLiteralExpressionInfo, StringLiteralExpressionInfo)](op_Equality/README.md) | |
 

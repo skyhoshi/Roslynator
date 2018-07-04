@@ -19,15 +19,15 @@ Enables to enumerate expressions of a binary expression and expressions of neste
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [BinaryExpression](BinaryExpression/README.md) | The binary expression\. |
 | [Span](Span/README.md) | The span that represents selected expressions\. |
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(ExpressionChain)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [GetEnumerator()](GetEnumerator/README.md) | Gets the enumerator for the expressions\. |
@@ -37,8 +37,8 @@ Enables to enumerate expressions of a binary expression and expressions of neste
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(ExpressionChain, ExpressionChain)](op_Inequality/README.md) | |
 | [operator ==(ExpressionChain, ExpressionChain)](op_Equality/README.md) | |
 

@@ -10,8 +10,8 @@ A set of static methods that allows manipulation with modifiers\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [GetInsertIndex(SyntaxTokenList, SyntaxKind, IComparer\<SyntaxKind>)](GetInsertIndex/README.md) | Returns an index a token with the specified kind should be inserted at\. |
 | [GetInsertIndex(SyntaxTokenList, SyntaxToken, IComparer\<SyntaxToken>)](GetInsertIndex/README.md) | Returns an index the specified token should be inserted at\. |
 | [Insert(SyntaxTokenList, SyntaxKind, IComparer\<SyntaxKind>)](Insert/README.md) | Creates a new list of modifiers with the modifier of the specified kind inserted\. |

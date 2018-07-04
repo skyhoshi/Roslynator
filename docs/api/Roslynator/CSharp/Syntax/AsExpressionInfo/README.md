@@ -18,8 +18,8 @@ Provides information about "as" expression\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [AsExpression](AsExpression/README.md) | The "as" expression\. |
 | [Expression](Expression/README.md) | The expression that is being casted\. |
 | [OperatorToken](OperatorToken/README.md) | The "as" operator token\. |
@@ -28,8 +28,8 @@ Provides information about "as" expression\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(AsExpressionInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
@@ -37,8 +37,8 @@ Provides information about "as" expression\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(AsExpressionInfo, AsExpressionInfo)](op_Inequality/README.md) | |
 | [operator ==(AsExpressionInfo, AsExpressionInfo)](op_Equality/README.md) | |
 

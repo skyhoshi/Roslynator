@@ -2,8 +2,8 @@
 
 ## Structs
 
-| Struct| Summary|
-| --- | --- |
+| Struct | Summary |
+| ------ | ------- |
 | [AsExpressionInfo](AsExpressionInfo/README.md) | Provides information about "as" expression\. |
 | [AssignmentExpressionInfo](AssignmentExpressionInfo/README.md) | Provides information about simple assignment expression\. |
 | [BinaryExpressionInfo](BinaryExpressionInfo/README.md) | Provides information about binary expression\. |

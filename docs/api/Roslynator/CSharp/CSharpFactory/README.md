@@ -6,12 +6,12 @@ Assembly: Roslynator\.CSharp\.dll
 
 ## Summary
 
-A factory for syntax nodes, tokens and trivia\. This class is built on top of  members\.
+A factory for syntax nodes, tokens and trivia\. This class is built on top of [SyntaxFactory](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntaxfactory) members\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [AbstractKeyword()](AbstractKeyword/README.md) | |
 | [AccessorList(AccessorDeclarationSyntax)](AccessorList/README.md) | |
 | [AccessorList(AccessorDeclarationSyntax\[\])](AccessorList/README.md) | |

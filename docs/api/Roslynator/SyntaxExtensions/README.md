@@ -10,8 +10,8 @@ A set of extension method for a syntax\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [All(SyntaxTokenList, Func\<SyntaxToken, Boolean>)](All/README.md) | Returns true if all tokens in a  matches the predicate\. |
 | [All(SyntaxTriviaList, Func\<SyntaxTrivia, Boolean>)](All/README.md) | Returns true if all trivia in a  matches the predicate\. |
 | [All\<TNode>(SeparatedSyntaxList\<TNode>, Func\<TNode, Boolean>)](All-1/README.md) | Returns true if all nodes in a list matches the predicate\. |

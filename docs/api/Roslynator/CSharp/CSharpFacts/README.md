@@ -7,8 +7,8 @@ Assembly: Roslynator\.CSharp\.dll
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [CanBeEmbeddedStatement(SyntaxKind)](CanBeEmbeddedStatement/README.md) | Returns true if a syntax of the specified kind can be an embedded statement\. |
 | [CanHaveEmbeddedStatement(SyntaxKind)](CanHaveEmbeddedStatement/README.md) | Returns true if a syntax of the specified kind can have an embedded statement\. |
 | [CanHaveExpressionBody(SyntaxKind)](CanHaveExpressionBody/README.md) | Returns true if a syntax of the specified kind can have expression body\. |

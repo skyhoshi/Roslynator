@@ -10,8 +10,8 @@ Serves as a factory for types in Roslynator\.CSharp\.Syntax namespace\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [AsExpressionInfo(BinaryExpressionSyntax, Boolean, Boolean)](AsExpressionInfo/README.md) | Creates a new  from the specified binary expression\. |
 | [AsExpressionInfo(SyntaxNode, Boolean, Boolean)](AsExpressionInfo/README.md) | Creates a new  from the specified node\. |
 | [AssignmentExpressionInfo(AssignmentExpressionSyntax, Boolean, Boolean)](AssignmentExpressionInfo/README.md) | Creates a new  from the specified assignment expression\. |

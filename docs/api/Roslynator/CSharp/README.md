@@ -2,8 +2,8 @@
 
 ## Classes
 
-| Class| Summary|
-| --- | --- |
+| Class | Summary |
+| ----- | ------- |
 | [CSharpExtensions](CSharpExtensions/README.md) | A set of extension methods for a \. |
 | [CSharpFactory](CSharpFactory/README.md) | A factory for syntax nodes, tokens and trivia\. This class is built on top of  members\. |
 | [CSharpFacts](CSharpFacts/README.md) | |
@@ -20,8 +20,8 @@
 
 ## Structs
 
-| Struct| Summary|
-| --- | --- |
+| Struct | Summary |
+| ------ | ------- |
 | [ExpressionChain](ExpressionChain/README.md) | Enables to enumerate expressions of a binary expression and expressions of nested binary expressions of the same kind as parent binary expression\. |
 | [ExpressionChain.Enumerator](ExpressionChain/Enumerator/README.md) | |
 | [ExpressionChain.Reversed](ExpressionChain/Reversed/README.md) | Enables to enumerate expressions of  in a reversed order\. |
@@ -32,8 +32,8 @@
 
 ## Enums
 
-| Enum| Summary|
-| --- | --- |
+| Enum | Summary |
+| ---- | ------- |
 | [CommentKinds](CommentKinds/README.md) | Specifies C\# comments\. |
 | [ModifierKinds](ModifierKinds/README.md) | Specifies C\# modifier\. |
 | [NullCheckStyles](NullCheckStyles/README.md) | Specifies a null check\. |

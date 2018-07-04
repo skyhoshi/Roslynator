@@ -18,8 +18,8 @@ Provides information about binary expression\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [BinaryExpression](BinaryExpression/README.md) | The binary expression\. |
 | [Kind](Kind/README.md) | The kind of the binary expression\. |
 | [Left](Left/README.md) | The expression on the left of the binary operator\. |
@@ -28,8 +28,8 @@ Provides information about binary expression\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [AsChain()](AsChain/README.md) | |
 | [Equals(BinaryExpressionInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
@@ -39,8 +39,8 @@ Provides information about binary expression\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(BinaryExpressionInfo, BinaryExpressionInfo)](op_Inequality/README.md) | |
 | [operator ==(BinaryExpressionInfo, BinaryExpressionInfo)](op_Equality/README.md) | |
 

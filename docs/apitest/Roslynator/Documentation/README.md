@@ -2,7 +2,7 @@
 
 ## Classes
 
-| Class| Summary|
-| --- | --- |
+| Class | Summary |
+| ----- | ------- |
 | [Foo](Foo/README.md) | a → > b |
 

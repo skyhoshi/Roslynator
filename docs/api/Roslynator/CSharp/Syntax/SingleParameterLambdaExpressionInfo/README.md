@@ -18,8 +18,8 @@ Provides information about a lambda expression with a single parameter\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Body](Body/README.md) | The body of the lambda expression\. |
 | [IsParenthesizedLambda](IsParenthesizedLambda/README.md) | True if this instance is a parenthesized lambda expression\. |
 | [IsSimpleLambda](IsSimpleLambda/README.md) | True if this instance is a simple lambda expression\. |
@@ -30,8 +30,8 @@ Provides information about a lambda expression with a single parameter\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [Equals(SingleParameterLambdaExpressionInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
@@ -39,8 +39,8 @@ Provides information about a lambda expression with a single parameter\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(SingleParameterLambdaExpressionInfo, SingleParameterLambdaExpressionInfo)](op_Inequality/README.md) | |
 | [operator ==(SingleParameterLambdaExpressionInfo, SingleParameterLambdaExpressionInfo)](op_Equality/README.md) | |
 

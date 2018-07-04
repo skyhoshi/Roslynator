@@ -6,12 +6,12 @@ Assembly: Roslynator\.CSharp\.dll
 
 ## Summary
 
-A set of extension methods for syntax \(types derived from \)\.
+A set of extension methods for syntax \(types derived from [CSharpSyntaxNode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.csharpsyntaxnode)\)\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Add(SyntaxList\<StatementSyntax>, StatementSyntax, Boolean)](Add/README.md) | Creates a new list with the specified node added or inserted\. |
 | [AddAttributeLists(ClassDeclarationSyntax, Boolean, AttributeListSyntax\[\])](AddAttributeLists/README.md) | Creates a new class declaration with the specified attribute lists added\. |
 | [AddAttributeLists(InterfaceDeclarationSyntax, Boolean, AttributeListSyntax\[\])](AddAttributeLists/README.md) | Creates a new interface declaration with the specified attribute lists added\. |

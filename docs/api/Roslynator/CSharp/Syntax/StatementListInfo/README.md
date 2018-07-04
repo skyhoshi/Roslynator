@@ -21,8 +21,8 @@ Provides information about a list of statements\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Count](Count/README.md) | The number of statement in the list\. |
 | [IsParentBlock](IsParentBlock/README.md) | Determines whether the statements are contained in a \. |
 | [IsParentSwitchSection](IsParentSwitchSection/README.md) | Determines whether the statements are contained in a \. |
@@ -35,8 +35,8 @@ Provides information about a list of statements\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Add(StatementSyntax)](Add/README.md) | Creates a new  with the specified statement added at the end\. |
 | [AddRange(IEnumerable\<StatementSyntax>)](AddRange/README.md) | Creates a new  with the specified statements added at the end\. |
 | [Any()](Any/README.md) | True if the list has at least one statement\. |
@@ -67,8 +67,8 @@ Provides information about a list of statements\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(StatementListInfo, StatementListInfo)](op_Inequality/README.md) | |
 | [operator ==(StatementListInfo, StatementListInfo)](op_Equality/README.md) | |
 

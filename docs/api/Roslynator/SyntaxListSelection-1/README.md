@@ -6,12 +6,12 @@ Assembly: Roslynator\.CSharp\.dll
 
 ## Summary
 
-Represents selected nodes in a \.
+Represents selected nodes in a [SyntaxListSelection\<TNode>](./README.md)\.
 
 #### Type Parameters
 
-| Type Parameter| Summary|
-| --- | --- |
+| Type Parameter | Summary |
+| -------------- | ------- |
 | TNode | |
 
 #### Inheritance
@@ -31,21 +31,21 @@ Represents selected nodes in a \.
 
 ## Constructors
 
-| Constructor| Summary|
-| --- | --- |
+| Constructor | Summary |
+| ----------- | ------- |
 | [SyntaxListSelection(SyntaxList\<TNode>, TextSpan, Int32, Int32)](-ctor/README.md) | Initializes a new instance of the \. |
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Items](Items/README.md) | Gets an underlying list that contains selected nodes\. |
 | [UnderlyingList](UnderlyingList/README.md) | Gets an underlying list that contains selected nodes\. |
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Create(SyntaxList\<TNode>, TextSpan)](Create/README.md) | Creates a new  based on the specified list and span\. |
 | [GetEnumerator()](GetEnumerator/README.md) | Returns an enumerator that iterates through selected items\. |
 | [GetEnumeratorCore()](GetEnumeratorCore/README.md) | |

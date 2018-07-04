@@ -2,13 +2,13 @@
 
 ## Classes
 
-| Class| Summary|
-| --- | --- |
+| Class | Summary |
+| ----- | ------- |
 | [TextLineCollectionSelection](TextLineCollectionSelection/README.md) | Represents selected lines in a \. |
 
 ## Structs
 
-| Struct| Summary|
-| --- | --- |
+| Struct | Summary |
+| ------ | ------- |
 | [TextLineCollectionSelection.Enumerator](TextLineCollectionSelection/Enumerator/README.md) | |
 

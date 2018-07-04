@@ -10,8 +10,8 @@ Serves as a factory for a modifier list\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Const()](Const/README.md) | Creates a list of modifiers that contains "const" modifier\. |
 | [FromAccessibility(Accessibility)](FromAccessibility/README.md) | Creates a list of modifiers from the specified accessibility\. |
 | [In()](In/README.md) | Creates a list of modifiers that contains "in" modifier\. |

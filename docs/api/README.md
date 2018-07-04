@@ -4,8 +4,8 @@
 
 ### Classes
 
-| Class| Summary|
-| --- | --- |
+| Class | Summary |
+| ----- | ------- |
 | [DiagnosticsExtensions](Roslynator/DiagnosticsExtensions/README.md) | A set of extension methods for ,  and \. |
 | [EnumExtensions](Roslynator/EnumExtensions/README.md) | A set of extension methods for enumerations\. |
 | [FileLinePositionSpanExtensions](Roslynator/FileLinePositionSpanExtensions/README.md) | A set of extension methods for \. |
@@ -20,8 +20,8 @@
 
 ### Structs
 
-| Struct| Summary|
-| --- | --- |
+| Struct | Summary |
+| ------ | ------- |
 | [ExtensionMethodSymbolInfo](Roslynator/ExtensionMethodSymbolInfo/README.md) | Represents an extension method symbol\. |
 | [SeparatedSyntaxListSelection\<TNode>.Enumerator](Roslynator/SeparatedSyntaxListSelection-1/Enumerator/README.md) | |
 | [SyntaxListSelection\<TNode>.Enumerator](Roslynator/SyntaxListSelection-1/Enumerator/README.md) | |
@@ -30,8 +30,8 @@
 
 ### Classes
 
-| Class| Summary|
-| --- | --- |
+| Class | Summary |
+| ----- | ------- |
 | [CSharpExtensions](Roslynator/CSharp/CSharpExtensions/README.md) | A set of extension methods for a \. |
 | [CSharpFactory](Roslynator/CSharp/CSharpFactory/README.md) | A factory for syntax nodes, tokens and trivia\. This class is built on top of  members\. |
 | [CSharpFacts](Roslynator/CSharp/CSharpFacts/README.md) | |
@@ -48,8 +48,8 @@
 
 ### Structs
 
-| Struct| Summary|
-| --- | --- |
+| Struct | Summary |
+| ------ | ------- |
 | [ExpressionChain](Roslynator/CSharp/ExpressionChain/README.md) | Enables to enumerate expressions of a binary expression and expressions of nested binary expressions of the same kind as parent binary expression\. |
 | [ExpressionChain.Enumerator](Roslynator/CSharp/ExpressionChain/Enumerator/README.md) | |
 | [ExpressionChain.Reversed](Roslynator/CSharp/ExpressionChain/Reversed/README.md) | Enables to enumerate expressions of  in a reversed order\. |
@@ -60,8 +60,8 @@
 
 ### Enums
 
-| Enum| Summary|
-| --- | --- |
+| Enum | Summary |
+| ---- | ------- |
 | [CommentKinds](Roslynator/CSharp/CommentKinds/README.md) | Specifies C\# comments\. |
 | [ModifierKinds](Roslynator/CSharp/ModifierKinds/README.md) | Specifies C\# modifier\. |
 | [NullCheckStyles](Roslynator/CSharp/NullCheckStyles/README.md) | Specifies a null check\. |
@@ -71,8 +71,8 @@
 
 ### Structs
 
-| Struct| Summary|
-| --- | --- |
+| Struct | Summary |
+| ------ | ------- |
 | [AsExpressionInfo](Roslynator/CSharp/Syntax/AsExpressionInfo/README.md) | Provides information about "as" expression\. |
 | [AssignmentExpressionInfo](Roslynator/CSharp/Syntax/AssignmentExpressionInfo/README.md) | Provides information about simple assignment expression\. |
 | [BinaryExpressionInfo](Roslynator/CSharp/Syntax/BinaryExpressionInfo/README.md) | Provides information about binary expression\. |
@@ -102,13 +102,13 @@
 
 ### Classes
 
-| Class| Summary|
-| --- | --- |
+| Class | Summary |
+| ----- | ------- |
 | [TextLineCollectionSelection](Roslynator/Text/TextLineCollectionSelection/README.md) | Represents selected lines in a \. |
 
 ### Structs
 
-| Struct| Summary|
-| --- | --- |
+| Struct | Summary |
+| ------ | ------- |
 | [TextLineCollectionSelection.Enumerator](Roslynator/Text/TextLineCollectionSelection/Enumerator/README.md) | |
 

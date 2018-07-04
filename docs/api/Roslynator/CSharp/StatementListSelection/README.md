@@ -6,7 +6,7 @@ Assembly: Roslynator\.CSharp\.dll
 
 ## Summary
 
-Represents selected statements in a \.
+Represents selected statements in a [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)\.
 
 #### Inheritance
 
@@ -20,8 +20,8 @@ Represents selected statements in a \.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Create(BlockSyntax, TextSpan)](Create/README.md) | Creates a new  based on the specified block and span\. |
 | [Create(StatementListInfo, TextSpan)](Create/README.md) | Creates a new  based on the specified  and span\. |
 | [Create(SwitchSectionSyntax, TextSpan)](Create/README.md) | Creates a new  based on the specified switch section and span\. |

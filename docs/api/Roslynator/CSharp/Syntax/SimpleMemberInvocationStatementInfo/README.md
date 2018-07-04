@@ -18,8 +18,8 @@ Provides information about invocation expression in an expression statement\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [ArgumentList](ArgumentList/README.md) | The argument list\. |
 | [Arguments](Arguments/README.md) | A list of arguments\. |
 | [Expression](Expression/README.md) | The expression that contains the member being invoked\. |
@@ -32,8 +32,8 @@ Provides information about invocation expression in an expression statement\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [Equals(SimpleMemberInvocationStatementInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
@@ -41,8 +41,8 @@ Provides information about invocation expression in an expression statement\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(SimpleMemberInvocationStatementInfo, SimpleMemberInvocationStatementInfo)](op_Inequality/README.md) | |
 | [operator ==(SimpleMemberInvocationStatementInfo, SimpleMemberInvocationStatementInfo)](op_Equality/README.md) | |
 

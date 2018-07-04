@@ -10,14 +10,14 @@ Assembly: Roslynator\.CSharp\.dll
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Current](Current/README.md) | |
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(Object)](Equals/README.md) | |
 | [GetHashCode()](GetHashCode/README.md) | |
 | [MoveNext()](MoveNext/README.md) | |

@@ -19,14 +19,14 @@ Enables to enumerate if statement cascade\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [IfStatement](IfStatement/README.md) | The if statement\. |
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(IfStatementCascade)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [GetEnumerator()](GetEnumerator/README.md) | Gets the enumerator for the if\-else cascade\. |
@@ -35,8 +35,8 @@ Enables to enumerate if statement cascade\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(IfStatementCascade, IfStatementCascade)](op_Inequality/README.md) | |
 | [operator ==(IfStatementCascade, IfStatementCascade)](op_Equality/README.md) | |
 

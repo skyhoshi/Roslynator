@@ -5,6 +5,7 @@ Namespace: [Roslynator.Documentation](../README.md)
 Assembly: Roslynator\.Documentation\.DocTest\.dll
 
 **WARNING: This API is now obsolete\.**
+
 Foo is obsolete\.
 
 ## Summary
@@ -35,14 +36,14 @@ bla2
 
 ## Constructors
 
-| Constructor| Summary|
-| --- | --- |
+| Constructor | Summary |
+| ----------- | ------- |
 | [Foo()](-ctor/README.md) | |
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Bar()](Bar/README.md) | abc |
 | [Bar\<T>(String, String)](Bar-1/README.md) | s |
 | [Bar2()](Bar2/README.md) | 1 2 |

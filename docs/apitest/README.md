@@ -4,7 +4,7 @@
 
 ### Classes
 
-| Class| Summary|
-| --- | --- |
+| Class | Summary |
+| ----- | ------- |
 | [Foo](Roslynator/Documentation/Foo/README.md) | a → > b |
 

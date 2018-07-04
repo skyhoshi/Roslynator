@@ -18,8 +18,8 @@ Represents an extension method symbol\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [IsReduced](IsReduced/README.md) | True if the symbol was reduced\. |
 | [ReducedSymbol](ReducedSymbol/README.md) | The definition of extension method from which this symbol was reduced, or null, if the symbol was not reduced\. |
 | [ReducedSymbolOrSymbol](ReducedSymbolOrSymbol/README.md) | The reduced symbol or the symbol if the reduced symbol is null\. |
@@ -27,16 +27,16 @@ Represents an extension method symbol\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(ExtensionMethodSymbolInfo)](Equals/README.md) | |
 | [Equals(Object)](Equals/README.md) | |
 | [GetHashCode()](GetHashCode/README.md) | |
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(ExtensionMethodSymbolInfo, ExtensionMethodSymbolInfo)](op_Inequality/README.md) | |
 | [operator ==(ExtensionMethodSymbolInfo, ExtensionMethodSymbolInfo)](op_Equality/README.md) | |
 

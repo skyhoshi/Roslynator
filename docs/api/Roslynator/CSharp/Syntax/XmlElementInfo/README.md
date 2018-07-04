@@ -6,7 +6,7 @@ Assembly: Roslynator\.CSharp\.dll
 
 ## Summary
 
-Provides information about a  or \.
+Provides information about a [XmlElementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.xmlelementsyntax) or [XmlEmptyElementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.xmlemptyelementsyntax)\.
 
 #### Inheritance
 
@@ -18,8 +18,8 @@ Provides information about a  or \.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Element](Element/README.md) | The xml element\. |
 | [IsEmptyElement](IsEmptyElement/README.md) | Determines whether the element is \. |
 | [Kind](Kind/README.md) | Element kind\. |
@@ -28,8 +28,8 @@ Provides information about a  or \.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [Equals(XmlElementInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
@@ -37,8 +37,8 @@ Provides information about a  or \.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(XmlElementInfo, XmlElementInfo)](op_Inequality/README.md) | |
 | [operator ==(XmlElementInfo, XmlElementInfo)](op_Equality/README.md) | |
 

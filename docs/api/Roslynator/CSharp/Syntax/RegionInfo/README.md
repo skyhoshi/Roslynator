@@ -18,8 +18,8 @@ Provides information about a region\.
 
 ## Properties
 
-| Property| Summary|
-| --- | --- |
+| Property | Summary |
+| -------- | ------- |
 | [Directive](Directive/README.md) | \#region directive\. |
 | [EndDirective](EndDirective/README.md) | \#endregion directive\. |
 | [FullSpan](FullSpan/README.md) | The absolute span of this region, including its leading and trailing trivia\. |
@@ -29,8 +29,8 @@ Provides information about a region\.
 
 ## Methods
 
-| Method| Summary|
-| --- | --- |
+| Method | Summary |
+| ------ | ------- |
 | [Equals(Object)](Equals/README.md) | Determines whether this instance and a specified object are equal\. |
 | [Equals(RegionInfo)](Equals/README.md) | Determines whether this instance is equal to another object of the same type\. |
 | [GetHashCode()](GetHashCode/README.md) | Returns the hash code for this instance\. |
@@ -38,8 +38,8 @@ Provides information about a region\.
 
 ## Operators
 
-| Operator| Summary|
-| --- | --- |
+| Operator | Summary |
+| -------- | ------- |
 | [operator !=(RegionInfo, RegionInfo)](op_Inequality/README.md) | |
 | [operator ==(RegionInfo, RegionInfo)](op_Equality/README.md) | |
 
