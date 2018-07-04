@@ -72,6 +72,6 @@ Provides information about a list of member declaration list\.
 
 | Member | Summary |
 | ------ | ------- |
-| [GetEnumerator()](System.Collections.Generic.IEnumerable<Microsoft.CodeAnalysis.CSharp.Syntax.MemberDeclarationSyntax>.GetEnumerator/README.md) | |
-| [GetEnumerator()](System.Collections.IEnumerable.GetEnumerator/README.md) | |
+| [GetEnumerator()](System-Collections-Generic-IEnumerable-1-GetEnumerator/README.md) | |
+| [GetEnumerator()](System-Collections-IEnumerable-GetEnumerator/README.md) | |
 

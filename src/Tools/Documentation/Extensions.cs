@@ -48,6 +48,21 @@ namespace Roslynator.Documentation
             return 0;
         }
 
+        public static ISymbol GetFirstExplicitInterfaceImplementation(this ISymbol symbol)
+        {
+            switch (symbol.Kind)
+            {
+                case SymbolKind.Event:
+                    return ((IEventSymbol)symbol).ExplicitInterfaceImplementations.FirstOrDefault();
+                case SymbolKind.Method:
+                    return ((IMethodSymbol)symbol).ExplicitInterfaceImplementations.FirstOrDefault();
+                case SymbolKind.Property:
+                    return ((IPropertySymbol)symbol).ExplicitInterfaceImplementations.FirstOrDefault();
+            }
+
+            return null;
+        }
+
         public static void WriteLink(
             this MarkdownWriter writer,
             SymbolDocumentationInfo symbolInfo,

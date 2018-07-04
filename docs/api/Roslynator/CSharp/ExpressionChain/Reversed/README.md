@@ -44,6 +44,6 @@ Enables to enumerate expressions of [ExpressionChain](../README.md) in a reverse
 
 | Member | Summary |
 | ------ | ------- |
-| [GetEnumerator()](System.Collections.Generic.IEnumerable<Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax>.GetEnumerator/README.md) | |
-| [GetEnumerator()](System.Collections.IEnumerable.GetEnumerator/README.md) | |
+| [GetEnumerator()](System-Collections-Generic-IEnumerable-1-GetEnumerator/README.md) | |
+| [GetEnumerator()](System-Collections-IEnumerable-GetEnumerator/README.md) | |
 

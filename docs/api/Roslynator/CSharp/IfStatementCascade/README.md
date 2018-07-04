@@ -44,6 +44,6 @@ Enables to enumerate if statement cascade\.
 
 | Member | Summary |
 | ------ | ------- |
-| [GetEnumerator()](System.Collections.Generic.IEnumerable<Roslynator.CSharp.IfStatementOrElseClause>.GetEnumerator/README.md) | |
-| [GetEnumerator()](System.Collections.IEnumerable.GetEnumerator/README.md) | |
+| [GetEnumerator()](System-Collections-Generic-IEnumerable-1-GetEnumerator/README.md) | |
+| [GetEnumerator()](System-Collections-IEnumerable-GetEnumerator/README.md) | |
 

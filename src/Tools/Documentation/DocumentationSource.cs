@@ -27,7 +27,7 @@ namespace Roslynator.Documentation
                 if (_sharedCompilation == null)
                 {
                     IEnumerable<PortableExecutableReference> references = RuntimeMetadataReference
-                        .TrustedPlatformAssemblies
+                        .TrustedPlatformAssemblyPaths
                         .Select(f => MetadataReference.CreateFromFile(f.Value));
 
                     _sharedCompilation = CSharpCompilation.Create(
@@ -63,7 +63,7 @@ namespace Roslynator.Documentation
 
         public static DocumentationSource CreateFromAssemblyName(string assemblyName)
         {
-            string path = RuntimeMetadataReference.TrustedPlatformAssemblies[assemblyName];
+            string path = RuntimeMetadataReference.TrustedPlatformAssemblyPaths[assemblyName];
 
             return Create(path);
         }

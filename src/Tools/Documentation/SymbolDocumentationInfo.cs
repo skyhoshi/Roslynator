@@ -13,6 +13,8 @@ namespace Roslynator.Documentation
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public sealed class SymbolDocumentationInfo
     {
+        private ImmutableArray<ISymbol> _allPubliclyVisibleMembers;
+
         private SymbolDocumentationInfo(
             ISymbol symbol,
             string commentId,
@@ -35,10 +37,35 @@ namespace Roslynator.Documentation
 
         public ImmutableArray<ISymbol> Members { get; }
 
-        //TODO: rename
-        public ImmutableArray<ISymbol> Symbols { get; }
+        public ImmutableArray<ISymbol> AllPubliclyVisibleMembers
+        {
+            get
+            {
+                if (_allPubliclyVisibleMembers.IsDefault)
+                {
+                    ImmutableArray<ISymbol>.Builder builder = ImmutableArray.CreateBuilder<ISymbol>();
 
-        public ImmutableArray<string> Names { get; }
+                    builder.AddRange(Members.Where(f => f.IsPubliclyVisible()));
+
+                    INamedTypeSymbol baseType = (Symbol as ITypeSymbol)?.BaseType;
+
+                    while (baseType != null)
+                    {
+                        builder.AddRange(baseType.GetMembers().Where(f => f.IsPubliclyVisible()));
+
+                        baseType = baseType.BaseType;
+                    }
+
+                    _allPubliclyVisibleMembers = builder.ToImmutableArray();
+                }
+
+                return _allPubliclyVisibleMembers;
+            }
+        }
+
+        internal ImmutableArray<ISymbol> Symbols { get; }
+
+        internal ImmutableArray<string> Names { get; }
 
         public bool IsExternal { get; }
 
@@ -59,6 +86,20 @@ namespace Roslynator.Documentation
 
         private static SymbolDocumentationInfo Create(ISymbol symbol, ImmutableArray<ISymbol> members, bool isExternal)
         {
+            (ImmutableArray<ISymbol>.Builder symbols, ImmutableArray<string>.Builder names) = GetSymbolsAndNames(symbol);
+
+            return new SymbolDocumentationInfo(
+                symbol,
+                symbol.GetDocumentationCommentId(),
+                members,
+                symbols.ToImmutableArray(),
+                names.ToImmutableArray(),
+                isExternal);
+        }
+
+        private static (ImmutableArray<ISymbol>.Builder symbols, ImmutableArray<string>.Builder names)
+            GetSymbolsAndNames(ISymbol symbol)
+        {
             ImmutableArray<ISymbol>.Builder symbols = ImmutableArray.CreateBuilder<ISymbol>();
             ImmutableArray<string>.Builder names = ImmutableArray.CreateBuilder<string>();
 
@@ -69,15 +110,31 @@ namespace Roslynator.Documentation
             }
             else
             {
-                int arity = symbol.GetArity();
+                //TODO: system.collections.generic.list-1.system-collections-generic-ienumerable-t--getenumerator
+                ISymbol explicitImplementation = symbol.GetFirstExplicitInterfaceImplementation();
 
-                if (arity > 0)
+                if (explicitImplementation != null)
                 {
-                    names.Add(symbol.Name + "-" + arity.ToString(CultureInfo.InvariantCulture));
+                    (ImmutableArray<ISymbol>.Builder symbols2, ImmutableArray<string>.Builder names2) = GetSymbolsAndNames(explicitImplementation);
+
+                    names2.Reverse();
+
+                    string name = string.Join("-", names2);
+
+                    names.Add(name);
                 }
                 else
                 {
-                    names.Add(symbol.Name);
+                    int arity = symbol.GetArity();
+
+                    if (arity > 0)
+                    {
+                        names.Add(symbol.Name + "-" + arity.ToString(CultureInfo.InvariantCulture));
+                    }
+                    else
+                    {
+                        names.Add(symbol.Name);
+                    }
                 }
             }
 
@@ -107,13 +164,7 @@ namespace Roslynator.Documentation
                 containingNamespace = containingNamespace.ContainingNamespace;
             }
 
-            return new SymbolDocumentationInfo(
-                symbol,
-                symbol.GetDocumentationCommentId(),
-                members,
-                symbols.ToImmutableArray(),
-                names.ToImmutableArray(),
-                isExternal);
+            return (symbols, names);
         }
 
         internal string GetUrl(SymbolDocumentationInfo directoryInfo = null)
@@ -224,10 +275,9 @@ namespace Roslynator.Documentation
 
         public IEnumerable<IMethodSymbol> GetMethods()
         {
-            foreach (ISymbol member in Members)
+            foreach (ISymbol member in AllPubliclyVisibleMembers)
             {
-                if (member.Kind == SymbolKind.Method
-                    && member.IsPubliclyVisible())
+                if (member.Kind == SymbolKind.Method)
                 {
                     var methodSymbol = (IMethodSymbol)member;
 

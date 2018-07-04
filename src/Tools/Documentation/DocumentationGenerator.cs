@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -174,14 +175,32 @@ namespace Roslynator.Documentation
             return info;
         }
 
-        internal XElement GetDocumentationElement(ISymbol symbol, string name)
+        internal XmlDocumentation GetXmlDocumentation(IAssemblySymbol assemblySymbol)
         {
-            return _xmlDocumentations[symbol.ContainingAssembly].GetElement(GetDocumentationInfo(symbol).CommentId, name);
+            if (!_xmlDocumentations.TryGetValue(assemblySymbol, out XmlDocumentation xmlDocumentation))
+            {
+                //TODO: find xml documentation file for an assembly
+
+                string assemblyFileName = assemblySymbol.Name + ".dll";
+
+                if (RuntimeMetadataReference.TrustedPlatformAssemblyPaths.TryGetValue(assemblyFileName, out string path))
+                {
+                    string xmlDocPath = Path.ChangeExtension(path, "xml");
+
+                    if (File.Exists(xmlDocPath))
+                    {
+                        xmlDocumentation = XmlDocumentation.Load(path);
+                        _xmlDocumentations[assemblySymbol] = xmlDocumentation;
+                    }
+                }
+            }
+
+            return xmlDocumentation;
         }
 
-        internal XmlReader CreateReader(ISymbol symbol, string name)
+        internal XElement GetDocumentationElement(ISymbol symbol, string name)
         {
-            return _xmlDocumentations[symbol.ContainingAssembly].CreateReader(GetDocumentationInfo(symbol).CommentId, name);
+            return GetXmlDocumentation(symbol.ContainingAssembly)?.GetElement(GetDocumentationInfo(symbol).CommentId, name);
         }
 
         internal void WriteTable(
@@ -235,7 +254,8 @@ namespace Roslynator.Documentation
                         writer.WriteEndTableCell();
                         writer.WriteStartTableCell();
 
-                        string s = _xmlDocumentations[symbol.ContainingAssembly]
+                        //TODO: write element content
+                        string s = GetXmlDocumentation(symbol.ContainingAssembly)?
                             .GetElement(info.CommentId, "summary")?
                             .Value;
 

@@ -10,16 +10,16 @@ namespace Roslynator
     internal static class RuntimeMetadataReference
     {
         private static MetadataReference _corLibReference;
-        private static ImmutableDictionary<string, string> _trustedPlatformAssemblies;
+        private static ImmutableDictionary<string, string> _trustedPlatformAssemblyPaths;
 
         public static MetadataReference CorLibReference
         {
             get { return _corLibReference ?? (_corLibReference = MetadataReference.CreateFromFile(typeof(object).Assembly.Location)); }
         }
 
-        public static ImmutableDictionary<string, string> TrustedPlatformAssemblies
+        public static ImmutableDictionary<string, string> TrustedPlatformAssemblyPaths
         {
-            get { return _trustedPlatformAssemblies ?? (_trustedPlatformAssemblies = CreateTrustedPlatformAssemblies()); }
+            get { return _trustedPlatformAssemblyPaths ?? (_trustedPlatformAssemblyPaths = CreateTrustedPlatformAssemblies()); }
         }
 
         private static ImmutableDictionary<string, string> CreateTrustedPlatformAssemblies()
@@ -33,7 +33,7 @@ namespace Roslynator
 
         public static PortableExecutableReference CreateFromAssemblyName(string assemblyName)
         {
-            string path = TrustedPlatformAssemblies[assemblyName];
+            string path = TrustedPlatformAssemblyPaths[assemblyName];
 
             return MetadataReference.CreateFromFile(path);
         }

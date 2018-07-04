@@ -61,6 +61,6 @@ Represents consecutive sequence of selected items in a collection\.
 
 | Member | Summary |
 | ------ | ------- |
-| [GetEnumerator()](System.Collections.Generic.IEnumerable<T>.GetEnumerator/README.md) | |
-| [GetEnumerator()](System.Collections.IEnumerable.GetEnumerator/README.md) | |
+| [GetEnumerator()](System-Collections-Generic-IEnumerable-1-GetEnumerator/README.md) | |
+| [GetEnumerator()](System-Collections-IEnumerable-GetEnumerator/README.md) | |
 
