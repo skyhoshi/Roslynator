@@ -19,6 +19,7 @@ namespace Roslynator.CSharp
                 {
                     new KeyValuePair<string, XmlElementKind>("c", XmlElementKind.C),
                     new KeyValuePair<string, XmlElementKind>("code", XmlElementKind.Code),
+                    new KeyValuePair<string, XmlElementKind>("content", XmlElementKind.Content),
                     new KeyValuePair<string, XmlElementKind>("example", XmlElementKind.Example),
                     new KeyValuePair<string, XmlElementKind>("exception", XmlElementKind.Exception),
                     new KeyValuePair<string, XmlElementKind>("exclude", XmlElementKind.Exclude),
@@ -65,6 +66,8 @@ namespace Roslynator.CSharp
                     return "c";
                 case XmlElementKind.Code:
                     return "code";
+                case XmlElementKind.Content:
+                    return "content";
                 case XmlElementKind.Example:
                     return "example";
                 case XmlElementKind.Exception:

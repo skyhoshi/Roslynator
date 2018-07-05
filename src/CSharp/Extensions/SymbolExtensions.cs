@@ -1458,7 +1458,7 @@ namespace Roslynator
             {
                 Debug.Assert(t.TypeKind.Is(TypeKind.Class, TypeKind.Error), t.TypeKind.ToString());
 
-                if (t.Equals(baseType))
+                if (t.OriginalDefinition.Equals(baseType))
                     return true;
 
                 t = t.BaseType;
@@ -1469,7 +1469,7 @@ namespace Roslynator
             {
                 foreach (INamedTypeSymbol interfaceType in type.AllInterfaces)
                 {
-                    if (interfaceType.Equals(baseType))
+                    if (interfaceType.OriginalDefinition.Equals(baseType))
                         return true;
                 }
             }
