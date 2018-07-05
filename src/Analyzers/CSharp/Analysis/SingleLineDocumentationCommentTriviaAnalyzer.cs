@@ -45,6 +45,7 @@ namespace Roslynator.CSharp.Analysis
             bool containsInheritDoc = false;
             bool containsIncludeOrExclude = false;
             bool containsSummaryElement = false;
+            bool containsContentElement = false;
             bool isFirst = true;
 
             CancellationToken cancellationToken = context.CancellationToken;
@@ -69,6 +70,11 @@ namespace Roslynator.CSharp.Analysis
                         case XmlElementKind.InheritDoc:
                             {
                                 containsInheritDoc = true;
+                                break;
+                            }
+                        case XmlElementKind.Content:
+                            {
+                                containsContentElement = true;
                                 break;
                             }
                         case XmlElementKind.Summary:
@@ -113,7 +119,8 @@ namespace Roslynator.CSharp.Analysis
 
             if (!containsSummaryElement
                 && !containsInheritDoc
-                && !containsIncludeOrExclude)
+                && !containsIncludeOrExclude
+                && !containsContentElement)
             {
                 context.ReportDiagnostic(
                     DiagnosticDescriptors.AddSummaryElementToDocumentationComment,
