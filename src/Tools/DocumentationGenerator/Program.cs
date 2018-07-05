@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -59,6 +59,51 @@ namespace Roslynator.Documentation
 
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
                 FileHelper.WriteAllText(path, content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
+
+                if (typeSymbol.BaseType?.SpecialType != SpecialType.System_Enum)
+                    GenerateConstructorFiles(typeSymbol, generator, rootPath);
+            }
+        }
+
+        private static void GenerateConstructorFiles(ITypeSymbol typeSymbol, DocumentationGenerator generator, string rootPath)
+        {
+            List<IMethodSymbol> constructors = generator.GetDocumentationInfo(typeSymbol).GetConstructors().ToList();
+
+            if (constructors.Count == 1)
+            {
+                IMethodSymbol symbol = constructors[0];
+                SymbolDocumentationInfo info = generator.GetDocumentationInfo(symbol);
+
+                using (var writer = new ConstructorDocumentationMarkdownWriter(symbol, info, generator))
+                {
+                    writer.WriteTitle(symbol);
+                    writer.WriteNamespace(typeSymbol);
+                    writer.WriteAssembly(typeSymbol);
+
+                    if (symbol.HasAttribute(MetadataNames.System_ObsoleteAttribute))
+                        writer.WriteObsolete(symbol);
+
+                    writer.WriteSummary(symbol);
+                    writer.WriteSignature(symbol);
+                    writer.WriteParameters(symbol);
+                    writer.WriteAttributes(symbol);
+                    writer.WriteExceptions(symbol);
+                    writer.WriteExamples(symbol);
+                    writer.WriteRemarks(symbol);
+                    writer.WriteSeeAlso(symbol);
+
+                    string content = writer.ToString();
+
+                    string path = string.Join(@"\", info.Names.Reverse());
+
+                    path = rootPath + path + @"\README.md";
+
+                    Directory.CreateDirectory(Path.GetDirectoryName(path));
+                    FileHelper.WriteAllText(path, content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
+                }
+            }
+            else if (constructors.Count == 2)
+            {
             }
         }
     }

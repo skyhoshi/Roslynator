@@ -8,6 +8,10 @@ Assembly: Roslynator\.CSharp\.dll
 
 Provides information about string concatenation, i\.e\. a binary expression that binds to string '\+' operator\.
 
+```csharp
+readonly struct StringConcatenationExpressionInfo
+```
+
 #### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; StringConcatenationExpressionInfo

@@ -8,6 +8,10 @@ Assembly: Roslynator\.CSharp\.dll
 
 Provides information about a simple assignment expression in an expression statement\.
 
+```csharp
+readonly struct SimpleAssignmentStatementInfo
+```
+
 #### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; SimpleAssignmentStatementInfo

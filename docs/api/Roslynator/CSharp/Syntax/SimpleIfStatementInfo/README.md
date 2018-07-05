@@ -9,6 +9,10 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about a simple if statement\.
 Simple if statement is defined as follows: it is not a child of an else clause and it has no else clause\.
 
+```csharp
+readonly struct SimpleIfStatementInfo
+```
+
 #### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; SimpleIfStatementInfo

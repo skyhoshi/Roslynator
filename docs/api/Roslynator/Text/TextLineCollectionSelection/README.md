@@ -8,6 +8,10 @@ Assembly: Roslynator\.CSharp\.dll
 
 Represents selected lines in a [TextLineCollection](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textlinecollection)\.
 
+```csharp
+class TextLineCollectionSelection
+```
+
 #### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [Selection\<T>](../../Selection-1/README.md) &#x2192; TextLineCollectionSelection

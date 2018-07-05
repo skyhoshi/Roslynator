@@ -48,7 +48,7 @@ namespace Roslynator.Documentation
                 {
                     ImmutableArray<ISymbol>.Builder builder = ImmutableArray.CreateBuilder<ISymbol>();
 
-                    var overriddenSymbols = new HashSet<ISymbol>();
+                    HashSet<ISymbol> overriddenSymbols = null;
 
                     foreach (ISymbol symbol in Members)
                     {
@@ -57,7 +57,9 @@ namespace Roslynator.Documentation
                             ISymbol overriddenSymbol = symbol.OverriddenSymbol();
 
                             if (overriddenSymbol != null)
-                                overriddenSymbols.Add(overriddenSymbol);
+                            {
+                                (overriddenSymbols ?? (overriddenSymbols = new HashSet<ISymbol>())).Add(overriddenSymbol);
+                            }
 
                             builder.Add(symbol);
                         }
@@ -72,13 +74,15 @@ namespace Roslynator.Documentation
                             if (!symbol.IsStatic
                                 && symbol.IsPubliclyVisible())
                             {
-                                if (!overriddenSymbols.Remove(symbol))
+                                if (overriddenSymbols?.Remove(symbol) != true)
                                     builder.Add(symbol);
 
                                 ISymbol overriddenSymbol = symbol.OverriddenSymbol();
 
                                 if (overriddenSymbol != null)
-                                    overriddenSymbols.Add(overriddenSymbol);
+                                {
+                                    (overriddenSymbols ?? (overriddenSymbols = new HashSet<ISymbol>())).Add(overriddenSymbol);
+                                }
                             }
                         }
 

@@ -14,33 +14,37 @@ namespace Roslynator.Documentation
 
         public abstract ISymbol Symbol { get; }
 
-        public abstract void WriteTitle(ITypeSymbol typeSymbol);
+        public abstract void WriteTitle(ISymbol symbol);
 
-        public abstract void WriteNamespace(ITypeSymbol typeSymbol);
+        public abstract void WriteNamespace(ISymbol symbol);
 
-        public abstract void WriteAssembly(ITypeSymbol typeSymbol);
+        public abstract void WriteAssembly(ISymbol symbol);
 
-        public abstract void WriteObsolete(ITypeSymbol typeSymbol);
+        public abstract void WriteObsolete(ISymbol symbol);
 
-        public abstract void WriteSummary(ITypeSymbol typeSymbol);
+        public abstract void WriteSummary(ISymbol symbol);
 
-        public abstract void WriteTypeParameters(ITypeSymbol typeSymbol);
+        public abstract void WriteSignature(ISymbol symbol);
 
-        public abstract void WriteParameters(ITypeSymbol typeSymbol);
+        public abstract void WriteTypeParameters(ISymbol symbol);
 
-        public abstract void WriteReturnValue(ITypeSymbol typeSymbol);
+        public abstract void WriteParameters(ISymbol symbol);
+
+        public abstract void WriteReturnValue(ISymbol symbol);
 
         public abstract void WriteInheritance(ITypeSymbol typeSymbol);
 
-        public abstract void WriteAttributes(ITypeSymbol typeSymbol);
+        public abstract void WriteAttributes(ISymbol symbol);
 
         public abstract void WriteDerived(ITypeSymbol typeSymbol);
 
         public abstract void WriteImplements(ITypeSymbol typeSymbol);
 
-        public abstract void WriteExamples(ITypeSymbol typeSymbol);
+        public abstract void WriteExceptions(ISymbol symbol);
 
-        public abstract void WriteRemarks(ITypeSymbol typeSymbol);
+        public abstract void WriteExamples(ISymbol symbol);
+
+        public abstract void WriteRemarks(ISymbol symbol);
 
         public abstract void WriteEnumFields(IEnumerable<IFieldSymbol> fields);
 
@@ -60,7 +64,7 @@ namespace Roslynator.Documentation
 
         public abstract void WriteExtensionMethods(ITypeSymbol typeSymbol);
 
-        public abstract void WriteSeeAlso(ITypeSymbol typeSymbol);
+        public abstract void WriteSeeAlso(ISymbol symbol);
 
         public void Dispose()
         {

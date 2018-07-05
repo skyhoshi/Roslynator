@@ -47,7 +47,22 @@ namespace Roslynator.Documentation
              kindOptions: DefaultKindOptions,
              miscellaneousOptions: DefaultMiscellaneousOptions);
 
-        public static SymbolDisplayFormat MemberSignature { get; } = new SymbolDisplayFormat(
+        public static SymbolDisplayFormat MemberTitle { get; } = new SymbolDisplayFormat(
+             globalNamespaceStyle: DefaultGlobalNamespaceStyle,
+             typeQualificationStyle: DefaultTypeQualificationStyle,
+             genericsOptions: SymbolDisplayGenericsOptions.None,
+             memberOptions: DefaultMemberOptions
+                | SymbolDisplayMemberOptions.IncludeExplicitInterface
+                | SymbolDisplayMemberOptions.IncludeContainingType,
+             delegateStyle: DefaultDelegateStyle,
+             extensionMethodStyle: DefaultExtensionMethodStyle,
+             parameterOptions: DefaultParameterOptions,
+             propertyStyle: DefaultPropertyStyle,
+             localOptions: DefaultLocalOptions,
+             kindOptions: DefaultKindOptions,
+             miscellaneousOptions: DefaultMiscellaneousOptions);
+
+        public static SymbolDisplayFormat SimpleSignature { get; } = new SymbolDisplayFormat(
              globalNamespaceStyle: DefaultGlobalNamespaceStyle,
              typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameOnly,
              genericsOptions: DefaultGenericsOptions
@@ -63,6 +78,40 @@ namespace Roslynator.Documentation
              localOptions: DefaultLocalOptions,
              kindOptions: DefaultKindOptions,
              miscellaneousOptions: DefaultMiscellaneousOptions);
+
+        public static SymbolDisplayFormat FullSignature { get; } = new SymbolDisplayFormat(
+             globalNamespaceStyle: DefaultGlobalNamespaceStyle,
+             typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameOnly,
+             genericsOptions: DefaultGenericsOptions
+                | SymbolDisplayGenericsOptions.IncludeTypeParameters
+                | SymbolDisplayGenericsOptions.IncludeTypeConstraints
+                | SymbolDisplayGenericsOptions.IncludeVariance,
+             memberOptions: DefaultMemberOptions
+                | SymbolDisplayMemberOptions.IncludeType
+                | SymbolDisplayMemberOptions.IncludeModifiers
+                | SymbolDisplayMemberOptions.IncludeAccessibility
+                | SymbolDisplayMemberOptions.IncludeExplicitInterface
+                | SymbolDisplayMemberOptions.IncludeParameters
+                | SymbolDisplayMemberOptions.IncludeConstantValue
+                | SymbolDisplayMemberOptions.IncludeRef,
+             delegateStyle: SymbolDisplayDelegateStyle.NameAndParameters,
+             extensionMethodStyle: DefaultExtensionMethodStyle,
+             parameterOptions: DefaultParameterOptions
+                | SymbolDisplayParameterOptions.IncludeExtensionThis
+                | SymbolDisplayParameterOptions.IncludeParamsRefOut
+                | SymbolDisplayParameterOptions.IncludeType
+                | SymbolDisplayParameterOptions.IncludeName
+                | SymbolDisplayParameterOptions.IncludeDefaultValue,
+             propertyStyle: SymbolDisplayPropertyStyle.ShowReadWriteDescriptor,
+             localOptions: DefaultLocalOptions,
+             kindOptions: DefaultKindOptions
+                | SymbolDisplayKindOptions.IncludeNamespaceKeyword
+                | SymbolDisplayKindOptions.IncludeTypeKeyword
+                | SymbolDisplayKindOptions.IncludeMemberKeyword,
+             miscellaneousOptions: DefaultMiscellaneousOptions
+                | SymbolDisplayMiscellaneousOptions.UseSpecialTypes
+                | SymbolDisplayMiscellaneousOptions.EscapeKeywordIdentifiers
+            );
 
         internal const SymbolDisplayGlobalNamespaceStyle DefaultGlobalNamespaceStyle
             = SymbolDisplayGlobalNamespaceStyle.Omitted;
@@ -123,7 +172,7 @@ namespace Roslynator.Documentation
 
         internal const SymbolDisplayMiscellaneousOptions DefaultMiscellaneousOptions = SymbolDisplayMiscellaneousOptions.None;
             //| SymbolDisplayMiscellaneousOptions.UseSpecialTypes
-            //| SymbolDisplayMiscellaneousOptions.EscapeKeywordIdentifiers;
+            //| SymbolDisplayMiscellaneousOptions.EscapeKeywordIdentifiers
             //| SymbolDisplayMiscellaneousOptions.UseAsterisksInMultiDimensionalArrays
             //| SymbolDisplayMiscellaneousOptions.UseErrorTypeSymbolName
             //| SymbolDisplayMiscellaneousOptions.RemoveAttributeSuffix

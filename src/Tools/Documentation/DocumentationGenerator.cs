@@ -136,6 +136,10 @@ namespace Roslynator.Documentation
                     writer.WriteObsolete(typeSymbol);
 
                 writer.WriteSummary(typeSymbol);
+
+                if (typeSymbol.Kind != SymbolKind.Namespace)
+                    writer.WriteSignature(typeSymbol);
+
                 writer.WriteTypeParameters(typeSymbol);
                 writer.WriteParameters(typeSymbol);
                 writer.WriteReturnValue(typeSymbol);

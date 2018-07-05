@@ -34,66 +34,94 @@ namespace Roslynator.Documentation
 
         public override SymbolDocumentationInfo DirectoryInfo { get; }
 
-        private SymbolDisplayFormatProvider FormatProvider
+        public SymbolDisplayFormatProvider FormatProvider
         {
             get { return _generator.FormatProvider; }
         }
 
-        public override void WriteTitle(ITypeSymbol typeSymbol)
+        protected MarkdownWriter Writer
+        {
+            get { return _writer; }
+        }
+
+        public override void WriteTitle(ISymbol symbol)
         {
             _writer.WriteStartHeading(1);
-            _writer.WriteString(typeSymbol.ToDisplayString(FormatProvider.TitleFormat));
+
+            SymbolDisplayFormat format = (symbol.Kind == SymbolKind.NamedType)
+                ? FormatProvider.TitleFormat
+                : FormatProvider.MemberTitleFormat;
+
+            _writer.WriteString(symbol.ToDisplayString(format));
             _writer.WriteString(" ");
             _writer.WriteString(GetTypeName());
             _writer.WriteEndHeading();
 
             string GetTypeName()
             {
-                switch (typeSymbol.TypeKind)
+                switch (symbol.Kind)
                 {
-                    case TypeKind.Class:
-                        return "Class";
-                    case TypeKind.Delegate:
-                        return "Delegate";
-                    case TypeKind.Enum:
-                        return "Enum";
-                    case TypeKind.Interface:
-                        return "Interface";
-                    case TypeKind.Struct:
-                        return "Struct";
-                    default:
-                        throw new ArgumentException("", nameof(typeSymbol));
+                    case SymbolKind.Event:
+                        return "Event";
+                    case SymbolKind.Field:
+                        return "Field";
+                    case SymbolKind.Method:
+                        return "Method";
+                    case SymbolKind.Namespace:
+                        return "Namespace";
+                    case SymbolKind.Property:
+                        return "Property";
+                    case SymbolKind.NamedType:
+                        {
+                            switch (((ITypeSymbol)symbol).TypeKind)
+                            {
+                                case TypeKind.Class:
+                                    return "Class";
+                                case TypeKind.Delegate:
+                                    return "Delegate";
+                                case TypeKind.Enum:
+                                    return "Enum";
+                                case TypeKind.Interface:
+                                    return "Interface";
+                                case TypeKind.Struct:
+                                    return "Struct";
+                            }
+
+                            break;
+                        }
                 }
+
+                throw new InvalidOperationException();
             }
         }
 
-        public override void WriteNamespace(ITypeSymbol typeSymbol)
+        public override void WriteNamespace(ISymbol symbol)
         {
             _writer.WriteString("Namespace: ");
 
-            INamespaceSymbol containingNamespace = typeSymbol.ContainingNamespace;
+            INamespaceSymbol containingNamespace = symbol.ContainingNamespace;
 
             _writer.WriteLink(_generator.GetDocumentationInfo(containingNamespace), DirectoryInfo, FormatProvider.NamespaceFormat);
             _writer.WriteLine();
             _writer.WriteLine();
         }
 
-        public override void WriteAssembly(ITypeSymbol typeSymbol)
+        public override void WriteAssembly(ISymbol symbol)
         {
             _writer.WriteString("Assembly: ");
-            _writer.WriteString(typeSymbol.ContainingAssembly.Name);
+            _writer.WriteString(symbol.ContainingAssembly.Name);
             _writer.WriteString(".dll");
             _writer.WriteLine();
             _writer.WriteLine();
         }
 
-        public override void WriteObsolete(ITypeSymbol typeSymbol)
+        public override void WriteObsolete(ISymbol symbol)
         {
             _writer.WriteBold("WARNING: This API is now obsolete.");
             _writer.WriteLine();
             _writer.WriteLine();
 
-            TypedConstant typedConstant = typeSymbol.GetAttribute(MetadataNames.System_ObsoleteAttribute).ConstructorArguments.FirstOrDefault();
+            TypedConstant typedConstant = symbol.GetAttribute(MetadataNames.System_ObsoleteAttribute).ConstructorArguments.FirstOrDefault();
 
             if (typedConstant.Type?.SpecialType == SpecialType.System_String)
             {
@@ -108,14 +136,19 @@ namespace Roslynator.Documentation
             _writer.WriteLine();
         }
 
-        public override void WriteSummary(ITypeSymbol typeSymbol)
+        public override void WriteSummary(ISymbol symbol)
         {
-            WriteSection(typeSymbol, heading: "Summary", "summary");
+            WriteSection(symbol, heading: "Summary", "summary");
         }
 
-        public override void WriteTypeParameters(ITypeSymbol typeSymbol)
+        public override void WriteSignature(ISymbol symbol)
         {
-            if (typeSymbol is INamedTypeSymbol namedTypeSymbol)
+            _writer.WriteFencedCodeBlock(symbol.ToDisplayString(FormatProvider.SignatureFormat), GetLanguageIdentifier());
+        }
+
+        public override void WriteTypeParameters(ISymbol symbol)
+        {
+            if (symbol is INamedTypeSymbol namedTypeSymbol)
             {
                 ImmutableArray<ITypeParameterSymbol> typeParameters = namedTypeSymbol.TypeParameters;
 
@@ -123,9 +156,9 @@ namespace Roslynator.Documentation
             }
         }
 
-        public override void WriteParameters(ITypeSymbol typeSymbol)
+        public override void WriteParameters(ISymbol symbol)
         {
-            if (typeSymbol is INamedTypeSymbol namedTypeSymbol)
+            if (symbol is INamedTypeSymbol namedTypeSymbol)
             {
                 IMethodSymbol methodSymbol = namedTypeSymbol.DelegateInvokeMethod;
 
@@ -138,38 +171,38 @@ namespace Roslynator.Documentation
             }
         }
 
-        public override void WriteReturnValue(ITypeSymbol typeSymbol)
+        public override void WriteReturnValue(ISymbol symbol)
         {
-            switch (typeSymbol.Kind)
+            switch (symbol.Kind)
             {
                 case SymbolKind.NamedType:
                     {
-                        var namedTypeSymbol = (INamedTypeSymbol)typeSymbol;
+                        var namedTypeSymbol = (INamedTypeSymbol)symbol;
 
                         IMethodSymbol methodSymbol = namedTypeSymbol.DelegateInvokeMethod;
 
                         if (methodSymbol != null)
-                            WriteReturnValue("Return Value", typeSymbol, methodSymbol.ReturnType);
+                            WriteReturnValue("Return Value", symbol, methodSymbol.ReturnType);
 
                         break;
                     }
                 case SymbolKind.Method:
                     {
-                        var methodSymbol = (IMethodSymbol)typeSymbol;
+                        var methodSymbol = (IMethodSymbol)symbol;
 
-                        WriteReturnValue("Returns", typeSymbol, methodSymbol.ReturnType);
+                        WriteReturnValue("Returns", symbol, methodSymbol.ReturnType);
                         break;
                     }
                 case SymbolKind.Property:
                     {
-                        var propertySymbol = (IPropertySymbol)typeSymbol;
+                        var propertySymbol = (IPropertySymbol)symbol;
 
-                        WriteReturnValue("Property Value", typeSymbol, propertySymbol.Type);
+                        WriteReturnValue("Property Value", symbol, propertySymbol.Type);
                         break;
                     }
             }
 
-            void WriteReturnValue(string heading, ISymbol symbol, ITypeSymbol returnType)
+            void WriteReturnValue(string heading, ISymbol symbol2, ITypeSymbol returnType)
             {
                 if (returnType.SpecialType == SpecialType.System_Void)
                     return;
@@ -178,7 +211,7 @@ namespace Roslynator.Documentation
                 _writer.WriteLink(_generator.GetDocumentationInfo(returnType), DirectoryInfo, FormatProvider.ReturnValueFormat);
                 _writer.WriteLine();
 
-                string returns = _generator.GetDocumentationElement(symbol, "returns")?.Value;
+                string returns = _generator.GetDocumentationElement(symbol2, "returns")?.Value;
 
                 if (returns != null)
                 {
@@ -238,9 +271,9 @@ namespace Roslynator.Documentation
             }
         }
 
-        public override void WriteAttributes(ITypeSymbol typeSymbol)
+        public override void WriteAttributes(ISymbol symbol)
         {
-            using (IEnumerator<ITypeSymbol> en = typeSymbol
+            using (IEnumerator<ITypeSymbol> en = symbol
                 .GetAttributes()
                 .Select(f => f.AttributeClass)
                 .Where(f => !ShouldBeExcluded(f))
@@ -250,46 +283,43 @@ namespace Roslynator.Documentation
                 {
                     _writer.WriteHeading4("Attributes");
 
-                    WriterLink(en.Current);
+                    WriteLink(_generator.GetDocumentationInfo(en.Current));
 
                     while (en.MoveNext())
                     {
                         _writer.WriteString(", ");
 
-                        WriterLink(en.Current);
+                        WriteLink(_generator.GetDocumentationInfo(en.Current));
                     }
                 }
             }
 
             _writer.WriteLine();
 
-            void WriterLink(ISymbol symbol)
-            {
-                WriteLink(_generator.GetDocumentationInfo(symbol));
-            }
-
             bool ShouldBeExcluded(INamedTypeSymbol attributeSymbol)
             {
                 switch (attributeSymbol.MetadataName)
                 {
+                    case "ConditionalAttribute":
+                    case "DebuggerBrowsableAttribute":
                     case "DebuggerDisplayAttribute":
+                    case "DebuggerHiddenAttribute":
+                    case "DebuggerNonUserCodeAttribute":
+                    case "DebuggerStepperBoundaryAttribute":
+                    case "DebuggerStepThroughAttribute":
                     case "DebuggerTypeProxyAttribute":
-                        {
-                            return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Diagnostics);
-                        }
+                    case "DebuggerVisualizerAttribute":
+                        return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Diagnostics);
+                    case "SuppressMessageAttribute":
+                        return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Diagnostics_CodeAnalysis);
                     case "DefaultMemberAttribute":
-                        {
-                            return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Reflection);
-                        }
+                        return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Reflection);
                     case "TypeForwardedFromAttribute":
                     case "TypeForwardedToAttribute":
-                        {
-                            return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Runtime_CompilerServices);
-                        }
+                    case "MethodImplAttribute":
+                        return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Runtime_CompilerServices);
                     default:
-                        {
-                            return false;
-                        }
+                        return false;
                 }
             }
         }
@@ -357,14 +387,61 @@ namespace Roslynator.Documentation
             }
         }
 
-        public override void WriteExamples(ITypeSymbol typeSymbol)
+        public override void WriteExceptions(ISymbol symbol)
         {
-            WriteSection(typeSymbol, heading: "Examples", "examples");
+            using (IEnumerator<(XElement element, ISymbol exceptionSymbol)> en = GetExceptions().GetEnumerator())
+            {
+                if (en.MoveNext())
+                {
+                    _writer.WriteHeading2("Exceptions");
+
+                    WriteException(en.Current.element, en.Current.exceptionSymbol);
+
+                    while (en.MoveNext())
+                        WriteException(en.Current.element, en.Current.exceptionSymbol);
+                }
+            }
+
+            void WriteException(XElement element, ISymbol exceptionSymbol)
+            {
+                WriteLink(_generator.GetDocumentationInfo(exceptionSymbol));
+                _writer.WriteLine();
+                _writer.WriteLine();
+                WriteElementContent(element);
+                _writer.WriteLine();
+                _writer.WriteLine();
+            }
+
+            IEnumerable <(XElement element, ISymbol exceptionSymbol)> GetExceptions()
+            {
+                XElement element = _generator.GetDocumentationElement(symbol);
+
+                if (element != null)
+                {
+                    foreach (XElement e in element.Elements("exception"))
+                    {
+                        string commentId = e.Attribute("cref")?.Value;
+
+                        if (commentId != null)
+                        {
+                            ISymbol exceptionSymbol = DocumentationCommentId.GetFirstSymbolForReferenceId(commentId, DocumentationSource.SharedCompilation);
+
+                            if (exceptionSymbol != null)
+                                yield return (e, exceptionSymbol);
+                        }
+                    }
+                }
+            }
         }
 
-        public override void WriteRemarks(ITypeSymbol typeSymbol)
+        public override void WriteExamples(ISymbol symbol)
         {
-            WriteSection(typeSymbol, heading: "Remarks", "remarks");
+            WriteSection(symbol, heading: "Examples", "examples");
+        }
+
+        public override void WriteRemarks(ISymbol symbol)
+        {
+            WriteSection(symbol, heading: "Remarks", "remarks");
         }
 
         public override void WriteEnumFields(IEnumerable<IFieldSymbol> fields)
@@ -450,7 +527,7 @@ namespace Roslynator.Documentation
                 FormatProvider.MethodFormat);
         }
 
-        public override void WriteSeeAlso(ITypeSymbol typeSymbol)
+        public override void WriteSeeAlso(ISymbol symbol)
         {
             using (IEnumerator<ISymbol> en = GetSymbols().GetEnumerator())
             {
@@ -464,16 +541,16 @@ namespace Roslynator.Documentation
                 }
             }
 
-            void WriteBulletItem(ISymbol symbol)
+            void WriteBulletItem(ISymbol symbol2)
             {
                 _writer.WriteStartBulletItem();
-                _writer.WriteLink(_generator.GetDocumentationInfo(symbol), DirectoryInfo, FormatProvider.CrefFormat);
+                _writer.WriteLink(_generator.GetDocumentationInfo(symbol2), DirectoryInfo, FormatProvider.CrefFormat);
                 _writer.WriteEndBulletItem();
             }
 
             IEnumerable<ISymbol> GetSymbols()
             {
-                XElement element = _generator.GetDocumentationElement(typeSymbol);
+                XElement element = _generator.GetDocumentationElement(symbol);
 
                 if (element != null)
                 {
@@ -483,19 +560,19 @@ namespace Roslynator.Documentation
 
                         if (commentId != null)
                         {
-                            ISymbol symbol = DocumentationCommentId.GetFirstSymbolForReferenceId(commentId, DocumentationSource.SharedCompilation);
+                            ISymbol symbol2 = DocumentationCommentId.GetFirstSymbolForReferenceId(commentId, DocumentationSource.SharedCompilation);
 
-                            if (symbol != null)
-                                yield return symbol;
+                            if (symbol2 != null)
+                                yield return symbol2;
                         }
                     }
                 }
             }
         }
 
-        private void WriteSection(ITypeSymbol typeSymbol, string heading, string name)
+        private void WriteSection(ISymbol symbol, string heading, string name)
         {
-            XElement element = _generator.GetDocumentationElement(typeSymbol, name);
+            XElement element = _generator.GetDocumentationElement(symbol, name);
 
             if (element == null)
                 return;
@@ -679,22 +756,6 @@ namespace Roslynator.Documentation
                     }
                     while (!isLast);
                 }
-            }
-
-            string GetLanguageIdentifier()
-            {
-                switch (Symbol.Language)
-                {
-                    case LanguageNames.CSharp:
-                        return LanguageIdentifiers.CSharp;
-                    case LanguageNames.VisualBasic:
-                        return LanguageIdentifiers.VisualBasic;
-                    case LanguageNames.FSharp:
-                        return LanguageIdentifiers.FSharp;
-                }
-
-                Debug.Fail(Symbol.Language);
-                return null;
             }
         }
 
@@ -989,6 +1050,22 @@ namespace Roslynator.Documentation
         {
             if (_writer.WriteState != WriteState.Closed)
                 _writer.Close();
+        }
+
+        internal string GetLanguageIdentifier()
+        {
+            switch (Symbol.Language)
+            {
+                case LanguageNames.CSharp:
+                    return LanguageIdentifiers.CSharp;
+                case LanguageNames.VisualBasic:
+                    return LanguageIdentifiers.VisualBasic;
+                case LanguageNames.FSharp:
+                    return LanguageIdentifiers.FSharp;
+            }
+
+            Debug.Assert(Symbol == null, Symbol.Language);
+            return null;
         }
     }
 }

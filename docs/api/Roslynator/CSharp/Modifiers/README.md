@@ -8,6 +8,11 @@ Assembly: Roslynator\.CSharp\.dll
 
 Serves as a factory for a modifier list\.
 
+```csharp
+class Modifiers
+```
+
+
 ## Methods
 
 | Method | Summary |

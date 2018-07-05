@@ -12,6 +12,10 @@ Foo is obsolete\.
 
 a → > b [Foo](./README.md)
 
+```csharp
+class Foo
+```
+
 #### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; Foo
@@ -52,7 +56,7 @@ paratext
 
 | Constructor | Summary |
 | ----------- | ------- |
-| [Foo()](-ctor/README.md) | |
+| [Foo(String)](-ctor/README.md) | aaa |
 
 ## Methods
 

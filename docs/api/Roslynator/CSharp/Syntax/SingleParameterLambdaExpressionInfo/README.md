@@ -8,6 +8,10 @@ Assembly: Roslynator\.CSharp\.dll
 
 Provides information about a lambda expression with a single parameter\.
 
+```csharp
+readonly struct SingleParameterLambdaExpressionInfo
+```
+
 #### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; SingleParameterLambdaExpressionInfo

@@ -10,9 +10,13 @@ namespace Roslynator.Documentation
 
         public abstract SymbolDisplayFormat TitleFormat { get; }
 
+        public abstract SymbolDisplayFormat MemberTitleFormat { get; }
+
         public abstract SymbolDisplayFormat NamespaceFormat { get; }
 
         public abstract SymbolDisplayFormat TypeFormat { get; }
+
+        public abstract SymbolDisplayFormat SignatureFormat { get; }
 
         public abstract SymbolDisplayFormat TypeParameterFormat { get; }
 
@@ -47,6 +51,11 @@ namespace Roslynator.Documentation
                 get { return SymbolDisplayFormats.TypeNameAndContainingTypes; }
             }
 
+            public override SymbolDisplayFormat MemberTitleFormat
+            {
+                get { return SymbolDisplayFormats.MemberTitle; }
+            }
+
             public override SymbolDisplayFormat NamespaceFormat
             {
                 get { return SymbolDisplayFormats.TypeNameAndContainingTypesAndNamespaces; }
@@ -55,6 +64,11 @@ namespace Roslynator.Documentation
             public override SymbolDisplayFormat TypeFormat
             {
                 get { return SymbolDisplayFormats.TypeNameAndContainingTypes; }
+            }
+
+            public override SymbolDisplayFormat SignatureFormat
+            {
+                get { return SymbolDisplayFormats.FullSignature; }
             }
 
             public override SymbolDisplayFormat TypeParameterFormat
@@ -94,27 +108,27 @@ namespace Roslynator.Documentation
 
             public override SymbolDisplayFormat ConstructorFormat
             {
-                get { return SymbolDisplayFormats.MemberSignature; }
+                get { return SymbolDisplayFormats.SimpleSignature; }
             }
 
             public override SymbolDisplayFormat FieldFormat
             {
-                get { return SymbolDisplayFormats.MemberSignature; }
+                get { return SymbolDisplayFormats.SimpleSignature; }
             }
 
             public override SymbolDisplayFormat PropertyFormat
             {
-                get { return SymbolDisplayFormats.MemberSignature; }
+                get { return SymbolDisplayFormats.SimpleSignature; }
             }
 
             public override SymbolDisplayFormat MethodFormat
             {
-                get { return SymbolDisplayFormats.MemberSignature; }
+                get { return SymbolDisplayFormats.SimpleSignature; }
             }
 
             public override SymbolDisplayFormat EventFormat
             {
-                get { return SymbolDisplayFormats.MemberSignature; }
+                get { return SymbolDisplayFormats.SimpleSignature; }
             }
 
             public override SymbolDisplayFormat CrefFormat

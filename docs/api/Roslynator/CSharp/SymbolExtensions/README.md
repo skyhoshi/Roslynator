@@ -8,6 +8,11 @@ Assembly: Roslynator\.CSharp\.dll
 
 A set of static methods for [ISymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.isymbol) and derived types\.
 
+```csharp
+class SymbolExtensions
+```
+
+
 ## Methods
 
 | Method | Summary |

@@ -6,7 +6,11 @@ Assembly: Roslynator\.CSharp\.dll
 
 ## Summary
 
-Represents selected nodes in a [SyntaxListSelection\<TNode>](./README.md)\.
+Represents selected nodes in a [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)\.
+
+```csharp
+class SyntaxListSelection<TNode> where TNode : SyntaxNode
+```
 
 #### Type Parameters
 

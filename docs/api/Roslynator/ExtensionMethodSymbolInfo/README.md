@@ -8,6 +8,10 @@ Assembly: Roslynator\.CSharp\.dll
 
 Represents an extension method symbol\.
 
+```csharp
+readonly struct ExtensionMethodSymbolInfo
+```
+
 #### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; ExtensionMethodSymbolInfo

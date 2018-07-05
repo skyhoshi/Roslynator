@@ -13,7 +13,7 @@
 | [SeparatedSyntaxListSelection\<TNode>](SeparatedSyntaxListSelection-1/README.md) | Represents selected nodes in a [SeparatedSyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.separatedsyntaxlist-1)\. |
 | [SymbolExtensions](SymbolExtensions/README.md) | A set of extension methods for [ISymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.isymbol) and its derived types\. |
 | [SyntaxExtensions](SyntaxExtensions/README.md) | A set of extension method for a syntax\. |
-| [SyntaxListSelection\<TNode>](SyntaxListSelection-1/README.md) | Represents selected nodes in a [SyntaxListSelection\<TNode>](SyntaxListSelection-1/README.md)\. |
+| [SyntaxListSelection\<TNode>](SyntaxListSelection-1/README.md) | Represents selected nodes in a [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)\. |
 | [SyntaxTreeExtensions](SyntaxTreeExtensions/README.md) | A set of extension methods for [SyntaxTree](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtree)\. |
 
 ## Structs

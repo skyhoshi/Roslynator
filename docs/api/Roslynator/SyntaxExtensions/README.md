@@ -8,6 +8,11 @@ Assembly: Roslynator\.CSharp\.dll
 
 A set of extension method for a syntax\.
 
+```csharp
+class SyntaxExtensions
+```
+
+
 ## Methods
 
 | Method | Summary |

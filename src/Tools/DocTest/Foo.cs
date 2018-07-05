@@ -53,9 +53,22 @@ namespace Roslynator.Documentation
     /// </remarks>
     /// <seealso cref="object"/>
     /// <seealso cref="Foo"/>
+    /// <exception cref="ArgumentException">a</exception>
+    /// <exception cref="ArgumentNullException">b</exception>
     [Obsolete("Foo is obsolete.")]
     public class Foo
     {
+        /// <summary>
+        /// aaa
+        /// </summary>
+        /// <param name="s"></param>
+        /// <exception cref="ArgumentException">a</exception>
+        /// <exception cref="ArgumentNullException">b</exception>
+        /// <seealso cref="object"/>
+        public Foo(string s)
+        {
+        }
+
         /// <summary>
         /// s <paramref name="value"/> <typeparamref name="T"/>
         /// </summary>

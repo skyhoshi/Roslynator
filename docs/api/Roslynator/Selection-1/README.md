@@ -8,6 +8,10 @@ Assembly: Roslynator\.CSharp\.dll
 
 Represents consecutive sequence of selected items in a collection\.
 
+```csharp
+class Selection<T>
+```
+
 #### Type Parameters
 
 | Type Parameter | Summary |

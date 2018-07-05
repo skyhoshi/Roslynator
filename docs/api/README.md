@@ -15,7 +15,7 @@
 | [SeparatedSyntaxListSelection\<TNode>](Roslynator/SeparatedSyntaxListSelection-1/README.md) | Represents selected nodes in a [SeparatedSyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.separatedsyntaxlist-1)\. |
 | [SymbolExtensions](Roslynator/SymbolExtensions/README.md) | A set of extension methods for [ISymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.isymbol) and its derived types\. |
 | [SyntaxExtensions](Roslynator/SyntaxExtensions/README.md) | A set of extension method for a syntax\. |
-| [SyntaxListSelection\<TNode>](Roslynator/SyntaxListSelection-1/README.md) | Represents selected nodes in a [SyntaxListSelection\<TNode>](Roslynator/SyntaxListSelection-1/README.md)\. |
+| [SyntaxListSelection\<TNode>](Roslynator/SyntaxListSelection-1/README.md) | Represents selected nodes in a [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)\. |
 | [SyntaxTreeExtensions](Roslynator/SyntaxTreeExtensions/README.md) | A set of extension methods for [SyntaxTree](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtree)\. |
 
 ### Structs

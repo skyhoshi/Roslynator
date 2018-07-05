@@ -8,6 +8,11 @@ Assembly: Roslynator\.CSharp\.dll
 
 A set of static methods that allows manipulation with modifiers\.
 
+```csharp
+class ModifierList
+```
+
+
 ## Methods
 
 | Method | Summary |
