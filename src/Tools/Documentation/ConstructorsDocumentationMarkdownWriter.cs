@@ -6,9 +6,9 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
-    public class ConstructorDocumentationMarkdownWriter : MemberDocumentationWriter
+    public class ConstructorsDocumentationMarkdownWriter : ConstructorDocumentationMarkdownWriter
     {
-        public ConstructorDocumentationMarkdownWriter(
+        public ConstructorsDocumentationMarkdownWriter(
             ImmutableArray<ISymbol> symbols,
             SymbolDocumentationInfo directoryInfo,
             DocumentationGenerator generator,
@@ -19,25 +19,16 @@ namespace Roslynator.Documentation
         public override void WriteTitle(ISymbol symbol)
         {
             Writer.WriteStartHeading(1 + HeadingLevel);
-            Writer.WriteString(symbol.ToDisplayString(FormatProvider.ConstructorFormat));
-            Writer.WriteString(" Constructor");
+            Writer.WriteString(symbol.ToDisplayString(FormatProvider.TitleFormat));
+            Writer.WriteString(" Constructors");
             Writer.WriteEndHeading();
         }
 
         public override void WriteMemberTitle(ISymbol symbol)
         {
-        }
-
-        public override void WriteContent(ISymbol symbol)
-        {
-            WriteSummary(symbol);
-            WriteSignature(symbol);
-            WriteParameters(symbol);
-            WriteAttributes(symbol);
-            WriteExceptions(symbol);
-            WriteExamples(symbol);
-            WriteRemarks(symbol);
-            WriteSeeAlso(symbol);
+            Writer.WriteStartHeading(1 + HeadingLevel);
+            Writer.WriteString(symbol.ToDisplayString(FormatProvider.ConstructorFormat));
+            Writer.WriteEndHeading();
         }
     }
 }

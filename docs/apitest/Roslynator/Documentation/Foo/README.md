@@ -57,6 +57,7 @@ paratext
 | Constructor | Summary |
 | ----------- | ------- |
 | [Foo(String)](-ctor/README.md) | aaa |
+| [Foo(String, String)](-ctor/README.md) | |
 
 ## Methods
 

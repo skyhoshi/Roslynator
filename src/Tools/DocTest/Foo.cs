@@ -69,6 +69,11 @@ namespace Roslynator.Documentation
         {
         }
 
+        public Foo(string s, string s2)
+        {
+
+        }
+
         /// <summary>
         /// s <paramref name="value"/> <typeparamref name="T"/>
         /// </summary>

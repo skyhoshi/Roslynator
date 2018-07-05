@@ -41,70 +41,35 @@ namespace Roslynator.Documentation
             {
                 string content = generator.GenerateNamespaceDocument(namespaceSymbol);
 
-                string path = string.Join(@"\", generator.GetDocumentationInfo(namespaceSymbol).Names.Reverse());
-
-                path = rootPath + path + @"\README.md";
-
-                Directory.CreateDirectory(Path.GetDirectoryName(path));
-                FileHelper.WriteAllText(path, content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
+                WriteFile(rootPath, content, generator.GetDocumentationInfo(namespaceSymbol));
             }
 
             foreach (ITypeSymbol typeSymbol in generator.TypeSymbols)
             {
                 string content = generator.GenerateTypeDocument(typeSymbol);
 
-                string path = string.Join(@"\", generator.GetDocumentationInfo(typeSymbol).Names.Reverse());
+                SymbolDocumentationInfo info = generator.GetDocumentationInfo(typeSymbol);
 
-                path = rootPath + path + @"\README.md";
+                WriteFile(rootPath, content, info);
 
-                Directory.CreateDirectory(Path.GetDirectoryName(path));
-                FileHelper.WriteAllText(path, content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
+                if (typeSymbol.BaseType?.SpecialType == SpecialType.System_Enum)
+                    continue;
 
-                if (typeSymbol.BaseType?.SpecialType != SpecialType.System_Enum)
-                    GenerateConstructorFiles(typeSymbol, generator, rootPath);
+                content = generator.GenerateMemberDocument(info.GetConstructors());
+
+                if (content != null)
+                    WriteFile(rootPath, content, generator.GetDocumentationInfo(info.GetConstructors().First()));
             }
         }
 
-        private static void GenerateConstructorFiles(ITypeSymbol typeSymbol, DocumentationGenerator generator, string rootPath)
+        private static void WriteFile(string rootPath, string content, SymbolDocumentationInfo info)
         {
-            List<IMethodSymbol> constructors = generator.GetDocumentationInfo(typeSymbol).GetConstructors().ToList();
+            string path = string.Join(@"\", info.Names.Reverse());
 
-            if (constructors.Count == 1)
-            {
-                IMethodSymbol symbol = constructors[0];
-                SymbolDocumentationInfo info = generator.GetDocumentationInfo(symbol);
+            path = rootPath + path + @"\README.md";
 
-                using (var writer = new ConstructorDocumentationMarkdownWriter(symbol, info, generator))
-                {
-                    writer.WriteTitle(symbol);
-                    writer.WriteNamespace(typeSymbol);
-                    writer.WriteAssembly(typeSymbol);
-
-                    if (symbol.HasAttribute(MetadataNames.System_ObsoleteAttribute))
-                        writer.WriteObsolete(symbol);
-
-                    writer.WriteSummary(symbol);
-                    writer.WriteSignature(symbol);
-                    writer.WriteParameters(symbol);
-                    writer.WriteAttributes(symbol);
-                    writer.WriteExceptions(symbol);
-                    writer.WriteExamples(symbol);
-                    writer.WriteRemarks(symbol);
-                    writer.WriteSeeAlso(symbol);
-
-                    string content = writer.ToString();
-
-                    string path = string.Join(@"\", info.Names.Reverse());
-
-                    path = rootPath + path + @"\README.md";
-
-                    Directory.CreateDirectory(Path.GetDirectoryName(path));
-                    FileHelper.WriteAllText(path, content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
-                }
-            }
-            else if (constructors.Count == 2)
-            {
-            }
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            FileHelper.WriteAllText(path, content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
         }
     }
 }

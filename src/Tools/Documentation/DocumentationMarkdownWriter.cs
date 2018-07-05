@@ -32,6 +32,8 @@ namespace Roslynator.Documentation
 
         public override ISymbol Symbol { get; }
 
+        public int HeadingLevel { get; set; }
+
         public override SymbolDocumentationInfo DirectoryInfo { get; }
 
         public SymbolDisplayFormatProvider FormatProvider
@@ -46,13 +48,9 @@ namespace Roslynator.Documentation
 
         public override void WriteTitle(ISymbol symbol)
         {
-            _writer.WriteStartHeading(1);
+            _writer.WriteStartHeading(1 + HeadingLevel);
 
-            SymbolDisplayFormat format = (symbol.Kind == SymbolKind.NamedType)
-                ? FormatProvider.TitleFormat
-                : FormatProvider.MemberTitleFormat;
-
-            _writer.WriteString(symbol.ToDisplayString(format));
+            _writer.WriteString(symbol.ToDisplayString(FormatProvider.TitleFormat));
             _writer.WriteString(" ");
             _writer.WriteString(GetTypeName());
             _writer.WriteEndHeading();
@@ -207,7 +205,7 @@ namespace Roslynator.Documentation
                 if (returnType.SpecialType == SpecialType.System_Void)
                     return;
 
-                _writer.WriteHeading3(heading);
+                _writer.WriteHeading(3 + HeadingLevel, heading);
                 _writer.WriteLink(_generator.GetDocumentationInfo(returnType), DirectoryInfo, FormatProvider.ReturnValueFormat);
                 _writer.WriteLine();
 
@@ -229,7 +227,7 @@ namespace Roslynator.Documentation
                 return;
             }
 
-            _writer.WriteHeading4("Inheritance");
+            _writer.WriteHeading(4 + HeadingLevel, "Inheritance");
 
             using (IEnumerator<ITypeSymbol> en = typeSymbol.BaseTypesAndSelf().Reverse().GetEnumerator())
             {
@@ -281,7 +279,7 @@ namespace Roslynator.Documentation
             {
                 if (en.MoveNext())
                 {
-                    _writer.WriteHeading4("Attributes");
+                    _writer.WriteHeading(4 + HeadingLevel, "Attributes");
 
                     WriteLink(_generator.GetDocumentationInfo(en.Current));
 
@@ -339,7 +337,7 @@ namespace Roslynator.Documentation
                 {
                     if (en.MoveNext())
                     {
-                        _writer.WriteHeading4("Derived");
+                        _writer.WriteHeading(4 + HeadingLevel, "Derived");
 
                         do
                         {
@@ -374,7 +372,7 @@ namespace Roslynator.Documentation
             {
                 if (en.MoveNext())
                 {
-                    _writer.WriteHeading4("Implements");
+                    _writer.WriteHeading(4 + HeadingLevel, "Implements");
 
                     do
                     {
@@ -393,7 +391,7 @@ namespace Roslynator.Documentation
             {
                 if (en.MoveNext())
                 {
-                    _writer.WriteHeading2("Exceptions");
+                    _writer.WriteHeading(3 + HeadingLevel, "Exceptions");
 
                     WriteException(en.Current.element, en.Current.exceptionSymbol);
 
@@ -450,7 +448,7 @@ namespace Roslynator.Documentation
             {
                 if (en.MoveNext())
                 {
-                    _writer.WriteHeading(2, "Fields");
+                    _writer.WriteHeading(2 + HeadingLevel, "Fields");
 
                     _writer.WriteStartTable(3);
                     _writer.WriteStartTableRow();
@@ -533,7 +531,7 @@ namespace Roslynator.Documentation
             {
                 if (en.MoveNext())
                 {
-                    _writer.WriteHeading2("See Also");
+                    _writer.WriteHeading(2 + HeadingLevel, "See Also");
                     WriteBulletItem(en.Current);
 
                     while (en.MoveNext())
@@ -579,7 +577,7 @@ namespace Roslynator.Documentation
 
             if (heading != null)
             {
-                _writer.WriteHeading2(heading);
+                _writer.WriteHeading(2 + HeadingLevel, heading);
             }
             else
             {
@@ -878,7 +876,7 @@ namespace Roslynator.Documentation
             }
         }
 
-        private void WriteTable(
+        internal void WriteTable(
             IEnumerable<ISymbol> symbols,
             string heading,
             int headingLevel,
@@ -894,7 +892,7 @@ namespace Roslynator.Documentation
             {
                 if (en.MoveNext())
                 {
-                    _writer.WriteHeading(headingLevel, heading);
+                    _writer.WriteHeading(headingLevel + HeadingLevel, heading);
 
                     _writer.WriteStartTable(2);
                     _writer.WriteStartTableRow();

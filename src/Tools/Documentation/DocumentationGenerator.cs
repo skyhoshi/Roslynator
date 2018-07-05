@@ -172,6 +172,23 @@ namespace Roslynator.Documentation
             }
         }
 
+        public string GenerateMemberDocument(IEnumerable<ISymbol> members)
+        {
+            ImmutableArray<ISymbol> constructors = members.ToImmutableArray();
+
+            if (constructors.Length == 0)
+                return null;
+
+            ISymbol symbol = constructors[0];
+            SymbolDocumentationInfo info = GetDocumentationInfo(symbol);
+
+            using (MemberDocumentationWriter writer = MemberDocumentationWriter.Create(constructors, info, this))
+            {
+                writer.WriteMember();
+                return writer.ToString();
+            }
+        }
+
         internal SymbolDocumentationInfo GetDocumentationInfo(ISymbol symbol)
         {
             if (_symbolDocumentationCache.TryGetValue(symbol, out SymbolDocumentationInfo info))
