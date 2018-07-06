@@ -1,4 +1,4 @@
-# this\[Int32\] Property
+# Selection\<T>\.this\[Int32\] Property
 
 Namespace: [Roslynator](../../README.md)
 
@@ -12,13 +12,19 @@ Gets the selected item at the specified index\.
 public T this[int index] { get; }
 ```
 
-#### Property Value
+### Parameters
+
+| Parameter | Summary |
+| --------- | ------- |
+| index | The zero\-based index of the item to get\.  |
+
+### Property Value
 
 [T](../T/README.md)
 
 The item at the specified index\.
 
-#### Implements
+### Implements
 
 * [IReadOnlyList\<T>.Item](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1.item)
 

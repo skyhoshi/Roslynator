@@ -1,4 +1,4 @@
-# Initializer Property
+# SingleLocalDeclarationStatementInfo\.Initializer Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The variable initializer, if any\.
 public EqualsValueClauseSyntax Initializer { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [EqualsValueClauseSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.equalsvalueclausesyntax)
 

@@ -12,17 +12,17 @@ Represents consecutive sequence of selected items in a collection\.
 class Selection<T>
 ```
 
-#### Type Parameters
+### Type Parameters
 
 | Type Parameter | Summary |
 | -------------- | ------- |
 | T | |
 
-#### Inheritance
+### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; Selection\<T>
 
-#### Derived
+### Derived
 
 * [Roslynator.CSharp.MemberDeclarationListSelection](../CSharp/MemberDeclarationListSelection/README.md)
 * [Roslynator.CSharp.StatementListSelection](../CSharp/StatementListSelection/README.md)
@@ -30,7 +30,7 @@ class Selection<T>
 * [Roslynator.SyntaxListSelection\<TNode>](../SyntaxListSelection-1/README.md)
 * [Roslynator.Text.TextLineCollectionSelection](../Text/TextLineCollectionSelection/README.md)
 
-#### Implements
+### Implements
 
 * [IEnumerable\<T>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)
 * [IReadOnlyCollection\<T>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1)
@@ -71,5 +71,5 @@ class Selection<T>
 | Member | Summary |
 | ------ | ------- |
 | [IEnumerable.GetEnumerator()](System-Collections-IEnumerable-GetEnumerator/README.md) | |
-| [IEnumerable\<T>.GetEnumerator()](System-Collections-Generic-IEnumerable-1-GetEnumerator/README.md) | |
+| [IEnumerable\<T>.GetEnumerator()](System-Collections-Generic-IEnumerable-T--GetEnumerator/README.md) | |
 

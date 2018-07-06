@@ -1,4 +1,4 @@
-# IsVolatile Property
+# ModifierListInfo\.IsVolatile Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ True if the modifier list contains "volatile" modifier\.
 public bool IsVolatile { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 

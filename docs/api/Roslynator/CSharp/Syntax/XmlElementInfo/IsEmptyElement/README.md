@@ -1,4 +1,4 @@
-# IsEmptyElement Property
+# XmlElementInfo\.IsEmptyElement Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ Determines whether the element is [XmlEmptyElement](https://docs.microsoft.com/e
 public bool IsEmptyElement { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 

@@ -1,4 +1,4 @@
-# UnderlyingList Property
+# SeparatedSyntaxListSelection\<TNode>\.UnderlyingList Property
 
 Namespace: [Roslynator](../../README.md)
 
@@ -12,7 +12,7 @@ Gets an underlying list that contains selected nodes\.
 public SeparatedSyntaxList<TNode> UnderlyingList { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SeparatedSyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.separatedsyntaxlist-1)
 

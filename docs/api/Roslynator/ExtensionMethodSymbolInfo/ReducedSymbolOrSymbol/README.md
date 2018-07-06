@@ -1,4 +1,4 @@
-# ReducedSymbolOrSymbol Property
+# ExtensionMethodSymbolInfo\.ReducedSymbolOrSymbol Property
 
 Namespace: [Roslynator](../../README.md)
 
@@ -12,7 +12,7 @@ The reduced symbol or the symbol if the reduced symbol is null\.
 public IMethodSymbol ReducedSymbolOrSymbol { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [IMethodSymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.imethodsymbol)
 

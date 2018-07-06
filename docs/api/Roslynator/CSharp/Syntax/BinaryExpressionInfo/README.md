@@ -12,11 +12,11 @@ Provides information about binary expression\.
 readonly struct BinaryExpressionInfo
 ```
 
-#### Inheritance
+### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; BinaryExpressionInfo
 
-#### Implements
+### Implements
 
 * [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[BinaryExpressionInfo](./README.md)>
 

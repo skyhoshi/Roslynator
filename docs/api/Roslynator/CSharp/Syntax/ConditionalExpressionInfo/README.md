@@ -12,11 +12,11 @@ Provides information about conditional expression\.
 readonly struct ConditionalExpressionInfo
 ```
 
-#### Inheritance
+### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; ConditionalExpressionInfo
 
-#### Implements
+### Implements
 
 * [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[ConditionalExpressionInfo](./README.md)>
 

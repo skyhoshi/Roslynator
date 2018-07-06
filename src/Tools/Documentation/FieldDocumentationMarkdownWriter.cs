@@ -20,14 +20,11 @@ namespace Roslynator.Documentation
 
         public override void WriteTitle(ISymbol symbol)
         {
-            Writer.WriteStartHeading(1 + HeadingLevel);
+            Writer.WriteStartHeading(1 + HeadingBaseLevel);
             Writer.WriteString(symbol.ToDisplayString(FormatProvider.MemberTitleFormat));
-            Writer.WriteString(" Field");
+            Writer.WriteString(" ");
+            Writer.WriteString(CategoryName);
             Writer.WriteEndHeading();
-        }
-
-        public override void WriteMemberTitle(ISymbol symbol)
-        {
         }
 
         public override void WriteContent(ISymbol symbol)
@@ -43,7 +40,7 @@ namespace Roslynator.Documentation
 
         private void WriteValue(IFieldSymbol fieldSymbol)
         {
-            Writer.WriteHeading(4 + HeadingLevel, "Field Value");
+            Writer.WriteHeading(3 + HeadingBaseLevel, "Field Value");
             WriteLink(Generator.GetDocumentationInfo(fieldSymbol.Type));
         }
     }

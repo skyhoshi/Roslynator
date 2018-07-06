@@ -1,4 +1,4 @@
-# Token Property
+# StringLiteralExpressionInfo\.Token Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The token representing the string literal expression\.
 public SyntaxToken Token { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
 

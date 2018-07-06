@@ -20,7 +20,7 @@ namespace Roslynator.Documentation
 
         public override void WriteTitle(ISymbol symbol)
         {
-            Writer.WriteStartHeading(1 + HeadingLevel);
+            Writer.WriteStartHeading(1 + HeadingBaseLevel);
 
             if (Symbols.Length == 1)
             {
@@ -40,7 +40,7 @@ namespace Roslynator.Documentation
         {
             if (Symbols.Length > 1)
             {
-                Writer.WriteStartHeading(1 + HeadingLevel);
+                Writer.WriteStartHeading(1 + HeadingBaseLevel);
                 Writer.WriteString(symbol.ToDisplayString(FormatProvider.ConstructorFormat));
                 Writer.WriteEndHeading();
             }

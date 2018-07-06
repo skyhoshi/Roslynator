@@ -1,4 +1,4 @@
-# NullCheckExpression Property
+# NullCheckExpressionInfo\.NullCheckExpression Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The null check expression, e\.g\. "x == null"\.
 public ExpressionSyntax NullCheckExpression { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [ExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.expressionsyntax)
 

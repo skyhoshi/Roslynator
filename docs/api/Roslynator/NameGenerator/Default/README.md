@@ -1,4 +1,4 @@
-# Default Property
+# NameGenerator\.Default Property
 
 Namespace: [Roslynator](../../README.md)
 
@@ -12,7 +12,7 @@ Default implementation of [NameGenerator](../README.md) that adds number suffix 
 public static NameGenerator Default { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [NameGenerator](../README.md)
 

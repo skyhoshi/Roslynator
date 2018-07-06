@@ -13,6 +13,8 @@ namespace Roslynator.Documentation
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public sealed class SymbolDocumentationInfo
     {
+        private ImmutableArray<ISymbol> _publiclyVisibleMembers;
+
         private ImmutableArray<ISymbol> _allPubliclyVisibleMembers;
 
         private SymbolDocumentationInfo(
@@ -37,12 +39,27 @@ namespace Roslynator.Documentation
 
         public ImmutableArray<ISymbol> Members { get; }
 
+        public ImmutableArray<ISymbol> PubliclyVisibleMembers
+        {
+            get
+            {
+                if (_publiclyVisibleMembers.IsDefault)
+                {
+                    _publiclyVisibleMembers = Members
+                        .Where(f => f.IsPubliclyVisible())
+                        .ToImmutableArray();
+                }
+
+                return _publiclyVisibleMembers;
+            }
+        }
+
         public ImmutableArray<ISymbol> AllPubliclyVisibleMembers
         {
             get
             {
                 if (Symbol.IsStatic)
-                    return Members;
+                    return PubliclyVisibleMembers;
 
                 if (_allPubliclyVisibleMembers.IsDefault)
                 {
@@ -50,19 +67,16 @@ namespace Roslynator.Documentation
 
                     HashSet<ISymbol> overriddenSymbols = null;
 
-                    foreach (ISymbol symbol in Members)
+                    foreach (ISymbol symbol in PubliclyVisibleMembers)
                     {
-                        if (symbol.IsPubliclyVisible())
+                        ISymbol overriddenSymbol = symbol.OverriddenSymbol();
+
+                        if (overriddenSymbol != null)
                         {
-                            ISymbol overriddenSymbol = symbol.OverriddenSymbol();
-
-                            if (overriddenSymbol != null)
-                            {
-                                (overriddenSymbols ?? (overriddenSymbols = new HashSet<ISymbol>())).Add(overriddenSymbol);
-                            }
-
-                            builder.Add(symbol);
+                            (overriddenSymbols ?? (overriddenSymbols = new HashSet<ISymbol>())).Add(overriddenSymbol);
                         }
+
+                        builder.Add(symbol);
                     }
 
                     INamedTypeSymbol baseType = (Symbol as ITypeSymbol)?.BaseType;
@@ -147,16 +161,16 @@ namespace Roslynator.Documentation
             }
             else
             {
-                //TODO: system.collections.generic.list-1.system-collections-generic-ienumerable-t--getenumerator
                 ISymbol explicitImplementation = symbol.GetFirstExplicitInterfaceImplementation();
 
                 if (explicitImplementation != null)
                 {
-                    (ImmutableArray<ISymbol>.Builder symbols2, ImmutableArray<string>.Builder names2) = GetSymbolsAndNames(explicitImplementation);
-
-                    names2.Reverse();
-
-                    string name = string.Join("-", names2);
+                    string name = explicitImplementation
+                        .ToDisplayParts(SymbolDisplayFormats.ExplicitImplementationFullName)
+                        .Where(part => part.Kind != SymbolDisplayPartKind.Space)
+                        .Select(part => (part.IsPunctuation()) ? part.WithText("-") : part)
+                        .ToImmutableArray()
+                        .ToDisplayString();
 
                     names.Add(name);
                 }
@@ -280,12 +294,11 @@ namespace Roslynator.Documentation
             return sb.ToString();
         }
 
-        public IEnumerable<IFieldSymbol> GetFields()
+        public IEnumerable<IFieldSymbol> GetFields(bool includeInherited = false)
         {
-            foreach (ISymbol member in Members)
+            foreach (ISymbol member in ((includeInherited) ? AllPubliclyVisibleMembers : PubliclyVisibleMembers))
             {
-                if (member.Kind == SymbolKind.Field
-                    && member.IsPubliclyVisible())
+                if (member.Kind == SymbolKind.Field)
                 {
                     yield return (IFieldSymbol)member;
                 }
@@ -294,10 +307,9 @@ namespace Roslynator.Documentation
 
         public IEnumerable<IMethodSymbol> GetConstructors()
         {
-            foreach (ISymbol member in Members)
+            foreach (ISymbol member in PubliclyVisibleMembers)
             {
-                if (member.Kind == SymbolKind.Method
-                    && member.IsPubliclyVisible())
+                if (member.Kind == SymbolKind.Method)
                 {
                     var methodSymbol = (IMethodSymbol)member;
 
@@ -313,21 +325,20 @@ namespace Roslynator.Documentation
             }
         }
 
-        public IEnumerable<IPropertySymbol> GetProperties()
+        public IEnumerable<IPropertySymbol> GetProperties(bool includeInherited = false)
         {
-            foreach (ISymbol member in Members)
+            foreach (ISymbol member in ((includeInherited) ? AllPubliclyVisibleMembers : PubliclyVisibleMembers))
             {
-                if (member.Kind == SymbolKind.Property
-                    && member.IsPubliclyVisible())
+                if (member.Kind == SymbolKind.Property)
                 {
                     yield return (IPropertySymbol)member;
                 }
             }
         }
 
-        public IEnumerable<IMethodSymbol> GetMethods()
+        public IEnumerable<IMethodSymbol> GetMethods(bool includeInherited = false)
         {
-            foreach (ISymbol member in AllPubliclyVisibleMembers)
+            foreach (ISymbol member in ((includeInherited) ? AllPubliclyVisibleMembers : PubliclyVisibleMembers))
             {
                 if (member.Kind == SymbolKind.Method)
                 {
@@ -341,12 +352,11 @@ namespace Roslynator.Documentation
             }
         }
 
-        public IEnumerable<IMethodSymbol> GetOperators()
+        public IEnumerable<IMethodSymbol> GetOperators(bool includeInherited = false)
         {
-            foreach (ISymbol member in Members)
+            foreach (ISymbol member in ((includeInherited) ? AllPubliclyVisibleMembers : PubliclyVisibleMembers))
             {
-                if (member.Kind == SymbolKind.Method
-                    && member.IsPubliclyVisible())
+                if (member.Kind == SymbolKind.Method)
                 {
                     var methodSymbol = (IMethodSymbol)member;
 
@@ -360,12 +370,11 @@ namespace Roslynator.Documentation
             }
         }
 
-        public IEnumerable<IEventSymbol> GetEvents()
+        public IEnumerable<IEventSymbol> GetEvents(bool includeInherited = false)
         {
-            foreach (ISymbol member in Members)
+            foreach (ISymbol member in ((includeInherited) ? AllPubliclyVisibleMembers : PubliclyVisibleMembers))
             {
-                if (member.Kind == SymbolKind.Event
-                    && member.IsPubliclyVisible())
+                if (member.Kind == SymbolKind.Event)
                 {
                     yield return (IEventSymbol)member;
                 }
@@ -419,11 +428,10 @@ namespace Roslynator.Documentation
                 && Symbol.IsStatic
                 && Symbol.ContainingType == null)
             {
-                foreach (ISymbol member in Members)
+                foreach (ISymbol member in PubliclyVisibleMembers)
                 {
                     if (member.Kind == SymbolKind.Method
-                        && member.IsStatic
-                        && member.IsPubliclyVisible())
+                        && member.IsStatic)
                     {
                         var methodSymbol = (IMethodSymbol)member;
 

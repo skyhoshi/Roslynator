@@ -1,4 +1,4 @@
-# Items Property
+# SeparatedSyntaxListSelection\<TNode>\.Items Property
 
 Namespace: [Roslynator](../../README.md)
 
@@ -12,7 +12,7 @@ Gets an underlying list that contains selected nodes\.
 protected override IReadOnlyList<TNode> Items { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [IReadOnlyList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1)
 

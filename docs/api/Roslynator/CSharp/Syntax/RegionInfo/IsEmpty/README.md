@@ -1,4 +1,4 @@
-# IsEmpty Property
+# RegionInfo\.IsEmpty Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ Determines whether this region is empty, i\.e\. contains only white\-space\.
 public bool IsEmpty { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 

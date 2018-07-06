@@ -12,11 +12,11 @@ Provides information about "is" expression\.
 readonly struct IsExpressionInfo
 ```
 
-#### Inheritance
+### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; IsExpressionInfo
 
-#### Implements
+### Implements
 
 * [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[IsExpressionInfo](./README.md)>
 

@@ -1,0 +1,22 @@
+# XmlElementInfo\.operator ==\(XmlElementInfo, XmlElementInfo\) Operator
+
+Namespace: [Roslynator.CSharp.Syntax](../../README.md)
+
+Assembly: Roslynator\.CSharp\.dll
+
+```csharp
+public static bool operator ==(in XmlElementInfo info1, in XmlElementInfo info2)
+```
+
+### Parameters
+
+| Parameter | Summary |
+| --------- | ------- |
+| info1 | |
+| info2 | |
+
+### Returns
+
+[Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
+
+

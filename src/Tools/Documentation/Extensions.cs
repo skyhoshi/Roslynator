@@ -48,6 +48,19 @@ namespace Roslynator.Documentation
             return 0;
         }
 
+        public static ImmutableArray<ITypeParameterSymbol> GetTypeParameters(this ISymbol symbol)
+        {
+            switch (symbol.Kind)
+            {
+                case SymbolKind.Method:
+                    return ((IMethodSymbol)symbol).TypeParameters;
+                case SymbolKind.NamedType:
+                    return ((INamedTypeSymbol)symbol).TypeParameters;
+            }
+
+            return ImmutableArray<ITypeParameterSymbol>.Empty;
+        }
+
         public static ISymbol GetFirstExplicitInterfaceImplementation(this ISymbol symbol)
         {
             switch (symbol.Kind)
@@ -94,6 +107,16 @@ namespace Roslynator.Documentation
             writer.WriteStartTableCell();
             writer.WriteString(text);
             writer.WriteEndTableCell();
+        }
+
+        public static bool IsPunctuation(this SymbolDisplayPart part)
+        {
+            return part.Kind == SymbolDisplayPartKind.Punctuation;
+        }
+
+        public static SymbolDisplayPart WithText(this SymbolDisplayPart part, string text)
+        {
+            return new SymbolDisplayPart(part.Kind, part.Symbol, text);
         }
     }
 }

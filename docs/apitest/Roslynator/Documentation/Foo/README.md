@@ -16,11 +16,11 @@ a → > b [Foo](./README.md)
 class Foo
 ```
 
-#### Inheritance
+### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; Foo
 
-#### Attributes
+### Attributes
 
 [ObsoleteAttribute](https://docs.microsoft.com/en-us/dotnet/api/system.obsoleteattribute)
 

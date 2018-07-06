@@ -1,4 +1,4 @@
-# FirstIndex Property
+# Selection\<T>\.FirstIndex Property
 
 Namespace: [Roslynator](../../README.md)
 
@@ -12,7 +12,7 @@ Gets an index of the first selected item\.
 public int FirstIndex { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
 

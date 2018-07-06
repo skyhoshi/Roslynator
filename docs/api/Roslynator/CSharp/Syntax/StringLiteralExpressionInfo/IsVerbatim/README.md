@@ -1,4 +1,4 @@
-# IsVerbatim Property
+# StringLiteralExpressionInfo\.IsVerbatim Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ True if this instance is verbatim string literal expression\.
 public bool IsVerbatim { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 

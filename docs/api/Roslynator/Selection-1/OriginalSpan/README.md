@@ -1,4 +1,4 @@
-# OriginalSpan Property
+# Selection\<T>\.OriginalSpan Property
 
 Namespace: [Roslynator](../../README.md)
 
@@ -12,7 +12,7 @@ Gets the original span that was used to determine selected items\.
 public TextSpan OriginalSpan { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [TextSpan](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textspan)
 

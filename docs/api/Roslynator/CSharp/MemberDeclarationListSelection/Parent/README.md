@@ -1,4 +1,4 @@
-# Parent Property
+# MemberDeclarationListSelection\.Parent Property
 
 Namespace: [Roslynator.CSharp](../../README.md)
 
@@ -12,7 +12,7 @@ Gets a node that contains selected members\.
 public SyntaxNode Parent { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxNode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxnode)
 

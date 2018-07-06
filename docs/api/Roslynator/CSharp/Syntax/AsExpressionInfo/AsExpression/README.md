@@ -1,4 +1,4 @@
-# AsExpression Property
+# AsExpressionInfo\.AsExpression Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The "as" expression\.
 public BinaryExpressionSyntax AsExpression { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [BinaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.binaryexpressionsyntax)
 

@@ -157,11 +157,11 @@ namespace Roslynator.Documentation
                 else
                 {
                     writer.WriteConstructors(info.GetConstructors());
-                    writer.WriteFields(info.GetFields());
-                    writer.WriteProperties(info.GetProperties());
-                    writer.WriteMethods(info.GetMethods());
-                    writer.WriteOperators(info.GetOperators());
-                    writer.WriteEvents(info.GetEvents());
+                    writer.WriteFields(info.GetFields(includeInherited: true));
+                    writer.WriteProperties(info.GetProperties(includeInherited: true));
+                    writer.WriteMethods(info.GetMethods(includeInherited: true));
+                    writer.WriteOperators(info.GetOperators(includeInherited: true));
+                    writer.WriteEvents(info.GetEvents(includeInherited: true));
                     writer.WriteExplicitInterfaceImplementations(info.GetExplicitInterfaceImplementations());
                 }
 
@@ -174,15 +174,15 @@ namespace Roslynator.Documentation
 
         public string GenerateMemberDocument(IEnumerable<ISymbol> members)
         {
-            ImmutableArray<ISymbol> constructors = members.ToImmutableArray();
+            ImmutableArray<ISymbol> symbols = members.ToImmutableArray();
 
-            if (constructors.Length == 0)
+            if (symbols.Length == 0)
                 return null;
 
-            ISymbol symbol = constructors[0];
+            ISymbol symbol = symbols[0];
             SymbolDocumentationInfo info = GetDocumentationInfo(symbol);
 
-            using (MemberDocumentationWriter writer = MemberDocumentationWriter.Create(constructors, info, this))
+            using (MemberDocumentationWriter writer = MemberDocumentationWriter.Create(symbols, info, this))
             {
                 writer.WriteMember();
                 return writer.ToString();

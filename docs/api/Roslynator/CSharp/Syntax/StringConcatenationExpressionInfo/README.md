@@ -12,11 +12,11 @@ Provides information about string concatenation, i\.e\. a binary expression that
 readonly struct StringConcatenationExpressionInfo
 ```
 
-#### Inheritance
+### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; StringConcatenationExpressionInfo
 
-#### Implements
+### Implements
 
 * [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[StringConcatenationExpressionInfo](./README.md)>
 

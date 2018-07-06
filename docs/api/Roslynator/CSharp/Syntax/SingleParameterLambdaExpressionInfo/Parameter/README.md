@@ -1,4 +1,4 @@
-# Parameter Property
+# SingleParameterLambdaExpressionInfo\.Parameter Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The parameter\.
 public ParameterSyntax Parameter { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [ParameterSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.parametersyntax)
 

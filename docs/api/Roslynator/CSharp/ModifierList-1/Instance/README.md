@@ -1,4 +1,4 @@
-# Instance Property
+# ModifierList\<TNode>\.Instance Property
 
 Namespace: [Roslynator.CSharp](../../README.md)
 
@@ -12,7 +12,7 @@ Gets an instance of the [ModifierList\<TNode>](../README.md) for a syntax specif
 public static ModifierList<TNode> Instance { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [ModifierList\<TNode>](../README.md)
 

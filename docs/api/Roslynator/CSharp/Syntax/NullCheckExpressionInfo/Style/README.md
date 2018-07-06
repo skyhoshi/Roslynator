@@ -1,4 +1,4 @@
-# Style Property
+# NullCheckExpressionInfo\.Style Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The style of this null check\.
 public NullCheckStyles Style { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [NullCheckStyles](../../../NullCheckStyles/README.md)
 

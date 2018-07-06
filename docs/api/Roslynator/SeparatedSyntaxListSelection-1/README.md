@@ -12,17 +12,17 @@ Represents selected nodes in a [SeparatedSyntaxList\<TNode>](https://docs.micros
 class SeparatedSyntaxListSelection<TNode> where TNode : SyntaxNode
 ```
 
-#### Type Parameters
+### Type Parameters
 
 | Type Parameter | Summary |
 | -------------- | ------- |
 | TNode | |
 
-#### Inheritance
+### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [Selection\<T>](../Selection-1/README.md) &#x2192; SeparatedSyntaxListSelection\<TNode>
 
-#### Implements
+### Implements
 
 * [IEnumerable\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)
 * [IReadOnlyCollection\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1)
@@ -38,7 +38,12 @@ class SeparatedSyntaxListSelection<TNode> where TNode : SyntaxNode
 
 | Property | Summary |
 | -------- | ------- |
+| [Count](../Selection-1/Count/README.md) |  \(Inherited from [Selection\<T>](../Selection-1/README.md)\) |
+| [FirstIndex](../Selection-1/FirstIndex/README.md) |  \(Inherited from [Selection\<T>](../Selection-1/README.md)\) |
 | [Items](Items/README.md) | Gets an underlying list that contains selected nodes\. |
+| [LastIndex](../Selection-1/LastIndex/README.md) |  \(Inherited from [Selection\<T>](../Selection-1/README.md)\) |
+| [OriginalSpan](../Selection-1/OriginalSpan/README.md) |  \(Inherited from [Selection\<T>](../Selection-1/README.md)\) |
+| [this\[Int32\]](../Selection-1/Item/README.md) |  \(Inherited from [Selection\<T>](../Selection-1/README.md)\) |
 | [UnderlyingList](UnderlyingList/README.md) | Gets an underlying list that contains selected nodes\. |
 
 ## Methods

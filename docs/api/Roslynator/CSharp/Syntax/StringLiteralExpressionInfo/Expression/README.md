@@ -1,4 +1,4 @@
-# Expression Property
+# StringLiteralExpressionInfo\.Expression Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The string literal expression\.
 public LiteralExpressionSyntax Expression { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [LiteralExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.literalexpressionsyntax)
 

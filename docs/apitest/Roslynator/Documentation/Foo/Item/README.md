@@ -1,4 +1,4 @@
-# this Properties
+# Foo\.this Property
 
 Namespace: [Roslynator.Documentation](../../README.md)
 
@@ -8,8 +8,8 @@ Assembly: Roslynator\.Documentation\.DocTest\.dll
 
 | Property | Summary |
 | -------- | ------- |
-| [this\[Int32, Int32\]](../Item/README.md) | s |
-| [this\[Int32\]](./README.md) | s |
+| this\[Int32, Int32\] | s |
+| this\[Int32\] | s |
 
 ## this\[Int32\]
 
@@ -21,7 +21,13 @@ s
 public Foo this[int index] { get; set; }
 ```
 
-##### Property Value
+#### Parameters
+
+| Parameter | Summary |
+| --------- | ------- |
+| index | p |
+
+#### Property Value
 
 [Foo](../README.md)
 
@@ -38,7 +44,14 @@ s
 public Foo this[int index, int index2] { get; set; }
 ```
 
-##### Property Value
+#### Parameters
+
+| Parameter | Summary |
+| --------- | ------- |
+| index | p |
+| index2 | |
+
+#### Property Value
 
 [Foo](../README.md)
 

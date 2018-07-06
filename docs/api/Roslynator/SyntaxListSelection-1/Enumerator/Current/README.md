@@ -1,4 +1,4 @@
-# Current Property
+# Enumerator\.Current Property
 
 Namespace: [Roslynator](../../../README.md)
 
@@ -8,7 +8,7 @@ Assembly: Roslynator\.CSharp\.dll
 public TNode Current { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [TNode](../../TNode/README.md)
 

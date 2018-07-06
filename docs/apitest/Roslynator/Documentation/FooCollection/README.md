@@ -8,11 +8,11 @@ Assembly: Roslynator\.Documentation\.DocTest\.dll
 class FooCollection
 ```
 
-#### Inheritance
+### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; FooCollection
 
-#### Implements
+### Implements
 
 * [ICollection](https://docs.microsoft.com/en-us/dotnet/api/system.collections.icollection)
 * [ICollection](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.icollection-1)\<[Foo](../Foo/README.md)>
@@ -54,5 +54,5 @@ class FooCollection
 
 | Member | Summary |
 | ------ | ------- |
-| [IEnumerable\<Foo>.GetEnumerator()](System-Collections-Generic-IEnumerable-1-GetEnumerator/README.md) | |
+| [IEnumerable\<Foo>.GetEnumerator()](System-Collections-Generic-IEnumerable-Roslynator-Documentation-Foo--GetEnumerator/README.md) | |
 

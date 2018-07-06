@@ -1,4 +1,4 @@
-# Modifiers Property
+# ModifierListInfo\.Modifiers Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The modifier list\.
 public SyntaxTokenList Modifiers { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxTokenList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtokenlist)
 

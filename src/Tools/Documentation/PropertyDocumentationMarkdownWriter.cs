@@ -21,19 +21,13 @@ namespace Roslynator.Documentation
 
         public override void WriteTitle(ISymbol symbol)
         {
-            Writer.WriteStartHeading(1 + HeadingLevel);
+            Writer.WriteStartHeading(1 + HeadingBaseLevel);
 
-            if (Symbols.Length == 1)
-            {
-                Writer.WriteString(symbol.ToDisplayString(FormatProvider.PropertyFormat));
-                Writer.WriteString(" Property");
-            }
-            else
-            {
-                Writer.WriteString(symbol.ToDisplayString(FormatProvider.TitleFormat));
-                Writer.WriteString(" Properties");
-            }
+            SymbolDisplayFormat format = (Symbols.Length == 1) ? FormatProvider.MemberTitleFormat : FormatProvider.OverloadedMemberTitleFormat;
 
+            Writer.WriteString(symbol.ToDisplayString(format));
+            Writer.WriteString(" ");
+            Writer.WriteString(CategoryName);
             Writer.WriteEndHeading();
         }
 
@@ -41,7 +35,7 @@ namespace Roslynator.Documentation
         {
             if (Symbols.Length > 1)
             {
-                Writer.WriteStartHeading(1 + HeadingLevel);
+                Writer.WriteStartHeading(1 + HeadingBaseLevel);
                 Writer.WriteString(symbol.ToDisplayString(FormatProvider.PropertyFormat));
                 Writer.WriteEndHeading();
             }
@@ -63,7 +57,7 @@ namespace Roslynator.Documentation
 
         private void WriteValue(IPropertySymbol propertySymbol)
         {
-            Writer.WriteHeading(4 + HeadingLevel, "Property Value");
+            Writer.WriteHeading(3 + HeadingBaseLevel, "Property Value");
             WriteLink(Generator.GetDocumentationInfo(propertySymbol.Type));
             Writer.WriteLine();
             Writer.WriteLine();

@@ -1,4 +1,4 @@
-# ExplicitAccessibility Property
+# ModifierListInfo\.ExplicitAccessibility Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The explicit accessibility\.
 public Accessibility ExplicitAccessibility { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
 

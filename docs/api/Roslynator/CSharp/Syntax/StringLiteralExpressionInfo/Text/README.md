@@ -1,4 +1,4 @@
-# Text Property
+# StringLiteralExpressionInfo\.Text Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The token text\.
 public string Text { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
 

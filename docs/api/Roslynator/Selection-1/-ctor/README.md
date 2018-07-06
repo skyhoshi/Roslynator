@@ -12,4 +12,12 @@ Initializes a new instance of the [Selection\<T>](../README.md)\.
 protected Selection(TextSpan span, int firstIndex, int lastIndex)
 ```
 
+### Parameters
+
+| Parameter | Summary |
+| --------- | ------- |
+| span | |
+| firstIndex | |
+| lastIndex | |
+
 

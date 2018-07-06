@@ -1,4 +1,4 @@
-# Identifier Property
+# SingleLocalDeclarationStatementInfo\.Identifier Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ Variable identifier\.
 public SyntaxToken Identifier { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
 

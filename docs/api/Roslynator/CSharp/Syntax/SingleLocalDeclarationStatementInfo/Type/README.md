@@ -1,4 +1,4 @@
-# Type Property
+# SingleLocalDeclarationStatementInfo\.Type Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The type of a declaration\.
 public TypeSyntax Type { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [TypeSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typesyntax)
 

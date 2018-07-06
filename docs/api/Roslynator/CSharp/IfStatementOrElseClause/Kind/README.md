@@ -1,4 +1,4 @@
-# Kind Property
+# IfStatementOrElseClause\.Kind Property
 
 Namespace: [Roslynator.CSharp](../../README.md)
 
@@ -12,7 +12,7 @@ Gets an underlying node kind\.
 public SyntaxKind Kind { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxKind](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntaxkind)
 

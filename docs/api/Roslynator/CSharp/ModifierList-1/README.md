@@ -12,13 +12,13 @@ Represents a list of modifiers\.
 class ModifierList<TNode> where TNode : SyntaxNode
 ```
 
-#### Type Parameters
+### Type Parameters
 
 | Type Parameter | Summary |
 | -------------- | ------- |
 | TNode | |
 
-#### Inheritance
+### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; ModifierList\<TNode>
 

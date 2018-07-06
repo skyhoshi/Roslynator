@@ -1,4 +1,4 @@
-# UnderlyingLines Property
+# TextLineCollectionSelection\.UnderlyingLines Property
 
 Namespace: [Roslynator.Text](../../README.md)
 
@@ -12,7 +12,7 @@ Gets an underlying collection that contains selected lines\.
 public TextLineCollection UnderlyingLines { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [TextLineCollection](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textlinecollection)
 

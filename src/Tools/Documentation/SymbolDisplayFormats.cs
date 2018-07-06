@@ -47,7 +47,7 @@ namespace Roslynator.Documentation
              kindOptions: DefaultKindOptions,
              miscellaneousOptions: DefaultMiscellaneousOptions);
 
-        public static SymbolDisplayFormat MemberTitle { get; } = new SymbolDisplayFormat(
+        public static SymbolDisplayFormat OverloadedMemberTitle { get; } = new SymbolDisplayFormat(
              globalNamespaceStyle: DefaultGlobalNamespaceStyle,
              typeQualificationStyle: DefaultTypeQualificationStyle,
              genericsOptions: SymbolDisplayGenericsOptions.None,
@@ -57,6 +57,24 @@ namespace Roslynator.Documentation
              delegateStyle: DefaultDelegateStyle,
              extensionMethodStyle: DefaultExtensionMethodStyle,
              parameterOptions: DefaultParameterOptions,
+             propertyStyle: DefaultPropertyStyle,
+             localOptions: DefaultLocalOptions,
+             kindOptions: DefaultKindOptions,
+             miscellaneousOptions: DefaultMiscellaneousOptions);
+
+        public static SymbolDisplayFormat MemberTitle { get; } = new SymbolDisplayFormat(
+             globalNamespaceStyle: DefaultGlobalNamespaceStyle,
+             typeQualificationStyle: DefaultTypeQualificationStyle,
+             genericsOptions: DefaultGenericsOptions
+                | SymbolDisplayGenericsOptions.IncludeTypeParameters,
+             memberOptions: DefaultMemberOptions
+                | SymbolDisplayMemberOptions.IncludeExplicitInterface
+                | SymbolDisplayMemberOptions.IncludeParameters
+                | SymbolDisplayMemberOptions.IncludeContainingType,
+             delegateStyle: SymbolDisplayDelegateStyle.NameAndParameters,
+             extensionMethodStyle: DefaultExtensionMethodStyle,
+             parameterOptions: DefaultParameterOptions
+                | SymbolDisplayParameterOptions.IncludeType,
              propertyStyle: DefaultPropertyStyle,
              localOptions: DefaultLocalOptions,
              kindOptions: DefaultKindOptions,
@@ -127,6 +145,22 @@ namespace Roslynator.Documentation
                 | SymbolDisplayMiscellaneousOptions.UseSpecialTypes
                 | SymbolDisplayMiscellaneousOptions.EscapeKeywordIdentifiers
             );
+
+        public static SymbolDisplayFormat ExplicitImplementationFullName { get; } = new SymbolDisplayFormat(
+             globalNamespaceStyle: DefaultGlobalNamespaceStyle,
+             typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
+             genericsOptions: DefaultGenericsOptions
+                | SymbolDisplayGenericsOptions.IncludeTypeParameters,
+             memberOptions: DefaultMemberOptions
+                | SymbolDisplayMemberOptions.IncludeExplicitInterface
+                | SymbolDisplayMemberOptions.IncludeContainingType,
+             delegateStyle: DefaultDelegateStyle,
+             extensionMethodStyle: DefaultExtensionMethodStyle,
+             parameterOptions: DefaultParameterOptions,
+             propertyStyle: DefaultPropertyStyle,
+             localOptions: DefaultLocalOptions,
+             kindOptions: DefaultKindOptions,
+             miscellaneousOptions: DefaultMiscellaneousOptions);
 
         internal const SymbolDisplayGlobalNamespaceStyle DefaultGlobalNamespaceStyle
             = SymbolDisplayGlobalNamespaceStyle.Omitted;

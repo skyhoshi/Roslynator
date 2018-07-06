@@ -1,4 +1,4 @@
-# Parent Property
+# StatementListInfo\.Parent Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The node that contains the statements\. It can be either a [BlockSyntax](https:/
 public SyntaxNode Parent { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxNode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxnode)
 

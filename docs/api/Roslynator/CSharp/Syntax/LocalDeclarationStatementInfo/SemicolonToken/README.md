@@ -1,4 +1,4 @@
-# SemicolonToken Property
+# LocalDeclarationStatementInfo\.SemicolonToken Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The semicolon token\.
 public SyntaxToken SemicolonToken { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
 

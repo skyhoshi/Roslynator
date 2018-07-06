@@ -1,4 +1,4 @@
-# Statement Property
+# LocalDeclarationStatementInfo\.Statement Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The local declaration statement\.
 public LocalDeclarationStatementSyntax Statement { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [LocalDeclarationStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.localdeclarationstatementsyntax)
 

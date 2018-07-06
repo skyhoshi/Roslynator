@@ -1,4 +1,4 @@
-# Directive Property
+# RegionInfo\.Directive Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ Assembly: Roslynator\.CSharp\.dll
 public RegionDirectiveTriviaSyntax Directive { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [RegionDirectiveTriviaSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.regiondirectivetriviasyntax)
 

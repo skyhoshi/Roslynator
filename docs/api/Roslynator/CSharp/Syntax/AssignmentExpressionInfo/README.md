@@ -12,11 +12,11 @@ Provides information about simple assignment expression\.
 readonly struct AssignmentExpressionInfo
 ```
 
-#### Inheritance
+### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) &#x2192; AssignmentExpressionInfo
 
-#### Implements
+### Implements
 
 * [IEquatable](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1)\<[AssignmentExpressionInfo](./README.md)>
 

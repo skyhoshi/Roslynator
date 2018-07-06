@@ -1,4 +1,4 @@
-# IsIf Property
+# IfStatementOrElseClause\.IsIf Property
 
 Namespace: [Roslynator.CSharp](../../README.md)
 
@@ -12,7 +12,7 @@ Determines whether this [IfStatementOrElseClause](../README.md) is wrapping an i
 public bool IsIf { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 

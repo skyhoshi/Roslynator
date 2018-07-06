@@ -1,4 +1,4 @@
-# Span Property
+# ExpressionChain\.Span Property
 
 Namespace: [Roslynator.CSharp](../../README.md)
 
@@ -12,7 +12,7 @@ The span that represents selected expressions\.
 public TextSpan? Span { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [TextSpan](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textspan)?
 

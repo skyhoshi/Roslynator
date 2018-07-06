@@ -1,0 +1,56 @@
+# Foo\.Bar Method
+
+Namespace: [Roslynator.Documentation](../../README.md)
+
+Assembly: Roslynator\.Documentation\.DocTest\.dll
+
+## Overloads
+
+| Method | Summary |
+| ------ | ------- |
+| Bar\(\) | abc |
+| Bar\<T>\(String, String\) | s **value** **T** |
+
+## Bar\<T>\(String, String\)
+
+### Summary
+
+s **value** **T**
+
+```csharp
+public void Bar<T>(string value, string value2)
+```
+
+#### Parameters
+
+| Parameter | Summary |
+| --------- | ------- |
+| value | p |
+| value2 | |
+
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| T | |
+
+#### Returns
+
+[Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
+
+
+## Bar\(\)
+
+### Summary
+
+abc
+
+```csharp
+public void Bar()
+```
+
+#### Returns
+
+[Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
+
+

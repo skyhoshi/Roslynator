@@ -1,4 +1,4 @@
-# Arguments Property
+# SimpleMemberInvocationExpressionInfo\.Arguments Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The list of the arguments\.
 public SeparatedSyntaxList<ArgumentSyntax> Arguments { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SeparatedSyntaxList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.separatedsyntaxlist-1)\<[ArgumentSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.argumentsyntax)>
 

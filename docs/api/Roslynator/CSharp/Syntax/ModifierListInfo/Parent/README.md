@@ -1,4 +1,4 @@
-# Parent Property
+# ModifierListInfo\.Parent Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The node that contains the modifiers\.
 public SyntaxNode Parent { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxNode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxnode)
 

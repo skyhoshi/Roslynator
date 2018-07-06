@@ -64,7 +64,7 @@ namespace Roslynator.Documentation
         /// <summary>
         /// aaa
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="s">qqq</param>
         /// <exception cref="ArgumentException">a</exception>
         /// <exception cref="ArgumentNullException">b</exception>
         /// <seealso cref="object"/>

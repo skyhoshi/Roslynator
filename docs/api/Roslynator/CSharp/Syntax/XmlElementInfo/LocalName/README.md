@@ -1,4 +1,4 @@
-# LocalName Property
+# XmlElementInfo\.LocalName Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ Local name of the element\.
 public string LocalName { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
 

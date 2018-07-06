@@ -1,4 +1,4 @@
-# Count Property
+# StatementListInfo\.Count Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,11 +12,11 @@ The number of statement in the list\.
 public int Count { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
 
-#### Implements
+### Implements
 
 * [IReadOnlyCollection\<StatementSyntax>.Count](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1.count)
 

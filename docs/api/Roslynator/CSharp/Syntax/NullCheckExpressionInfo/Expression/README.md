@@ -1,4 +1,4 @@
-# Expression Property
+# NullCheckExpressionInfo\.Expression Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The expression that is evaluated whether is \(not\) null\. for example "x" in "x
 public ExpressionSyntax Expression { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [ExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.expressionsyntax)
 

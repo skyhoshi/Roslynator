@@ -12,15 +12,27 @@ Represents selected statements in a [SyntaxList\<TNode>](https://docs.microsoft.
 class StatementListSelection
 ```
 
-#### Inheritance
+### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [Selection\<T>](../../Selection-1/README.md) &#x2192; [SyntaxListSelection\<TNode>](../../SyntaxListSelection-1/README.md) &#x2192; StatementListSelection
 
-#### Implements
+### Implements
 
 * [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)\<[StatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.statementsyntax)>
 * [IReadOnlyCollection](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1)\<[StatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.statementsyntax)>
 * [IReadOnlyList](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1)\<[StatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.statementsyntax)>
+
+## Properties
+
+| Property | Summary |
+| -------- | ------- |
+| [Count](../../Selection-1/Count/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
+| [FirstIndex](../../Selection-1/FirstIndex/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
+| [Items](../../SyntaxListSelection-1/Items/README.md) |  \(Inherited from [SyntaxListSelection\<TNode>](../../SyntaxListSelection-1/README.md)\) |
+| [LastIndex](../../Selection-1/LastIndex/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
+| [OriginalSpan](../../Selection-1/OriginalSpan/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
+| [this\[Int32\]](../../Selection-1/Item/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
+| [UnderlyingList](../../SyntaxListSelection-1/UnderlyingList/README.md) |  \(Inherited from [SyntaxListSelection\<TNode>](../../SyntaxListSelection-1/README.md)\) |
 
 ## Methods
 

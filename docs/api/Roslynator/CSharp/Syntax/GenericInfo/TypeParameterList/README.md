@@ -1,4 +1,4 @@
-# TypeParameterList Property
+# GenericInfo\.TypeParameterList Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The type parameter list\.
 public TypeParameterListSyntax TypeParameterList { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [TypeParameterListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typeparameterlistsyntax)
 

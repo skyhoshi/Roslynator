@@ -1,4 +1,4 @@
-# Element Property
+# XmlElementInfo\.Element Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The xml element\.
 public XmlNodeSyntax Element { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [XmlNodeSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.xmlnodesyntax)
 

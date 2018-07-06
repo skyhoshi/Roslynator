@@ -1,4 +1,4 @@
-# FullSpan Property
+# IfStatementOrElseClause\.FullSpan Property
 
 Namespace: [Roslynator.CSharp](../../README.md)
 
@@ -12,7 +12,7 @@ The absolute span of this node in characters, including its leading and trailing
 public TextSpan FullSpan { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [TextSpan](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textspan)
 

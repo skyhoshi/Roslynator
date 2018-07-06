@@ -1,4 +1,4 @@
-# IdentifierText Property
+# SingleLocalDeclarationStatementInfo\.IdentifierText Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ Variable name\.
 public string IdentifierText { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
 

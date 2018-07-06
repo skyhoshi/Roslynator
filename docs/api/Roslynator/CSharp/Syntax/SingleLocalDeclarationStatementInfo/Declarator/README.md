@@ -1,4 +1,4 @@
-# Declarator Property
+# SingleLocalDeclarationStatementInfo\.Declarator Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The variable declarator\.
 public VariableDeclaratorSyntax Declarator { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [VariableDeclaratorSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.variabledeclaratorsyntax)
 

@@ -1,4 +1,4 @@
-# QuestionToken Property
+# ConditionalExpressionInfo\.QuestionToken Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The token representing the question mark\.
 public SyntaxToken QuestionToken { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
 

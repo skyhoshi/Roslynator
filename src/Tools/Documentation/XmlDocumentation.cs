@@ -43,11 +43,6 @@ namespace Roslynator.Documentation
             return GetElement(id)?.Element(name);
         }
 
-        internal XmlReader CreateReader(string id, string name)
-        {
-            return GetElement(id)?.Element(name).CreateReader();
-        }
-
         internal XElement GetElement(string id)
         {
             if (!_cache.TryGetValue(id, out XElement element))

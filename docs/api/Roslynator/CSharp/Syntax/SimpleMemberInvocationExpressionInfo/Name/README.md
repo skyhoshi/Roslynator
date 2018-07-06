@@ -1,4 +1,4 @@
-# Name Property
+# SimpleMemberInvocationExpressionInfo\.Name Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The name of the member being invoked\.
 public SimpleNameSyntax Name { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SimpleNameSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.simplenamesyntax)
 

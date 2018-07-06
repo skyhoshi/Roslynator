@@ -1,4 +1,4 @@
-# Current Property
+# Enumerator\.Current Property
 
 Namespace: [Roslynator.CSharp](../../../README.md)
 
@@ -8,7 +8,7 @@ Assembly: Roslynator\.CSharp\.dll
 public IfStatementOrElseClause Current { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [IfStatementOrElseClause](../../../IfStatementOrElseClause/README.md)
 

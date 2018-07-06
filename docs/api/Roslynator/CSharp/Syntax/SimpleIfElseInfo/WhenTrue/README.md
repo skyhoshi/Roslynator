@@ -1,4 +1,4 @@
-# WhenTrue Property
+# SimpleIfElseInfo\.WhenTrue Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The statement that is executed if the condition evaluates to true\.
 public StatementSyntax WhenTrue { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [StatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.statementsyntax)
 

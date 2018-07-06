@@ -1,4 +1,4 @@
-# Items Property
+# TextLineCollectionSelection\.Items Property
 
 Namespace: [Roslynator.Text](../../README.md)
 
@@ -12,7 +12,7 @@ Gets an underlying collection that contains selected lines\.
 protected override IReadOnlyList<TextLine> Items { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [IReadOnlyList](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1)\<[TextLine](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textline)>
 

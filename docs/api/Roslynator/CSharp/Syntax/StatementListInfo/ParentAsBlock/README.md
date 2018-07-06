@@ -1,4 +1,4 @@
-# ParentAsBlock Property
+# StatementListInfo\.ParentAsBlock Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ Gets a block that contains the statements\. Returns null if the statements are n
 public BlockSyntax ParentAsBlock { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [BlockSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.blocksyntax)
 

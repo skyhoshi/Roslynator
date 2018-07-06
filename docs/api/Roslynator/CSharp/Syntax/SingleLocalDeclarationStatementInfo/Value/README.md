@@ -1,4 +1,4 @@
-# Value Property
+# SingleLocalDeclarationStatementInfo\.Value Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The initialized value, if any\.
 public ExpressionSyntax Value { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [ExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.expressionsyntax)
 

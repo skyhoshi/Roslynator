@@ -1,4 +1,4 @@
-# FullSpan Property
+# RegionInfo\.FullSpan Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The absolute span of this region, including its leading and trailing trivia\.
 public TextSpan FullSpan { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [TextSpan](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textspan)
 

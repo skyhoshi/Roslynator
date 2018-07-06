@@ -1,4 +1,4 @@
-# AssignmentExpression Property
+# SimpleAssignmentExpressionInfo\.AssignmentExpression Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The simple assignment expression\.
 public AssignmentExpressionSyntax AssignmentExpression { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [AssignmentExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.assignmentexpressionsyntax)
 

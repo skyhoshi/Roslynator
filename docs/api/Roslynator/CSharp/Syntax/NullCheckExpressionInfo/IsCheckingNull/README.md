@@ -1,4 +1,4 @@
-# IsCheckingNull Property
+# NullCheckExpressionInfo\.IsCheckingNull Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ Determines whether this null check is checking if the expression is null\.
 public bool IsCheckingNull { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 

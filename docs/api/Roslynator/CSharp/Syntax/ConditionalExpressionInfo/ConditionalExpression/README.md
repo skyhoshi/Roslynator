@@ -1,4 +1,4 @@
-# ConditionalExpression Property
+# ConditionalExpressionInfo\.ConditionalExpression Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The conditional expression\.
 public ConditionalExpressionSyntax ConditionalExpression { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [ConditionalExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.conditionalexpressionsyntax)
 

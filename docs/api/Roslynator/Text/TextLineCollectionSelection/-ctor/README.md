@@ -8,4 +8,13 @@ Assembly: Roslynator\.CSharp\.dll
 protected TextLineCollectionSelection(TextLineCollection lines, TextSpan span, int firstIndex, int lastIndex)
 ```
 
+### Parameters
+
+| Parameter | Summary |
+| --------- | ------- |
+| lines | |
+| span | |
+| firstIndex | |
+| lastIndex | |
+
 

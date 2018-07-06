@@ -1,4 +1,4 @@
-# Items Property
+# Selection\<T>\.Items Property
 
 Namespace: [Roslynator](../../README.md)
 
@@ -12,7 +12,7 @@ Gets an underlying list that contains selected items\.
 protected abstract IReadOnlyList<T> Items { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [IReadOnlyList\<T>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1)
 

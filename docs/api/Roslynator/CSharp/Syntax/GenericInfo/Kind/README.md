@@ -1,4 +1,4 @@
-# Kind Property
+# GenericInfo\.Kind Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The kind of this syntax node\.
 public SyntaxKind Kind { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxKind](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntaxkind)
 

@@ -1,4 +1,4 @@
-# Else Property
+# SimpleIfElseInfo\.Else Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The else clause\.
 public ElseClauseSyntax Else { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [ElseClauseSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.elseclausesyntax)
 

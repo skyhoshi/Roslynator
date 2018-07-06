@@ -56,28 +56,12 @@ namespace Roslynator.Documentation
                     continue;
 
                 GenerateMemberDocument(rootPath, generator, info.GetConstructors());
-
                 GenerateMemberDocument(rootPath, generator, info.GetFields());
-
                 GenerateMemberDocument(rootPath, generator, info.GetProperties());
-
-                continue;
-
-                ImmutableArray<IMethodSymbol> methods = info.GetMethods().ToImmutableArray();
-
-                WriteFile(rootPath, generator.GenerateMemberDocument(methods), generator.GetDocumentationInfo(methods[0]));
-
-                ImmutableArray<IMethodSymbol> operators = info.GetOperators().ToImmutableArray();
-
-                WriteFile(rootPath, generator.GenerateMemberDocument(operators), generator.GetDocumentationInfo(operators[0]));
-
-                ImmutableArray<IEventSymbol> events = info.GetEvents().ToImmutableArray();
-
-                WriteFile(rootPath, generator.GenerateMemberDocument(events), generator.GetDocumentationInfo(events[0]));
-
-                ImmutableArray<ISymbol> explicitInterfaceImplementations = info.GetExplicitInterfaceImplementations().ToImmutableArray();
-
-                WriteFile(rootPath, generator.GenerateMemberDocument(explicitInterfaceImplementations), generator.GetDocumentationInfo(explicitInterfaceImplementations[0]));
+                GenerateMemberDocument(rootPath, generator, info.GetMethods());
+                GenerateMemberDocument(rootPath, generator, info.GetOperators());
+                GenerateMemberDocument(rootPath, generator, info.GetEvents());
+                GenerateMemberDocument(rootPath, generator, info.GetExplicitInterfaceImplementations());
             }
         }
 

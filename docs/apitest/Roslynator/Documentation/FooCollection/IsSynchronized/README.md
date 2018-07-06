@@ -1,4 +1,4 @@
-# IsSynchronized Property
+# FooCollection\.IsSynchronized Property
 
 Namespace: [Roslynator.Documentation](../../README.md)
 
@@ -8,11 +8,11 @@ Assembly: Roslynator\.Documentation\.DocTest\.dll
 public bool IsSynchronized { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-#### Implements
+### Implements
 
 * [ICollection.IsSynchronized](https://docs.microsoft.com/en-us/dotnet/api/system.collections.icollection.issynchronized)
 

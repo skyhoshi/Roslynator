@@ -1,4 +1,4 @@
-# Parent Property
+# IfStatementOrElseClause\.Parent Property
 
 Namespace: [Roslynator.CSharp](../../README.md)
 
@@ -12,7 +12,7 @@ The node that contains the underlying node in its [ChildNodes](https://docs.micr
 public SyntaxNode Parent { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxNode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxnode)
 

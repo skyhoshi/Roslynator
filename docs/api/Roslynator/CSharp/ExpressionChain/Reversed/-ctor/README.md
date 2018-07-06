@@ -8,4 +8,10 @@ Assembly: Roslynator\.CSharp\.dll
 public Reversed(in ExpressionChain chain)
 ```
 
+### Parameters
+
+| Parameter | Summary |
+| --------- | ------- |
+| chain | |
+
 

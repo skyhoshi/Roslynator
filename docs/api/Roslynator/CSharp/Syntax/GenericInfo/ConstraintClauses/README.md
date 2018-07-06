@@ -1,4 +1,4 @@
-# ConstraintClauses Property
+# GenericInfo\.ConstraintClauses Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ A list of constraint clauses\.
 public SyntaxList<TypeParameterConstraintClauseSyntax> ConstraintClauses { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)\<[TypeParameterConstraintClauseSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typeparameterconstraintclausesyntax)>
 

@@ -1,4 +1,4 @@
-# BinaryExpression Property
+# ExpressionChain\.BinaryExpression Property
 
 Namespace: [Roslynator.CSharp](../../README.md)
 
@@ -12,7 +12,7 @@ The binary expression\.
 public BinaryExpressionSyntax BinaryExpression { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [BinaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.binaryexpressionsyntax)
 

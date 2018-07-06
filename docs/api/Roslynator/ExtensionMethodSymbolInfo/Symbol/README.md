@@ -1,4 +1,4 @@
-# Symbol Property
+# ExtensionMethodSymbolInfo\.Symbol Property
 
 Namespace: [Roslynator](../../README.md)
 
@@ -12,7 +12,7 @@ The extension method symbol\.
 public IMethodSymbol Symbol { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [IMethodSymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.imethodsymbol)
 

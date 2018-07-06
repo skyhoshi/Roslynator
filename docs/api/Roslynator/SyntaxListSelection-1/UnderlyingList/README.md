@@ -1,4 +1,4 @@
-# UnderlyingList Property
+# SyntaxListSelection\<TNode>\.UnderlyingList Property
 
 Namespace: [Roslynator](../../README.md)
 
@@ -12,7 +12,7 @@ Gets an underlying list that contains selected nodes\.
 public SyntaxList<TNode> UnderlyingList { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)
 

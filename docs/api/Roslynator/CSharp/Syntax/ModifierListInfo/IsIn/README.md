@@ -1,4 +1,4 @@
-# IsIn Property
+# ModifierListInfo\.IsIn Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ True if the modifier list contains "in" modifier\.
 public bool IsIn { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 

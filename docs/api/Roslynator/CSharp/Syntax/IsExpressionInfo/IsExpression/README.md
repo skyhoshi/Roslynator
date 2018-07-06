@@ -1,4 +1,4 @@
-# IsExpression Property
+# IsExpressionInfo\.IsExpression Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The "is" expression\.
 public BinaryExpressionSyntax IsExpression { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [BinaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.binaryexpressionsyntax)
 

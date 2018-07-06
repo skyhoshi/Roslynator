@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -25,7 +26,9 @@ namespace Roslynator.Documentation
 
         public abstract void WriteContent(ISymbol symbol);
 
-        public abstract void WriteMemberTitle(ISymbol symbol);
+        public virtual void WriteMemberTitle(ISymbol symbol)
+        {
+        }
 
         public virtual void WriteMember()
         {
@@ -42,17 +45,17 @@ namespace Roslynator.Documentation
             }
             else
             {
-                WriteTable(Symbols, "Overloads", 2, CategoryName, "Summary", FormatProvider.ConstructorFormat);
+                WriteTable(Symbols, "Overloads", 2, CategoryName, "Summary", FormatProvider.ConstructorFormat, addLink: false);
 
                 foreach (ISymbol symbol in Symbols)
                 {
                     if (symbol.HasAttribute(MetadataNames.System_ObsoleteAttribute))
                         WriteObsolete(symbol);
 
-                    HeadingLevel++;
+                    HeadingBaseLevel++;
                     WriteMemberTitle(symbol);
                     WriteContent(symbol);
-                    HeadingLevel--;
+                    HeadingBaseLevel--;
                 }
             }
         }
@@ -65,7 +68,7 @@ namespace Roslynator.Documentation
             {
                 if (en.MoveNext())
                 {
-                    Writer.WriteHeading(4 + HeadingLevel, "Implements");
+                    Writer.WriteHeading(3 + HeadingBaseLevel, "Implements");
 
                     do
                     {
@@ -89,7 +92,7 @@ namespace Roslynator.Documentation
             {
                 case SymbolKind.Event:
                     {
-                        break;
+                        return new EventDocumentationMarkdownWriter(symbols, directoryInfo, generator);
                     }
                 case SymbolKind.Field:
                     {
@@ -105,9 +108,14 @@ namespace Roslynator.Documentation
                                 {
                                     return new ConstructorDocumentationMarkdownWriter(symbols, directoryInfo, generator);
                                 }
+                            case MethodKind.UserDefinedOperator:
+                            case MethodKind.Conversion:
+                                {
+                                    return new OperatorDocumentationMarkdownWriter(symbols, directoryInfo, generator);
+                                }
                         }
 
-                        break;
+                        return new MethodDocumentationMarkdownWriter(symbols, directoryInfo, generator);
                     }
                 case SymbolKind.Property:
                     {
@@ -115,7 +123,7 @@ namespace Roslynator.Documentation
                     }
             }
 
-            return null;
+            throw new InvalidOperationException();
         }
     }
 }

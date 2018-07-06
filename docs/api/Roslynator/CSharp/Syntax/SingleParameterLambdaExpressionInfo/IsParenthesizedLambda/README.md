@@ -1,4 +1,4 @@
-# IsParenthesizedLambda Property
+# SingleParameterLambdaExpressionInfo\.IsParenthesizedLambda Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ True if this instance is a parenthesized lambda expression\.
 public bool IsParenthesizedLambda { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 

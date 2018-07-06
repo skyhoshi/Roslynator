@@ -1,4 +1,4 @@
-# Node Property
+# GenericInfo\.Node Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The syntax node that can be generic \(for example [ClassDeclarationSyntax](https
 public SyntaxNode Node { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxNode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxnode)
 

@@ -1,4 +1,4 @@
-# Body Property
+# SingleParameterLambdaExpressionInfo\.Body Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The body of the lambda expression\.
 public CSharpSyntaxNode Body { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [CSharpSyntaxNode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.csharpsyntaxnode)
 

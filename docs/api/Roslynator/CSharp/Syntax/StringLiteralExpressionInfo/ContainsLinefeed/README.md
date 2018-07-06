@@ -1,4 +1,4 @@
-# ContainsLinefeed Property
+# StringLiteralExpressionInfo\.ContainsLinefeed Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ True if the string literal contains linefeed\.
 public bool ContainsLinefeed { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 

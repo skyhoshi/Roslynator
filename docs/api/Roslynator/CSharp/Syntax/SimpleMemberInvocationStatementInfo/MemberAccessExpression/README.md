@@ -1,4 +1,4 @@
-# MemberAccessExpression Property
+# SimpleMemberInvocationStatementInfo\.MemberAccessExpression Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The member access expression\.
 public MemberAccessExpressionSyntax MemberAccessExpression { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [MemberAccessExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.memberaccessexpressionsyntax)
 

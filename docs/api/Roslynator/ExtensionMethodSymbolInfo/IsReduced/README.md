@@ -1,4 +1,4 @@
-# IsReduced Property
+# ExtensionMethodSymbolInfo\.IsReduced Property
 
 Namespace: [Roslynator](../../README.md)
 
@@ -12,7 +12,7 @@ True if the symbol was reduced\.
 public bool IsReduced { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 

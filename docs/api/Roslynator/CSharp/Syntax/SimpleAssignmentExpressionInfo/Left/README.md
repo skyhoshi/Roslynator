@@ -1,4 +1,4 @@
-# Left Property
+# SimpleAssignmentExpressionInfo\.Left Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The expression on the left of the assignment operator\.
 public ExpressionSyntax Left { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [ExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.expressionsyntax)
 

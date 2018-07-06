@@ -1,4 +1,4 @@
-# Success Property
+# SimpleMemberInvocationStatementInfo\.Success Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ Determines whether this struct was initialized with an actual syntax\.
 public bool Success { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 

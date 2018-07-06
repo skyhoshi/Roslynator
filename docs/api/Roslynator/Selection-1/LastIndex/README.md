@@ -1,4 +1,4 @@
-# LastIndex Property
+# Selection\<T>\.LastIndex Property
 
 Namespace: [Roslynator](../../README.md)
 
@@ -12,7 +12,7 @@ Gets an index of the last selected item\.
 public int LastIndex { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
 

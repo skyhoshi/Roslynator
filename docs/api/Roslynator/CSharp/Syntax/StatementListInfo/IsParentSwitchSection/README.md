@@ -1,4 +1,4 @@
-# IsParentSwitchSection Property
+# StatementListInfo\.IsParentSwitchSection Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ Determines whether the statements are contained in a [SwitchSectionSyntax](https
 public bool IsParentSwitchSection { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 

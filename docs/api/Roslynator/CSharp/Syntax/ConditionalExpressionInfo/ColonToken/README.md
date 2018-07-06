@@ -1,4 +1,4 @@
-# ColonToken Property
+# ConditionalExpressionInfo\.ColonToken Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The token representing the colon\.
 public SyntaxToken ColonToken { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
 

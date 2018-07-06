@@ -1,4 +1,4 @@
-# IsAsync Property
+# ModifierListInfo\.IsAsync Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ True if the modifier list contains "async" modifier\.
 public bool IsAsync { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 

@@ -12,4 +12,13 @@ Initializes a new instance of the [SyntaxListSelection\<TNode>](../README.md)\.
 protected SyntaxListSelection(SyntaxList<TNode> list, TextSpan span, int firstIndex, int lastIndex)
 ```
 
+### Parameters
+
+| Parameter | Summary |
+| --------- | ------- |
+| list | |
+| span | |
+| firstIndex | |
+| lastIndex | |
+
 

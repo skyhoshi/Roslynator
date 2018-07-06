@@ -1,4 +1,4 @@
-# Usings Property
+# UsingDirectiveListInfo\.Usings Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ A list of usings\.
 public SyntaxList<UsingDirectiveSyntax> Usings { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)\<[UsingDirectiveSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.usingdirectivesyntax)>
 

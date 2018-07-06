@@ -1,4 +1,4 @@
-# IsOverride Property
+# ModifierListInfo\.IsOverride Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ True if the modifier list contains "override" modifier\.
 public bool IsOverride { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 

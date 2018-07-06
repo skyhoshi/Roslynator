@@ -1,4 +1,4 @@
-# OperatorToken Property
+# SimpleMemberInvocationExpressionInfo\.OperatorToken Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The operator in the member access expression\.
 public SyntaxToken OperatorToken { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
 

@@ -1,4 +1,4 @@
-# LambdaExpression Property
+# SingleParameterLambdaExpressionInfo\.LambdaExpression Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The lambda expression\.
 public LambdaExpressionSyntax LambdaExpression { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [LambdaExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.lambdaexpressionsyntax)
 

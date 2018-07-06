@@ -1,4 +1,4 @@
-# IfStatement Property
+# SimpleIfElseInfo\.IfStatement Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The if statement\.
 public IfStatementSyntax IfStatement { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [IfStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.ifstatementsyntax)
 

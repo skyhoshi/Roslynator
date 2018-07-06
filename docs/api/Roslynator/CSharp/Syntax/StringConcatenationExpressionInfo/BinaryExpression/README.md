@@ -1,4 +1,4 @@
-# BinaryExpression Property
+# StringConcatenationExpressionInfo\.BinaryExpression Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The binary expression that represents the string concatenation\.
 public BinaryExpressionSyntax BinaryExpression { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [BinaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.binaryexpressionsyntax)
 

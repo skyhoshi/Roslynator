@@ -1,4 +1,4 @@
-# Statement Property
+# SimpleAssignmentStatementInfo\.Statement Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The expression statement the simple assignment expression is contained in\.
 public ExpressionStatementSyntax Statement { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [ExpressionStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.expressionstatementsyntax)
 

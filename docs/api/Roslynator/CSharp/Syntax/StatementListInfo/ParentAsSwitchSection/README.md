@@ -1,4 +1,4 @@
-# ParentAsSwitchSection Property
+# StatementListInfo\.ParentAsSwitchSection Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ Gets a switch section that contains the statements\. Returns null if the stateme
 public SwitchSectionSyntax ParentAsSwitchSection { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [SwitchSectionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.switchsectionsyntax)
 

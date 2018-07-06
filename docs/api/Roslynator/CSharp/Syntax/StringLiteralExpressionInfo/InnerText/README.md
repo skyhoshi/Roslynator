@@ -1,4 +1,4 @@
-# InnerText Property
+# StringLiteralExpressionInfo\.InnerText Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 
@@ -12,7 +12,7 @@ The token text, not including leading ampersand, if any, and enclosing quotation
 public string InnerText { get; }
 ```
 
-#### Property Value
+### Property Value
 
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
 
