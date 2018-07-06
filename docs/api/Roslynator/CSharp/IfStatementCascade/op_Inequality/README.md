@@ -1,4 +1,4 @@
-# IfStatementCascade\.operator \!=\(IfStatementCascade, IfStatementCascade\) Operator
+# IfStatementCascade\.Inequality\(IfStatementCascade, IfStatementCascade\) Operator
 
 Namespace: [Roslynator.CSharp](../../README.md)
 

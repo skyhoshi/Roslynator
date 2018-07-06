@@ -34,10 +34,10 @@ class TextLineCollectionSelection
 | -------- | ------- |
 | [Count](../../Selection-1/Count/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
 | [FirstIndex](../../Selection-1/FirstIndex/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
+| [Item\[Int32\]](../../Selection-1/Item/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
 | [Items](Items/README.md) | Gets an underlying collection that contains selected lines\. |
 | [LastIndex](../../Selection-1/LastIndex/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
 | [OriginalSpan](../../Selection-1/OriginalSpan/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
-| [this\[Int32\]](../../Selection-1/Item/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
 | [UnderlyingLines](UnderlyingLines/README.md) | Gets an underlying collection that contains selected lines\. |
 
 ## Methods

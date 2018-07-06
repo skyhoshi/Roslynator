@@ -47,6 +47,6 @@ readonly struct SimpleIfElseInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(SimpleIfElseInfo, SimpleIfElseInfo)](op_Inequality/README.md) | |
-| [operator ==(SimpleIfElseInfo, SimpleIfElseInfo)](op_Equality/README.md) | |
+| [Equality(SimpleIfElseInfo, SimpleIfElseInfo)](op_Equality/README.md) | |
+| [Inequality(SimpleIfElseInfo, SimpleIfElseInfo)](op_Inequality/README.md) | |
 

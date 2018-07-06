@@ -1,4 +1,4 @@
-# XmlElementInfo\.operator \!=\(XmlElementInfo, XmlElementInfo\) Operator
+# XmlElementInfo\.Inequality\(XmlElementInfo, XmlElementInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

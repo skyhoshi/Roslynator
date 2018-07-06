@@ -1,4 +1,4 @@
-# SingleParameterLambdaExpressionInfo\.operator \!=\(SingleParameterLambdaExpressionInfo, SingleParameterLambdaExpressionInfo\) Operator
+# SingleParameterLambdaExpressionInfo\.Inequality\(SingleParameterLambdaExpressionInfo, SingleParameterLambdaExpressionInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

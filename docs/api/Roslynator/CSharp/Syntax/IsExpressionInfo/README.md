@@ -45,6 +45,6 @@ readonly struct IsExpressionInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(IsExpressionInfo, IsExpressionInfo)](op_Inequality/README.md) | |
-| [operator ==(IsExpressionInfo, IsExpressionInfo)](op_Equality/README.md) | |
+| [Equality(IsExpressionInfo, IsExpressionInfo)](op_Equality/README.md) | |
+| [Inequality(IsExpressionInfo, IsExpressionInfo)](op_Inequality/README.md) | |
 

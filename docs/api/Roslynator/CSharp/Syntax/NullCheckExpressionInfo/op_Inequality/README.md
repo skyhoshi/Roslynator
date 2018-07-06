@@ -1,4 +1,4 @@
-# NullCheckExpressionInfo\.operator \!=\(NullCheckExpressionInfo, NullCheckExpressionInfo\) Operator
+# NullCheckExpressionInfo\.Inequality\(NullCheckExpressionInfo, NullCheckExpressionInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

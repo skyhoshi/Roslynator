@@ -25,7 +25,7 @@ namespace Roslynator.Documentation
 
             SymbolDisplayFormat format = (Symbols.Length == 1) ? FormatProvider.MemberTitleFormat : FormatProvider.OverloadedMemberTitleFormat;
 
-            Writer.WriteString(symbol.ToDisplayString(format));
+            Writer.WriteString(symbol.ToDisplayString(format, SymbolDisplayAdditionalOptions.UseOperatorName));
             Writer.WriteString(" ");
             Writer.WriteString(CategoryName);
             Writer.WriteEndHeading();
@@ -36,7 +36,7 @@ namespace Roslynator.Documentation
             if (Symbols.Length > 1)
             {
                 Writer.WriteStartHeading(1 + HeadingBaseLevel);
-                Writer.WriteString(symbol.ToDisplayString(FormatProvider.MethodFormat));
+                Writer.WriteString(symbol.ToDisplayString(FormatProvider.MethodFormat, SymbolDisplayAdditionalOptions.UseOperatorName));
                 Writer.WriteEndHeading();
             }
         }
@@ -57,7 +57,7 @@ namespace Roslynator.Documentation
         private void WriteValue(IMethodSymbol methodSymbol)
         {
             Writer.WriteHeading(3 + HeadingBaseLevel, "Returns");
-            WriteLink(Generator.GetDocumentationInfo(methodSymbol.ReturnType));
+            WriteLink(Generator.GetDocumentationInfo(methodSymbol.ReturnType), SymbolDisplayAdditionalOptions.None);
             Writer.WriteLine();
             Writer.WriteLine();
 

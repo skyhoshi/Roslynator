@@ -1,4 +1,4 @@
-# RegionInfo\.operator ==\(RegionInfo, RegionInfo\) Operator
+# RegionInfo\.Equality\(RegionInfo, RegionInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

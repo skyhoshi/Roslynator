@@ -48,10 +48,10 @@ class Selection<T>
 | -------- | ------- |
 | [Count](Count/README.md) | Gets a number of selected items\. |
 | [FirstIndex](FirstIndex/README.md) | Gets an index of the first selected item\. |
+| [Item\[Int32\]](Item/README.md) | Gets the selected item at the specified index\. |
 | [Items](Items/README.md) | Gets an underlying list that contains selected items\. |
 | [LastIndex](LastIndex/README.md) | Gets an index of the last selected item\. |
 | [OriginalSpan](OriginalSpan/README.md) | Gets the original span that was used to determine selected items\. |
-| [this\[Int32\]](Item/README.md) | Gets the selected item at the specified index\. |
 
 ## Methods
 

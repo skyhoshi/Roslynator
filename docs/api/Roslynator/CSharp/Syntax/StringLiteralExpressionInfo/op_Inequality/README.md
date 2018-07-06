@@ -1,4 +1,4 @@
-# StringLiteralExpressionInfo\.operator \!=\(StringLiteralExpressionInfo, StringLiteralExpressionInfo\) Operator
+# StringLiteralExpressionInfo\.Inequality\(StringLiteralExpressionInfo, StringLiteralExpressionInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

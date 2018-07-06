@@ -1,4 +1,4 @@
-# SingleLocalDeclarationStatementInfo\.operator \!=\(SingleLocalDeclarationStatementInfo, SingleLocalDeclarationStatementInfo\) Operator
+# SingleLocalDeclarationStatementInfo\.Inequality\(SingleLocalDeclarationStatementInfo, SingleLocalDeclarationStatementInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

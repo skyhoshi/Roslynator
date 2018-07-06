@@ -28,11 +28,11 @@ class MemberDeclarationListSelection
 | -------- | ------- |
 | [Count](../../Selection-1/Count/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
 | [FirstIndex](../../Selection-1/FirstIndex/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
+| [Item\[Int32\]](../../Selection-1/Item/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
 | [Items](../../SyntaxListSelection-1/Items/README.md) |  \(Inherited from [SyntaxListSelection\<TNode>](../../SyntaxListSelection-1/README.md)\) |
 | [LastIndex](../../Selection-1/LastIndex/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
 | [OriginalSpan](../../Selection-1/OriginalSpan/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
 | [Parent](Parent/README.md) | Gets a node that contains selected members\. |
-| [this\[Int32\]](../../Selection-1/Item/README.md) |  \(Inherited from [Selection\<T>](../../Selection-1/README.md)\) |
 | [UnderlyingList](../../SyntaxListSelection-1/UnderlyingList/README.md) |  \(Inherited from [SyntaxListSelection\<TNode>](../../SyntaxListSelection-1/README.md)\) |
 
 ## Methods

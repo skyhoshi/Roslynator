@@ -1,4 +1,4 @@
-# SimpleIfElseInfo\.operator ==\(SimpleIfElseInfo, SimpleIfElseInfo\) Operator
+# SimpleIfElseInfo\.Equality\(SimpleIfElseInfo, SimpleIfElseInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

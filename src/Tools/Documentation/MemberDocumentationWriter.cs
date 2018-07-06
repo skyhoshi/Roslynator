@@ -45,7 +45,7 @@ namespace Roslynator.Documentation
             }
             else
             {
-                WriteTable(Symbols, "Overloads", 2, CategoryName, "Summary", FormatProvider.ConstructorFormat, addLink: false);
+                WriteTable(Symbols, "Overloads", 2, CategoryName, "Summary", FormatProvider.ConstructorFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName, addLink: false);
 
                 foreach (ISymbol symbol in Symbols)
                 {
@@ -63,7 +63,7 @@ namespace Roslynator.Documentation
         public virtual void WriteImplements(ISymbol symbol)
         {
             using (IEnumerator<ISymbol> en = symbol.FindImplementedInterfaceMembers()
-                .OrderBy(f => f.ToDisplayString(FormatProvider.MemberImplementsFormat))
+                .OrderBy(f => f.ToDisplayString(FormatProvider.MemberImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty))
                 .GetEnumerator())
             {
                 if (en.MoveNext())
@@ -73,7 +73,7 @@ namespace Roslynator.Documentation
                     do
                     {
                         Writer.WriteStartBulletItem();
-                        WriteLink(Generator.GetDocumentationInfo(en.Current), FormatProvider.MemberImplementsFormat);
+                        WriteLink(Generator.GetDocumentationInfo(en.Current), FormatProvider.MemberImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
                         Writer.WriteEndBulletItem();
                     }
                     while (en.MoveNext());

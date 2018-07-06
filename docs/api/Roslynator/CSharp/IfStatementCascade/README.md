@@ -43,8 +43,8 @@ readonly struct IfStatementCascade
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(IfStatementCascade, IfStatementCascade)](op_Inequality/README.md) | |
-| [operator ==(IfStatementCascade, IfStatementCascade)](op_Equality/README.md) | |
+| [Equality(IfStatementCascade, IfStatementCascade)](op_Equality/README.md) | |
+| [Inequality(IfStatementCascade, IfStatementCascade)](op_Inequality/README.md) | |
 
 ## Explicit Interface Implementations
 

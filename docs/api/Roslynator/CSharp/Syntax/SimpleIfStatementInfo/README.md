@@ -45,6 +45,6 @@ readonly struct SimpleIfStatementInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(SimpleIfStatementInfo, SimpleIfStatementInfo)](op_Inequality/README.md) | |
-| [operator ==(SimpleIfStatementInfo, SimpleIfStatementInfo)](op_Equality/README.md) | |
+| [Equality(SimpleIfStatementInfo, SimpleIfStatementInfo)](op_Equality/README.md) | |
+| [Inequality(SimpleIfStatementInfo, SimpleIfStatementInfo)](op_Inequality/README.md) | |
 

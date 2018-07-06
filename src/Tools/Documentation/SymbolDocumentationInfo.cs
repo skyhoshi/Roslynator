@@ -166,7 +166,7 @@ namespace Roslynator.Documentation
                 if (explicitImplementation != null)
                 {
                     string name = explicitImplementation
-                        .ToDisplayParts(SymbolDisplayFormats.ExplicitImplementationFullName)
+                        .ToDisplayParts(SymbolDisplayFormats.ExplicitImplementationFullName, SymbolDisplayAdditionalOptions.UseItemProperty)
                         .Where(part => part.Kind != SymbolDisplayPartKind.Space)
                         .Select(part => (part.IsPunctuation()) ? part.WithText("-") : part)
                         .ToImmutableArray()
@@ -401,8 +401,10 @@ namespace Roslynator.Documentation
                         {
                             var methodSymbol = (IMethodSymbol)member;
 
-                            if (!methodSymbol.ExplicitInterfaceImplementations.IsDefaultOrEmpty)
+                            if (methodSymbol.MethodKind == MethodKind.ExplicitInterfaceImplementation
+                                && !methodSymbol.ExplicitInterfaceImplementations.IsDefaultOrEmpty)
                             {
+                                Debug.WriteLine(methodSymbol.MethodKind);
                                 yield return methodSymbol;
                             }
 

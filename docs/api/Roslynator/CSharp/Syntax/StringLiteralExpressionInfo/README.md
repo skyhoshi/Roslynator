@@ -50,6 +50,6 @@ readonly struct StringLiteralExpressionInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(StringLiteralExpressionInfo, StringLiteralExpressionInfo)](op_Inequality/README.md) | |
-| [operator ==(StringLiteralExpressionInfo, StringLiteralExpressionInfo)](op_Equality/README.md) | |
+| [Equality(StringLiteralExpressionInfo, StringLiteralExpressionInfo)](op_Equality/README.md) | |
+| [Inequality(StringLiteralExpressionInfo, StringLiteralExpressionInfo)](op_Inequality/README.md) | |
 

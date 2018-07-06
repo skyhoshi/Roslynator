@@ -1,4 +1,4 @@
-# Selection\<T>\.this\[Int32\] Property
+# Selection\<T>\.Item\[Int32\] Property
 
 Namespace: [Roslynator](../../README.md)
 

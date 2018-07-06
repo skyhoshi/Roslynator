@@ -1,4 +1,4 @@
-# ModifierListInfo\.operator ==\(ModifierListInfo, ModifierListInfo\) Operator
+# ModifierListInfo\.Equality\(ModifierListInfo, ModifierListInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

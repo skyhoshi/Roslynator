@@ -1,4 +1,4 @@
-# UsingDirectiveListInfo\.operator ==\(UsingDirectiveListInfo, UsingDirectiveListInfo\) Operator
+# UsingDirectiveListInfo\.Equality\(UsingDirectiveListInfo, UsingDirectiveListInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

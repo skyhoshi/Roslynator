@@ -59,7 +59,7 @@ namespace Roslynator.Documentation
         private void WriteValue(IMethodSymbol methodSymbol)
         {
             Writer.WriteHeading(3 + HeadingBaseLevel, "Returns");
-            WriteLink(Generator.GetDocumentationInfo(methodSymbol.ReturnType));
+            WriteLink(Generator.GetDocumentationInfo(methodSymbol.ReturnType), SymbolDisplayAdditionalOptions.None);
             Writer.WriteLine();
             Writer.WriteLine();
 

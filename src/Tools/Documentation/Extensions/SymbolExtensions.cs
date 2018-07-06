@@ -2,12 +2,11 @@
 
 using System.Collections.Immutable;
 using System.Linq;
-using DotMarkdown;
 using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
-    internal static class Extensions
+    internal static class SymbolExtensions
     {
         public static ImmutableArray<ITypeSymbol> GetPubliclyVisibleTypes(this IAssemblySymbol assemblySymbol)
         {
@@ -89,34 +88,6 @@ namespace Roslynator.Documentation
             }
 
             return null;
-        }
-
-        public static void WriteLink(
-            this MarkdownWriter writer,
-            SymbolDocumentationInfo symbolInfo,
-            SymbolDocumentationInfo directoryInfo,
-            SymbolDisplayFormat format)
-        {
-            string url = symbolInfo.GetUrl(directoryInfo);
-
-            writer.WriteLinkOrText(symbolInfo.Symbol.ToDisplayString(format), url);
-        }
-
-        public static void WriteTableCell(this MarkdownWriter writer, string text)
-        {
-            writer.WriteStartTableCell();
-            writer.WriteString(text);
-            writer.WriteEndTableCell();
-        }
-
-        public static bool IsPunctuation(this SymbolDisplayPart part)
-        {
-            return part.Kind == SymbolDisplayPartKind.Punctuation;
-        }
-
-        public static SymbolDisplayPart WithText(this SymbolDisplayPart part, string text)
-        {
-            return new SymbolDisplayPart(part.Kind, part.Symbol, text);
         }
     }
 }

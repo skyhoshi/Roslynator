@@ -1,4 +1,4 @@
-# SimpleMemberInvocationExpressionInfo\.operator \!=\(SimpleMemberInvocationExpressionInfo, SimpleMemberInvocationExpressionInfo\) Operator
+# SimpleMemberInvocationExpressionInfo\.Inequality\(SimpleMemberInvocationExpressionInfo, SimpleMemberInvocationExpressionInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

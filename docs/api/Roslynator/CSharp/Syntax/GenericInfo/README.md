@@ -53,6 +53,6 @@ readonly struct GenericInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(GenericInfo, GenericInfo)](op_Inequality/README.md) | |
-| [operator ==(GenericInfo, GenericInfo)](op_Equality/README.md) | |
+| [Equality(GenericInfo, GenericInfo)](op_Equality/README.md) | |
+| [Inequality(GenericInfo, GenericInfo)](op_Inequality/README.md) | |
 

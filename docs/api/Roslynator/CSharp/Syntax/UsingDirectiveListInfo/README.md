@@ -28,9 +28,9 @@ readonly struct UsingDirectiveListInfo
 | Property | Summary |
 | -------- | ------- |
 | [Count](Count/README.md) | A number of usings in the list\. |
+| [Item\[Int32\]](Item/README.md) | Gets the using directive at the specified index in the list\. |
 | [Parent](Parent/README.md) | The declaration that contains the usings\. |
 | [Success](Success/README.md) | Determines whether this struct was initialized with an actual syntax\. |
-| [this\[Int32\]](Item/README.md) | Gets the using directive at the specified index in the list\. |
 | [Usings](Usings/README.md) | A list of usings\. |
 
 ## Methods
@@ -71,8 +71,8 @@ readonly struct UsingDirectiveListInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(UsingDirectiveListInfo, UsingDirectiveListInfo)](op_Inequality/README.md) | |
-| [operator ==(UsingDirectiveListInfo, UsingDirectiveListInfo)](op_Equality/README.md) | |
+| [Equality(UsingDirectiveListInfo, UsingDirectiveListInfo)](op_Equality/README.md) | |
+| [Inequality(UsingDirectiveListInfo, UsingDirectiveListInfo)](op_Inequality/README.md) | |
 
 ## Explicit Interface Implementations
 

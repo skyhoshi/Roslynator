@@ -1,4 +1,4 @@
-# IfStatementOrElseClause\.implicit operator IfStatementOrElseClause Operator
+# IfStatementOrElseClause\.Implicit Operator
 
 Namespace: [Roslynator.CSharp](../../README.md)
 
@@ -8,12 +8,12 @@ Assembly: Roslynator\.CSharp\.dll
 
 | Operator | Summary |
 | -------- | ------- |
-| implicit operator ElseClauseSyntax\(IfStatementOrElseClause\) | |
-| implicit operator IfStatementOrElseClause\(ElseClauseSyntax\) | |
-| implicit operator IfStatementOrElseClause\(IfStatementSyntax\) | |
-| implicit operator IfStatementSyntax\(IfStatementOrElseClause\) | |
+| Implicit\(ElseClauseSyntax to IfStatementOrElseClause\) | |
+| Implicit\(IfStatementOrElseClause to ElseClauseSyntax\) | |
+| Implicit\(IfStatementOrElseClause to IfStatementSyntax\) | |
+| Implicit\(IfStatementSyntax to IfStatementOrElseClause\) | |
 
-## implicit operator IfStatementOrElseClause\(IfStatementSyntax\)
+## Implicit\(IfStatementSyntax to IfStatementOrElseClause\)
 
 ```csharp
 public static implicit operator IfStatementOrElseClause(IfStatementSyntax ifStatement)
@@ -30,7 +30,7 @@ public static implicit operator IfStatementOrElseClause(IfStatementSyntax ifStat
 [IfStatementOrElseClause](../README.md)
 
 
-## implicit operator IfStatementSyntax\(IfStatementOrElseClause\)
+## Implicit\(IfStatementOrElseClause to IfStatementSyntax\)
 
 ```csharp
 public static implicit operator IfStatementSyntax(in IfStatementOrElseClause ifOrElse)
@@ -47,7 +47,7 @@ public static implicit operator IfStatementSyntax(in IfStatementOrElseClause ifO
 [IfStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.ifstatementsyntax)
 
 
-## implicit operator IfStatementOrElseClause\(ElseClauseSyntax\)
+## Implicit\(ElseClauseSyntax to IfStatementOrElseClause\)
 
 ```csharp
 public static implicit operator IfStatementOrElseClause(ElseClauseSyntax elseClause)
@@ -64,7 +64,7 @@ public static implicit operator IfStatementOrElseClause(ElseClauseSyntax elseCla
 [IfStatementOrElseClause](../README.md)
 
 
-## implicit operator ElseClauseSyntax\(IfStatementOrElseClause\)
+## Implicit\(IfStatementOrElseClause to ElseClauseSyntax\)
 
 ```csharp
 public static implicit operator ElseClauseSyntax(in IfStatementOrElseClause ifOrElse)

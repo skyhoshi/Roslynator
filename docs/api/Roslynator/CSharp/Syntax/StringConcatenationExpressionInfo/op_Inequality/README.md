@@ -1,4 +1,4 @@
-# StringConcatenationExpressionInfo\.operator \!=\(StringConcatenationExpressionInfo, StringConcatenationExpressionInfo\) Operator
+# StringConcatenationExpressionInfo\.Inequality\(StringConcatenationExpressionInfo, StringConcatenationExpressionInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

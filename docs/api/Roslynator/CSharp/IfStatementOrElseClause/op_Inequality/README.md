@@ -1,4 +1,4 @@
-# IfStatementOrElseClause\.operator \!=\(IfStatementOrElseClause, IfStatementOrElseClause\) Operator
+# IfStatementOrElseClause\.Inequality\(IfStatementOrElseClause, IfStatementOrElseClause\) Operator
 
 Namespace: [Roslynator.CSharp](../../README.md)
 

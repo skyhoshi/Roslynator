@@ -28,10 +28,10 @@ readonly struct MemberDeclarationListInfo
 | Property | Summary |
 | -------- | ------- |
 | [Count](Count/README.md) | A number of members in the list\. |
+| [Item\[Int32\]](Item/README.md) | Gets the member at the specified index in the list\. |
 | [Members](Members/README.md) | A list of members\. |
 | [Parent](Parent/README.md) | The declaration that contains the members\. |
 | [Success](Success/README.md) | Determines whether this struct was initialized with an actual syntax\. |
-| [this\[Int32\]](Item/README.md) | Gets the member at the specified index in the list\. |
 
 ## Methods
 
@@ -71,8 +71,8 @@ readonly struct MemberDeclarationListInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(MemberDeclarationListInfo, MemberDeclarationListInfo)](op_Inequality/README.md) | |
-| [operator ==(MemberDeclarationListInfo, MemberDeclarationListInfo)](op_Equality/README.md) | |
+| [Equality(MemberDeclarationListInfo, MemberDeclarationListInfo)](op_Equality/README.md) | |
+| [Inequality(MemberDeclarationListInfo, MemberDeclarationListInfo)](op_Inequality/README.md) | |
 
 ## Explicit Interface Implementations
 

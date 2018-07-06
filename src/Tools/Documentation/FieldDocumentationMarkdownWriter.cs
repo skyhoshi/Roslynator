@@ -41,7 +41,7 @@ namespace Roslynator.Documentation
         private void WriteValue(IFieldSymbol fieldSymbol)
         {
             Writer.WriteHeading(3 + HeadingBaseLevel, "Field Value");
-            WriteLink(Generator.GetDocumentationInfo(fieldSymbol.Type));
+            WriteLink(Generator.GetDocumentationInfo(fieldSymbol.Type), SymbolDisplayAdditionalOptions.None);
         }
     }
 }

@@ -49,6 +49,6 @@ readonly struct SimpleMemberInvocationExpressionInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(SimpleMemberInvocationExpressionInfo, SimpleMemberInvocationExpressionInfo)](op_Inequality/README.md) | |
-| [operator ==(SimpleMemberInvocationExpressionInfo, SimpleMemberInvocationExpressionInfo)](op_Equality/README.md) | |
+| [Equality(SimpleMemberInvocationExpressionInfo, SimpleMemberInvocationExpressionInfo)](op_Equality/README.md) | |
+| [Inequality(SimpleMemberInvocationExpressionInfo, SimpleMemberInvocationExpressionInfo)](op_Inequality/README.md) | |
 

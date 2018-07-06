@@ -44,6 +44,6 @@ readonly struct ExtensionMethodSymbolInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(ExtensionMethodSymbolInfo, ExtensionMethodSymbolInfo)](op_Inequality/README.md) | |
-| [operator ==(ExtensionMethodSymbolInfo, ExtensionMethodSymbolInfo)](op_Equality/README.md) | |
+| [Equality(ExtensionMethodSymbolInfo, ExtensionMethodSymbolInfo)](op_Equality/README.md) | |
+| [Inequality(ExtensionMethodSymbolInfo, ExtensionMethodSymbolInfo)](op_Inequality/README.md) | |
 

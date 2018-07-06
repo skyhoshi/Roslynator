@@ -46,6 +46,6 @@ readonly struct RegionInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(RegionInfo, RegionInfo)](op_Inequality/README.md) | |
-| [operator ==(RegionInfo, RegionInfo)](op_Equality/README.md) | |
+| [Equality(RegionInfo, RegionInfo)](op_Equality/README.md) | |
+| [Inequality(RegionInfo, RegionInfo)](op_Inequality/README.md) | |
 

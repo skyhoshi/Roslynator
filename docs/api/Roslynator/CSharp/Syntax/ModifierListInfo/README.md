@@ -65,6 +65,6 @@ readonly struct ModifierListInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(ModifierListInfo, ModifierListInfo)](op_Inequality/README.md) | |
-| [operator ==(ModifierListInfo, ModifierListInfo)](op_Equality/README.md) | |
+| [Equality(ModifierListInfo, ModifierListInfo)](op_Equality/README.md) | |
+| [Inequality(ModifierListInfo, ModifierListInfo)](op_Inequality/README.md) | |
 

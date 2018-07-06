@@ -8,43 +8,23 @@ using System.Collections.Generic;
 
 namespace Roslynator.Documentation
 {
-    public class FooDictionary<TKey, TValue> : ICollection<KeyValuePair<TKey, TValue>>
+    public class FooDictionary<TKey, TValue> : IEnumerable<TValue>, IReadOnlyList<KeyValuePair<TKey, TValue>>
     {
-        public int Count => throw new NotImplementedException();
+        KeyValuePair<TKey, TValue> IReadOnlyList<KeyValuePair<TKey, TValue>>.this[int index] => throw new NotImplementedException();
 
-        public bool IsReadOnly => throw new NotImplementedException();
+        int IReadOnlyCollection<KeyValuePair<TKey, TValue>>.Count => throw new NotImplementedException();
 
-        public void Clear()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Contains(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Remove(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotImplementedException();
-        }
-
-        void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
+        IEnumerator<TValue> IEnumerable<TValue>.GetEnumerator()
         {
             throw new NotImplementedException();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
         {
             throw new NotImplementedException();
         }

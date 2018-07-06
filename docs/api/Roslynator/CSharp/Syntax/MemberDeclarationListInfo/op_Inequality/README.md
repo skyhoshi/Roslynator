@@ -1,4 +1,4 @@
-# MemberDeclarationListInfo\.operator \!=\(MemberDeclarationListInfo, MemberDeclarationListInfo\) Operator
+# MemberDeclarationListInfo\.Inequality\(MemberDeclarationListInfo, MemberDeclarationListInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

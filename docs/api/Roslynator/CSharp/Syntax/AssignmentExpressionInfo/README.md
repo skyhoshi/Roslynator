@@ -46,6 +46,6 @@ readonly struct AssignmentExpressionInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(AssignmentExpressionInfo, AssignmentExpressionInfo)](op_Inequality/README.md) | |
-| [operator ==(AssignmentExpressionInfo, AssignmentExpressionInfo)](op_Equality/README.md) | |
+| [Equality(AssignmentExpressionInfo, AssignmentExpressionInfo)](op_Equality/README.md) | |
+| [Inequality(AssignmentExpressionInfo, AssignmentExpressionInfo)](op_Inequality/README.md) | |
 

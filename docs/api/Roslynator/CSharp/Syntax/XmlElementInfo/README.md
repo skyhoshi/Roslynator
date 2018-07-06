@@ -45,6 +45,6 @@ readonly struct XmlElementInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(XmlElementInfo, XmlElementInfo)](op_Inequality/README.md) | |
-| [operator ==(XmlElementInfo, XmlElementInfo)](op_Equality/README.md) | |
+| [Equality(XmlElementInfo, XmlElementInfo)](op_Equality/README.md) | |
+| [Inequality(XmlElementInfo, XmlElementInfo)](op_Inequality/README.md) | |
 

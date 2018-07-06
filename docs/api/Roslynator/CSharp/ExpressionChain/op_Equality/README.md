@@ -1,4 +1,4 @@
-# ExpressionChain\.operator ==\(ExpressionChain, ExpressionChain\) Operator
+# ExpressionChain\.Equality\(ExpressionChain, ExpressionChain\) Operator
 
 Namespace: [Roslynator.CSharp](../../README.md)
 

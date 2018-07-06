@@ -44,6 +44,6 @@ readonly struct StringConcatenationExpressionInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(StringConcatenationExpressionInfo, StringConcatenationExpressionInfo)](op_Inequality/README.md) | |
-| [operator ==(StringConcatenationExpressionInfo, StringConcatenationExpressionInfo)](op_Equality/README.md) | |
+| [Equality(StringConcatenationExpressionInfo, StringConcatenationExpressionInfo)](op_Equality/README.md) | |
+| [Inequality(StringConcatenationExpressionInfo, StringConcatenationExpressionInfo)](op_Inequality/README.md) | |
 

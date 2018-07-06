@@ -1,4 +1,4 @@
-# MemberDeclarationListInfo\.this\[Int32\] Property
+# MemberDeclarationListInfo\.Item\[Int32\] Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

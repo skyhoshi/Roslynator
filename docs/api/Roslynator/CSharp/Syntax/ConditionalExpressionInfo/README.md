@@ -47,6 +47,6 @@ readonly struct ConditionalExpressionInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(ConditionalExpressionInfo, ConditionalExpressionInfo)](op_Inequality/README.md) | |
-| [operator ==(ConditionalExpressionInfo, ConditionalExpressionInfo)](op_Equality/README.md) | |
+| [Equality(ConditionalExpressionInfo, ConditionalExpressionInfo)](op_Equality/README.md) | |
+| [Inequality(ConditionalExpressionInfo, ConditionalExpressionInfo)](op_Inequality/README.md) | |
 

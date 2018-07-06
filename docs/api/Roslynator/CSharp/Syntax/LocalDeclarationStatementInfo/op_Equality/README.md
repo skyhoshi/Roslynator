@@ -1,4 +1,4 @@
-# LocalDeclarationStatementInfo\.operator ==\(LocalDeclarationStatementInfo, LocalDeclarationStatementInfo\) Operator
+# LocalDeclarationStatementInfo\.Equality\(LocalDeclarationStatementInfo, LocalDeclarationStatementInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

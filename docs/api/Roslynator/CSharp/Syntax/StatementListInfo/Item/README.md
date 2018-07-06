@@ -1,4 +1,4 @@
-# StatementListInfo\.this\[Int32\] Property
+# StatementListInfo\.Item\[Int32\] Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

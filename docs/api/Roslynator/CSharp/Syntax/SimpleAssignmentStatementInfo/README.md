@@ -46,6 +46,6 @@ readonly struct SimpleAssignmentStatementInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(SimpleAssignmentStatementInfo, SimpleAssignmentStatementInfo)](op_Inequality/README.md) | |
-| [operator ==(SimpleAssignmentStatementInfo, SimpleAssignmentStatementInfo)](op_Equality/README.md) | |
+| [Equality(SimpleAssignmentStatementInfo, SimpleAssignmentStatementInfo)](op_Equality/README.md) | |
+| [Inequality(SimpleAssignmentStatementInfo, SimpleAssignmentStatementInfo)](op_Inequality/README.md) | |
 

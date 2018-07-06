@@ -49,10 +49,10 @@ readonly struct IfStatementOrElseClause
 
 | Operator | Summary |
 | -------- | ------- |
-| [implicit operator ElseClauseSyntax(IfStatementOrElseClause)](op_Implicit/README.md) | |
-| [implicit operator IfStatementOrElseClause(ElseClauseSyntax)](op_Implicit/README.md) | |
-| [implicit operator IfStatementOrElseClause(IfStatementSyntax)](op_Implicit/README.md) | |
-| [implicit operator IfStatementSyntax(IfStatementOrElseClause)](op_Implicit/README.md) | |
-| [operator !=(IfStatementOrElseClause, IfStatementOrElseClause)](op_Inequality/README.md) | |
-| [operator ==(IfStatementOrElseClause, IfStatementOrElseClause)](op_Equality/README.md) | |
+| [Equality(IfStatementOrElseClause, IfStatementOrElseClause)](op_Equality/README.md) | |
+| [Implicit(ElseClauseSyntax to IfStatementOrElseClause)](op_Implicit/README.md) | |
+| [Implicit(IfStatementOrElseClause to ElseClauseSyntax)](op_Implicit/README.md) | |
+| [Implicit(IfStatementOrElseClause to IfStatementSyntax)](op_Implicit/README.md) | |
+| [Implicit(IfStatementSyntax to IfStatementOrElseClause)](op_Implicit/README.md) | |
+| [Inequality(IfStatementOrElseClause, IfStatementOrElseClause)](op_Inequality/README.md) | |
 

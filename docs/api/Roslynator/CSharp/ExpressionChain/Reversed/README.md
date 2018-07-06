@@ -43,8 +43,8 @@ readonly struct Reversed
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(Reversed, Reversed)](op_Inequality/README.md) | |
-| [operator ==(Reversed, Reversed)](op_Equality/README.md) | |
+| [Equality(Reversed, Reversed)](op_Equality/README.md) | |
+| [Inequality(Reversed, Reversed)](op_Inequality/README.md) | |
 
 ## Explicit Interface Implementations
 

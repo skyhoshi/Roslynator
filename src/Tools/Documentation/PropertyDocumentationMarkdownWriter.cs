@@ -25,7 +25,7 @@ namespace Roslynator.Documentation
 
             SymbolDisplayFormat format = (Symbols.Length == 1) ? FormatProvider.MemberTitleFormat : FormatProvider.OverloadedMemberTitleFormat;
 
-            Writer.WriteString(symbol.ToDisplayString(format));
+            Writer.WriteString(symbol.ToDisplayString(format, SymbolDisplayAdditionalOptions.UseItemProperty));
             Writer.WriteString(" ");
             Writer.WriteString(CategoryName);
             Writer.WriteEndHeading();
@@ -36,7 +36,7 @@ namespace Roslynator.Documentation
             if (Symbols.Length > 1)
             {
                 Writer.WriteStartHeading(1 + HeadingBaseLevel);
-                Writer.WriteString(symbol.ToDisplayString(FormatProvider.PropertyFormat));
+                Writer.WriteString(symbol.ToDisplayString(FormatProvider.PropertyFormat, SymbolDisplayAdditionalOptions.UseItemProperty));
                 Writer.WriteEndHeading();
             }
         }
@@ -58,7 +58,7 @@ namespace Roslynator.Documentation
         private void WriteValue(IPropertySymbol propertySymbol)
         {
             Writer.WriteHeading(3 + HeadingBaseLevel, "Property Value");
-            WriteLink(Generator.GetDocumentationInfo(propertySymbol.Type));
+            WriteLink(Generator.GetDocumentationInfo(propertySymbol.Type), SymbolDisplayAdditionalOptions.None);
             Writer.WriteLine();
             Writer.WriteLine();
 

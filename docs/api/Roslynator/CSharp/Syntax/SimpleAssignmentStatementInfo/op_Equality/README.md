@@ -1,4 +1,4 @@
-# SimpleAssignmentStatementInfo\.operator ==\(SimpleAssignmentStatementInfo, SimpleAssignmentStatementInfo\) Operator
+# SimpleAssignmentStatementInfo\.Equality\(SimpleAssignmentStatementInfo, SimpleAssignmentStatementInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

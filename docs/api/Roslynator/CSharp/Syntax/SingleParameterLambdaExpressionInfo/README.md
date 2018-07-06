@@ -47,6 +47,6 @@ readonly struct SingleParameterLambdaExpressionInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(SingleParameterLambdaExpressionInfo, SingleParameterLambdaExpressionInfo)](op_Inequality/README.md) | |
-| [operator ==(SingleParameterLambdaExpressionInfo, SingleParameterLambdaExpressionInfo)](op_Equality/README.md) | |
+| [Equality(SingleParameterLambdaExpressionInfo, SingleParameterLambdaExpressionInfo)](op_Equality/README.md) | |
+| [Inequality(SingleParameterLambdaExpressionInfo, SingleParameterLambdaExpressionInfo)](op_Inequality/README.md) | |
 

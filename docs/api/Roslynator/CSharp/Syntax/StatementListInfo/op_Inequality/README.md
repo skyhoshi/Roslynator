@@ -1,4 +1,4 @@
-# StatementListInfo\.operator \!=\(StatementListInfo, StatementListInfo\) Operator
+# StatementListInfo\.Inequality\(StatementListInfo, StatementListInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

@@ -47,6 +47,6 @@ readonly struct BinaryExpressionInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(BinaryExpressionInfo, BinaryExpressionInfo)](op_Inequality/README.md) | |
-| [operator ==(BinaryExpressionInfo, BinaryExpressionInfo)](op_Equality/README.md) | |
+| [Equality(BinaryExpressionInfo, BinaryExpressionInfo)](op_Equality/README.md) | |
+| [Inequality(BinaryExpressionInfo, BinaryExpressionInfo)](op_Inequality/README.md) | |
 

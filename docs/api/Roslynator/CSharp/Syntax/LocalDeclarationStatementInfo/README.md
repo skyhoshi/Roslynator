@@ -47,6 +47,6 @@ readonly struct LocalDeclarationStatementInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(LocalDeclarationStatementInfo, LocalDeclarationStatementInfo)](op_Inequality/README.md) | |
-| [operator ==(LocalDeclarationStatementInfo, LocalDeclarationStatementInfo)](op_Equality/README.md) | |
+| [Equality(LocalDeclarationStatementInfo, LocalDeclarationStatementInfo)](op_Equality/README.md) | |
+| [Inequality(LocalDeclarationStatementInfo, LocalDeclarationStatementInfo)](op_Inequality/README.md) | |
 

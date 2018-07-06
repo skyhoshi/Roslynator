@@ -1,4 +1,4 @@
-# UsingDirectiveListInfo\.this\[Int32\] Property
+# UsingDirectiveListInfo\.Item\[Int32\] Property
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

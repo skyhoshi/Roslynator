@@ -30,12 +30,12 @@ readonly struct StatementListInfo
 | [Count](Count/README.md) | The number of statement in the list\. |
 | [IsParentBlock](IsParentBlock/README.md) | Determines whether the statements are contained in a [BlockSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.blocksyntax)\. |
 | [IsParentSwitchSection](IsParentSwitchSection/README.md) | Determines whether the statements are contained in a [SwitchSectionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.switchsectionsyntax)\. |
+| [Item\[Int32\]](Item/README.md) | Gets the statement at the specified index in the list\. |
 | [Parent](Parent/README.md) | The node that contains the statements\. It can be either a [BlockSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.blocksyntax) or a [SwitchSectionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.switchsectionsyntax)\. |
 | [ParentAsBlock](ParentAsBlock/README.md) | Gets a block that contains the statements\. Returns null if the statements are not contained in a block\. |
 | [ParentAsSwitchSection](ParentAsSwitchSection/README.md) | Gets a switch section that contains the statements\. Returns null if the statements are not contained in a switch section\. |
 | [Statements](Statements/README.md) | The list of statements\. |
 | [Success](Success/README.md) | Determines whether this struct was initialized with an actual syntax\. |
-| [this\[Int32\]](Item/README.md) | Gets the statement at the specified index in the list\. |
 
 ## Methods
 
@@ -75,8 +75,8 @@ readonly struct StatementListInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(StatementListInfo, StatementListInfo)](op_Inequality/README.md) | |
-| [operator ==(StatementListInfo, StatementListInfo)](op_Equality/README.md) | |
+| [Equality(StatementListInfo, StatementListInfo)](op_Equality/README.md) | |
+| [Inequality(StatementListInfo, StatementListInfo)](op_Inequality/README.md) | |
 
 ## Explicit Interface Implementations
 

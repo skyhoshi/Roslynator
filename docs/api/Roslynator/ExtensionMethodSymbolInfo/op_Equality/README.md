@@ -1,4 +1,4 @@
-# ExtensionMethodSymbolInfo\.operator ==\(ExtensionMethodSymbolInfo, ExtensionMethodSymbolInfo\) Operator
+# ExtensionMethodSymbolInfo\.Equality\(ExtensionMethodSymbolInfo, ExtensionMethodSymbolInfo\) Operator
 
 Namespace: [Roslynator](../../README.md)
 

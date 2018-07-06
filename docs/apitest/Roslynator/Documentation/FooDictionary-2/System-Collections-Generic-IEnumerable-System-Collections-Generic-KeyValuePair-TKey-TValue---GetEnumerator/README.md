@@ -1,11 +1,11 @@
-# FooDictionary\<TKey, TValue>\.GetEnumerator\(\) Method
+# FooDictionary\<TKey, TValue>\.IEnumerable\<KeyValuePair\<TKey, TValue>>\.GetEnumerator\(\) Method
 
 Namespace: [Roslynator.Documentation](../../README.md)
 
 Assembly: Roslynator\.Documentation\.DocTest\.dll
 
 ```csharp
-public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+private IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
 ```
 
 ### Returns

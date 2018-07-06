@@ -69,8 +69,8 @@ paratext
 
 | Property | Summary |
 | -------- | ------- |
-| [this\[Int32, Int32\]](Item/README.md) | s |
-| [this\[Int32\]](Item/README.md) | s |
+| [Item\[Int32, Int32\]](Item/README.md) | s |
+| [Item\[Int32\]](Item/README.md) | s |
 
 ## Methods
 

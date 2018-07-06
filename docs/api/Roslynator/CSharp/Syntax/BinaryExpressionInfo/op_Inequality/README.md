@@ -1,4 +1,4 @@
-# BinaryExpressionInfo\.operator \!=\(BinaryExpressionInfo, BinaryExpressionInfo\) Operator
+# BinaryExpressionInfo\.Inequality\(BinaryExpressionInfo, BinaryExpressionInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

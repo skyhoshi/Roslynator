@@ -1,4 +1,4 @@
-# Reversed\.operator \!=\(Reversed, Reversed\) Operator
+# Reversed\.Inequality\(Reversed, Reversed\) Operator
 
 Namespace: [Roslynator.CSharp](../../../README.md)
 

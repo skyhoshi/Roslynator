@@ -1,4 +1,4 @@
-# GenericInfo\.operator ==\(GenericInfo, GenericInfo\) Operator
+# GenericInfo\.Equality\(GenericInfo, GenericInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

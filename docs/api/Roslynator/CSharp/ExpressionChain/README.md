@@ -45,8 +45,8 @@ readonly struct ExpressionChain
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(ExpressionChain, ExpressionChain)](op_Inequality/README.md) | |
-| [operator ==(ExpressionChain, ExpressionChain)](op_Equality/README.md) | |
+| [Equality(ExpressionChain, ExpressionChain)](op_Equality/README.md) | |
+| [Inequality(ExpressionChain, ExpressionChain)](op_Inequality/README.md) | |
 
 ## Explicit Interface Implementations
 

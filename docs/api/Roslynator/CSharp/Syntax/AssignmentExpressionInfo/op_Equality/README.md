@@ -1,4 +1,4 @@
-# AssignmentExpressionInfo\.operator ==\(AssignmentExpressionInfo, AssignmentExpressionInfo\) Operator
+# AssignmentExpressionInfo\.Equality\(AssignmentExpressionInfo, AssignmentExpressionInfo\) Operator
 
 Namespace: [Roslynator.CSharp.Syntax](../../README.md)
 

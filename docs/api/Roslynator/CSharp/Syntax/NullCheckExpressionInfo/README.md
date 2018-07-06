@@ -46,6 +46,6 @@ readonly struct NullCheckExpressionInfo
 
 | Operator | Summary |
 | -------- | ------- |
-| [operator !=(NullCheckExpressionInfo, NullCheckExpressionInfo)](op_Inequality/README.md) | |
-| [operator ==(NullCheckExpressionInfo, NullCheckExpressionInfo)](op_Equality/README.md) | |
+| [Equality(NullCheckExpressionInfo, NullCheckExpressionInfo)](op_Equality/README.md) | |
+| [Inequality(NullCheckExpressionInfo, NullCheckExpressionInfo)](op_Inequality/README.md) | |
 
