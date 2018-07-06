@@ -30,6 +30,8 @@ namespace Roslynator.Documentation
 
         public abstract SymbolDisplayFormat ImplementsFormat { get; }
 
+        public abstract SymbolDisplayFormat MemberImplementsFormat { get; }
+
         public abstract SymbolDisplayFormat AttributeFormat { get; }
 
         public abstract SymbolDisplayFormat ConstructorFormat { get; }
@@ -99,6 +101,11 @@ namespace Roslynator.Documentation
             public override SymbolDisplayFormat ImplementsFormat
             {
                 get { return SymbolDisplayFormats.TypeNameAndContainingTypes; }
+            }
+
+            public override SymbolDisplayFormat MemberImplementsFormat
+            {
+                get { return SymbolDisplayFormats.MemberImplements; }
             }
 
             public override SymbolDisplayFormat AttributeFormat

@@ -5,4 +5,5 @@
 | Class | Summary |
 | ----- | ------- |
 | [Foo](Foo/README.md) | a → > b [Foo](Foo/README.md) |
+| [FooCollection](FooCollection/README.md) | |
 

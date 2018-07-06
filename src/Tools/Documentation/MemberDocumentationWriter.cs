@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using DotMarkdown;
 using Microsoft.CodeAnalysis;
 
@@ -18,6 +20,8 @@ namespace Roslynator.Documentation
         }
 
         public ImmutableArray<ISymbol> Symbols { get; }
+
+        public abstract string CategoryName { get; }
 
         public abstract void WriteContent(ISymbol symbol);
 
@@ -38,9 +42,9 @@ namespace Roslynator.Documentation
             }
             else
             {
-                WriteTable(Symbols, "Overloads", 2, "Constructor", "Summary", FormatProvider.ConstructorFormat);
+                WriteTable(Symbols, "Overloads", 2, CategoryName, "Summary", FormatProvider.ConstructorFormat);
 
-                foreach (IMethodSymbol symbol in Symbols)
+                foreach (ISymbol symbol in Symbols)
                 {
                     if (symbol.HasAttribute(MetadataNames.System_ObsoleteAttribute))
                         WriteObsolete(symbol);
@@ -49,6 +53,27 @@ namespace Roslynator.Documentation
                     WriteMemberTitle(symbol);
                     WriteContent(symbol);
                     HeadingLevel--;
+                }
+            }
+        }
+
+        public virtual void WriteImplements(ISymbol symbol)
+        {
+            using (IEnumerator<ISymbol> en = symbol.FindImplementedInterfaceMembers()
+                .OrderBy(f => f.ToDisplayString(FormatProvider.MemberImplementsFormat))
+                .GetEnumerator())
+            {
+                if (en.MoveNext())
+                {
+                    Writer.WriteHeading(4 + HeadingLevel, "Implements");
+
+                    do
+                    {
+                        Writer.WriteStartBulletItem();
+                        WriteLink(Generator.GetDocumentationInfo(en.Current), FormatProvider.MemberImplementsFormat);
+                        Writer.WriteEndBulletItem();
+                    }
+                    while (en.MoveNext());
                 }
             }
         }
@@ -63,29 +88,31 @@ namespace Roslynator.Documentation
             switch (symbols[0].Kind)
             {
                 case SymbolKind.Event:
-                    break;
+                    {
+                        break;
+                    }
                 case SymbolKind.Field:
-                    break;
+                    {
+                        return new FieldDocumentationMarkdownWriter(symbols, directoryInfo, generator);
+                    }
                 case SymbolKind.Method:
                     {
                         var methodSymbol = (IMethodSymbol)symbol;
 
-                        if (methodSymbol.MethodKind == MethodKind.Constructor)
+                        switch (methodSymbol.MethodKind)
                         {
-                            if (symbols.Length > 1)
-                            {
-                                return new ConstructorsDocumentationMarkdownWriter(symbols, directoryInfo, generator);
-                            }
-                            else
-                            {
-                                return new ConstructorDocumentationMarkdownWriter(symbols, directoryInfo, generator);
-                            }
+                            case MethodKind.Constructor:
+                                {
+                                    return new ConstructorDocumentationMarkdownWriter(symbols, directoryInfo, generator);
+                                }
                         }
 
                         break;
                     }
                 case SymbolKind.Property:
-                    break;
+                    {
+                        return new PropertyDocumentationMarkdownWriter(symbols, directoryInfo, generator);
+                    }
             }
 
             return null;

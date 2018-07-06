@@ -55,15 +55,48 @@ namespace Roslynator.Documentation
                 if (typeSymbol.BaseType?.SpecialType == SpecialType.System_Enum)
                     continue;
 
-                content = generator.GenerateMemberDocument(info.GetConstructors());
+                GenerateMemberDocument(rootPath, generator, info.GetConstructors());
+
+                GenerateMemberDocument(rootPath, generator, info.GetFields());
+
+                GenerateMemberDocument(rootPath, generator, info.GetProperties());
+
+                continue;
+
+                ImmutableArray<IMethodSymbol> methods = info.GetMethods().ToImmutableArray();
+
+                WriteFile(rootPath, generator.GenerateMemberDocument(methods), generator.GetDocumentationInfo(methods[0]));
+
+                ImmutableArray<IMethodSymbol> operators = info.GetOperators().ToImmutableArray();
+
+                WriteFile(rootPath, generator.GenerateMemberDocument(operators), generator.GetDocumentationInfo(operators[0]));
+
+                ImmutableArray<IEventSymbol> events = info.GetEvents().ToImmutableArray();
+
+                WriteFile(rootPath, generator.GenerateMemberDocument(events), generator.GetDocumentationInfo(events[0]));
+
+                ImmutableArray<ISymbol> explicitInterfaceImplementations = info.GetExplicitInterfaceImplementations().ToImmutableArray();
+
+                WriteFile(rootPath, generator.GenerateMemberDocument(explicitInterfaceImplementations), generator.GetDocumentationInfo(explicitInterfaceImplementations[0]));
+            }
+        }
+
+        private static void GenerateMemberDocument(string rootPath, DocumentationGenerator generator, IEnumerable<ISymbol> members)
+        {
+            foreach (IGrouping<string, ISymbol> grouping in members.GroupBy(f => f.Name))
+            {
+                string content = generator.GenerateMemberDocument(grouping.ToImmutableArray());
 
                 if (content != null)
-                    WriteFile(rootPath, content, generator.GetDocumentationInfo(info.GetConstructors().First()));
+                    WriteFile(rootPath, content, generator.GetDocumentationInfo(grouping.First()));
             }
         }
 
         private static void WriteFile(string rootPath, string content, SymbolDocumentationInfo info)
         {
+            if (content == null)
+                return;
+
             string path = string.Join(@"\", info.Names.Reverse());
 
             path = rootPath + path + @"\README.md";

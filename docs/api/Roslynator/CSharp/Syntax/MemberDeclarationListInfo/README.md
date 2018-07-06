@@ -31,7 +31,7 @@ readonly struct MemberDeclarationListInfo
 | [Members](Members/README.md) | A list of members\. |
 | [Parent](Parent/README.md) | The declaration that contains the members\. |
 | [Success](Success/README.md) | Determines whether this struct was initialized with an actual syntax\. |
-| [this\[Int32\]](this[]/README.md) | Gets the member at the specified index in the list\. |
+| [this\[Int32\]](Item/README.md) | Gets the member at the specified index in the list\. |
 
 ## Methods
 

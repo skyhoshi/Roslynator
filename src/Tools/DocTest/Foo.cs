@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+
 namespace Roslynator.Documentation
 {
     /// <summary>
@@ -58,6 +59,8 @@ namespace Roslynator.Documentation
     [Obsolete("Foo is obsolete.")]
     public class Foo
     {
+        public readonly string Field = "";
+
         /// <summary>
         /// aaa
         /// </summary>
@@ -97,6 +100,28 @@ namespace Roslynator.Documentation
         /// </summary>
         public void Bar2()
         {
+        }
+
+        /// <summary>
+        /// s
+        /// </summary>
+        /// <param name="index">p</param>
+        /// <returns>v</returns>
+        public Foo this[int index]
+        {
+            get { return null; }
+            set { }
+        }
+
+        /// <summary>
+        /// s
+        /// </summary>
+        /// <param name="index">p</param>
+        /// <returns>v</returns>
+        public Foo this[int index, int index2]
+        {
+            get { return null; }
+            set { }
         }
     }
 }

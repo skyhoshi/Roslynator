@@ -62,6 +62,21 @@ namespace Roslynator.Documentation
              kindOptions: DefaultKindOptions,
              miscellaneousOptions: DefaultMiscellaneousOptions);
 
+        public static SymbolDisplayFormat MemberImplements { get; } = new SymbolDisplayFormat(
+             globalNamespaceStyle: DefaultGlobalNamespaceStyle,
+             typeQualificationStyle: DefaultTypeQualificationStyle,
+             genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
+             memberOptions: DefaultMemberOptions
+                | SymbolDisplayMemberOptions.IncludeExplicitInterface
+                | SymbolDisplayMemberOptions.IncludeContainingType,
+             delegateStyle: DefaultDelegateStyle,
+             extensionMethodStyle: DefaultExtensionMethodStyle,
+             parameterOptions: DefaultParameterOptions,
+             propertyStyle: DefaultPropertyStyle,
+             localOptions: DefaultLocalOptions,
+             kindOptions: DefaultKindOptions,
+             miscellaneousOptions: DefaultMiscellaneousOptions);
+
         public static SymbolDisplayFormat SimpleSignature { get; } = new SymbolDisplayFormat(
              globalNamespaceStyle: DefaultGlobalNamespaceStyle,
              typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameOnly,

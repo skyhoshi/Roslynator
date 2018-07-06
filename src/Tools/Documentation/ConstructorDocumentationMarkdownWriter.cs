@@ -16,16 +16,34 @@ namespace Roslynator.Documentation
         {
         }
 
+        public override string CategoryName => "Constructor";
+
         public override void WriteTitle(ISymbol symbol)
         {
             Writer.WriteStartHeading(1 + HeadingLevel);
-            Writer.WriteString(symbol.ToDisplayString(FormatProvider.ConstructorFormat));
-            Writer.WriteString(" Constructor");
+
+            if (Symbols.Length == 1)
+            {
+                Writer.WriteString(symbol.ToDisplayString(FormatProvider.ConstructorFormat));
+                Writer.WriteString(" Constructor");
+            }
+            else
+            {
+                Writer.WriteString(symbol.ToDisplayString(FormatProvider.TitleFormat));
+                Writer.WriteString(" Constructors");
+            }
+
             Writer.WriteEndHeading();
         }
 
         public override void WriteMemberTitle(ISymbol symbol)
         {
+            if (Symbols.Length > 1)
+            {
+                Writer.WriteStartHeading(1 + HeadingLevel);
+                Writer.WriteString(symbol.ToDisplayString(FormatProvider.ConstructorFormat));
+                Writer.WriteEndHeading();
+            }
         }
 
         public override void WriteContent(ISymbol symbol)

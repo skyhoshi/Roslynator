@@ -30,7 +30,7 @@ readonly struct UsingDirectiveListInfo
 | [Count](Count/README.md) | A number of usings in the list\. |
 | [Parent](Parent/README.md) | The declaration that contains the usings\. |
 | [Success](Success/README.md) | Determines whether this struct was initialized with an actual syntax\. |
-| [this\[Int32\]](this[]/README.md) | Gets the using directive at the specified index in the list\. |
+| [this\[Int32\]](Item/README.md) | Gets the using directive at the specified index in the list\. |
 | [Usings](Usings/README.md) | A list of usings\. |
 
 ## Methods

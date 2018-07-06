@@ -22,7 +22,7 @@ public Foo(string s)
 ```
 
 
-#### Exceptions
+##### Exceptions
 
 [ArgumentException](https://docs.microsoft.com/en-us/dotnet/api/system.argumentexception)
 

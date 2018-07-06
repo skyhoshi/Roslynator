@@ -35,7 +35,7 @@ readonly struct StatementListInfo
 | [ParentAsSwitchSection](ParentAsSwitchSection/README.md) | Gets a switch section that contains the statements\. Returns null if the statements are not contained in a switch section\. |
 | [Statements](Statements/README.md) | The list of statements\. |
 | [Success](Success/README.md) | Determines whether this struct was initialized with an actual syntax\. |
-| [this\[Int32\]](this[]/README.md) | Gets the statement at the specified index in the list\. |
+| [this\[Int32\]](Item/README.md) | Gets the statement at the specified index in the list\. |
 
 ## Methods
 

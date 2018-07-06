@@ -59,6 +59,19 @@ paratext
 | [Foo(String)](-ctor/README.md) | aaa |
 | [Foo(String, String)](-ctor/README.md) | |
 
+## Fields
+
+| Field | Summary |
+| ----- | ------- |
+| [Field](Field/README.md) | |
+
+## Properties
+
+| Property | Summary |
+| -------- | ------- |
+| [this\[Int32, Int32\]](Item/README.md) | s |
+| [this\[Int32\]](Item/README.md) | s |
+
 ## Methods
 
 | Method | Summary |

@@ -130,8 +130,7 @@ namespace Roslynator.Documentation
                 isExternal);
         }
 
-        private static (ImmutableArray<ISymbol>.Builder symbols, ImmutableArray<string>.Builder names)
-            GetSymbolsAndNames(ISymbol symbol)
+        private static (ImmutableArray<ISymbol>.Builder symbols, ImmutableArray<string>.Builder names) GetSymbolsAndNames(ISymbol symbol)
         {
             ImmutableArray<ISymbol>.Builder symbols = ImmutableArray.CreateBuilder<ISymbol>();
             ImmutableArray<string>.Builder names = ImmutableArray.CreateBuilder<string>();
@@ -140,6 +139,11 @@ namespace Roslynator.Documentation
                 && ((IMethodSymbol)symbol).MethodKind == MethodKind.Constructor)
             {
                 names.Add("-ctor");
+            }
+            else if (symbol.Kind == SymbolKind.Property
+                && ((IPropertySymbol)symbol).IsIndexer)
+            {
+                names.Add("Item");
             }
             else
             {
