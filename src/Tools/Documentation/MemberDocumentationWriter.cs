@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using DotMarkdown;
 using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
@@ -14,8 +13,7 @@ namespace Roslynator.Documentation
         protected MemberDocumentationWriter(
             ImmutableArray<ISymbol> symbols,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationGenerator generator,
-            MarkdownWriter writer = null) : base(symbols[0], directoryInfo, generator, writer)
+            DocumentationGenerator generator) : base(symbols[0], directoryInfo, generator)
         {
             Symbols = symbols;
         }
@@ -68,13 +66,13 @@ namespace Roslynator.Documentation
             {
                 if (en.MoveNext())
                 {
-                    Writer.WriteHeading(3 + HeadingBaseLevel, "Implements");
+                    WriteHeading(3 + HeadingBaseLevel, "Implements");
 
                     do
                     {
-                        Writer.WriteStartBulletItem();
+                        WriteStartBulletItem();
                         WriteLink(Generator.GetDocumentationInfo(en.Current), FormatProvider.MemberImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
-                        Writer.WriteEndBulletItem();
+                        WriteEndBulletItem();
                     }
                     while (en.MoveNext());
                 }

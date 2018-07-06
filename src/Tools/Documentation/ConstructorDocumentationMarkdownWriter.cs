@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Collections.Immutable;
-using DotMarkdown;
 using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
@@ -11,8 +10,7 @@ namespace Roslynator.Documentation
         public ConstructorDocumentationMarkdownWriter(
             ImmutableArray<ISymbol> symbols,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationGenerator generator,
-            MarkdownWriter writer = null) : base(symbols, directoryInfo, generator, writer)
+            DocumentationGenerator generator) : base(symbols, directoryInfo, generator)
         {
         }
 
@@ -20,29 +18,29 @@ namespace Roslynator.Documentation
 
         public override void WriteTitle(ISymbol symbol)
         {
-            Writer.WriteStartHeading(1 + HeadingBaseLevel);
+            WriteStartHeading(1 + HeadingBaseLevel);
 
             if (Symbols.Length == 1)
             {
-                Writer.WriteString(symbol.ToDisplayString(FormatProvider.ConstructorFormat));
-                Writer.WriteString(" Constructor");
+                WriteString(symbol.ToDisplayString(FormatProvider.ConstructorFormat));
+                WriteString(" Constructor");
             }
             else
             {
-                Writer.WriteString(symbol.ToDisplayString(FormatProvider.TitleFormat));
-                Writer.WriteString(" Constructors");
+                WriteString(symbol.ToDisplayString(FormatProvider.TitleFormat));
+                WriteString(" Constructors");
             }
 
-            Writer.WriteEndHeading();
+            WriteEndHeading();
         }
 
         public override void WriteMemberTitle(ISymbol symbol)
         {
             if (Symbols.Length > 1)
             {
-                Writer.WriteStartHeading(1 + HeadingBaseLevel);
-                Writer.WriteString(symbol.ToDisplayString(FormatProvider.ConstructorFormat));
-                Writer.WriteEndHeading();
+                WriteStartHeading(1 + HeadingBaseLevel);
+                WriteString(symbol.ToDisplayString(FormatProvider.ConstructorFormat));
+                WriteEndHeading();
             }
         }
 

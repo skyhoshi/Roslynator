@@ -9,58 +9,8 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
-    internal static class Extensions
+    internal static class SymbolDisplayFormatExtensions
     {
-        public static bool IsPunctuation(this SymbolDisplayPart part)
-        {
-            return part.Kind == SymbolDisplayPartKind.Punctuation;
-        }
-
-        public static bool IsSpace(this SymbolDisplayPart part)
-        {
-            return part.Kind == SymbolDisplayPartKind.Space;
-        }
-
-        public static bool IsKeyword(this SymbolDisplayPart part, string text)
-        {
-            return part.Kind == SymbolDisplayPartKind.Keyword
-                && part.ToString() == text;
-        }
-
-        internal static bool IsName(this SymbolDisplayPart part)
-        {
-            switch (part.Kind)
-            {
-                case SymbolDisplayPartKind.AliasName:
-                case SymbolDisplayPartKind.AssemblyName:
-                case SymbolDisplayPartKind.ClassName:
-                case SymbolDisplayPartKind.DelegateName:
-                case SymbolDisplayPartKind.EnumName:
-                case SymbolDisplayPartKind.ErrorTypeName:
-                case SymbolDisplayPartKind.EventName:
-                case SymbolDisplayPartKind.FieldName:
-                case SymbolDisplayPartKind.InterfaceName:
-                case SymbolDisplayPartKind.LabelName:
-                case SymbolDisplayPartKind.LocalName:
-                case SymbolDisplayPartKind.MethodName:
-                case SymbolDisplayPartKind.ModuleName:
-                case SymbolDisplayPartKind.NamespaceName:
-                case SymbolDisplayPartKind.ParameterName:
-                case SymbolDisplayPartKind.PropertyName:
-                case SymbolDisplayPartKind.StructName:
-                case SymbolDisplayPartKind.TypeParameterName:
-                case SymbolDisplayPartKind.RangeVariableName:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        public static SymbolDisplayPart WithText(this SymbolDisplayPart part, string text)
-        {
-            return new SymbolDisplayPart(part.Kind, part.Symbol, text);
-        }
-
         public static string ToDisplayString(this ISymbol symbol, SymbolDisplayFormat format, SymbolDisplayAdditionalOptions additionalOptions)
         {
             return symbol.ToDisplayParts(format, additionalOptions).ToDisplayString();

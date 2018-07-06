@@ -2,7 +2,6 @@
 
 using System.Collections.Immutable;
 using System.Xml.Linq;
-using DotMarkdown;
 using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
@@ -12,8 +11,7 @@ namespace Roslynator.Documentation
         public OperatorDocumentationMarkdownWriter(
             ImmutableArray<ISymbol> symbols,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationGenerator generator,
-            MarkdownWriter writer = null) : base(symbols, directoryInfo, generator, writer)
+            DocumentationGenerator generator) : base(symbols, directoryInfo, generator)
         {
         }
 
@@ -21,23 +19,23 @@ namespace Roslynator.Documentation
 
         public override void WriteTitle(ISymbol symbol)
         {
-            Writer.WriteStartHeading(1 + HeadingBaseLevel);
+            WriteStartHeading(1 + HeadingBaseLevel);
 
             SymbolDisplayFormat format = (Symbols.Length == 1) ? FormatProvider.MemberTitleFormat : FormatProvider.OverloadedMemberTitleFormat;
 
-            Writer.WriteString(symbol.ToDisplayString(format, SymbolDisplayAdditionalOptions.UseOperatorName));
-            Writer.WriteString(" ");
-            Writer.WriteString(CategoryName);
-            Writer.WriteEndHeading();
+            WriteString(symbol.ToDisplayString(format, SymbolDisplayAdditionalOptions.UseOperatorName));
+            WriteString(" ");
+            WriteString(CategoryName);
+            WriteEndHeading();
         }
 
         public override void WriteMemberTitle(ISymbol symbol)
         {
             if (Symbols.Length > 1)
             {
-                Writer.WriteStartHeading(1 + HeadingBaseLevel);
-                Writer.WriteString(symbol.ToDisplayString(FormatProvider.MethodFormat, SymbolDisplayAdditionalOptions.UseOperatorName));
-                Writer.WriteEndHeading();
+                WriteStartHeading(1 + HeadingBaseLevel);
+                WriteString(symbol.ToDisplayString(FormatProvider.MethodFormat, SymbolDisplayAdditionalOptions.UseOperatorName));
+                WriteEndHeading();
             }
         }
 
@@ -56,18 +54,18 @@ namespace Roslynator.Documentation
 
         private void WriteValue(IMethodSymbol methodSymbol)
         {
-            Writer.WriteHeading(3 + HeadingBaseLevel, "Returns");
+            WriteHeading(3 + HeadingBaseLevel, "Returns");
             WriteLink(Generator.GetDocumentationInfo(methodSymbol.ReturnType), SymbolDisplayAdditionalOptions.None);
-            Writer.WriteLine();
-            Writer.WriteLine();
+            WriteLine();
+            WriteLine();
 
             XElement element = Generator.GetDocumentationElement(methodSymbol, "returns");
 
             if (element != null)
             {
                 WriteElementContent(element);
-                Writer.WriteLine();
-                Writer.WriteLine();
+                WriteLine();
+                WriteLine();
             }
         }
     }

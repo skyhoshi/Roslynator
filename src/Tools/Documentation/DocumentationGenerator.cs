@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using DotMarkdown;
 using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
@@ -72,11 +70,28 @@ namespace Roslynator.Documentation
 
         public ImmutableArray<DocumentationSource> Sources { get; }
 
-        public string GenerateRootDocument(string heading)
+        public IEnumerable<DocumentationFile> GenerateFiles(string heading = null)
         {
-            using (MarkdownWriter writer = MarkdownWriter.Create(new StringBuilder()))
+            yield return GenerateRootFile(heading);
+
+            foreach (DocumentationFile namespaceFile in GenerateNamespaceFiles())
+                yield return namespaceFile;
+
+            foreach (ITypeSymbol typeSymbol in TypeSymbols)
             {
-                writer.WriteHeading1(heading);
+                yield return GenerateTypeFile(typeSymbol);
+
+                foreach (DocumentationFile memberFile in GenerateMemberFiles(typeSymbol))
+                    yield return memberFile;
+            }
+        }
+
+        public DocumentationFile GenerateRootFile(string heading = null)
+        {
+            using (var writer = new DocumentationMarkdownWriter(null, null, this))
+            {
+                if (heading != null)
+                    writer.WriteHeading1(heading);
 
                 foreach (IGrouping<INamespaceSymbol, ITypeSymbol> grouping in TypeSymbols
                     .GroupBy(f => f.ContainingNamespace)
@@ -91,38 +106,40 @@ namespace Roslynator.Documentation
                     writer.WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), string.Join("/", info.Names.Reverse()) + "/README.md");
                     writer.WriteString(" Namespace");
                     writer.WriteEndHeading();
-
-                    using (var writer2 = new DocumentationMarkdownWriter(null, null, this, writer))
-                    {
-                        writer2.WriteNamespaceContent(grouping, 3);
-                    }
+                    writer.WriteNamespaceContent(grouping, 3);
                 }
 
-                return writer.ToString();
+                return new DocumentationFile(writer.ToString(), null, DocumentationKind.Root);
             }
         }
 
-        public string GenerateNamespaceDocument(INamespaceSymbol namespaceSymbol)
+        public IEnumerable<DocumentationFile> GenerateNamespaceFiles()
         {
-            using (MarkdownWriter writer = MarkdownWriter.Create(new StringBuilder()))
+            foreach (INamespaceSymbol namespaceSymbol in TypeSymbols
+                .Select(f => f.ContainingNamespace)
+                .Distinct())
+            {
+                yield return GenerateNamespaceFile(namespaceSymbol);
+            }
+        }
+
+        public DocumentationFile GenerateNamespaceFile(INamespaceSymbol namespaceSymbol)
+        {
+            SymbolDocumentationInfo info = GetDocumentationInfo(namespaceSymbol);
+
+            using (var writer = new DocumentationMarkdownWriter(null, info, this))
             {
                 writer.WriteStartHeading(1);
                 writer.WriteString(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat));
                 writer.WriteString(" Namespace");
                 writer.WriteEndHeading();
+                writer.WriteNamespaceContent(TypeSymbols.Where(f => f.ContainingNamespace == namespaceSymbol), 2);
 
-                SymbolDocumentationInfo info = GetDocumentationInfo(namespaceSymbol);
-
-                using (var writer2 = new DocumentationMarkdownWriter(null, info, this, writer))
-                {
-                    writer2.WriteNamespaceContent(TypeSymbols.Where(f => f.ContainingNamespace == namespaceSymbol), 2);
-                }
-
-                return writer.ToString();
+                return DocumentationFile.Create(writer.ToString(), info, DocumentationKind.Namespace);
             }
         }
 
-        public string GenerateTypeDocument(ITypeSymbol typeSymbol)
+        public DocumentationFile GenerateTypeFile(ITypeSymbol typeSymbol)
         {
             SymbolDocumentationInfo info = GetDocumentationInfo(typeSymbol);
 
@@ -168,24 +185,44 @@ namespace Roslynator.Documentation
                 writer.WriteExtensionMethods(typeSymbol);
                 writer.WriteSeeAlso(typeSymbol);
 
-                return writer.ToString();
+                return DocumentationFile.Create(writer.ToString(), info, DocumentationKind.Type);
             }
         }
 
-        public string GenerateMemberDocument(IEnumerable<ISymbol> members)
+        public IEnumerable<DocumentationFile> GenerateMemberFiles(ITypeSymbol typeSymbol)
         {
-            ImmutableArray<ISymbol> symbols = members.ToImmutableArray();
+            if (typeSymbol.BaseType?.SpecialType == SpecialType.System_Enum)
+                return Enumerable.Empty<DocumentationFile>();
 
-            if (symbols.Length == 0)
-                return null;
+            SymbolDocumentationInfo info = GetDocumentationInfo(typeSymbol);
 
-            ISymbol symbol = symbols[0];
-            SymbolDocumentationInfo info = GetDocumentationInfo(symbol);
+            IEnumerable<ISymbol> members = info.GetConstructors()
+                .AsEnumerable<ISymbol>()
+                .Concat(info.GetFields())
+                .Concat(info.GetProperties())
+                .Concat(info.GetMethods())
+                .Concat(info.GetOperators())
+                .Concat(info.GetEvents())
+                .Concat(info.GetExplicitInterfaceImplementations());
 
-            using (MemberDocumentationWriter writer = MemberDocumentationWriter.Create(symbols, info, this))
+            return GenerateMemberFile(members);
+        }
+
+        private IEnumerable<DocumentationFile> GenerateMemberFile(IEnumerable<ISymbol> members)
+        {
+            foreach (IGrouping<string, ISymbol> grouping in members.GroupBy(f => f.Name))
             {
-                writer.WriteMember();
-                return writer.ToString();
+                ImmutableArray<ISymbol> membersByName = grouping.ToImmutableArray();
+
+                ISymbol symbol = membersByName[0];
+                SymbolDocumentationInfo info = GetDocumentationInfo(symbol);
+
+                using (MemberDocumentationWriter writer = MemberDocumentationWriter.Create(membersByName, info, this))
+                {
+                    writer.WriteMember();
+
+                    yield return new DocumentationFile(writer.ToString(), string.Join(@"\", info.Names.Reverse()), DocumentationKind.Member);
+                }
             }
         }
 
