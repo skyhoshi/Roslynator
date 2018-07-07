@@ -17,18 +17,24 @@ namespace Roslynator.Documentation
         private static void Main(string[] args)
         {
             GenerateDocumentation(@"..\..\..\..\..\..\docs\api", "Roslynator API", "Roslynator.CSharp.dll");
-            GenerateDocumentation(@"..\..\..\..\..\..\docs\apitest", "Foo API", "Roslynator.Documentation.DocTest.dll");
+            //GenerateDocumentation(@"..\..\..\..\..\..\docs\apitest", "Foo API", "Roslynator.Documentation.DocTest.dll");
         }
 
         private static void GenerateDocumentation(string directoryPath, string heading, params string[] assemblyNames)
         {
+            const string fileName = "README.md";
+
             ImmutableArray<AssemblyDocumentationInfo> assemblies = assemblyNames
                 .Select(AssemblyDocumentationInfo.CreateFromAssemblyName)
                 .ToImmutableArray();
 
-            var compilation = new DocumentationCompilation(SharedCompilation.Instance, assemblies);
+            var compilation = new DocumentationCompilation(DefaultCompilation.Instance, assemblies);
 
-            var generator = new DocumentationGenerator(compilation);
+            var generator = new DocumentationGenerator(compilation, fileName);
+
+            FileHelper.WriteAllText(directoryPath + @"\__ObjectModel.md", generator.GenerateObjectModel("Roslynator Object Model"), _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
+
+            return;
 
             foreach (DocumentationFile documentationFile in generator.GenerateFiles(heading))
             {
@@ -37,7 +43,7 @@ namespace Roslynator.Documentation
                 if (documentationFile.DirectoryPath != null)
                     path = directoryPath + @"\" + string.Join(@"\", documentationFile.DirectoryPath);
 
-                path += @"\README.md";
+                path += @"\" + fileName;
 
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
 

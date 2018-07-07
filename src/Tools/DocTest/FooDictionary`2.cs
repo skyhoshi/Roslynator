@@ -8,6 +8,27 @@ using System.Collections.Generic;
 
 namespace Roslynator.Documentation
 {
+    public interface IFoo
+    {
+        event EventHandler Changed;
+    }
+
+    public class FooEvent : IFoo
+    {
+        event EventHandler IFoo.Changed
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
+    }
+
     public class FooDictionary<TKey, TValue> : IEnumerable<TValue>, IReadOnlyList<KeyValuePair<TKey, TValue>>
     {
         KeyValuePair<TKey, TValue> IReadOnlyList<KeyValuePair<TKey, TValue>>.this[int index] => throw new NotImplementedException();

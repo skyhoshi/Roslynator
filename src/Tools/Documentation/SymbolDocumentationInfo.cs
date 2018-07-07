@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
@@ -414,21 +415,32 @@ namespace Roslynator.Documentation
 
                             break;
                         }
-
                     case SymbolKind.Method:
                         {
                             var methodSymbol = (IMethodSymbol)member;
 
-                            if (methodSymbol.MethodKind == MethodKind.ExplicitInterfaceImplementation
-                                && !methodSymbol.ExplicitInterfaceImplementations.IsDefaultOrEmpty)
+                            if (methodSymbol.MethodKind != MethodKind.ExplicitInterfaceImplementation)
+                                break;
+
+                            ImmutableArray<IMethodSymbol> explicitInterfaceImplementations = methodSymbol.ExplicitInterfaceImplementations;
+
+                            if (explicitInterfaceImplementations.IsDefaultOrEmpty)
+                                break;
+
+                            if (methodSymbol.MetadataName.EndsWith(".get_Item", StringComparison.Ordinal))
                             {
-                                Debug.WriteLine(methodSymbol.MethodKind);
-                                yield return methodSymbol;
+                                if (explicitInterfaceImplementations[0].MethodKind == MethodKind.PropertyGet)
+                                    break;
+                            }
+                            else if (methodSymbol.MetadataName.EndsWith(".set_Item", StringComparison.Ordinal))
+                            {
+                                if (explicitInterfaceImplementations[0].MethodKind == MethodKind.PropertySet)
+                                    break;
                             }
 
+                            yield return methodSymbol;
                             break;
                         }
-
                     case SymbolKind.Property:
                         {
                             var propertySymbol = (IPropertySymbol)member;

@@ -1473,6 +1473,7 @@ namespace Roslynator
             if (baseType == null)
                 return false;
 
+            //TODO: OriginalDefinition
             INamedTypeSymbol t = type.BaseType;
 
             while (t != null)

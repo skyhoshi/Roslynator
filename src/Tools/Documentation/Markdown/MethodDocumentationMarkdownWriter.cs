@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using System.Xml.Linq;
 
-namespace Roslynator.Documentation
+namespace Roslynator.Documentation.Markdown
 {
     public class MethodDocumentationMarkdownWriter : MemberDocumentationMarkdownWriter
     {

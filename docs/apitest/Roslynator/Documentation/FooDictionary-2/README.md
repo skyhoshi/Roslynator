@@ -50,6 +50,5 @@ class FooDictionary<TKey, TValue>
 | [IEnumerable\<KeyValuePair\<TKey, TValue>>.GetEnumerator()](System-Collections-Generic-IEnumerable-System-Collections-Generic-KeyValuePair-TKey-TValue---GetEnumerator/README.md) | |
 | [IEnumerable\<TValue>.GetEnumerator()](System-Collections-Generic-IEnumerable-TValue--GetEnumerator/README.md) | |
 | [IReadOnlyCollection\<KeyValuePair\<TKey, TValue>>.Count](System-Collections-Generic-IReadOnlyCollection-System-Collections-Generic-KeyValuePair-TKey-TValue---Count/README.md) | |
-| [IReadOnlyList\<KeyValuePair\<TKey, TValue>>.get_Item(Int32)](System-Collections-Generic-IReadOnlyList-System-Collections-Generic-KeyValuePair-TKey-TValue---this-get/README.md) | |
 | [IReadOnlyList\<KeyValuePair\<TKey, TValue>>.Item\[Int32\]](System-Collections-Generic-IReadOnlyList-System-Collections-Generic-KeyValuePair-TKey-TValue---Item/README.md) | |
 

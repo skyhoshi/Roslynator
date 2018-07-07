@@ -6,7 +6,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 
-namespace Roslynator.Documentation
+namespace Roslynator.Documentation.Markdown
 {
     public abstract class MemberDocumentationMarkdownWriter : DocumentationMarkdownWriter
     {

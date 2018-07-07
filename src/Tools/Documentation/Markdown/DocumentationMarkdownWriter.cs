@@ -5,7 +5,7 @@ using System.Text;
 using DotMarkdown;
 using Microsoft.CodeAnalysis;
 
-namespace Roslynator.Documentation
+namespace Roslynator.Documentation.Markdown
 {
     public class DocumentationMarkdownWriter : DocumentationWriter
     {

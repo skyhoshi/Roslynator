@@ -2,30 +2,39 @@
 
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
+using DotMarkdown.Linq;
 using Microsoft.CodeAnalysis;
+using Roslynator.Documentation.Markdown;
+using static DotMarkdown.Linq.MFactory;
 
 namespace Roslynator.Documentation
 {
     public class DocumentationGenerator
     {
-        private SymbolDocumentationInfo _emptySymbol;
+        private SymbolDocumentationInfo _emptySymbolInfo;
 
         public DocumentationCompilation Compilation { get; }
 
         public DocumentationGenerator(
             DocumentationCompilation compilation,
+            string fileName,
             SymbolDisplayFormatProvider formatProvider = null)
         {
             Compilation = compilation;
+            FileName = fileName;
             FormatProvider = formatProvider ?? SymbolDisplayFormatProvider.Default;
         }
 
         public SymbolDisplayFormatProvider FormatProvider { get; }
 
-        private SymbolDocumentationInfo EmptySymbol
+        public string FileName { get; }
+
+        private SymbolDocumentationInfo EmptySymbolInfo
         {
-            get { return _emptySymbol ?? (_emptySymbol = SymbolDocumentationInfo.Create(Compilation)); }
+            get { return _emptySymbolInfo ?? (_emptySymbolInfo = SymbolDocumentationInfo.Create(Compilation)); }
         }
 
         public IEnumerable<DocumentationFile> GenerateFiles(string heading = null)
@@ -46,10 +55,23 @@ namespace Roslynator.Documentation
 
         public DocumentationFile GenerateRootFile(string heading = null)
         {
-            using (var writer = new DocumentationMarkdownWriter(symbolInfo: EmptySymbol, directoryInfo: null, FormatProvider))
+            using (var writer = new DocumentationMarkdownWriter(symbolInfo: EmptySymbolInfo, directoryInfo: null, FormatProvider))
             {
                 if (heading != null)
                     writer.WriteHeading1(heading);
+
+                writer.WriteHeading2("Namespaces");
+
+                foreach (INamespaceSymbol namespaceSymbol in Compilation.NamespaceSymbols
+                    .OrderBy(f => f.ToDisplayString(FormatProvider.NamespaceFormat)))
+                {
+                    writer.WriteStartBulletItem();
+
+                    string url = string.Join("/", Compilation.GetDocumentationInfo(namespaceSymbol).Names.Reverse()) + "/" + FileName ;
+                    writer.WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), url);
+
+                    writer.WriteEndBulletItem();
+                }
 
                 foreach (IGrouping<INamespaceSymbol, ITypeSymbol> grouping in Compilation.TypeSymbols
                     .GroupBy(f => f.ContainingNamespace)
@@ -59,11 +81,12 @@ namespace Roslynator.Documentation
 
                     writer.WriteStartHeading(2);
 
-                    SymbolDocumentationInfo info = Compilation.GetDocumentationInfo(namespaceSymbol);
+                    string url = string.Join("/", Compilation.GetDocumentationInfo(namespaceSymbol).Names.Reverse()) + "/" + FileName;
+                    writer.WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), url);
 
-                    writer.WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), string.Join("/", info.Names.Reverse()) + "/README.md");
                     writer.WriteString(" Namespace");
                     writer.WriteEndHeading();
+
                     writer.WriteNamespaceContent(grouping, 3);
                 }
 
@@ -83,7 +106,7 @@ namespace Roslynator.Documentation
         {
             SymbolDocumentationInfo info = Compilation.GetDocumentationInfo(namespaceSymbol);
 
-            using (var writer = new DocumentationMarkdownWriter(symbolInfo: EmptySymbol, info, FormatProvider))
+            using (var writer = new DocumentationMarkdownWriter(symbolInfo: EmptySymbolInfo, info, FormatProvider))
             {
                 writer.WriteStartHeading(1);
                 writer.WriteString(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat));
@@ -180,6 +203,111 @@ namespace Roslynator.Documentation
                     writer.WriteMember();
 
                     yield return new DocumentationFile(writer.ToString(), string.Join(@"\", info.Names.Reverse()), DocumentationKind.Member);
+                }
+            }
+        }
+
+        public string GenerateObjectModel(string heading)
+        {
+            List<(INamedTypeSymbol symbol, MBulletItem item)> items = Compilation
+                .TypeSymbols
+                .Where(f => !f.IsStatic && IsBottomType(f))
+                .Cast<INamedTypeSymbol>()
+                .Select(f => (f, BulletItem(GetBulletItemContent(f))))
+                .ToList();
+
+            var dic = new Dictionary<INamedTypeSymbol, MBulletItem>();
+
+            do
+            {
+                foreach (IGrouping<INamedTypeSymbol, (INamedTypeSymbol symbol, MBulletItem item)> grouping in items
+                    .OrderBy(f => f.item.ToString())
+                    .GroupBy(f => f.symbol.BaseType?.OriginalDefinition)
+                    .ToList())
+                {
+                    INamedTypeSymbol baseType = grouping.Key;
+
+                    if (!dic.TryGetValue(baseType, out MBulletItem bulletItem))
+                    {
+                        bulletItem = BulletItem(GetBulletItemContent(baseType));
+                        dic[baseType] = bulletItem;
+                    }
+
+                    bulletItem.Add(grouping.Select(f => f.item));
+
+                    foreach ((INamedTypeSymbol symbol, MBulletItem item) item in grouping)
+                        items.Remove(item);
+
+                    if (baseType.SpecialType != SpecialType.System_Object
+                        && !dic.ContainsKey(baseType)
+                        && !items.Any(f => f.symbol == baseType))
+                    {
+                        items.Add((baseType, bulletItem));
+                    }
+                }
+            }
+            while (items.Count > 0);
+
+            var doc = new MDocument(Heading1(heading), dic[Compilation.Compilation.ObjectType]);
+
+            return doc.ToString();
+
+            bool IsBottomType(ITypeSymbol s)
+            {
+                s = s.OriginalDefinition;
+
+                foreach (ITypeSymbol symbol in Compilation.TypeSymbols)
+                {
+                    if (symbol.InheritsFrom(s))
+                        return false;
+                }
+
+                return true;
+            }
+
+            object GetBulletItemContent(INamedTypeSymbol namedTypeSymbol)
+            {
+                SymbolDocumentationInfo symbolInfo = Compilation.GetDocumentationInfo(namedTypeSymbol);
+
+                if (namedTypeSymbol.TypeArguments.Any(f => f.Kind != SymbolKind.TypeParameter))
+                {
+                    var content = new List<object>();
+
+                    foreach (SymbolDisplayPart part in symbolInfo
+                        .Symbol
+                        .ToDisplayParts(FormatProvider.TypeFormat))
+                    {
+                        switch (part.Kind)
+                        {
+                            case SymbolDisplayPartKind.ClassName:
+                            case SymbolDisplayPartKind.DelegateName:
+                            case SymbolDisplayPartKind.EnumName:
+                            case SymbolDisplayPartKind.InterfaceName:
+                            case SymbolDisplayPartKind.StructName:
+                                {
+                                    ISymbol symbol = part.Symbol;
+
+                                    string url = Compilation.GetDocumentationInfo(symbol).GetUrl();
+
+                                    content.Add(LinkOrText(symbol.Name, url));
+
+                                    break;
+                                }
+                            default:
+                                {
+                                    content.Add(part);
+                                    break;
+                                }
+                        }
+                    }
+
+                    return content;
+                }
+                else
+                {
+                    string url = symbolInfo.GetUrl();
+
+                    return LinkOrText(symbolInfo.Symbol.ToDisplayString(FormatProvider.TypeFormat), url);
                 }
             }
         }

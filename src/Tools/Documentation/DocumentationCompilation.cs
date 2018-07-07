@@ -40,6 +40,7 @@ namespace Roslynator.Documentation
             }
         }
 
+        //TODO: INamedTypeSymbol
         public ImmutableArray<ITypeSymbol> TypeSymbols
         {
             get

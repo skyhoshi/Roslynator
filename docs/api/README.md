@@ -1,5 +1,12 @@
 # Roslynator API
 
+## Namespaces
+
+* [Roslynator](Roslynator/README.md)
+* [Roslynator.CSharp](Roslynator/CSharp/README.md)
+* [Roslynator.CSharp.Syntax](Roslynator/CSharp/Syntax/README.md)
+* [Roslynator.Text](Roslynator/Text/README.md)
+
 ## [Roslynator](Roslynator/README.md) Namespace
 
 ### Classes

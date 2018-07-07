@@ -7,11 +7,11 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Roslynator.Documentation
 {
-    internal sealed class SharedCompilation
+    internal sealed class DefaultCompilation
     {
         private static Compilation _instance;
 
-        private SharedCompilation()
+        private DefaultCompilation()
         {
         }
 

@@ -138,7 +138,8 @@ namespace Roslynator.Documentation
 
         public virtual void WriteOrderedItem(int number, string text)
         {
-            //TODO: throw on invalid number
+            if (number < 0)
+                throw new ArgumentOutOfRangeException(nameof(number), number, "Item number must be greater than or equal to 0.");
 
             WriteStartOrderedItem(number);
             WriteString(text);
@@ -464,7 +465,12 @@ namespace Roslynator.Documentation
 
         public virtual void WriteInheritance(ITypeSymbol typeSymbol)
         {
-            if (typeSymbol.TypeKind == TypeKind.Class
+            TypeKind typeKind = typeSymbol.TypeKind;
+
+            if (typeKind == TypeKind.Interface)
+                return;
+
+            if (typeKind == TypeKind.Class
                 && typeSymbol.IsStatic)
             {
                 return;

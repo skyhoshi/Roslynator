@@ -3,7 +3,7 @@
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 
-namespace Roslynator.Documentation
+namespace Roslynator.Documentation.Markdown
 {
     public class EventDocumentationMarkdownWriter : MemberDocumentationMarkdownWriter
     {

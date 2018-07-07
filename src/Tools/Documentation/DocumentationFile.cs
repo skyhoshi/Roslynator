@@ -1,11 +1,13 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Roslynator.Documentation
 {
     [SuppressMessage("Performance", "CA1815:Override equals and operator equals on value types", Justification = "<Pending>")]
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct DocumentationFile
     {
         public DocumentationFile(string content, string directoryPath, DocumentationKind kind)
@@ -20,6 +22,12 @@ namespace Roslynator.Documentation
         public string DirectoryPath { get; }
 
         public DocumentationKind Kind { get; }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get { return $"{Kind} {DirectoryPath} {Content}"; }
+        }
 
         internal static DocumentationFile Create(string content, SymbolDocumentationInfo info, DocumentationKind kind)
         {
