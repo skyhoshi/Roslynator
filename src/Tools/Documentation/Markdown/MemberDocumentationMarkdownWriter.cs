@@ -8,17 +8,17 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
-    public abstract class MemberDocumentationWriter : DocumentationMarkdownWriter
+    public abstract class MemberDocumentationMarkdownWriter : DocumentationMarkdownWriter
     {
-        protected MemberDocumentationWriter(
-            ImmutableArray<ISymbol> symbols,
+        protected MemberDocumentationMarkdownWriter(
+            ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationGenerator generator) : base(symbols[0], directoryInfo, generator)
+            SymbolDisplayFormatProvider formatProvider) : base(symbols[0], directoryInfo, formatProvider)
         {
             Symbols = symbols;
         }
 
-        public ImmutableArray<ISymbol> Symbols { get; }
+        public ImmutableArray<SymbolDocumentationInfo> Symbols { get; }
 
         public abstract string CategoryName { get; }
 
@@ -43,17 +43,19 @@ namespace Roslynator.Documentation
             }
             else
             {
-                WriteTable(Symbols, "Overloads", 2, CategoryName, "Summary", FormatProvider.ConstructorFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName, addLink: false);
+                WriteTable(Symbols.Select(f => f.Symbol), "Overloads", 2, CategoryName, "Summary", FormatProvider.ConstructorFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName, addLink: false);
 
-                foreach (ISymbol symbol in Symbols)
+                foreach (SymbolDocumentationInfo symbolInfo in Symbols)
                 {
+                    ISymbol symbol = symbolInfo.Symbol;
+
                     if (symbol.HasAttribute(MetadataNames.System_ObsoleteAttribute))
                         WriteObsolete(symbol);
 
-                    HeadingBaseLevel++;
+                    BaseHeadingLevel++;
                     WriteMemberTitle(symbol);
                     WriteContent(symbol);
-                    HeadingBaseLevel--;
+                    BaseHeadingLevel--;
                 }
             }
         }
@@ -66,12 +68,12 @@ namespace Roslynator.Documentation
             {
                 if (en.MoveNext())
                 {
-                    WriteHeading(3 + HeadingBaseLevel, "Implements");
+                    WriteHeading(3 + BaseHeadingLevel, "Implements");
 
                     do
                     {
                         WriteStartBulletItem();
-                        WriteLink(Generator.GetDocumentationInfo(en.Current), FormatProvider.MemberImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
+                        WriteLink(Compilation.GetDocumentationInfo(en.Current), FormatProvider.MemberImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
                         WriteEndBulletItem();
                     }
                     while (en.MoveNext());
@@ -79,22 +81,22 @@ namespace Roslynator.Documentation
             }
         }
 
-        public static MemberDocumentationWriter Create(
-            ImmutableArray<ISymbol> symbols,
+        public static MemberDocumentationMarkdownWriter Create(
+            ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationGenerator generator)
+            SymbolDisplayFormatProvider formatProvider)
         {
-            ISymbol symbol = symbols[0];
+            ISymbol symbol = symbols[0].Symbol;
 
-            switch (symbols[0].Kind)
+            switch (symbol.Kind)
             {
                 case SymbolKind.Event:
                     {
-                        return new EventDocumentationMarkdownWriter(symbols, directoryInfo, generator);
+                        return new EventDocumentationMarkdownWriter(symbols, directoryInfo, formatProvider);
                     }
                 case SymbolKind.Field:
                     {
-                        return new FieldDocumentationMarkdownWriter(symbols, directoryInfo, generator);
+                        return new FieldDocumentationMarkdownWriter(symbols, directoryInfo, formatProvider);
                     }
                 case SymbolKind.Method:
                     {
@@ -104,20 +106,20 @@ namespace Roslynator.Documentation
                         {
                             case MethodKind.Constructor:
                                 {
-                                    return new ConstructorDocumentationMarkdownWriter(symbols, directoryInfo, generator);
+                                    return new ConstructorDocumentationMarkdownWriter(symbols, directoryInfo, formatProvider);
                                 }
                             case MethodKind.UserDefinedOperator:
                             case MethodKind.Conversion:
                                 {
-                                    return new OperatorDocumentationMarkdownWriter(symbols, directoryInfo, generator);
+                                    return new OperatorDocumentationMarkdownWriter(symbols, directoryInfo, formatProvider);
                                 }
                         }
 
-                        return new MethodDocumentationMarkdownWriter(symbols, directoryInfo, generator);
+                        return new MethodDocumentationMarkdownWriter(symbols, directoryInfo, formatProvider);
                     }
                 case SymbolKind.Property:
                     {
-                        return new PropertyDocumentationMarkdownWriter(symbols, directoryInfo, generator);
+                        return new PropertyDocumentationMarkdownWriter(symbols, directoryInfo, formatProvider);
                     }
             }
 

@@ -5,20 +5,20 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
-    public class FieldDocumentationMarkdownWriter : MemberDocumentationWriter
+    public class EventDocumentationMarkdownWriter : MemberDocumentationMarkdownWriter
     {
-        public FieldDocumentationMarkdownWriter(
-            ImmutableArray<ISymbol> symbols,
+        public EventDocumentationMarkdownWriter(
+            ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationGenerator generator) : base(symbols, directoryInfo, generator)
+            SymbolDisplayFormatProvider formatProvider) : base(symbols, directoryInfo, formatProvider)
         {
         }
 
-        public override string CategoryName => "Field";
+        public override string CategoryName => "Event";
 
         public override void WriteTitle(ISymbol symbol)
         {
-            WriteStartHeading(1 + HeadingBaseLevel);
+            WriteStartHeading(1 + BaseHeadingLevel);
             WriteString(symbol.ToDisplayString(FormatProvider.MemberTitleFormat));
             WriteString(" ");
             WriteString(CategoryName);
@@ -29,17 +29,11 @@ namespace Roslynator.Documentation
         {
             WriteSummary(symbol);
             WriteSignature(symbol);
-            WriteValue((IFieldSymbol)symbol);
+            WriteImplements(symbol);
             WriteAttributes(symbol);
             WriteExamples(symbol);
             WriteRemarks(symbol);
             WriteSeeAlso(symbol);
-        }
-
-        private void WriteValue(IFieldSymbol fieldSymbol)
-        {
-            WriteHeading(3 + HeadingBaseLevel, "Field Value");
-            WriteLink(Generator.GetDocumentationInfo(fieldSymbol.Type), SymbolDisplayAdditionalOptions.None);
         }
     }
 }

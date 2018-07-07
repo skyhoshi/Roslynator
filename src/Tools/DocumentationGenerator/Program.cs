@@ -22,11 +22,13 @@ namespace Roslynator.Documentation
 
         private static void GenerateDocumentation(string directoryPath, string heading, params string[] assemblyNames)
         {
-            ImmutableArray<DocumentationSource> sources = assemblyNames
-                .Select(DocumentationSource.CreateFromAssemblyName)
+            ImmutableArray<AssemblyDocumentationInfo> assemblies = assemblyNames
+                .Select(AssemblyDocumentationInfo.CreateFromAssemblyName)
                 .ToImmutableArray();
 
-            var generator = new DocumentationGenerator(sources);
+            var compilation = new DocumentationCompilation(SharedCompilation.Instance, assemblies);
+
+            var generator = new DocumentationGenerator(compilation);
 
             foreach (DocumentationFile documentationFile in generator.GenerateFiles(heading))
             {

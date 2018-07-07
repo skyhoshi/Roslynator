@@ -6,12 +6,12 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
-    public class OperatorDocumentationMarkdownWriter : MemberDocumentationWriter
+    public class OperatorDocumentationMarkdownWriter : MemberDocumentationMarkdownWriter
     {
         public OperatorDocumentationMarkdownWriter(
-            ImmutableArray<ISymbol> symbols,
+            ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationGenerator generator) : base(symbols, directoryInfo, generator)
+            SymbolDisplayFormatProvider formatProvider) : base(symbols, directoryInfo, formatProvider)
         {
         }
 
@@ -19,7 +19,7 @@ namespace Roslynator.Documentation
 
         public override void WriteTitle(ISymbol symbol)
         {
-            WriteStartHeading(1 + HeadingBaseLevel);
+            WriteStartHeading(1 + BaseHeadingLevel);
 
             SymbolDisplayFormat format = (Symbols.Length == 1) ? FormatProvider.MemberTitleFormat : FormatProvider.OverloadedMemberTitleFormat;
 
@@ -33,7 +33,7 @@ namespace Roslynator.Documentation
         {
             if (Symbols.Length > 1)
             {
-                WriteStartHeading(1 + HeadingBaseLevel);
+                WriteStartHeading(1 + BaseHeadingLevel);
                 WriteString(symbol.ToDisplayString(FormatProvider.MethodFormat, SymbolDisplayAdditionalOptions.UseOperatorName));
                 WriteEndHeading();
             }
@@ -54,12 +54,12 @@ namespace Roslynator.Documentation
 
         private void WriteValue(IMethodSymbol methodSymbol)
         {
-            WriteHeading(3 + HeadingBaseLevel, "Returns");
-            WriteLink(Generator.GetDocumentationInfo(methodSymbol.ReturnType), SymbolDisplayAdditionalOptions.None);
+            WriteHeading(3 + BaseHeadingLevel, "Returns");
+            WriteLink(Compilation.GetDocumentationInfo(methodSymbol.ReturnType), SymbolDisplayAdditionalOptions.None);
             WriteLine();
             WriteLine();
 
-            XElement element = Generator.GetDocumentationElement(methodSymbol, "returns");
+            XElement element = Compilation.GetDocumentationElement(methodSymbol, "returns");
 
             if (element != null)
             {

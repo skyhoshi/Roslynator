@@ -10,9 +10,9 @@ namespace Roslynator.Documentation
     public class DocumentationMarkdownWriter : DocumentationWriter
     {
         public DocumentationMarkdownWriter(
-            ISymbol symbol,
+            SymbolDocumentationInfo symbolInfo,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationGenerator generator) : base(symbol, directoryInfo, generator)
+            SymbolDisplayFormatProvider formatProvider) : base(symbolInfo, directoryInfo, formatProvider)
         {
             Writer = MarkdownWriter.Create(new StringBuilder());
         }

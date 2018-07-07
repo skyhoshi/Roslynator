@@ -23,14 +23,14 @@ namespace Roslynator.Documentation
             ImmutableArray<ISymbol> members,
             ImmutableArray<ISymbol> symbols,
             ImmutableArray<string> names,
-            bool isExternal)
+            DocumentationCompilation compilation)
         {
             Symbol = symbol;
             CommentId = commentId;
             Members = members;
             Symbols = symbols;
             Names = names;
-            IsExternal = isExternal;
+            Compilation = compilation;
         }
 
         public ISymbol Symbol { get; }
@@ -114,7 +114,21 @@ namespace Roslynator.Documentation
 
         internal ImmutableArray<string> Names { get; }
 
-        public bool IsExternal { get; }
+        public DocumentationCompilation Compilation { get; }
+
+        public bool IsExternal
+        {
+            get
+            {
+                foreach (AssemblyDocumentationInfo assemblyInfo in Compilation.Assemblies)
+                {
+                    if (Symbol.ContainingAssembly == assemblyInfo.AssemblySymbol)
+                        return false;
+                }
+
+                return true;
+            }
+        }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string DebuggerDisplay
@@ -122,29 +136,27 @@ namespace Roslynator.Documentation
             get { return $"{Symbol.Kind} {Symbol.ToDisplayString(Roslynator.SymbolDisplayFormats.Test)}"; }
         }
 
-        public static SymbolDocumentationInfo Create(ISymbol symbol, bool isExternal)
+        public static SymbolDocumentationInfo Create(DocumentationCompilation compilation)
+        {
+            return new SymbolDocumentationInfo(
+                symbol: null,
+                commentId: null,
+                ImmutableArray<ISymbol>.Empty,
+                ImmutableArray<ISymbol>.Empty,
+                ImmutableArray<string>.Empty,
+                compilation);
+        }
+
+        public static SymbolDocumentationInfo Create(ISymbol symbol, DocumentationCompilation compilation)
         {
             ImmutableArray<ISymbol> members = (symbol is ITypeSymbol typeSymbol)
                 ? typeSymbol.GetMembers()
                 : ImmutableArray<ISymbol>.Empty;
 
-            return Create(symbol, members, isExternal);
+            return Create(symbol, members, compilation);
         }
 
-        private static SymbolDocumentationInfo Create(ISymbol symbol, ImmutableArray<ISymbol> members, bool isExternal)
-        {
-            (ImmutableArray<ISymbol>.Builder symbols, ImmutableArray<string>.Builder names) = GetSymbolsAndNames(symbol);
-
-            return new SymbolDocumentationInfo(
-                symbol,
-                symbol.GetDocumentationCommentId(),
-                members,
-                symbols.ToImmutableArray(),
-                names.ToImmutableArray(),
-                isExternal);
-        }
-
-        private static (ImmutableArray<ISymbol>.Builder symbols, ImmutableArray<string>.Builder names) GetSymbolsAndNames(ISymbol symbol)
+        private static SymbolDocumentationInfo Create(ISymbol symbol, ImmutableArray<ISymbol> members, DocumentationCompilation  compilation)
         {
             ImmutableArray<ISymbol>.Builder symbols = ImmutableArray.CreateBuilder<ISymbol>();
             ImmutableArray<string>.Builder names = ImmutableArray.CreateBuilder<string>();
@@ -215,7 +227,13 @@ namespace Roslynator.Documentation
                 containingNamespace = containingNamespace.ContainingNamespace;
             }
 
-            return (symbols, names);
+            return new SymbolDocumentationInfo(
+                symbol,
+                symbol.GetDocumentationCommentId(),
+                members,
+                symbols.ToImmutableArray(),
+                names.ToImmutableArray(),
+                compilation);
         }
 
         internal string GetUrl(SymbolDocumentationInfo directoryInfo = null)

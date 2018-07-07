@@ -5,12 +5,12 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
-    public class ConstructorDocumentationMarkdownWriter : MemberDocumentationWriter
+    public class ConstructorDocumentationMarkdownWriter : MemberDocumentationMarkdownWriter
     {
         public ConstructorDocumentationMarkdownWriter(
-            ImmutableArray<ISymbol> symbols,
+            ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationGenerator generator) : base(symbols, directoryInfo, generator)
+            SymbolDisplayFormatProvider formatProvider) : base(symbols, directoryInfo, formatProvider)
         {
         }
 
@@ -18,7 +18,7 @@ namespace Roslynator.Documentation
 
         public override void WriteTitle(ISymbol symbol)
         {
-            WriteStartHeading(1 + HeadingBaseLevel);
+            WriteStartHeading(1 + BaseHeadingLevel);
 
             if (Symbols.Length == 1)
             {
@@ -38,7 +38,7 @@ namespace Roslynator.Documentation
         {
             if (Symbols.Length > 1)
             {
-                WriteStartHeading(1 + HeadingBaseLevel);
+                WriteStartHeading(1 + BaseHeadingLevel);
                 WriteString(symbol.ToDisplayString(FormatProvider.ConstructorFormat));
                 WriteEndHeading();
             }
