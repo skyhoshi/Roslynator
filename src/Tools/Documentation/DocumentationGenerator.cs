@@ -209,6 +209,8 @@ namespace Roslynator.Documentation
 
         public string GenerateObjectModel(string heading)
         {
+            var dic = new Dictionary<INamedTypeSymbol, MBulletItem>();
+
             List<(INamedTypeSymbol symbol, MBulletItem item)> items = Compilation
                 .TypeSymbols
                 .Where(f => !f.IsStatic && IsBottomType(f))
@@ -216,18 +218,22 @@ namespace Roslynator.Documentation
                 .Select(f => (f, BulletItem(GetBulletItemContent(f))))
                 .ToList();
 
-            var dic = new Dictionary<INamedTypeSymbol, MBulletItem>();
-
             do
             {
-                foreach (IGrouping<INamedTypeSymbol, (INamedTypeSymbol symbol, MBulletItem item)> grouping in items
+                List<IGrouping<INamedTypeSymbol, (INamedTypeSymbol symbol, MBulletItem item)>> groupingList = items
                     .OrderBy(f => f.item.ToString())
                     .GroupBy(f => f.symbol.BaseType?.OriginalDefinition)
-                    .ToList())
+                    .ToList();
+
+                items.Clear();
+
+                foreach (IGrouping<INamedTypeSymbol, (INamedTypeSymbol symbol, MBulletItem item)> grouping in groupingList)
                 {
                     INamedTypeSymbol baseType = grouping.Key;
 
-                    if (!dic.TryGetValue(baseType, out MBulletItem bulletItem))
+                    bool success = dic.TryGetValue(baseType, out MBulletItem bulletItem);
+
+                    if (!success)
                     {
                         bulletItem = BulletItem(GetBulletItemContent(baseType));
                         dic[baseType] = bulletItem;
@@ -235,12 +241,8 @@ namespace Roslynator.Documentation
 
                     bulletItem.Add(grouping.Select(f => f.item));
 
-                    foreach ((INamedTypeSymbol symbol, MBulletItem item) item in grouping)
-                        items.Remove(item);
-
-                    if (baseType.SpecialType != SpecialType.System_Object
-                        && !dic.ContainsKey(baseType)
-                        && !items.Any(f => f.symbol == baseType))
+                    if (!success
+                        && baseType.SpecialType != SpecialType.System_Object)
                     {
                         items.Add((baseType, bulletItem));
                     }

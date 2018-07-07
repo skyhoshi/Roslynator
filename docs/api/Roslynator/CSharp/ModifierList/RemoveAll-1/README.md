@@ -21,18 +21,18 @@ Creates a new node with modifiers that matches the predicate removed\.
 public static TNode RemoveAll<TNode>(TNode node, Func<SyntaxToken, bool> predicate) where TNode : SyntaxNode
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 #### Parameters
 
 | Parameter | Summary |
 | --------- | ------- |
 | node | |
 | predicate | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 #### Returns
 
@@ -51,17 +51,17 @@ Creates a new node with all modifiers removed\.
 public static TNode RemoveAll<TNode>(TNode node) where TNode : SyntaxNode
 ```
 
-#### Parameters
-
-| Parameter | Summary |
-| --------- | ------- |
-| node | |
-
 #### Type Parameters
 
 | Type Parameter | Summary |
 | -------------- | ------- |
 | TNode | |
+
+#### Parameters
+
+| Parameter | Summary |
+| --------- | ------- |
+| node | |
 
 #### Returns
 

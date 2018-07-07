@@ -23,18 +23,18 @@ Returns true if all nodes in a list matches the predicate\.
 public static bool All<TNode>(this SeparatedSyntaxList<TNode> list, Func<TNode, bool> predicate) where TNode : SyntaxNode
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 #### Parameters
 
 | Parameter | Summary |
 | --------- | ------- |
 | list | |
 | predicate | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 #### Returns
 
@@ -53,18 +53,18 @@ Returns true if all nodes in a list matches the predicate\.
 public static bool All<TNode>(this SyntaxList<TNode> list, Func<TNode, bool> predicate) where TNode : SyntaxNode
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 #### Parameters
 
 | Parameter | Summary |
 | --------- | ------- |
 | list | |
 | predicate | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 #### Returns
 

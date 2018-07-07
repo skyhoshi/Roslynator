@@ -12,6 +12,12 @@ Returns the innermost symbol of type **TSymbol** that the specified position is 
 public static TSymbol GetEnclosingSymbol<TSymbol>(this SemanticModel semanticModel, int position, CancellationToken cancellationToken = default(CancellationToken)) where TSymbol : ISymbol
 ```
 
+### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TSymbol | |
+
 ### Parameters
 
 | Parameter | Summary |
@@ -19,12 +25,6 @@ public static TSymbol GetEnclosingSymbol<TSymbol>(this SemanticModel semanticMod
 | semanticModel | |
 | position | |
 | cancellationToken | |
-
-### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TSymbol | |
 
 ### Returns
 

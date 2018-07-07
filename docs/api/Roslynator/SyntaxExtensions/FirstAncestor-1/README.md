@@ -12,6 +12,12 @@ Returns the first node of type **TNode** that matches the predicate\.
 public static TNode FirstAncestor<TNode>(this SyntaxNode node, Func<TNode, bool> predicate = null, bool ascendOutOfTrivia = true) where TNode : SyntaxNode
 ```
 
+### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 ### Parameters
 
 | Parameter | Summary |
@@ -19,12 +25,6 @@ public static TNode FirstAncestor<TNode>(this SyntaxNode node, Func<TNode, bool>
 | node | |
 | predicate | |
 | ascendOutOfTrivia | |
-
-### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 ### Returns
 

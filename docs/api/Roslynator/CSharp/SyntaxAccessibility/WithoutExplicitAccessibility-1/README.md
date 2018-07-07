@@ -12,17 +12,17 @@ Creates a new node with the explicit accessibility removed\.
 public static TNode WithoutExplicitAccessibility<TNode>(TNode node) where TNode : SyntaxNode
 ```
 
-### Parameters
-
-| Parameter | Summary |
-| --------- | ------- |
-| node | |
-
 ### Type Parameters
 
 | Type Parameter | Summary |
 | -------------- | ------- |
 | TNode | |
+
+### Parameters
+
+| Parameter | Summary |
+| --------- | ------- |
+| node | |
 
 ### Returns
 

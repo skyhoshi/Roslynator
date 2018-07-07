@@ -21,6 +21,12 @@ Get a list of all the trivia associated with the nodes in the list\.
 public static IEnumerable<SyntaxTrivia> DescendantTrivia<TNode>(this SyntaxList<TNode> list, Func<SyntaxNode, bool> descendIntoChildren = null, bool descendIntoTrivia = false) where TNode : SyntaxNode
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 #### Parameters
 
 | Parameter | Summary |
@@ -28,12 +34,6 @@ public static IEnumerable<SyntaxTrivia> DescendantTrivia<TNode>(this SyntaxList<
 | list | |
 | descendIntoChildren | |
 | descendIntoTrivia | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 #### Returns
 
@@ -55,6 +55,12 @@ Get a list of all the trivia associated with the nodes in the list\.
 public static IEnumerable<SyntaxTrivia> DescendantTrivia<TNode>(this SyntaxList<TNode> list, TextSpan span, Func<SyntaxNode, bool> descendIntoChildren = null, bool descendIntoTrivia = false) where TNode : SyntaxNode
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 #### Parameters
 
 | Parameter | Summary |
@@ -63,12 +69,6 @@ public static IEnumerable<SyntaxTrivia> DescendantTrivia<TNode>(this SyntaxList<
 | span | |
 | descendIntoChildren | |
 | descendIntoTrivia | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 #### Returns
 

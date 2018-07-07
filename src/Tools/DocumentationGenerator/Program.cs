@@ -34,8 +34,6 @@ namespace Roslynator.Documentation
 
             FileHelper.WriteAllText(directoryPath + @"\__ObjectModel.md", generator.GenerateObjectModel("Roslynator Object Model"), _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
 
-            return;
-
             foreach (DocumentationFile documentationFile in generator.GenerateFiles(heading))
             {
                 string path = directoryPath;

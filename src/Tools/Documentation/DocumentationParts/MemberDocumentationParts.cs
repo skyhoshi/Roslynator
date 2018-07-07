@@ -4,6 +4,7 @@ using System;
 
 namespace Roslynator.Documentation
 {
+    //TODO: Security
     [Flags]
     public enum MemberDocumentationParts
     {

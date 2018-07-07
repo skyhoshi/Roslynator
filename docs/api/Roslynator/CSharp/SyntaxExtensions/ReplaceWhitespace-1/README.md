@@ -12,6 +12,12 @@ Creates a new node with the whitespace replaced\.
 public static TNode ReplaceWhitespace<TNode>(this TNode node, SyntaxTrivia replacement, TextSpan? span = null) where TNode : SyntaxNode
 ```
 
+### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 ### Parameters
 
 | Parameter | Summary |
@@ -19,12 +25,6 @@ public static TNode ReplaceWhitespace<TNode>(this TNode node, SyntaxTrivia repla
 | node | |
 | replacement | |
 | span | |
-
-### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 ### Returns
 

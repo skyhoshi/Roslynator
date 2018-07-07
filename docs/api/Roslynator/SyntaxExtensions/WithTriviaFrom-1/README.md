@@ -24,18 +24,18 @@ If the list contains more than one item, first item is updated with leading triv
 public static SeparatedSyntaxList<TNode> WithTriviaFrom<TNode>(this SeparatedSyntaxList<TNode> list, SyntaxNode node) where TNode : SyntaxNode
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 #### Parameters
 
 | Parameter | Summary |
 | --------- | ------- |
 | list | |
 | node | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 #### Returns
 
@@ -55,18 +55,18 @@ If the list contains more than one item, first item is updated with leading triv
 public static SyntaxList<TNode> WithTriviaFrom<TNode>(this SyntaxList<TNode> list, SyntaxNode node) where TNode : SyntaxNode
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 #### Parameters
 
 | Parameter | Summary |
 | --------- | ------- |
 | list | |
 | node | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 #### Returns
 
@@ -85,18 +85,18 @@ Creates a new node from this node with both the leading and trailing trivia of t
 public static TNode WithTriviaFrom<TNode>(this TNode node, SyntaxToken token) where TNode : SyntaxNode
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 #### Parameters
 
 | Parameter | Summary |
 | --------- | ------- |
 | node | |
 | token | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 #### Returns
 

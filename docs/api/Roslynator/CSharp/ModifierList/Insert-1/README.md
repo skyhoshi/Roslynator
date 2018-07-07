@@ -23,6 +23,12 @@ Creates a new node with a modifier of the specified kind inserted\.
 public static TNode Insert<TNode>(TNode node, SyntaxKind kind, IComparer<SyntaxKind> comparer = null) where TNode : SyntaxNode
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 #### Parameters
 
 | Parameter | Summary |
@@ -30,12 +36,6 @@ public static TNode Insert<TNode>(TNode node, SyntaxKind kind, IComparer<SyntaxK
 | node | |
 | kind | |
 | comparer | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 #### Returns
 
@@ -54,6 +54,12 @@ Creates a new node with the specified modifier inserted\.
 public static TNode Insert<TNode>(TNode node, SyntaxToken modifier, IComparer<SyntaxToken> comparer = null) where TNode : SyntaxNode
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 #### Parameters
 
 | Parameter | Summary |
@@ -61,12 +67,6 @@ public static TNode Insert<TNode>(TNode node, SyntaxToken modifier, IComparer<Sy
 | node | |
 | modifier | |
 | comparer | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 #### Returns
 

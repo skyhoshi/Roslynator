@@ -72,18 +72,18 @@ Returns true if the symbol implements any interface member\.
 public static bool ImplementsInterfaceMember<TSymbol>(this ISymbol symbol, bool allInterfaces = false) where TSymbol : ISymbol
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TSymbol | |
+
 #### Parameters
 
 | Parameter | Summary |
 | --------- | ------- |
 | symbol | |
 | allInterfaces | If true, use [AllInterfaces](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.itypesymbol.allinterfaces), otherwise use [Interfaces](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.itypesymbol.interfaces)\. |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TSymbol | |
 
 #### Returns
 
@@ -102,6 +102,12 @@ Returns true if the symbol implements any member of the specified interface\.
 public static bool ImplementsInterfaceMember<TSymbol>(this ISymbol symbol, INamedTypeSymbol interfaceSymbol, bool allInterfaces = false) where TSymbol : ISymbol
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TSymbol | |
+
 #### Parameters
 
 | Parameter | Summary |
@@ -109,12 +115,6 @@ public static bool ImplementsInterfaceMember<TSymbol>(this ISymbol symbol, IName
 | symbol | |
 | interfaceSymbol | |
 | allInterfaces | If true, use [AllInterfaces](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.itypesymbol.allinterfaces), otherwise use [Interfaces](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.itypesymbol.interfaces)\. |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TSymbol | |
 
 #### Returns
 

@@ -21,17 +21,17 @@ Creates a separated list of syntax nodes from a sequence of nodes\.
 public static SeparatedSyntaxList<TNode> ToSeparatedSyntaxList<TNode>(this IEnumerable<TNode> nodes) where TNode : SyntaxNode
 ```
 
-#### Parameters
-
-| Parameter | Summary |
-| --------- | ------- |
-| nodes | |
-
 #### Type Parameters
 
 | Type Parameter | Summary |
 | -------------- | ------- |
 | TNode | |
+
+#### Parameters
+
+| Parameter | Summary |
+| --------- | ------- |
+| nodes | |
 
 #### Returns
 
@@ -50,17 +50,17 @@ Creates a separated list of syntax nodes from a sequence of nodes and tokens\.
 public static SeparatedSyntaxList<TNode> ToSeparatedSyntaxList<TNode>(this IEnumerable<SyntaxNodeOrToken> nodesAndTokens) where TNode : SyntaxNode
 ```
 
-#### Parameters
-
-| Parameter | Summary |
-| --------- | ------- |
-| nodesAndTokens | |
-
 #### Type Parameters
 
 | Type Parameter | Summary |
 | -------------- | ------- |
 | TNode | |
+
+#### Parameters
+
+| Parameter | Summary |
+| --------- | ------- |
+| nodesAndTokens | |
 
 #### Returns
 

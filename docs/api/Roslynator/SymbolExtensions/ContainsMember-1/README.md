@@ -21,18 +21,18 @@ Returns true if the type contains member that matches the conditions defined by 
 public static bool ContainsMember<TSymbol>(this ITypeSymbol typeSymbol, Func<TSymbol, bool> predicate = null) where TSymbol : ISymbol
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TSymbol | |
+
 #### Parameters
 
 | Parameter | Summary |
 | --------- | ------- |
 | typeSymbol | |
 | predicate | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TSymbol | |
 
 #### Returns
 
@@ -51,6 +51,12 @@ Returns true if the type contains member that has the specified name and matches
 public static bool ContainsMember<TSymbol>(this ITypeSymbol typeSymbol, string name, Func<TSymbol, bool> predicate = null) where TSymbol : ISymbol
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TSymbol | |
+
 #### Parameters
 
 | Parameter | Summary |
@@ -58,12 +64,6 @@ public static bool ContainsMember<TSymbol>(this ITypeSymbol typeSymbol, string n
 | typeSymbol | |
 | name | |
 | predicate | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TSymbol | |
 
 #### Returns
 

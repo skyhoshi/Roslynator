@@ -23,17 +23,17 @@ Returns the same node if there is nothing to trim\.
 public static TNode TrimLeadingTrivia<TNode>(this TNode node) where TNode : SyntaxNode
 ```
 
-#### Parameters
-
-| Parameter | Summary |
-| --------- | ------- |
-| node | |
-
 #### Type Parameters
 
 | Type Parameter | Summary |
 | -------------- | ------- |
 | TNode | |
+
+#### Parameters
+
+| Parameter | Summary |
+| --------- | ------- |
+| node | |
 
 #### Returns
 

@@ -12,6 +12,12 @@ Creates a new node with the specified explicit accessibility updated\.
 public static TNode WithExplicitAccessibility<TNode>(TNode node, Accessibility newAccessibility, IComparer<SyntaxKind> comparer = null) where TNode : SyntaxNode
 ```
 
+### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 ### Parameters
 
 | Parameter | Summary |
@@ -19,12 +25,6 @@ public static TNode WithExplicitAccessibility<TNode>(TNode node, Accessibility n
 | node | |
 | newAccessibility | |
 | comparer | |
-
-### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 ### Returns
 

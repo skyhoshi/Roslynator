@@ -43,8 +43,8 @@ namespace Roslynator.Documentation.Markdown
         {
             WriteSummary(symbol);
             WriteSignature(symbol);
-            WriteParameters(symbol);
             WriteTypeParameters(symbol);
+            WriteParameters(symbol);
             WriteValue((IMethodSymbol)symbol);
             WriteImplements(symbol);
             WriteAttributes(symbol);

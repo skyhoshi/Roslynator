@@ -12,17 +12,17 @@ Creates a list of syntax nodes from a sequence of nodes\.
 public static SyntaxList<TNode> ToSyntaxList<TNode>(this IEnumerable<TNode> nodes) where TNode : SyntaxNode
 ```
 
-### Parameters
-
-| Parameter | Summary |
-| --------- | ------- |
-| nodes | |
-
 ### Type Parameters
 
 | Type Parameter | Summary |
 | -------------- | ------- |
 | TNode | |
+
+### Parameters
+
+| Parameter | Summary |
+| --------- | ------- |
+| nodes | |
 
 ### Returns
 

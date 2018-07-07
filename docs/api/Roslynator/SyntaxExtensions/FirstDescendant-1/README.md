@@ -21,6 +21,12 @@ Searches a list of descendant nodes in prefix document order and returns first d
 public static TNode FirstDescendant<TNode>(this SyntaxNode node, Func<SyntaxNode, bool> descendIntoChildren = null, bool descendIntoTrivia = false) where TNode : SyntaxNode
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 #### Parameters
 
 | Parameter | Summary |
@@ -28,12 +34,6 @@ public static TNode FirstDescendant<TNode>(this SyntaxNode node, Func<SyntaxNode
 | node | |
 | descendIntoChildren | |
 | descendIntoTrivia | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 #### Returns
 
@@ -52,6 +52,12 @@ Searches a list of descendant nodes in prefix document order and returns first d
 public static TNode FirstDescendant<TNode>(this SyntaxNode node, TextSpan span, Func<SyntaxNode, bool> descendIntoChildren = null, bool descendIntoTrivia = false) where TNode : SyntaxNode
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 #### Parameters
 
 | Parameter | Summary |
@@ -60,12 +66,6 @@ public static TNode FirstDescendant<TNode>(this SyntaxNode node, TextSpan span, 
 | span | |
 | descendIntoChildren | |
 | descendIntoTrivia | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 #### Returns
 

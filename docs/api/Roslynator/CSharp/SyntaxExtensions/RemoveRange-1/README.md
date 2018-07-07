@@ -23,6 +23,12 @@ Creates a new list with elements in the specified range removed\.
 public static SeparatedSyntaxList<TNode> RemoveRange<TNode>(this SeparatedSyntaxList<TNode> list, int index, int count) where TNode : SyntaxNode
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 #### Parameters
 
 | Parameter | Summary |
@@ -30,12 +36,6 @@ public static SeparatedSyntaxList<TNode> RemoveRange<TNode>(this SeparatedSyntax
 | list | |
 | index | An index of the first element to remove\. |
 | count | A number of elements to remove\. |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 #### Returns
 
@@ -54,6 +54,12 @@ Creates a new list with elements in the specified range removed\.
 public static SyntaxList<TNode> RemoveRange<TNode>(this SyntaxList<TNode> list, int index, int count) where TNode : SyntaxNode
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 #### Parameters
 
 | Parameter | Summary |
@@ -61,12 +67,6 @@ public static SyntaxList<TNode> RemoveRange<TNode>(this SyntaxList<TNode> list, 
 | list | |
 | index | An index of the first element to remove\. |
 | count | A number of elements to remove\. |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 #### Returns
 

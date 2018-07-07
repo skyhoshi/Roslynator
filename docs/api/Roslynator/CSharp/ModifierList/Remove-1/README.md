@@ -21,18 +21,18 @@ Creates a new node with a modifier of the specified kind removed\.
 public static TNode Remove<TNode>(TNode node, SyntaxKind kind) where TNode : SyntaxNode
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 #### Parameters
 
 | Parameter | Summary |
 | --------- | ------- |
 | node | |
 | kind | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 #### Returns
 
@@ -51,18 +51,18 @@ Creates a new node with the specified modifier removed\.
 public static TNode Remove<TNode>(TNode node, SyntaxToken modifier) where TNode : SyntaxNode
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| TNode | |
+
 #### Parameters
 
 | Parameter | Summary |
 | --------- | ------- |
 | node | |
 | modifier | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| TNode | |
 
 #### Returns
 
