@@ -22,7 +22,7 @@ namespace Roslynator.Documentation
 
         public IAssemblySymbol AssemblySymbol
         {
-            get { return (IAssemblySymbol)DefaultCompilation.Instance.GetAssemblyOrModuleSymbol(_reference); }
+            get { return (IAssemblySymbol)RuntimeMetadataReference.Compilation.GetAssemblyOrModuleSymbol(_reference); }
         }
 
         public XmlDocumentation GetXmlDocumentation()
@@ -44,7 +44,7 @@ namespace Roslynator.Documentation
 
         public static AssemblyDocumentationInfo Create(string path)
         {
-            foreach (MetadataReference metadataReference in DefaultCompilation.Instance.ExternalReferences)
+            foreach (MetadataReference metadataReference in RuntimeMetadataReference.Compilation.ExternalReferences)
             {
                 var portableExecutableReference = (PortableExecutableReference)metadataReference;
 

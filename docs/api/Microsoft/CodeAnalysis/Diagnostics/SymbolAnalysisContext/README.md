@@ -1,4 +1,4 @@
-# SymbolAnalysisContext Struct Extensions
+# [SymbolAnalysisContext](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.diagnostics.symbolanalysiscontext) Struct Extensions
 
 | Extension Method | Summary |
 | ---------------- | ------- |

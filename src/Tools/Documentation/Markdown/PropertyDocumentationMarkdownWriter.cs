@@ -11,7 +11,7 @@ namespace Roslynator.Documentation.Markdown
         public PropertyDocumentationMarkdownWriter(
             ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            SymbolDisplayFormatProvider formatProvider) : base(symbols, directoryInfo, formatProvider)
+            DocumentationOptions options) : base(symbols, directoryInfo, options)
         {
         }
 
@@ -56,7 +56,7 @@ namespace Roslynator.Documentation.Markdown
         private void WriteValue(IPropertySymbol propertySymbol)
         {
             WriteHeading(3 + BaseHeadingLevel, "Property Value");
-            WriteLink(Compilation.GetDocumentationInfo(propertySymbol.Type), SymbolDisplayAdditionalOptions.None);
+            WriteLink(Compilation.GetSymbolInfo(propertySymbol.Type), SymbolDisplayAdditionalOptions.None);
             WriteLine();
             WriteLine();
 

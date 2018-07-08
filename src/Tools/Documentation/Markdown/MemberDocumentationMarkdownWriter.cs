@@ -13,7 +13,7 @@ namespace Roslynator.Documentation.Markdown
         protected MemberDocumentationMarkdownWriter(
             ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            SymbolDisplayFormatProvider formatProvider) : base(symbols[0], directoryInfo, formatProvider)
+            DocumentationOptions options) : base(symbols[0], directoryInfo, options)
         {
             Symbols = symbols;
         }
@@ -73,7 +73,7 @@ namespace Roslynator.Documentation.Markdown
                     do
                     {
                         WriteStartBulletItem();
-                        WriteLink(Compilation.GetDocumentationInfo(en.Current), FormatProvider.MemberImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
+                        WriteLink(Compilation.GetSymbolInfo(en.Current), FormatProvider.MemberImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
                         WriteEndBulletItem();
                     }
                     while (en.MoveNext());
@@ -84,7 +84,7 @@ namespace Roslynator.Documentation.Markdown
         public static MemberDocumentationMarkdownWriter Create(
             ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            SymbolDisplayFormatProvider formatProvider)
+            DocumentationOptions options = null)
         {
             ISymbol symbol = symbols[0].Symbol;
 
@@ -92,11 +92,11 @@ namespace Roslynator.Documentation.Markdown
             {
                 case SymbolKind.Event:
                     {
-                        return new EventDocumentationMarkdownWriter(symbols, directoryInfo, formatProvider);
+                        return new EventDocumentationMarkdownWriter(symbols, directoryInfo, options);
                     }
                 case SymbolKind.Field:
                     {
-                        return new FieldDocumentationMarkdownWriter(symbols, directoryInfo, formatProvider);
+                        return new FieldDocumentationMarkdownWriter(symbols, directoryInfo, options);
                     }
                 case SymbolKind.Method:
                     {
@@ -106,20 +106,20 @@ namespace Roslynator.Documentation.Markdown
                         {
                             case MethodKind.Constructor:
                                 {
-                                    return new ConstructorDocumentationMarkdownWriter(symbols, directoryInfo, formatProvider);
+                                    return new ConstructorDocumentationMarkdownWriter(symbols, directoryInfo, options);
                                 }
                             case MethodKind.UserDefinedOperator:
                             case MethodKind.Conversion:
                                 {
-                                    return new OperatorDocumentationMarkdownWriter(symbols, directoryInfo, formatProvider);
+                                    return new OperatorDocumentationMarkdownWriter(symbols, directoryInfo, options);
                                 }
                         }
 
-                        return new MethodDocumentationMarkdownWriter(symbols, directoryInfo, formatProvider);
+                        return new MethodDocumentationMarkdownWriter(symbols, directoryInfo, options);
                     }
                 case SymbolKind.Property:
                     {
-                        return new PropertyDocumentationMarkdownWriter(symbols, directoryInfo, formatProvider);
+                        return new PropertyDocumentationMarkdownWriter(symbols, directoryInfo, options);
                     }
             }
 

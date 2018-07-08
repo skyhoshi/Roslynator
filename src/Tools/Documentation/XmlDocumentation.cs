@@ -115,13 +115,13 @@ namespace Roslynator.Documentation
                             ? _indentationRegex.Replace(xml, "")
                             : Regex.Replace(xml, "(?<=\n)" + s, "");
 
-                        using (var stringReader = new StringReader(xml))
-                        using (XmlReader xmlReader = XmlReader.Create(stringReader, _xmlReaderSettings))
+                        using (var sr = new StringReader(xml))
+                        using (XmlReader xr = XmlReader.Create(sr, _xmlReaderSettings))
                         {
-                            if (xmlReader.Read()
-                                && xmlReader.NodeType == XmlNodeType.Element)
+                            if (xr.Read()
+                                && xr.NodeType == XmlNodeType.Element)
                             {
-                                element = (XElement)XNode.ReadFrom(xmlReader);
+                                element = (XElement)XNode.ReadFrom(xr);
                             }
                         }
                     }

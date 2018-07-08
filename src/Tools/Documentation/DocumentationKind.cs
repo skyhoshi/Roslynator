@@ -8,6 +8,8 @@ namespace Roslynator.Documentation
         Root,
         Namespace,
         Type,
-        Member
+        Member,
+        ObjectModel,
+        ExtendedTypes,
     }
 }

@@ -1,5 +1,7 @@
 # Foo API
 
+* [Object Model](_ObjectModel.md)
+
 ## Namespaces
 
 * [\<global namespace>](_Global/README.md)

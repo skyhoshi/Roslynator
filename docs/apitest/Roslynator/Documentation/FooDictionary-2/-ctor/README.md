@@ -2,7 +2,7 @@
 
 Namespace: [Roslynator.Documentation](../../README.md)
 
-Assembly: Roslynator\.Documentation\.DocTest\.dll
+Assembly: Roslynator\.Documentation\.DocumentationTest\.dll
 
 ```csharp
 public FooDictionary()

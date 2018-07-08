@@ -2,7 +2,7 @@
 
 Namespace: [Roslynator.Documentation](../README.md)
 
-Assembly: Roslynator\.Documentation\.DocTest\.dll
+Assembly: Roslynator\.Documentation\.DocumentationTest\.dll
 
 **WARNING: This API is now obsolete\.**
 
@@ -63,7 +63,7 @@ paratext
 
 | Field | Summary |
 | ----- | ------- |
-| [Field](Field/README.md) | |
+| [Field](Field/README.md) | f |
 
 ## Properties
 

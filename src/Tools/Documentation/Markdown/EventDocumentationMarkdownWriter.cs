@@ -10,7 +10,7 @@ namespace Roslynator.Documentation.Markdown
         public EventDocumentationMarkdownWriter(
             ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            SymbolDisplayFormatProvider formatProvider) : base(symbols, directoryInfo, formatProvider)
+            DocumentationOptions options) : base(symbols, directoryInfo, options)
         {
         }
 

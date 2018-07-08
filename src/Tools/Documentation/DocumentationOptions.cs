@@ -9,6 +9,8 @@ namespace Roslynator.Documentation
     {
         public static DocumentationOptions Default { get; } = new DocumentationOptions();
 
+        public SymbolDisplayFormatProvider FormatProvider { get; } = SymbolDisplayFormatProvider.Default;
+
         public int MaxDerivedItems { get; } = 10;
 
         public RootDocumentationParts RootParts { get; } = RootDocumentationParts.All;

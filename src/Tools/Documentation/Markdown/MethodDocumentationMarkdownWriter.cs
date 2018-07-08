@@ -11,7 +11,7 @@ namespace Roslynator.Documentation.Markdown
         public MethodDocumentationMarkdownWriter(
             ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            SymbolDisplayFormatProvider formatProvider) : base(symbols, directoryInfo, formatProvider)
+            DocumentationOptions options) : base(symbols, directoryInfo, options)
         {
         }
 
@@ -57,7 +57,7 @@ namespace Roslynator.Documentation.Markdown
         private void WriteValue(IMethodSymbol methodSymbol)
         {
             WriteHeading(3 + BaseHeadingLevel, "Returns");
-            WriteLink(Compilation.GetDocumentationInfo(methodSymbol.ReturnType), SymbolDisplayAdditionalOptions.None);
+            WriteLink(Compilation.GetSymbolInfo(methodSymbol.ReturnType), SymbolDisplayAdditionalOptions.None);
             WriteLine();
             WriteLine();
 

@@ -1,5 +1,8 @@
 # Roslynator API
 
+* [Object Model](_ObjectModel.md)
+* [Extended Types](_ExtendedTypes.md)
+
 ## Namespaces
 
 * [Roslynator](Roslynator/README.md)
@@ -24,6 +27,7 @@
 | [SyntaxExtensions](Roslynator/SyntaxExtensions/README.md) | A set of extension method for a syntax\. |
 | [SyntaxListSelection\<TNode>](Roslynator/SyntaxListSelection-1/README.md) | Represents selected nodes in a [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)\. |
 | [SyntaxTreeExtensions](Roslynator/SyntaxTreeExtensions/README.md) | A set of extension methods for [SyntaxTree](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtree)\. |
+| [WorkspaceExtensions](Roslynator/WorkspaceExtensions/README.md) | A set of extension methods for the workspace layer\. |
 
 ### Structs
 
@@ -52,6 +56,8 @@
 | [SyntaxAccessibility](Roslynator/CSharp/SyntaxAccessibility/README.md) | A set of static methods that are related to C\# accessibility\. |
 | [SyntaxExtensions](Roslynator/CSharp/SyntaxExtensions/README.md) | A set of extension methods for syntax \(types derived from [CSharpSyntaxNode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.csharpsyntaxnode)\)\. |
 | [SyntaxInfo](Roslynator/CSharp/SyntaxInfo/README.md) | Serves as a factory for types in Roslynator\.CSharp\.Syntax namespace\. |
+| [WorkspaceExtensions](Roslynator/CSharp/WorkspaceExtensions/README.md) | A set of extension methods for the workspace layer\. |
+| [WorkspaceSyntaxExtensions](Roslynator/CSharp/WorkspaceSyntaxExtensions/README.md) | A set of extension methods for syntax\. These methods are dependent on the workspace layer\. |
 
 ### Structs
 

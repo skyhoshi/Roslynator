@@ -10,28 +10,33 @@ namespace Roslynator.Documentation
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public readonly struct DocumentationFile
     {
-        public DocumentationFile(string content, string directoryPath, DocumentationKind kind)
+        public DocumentationFile(string content, string path, DocumentationKind kind)
         {
             Content = content;
-            DirectoryPath = directoryPath;
+            Path = path;
             Kind = kind;
         }
 
         public string Content { get; }
 
-        public string DirectoryPath { get; }
+        public string Path { get; }
 
         public DocumentationKind Kind { get; }
+
+        internal bool HasContent
+        {
+            get { return !string.IsNullOrWhiteSpace(Content); }
+        }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string DebuggerDisplay
         {
-            get { return $"{Kind} {DirectoryPath} {Content}"; }
+            get { return $"{Kind} {Path} {Content}"; }
         }
 
-        internal static DocumentationFile Create(string content, SymbolDocumentationInfo info, DocumentationKind kind)
+        internal static DocumentationFile Create(DocumentationWriter writer, SymbolDocumentationInfo info, string fileName, DocumentationKind kind)
         {
-            return new DocumentationFile(content, string.Join(@"\", info.Names.Reverse()), kind);
+            return new DocumentationFile(writer.ToString(), string.Join(@"\", info.Names.Reverse()) + @"\" + fileName, kind);
         }
     }
 }

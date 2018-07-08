@@ -1,9 +1,12 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
+using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Roslynator
 {
@@ -20,6 +23,28 @@ namespace Roslynator
         public static ImmutableDictionary<string, string> TrustedPlatformAssemblyPaths
         {
             get { return _trustedPlatformAssemblyPaths ?? (_trustedPlatformAssemblyPaths = CreateTrustedPlatformAssemblies()); }
+        }
+
+        private static Compilation _compilation;
+
+        public static Compilation Compilation
+        {
+            get
+            {
+                if (_compilation == null)
+                {
+                    IEnumerable<PortableExecutableReference> references = TrustedPlatformAssemblyPaths
+                        .Select(f => MetadataReference.CreateFromFile(f.Value));
+
+                    _compilation = CSharpCompilation.Create(
+                        "Temp",
+                        syntaxTrees: default(IEnumerable<SyntaxTree>),
+                        references: references,
+                        options: default(CSharpCompilationOptions));
+                }
+
+                return _compilation;
+            }
         }
 
         private static ImmutableDictionary<string, string> CreateTrustedPlatformAssemblies()

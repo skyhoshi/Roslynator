@@ -1,0 +1,14 @@
+# [SyntaxTrivia](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtrivia) Struct Extensions
+
+| Extension Method | Summary |
+| ---------------- | ------- |
+| [IsEndOfLineTrivia(SyntaxTrivia)](../../../Roslynator/CSharp/SyntaxExtensions/IsEndOfLineTrivia/README.md) | Returns true if the trivia is [EndOfLineTrivia](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntaxkind.endoflinetrivia)\. |
+| [IsKind(SyntaxTrivia, SyntaxKind, SyntaxKind)](../../../Roslynator/CSharp/SyntaxExtensions/IsKind/README.md) | Returns true if a trivia's kind is one of the specified kinds\. |
+| [IsKind(SyntaxTrivia, SyntaxKind, SyntaxKind, SyntaxKind)](../../../Roslynator/CSharp/SyntaxExtensions/IsKind/README.md) | Returns true if a token's kind is one of the specified kinds\. |
+| [IsKind(SyntaxTrivia, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind)](../../../Roslynator/CSharp/SyntaxExtensions/IsKind/README.md) | Returns true if a token's kind is one of the specified kinds\. |
+| [IsKind(SyntaxTrivia, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind)](../../../Roslynator/CSharp/SyntaxExtensions/IsKind/README.md) | Returns true if a token's kind is one of the specified kinds\. |
+| [IsKind(SyntaxTrivia, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind)](../../../Roslynator/CSharp/SyntaxExtensions/IsKind/README.md) | Returns true if a token's kind is one of the specified kinds\. |
+| [IsWhitespaceOrEndOfLineTrivia(SyntaxTrivia)](../../../Roslynator/CSharp/SyntaxExtensions/IsWhitespaceOrEndOfLineTrivia/README.md) | Returns true if the trivia is either [WhitespaceTrivia](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntaxkind.whitespacetrivia) or [EndOfLineTrivia](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntaxkind.endoflinetrivia)\. |
+| [IsWhitespaceTrivia(SyntaxTrivia)](../../../Roslynator/CSharp/SyntaxExtensions/IsWhitespaceTrivia/README.md) | Returns true if the trivia is [WhitespaceTrivia](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntaxkind.whitespacetrivia)\. |
+| [TryGetContainingList(SyntaxTrivia, SyntaxTriviaList, Boolean, Boolean)](../../../Roslynator/SyntaxExtensions/TryGetContainingList/README.md) | Gets a [SyntaxTriviaList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtrivialist) the specified trivia is contained in\. |
+

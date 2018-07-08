@@ -12,7 +12,7 @@ namespace Roslynator.Documentation.Markdown
         public DocumentationMarkdownWriter(
             SymbolDocumentationInfo symbolInfo,
             SymbolDocumentationInfo directoryInfo,
-            SymbolDisplayFormatProvider formatProvider) : base(symbolInfo, directoryInfo, formatProvider)
+            DocumentationOptions options) : base(symbolInfo, directoryInfo, options)
         {
             Writer = MarkdownWriter.Create(new StringBuilder());
         }
@@ -37,9 +37,25 @@ namespace Roslynator.Documentation.Markdown
 
         public override void WriteEndHeading() => Writer.WriteEndHeading();
 
+        public override void WriteStartBulletList()
+        {
+        }
+
+        public override void WriteEndBulletList()
+        {
+        }
+
         public override void WriteStartBulletItem() => Writer.WriteStartBulletItem();
 
         public override void WriteEndBulletItem() => Writer.WriteEndBulletItem();
+
+        public override void WriteStartOrderedList()
+        {
+        }
+
+        public override void WriteEndOrderedList()
+        {
+        }
 
         public override void WriteStartOrderedItem(int number) => Writer.WriteStartOrderedItem(number);
 

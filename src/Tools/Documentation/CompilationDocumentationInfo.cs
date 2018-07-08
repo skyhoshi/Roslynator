@@ -36,7 +36,7 @@ namespace Roslynator.Documentation
             {
                 return TypeSymbols
                     .Select(f => f.ContainingNamespace)
-                    .Distinct();
+                    .Distinct(MetadataNameEqualityComparer.Namespace);
             }
         }
 
@@ -113,48 +113,62 @@ namespace Roslynator.Documentation
             {
                 foreach (IMethodSymbol methodSymbol in ExtensionMethodSymbols)
                 {
-                    if (IsExternalSymbol(methodSymbol))
-                    {
-                        ITypeSymbol typeSymbol = methodSymbol.Parameters[0].Type.OriginalDefinition;
+                    ITypeSymbol typeSymbol = GetExternalSymbol(methodSymbol);
 
-                        if (typeSymbol is ITypeParameterSymbol typeParameterSymbol)
-                        {
-                            yield return typeParameterSymbol.ConstraintTypes.First(f => f.TypeKind == TypeKind.Class);
-                        }
-                        else
-                        {
-                            yield return typeSymbol;
-                        }
-                    }
+                    if (typeSymbol != null)
+                        yield return typeSymbol;
                 }
             }
 
-            bool IsExternalSymbol(IMethodSymbol methodSymbol)
+            ITypeSymbol GetExternalSymbol(IMethodSymbol methodSymbol)
             {
+                ITypeSymbol type = GetExtendedTypeSymbol(methodSymbol);
+
+                if (type == null)
+                    return null;
+
                 foreach (AssemblyDocumentationInfo assemblyInfo in Assemblies)
                 {
-                    ITypeSymbol type = methodSymbol.Parameters[0].Type.OriginalDefinition;
-
-                    if (type.Kind == SymbolKind.TypeParameter)
-                    {
-                        var typeParameter = (ITypeParameterSymbol)type;
-
-                        //TODO: T > T2 where T : Foo
-                        type = typeParameter.ConstraintTypes.FirstOrDefault(f => f.TypeKind == TypeKind.Class);
-
-                        if (type == null)
-                            return false;
-                    }
-
-                    if (assemblyInfo.AssemblySymbol == type.ContainingAssembly)
-                        return false;
+                    if (type.ContainingAssembly == assemblyInfo.AssemblySymbol)
+                        return null;
                 }
 
-                return true;
+                return type;
+            }
+
+            ITypeSymbol GetExtendedTypeSymbol(IMethodSymbol methodSymbol)
+            {
+                ITypeSymbol type = methodSymbol.Parameters[0].Type.OriginalDefinition;
+
+                if (type.Kind == SymbolKind.TypeParameter)
+                {
+                    return GetTypeParameterConstraintClass((ITypeParameterSymbol)type);
+                }
+                else
+                {
+                    return type;
+                }
+            }
+
+            ITypeSymbol GetTypeParameterConstraintClass(ITypeParameterSymbol typeParameter)
+            {
+                foreach (ITypeSymbol constraintType in typeParameter.ConstraintTypes)
+                {
+                    if (constraintType.TypeKind == TypeKind.Class)
+                    {
+                        return constraintType;
+                    }
+                    else if (constraintType.TypeKind == TypeKind.TypeParameter)
+                    {
+                        return GetTypeParameterConstraintClass((ITypeParameterSymbol)constraintType);
+                    }
+                }
+
+                return null;
             }
         }
 
-        internal SymbolDocumentationInfo GetDocumentationInfo(ISymbol symbol)
+        internal SymbolDocumentationInfo GetSymbolInfo(ISymbol symbol)
         {
             if (_symbolDocumentationCache.TryGetValue(symbol, out SymbolDocumentationInfo info))
                 return info;
@@ -191,12 +205,12 @@ namespace Roslynator.Documentation
 
         internal XElement GetDocumentationElement(ISymbol symbol)
         {
-            return GetXmlDocumentation(symbol.ContainingAssembly)?.GetElement(GetDocumentationInfo(symbol).CommentId);
+            return GetXmlDocumentation(symbol.ContainingAssembly)?.GetElement(GetSymbolInfo(symbol).CommentId);
         }
 
         internal XElement GetDocumentationElement(ISymbol symbol, string name)
         {
-            return GetXmlDocumentation(symbol.ContainingAssembly)?.GetElement(GetDocumentationInfo(symbol).CommentId, name);
+            return GetXmlDocumentation(symbol.ContainingAssembly)?.GetElement(GetSymbolInfo(symbol).CommentId, name);
         }
     }
 }

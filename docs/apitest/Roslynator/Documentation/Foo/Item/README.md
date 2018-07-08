@@ -2,7 +2,7 @@
 
 Namespace: [Roslynator.Documentation](../../README.md)
 
-Assembly: Roslynator\.Documentation\.DocTest\.dll
+Assembly: Roslynator\.Documentation\.DocumentationTest\.dll
 
 ## Overloads
 
@@ -49,7 +49,7 @@ public Foo this[int index, int index2] { get; set; }
 | Parameter | Summary |
 | --------- | ------- |
 | index | p |
-| index2 | |
+| index2 | p |
 
 #### Property Value
 

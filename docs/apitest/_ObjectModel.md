@@ -1,4 +1,4 @@
-# Roslynator Object Model
+# Foo API Object Model
 
 * [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)
   * [Bla](_Global/Bla/README.md)

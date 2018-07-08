@@ -94,7 +94,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Documentation", "Tools\Docu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentationGenerator", "Tools\DocumentationGenerator\DocumentationGenerator.csproj", "{68184FAE-2C5D-41F0-9846-6FDD9CB3F7A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocTest", "Tools\DocTest\DocTest.csproj", "{976AF9EC-420A-4709-AB60-E95D63DF992C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentationTest", "Tools\DocumentationTest\DocumentationTest.csproj", "{976AF9EC-420A-4709-AB60-E95D63DF992C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

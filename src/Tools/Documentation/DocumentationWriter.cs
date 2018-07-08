@@ -13,7 +13,6 @@ using Roslynator.CSharp;
 
 namespace Roslynator.Documentation
 {
-    //TODO: WriteStartBulletList
     public abstract class DocumentationWriter : IDisposable
     {
         private bool _disposed;
@@ -21,12 +20,10 @@ namespace Roslynator.Documentation
         protected DocumentationWriter(
             SymbolDocumentationInfo symbolInfo,
             SymbolDocumentationInfo directoryInfo,
-            SymbolDisplayFormatProvider formatProvider = null,
             DocumentationOptions options = null)
         {
             SymbolInfo = symbolInfo;
             DirectoryInfo = directoryInfo;
-            FormatProvider = formatProvider ?? SymbolDisplayFormatProvider.Default;
             Options = options ?? DocumentationOptions.Default;
         }
 
@@ -43,7 +40,10 @@ namespace Roslynator.Documentation
 
         protected internal int BaseHeadingLevel { get; set; }
 
-        public SymbolDisplayFormatProvider FormatProvider { get; }
+        public SymbolDisplayFormatProvider FormatProvider
+        {
+            get { return Options.FormatProvider; }
+        }
 
         public CompilationDocumentationInfo Compilation
         {
@@ -128,6 +128,10 @@ namespace Roslynator.Documentation
             WriteEndHeading();
         }
 
+        public abstract void WriteStartBulletList();
+
+        public abstract void WriteEndBulletList();
+
         public abstract void WriteStartBulletItem();
 
         public abstract void WriteEndBulletItem();
@@ -138,6 +142,10 @@ namespace Roslynator.Documentation
             WriteString(text);
             WriteEndBulletItem();
         }
+
+        public abstract void WriteStartOrderedList();
+
+        public abstract void WriteEndOrderedList();
 
         public abstract void WriteStartOrderedItem(int number);
 
@@ -266,7 +274,7 @@ namespace Roslynator.Documentation
         {
             WriteStartHeading(2);
 
-            SymbolDocumentationInfo info = Compilation.GetDocumentationInfo(namespaceSymbol);
+            SymbolDocumentationInfo info = Compilation.GetSymbolInfo(namespaceSymbol);
 
             WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), string.Join("/", info.Names.Reverse()) + "/README.md");
             WriteString(" Namespace");
@@ -290,7 +298,7 @@ namespace Roslynator.Documentation
 
             INamespaceSymbol containingNamespace = symbol.ContainingNamespace;
 
-            WriteLink(Compilation.GetDocumentationInfo(containingNamespace), DirectoryInfo, FormatProvider.NamespaceFormat, SymbolDisplayAdditionalOptions.None);
+            WriteLink(Compilation.GetSymbolInfo(containingNamespace), DirectoryInfo, FormatProvider.NamespaceFormat, SymbolDisplayAdditionalOptions.None);
             WriteLine();
             WriteLine();
         }
@@ -420,7 +428,7 @@ namespace Roslynator.Documentation
                     return;
 
                 WriteHeading(3 + BaseHeadingLevel, heading);
-                WriteLink(Compilation.GetDocumentationInfo(returnType), DirectoryInfo, FormatProvider.ReturnValueFormat, SymbolDisplayAdditionalOptions.None);
+                WriteLink(Compilation.GetSymbolInfo(returnType), DirectoryInfo, FormatProvider.ReturnValueFormat, SymbolDisplayAdditionalOptions.None);
                 WriteLine();
 
                 string returns = Compilation.GetDocumentationElement(symbol2, "returns")?.Value;
@@ -483,7 +491,7 @@ namespace Roslynator.Documentation
                 }
                 else
                 {
-                    WriteLink(Compilation.GetDocumentationInfo(symbol), DirectoryInfo, FormatProvider.InheritanceFormat, SymbolDisplayAdditionalOptions.None);
+                    WriteLink(Compilation.GetSymbolInfo(symbol), DirectoryInfo, FormatProvider.InheritanceFormat, SymbolDisplayAdditionalOptions.None);
                 }
             }
         }
@@ -500,13 +508,13 @@ namespace Roslynator.Documentation
                 {
                     WriteHeading(3 + BaseHeadingLevel, "Attributes");
 
-                    WriteLink(Compilation.GetDocumentationInfo(en.Current), SymbolDisplayAdditionalOptions.None);
+                    WriteLink(Compilation.GetSymbolInfo(en.Current), SymbolDisplayAdditionalOptions.None);
 
                     while (en.MoveNext())
                     {
                         WriteString(", ");
 
-                        WriteLink(Compilation.GetDocumentationInfo(en.Current), SymbolDisplayAdditionalOptions.None);
+                        WriteLink(Compilation.GetSymbolInfo(en.Current), SymbolDisplayAdditionalOptions.None);
                     }
                 }
             }
@@ -531,6 +539,7 @@ namespace Roslynator.Documentation
                         return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Diagnostics_CodeAnalysis);
                     case "DefaultMemberAttribute":
                         return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Reflection);
+                    case "AsyncStateMachineAttribute":
                     case "IteratorStateMachineAttribute":
                     case "MethodImplAttribute":
                     case "TypeForwardedFromAttribute":
@@ -548,7 +557,6 @@ namespace Roslynator.Documentation
             }
         }
 
-        //TODO: limit max number of items
         public virtual void WriteDerived(ITypeSymbol typeSymbol)
         {
             TypeKind typeKind = typeSymbol.TypeKind;
@@ -566,13 +574,29 @@ namespace Roslynator.Documentation
                     {
                         WriteHeading(3 + BaseHeadingLevel, "Derived");
 
+                        int count = 0;
+
+                        WriteStartBulletList();
+
                         do
                         {
                             WriteStartBulletItem();
-                            WriteLink(Compilation.GetDocumentationInfo(en.Current), DirectoryInfo, FormatProvider.DerivedFormat, SymbolDisplayAdditionalOptions.None);
+                            WriteLink(Compilation.GetSymbolInfo(en.Current), DirectoryInfo, FormatProvider.DerivedFormat, SymbolDisplayAdditionalOptions.None);
                             WriteEndBulletItem();
+
+                            count++;
+
+                            if (count == Options.MaxDerivedItems)
+                            {
+                                if (en.MoveNext())
+                                    WriteBulletItem("...");
+
+                                break;
+                            }
                         }
                         while (en.MoveNext());
+
+                        WriteEndBulletList();
                     }
                 }
             }
@@ -603,13 +627,17 @@ namespace Roslynator.Documentation
                 {
                     WriteHeading(3 + BaseHeadingLevel, "Implements");
 
+                    WriteStartBulletList();
+
                     do
                     {
                         WriteStartBulletItem();
-                        WriteLink(Compilation.GetDocumentationInfo(en.Current), FormatProvider.ImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
+                        WriteLink(Compilation.GetSymbolInfo(en.Current), FormatProvider.ImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
                         WriteEndBulletItem();
                     }
                     while (en.MoveNext());
+
+                    WriteEndBulletList();
                 }
             }
         }
@@ -631,7 +659,7 @@ namespace Roslynator.Documentation
 
             void WriteException(XElement element, ISymbol exceptionSymbol)
             {
-                WriteLink(Compilation.GetDocumentationInfo(exceptionSymbol), SymbolDisplayAdditionalOptions.None);
+                WriteLink(Compilation.GetSymbolInfo(exceptionSymbol), SymbolDisplayAdditionalOptions.None);
                 WriteLine();
                 WriteLine();
                 WriteElementContent(element);
@@ -762,17 +790,23 @@ namespace Roslynator.Documentation
                 if (en.MoveNext())
                 {
                     WriteHeading(2 + BaseHeadingLevel, "See Also");
-                    WriteBulletItem(en.Current);
 
-                    while (en.MoveNext())
+                    WriteStartBulletList();
+
+                    do
+                    {
                         WriteBulletItem(en.Current);
+                    }
+                    while (en.MoveNext());
+
+                    WriteEndBulletList();
                 }
             }
 
             void WriteBulletItem(ISymbol symbol2)
             {
                 WriteStartBulletItem();
-                WriteLink(Compilation.GetDocumentationInfo(symbol2), DirectoryInfo, FormatProvider.CrefFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName);
+                WriteLink(Compilation.GetSymbolInfo(symbol2), DirectoryInfo, FormatProvider.CrefFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName);
                 WriteEndBulletItem();
             }
 
@@ -884,7 +918,7 @@ namespace Roslynator.Documentation
                                                     }
                                                 case "number":
                                                     {
-                                                        WriteList(e.Elements(), isNumbered: true);
+                                                        WriteList(e.Elements(), isOrdered: true);
                                                         break;
                                                     }
                                                 case "table":
@@ -939,7 +973,7 @@ namespace Roslynator.Documentation
 
                                             if (symbol != null)
                                             {
-                                                WriteLink(Compilation.GetDocumentationInfo(symbol), DirectoryInfo, FormatProvider.CrefFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName);
+                                                WriteLink(Compilation.GetSymbolInfo(symbol), DirectoryInfo, FormatProvider.CrefFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName);
                                             }
                                             else
                                             {
@@ -993,32 +1027,63 @@ namespace Roslynator.Documentation
             }
         }
 
-        private void WriteList(IEnumerable<XElement> elements, bool isNumbered = false)
+        private void WriteList(IEnumerable<XElement> elements, bool isOrdered = false)
         {
             int number = 1;
 
-            foreach (XElement element in elements)
+            using (IEnumerator<XElement> en = Iterator().GetEnumerator())
             {
-                if (element.Name.LocalName == "item")
+                if (en.MoveNext())
                 {
-                    using (IEnumerator<XElement> en = element.Elements().GetEnumerator())
+                    if (isOrdered)
                     {
-                        if (en.MoveNext())
-                        {
-                            XElement element2 = en.Current;
+                        WriteStartOrderedList();
+                    }
+                    else
+                    {
+                        WriteStartBulletList();
+                    }
 
-                            if (element2.Name.LocalName == "description")
-                            {
-                                WriteStartItem();
-                                WriteElementContent(element2, isNested: true);
-                                WriteEndItem();
-                            }
-                        }
-                        else
+                    do
+                    {
+                        WriteStartItem();
+                        WriteElementContent(en.Current, isNested: true);
+                        WriteEndItem();
+                    }
+                    while (en.MoveNext());
+
+                    if (isOrdered)
+                    {
+                        WriteEndOrderedList();
+                    }
+                    else
+                    {
+                        WriteEndBulletList();
+                    }
+                }
+            }
+
+            IEnumerable<XElement> Iterator()
+            {
+                foreach (XElement element in elements)
+                {
+                    if (element.Name.LocalName == "item")
+                    {
+                        using (IEnumerator<XElement> en = element.Elements().GetEnumerator())
                         {
-                            WriteStartItem();
-                            WriteElementContent(element, isNested: true);
-                            WriteEndItem();
+                            if (en.MoveNext())
+                            {
+                                XElement element2 = en.Current;
+
+                                if (element2.Name.LocalName == "description")
+                                {
+                                    yield return element2;
+                                }
+                            }
+                            else
+                            {
+                                yield return element;
+                            }
                         }
                     }
                 }
@@ -1026,7 +1091,7 @@ namespace Roslynator.Documentation
 
             void WriteStartItem()
             {
-                if (isNumbered)
+                if (isOrdered)
                 {
                     WriteStartOrderedItem(number);
                     number++;
@@ -1039,7 +1104,7 @@ namespace Roslynator.Documentation
 
             void WriteEndItem()
             {
-                if (isNumbered)
+                if (isOrdered)
                 {
                     WriteEndOrderedItem();
                 }
@@ -1187,7 +1252,7 @@ namespace Roslynator.Documentation
                             && symbol.ContainingType != Symbol)
                         {
                             WriteString(" (Inherited from ");
-                            WriteLink(Compilation.GetDocumentationInfo(symbol.ContainingType.OriginalDefinition), additionalOptions);
+                            WriteLink(Compilation.GetSymbolInfo(symbol.ContainingType.OriginalDefinition), additionalOptions);
                             WriteString(")");
                         }
 
@@ -1218,6 +1283,8 @@ namespace Roslynator.Documentation
                     if (heading != null)
                         WriteHeading(headingLevel + BaseHeadingLevel, heading);
 
+                    WriteStartBulletList();
+
                     do
                     {
                         WriteStartBulletItem();
@@ -1225,6 +1292,8 @@ namespace Roslynator.Documentation
                         WriteEndBulletItem();
                     }
                     while (en.MoveNext());
+
+                    WriteEndBulletList();
                 }
             }
         }
@@ -1235,7 +1304,7 @@ namespace Roslynator.Documentation
             SymbolDisplayAdditionalOptions additionalOptions,
             bool addLink)
         {
-            SymbolDocumentationInfo info = Compilation.GetDocumentationInfo(symbol);
+            SymbolDocumentationInfo info = Compilation.GetSymbolInfo(symbol);
 
             if (symbol.IsKind(SymbolKind.Parameter, SymbolKind.TypeParameter))
             {
@@ -1286,7 +1355,7 @@ namespace Roslynator.Documentation
                             {
                                 ISymbol symbol = part.Symbol;
 
-                                string url = Compilation.GetDocumentationInfo(symbol).GetUrl(DirectoryInfo);
+                                string url = Compilation.GetSymbolInfo(symbol).GetUrl(DirectoryInfo);
 
                                 WriteLinkOrText(symbol.Name, url);
 

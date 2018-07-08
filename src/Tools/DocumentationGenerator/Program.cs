@@ -16,50 +16,28 @@ namespace Roslynator.Documentation
         [SuppressMessage("Redundancy", "RCS1163:Unused parameter.", Justification = "<Pending>")]
         private static void Main(string[] args)
         {
-            GenerateDocumentation(@"..\..\..\..\..\..\docs\api", "Roslynator API", "Roslynator.CSharp.dll");
-            GenerateDocumentation(@"..\..\..\..\..\..\docs\apitest", "Foo API", "Roslynator.Documentation.DocTest.dll");
+            GenerateDocumentation(@"..\..\..\..\..\..\docs\api\", "Roslynator API", "Roslynator.CSharp.dll", "Roslynator.CSharp.Workspaces.dll");
+            GenerateDocumentation(@"..\..\..\..\..\..\docs\apitest\", "Foo API", "Roslynator.Documentation.DocumentationTest.dll");
         }
 
         private static void GenerateDocumentation(string directoryPath, string heading, params string[] assemblyNames)
         {
-            const string fileName = "README.md";
-
             ImmutableArray<AssemblyDocumentationInfo> assemblies = assemblyNames
                 .Select(AssemblyDocumentationInfo.CreateFromAssemblyName)
                 .ToImmutableArray();
 
-            var compilation = new CompilationDocumentationInfo(DefaultCompilation.Instance, assemblies);
+            var compilationInfo = new CompilationDocumentationInfo(RuntimeMetadataReference.Compilation, assemblies);
 
-            var generator = new DocumentationGenerator(compilation, fileName);
+            var generator = new DocumentationGenerator(compilationInfo, "README.md");
 
-            WriteFile(directoryPath + @"\_ObjectModel.md", generator.GenerateObjectModel("Roslynator Object Model"));
-            WriteFile(directoryPath + @"\_External.md", generator.GenerateExtendedTypesFile("Types Extended by Roslynator API").Content);
+            foreach (DocumentationFile documentationFile in generator.GenerateFiles(heading, DocumentationParts.All))
+            {
+                string path = directoryPath + documentationFile.Path;
 
-            foreach (DocumentationFile documentationFile in generator.GenerateExtendedTypeFiles())
-                WriteFile(documentationFile, fileName, directoryPath);
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
 
-            foreach (DocumentationFile documentationFile in generator.GenerateFiles(heading))
-                WriteFile(documentationFile, fileName, directoryPath);
-        }
-
-        private static void WriteFile(string path, string content)
-        {
-            if (!string.IsNullOrEmpty(content))
-                FileHelper.WriteAllText(path, content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
-        }
-
-        private static void WriteFile(in DocumentationFile documentationFile, string fileName, string directoryPath)
-        {
-            string path = directoryPath;
-
-            if (documentationFile.DirectoryPath != null)
-                path = directoryPath + @"\" + string.Join(@"\", documentationFile.DirectoryPath);
-
-            path += @"\" + fileName;
-
-            Directory.CreateDirectory(Path.GetDirectoryName(path));
-
-            FileHelper.WriteAllText(path, documentationFile.Content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
+                FileHelper.WriteAllText(path, documentationFile.Content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
+            }
         }
     }
 }
