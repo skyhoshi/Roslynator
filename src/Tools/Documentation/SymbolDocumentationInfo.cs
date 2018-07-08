@@ -24,7 +24,7 @@ namespace Roslynator.Documentation
             ImmutableArray<ISymbol> members,
             ImmutableArray<ISymbol> symbols,
             ImmutableArray<string> names,
-            DocumentationCompilation compilation)
+            CompilationDocumentationInfo compilation)
         {
             Symbol = symbol;
             CommentId = commentId;
@@ -37,6 +37,26 @@ namespace Roslynator.Documentation
         public ISymbol Symbol { get; }
 
         public string CommentId { get; }
+
+        private ImmutableArray<ISymbol> Symbols { get; }
+
+        internal ImmutableArray<string> Names { get; }
+
+        public CompilationDocumentationInfo Compilation { get; }
+
+        public bool IsExternal
+        {
+            get
+            {
+                foreach (AssemblyDocumentationInfo assemblyInfo in Compilation.Assemblies)
+                {
+                    if (Symbol.ContainingAssembly == assemblyInfo.AssemblySymbol)
+                        return false;
+                }
+
+                return true;
+            }
+        }
 
         public ImmutableArray<ISymbol> Members { get; }
 
@@ -111,33 +131,13 @@ namespace Roslynator.Documentation
             }
         }
 
-        internal ImmutableArray<ISymbol> Symbols { get; }
-
-        internal ImmutableArray<string> Names { get; }
-
-        public DocumentationCompilation Compilation { get; }
-
-        public bool IsExternal
-        {
-            get
-            {
-                foreach (AssemblyDocumentationInfo assemblyInfo in Compilation.Assemblies)
-                {
-                    if (Symbol.ContainingAssembly == assemblyInfo.AssemblySymbol)
-                        return false;
-                }
-
-                return true;
-            }
-        }
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string DebuggerDisplay
         {
             get { return $"{Symbol.Kind} {Symbol.ToDisplayString(Roslynator.SymbolDisplayFormats.Test)}"; }
         }
 
-        public static SymbolDocumentationInfo Create(DocumentationCompilation compilation)
+        internal static SymbolDocumentationInfo Create(CompilationDocumentationInfo compilation)
         {
             return new SymbolDocumentationInfo(
                 symbol: null,
@@ -148,7 +148,7 @@ namespace Roslynator.Documentation
                 compilation);
         }
 
-        public static SymbolDocumentationInfo Create(ISymbol symbol, DocumentationCompilation compilation)
+        public static SymbolDocumentationInfo Create(ISymbol symbol, CompilationDocumentationInfo compilation)
         {
             ImmutableArray<ISymbol> members = (symbol is ITypeSymbol typeSymbol)
                 ? typeSymbol.GetMembers()
@@ -157,12 +157,17 @@ namespace Roslynator.Documentation
             return Create(symbol, members, compilation);
         }
 
-        private static SymbolDocumentationInfo Create(ISymbol symbol, ImmutableArray<ISymbol> members, DocumentationCompilation  compilation)
+        private static SymbolDocumentationInfo Create(ISymbol symbol, ImmutableArray<ISymbol> members, CompilationDocumentationInfo  compilation)
         {
             ImmutableArray<ISymbol>.Builder symbols = ImmutableArray.CreateBuilder<ISymbol>();
             ImmutableArray<string>.Builder names = ImmutableArray.CreateBuilder<string>();
 
-            if (symbol.Kind == SymbolKind.Method
+            if (symbol.Kind == SymbolKind.Namespace
+                && ((INamespaceSymbol)symbol).IsGlobalNamespace)
+            {
+                names.Add("_Global");
+            }
+            else if (symbol.Kind == SymbolKind.Method
                 && ((IMethodSymbol)symbol).MethodKind == MethodKind.Constructor)
             {
                 names.Add("-ctor");
@@ -219,13 +224,28 @@ namespace Roslynator.Documentation
 
             INamespaceSymbol containingNamespace = symbol.ContainingNamespace;
 
-            while (containingNamespace?.IsGlobalNamespace == false)
+            if (containingNamespace != null)
             {
-                names.Add(containingNamespace.Name);
+                if (containingNamespace.IsGlobalNamespace)
+                {
+                    if (symbol.Kind != SymbolKind.Namespace)
+                    {
+                        names.Add("_Global");
+                        symbols.Add(containingNamespace);
+                    }
+                }
+                else
+                {
+                    do
+                    {
+                        names.Add(containingNamespace.Name);
 
-                symbols.Add(containingNamespace);
+                        symbols.Add(containingNamespace);
 
-                containingNamespace = containingNamespace.ContainingNamespace;
+                        containingNamespace = containingNamespace.ContainingNamespace;
+                    }
+                    while (containingNamespace?.IsGlobalNamespace == false);
+                }
             }
 
             return new SymbolDocumentationInfo(

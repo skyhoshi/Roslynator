@@ -9,16 +9,15 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
-    //TODO: DocumentationMetadata
-    public class DocumentationCompilation
+    public class CompilationDocumentationInfo
     {
-        private ImmutableArray<ITypeSymbol> _typeSymbols;
+        private ImmutableArray<INamedTypeSymbol> _typeSymbols;
         private ImmutableArray<IMethodSymbol> _extensionMethodSymbols;
 
         private readonly Dictionary<ISymbol, SymbolDocumentationInfo> _symbolDocumentationCache;
         private readonly Dictionary<IAssemblySymbol, XmlDocumentation> _xmlDocumentations;
 
-        public DocumentationCompilation(Compilation compilation, ImmutableArray<AssemblyDocumentationInfo> assemblies)
+        public CompilationDocumentationInfo(Compilation compilation, ImmutableArray<AssemblyDocumentationInfo> assemblies)
         {
             Compilation = compilation;
             Assemblies = assemblies;
@@ -41,8 +40,7 @@ namespace Roslynator.Documentation
             }
         }
 
-        //TODO: INamedTypeSymbol
-        public ImmutableArray<ITypeSymbol> TypeSymbols
+        public ImmutableArray<INamedTypeSymbol> TypeSymbols
         {
             get
             {
@@ -80,9 +78,9 @@ namespace Roslynator.Documentation
             }
         }
 
-        public IEnumerable<ITypeSymbol> GetTypeSymbols(INamespaceSymbol namespaceSymbol)
+        public IEnumerable<INamedTypeSymbol> GetTypeSymbols(INamespaceSymbol namespaceSymbol)
         {
-            foreach (ITypeSymbol typeSymbol in TypeSymbols)
+            foreach (INamedTypeSymbol typeSymbol in TypeSymbols)
             {
                 if (typeSymbol.ContainingNamespace == namespaceSymbol)
                     yield return typeSymbol;

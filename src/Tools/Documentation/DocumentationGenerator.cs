@@ -14,10 +14,8 @@ namespace Roslynator.Documentation
     {
         private SymbolDocumentationInfo _emptySymbolInfo;
 
-        public DocumentationCompilation Compilation { get; }
-
         public DocumentationGenerator(
-            DocumentationCompilation compilation,
+            CompilationDocumentationInfo compilation,
             string fileName,
             SymbolDisplayFormatProvider formatProvider = null)
         {
@@ -26,9 +24,13 @@ namespace Roslynator.Documentation
             FormatProvider = formatProvider ?? SymbolDisplayFormatProvider.Default;
         }
 
+        public CompilationDocumentationInfo Compilation { get; }
+
         public SymbolDisplayFormatProvider FormatProvider { get; }
 
         public string FileName { get; }
+
+        public DocumentationOptions Options { get; }
 
         private SymbolDocumentationInfo EmptySymbolInfo
         {
@@ -42,7 +44,7 @@ namespace Roslynator.Documentation
             foreach (DocumentationFile namespaceFile in GenerateNamespaceFiles())
                 yield return namespaceFile;
 
-            foreach (ITypeSymbol typeSymbol in Compilation.TypeSymbols)
+            foreach (INamedTypeSymbol typeSymbol in Compilation.TypeSymbols)
             {
                 yield return GenerateTypeFile(typeSymbol);
 
@@ -71,7 +73,7 @@ namespace Roslynator.Documentation
                     writer.WriteEndBulletItem();
                 }
 
-                foreach (IGrouping<INamespaceSymbol, ITypeSymbol> grouping in Compilation.TypeSymbols
+                foreach (IGrouping<INamespaceSymbol, INamedTypeSymbol> grouping in Compilation.TypeSymbols
                     .GroupBy(f => f.ContainingNamespace)
                     .OrderBy(f => f.Key.ToDisplayString(FormatProvider.NamespaceFormat)))
                 {
@@ -85,7 +87,7 @@ namespace Roslynator.Documentation
                     writer.WriteString(" Namespace");
                     writer.WriteEndHeading();
 
-                    writer.WriteNamespaceContent(grouping, 3);
+                    writer.WriteNamespaceContentAsTable(grouping, 3);
                 }
 
                 return new DocumentationFile(writer.ToString(), directoryPath: null, DocumentationKind.Root);
@@ -110,7 +112,7 @@ namespace Roslynator.Documentation
                 writer.WriteString(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat));
                 writer.WriteString(" Namespace");
                 writer.WriteEndHeading();
-                writer.WriteNamespaceContent(Compilation.GetTypeSymbols(namespaceSymbol), 2);
+                writer.WriteNamespaceContentAsTable(Compilation.GetTypeSymbols(namespaceSymbol), 2);
 
                 return DocumentationFile.Create(writer.ToString(), info, DocumentationKind.Namespace);
             }
@@ -120,29 +122,36 @@ namespace Roslynator.Documentation
         {
             using (var writer = new DocumentationMarkdownWriter(symbolInfo: EmptySymbolInfo, directoryInfo: null, FormatProvider))
             {
-                if (heading != null)
-                    writer.WriteHeading1(heading);
-
-                foreach (IGrouping<INamespaceSymbol, ITypeSymbol> grouping in Compilation.GetExtendedExternalTypes()
+                using (IEnumerator<IGrouping<INamespaceSymbol, ITypeSymbol>> en = Compilation.GetExtendedExternalTypes()
                     .OrderBy(f => f.ToDisplayString(FormatProvider.TypeFormat))
                     .GroupBy(f => f.ContainingNamespace)
-                    .OrderBy(f => f.Key.ToDisplayString(FormatProvider.NamespaceFormat)))
+                    .OrderBy(f => f.Key.ToDisplayString(FormatProvider.NamespaceFormat)).GetEnumerator())
                 {
-                    INamespaceSymbol namespaceSymbol = grouping.Key;
+                    if (en.MoveNext())
+                    {
+                        if (heading != null)
+                            writer.WriteHeading1(heading);
 
-                    SymbolDocumentationInfo info = Compilation.GetDocumentationInfo(namespaceSymbol);
+                        do
+                        {
+                            INamespaceSymbol namespaceSymbol = en.Current.Key;
 
-                    writer.WriteStartHeading(2);
+                            SymbolDocumentationInfo info = Compilation.GetDocumentationInfo(namespaceSymbol);
 
-                    string url = info.GetUrl();
-                    writer.WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), url);
+                            writer.WriteStartHeading(2);
 
-                    writer.WriteString(" Namespace");
-                    writer.WriteEndHeading();
+                            string url = info.GetUrl();
+                            writer.WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), url);
 
-                    writer.CanCreateExternalLink = false;
-                    writer.WriteNamespaceContent(grouping, 3);
-                    writer.CanCreateExternalLink = true;
+                            writer.WriteString(" Namespace");
+                            writer.WriteEndHeading();
+
+                            writer.CanCreateExternalLink = false;
+                            writer.WriteNamespaceContentAsList(en.Current, 3);
+                            writer.CanCreateExternalLink = true;
+                        }
+                        while (en.MoveNext());
+                    }
                 }
 
                 return new DocumentationFile(writer.ToString(), default(string), DocumentationKind.None);
@@ -165,7 +174,7 @@ namespace Roslynator.Documentation
 
                 writer.WriteString(typeSymbol.ToDisplayString(FormatProvider.TitleFormat));
                 writer.WriteString(" ");
-                writer.WriteString(typeSymbol.GetName());
+                writer.WriteString(DocumentationFacts.GetName(typeSymbol.TypeKind));
                 writer.WriteString(" Extensions");
                 writer.WriteEndHeading();
 
@@ -212,19 +221,24 @@ namespace Roslynator.Documentation
                 writer.WriteExamples(typeSymbol);
                 writer.WriteRemarks(typeSymbol);
 
-                if (typeSymbol.BaseType?.SpecialType == SpecialType.System_Enum)
+                INamedTypeSymbol baseType = typeSymbol.BaseType;
+
+                if (baseType?.SpecialType.Is(SpecialType.System_Delegate, SpecialType.System_MulticastDelegate) != true)
                 {
-                    writer.WriteEnumFields(info.GetFields());
-                }
-                else
-                {
-                    writer.WriteConstructors(info.GetConstructors());
-                    writer.WriteFields(info.GetFields(includeInherited: true));
-                    writer.WriteProperties(info.GetProperties(includeInherited: true));
-                    writer.WriteMethods(info.GetMethods(includeInherited: true));
-                    writer.WriteOperators(info.GetOperators(includeInherited: true));
-                    writer.WriteEvents(info.GetEvents(includeInherited: true));
-                    writer.WriteExplicitInterfaceImplementations(info.GetExplicitInterfaceImplementations());
+                    if (baseType?.SpecialType == SpecialType.System_Enum)
+                    {
+                        writer.WriteEnumFields(info.GetFields());
+                    }
+                    else
+                    {
+                        writer.WriteConstructors(info.GetConstructors());
+                        writer.WriteFields(info.GetFields(includeInherited: true));
+                        writer.WriteProperties(info.GetProperties(includeInherited: true));
+                        writer.WriteMethods(info.GetMethods(includeInherited: true));
+                        writer.WriteOperators(info.GetOperators(includeInherited: true));
+                        writer.WriteEvents(info.GetEvents(includeInherited: true));
+                        writer.WriteExplicitInterfaceImplementations(info.GetExplicitInterfaceImplementations());
+                    }
                 }
 
                 writer.WriteExtensionMethods(typeSymbol);
@@ -236,8 +250,13 @@ namespace Roslynator.Documentation
 
         public IEnumerable<DocumentationFile> GenerateMemberFiles(ITypeSymbol typeSymbol)
         {
-            if (typeSymbol.BaseType?.SpecialType == SpecialType.System_Enum)
+            if (typeSymbol.BaseType?.SpecialType.Is(
+                SpecialType.System_Enum,
+                SpecialType.System_Delegate,
+                SpecialType.System_MulticastDelegate) == true)
+            {
                 return Enumerable.Empty<DocumentationFile>();
+            }
 
             SymbolDocumentationInfo info = Compilation.GetDocumentationInfo(typeSymbol);
 
@@ -279,8 +298,7 @@ namespace Roslynator.Documentation
 
             List<(INamedTypeSymbol symbol, MBulletItem item)> items = Compilation
                 .TypeSymbols
-                .Where(f => !f.IsStatic && IsBottomType(f))
-                .Cast<INamedTypeSymbol>()
+                .Where(f => !f.IsStatic && f.TypeKind != TypeKind.Interface && IsBottomType(f))
                 .Select(f => (f, BulletItem(GetBulletItemContent(f))))
                 .ToList();
 
@@ -316,7 +334,22 @@ namespace Roslynator.Documentation
             }
             while (items.Count > 0);
 
-            var doc = new MDocument(Heading1(heading), dic[Compilation.Compilation.ObjectType]);
+            var doc = new MDocument(
+                Heading1(heading),
+                dic[Compilation.Compilation.ObjectType]);
+
+            if (Compilation
+                .TypeSymbols
+                .Any(f => f.TypeKind == TypeKind.Interface))
+            {
+                doc.Add(
+                    Heading2(DocumentationFacts.GetPluralName(TypeKind.Interface)),
+                    Compilation
+                        .TypeSymbols
+                        .Where(f => f.TypeKind == TypeKind.Interface)
+                        .OrderBy(f => f.ToDisplayString(FormatProvider.TypeFormat))
+                        .Select(f => BulletItem(GetBulletItemContent(f))));
+            }
 
             return doc.ToString();
 
@@ -324,7 +357,7 @@ namespace Roslynator.Documentation
             {
                 s = s.OriginalDefinition;
 
-                foreach (ITypeSymbol symbol in Compilation.TypeSymbols)
+                foreach (INamedTypeSymbol symbol in Compilation.TypeSymbols)
                 {
                     if (symbol.InheritsFrom(s))
                         return false;

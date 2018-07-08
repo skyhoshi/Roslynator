@@ -2,6 +2,8 @@
 
 using System;
 
+#pragma warning disable CA2217, RCS1157
+
 namespace Roslynator.Documentation
 {
     //TODO: Security
@@ -24,6 +26,7 @@ namespace Roslynator.Documentation
         Exceptions = 4096,
         Examples = 8192,
         Remarks = 16384,
-        SeeAlso = 32768
+        SeeAlso = 32768,
+        All = int.MaxValue
     }
 }

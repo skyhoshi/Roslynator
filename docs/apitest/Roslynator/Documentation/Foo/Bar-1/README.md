@@ -21,18 +21,18 @@ s **value** **T**
 public void Bar<T>(string value, string value2)
 ```
 
+#### Type Parameters
+
+| Type Parameter | Summary |
+| -------------- | ------- |
+| T | |
+
 #### Parameters
 
 | Parameter | Summary |
 | --------- | ------- |
 | value | p |
 | value2 | |
-
-#### Type Parameters
-
-| Type Parameter | Summary |
-| -------------- | ------- |
-| T | |
 
 #### Returns
 

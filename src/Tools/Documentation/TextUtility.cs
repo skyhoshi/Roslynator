@@ -53,5 +53,27 @@ namespace Roslynator.Documentation
         {
             return _newLineAndSpacesRegex.Replace(s, replacement);
         }
+
+        internal static string RemovePrefixFromDocumentationCommentId(string id)
+        {
+            if (id.Length > 2
+                && id[1] == ':')
+            {
+                // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/xmldoc/processing-the-xml-file
+                switch (id[0])
+                {
+                    case 'N':
+                    case 'T':
+                    case 'F':
+                    case 'P':
+                    case 'M':
+                    case 'E':
+                    case '!':
+                        return id.Substring(2);
+                }
+            }
+
+            return id;
+        }
     }
 }

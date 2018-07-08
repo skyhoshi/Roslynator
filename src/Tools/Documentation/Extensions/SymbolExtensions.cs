@@ -9,9 +9,9 @@ namespace Roslynator.Documentation
 {
     internal static class SymbolExtensions
     {
-        public static ImmutableArray<ITypeSymbol> GetPubliclyVisibleTypes(this IAssemblySymbol assemblySymbol)
+        public static ImmutableArray<INamedTypeSymbol> GetPubliclyVisibleTypes(this IAssemblySymbol assemblySymbol)
         {
-            ImmutableArray<ITypeSymbol>.Builder builder = ImmutableArray.CreateBuilder<ITypeSymbol>();
+            ImmutableArray<INamedTypeSymbol>.Builder builder = ImmutableArray.CreateBuilder<INamedTypeSymbol>();
 
             GetPubliclyVisibleNamespacesAndTypes(assemblySymbol.GlobalNamespace);
 
@@ -19,10 +19,10 @@ namespace Roslynator.Documentation
 
             void GetPubliclyVisibleNamespacesAndTypes(INamespaceOrTypeSymbol namespaceOrTypeSymbol)
             {
-                if (namespaceOrTypeSymbol is ITypeSymbol typeSymbol
-                    && typeSymbol.IsPubliclyVisible())
+                if (namespaceOrTypeSymbol is INamedTypeSymbol namedTypeSymbol
+                    && namedTypeSymbol.IsPubliclyVisible())
                 {
-                    builder.Add(typeSymbol);
+                    builder.Add(namedTypeSymbol);
                 }
 
                 foreach (ISymbol memberSymbol in namespaceOrTypeSymbol.GetMembers())
@@ -106,23 +106,28 @@ namespace Roslynator.Documentation
                 case SymbolKind.Property:
                     return "Property";
                 case SymbolKind.NamedType:
-                    {
-                        switch (((ITypeSymbol)symbol).TypeKind)
-                        {
-                            case TypeKind.Class:
-                                return "Class";
-                            case TypeKind.Delegate:
-                                return "Delegate";
-                            case TypeKind.Enum:
-                                return "Enum";
-                            case TypeKind.Interface:
-                                return "Interface";
-                            case TypeKind.Struct:
-                                return "Struct";
-                        }
+                    return DocumentationFacts.GetName(((ITypeSymbol)symbol).TypeKind);
+            }
 
-                        break;
-                    }
+            throw new InvalidOperationException();
+        }
+
+        internal static string GetPluralName(this ISymbol symbol)
+        {
+            switch (symbol.Kind)
+            {
+                case SymbolKind.Event:
+                    return "Events";
+                case SymbolKind.Field:
+                    return "Fields";
+                case SymbolKind.Method:
+                    return "Methods";
+                case SymbolKind.Namespace:
+                    return "Namespaces";
+                case SymbolKind.Property:
+                    return "Properties";
+                case SymbolKind.NamedType:
+                    return DocumentationFacts.GetPluralName(((ITypeSymbol)symbol).TypeKind);
             }
 
             throw new InvalidOperationException();

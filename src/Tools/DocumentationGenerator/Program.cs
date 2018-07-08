@@ -17,7 +17,7 @@ namespace Roslynator.Documentation
         private static void Main(string[] args)
         {
             GenerateDocumentation(@"..\..\..\..\..\..\docs\api", "Roslynator API", "Roslynator.CSharp.dll");
-            //GenerateDocumentation(@"..\..\..\..\..\..\docs\apitest", "Foo API", "Roslynator.Documentation.DocTest.dll");
+            GenerateDocumentation(@"..\..\..\..\..\..\docs\apitest", "Foo API", "Roslynator.Documentation.DocTest.dll");
         }
 
         private static void GenerateDocumentation(string directoryPath, string heading, params string[] assemblyNames)
@@ -28,19 +28,24 @@ namespace Roslynator.Documentation
                 .Select(AssemblyDocumentationInfo.CreateFromAssemblyName)
                 .ToImmutableArray();
 
-            var compilation = new DocumentationCompilation(DefaultCompilation.Instance, assemblies);
+            var compilation = new CompilationDocumentationInfo(DefaultCompilation.Instance, assemblies);
 
             var generator = new DocumentationGenerator(compilation, fileName);
 
-            FileHelper.WriteAllText(directoryPath + @"\_ObjectModel.md", generator.GenerateObjectModel("Roslynator Object Model"), _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
-
-            FileHelper.WriteAllText(directoryPath + @"\_External.md", generator.GenerateExtendedTypesFile("Types Extended by Roslynator API").Content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
+            WriteFile(directoryPath + @"\_ObjectModel.md", generator.GenerateObjectModel("Roslynator Object Model"));
+            WriteFile(directoryPath + @"\_External.md", generator.GenerateExtendedTypesFile("Types Extended by Roslynator API").Content);
 
             foreach (DocumentationFile documentationFile in generator.GenerateExtendedTypeFiles())
                 WriteFile(documentationFile, fileName, directoryPath);
 
             foreach (DocumentationFile documentationFile in generator.GenerateFiles(heading))
                 WriteFile(documentationFile, fileName, directoryPath);
+        }
+
+        private static void WriteFile(string path, string content)
+        {
+            if (!string.IsNullOrEmpty(content))
+                FileHelper.WriteAllText(path, content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
         }
 
         private static void WriteFile(in DocumentationFile documentationFile, string fileName, string directoryPath)

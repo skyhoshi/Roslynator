@@ -34,7 +34,7 @@ namespace Roslynator.Documentation
              miscellaneousOptions: DefaultMiscellaneousOptions);
 
         public static SymbolDisplayFormat TypeNameAndContainingTypesAndNamespaces { get; } = new SymbolDisplayFormat(
-             globalNamespaceStyle: DefaultGlobalNamespaceStyle,
+             globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.OmittedAsContaining,
              typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
              genericsOptions: DefaultGenericsOptions
                 | SymbolDisplayGenericsOptions.IncludeTypeParameters,

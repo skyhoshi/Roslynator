@@ -2,6 +2,8 @@
 
 using System;
 
+#pragma warning disable CA2217, RCS1157
+
 namespace Roslynator.Documentation
 {
     [Flags]
@@ -32,5 +34,6 @@ namespace Roslynator.Documentation
         ExplicitInterfaceImplementations = 2097152,
         ExtensionMethods = 4194304,
         SeeAlso = 8388608,
+        All = int.MaxValue
     }
 }

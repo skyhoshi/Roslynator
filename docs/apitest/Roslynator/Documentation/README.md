@@ -15,3 +15,9 @@
 | --------- | ------- |
 | [IFoo](IFoo/README.md) | |
 
+## Delegates
+
+| Delegate | Summary |
+| -------- | ------- |
+| [FooDelegate](FooDelegate/README.md) | del |
+

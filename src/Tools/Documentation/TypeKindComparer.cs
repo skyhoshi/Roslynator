@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
+    //TODO: del
     internal sealed class TypeKindComparer : IComparer<TypeKind>
     {
         public static TypeKindComparer Instance { get; } = new TypeKindComparer();
