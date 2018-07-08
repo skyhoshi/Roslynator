@@ -2,9 +2,7 @@
 
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using DotMarkdown.Linq;
 using Microsoft.CodeAnalysis;
 using Roslynator.Documentation.Markdown;
@@ -67,7 +65,7 @@ namespace Roslynator.Documentation
                 {
                     writer.WriteStartBulletItem();
 
-                    string url = string.Join("/", Compilation.GetDocumentationInfo(namespaceSymbol).Names.Reverse()) + "/" + FileName ;
+                    string url = string.Join("/", Compilation.GetDocumentationInfo(namespaceSymbol).Names.Reverse()) + "/" + FileName;
                     writer.WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), url);
 
                     writer.WriteEndBulletItem();
@@ -115,6 +113,74 @@ namespace Roslynator.Documentation
                 writer.WriteNamespaceContent(Compilation.GetTypeSymbols(namespaceSymbol), 2);
 
                 return DocumentationFile.Create(writer.ToString(), info, DocumentationKind.Namespace);
+            }
+        }
+
+        public DocumentationFile GenerateExtendedTypesFile(string heading = null)
+        {
+            using (var writer = new DocumentationMarkdownWriter(symbolInfo: EmptySymbolInfo, directoryInfo: null, FormatProvider))
+            {
+                if (heading != null)
+                    writer.WriteHeading1(heading);
+
+                foreach (IGrouping<INamespaceSymbol, ITypeSymbol> grouping in Compilation.GetExtendedExternalTypes()
+                    .OrderBy(f => f.ToDisplayString(FormatProvider.TypeFormat))
+                    .GroupBy(f => f.ContainingNamespace)
+                    .OrderBy(f => f.Key.ToDisplayString(FormatProvider.NamespaceFormat)))
+                {
+                    INamespaceSymbol namespaceSymbol = grouping.Key;
+
+                    SymbolDocumentationInfo info = Compilation.GetDocumentationInfo(namespaceSymbol);
+
+                    writer.WriteStartHeading(2);
+
+                    string url = info.GetUrl();
+                    writer.WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), url);
+
+                    writer.WriteString(" Namespace");
+                    writer.WriteEndHeading();
+
+                    writer.CanCreateExternalLink = false;
+                    writer.WriteNamespaceContent(grouping, 3);
+                    writer.CanCreateExternalLink = true;
+                }
+
+                return new DocumentationFile(writer.ToString(), default(string), DocumentationKind.None);
+            }
+        }
+
+        public IEnumerable<DocumentationFile> GenerateExtendedTypeFiles()
+        {
+            foreach (ITypeSymbol typeSymbol in Compilation.GetExtendedExternalTypes())
+                yield return GenerateExtendedTypeFile(typeSymbol);
+        }
+
+        public DocumentationFile GenerateExtendedTypeFile(ITypeSymbol typeSymbol)
+        {
+            SymbolDocumentationInfo info = Compilation.GetDocumentationInfo(typeSymbol);
+
+            using (var writer = new DocumentationMarkdownWriter(info, info, FormatProvider))
+            {
+                writer.WriteStartHeading(1 + writer.BaseHeadingLevel);
+
+                writer.WriteString(typeSymbol.ToDisplayString(FormatProvider.TitleFormat));
+                writer.WriteString(" ");
+                writer.WriteString(typeSymbol.GetName());
+                writer.WriteString(" Extensions");
+                writer.WriteEndHeading();
+
+                IEnumerable<IMethodSymbol> extensionMethods = Compilation.GetExtensionMethodSymbols(typeSymbol);
+
+                writer.WriteTable(
+                    extensionMethods,
+                    heading: null,
+                    2,
+                    "Extension Method",
+                    "Summary",
+                    FormatProvider.MethodFormat,
+                    SymbolDisplayAdditionalOptions.None);
+
+                return DocumentationFile.Create(writer.ToString(), info, DocumentationKind.Type);
             }
         }
 

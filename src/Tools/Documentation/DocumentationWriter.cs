@@ -36,7 +36,10 @@ namespace Roslynator.Documentation
             get { return SymbolInfo.Symbol; }
         }
 
-        protected int BaseHeadingLevel { get; set; }
+        //TODO: 
+        public bool CanCreateExternalLink { get; set; } = true;
+
+        protected internal int BaseHeadingLevel { get; set; }
 
         public SymbolDisplayFormatProvider FormatProvider { get; }
 
@@ -250,7 +253,7 @@ namespace Roslynator.Documentation
             SymbolDisplayFormat format,
             SymbolDisplayAdditionalOptions additionalOptions)
         {
-            string url = symbolInfo.GetUrl(directoryInfo);
+            string url = symbolInfo.GetUrl(directoryInfo, useExternalLink: CanCreateExternalLink);
 
             WriteLinkOrText(symbolInfo.Symbol.ToDisplayString(format, additionalOptions), url);
         }
@@ -273,45 +276,8 @@ namespace Roslynator.Documentation
 
             WriteString(symbol.ToDisplayString(FormatProvider.TitleFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName));
             WriteString(" ");
-            WriteString(GetTypeName());
+            WriteString(symbol.GetName());
             WriteEndHeading();
-
-            string GetTypeName()
-            {
-                switch (symbol.Kind)
-                {
-                    case SymbolKind.Event:
-                        return "Event";
-                    case SymbolKind.Field:
-                        return "Field";
-                    case SymbolKind.Method:
-                        return "Method";
-                    case SymbolKind.Namespace:
-                        return "Namespace";
-                    case SymbolKind.Property:
-                        return "Property";
-                    case SymbolKind.NamedType:
-                        {
-                            switch (((ITypeSymbol)symbol).TypeKind)
-                            {
-                                case TypeKind.Class:
-                                    return "Class";
-                                case TypeKind.Delegate:
-                                    return "Delegate";
-                                case TypeKind.Enum:
-                                    return "Enum";
-                                case TypeKind.Interface:
-                                    return "Interface";
-                                case TypeKind.Struct:
-                                    return "Struct";
-                            }
-
-                            break;
-                        }
-                }
-
-                throw new InvalidOperationException();
-            }
         }
 
         public virtual void WriteNamespace(ISymbol symbol)
@@ -948,7 +914,14 @@ namespace Roslynator.Documentation
                                         {
                                             ISymbol symbol = DocumentationCommentId.GetFirstSymbolForDeclarationId(commentId, Compilation.Compilation);
 
-                                            Debug.Assert(symbol != null, commentId);
+                                            //TODO: 
+                                            Debug.Assert(symbol != null
+                                                || commentId == "T:Microsoft.CodeAnalysis.CSharp.SyntaxNode"
+                                                || commentId == "T:Microsoft.CodeAnalysis.CSharp.SyntaxToken"
+                                                || commentId == "T:Microsoft.CodeAnalysis.CSharp.SyntaxTrivia"
+                                                || commentId == "T:Microsoft.CodeAnalysis.VisualBasic.SyntaxNode"
+                                                || commentId == "T:Microsoft.CodeAnalysis.VisualBasic.SyntaxToken"
+                                                || commentId == "T:Microsoft.CodeAnalysis.VisualBasic.SyntaxTrivia", commentId);
 
                                             if (symbol != null)
                                             {
@@ -956,7 +929,7 @@ namespace Roslynator.Documentation
                                             }
                                             else
                                             {
-                                                //TODO: documentation comment id not found
+                                                //TODO: writer commentId without prefix
                                                 WriteBold(commentId);
                                             }
                                         }
@@ -1144,7 +1117,8 @@ namespace Roslynator.Documentation
             {
                 if (en.MoveNext())
                 {
-                    WriteHeading(headingLevel + BaseHeadingLevel, heading);
+                    if (heading != null)
+                        WriteHeading(headingLevel + BaseHeadingLevel, heading);
 
                     WriteStartTable(2);
                     WriteStartTableRow();

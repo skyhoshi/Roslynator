@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
+    //TODO: DocumentationMetadata
     public class DocumentationCompilation
     {
         private ImmutableArray<ITypeSymbol> _typeSymbols;
@@ -88,6 +89,73 @@ namespace Roslynator.Documentation
             }
         }
 
+        public IEnumerable<IMethodSymbol> GetExtensionMethodSymbols(ITypeSymbol typeSymbol)
+        {
+            foreach (IMethodSymbol methodSymbol in ExtensionMethodSymbols)
+            {
+                ITypeSymbol typeSymbol2 = methodSymbol.Parameters[0].Type.OriginalDefinition;
+
+                if (typeSymbol.Kind == SymbolKind.TypeParameter)
+                {
+                    var typeParameter = (ITypeParameterSymbol)typeSymbol;
+
+                    typeSymbol = typeParameter.ConstraintTypes.First(f => f.TypeKind == TypeKind.Class);
+                }
+
+                if (typeSymbol == typeSymbol2)
+                    yield return methodSymbol;
+            }
+        }
+
+        public IEnumerable<ITypeSymbol> GetExtendedExternalTypes()
+        {
+            return Iterator().Distinct();
+
+            IEnumerable<ITypeSymbol> Iterator()
+            {
+                foreach (IMethodSymbol methodSymbol in ExtensionMethodSymbols)
+                {
+                    if (IsExternalSymbol(methodSymbol))
+                    {
+                        ITypeSymbol typeSymbol = methodSymbol.Parameters[0].Type.OriginalDefinition;
+
+                        if (typeSymbol is ITypeParameterSymbol typeParameterSymbol)
+                        {
+                            yield return typeParameterSymbol.ConstraintTypes.First(f => f.TypeKind == TypeKind.Class);
+                        }
+                        else
+                        {
+                            yield return typeSymbol;
+                        }
+                    }
+                }
+            }
+
+            bool IsExternalSymbol(IMethodSymbol methodSymbol)
+            {
+                foreach (AssemblyDocumentationInfo assemblyInfo in Assemblies)
+                {
+                    ITypeSymbol type = methodSymbol.Parameters[0].Type.OriginalDefinition;
+
+                    if (type.Kind == SymbolKind.TypeParameter)
+                    {
+                        var typeParameter = (ITypeParameterSymbol)type;
+
+                        //TODO: T > T2 where T : Foo
+                        type = typeParameter.ConstraintTypes.FirstOrDefault(f => f.TypeKind == TypeKind.Class);
+
+                        if (type == null)
+                            return false;
+                    }
+
+                    if (assemblyInfo.AssemblySymbol == type.ContainingAssembly)
+                        return false;
+                }
+
+                return true;
+            }
+        }
+
         internal SymbolDocumentationInfo GetDocumentationInfo(ISymbol symbol)
         {
             if (_symbolDocumentationCache.TryGetValue(symbol, out SymbolDocumentationInfo info))
@@ -114,7 +182,7 @@ namespace Roslynator.Documentation
 
                     if (File.Exists(xmlDocPath))
                     {
-                        xmlDocumentation = XmlDocumentation.Load(path);
+                        xmlDocumentation = XmlDocumentation.Load(xmlDocPath);
                         _xmlDocumentations[assemblySymbol] = xmlDocumentation;
                     }
                 }

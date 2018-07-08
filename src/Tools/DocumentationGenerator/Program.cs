@@ -32,21 +32,29 @@ namespace Roslynator.Documentation
 
             var generator = new DocumentationGenerator(compilation, fileName);
 
-            FileHelper.WriteAllText(directoryPath + @"\__ObjectModel.md", generator.GenerateObjectModel("Roslynator Object Model"), _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
+            FileHelper.WriteAllText(directoryPath + @"\_ObjectModel.md", generator.GenerateObjectModel("Roslynator Object Model"), _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
+
+            FileHelper.WriteAllText(directoryPath + @"\_External.md", generator.GenerateExtendedTypesFile("Types Extended by Roslynator API").Content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
+
+            foreach (DocumentationFile documentationFile in generator.GenerateExtendedTypeFiles())
+                WriteFile(documentationFile, fileName, directoryPath);
 
             foreach (DocumentationFile documentationFile in generator.GenerateFiles(heading))
-            {
-                string path = directoryPath;
+                WriteFile(documentationFile, fileName, directoryPath);
+        }
 
-                if (documentationFile.DirectoryPath != null)
-                    path = directoryPath + @"\" + string.Join(@"\", documentationFile.DirectoryPath);
+        private static void WriteFile(in DocumentationFile documentationFile, string fileName, string directoryPath)
+        {
+            string path = directoryPath;
 
-                path += @"\" + fileName;
+            if (documentationFile.DirectoryPath != null)
+                path = directoryPath + @"\" + string.Join(@"\", documentationFile.DirectoryPath);
 
-                Directory.CreateDirectory(Path.GetDirectoryName(path));
+            path += @"\" + fileName;
 
-                FileHelper.WriteAllText(path, documentationFile.Content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
-            }
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+
+            FileHelper.WriteAllText(path, documentationFile.Content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
         }
     }
 }

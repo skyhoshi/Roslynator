@@ -237,9 +237,10 @@ namespace Roslynator.Documentation
                 compilation);
         }
 
-        internal string GetUrl(SymbolDocumentationInfo directoryInfo = null)
+        internal string GetUrl(SymbolDocumentationInfo directoryInfo = null, bool useExternalLink = true)
         {
-            if (IsExternal)
+            if (useExternalLink
+                && IsExternal)
             {
                 if (Symbols.LastOrDefault()?.Kind == SymbolKind.Namespace)
                 {
