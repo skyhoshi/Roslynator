@@ -11,11 +11,10 @@ namespace Roslynator.Documentation.Markdown
         public MethodDocumentationMarkdownWriter(
             ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationOptions options) : base(symbols, directoryInfo, options)
+            DocumentationOptions options,
+            DocumentationResources resources) : base(symbols, directoryInfo, options, resources)
         {
         }
-
-        public override string KindName => "Method";
 
         public override SymbolDisplayFormat Format => FormatProvider.MethodFormat;
 
@@ -41,7 +40,7 @@ namespace Roslynator.Documentation.Markdown
         {
             var methodSymbol = (IMethodSymbol)symbol;
 
-            WriteHeading(3 + BaseHeadingLevel, "Returns");
+            WriteHeading(3 + BaseHeadingLevel, Resources.Returns);
             WriteLink(Compilation.GetSymbolInfo(methodSymbol.ReturnType), SymbolDisplayAdditionalOptions.None);
             WriteLine();
             WriteLine();

@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about a list of statements\.
 
 ```csharp
-public readonly struct StatementListInfo : IEquatable<StatementListInfo>, IReadOnlyList<StatementSyntax>, IEnumerable<StatementSyntax>, IReadOnlyCollection<StatementSyntax>
+public readonly struct StatementListInfo : IReadOnlyList<StatementSyntax>, IReadOnlyCollection<StatementSyntax>, IEnumerable<StatementSyntax>, IEquatable<StatementListInfo>
 ```
 
 ### Inheritance

@@ -10,11 +10,10 @@ namespace Roslynator.Documentation.Markdown
         public FieldDocumentationMarkdownWriter(
             ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationOptions options) : base(symbols, directoryInfo, options)
+            DocumentationOptions options,
+            DocumentationResources resources) : base(symbols, directoryInfo, options, resources)
         {
         }
-
-        public override string KindName => "Field";
 
         public override SymbolDisplayFormat Format => FormatProvider.FieldFormat;
 
@@ -36,7 +35,7 @@ namespace Roslynator.Documentation.Markdown
         {
             var fieldSymbol = (IFieldSymbol)Symbol;
 
-            WriteHeading(3 + BaseHeadingLevel, "Field Value");
+            WriteHeading(3 + BaseHeadingLevel, Resources.FieldValue);
             WriteLink(Compilation.GetSymbolInfo(fieldSymbol.Type), SymbolDisplayAdditionalOptions.None);
         }
     }

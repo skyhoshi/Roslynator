@@ -11,11 +11,10 @@ namespace Roslynator.Documentation.Markdown
         public PropertyDocumentationMarkdownWriter(
             ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationOptions options) : base(symbols, directoryInfo, options)
+            DocumentationOptions options,
+            DocumentationResources resources) : base(symbols, directoryInfo, options, resources)
         {
         }
-
-        public override string KindName => "Property";
 
         public override SymbolDisplayFormat Format => FormatProvider.PropertyFormat;
 
@@ -40,7 +39,7 @@ namespace Roslynator.Documentation.Markdown
         {
             var propertySymbol = (IPropertySymbol)Symbol;
 
-            WriteHeading(3 + BaseHeadingLevel, "Property Value");
+            WriteHeading(3 + BaseHeadingLevel, Resources.PropertyValue);
             WriteLink(Compilation.GetSymbolInfo(propertySymbol.Type), SymbolDisplayAdditionalOptions.None);
             WriteLine();
             WriteLine();

@@ -5,7 +5,7 @@ Namespace: [Roslynator.Documentation](../README.md)
 Assembly: Roslynator\.Documentation\.DocumentationTest\.dll
 
 ```csharp
-public class FooDictionary<TKey, TValue> : IEnumerable<TValue>, IReadOnlyList<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IReadOnlyCollection<KeyValuePair<TKey, TValue>>
+public class FooDictionary<TKey, TValue> : IReadOnlyList<KeyValuePair<TKey, TValue>>, IReadOnlyCollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable<TValue>
 ```
 
 ### Type Parameters

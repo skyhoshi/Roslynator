@@ -30,7 +30,11 @@ namespace Roslynator.Documentation
 
             var generator = new DocumentationGenerator(compilationInfo, "README.md");
 
-            foreach (DocumentationFile documentationFile in generator.GenerateFiles(heading, DocumentationParts.All))
+            foreach (DocumentationFile documentationFile in generator.GenerateFiles(
+                heading,
+                DocumentationParts.All,
+                objectModelHeading: heading + " Object Model",
+                extendedTypesHeading: "Types Extended by " + heading))
             {
                 string path = directoryPath + documentationFile.Path;
 

@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about a list of member declaration list\.
 
 ```csharp
-public readonly struct MemberDeclarationListInfo : IEquatable<MemberDeclarationListInfo>, IReadOnlyList<MemberDeclarationSyntax>, IEnumerable<MemberDeclarationSyntax>, IReadOnlyCollection<MemberDeclarationSyntax>
+public readonly struct MemberDeclarationListInfo : IReadOnlyList<MemberDeclarationSyntax>, IReadOnlyCollection<MemberDeclarationSyntax>, IEnumerable<MemberDeclarationSyntax>, IEquatable<MemberDeclarationListInfo>
 ```
 
 ### Inheritance

@@ -198,79 +198,6 @@ namespace Roslynator.Documentation
                     AddKeyword(SyntaxKind.AbstractKeyword);
             }
 
-            if ((typeDeclarationOptions & SymbolDisplayTypeDeclarationOptions.IncludeBaseTypes) != 0)
-            {
-                INamedTypeSymbol baseType = null;
-
-                if (typeSymbol.TypeKind.Is(TypeKind.Class, TypeKind.Interface))
-                {
-                    baseType = typeSymbol.BaseType;
-
-                    if (baseType?.SpecialType == SpecialType.System_Object)
-                        baseType = null;
-                }
-
-                ImmutableArray<INamedTypeSymbol> interfaces = typeSymbol.Interfaces;
-
-                if (interfaces.Any(f => f.OriginalDefinition.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T))
-                    interfaces = interfaces.RemoveAll(f => f.SpecialType == SpecialType.System_Collections_IEnumerable);
-
-                //TODO: sort interfaces
-                if (baseType != null
-                    || interfaces.Any())
-                {
-                    int index = -1;
-
-                    for (int i = 0; i < parts.Length; i++)
-                    {
-                        if (parts[i].IsKeyword("where"))
-                        {
-                            builder.AddRange(parts, i);
-                            index = i;
-
-                            AddPunctuation(":");
-                            AddSpace();
-                            break;
-                        }
-                    }
-
-                    if (index == -1)
-                    {
-                        builder.AddRange(parts);
-
-                        AddSpace();
-                        AddPunctuation(":");
-                        AddSpace();
-                    }
-
-                    if (baseType != null)
-                    {
-                        builder.AddRange(baseType.ToDisplayParts(SymbolDisplayFormats.TypeNameAndContainingTypes));
-
-                        if (interfaces.Any())
-                            AddPunctuation(",");
-                    }
-
-                    if (interfaces.Any())
-                        builder.AddRange(interfaces[0].ToDisplayParts(SymbolDisplayFormats.TypeNameAndContainingTypes));
-
-                    for (int i = 1; i < interfaces.Length; i++)
-                    {
-                        AddPunctuation(",");
-                        AddSpace();
-                        builder.AddRange(interfaces[i].ToDisplayParts(SymbolDisplayFormats.TypeNameAndContainingTypes));
-                    }
-
-                    if (index != -1)
-                    {
-                        AddSpace();
-                        builder.AddRange(parts.Skip(index));
-                    }
-
-                    return builder.ToImmutableArray();
-                }
-            }
-
             builder.AddRange(parts);
 
             return builder.ToImmutableArray();
@@ -284,11 +211,6 @@ namespace Roslynator.Documentation
             void AddSpace()
             {
                 builder.Add(new SymbolDisplayPart(SymbolDisplayPartKind.Space, null, " "));
-            }
-
-            void AddPunctuation(string text)
-            {
-                builder.Add(new SymbolDisplayPart(SymbolDisplayPartKind.Punctuation, null, text));
             }
         }
     }

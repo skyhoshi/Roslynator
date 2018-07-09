@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about a list of using directives\.
 
 ```csharp
-public readonly struct UsingDirectiveListInfo : IEquatable<UsingDirectiveListInfo>, IReadOnlyList<UsingDirectiveSyntax>, IEnumerable<UsingDirectiveSyntax>, IReadOnlyCollection<UsingDirectiveSyntax>
+public readonly struct UsingDirectiveListInfo : IReadOnlyList<UsingDirectiveSyntax>, IReadOnlyCollection<UsingDirectiveSyntax>, IEnumerable<UsingDirectiveSyntax>, IEquatable<UsingDirectiveListInfo>
 ```
 
 ### Inheritance

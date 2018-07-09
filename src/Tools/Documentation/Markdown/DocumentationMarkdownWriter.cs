@@ -12,7 +12,8 @@ namespace Roslynator.Documentation.Markdown
         public DocumentationMarkdownWriter(
             SymbolDocumentationInfo symbolInfo,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationOptions options) : base(symbolInfo, directoryInfo, options)
+            DocumentationOptions options,
+            DocumentationResources resources) : base(symbolInfo, directoryInfo, options, resources)
         {
             Writer = MarkdownWriter.Create(new StringBuilder());
         }

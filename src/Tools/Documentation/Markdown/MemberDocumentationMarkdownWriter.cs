@@ -13,14 +13,13 @@ namespace Roslynator.Documentation.Markdown
         protected MemberDocumentationMarkdownWriter(
             ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationOptions options) : base(symbols[0], directoryInfo, options)
+            DocumentationOptions options,
+            DocumentationResources resources) : base(symbols[0], directoryInfo, options, resources)
         {
             Symbols = symbols;
         }
 
         public ImmutableArray<SymbolDocumentationInfo> Symbols { get; }
-
-        public abstract string KindName { get; }
 
         public abstract SymbolDisplayFormat Format { get; }
 
@@ -145,7 +144,8 @@ namespace Roslynator.Documentation.Markdown
         public static MemberDocumentationMarkdownWriter Create(
             ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationOptions options = null)
+            DocumentationOptions options,
+            DocumentationResources resources)
         {
             ISymbol symbol = symbols[0].Symbol;
 
@@ -153,11 +153,11 @@ namespace Roslynator.Documentation.Markdown
             {
                 case SymbolKind.Event:
                     {
-                        return new EventDocumentationMarkdownWriter(symbols, directoryInfo, options);
+                        return new EventDocumentationMarkdownWriter(symbols, directoryInfo, options, resources);
                     }
                 case SymbolKind.Field:
                     {
-                        return new FieldDocumentationMarkdownWriter(symbols, directoryInfo, options);
+                        return new FieldDocumentationMarkdownWriter(symbols, directoryInfo, options, resources);
                     }
                 case SymbolKind.Method:
                     {
@@ -167,20 +167,20 @@ namespace Roslynator.Documentation.Markdown
                         {
                             case MethodKind.Constructor:
                                 {
-                                    return new ConstructorDocumentationMarkdownWriter(symbols, directoryInfo, options);
+                                    return new ConstructorDocumentationMarkdownWriter(symbols, directoryInfo, options, resources);
                                 }
                             case MethodKind.UserDefinedOperator:
                             case MethodKind.Conversion:
                                 {
-                                    return new OperatorDocumentationMarkdownWriter(symbols, directoryInfo, options);
+                                    return new OperatorDocumentationMarkdownWriter(symbols, directoryInfo, options, resources);
                                 }
                         }
 
-                        return new MethodDocumentationMarkdownWriter(symbols, directoryInfo, options);
+                        return new MethodDocumentationMarkdownWriter(symbols, directoryInfo, options, resources);
                     }
                 case SymbolKind.Property:
                     {
-                        return new PropertyDocumentationMarkdownWriter(symbols, directoryInfo, options);
+                        return new PropertyDocumentationMarkdownWriter(symbols, directoryInfo, options, resources);
                     }
             }
 

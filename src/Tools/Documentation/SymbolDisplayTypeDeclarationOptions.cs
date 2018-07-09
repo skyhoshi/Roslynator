@@ -10,6 +10,5 @@ namespace Roslynator.Documentation
         None = 0,
         IncludeModifiers = 1,
         IncludeAccessibility = 2,
-        IncludeBaseTypes = 4,
     }
 }

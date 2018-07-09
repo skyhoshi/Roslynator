@@ -10,11 +10,10 @@ namespace Roslynator.Documentation.Markdown
         public ConstructorDocumentationMarkdownWriter(
             ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationOptions options) : base(symbols, directoryInfo, options)
+            DocumentationOptions options,
+            DocumentationResources resources) : base(symbols, directoryInfo, options, resources)
         {
         }
-
-        public override string KindName => "Constructor";
 
         public override SymbolDisplayFormat Format => FormatProvider.ConstructorFormat;
 
@@ -40,12 +39,14 @@ namespace Roslynator.Documentation.Markdown
             if (Symbols.Length == 1)
             {
                 WriteString(symbol.ToDisplayString(FormatProvider.ConstructorFormat));
-                WriteString(" Constructor");
+                WriteString(" ");
+                WriteString(Resources.Constructor);
             }
             else
             {
                 WriteString(symbol.ToDisplayString(FormatProvider.TitleFormat));
-                WriteString(" Constructors");
+                WriteString(" ");
+                WriteString(Resources.Constructors);
             }
 
             WriteEndHeading();

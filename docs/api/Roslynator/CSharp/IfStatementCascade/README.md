@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Enables to enumerate if statement cascade\.
 
 ```csharp
-public readonly struct IfStatementCascade : IEquatable<IfStatementCascade>, IEnumerable<IfStatementOrElseClause>
+public readonly struct IfStatementCascade : IEnumerable<IfStatementOrElseClause>, IEquatable<IfStatementCascade>
 ```
 
 ### Inheritance

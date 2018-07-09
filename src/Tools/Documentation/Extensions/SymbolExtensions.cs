@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
 using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.CodeAnalysis;
@@ -89,48 +88,6 @@ namespace Roslynator.Documentation
             }
 
             return null;
-        }
-
-        internal static string GetName(this ISymbol symbol)
-        {
-            switch (symbol.Kind)
-            {
-                case SymbolKind.Event:
-                    return "Event";
-                case SymbolKind.Field:
-                    return "Field";
-                case SymbolKind.Method:
-                    return "Method";
-                case SymbolKind.Namespace:
-                    return "Namespace";
-                case SymbolKind.Property:
-                    return "Property";
-                case SymbolKind.NamedType:
-                    return DocumentationFacts.GetName(((ITypeSymbol)symbol).TypeKind);
-            }
-
-            throw new InvalidOperationException();
-        }
-
-        internal static string GetPluralName(this ISymbol symbol)
-        {
-            switch (symbol.Kind)
-            {
-                case SymbolKind.Event:
-                    return "Events";
-                case SymbolKind.Field:
-                    return "Fields";
-                case SymbolKind.Method:
-                    return "Methods";
-                case SymbolKind.Namespace:
-                    return "Namespaces";
-                case SymbolKind.Property:
-                    return "Properties";
-                case SymbolKind.NamedType:
-                    return DocumentationFacts.GetPluralName(((ITypeSymbol)symbol).TypeKind);
-            }
-
-            throw new InvalidOperationException();
         }
     }
 }

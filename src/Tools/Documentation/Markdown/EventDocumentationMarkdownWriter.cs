@@ -10,11 +10,10 @@ namespace Roslynator.Documentation.Markdown
         public EventDocumentationMarkdownWriter(
             ImmutableArray<SymbolDocumentationInfo> symbols,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationOptions options) : base(symbols, directoryInfo, options)
+            DocumentationOptions options,
+            DocumentationResources resources) : base(symbols, directoryInfo, options, resources)
         {
         }
-
-        public override string KindName => "Event";
 
         public override SymbolDisplayFormat Format => FormatProvider.EventFormat;
 
