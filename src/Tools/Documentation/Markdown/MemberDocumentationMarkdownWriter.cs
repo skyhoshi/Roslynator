@@ -27,36 +27,48 @@ namespace Roslynator.Documentation.Markdown
 
         public virtual void WriteMember()
         {
-            WriteTitle(Symbol);
-            WriteNamespace(Symbol);
-            WriteAssembly(Symbol);
+            foreach (MemberDocumentationParts part in Options.EnabledAndSortedMemberParts)
+            {
+                switch (part)
+                {
+                    case MemberDocumentationParts.Namespace:
+                        {
+                            WriteNamespace(Symbol);
+                            break;
+                        }
+                    case MemberDocumentationParts.Assembly:
+                        {
+                            WriteAssembly(Symbol);
+                            break;
+                        }
+                    case MemberDocumentationParts.Title:
+                        {
+                            WriteTitle(Symbol);
+                            break;
+                        }
+                }
+            }
 
             if (Symbols.Length == 1)
             {
-                if (Symbol.HasAttribute(MetadataNames.System_ObsoleteAttribute))
-                    WriteObsolete(Symbol);
-
                 WriteContent(Symbol);
             }
             else
             {
                 //TODO: create link for overloads
-                WriteTable(Symbols.Select(f => f.Symbol), "Overloads", 2, KindName, "Summary", FormatProvider.ConstructorFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName, addLink: false);
+                WriteTable(Symbols.Select(f => f.Symbol), Resources.Overloads, 2, KindName, Resources.Summary, FormatProvider.ConstructorFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName, addLink: false);
 
                 foreach (SymbolDocumentationInfo symbolInfo in Symbols)
                 {
                     ISymbol symbol = symbolInfo.Symbol;
-
-                    if (symbol.HasAttribute(MetadataNames.System_ObsoleteAttribute))
-                        WriteObsolete(symbol);
 
                     BaseHeadingLevel++;
 
                     WriteStartHeading(1 + BaseHeadingLevel);
                     WriteString(symbol.ToDisplayString(Format, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName));
                     WriteEndHeading();
-
                     WriteContent(symbol);
+
                     BaseHeadingLevel--;
                 }
             }
@@ -88,7 +100,7 @@ namespace Roslynator.Documentation.Markdown
             {
                 if (en.MoveNext())
                 {
-                    WriteHeading(3 + BaseHeadingLevel, "Implements");
+                    WriteHeading(3 + BaseHeadingLevel, Resources.Implements);
 
                     WriteStartBulletList();
 
@@ -107,38 +119,74 @@ namespace Roslynator.Documentation.Markdown
 
         public void WriteContent(ISymbol symbol)
         {
-            if ((Parts & MemberDocumentationParts.Summary) != 0)
-                WriteSummary(symbol);
+            foreach (MemberDocumentationParts part in Options.EnabledAndSortedMemberParts)
+            {
+                switch (part)
+                {
+                    case MemberDocumentationParts.Obsolete:
+                        {
+                            if (symbol.HasAttribute(MetadataNames.System_ObsoleteAttribute))
+                                WriteObsolete(symbol);
 
-            if ((Parts & MemberDocumentationParts.Signature) != 0)
-                WriteSignature(symbol);
-
-            if ((Parts & MemberDocumentationParts.TypeParameters) != 0)
-                WriteTypeParameters(symbol);
-
-            if ((Parts & MemberDocumentationParts.Parameters) != 0)
-                WriteParameters(symbol);
-
-            if ((Parts & MemberDocumentationParts.ReturnValue) != 0)
-                WriteReturnValue(symbol);
-
-            if ((Parts & MemberDocumentationParts.Implements) != 0)
-                WriteImplements(symbol);
-
-            if ((Parts & MemberDocumentationParts.Attributes) != 0)
-                WriteAttributes(symbol);
-
-            if ((Parts & MemberDocumentationParts.Exceptions) != 0)
-                WriteExceptions(symbol);
-
-            if ((Parts & MemberDocumentationParts.Examples) != 0)
-                WriteExamples(symbol);
-
-            if ((Parts & MemberDocumentationParts.Remarks) != 0)
-                WriteRemarks(symbol);
-
-            if ((Parts & MemberDocumentationParts.SeeAlso) != 0)
-                WriteSeeAlso(symbol);
+                            break;
+                        }
+                    case MemberDocumentationParts.Summary:
+                        {
+                            WriteSummary(symbol);
+                            break;
+                        }
+                    case MemberDocumentationParts.Signature:
+                        {
+                            WriteSignature(symbol);
+                            break;
+                        }
+                    case MemberDocumentationParts.TypeParameters:
+                        {
+                            WriteTypeParameters(symbol);
+                            break;
+                        }
+                    case MemberDocumentationParts.Parameters:
+                        {
+                            WriteParameters(symbol);
+                            break;
+                        }
+                    case MemberDocumentationParts.ReturnValue:
+                        {
+                            WriteReturnValue(symbol);
+                            break;
+                        }
+                    case MemberDocumentationParts.Implements:
+                        {
+                            WriteImplements(symbol);
+                            break;
+                        }
+                    case MemberDocumentationParts.Attributes:
+                        {
+                            WriteAttributes(symbol);
+                            break;
+                        }
+                    case MemberDocumentationParts.Exceptions:
+                        {
+                            WriteExceptions(symbol);
+                            break;
+                        }
+                    case MemberDocumentationParts.Examples:
+                        {
+                            WriteExamples(symbol);
+                            break;
+                        }
+                    case MemberDocumentationParts.Remarks:
+                        {
+                            WriteRemarks(symbol);
+                            break;
+                        }
+                    case MemberDocumentationParts.SeeAlso:
+                        {
+                            WriteSeeAlso(symbol);
+                            break;
+                        }
+                }
+            }
         }
 
         public static MemberDocumentationMarkdownWriter Create(

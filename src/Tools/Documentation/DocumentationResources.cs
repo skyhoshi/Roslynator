@@ -61,6 +61,7 @@ namespace Roslynator.Documentation
         public abstract string ObsoleteWarning { get; }
         public abstract string Operator { get; }
         public abstract string Operators { get; }
+        public abstract string Overloads { get; }
         public abstract string Parameter { get; }
         public abstract string Parameters { get; }
         public abstract string Properties { get; }
@@ -230,6 +231,7 @@ namespace Roslynator.Documentation
             public override string ObsoleteWarning { get; } = "WARNING: This API is now obsolete.";
             public override string Operator { get; } = "Operator";
             public override string Operators { get; } = "Operators";
+            public override string Overloads { get; } = "Overloads";
             public override string Parameter { get; } = "Parameter";
             public override string Parameters { get; } = "Parameters";
             public override string Properties { get; } = "Properties";

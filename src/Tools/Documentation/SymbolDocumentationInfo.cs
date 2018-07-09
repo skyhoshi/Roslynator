@@ -257,7 +257,7 @@ namespace Roslynator.Documentation
                 compilation);
         }
 
-        internal string GetUrl(SymbolDocumentationInfo directoryInfo = null, bool useExternalLink = true)
+        internal string GetUrl(string fileName, SymbolDocumentationInfo directoryInfo = null, bool useExternalLink = true)
         {
             if (useExternalLink
                 && IsExternal)
@@ -276,10 +276,10 @@ namespace Roslynator.Documentation
             }
 
             if (directoryInfo == null)
-                return string.Join("/", Names.Reverse()) + "/README.md";
+                return string.Join("/", Names.Reverse()) + "/" + fileName;
 
             if (this == directoryInfo)
-                return "./README.md";
+                return "./" + fileName;
 
             int count = 0;
 
@@ -329,7 +329,8 @@ namespace Roslynator.Documentation
                 }
             }
 
-            sb.Append("/README.md");
+            sb.Append("/");
+            sb.Append(fileName);
 
             return sb.ToString();
         }

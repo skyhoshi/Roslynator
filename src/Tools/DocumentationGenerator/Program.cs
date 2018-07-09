@@ -13,7 +13,7 @@ namespace Roslynator.Documentation
     {
         private static readonly UTF8Encoding _utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
 
-        [SuppressMessage("Redundancy", "RCS1163:Unused parameter.", Justification = "<Pending>")]
+        [SuppressMessage("Redundancy", "RCS1163")]
         private static void Main(string[] args)
         {
             GenerateDocumentation(@"..\..\..\..\..\..\docs\api\", "Roslynator API", "Roslynator.CSharp.dll", "Roslynator.CSharp.Workspaces.dll");
@@ -28,7 +28,7 @@ namespace Roslynator.Documentation
 
             var compilationInfo = new CompilationDocumentationInfo(RuntimeMetadataReference.Compilation, assemblies);
 
-            var generator = new DocumentationGenerator(compilationInfo, "README.md");
+            var generator = new DocumentationGenerator(compilationInfo);
 
             foreach (DocumentationFile documentationFile in generator.GenerateFiles(
                 heading,

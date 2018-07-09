@@ -59,6 +59,11 @@ namespace Roslynator.Documentation
 
         public DocumentationOptions Options { get; }
 
+        internal string FileName
+        {
+            get { return Options.FileName; }
+        }
+
         public DocumentationResources Resources { get; }
 
         public abstract void WriteStartBold();
@@ -274,7 +279,7 @@ namespace Roslynator.Documentation
             SymbolDisplayFormat format,
             SymbolDisplayAdditionalOptions additionalOptions)
         {
-            string url = symbolInfo.GetUrl(directoryInfo, useExternalLink: CanCreateExternalLink);
+            string url = symbolInfo.GetUrl(FileName, directoryInfo, useExternalLink: CanCreateExternalLink);
 
             WriteLinkOrText(symbolInfo.Symbol.ToDisplayString(format, additionalOptions), url);
         }
@@ -1521,7 +1526,7 @@ namespace Roslynator.Documentation
                             {
                                 ISymbol symbol = part.Symbol;
 
-                                string url = Compilation.GetSymbolInfo(symbol).GetUrl(DirectoryInfo);
+                                string url = Compilation.GetSymbolInfo(symbol).GetUrl(FileName, DirectoryInfo);
 
                                 WriteLinkOrText(symbol.Name, url);
 
@@ -1537,7 +1542,7 @@ namespace Roslynator.Documentation
             }
             else
             {
-                string url = symbolInfo.GetUrl(DirectoryInfo);
+                string url = symbolInfo.GetUrl(FileName, DirectoryInfo);
 
                 WriteLinkOrText(symbolInfo.Symbol.ToDisplayString(format, additionalOptions), url);
             }
@@ -1553,7 +1558,7 @@ namespace Roslynator.Documentation
                 .OrderBy(f => f.ToDisplayString(format))
                 .GroupBy(f => f.TypeKind)
                 .Where(f => Options.IsNamespacePartEnabled(f.Key))
-                .OrderBy(f => f.Key.ToNamespaceDocumentationPart(), NamespaceDocumentationPartComparer.Instance))
+                .OrderBy(f => f.Key.ToNamespaceDocumentationPart(), Options.NamespacePartComparer))
             {
                 TypeKind typeKind = grouping.Key;
 
@@ -1579,7 +1584,7 @@ namespace Roslynator.Documentation
                 .OrderBy(f => f.ToDisplayString(format))
                 .GroupBy(f => f.TypeKind)
                 .Where(f => Options.IsNamespacePartEnabled(f.Key))
-                .OrderBy(f => f.Key.ToNamespaceDocumentationPart(), NamespaceDocumentationPartComparer.Instance))
+                .OrderBy(f => f.Key.ToNamespaceDocumentationPart(), Options.NamespacePartComparer))
             {
                 TypeKind typeKind = grouping.Key;
 

@@ -10,9 +10,10 @@ namespace Roslynator.Documentation
     public enum RootDocumentationParts
     {
         None = 0,
-        Heading = 1,
-        NamespaceList = 2,
-        Namespaces = 4,
+        ObjectModelLink = 1,
+        ExtendedTypesLink = 2,
+        NamespaceList = 4,
+        Namespaces = 8,
         All = int.MaxValue
     }
 }
