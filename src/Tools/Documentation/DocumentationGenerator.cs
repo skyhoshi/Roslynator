@@ -287,11 +287,9 @@ namespace Roslynator.Documentation
                 writer.WriteExamples(typeSymbol);
                 writer.WriteRemarks(typeSymbol);
 
-                INamedTypeSymbol baseType = typeSymbol.BaseType;
-
-                if (baseType?.SpecialType.Is(SpecialType.System_Delegate, SpecialType.System_MulticastDelegate) != true)
+                if (typeSymbol.TypeKind != TypeKind.Delegate)
                 {
-                    if (baseType?.SpecialType == SpecialType.System_Enum)
+                    if (typeSymbol.TypeKind == TypeKind.Enum)
                     {
                         writer.WriteEnumFields(info.GetFields());
                     }
@@ -316,13 +314,8 @@ namespace Roslynator.Documentation
 
         public IEnumerable<DocumentationFile> GenerateMemberFiles(ITypeSymbol typeSymbol)
         {
-            if (typeSymbol.BaseType?.SpecialType.Is(
-                SpecialType.System_Enum,
-                SpecialType.System_Delegate,
-                SpecialType.System_MulticastDelegate) == true)
-            {
+            if (typeSymbol.TypeKind.Is(TypeKind.Enum, TypeKind.Delegate))
                 return Enumerable.Empty<DocumentationFile>();
-            }
 
             SymbolDocumentationInfo info = Compilation.GetSymbolInfo(typeSymbol);
 

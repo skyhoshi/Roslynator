@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 A set of extension methods for a [SemanticModel](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.semanticmodel)\.
 
 ```csharp
-class SemanticModelExtensions
+public static class SemanticModelExtensions
 ```
 
 

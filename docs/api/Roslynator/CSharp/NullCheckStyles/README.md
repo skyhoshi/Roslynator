@@ -9,7 +9,8 @@ Assembly: Roslynator\.CSharp\.dll
 Specifies a null check\.
 
 ```csharp
-enum NullCheckStyles
+[FlagsAttribute]
+public enum NullCheckStyles
 ```
 
 ### Inheritance

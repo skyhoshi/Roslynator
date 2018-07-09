@@ -9,7 +9,7 @@ Assembly: Roslynator\.Documentation\.DocumentationTest\.dll
 blac
 
 ```csharp
-class Bla
+public class Bla
 ```
 
 ### Inheritance

@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about a simple assignment expression in an expression statement\.
 
 ```csharp
-readonly struct SimpleAssignmentStatementInfo
+public readonly struct SimpleAssignmentStatementInfo : IEquatable<SimpleAssignmentStatementInfo>
 ```
 
 ### Inheritance

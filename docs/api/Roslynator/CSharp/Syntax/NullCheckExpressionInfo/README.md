@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about a null check expression\.
 
 ```csharp
-readonly struct NullCheckExpressionInfo
+public readonly struct NullCheckExpressionInfo : IEquatable<NullCheckExpressionInfo>
 ```
 
 ### Inheritance

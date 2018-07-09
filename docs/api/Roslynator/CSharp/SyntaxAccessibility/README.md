@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 A set of static methods that are related to C\# accessibility\.
 
 ```csharp
-class SyntaxAccessibility
+public static class SyntaxAccessibility
 ```
 
 

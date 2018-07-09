@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 A set of extension methods for [SyntaxTree](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtree)\.
 
 ```csharp
-class SyntaxTreeExtensions
+public static class SyntaxTreeExtensions
 ```
 
 

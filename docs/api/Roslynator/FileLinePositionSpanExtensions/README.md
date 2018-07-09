@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 A set of extension methods for [FileLinePositionSpan](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.filelinepositionspan)\.
 
 ```csharp
-class FileLinePositionSpanExtensions
+public static class FileLinePositionSpanExtensions
 ```
 
 

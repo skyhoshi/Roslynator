@@ -9,7 +9,7 @@ Assembly: Roslynator\.Documentation\.DocumentationTest\.dll
 del
 
 ```csharp
-delegate FooDelegate(object p)
+public sealed delegate FooDelegate(object p)
 ```
 
 ### Parameters

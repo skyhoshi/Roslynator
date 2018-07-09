@@ -5,7 +5,7 @@ Namespace: [Roslynator.Documentation](../README.md)
 Assembly: Roslynator\.Documentation\.DocumentationTest\.dll
 
 ```csharp
-class FooCollection
+public class FooCollection : ICollection, ICollection<Foo>, IEnumerable<Foo>
 ```
 
 ### Inheritance

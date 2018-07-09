@@ -340,7 +340,45 @@ namespace Roslynator.Documentation
 
         public virtual void WriteSignature(ISymbol symbol)
         {
-            WriteCodeBlock(symbol.ToDisplayString(FormatProvider.SignatureFormat), GetLanguageIdentifier(symbol.Language));
+            string s = null;
+
+            if (symbol is ITypeSymbol typeSymbol)
+            {
+                const SymbolDisplayTypeDeclarationOptions typeDeclarationOptions = SymbolDisplayTypeDeclarationOptions.IncludeAccessibility
+                    | SymbolDisplayTypeDeclarationOptions.IncludeModifiers
+                    | SymbolDisplayTypeDeclarationOptions.IncludeBaseTypes;
+
+                s = typeSymbol.ToDisplayString(FormatProvider.SignatureFormat, typeDeclarationOptions);
+            }
+            else
+            {
+                s = symbol.ToDisplayString(FormatProvider.SignatureFormat);
+            }
+
+            using (IEnumerator<AttributeData> en = symbol
+                .GetAttributes()
+                .Where(f => !ShouldBeExcluded(f.AttributeClass)).GetEnumerator())
+            {
+                if (en.MoveNext())
+                {
+                    var sb = new StringBuilder(s.Length);
+
+                    do
+                    {
+                        sb.Append("[");
+                        sb.Append(en.Current.AttributeClass.ToDisplayString(FormatProvider.TypeFormat));
+                        sb.Append("]");
+                        sb.AppendLine();
+                    }
+                    while (en.MoveNext());
+
+                    sb.Append(s);
+
+                    s = sb.ToString();
+                }
+            }
+
+            WriteCodeBlock(s, GetLanguageIdentifier(symbol.Language));
         }
 
         public virtual void WriteTypeParameters(ISymbol symbol)
@@ -520,41 +558,41 @@ namespace Roslynator.Documentation
             }
 
             WriteLine();
+        }
 
-            bool ShouldBeExcluded(INamedTypeSymbol attributeSymbol)
+        private static bool ShouldBeExcluded(INamedTypeSymbol attributeSymbol)
+        {
+            switch (attributeSymbol.MetadataName)
             {
-                switch (attributeSymbol.MetadataName)
-                {
-                    case "ConditionalAttribute":
-                    case "DebuggerBrowsableAttribute":
-                    case "DebuggerDisplayAttribute":
-                    case "DebuggerHiddenAttribute":
-                    case "DebuggerNonUserCodeAttribute":
-                    case "DebuggerStepperBoundaryAttribute":
-                    case "DebuggerStepThroughAttribute":
-                    case "DebuggerTypeProxyAttribute":
-                    case "DebuggerVisualizerAttribute":
-                        return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Diagnostics);
-                    case "SuppressMessageAttribute":
-                        return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Diagnostics_CodeAnalysis);
-                    case "DefaultMemberAttribute":
-                        return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Reflection);
-                    case "AsyncStateMachineAttribute":
-                    case "IteratorStateMachineAttribute":
-                    case "MethodImplAttribute":
-                    case "TypeForwardedFromAttribute":
-                    case "TypeForwardedToAttribute":
-                        return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Runtime_CompilerServices);
+                case "ConditionalAttribute":
+                case "DebuggerBrowsableAttribute":
+                case "DebuggerDisplayAttribute":
+                case "DebuggerHiddenAttribute":
+                case "DebuggerNonUserCodeAttribute":
+                case "DebuggerStepperBoundaryAttribute":
+                case "DebuggerStepThroughAttribute":
+                case "DebuggerTypeProxyAttribute":
+                case "DebuggerVisualizerAttribute":
+                    return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Diagnostics);
+                case "SuppressMessageAttribute":
+                    return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Diagnostics_CodeAnalysis);
+                case "DefaultMemberAttribute":
+                    return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Reflection);
+                case "AsyncStateMachineAttribute":
+                case "IteratorStateMachineAttribute":
+                case "MethodImplAttribute":
+                case "TypeForwardedFromAttribute":
+                case "TypeForwardedToAttribute":
+                    return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Runtime_CompilerServices);
 #if DEBUG
-                    case "FlagsAttribute":
-                    case "ObsoleteAttribute":
-                        return false;
+                case "FlagsAttribute":
+                case "ObsoleteAttribute":
+                    return false;
 #endif
-                }
-
-                Debug.Fail(attributeSymbol.ToDisplayString());
-                return false;
             }
+
+            Debug.Fail(attributeSymbol.ToDisplayString());
+            return false;
         }
 
         public virtual void WriteDerived(ITypeSymbol typeSymbol)
@@ -607,7 +645,7 @@ namespace Roslynator.Documentation
             if (typeSymbol.IsStatic)
                 return;
 
-            if (typeSymbol.BaseType?.SpecialType == SpecialType.System_Enum)
+            if (typeSymbol.TypeKind == TypeKind.Enum)
                 return;
 
             IEnumerable<INamedTypeSymbol> allInterfaces = (typeSymbol.BaseType?.SpecialType.Is(SpecialType.System_Delegate, SpecialType.System_MulticastDelegate) == true)
@@ -962,7 +1000,7 @@ namespace Roslynator.Documentation
                                         {
                                             ISymbol symbol = DocumentationCommentId.GetFirstSymbolForDeclarationId(commentId, Compilation.Compilation);
 
-                                            //TODO: repair roslyn documentation
+                                            //XTODO: repair roslyn documentation
                                             Debug.Assert(symbol != null
                                                 || commentId == "T:Microsoft.CodeAnalysis.CSharp.SyntaxNode"
                                                 || commentId == "T:Microsoft.CodeAnalysis.CSharp.SyntaxToken"

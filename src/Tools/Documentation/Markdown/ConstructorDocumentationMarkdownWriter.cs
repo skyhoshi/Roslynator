@@ -14,7 +14,24 @@ namespace Roslynator.Documentation.Markdown
         {
         }
 
-        public override string CategoryName => "Constructor";
+        public override string KindName => "Constructor";
+
+        public override SymbolDisplayFormat Format => FormatProvider.ConstructorFormat;
+
+        public override MemberDocumentationParts Parts
+        {
+            get
+            {
+                return MemberDocumentationParts.Summary
+                    | MemberDocumentationParts.Signature
+                    | MemberDocumentationParts.Parameters
+                    | MemberDocumentationParts.Attributes
+                    | MemberDocumentationParts.Exceptions
+                    | MemberDocumentationParts.Examples
+                    | MemberDocumentationParts.Remarks
+                    | MemberDocumentationParts.SeeAlso;
+            }
+        }
 
         public override void WriteTitle(ISymbol symbol)
         {
@@ -32,28 +49,6 @@ namespace Roslynator.Documentation.Markdown
             }
 
             WriteEndHeading();
-        }
-
-        public override void WriteMemberTitle(ISymbol symbol)
-        {
-            if (Symbols.Length > 1)
-            {
-                WriteStartHeading(1 + BaseHeadingLevel);
-                WriteString(symbol.ToDisplayString(FormatProvider.ConstructorFormat));
-                WriteEndHeading();
-            }
-        }
-
-        public override void WriteContent(ISymbol symbol)
-        {
-            WriteSummary(symbol);
-            WriteSignature(symbol);
-            WriteParameters(symbol);
-            WriteAttributes(symbol);
-            WriteExceptions(symbol);
-            WriteExamples(symbol);
-            WriteRemarks(symbol);
-            WriteSeeAlso(symbol);
         }
     }
 }

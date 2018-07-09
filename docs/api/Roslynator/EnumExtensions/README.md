@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 A set of extension methods for enumerations\.
 
 ```csharp
-class EnumExtensions
+public static class EnumExtensions
 ```
 
 

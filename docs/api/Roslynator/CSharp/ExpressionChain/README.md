@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Enables to enumerate expressions of a binary expression and expressions of nested binary expressions of the same kind as parent binary expression\.
 
 ```csharp
-readonly struct ExpressionChain
+public readonly struct ExpressionChain : IEquatable<ExpressionChain>, IEnumerable<ExpressionSyntax>
 ```
 
 ### Inheritance

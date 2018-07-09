@@ -5,7 +5,7 @@ Namespace: [Roslynator.CSharp](../README.md)
 Assembly: Roslynator\.CSharp\.dll
 
 ```csharp
-class CSharpFacts
+public static class CSharpFacts
 ```
 
 

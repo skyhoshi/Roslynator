@@ -13,7 +13,8 @@ Foo is obsolete\.
 a → > b [Foo](./README.md)
 
 ```csharp
-class Foo
+[ObsoleteAttribute]
+public class Foo
 ```
 
 ### Inheritance

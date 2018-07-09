@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Serves as a factory for types in Roslynator\.CSharp\.Syntax namespace\.
 
 ```csharp
-class SyntaxInfo
+public static class SyntaxInfo
 ```
 
 

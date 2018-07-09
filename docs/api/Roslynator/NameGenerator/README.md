@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Provides methods to obtain an unique identifier\.
 
 ```csharp
-class NameGenerator
+public abstract class NameGenerator
 ```
 
 ### Inheritance

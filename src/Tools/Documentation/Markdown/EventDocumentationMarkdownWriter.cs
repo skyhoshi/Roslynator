@@ -14,26 +14,22 @@ namespace Roslynator.Documentation.Markdown
         {
         }
 
-        public override string CategoryName => "Event";
+        public override string KindName => "Event";
 
-        public override void WriteTitle(ISymbol symbol)
-        {
-            WriteStartHeading(1 + BaseHeadingLevel);
-            WriteString(symbol.ToDisplayString(FormatProvider.MemberTitleFormat));
-            WriteString(" ");
-            WriteString(CategoryName);
-            WriteEndHeading();
-        }
+        public override SymbolDisplayFormat Format => FormatProvider.EventFormat;
 
-        public override void WriteContent(ISymbol symbol)
+        public override MemberDocumentationParts Parts
         {
-            WriteSummary(symbol);
-            WriteSignature(symbol);
-            WriteImplements(symbol);
-            WriteAttributes(symbol);
-            WriteExamples(symbol);
-            WriteRemarks(symbol);
-            WriteSeeAlso(symbol);
+            get
+            {
+                return MemberDocumentationParts.Summary
+                    | MemberDocumentationParts.Signature
+                    | MemberDocumentationParts.Implements
+                    | MemberDocumentationParts.Attributes
+                    | MemberDocumentationParts.Examples
+                    | MemberDocumentationParts.Remarks
+                    | MemberDocumentationParts.SeeAlso;
+            }
         }
     }
 }

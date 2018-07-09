@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Enables to enumerate expressions of [ExpressionChain](../README.md) in a reversed order\.
 
 ```csharp
-readonly struct Reversed
+public readonly struct Reversed : IEquatable<ExpressionChain.Reversed>, IEnumerable<ExpressionSyntax>
 ```
 
 ### Inheritance

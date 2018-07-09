@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.Workspaces\.dll
 A set of extension methods for syntax\. These methods are dependent on the workspace layer\.
 
 ```csharp
-class WorkspaceSyntaxExtensions
+public static class WorkspaceSyntaxExtensions
 ```
 
 

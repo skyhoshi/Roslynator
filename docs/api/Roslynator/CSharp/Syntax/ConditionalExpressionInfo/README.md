@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about conditional expression\.
 
 ```csharp
-readonly struct ConditionalExpressionInfo
+public readonly struct ConditionalExpressionInfo : IEquatable<ConditionalExpressionInfo>
 ```
 
 ### Inheritance

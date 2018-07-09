@@ -14,30 +14,28 @@ namespace Roslynator.Documentation.Markdown
         {
         }
 
-        public override string CategoryName => "Field";
+        public override string KindName => "Field";
 
-        public override void WriteTitle(ISymbol symbol)
+        public override SymbolDisplayFormat Format => FormatProvider.FieldFormat;
+
+        public override MemberDocumentationParts Parts
         {
-            WriteStartHeading(1 + BaseHeadingLevel);
-            WriteString(symbol.ToDisplayString(FormatProvider.MemberTitleFormat));
-            WriteString(" ");
-            WriteString(CategoryName);
-            WriteEndHeading();
+            get
+            {
+                return MemberDocumentationParts.Summary
+                    | MemberDocumentationParts.Signature
+                    | MemberDocumentationParts.ReturnValue
+                    | MemberDocumentationParts.Attributes
+                    | MemberDocumentationParts.Examples
+                    | MemberDocumentationParts.Remarks
+                    | MemberDocumentationParts.SeeAlso;
+            }
         }
 
-        public override void WriteContent(ISymbol symbol)
+        public override void WriteReturnValue(ISymbol symbol)
         {
-            WriteSummary(symbol);
-            WriteSignature(symbol);
-            WriteValue((IFieldSymbol)symbol);
-            WriteAttributes(symbol);
-            WriteExamples(symbol);
-            WriteRemarks(symbol);
-            WriteSeeAlso(symbol);
-        }
+            var fieldSymbol = (IFieldSymbol)Symbol;
 
-        private void WriteValue(IFieldSymbol fieldSymbol)
-        {
             WriteHeading(3 + BaseHeadingLevel, "Field Value");
             WriteLink(Compilation.GetSymbolInfo(fieldSymbol.Type), SymbolDisplayAdditionalOptions.None);
         }

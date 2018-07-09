@@ -6,6 +6,7 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Roslynator.Documentation
 {
@@ -123,6 +124,172 @@ namespace Roslynator.Documentation
             }
 
             return parts;
+        }
+
+        public static string ToDisplayString(this ITypeSymbol typeSymbol, SymbolDisplayFormat format, SymbolDisplayTypeDeclarationOptions typeDeclarationOptions)
+        {
+            return typeSymbol.ToDisplayParts(format, typeDeclarationOptions).ToDisplayString();
+        }
+
+        public static ImmutableArray<SymbolDisplayPart> ToDisplayParts(this ITypeSymbol typeSymbol, SymbolDisplayFormat format, SymbolDisplayTypeDeclarationOptions typeDeclarationOptions)
+        {
+            if (typeDeclarationOptions == SymbolDisplayTypeDeclarationOptions.None)
+                return typeSymbol.ToDisplayParts(format);
+
+            ImmutableArray<SymbolDisplayPart> parts = typeSymbol.ToDisplayParts(format);
+
+            ImmutableArray<SymbolDisplayPart>.Builder builder = ImmutableArray.CreateBuilder<SymbolDisplayPart>(parts.Length);
+
+            if ((typeDeclarationOptions & SymbolDisplayTypeDeclarationOptions.IncludeAccessibility) != 0)
+            {
+                switch (typeSymbol.DeclaredAccessibility)
+                {
+                    case Accessibility.Public:
+                        {
+                            AddKeyword(SyntaxKind.PublicKeyword);
+                            break;
+                        }
+                    case Accessibility.ProtectedOrInternal:
+                        {
+                            AddKeyword(SyntaxKind.ProtectedKeyword);
+                            AddKeyword(SyntaxKind.InternalKeyword);
+                            break;
+                        }
+                    case Accessibility.Internal:
+                        {
+                            AddKeyword(SyntaxKind.InternalKeyword);
+                            break;
+                        }
+                    case Accessibility.Protected:
+                        {
+                            AddKeyword(SyntaxKind.ProtectedKeyword);
+                            break;
+                        }
+                    case Accessibility.ProtectedAndInternal:
+                        {
+                            AddKeyword(SyntaxKind.PrivateKeyword);
+                            AddKeyword(SyntaxKind.ProtectedKeyword);
+                            break;
+                        }
+                    case Accessibility.Private:
+                        {
+                            AddKeyword(SyntaxKind.PrivateKeyword);
+                            break;
+                        }
+                    default:
+                        {
+                            throw new InvalidOperationException();
+                        }
+                }
+            }
+
+            if ((typeDeclarationOptions & SymbolDisplayTypeDeclarationOptions.IncludeModifiers) != 0)
+            {
+                if (typeSymbol.IsStatic)
+                    AddKeyword(SyntaxKind.StaticKeyword);
+
+                if (typeSymbol.IsSealed
+                    && !typeSymbol.TypeKind.Is(TypeKind.Struct, TypeKind.Enum))
+                {
+                    AddKeyword(SyntaxKind.SealedKeyword);
+                }
+
+                if (typeSymbol.IsAbstract)
+                    AddKeyword(SyntaxKind.AbstractKeyword);
+            }
+
+            if ((typeDeclarationOptions & SymbolDisplayTypeDeclarationOptions.IncludeBaseTypes) != 0)
+            {
+                INamedTypeSymbol baseType = null;
+
+                if (typeSymbol.TypeKind.Is(TypeKind.Class, TypeKind.Interface))
+                {
+                    baseType = typeSymbol.BaseType;
+
+                    if (baseType?.SpecialType == SpecialType.System_Object)
+                        baseType = null;
+                }
+
+                ImmutableArray<INamedTypeSymbol> interfaces = typeSymbol.Interfaces;
+
+                if (interfaces.Any(f => f.OriginalDefinition.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T))
+                    interfaces = interfaces.RemoveAll(f => f.SpecialType == SpecialType.System_Collections_IEnumerable);
+
+                //TODO: sort interfaces
+                if (baseType != null
+                    || interfaces.Any())
+                {
+                    int index = -1;
+
+                    for (int i = 0; i < parts.Length; i++)
+                    {
+                        if (parts[i].IsKeyword("where"))
+                        {
+                            builder.AddRange(parts, i);
+                            index = i;
+
+                            AddPunctuation(":");
+                            AddSpace();
+                            break;
+                        }
+                    }
+
+                    if (index == -1)
+                    {
+                        builder.AddRange(parts);
+
+                        AddSpace();
+                        AddPunctuation(":");
+                        AddSpace();
+                    }
+
+                    if (baseType != null)
+                    {
+                        builder.AddRange(baseType.ToDisplayParts(SymbolDisplayFormats.TypeNameAndContainingTypes));
+
+                        if (interfaces.Any())
+                            AddPunctuation(",");
+                    }
+
+                    if (interfaces.Any())
+                        builder.AddRange(interfaces[0].ToDisplayParts(SymbolDisplayFormats.TypeNameAndContainingTypes));
+
+                    for (int i = 1; i < interfaces.Length; i++)
+                    {
+                        AddPunctuation(",");
+                        AddSpace();
+                        builder.AddRange(interfaces[i].ToDisplayParts(SymbolDisplayFormats.TypeNameAndContainingTypes));
+                    }
+
+                    if (index != -1)
+                    {
+                        AddSpace();
+                        builder.AddRange(parts.Skip(index));
+                    }
+
+                    return builder.ToImmutableArray();
+                }
+            }
+
+            builder.AddRange(parts);
+
+            return builder.ToImmutableArray();
+
+            void AddKeyword(SyntaxKind kind)
+            {
+                builder.Add(new SymbolDisplayPart(SymbolDisplayPartKind.Keyword, null, SyntaxFacts.GetText(kind)));
+                AddSpace();
+            }
+
+            void AddSpace()
+            {
+                builder.Add(new SymbolDisplayPart(SymbolDisplayPartKind.Space, null, " "));
+            }
+
+            void AddPunctuation(string text)
+            {
+                builder.Add(new SymbolDisplayPart(SymbolDisplayPartKind.Punctuation, null, text));
+            }
         }
     }
 }

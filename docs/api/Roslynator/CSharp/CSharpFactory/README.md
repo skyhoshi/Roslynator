@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 A factory for syntax nodes, tokens and trivia\. This class is built on top of [SyntaxFactory](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntaxfactory) members\.
 
 ```csharp
-class CSharpFactory
+public static class CSharpFactory
 ```
 
 

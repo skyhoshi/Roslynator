@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about generic syntax \(class, struct, interface, delegate, method or local function\)\.
 
 ```csharp
-readonly struct GenericInfo
+public readonly struct GenericInfo : IEquatable<GenericInfo>
 ```
 
 ### Inheritance

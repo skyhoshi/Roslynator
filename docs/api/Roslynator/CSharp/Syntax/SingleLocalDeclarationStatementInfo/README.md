@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about a local declaration statement with a single variable\.
 
 ```csharp
-readonly struct SingleLocalDeclarationStatementInfo
+public readonly struct SingleLocalDeclarationStatementInfo : IEquatable<SingleLocalDeclarationStatementInfo>
 ```
 
 ### Inheritance

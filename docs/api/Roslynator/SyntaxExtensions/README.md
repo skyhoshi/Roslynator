@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 A set of extension method for a syntax\.
 
 ```csharp
-class SyntaxExtensions
+public static class SyntaxExtensions
 ```
 
 

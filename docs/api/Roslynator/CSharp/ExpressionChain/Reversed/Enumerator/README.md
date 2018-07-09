@@ -5,7 +5,7 @@ Namespace: [Roslynator.CSharp](../../../README.md)
 Assembly: Roslynator\.CSharp\.dll
 
 ```csharp
-struct Enumerator
+public struct Enumerator
 ```
 
 ### Inheritance

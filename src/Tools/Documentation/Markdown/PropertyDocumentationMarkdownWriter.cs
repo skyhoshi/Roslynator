@@ -15,46 +15,31 @@ namespace Roslynator.Documentation.Markdown
         {
         }
 
-        public override string CategoryName => "Property";
+        public override string KindName => "Property";
 
-        public override void WriteTitle(ISymbol symbol)
+        public override SymbolDisplayFormat Format => FormatProvider.PropertyFormat;
+
+        public override MemberDocumentationParts Parts
         {
-            WriteStartHeading(1 + BaseHeadingLevel);
-
-            SymbolDisplayFormat format = (Symbols.Length == 1) ? FormatProvider.MemberTitleFormat : FormatProvider.OverloadedMemberTitleFormat;
-
-            WriteString(symbol.ToDisplayString(format, SymbolDisplayAdditionalOptions.UseItemProperty));
-            WriteString(" ");
-            WriteString(CategoryName);
-            WriteEndHeading();
-        }
-
-        public override void WriteMemberTitle(ISymbol symbol)
-        {
-            if (Symbols.Length > 1)
+            get
             {
-                WriteStartHeading(1 + BaseHeadingLevel);
-                WriteString(symbol.ToDisplayString(FormatProvider.PropertyFormat, SymbolDisplayAdditionalOptions.UseItemProperty));
-                WriteEndHeading();
+                return MemberDocumentationParts.Summary
+                    | MemberDocumentationParts.Signature
+                    | MemberDocumentationParts.Parameters
+                    | MemberDocumentationParts.ReturnValue
+                    | MemberDocumentationParts.Implements
+                    | MemberDocumentationParts.Attributes
+                    | MemberDocumentationParts.Exceptions
+                    | MemberDocumentationParts.Examples
+                    | MemberDocumentationParts.Remarks
+                    | MemberDocumentationParts.SeeAlso;
             }
         }
 
-        public override void WriteContent(ISymbol symbol)
+        public override void WriteReturnValue(ISymbol symbol)
         {
-            WriteSummary(symbol);
-            WriteSignature(symbol);
-            WriteParameters(symbol);
-            WriteValue((IPropertySymbol)symbol);
-            WriteImplements(symbol);
-            WriteAttributes(symbol);
-            WriteExceptions(symbol);
-            WriteExamples(symbol);
-            WriteRemarks(symbol);
-            WriteSeeAlso(symbol);
-        }
+            var propertySymbol = (IPropertySymbol)Symbol;
 
-        private void WriteValue(IPropertySymbol propertySymbol)
-        {
             WriteHeading(3 + BaseHeadingLevel, "Property Value");
             WriteLink(Compilation.GetSymbolInfo(propertySymbol.Type), SymbolDisplayAdditionalOptions.None);
             WriteLine();

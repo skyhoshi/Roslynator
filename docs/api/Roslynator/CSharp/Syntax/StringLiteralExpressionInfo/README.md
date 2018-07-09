@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about string literal expression\.
 
 ```csharp
-readonly struct StringLiteralExpressionInfo
+public readonly struct StringLiteralExpressionInfo : IEquatable<StringLiteralExpressionInfo>
 ```
 
 ### Inheritance
