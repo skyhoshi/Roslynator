@@ -86,6 +86,14 @@ paratext
 | [MemberwiseClone()](https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
 | [ToString()](https://docs.microsoft.com/en-us/dotnet/api/system.object.tostring) |  \(Inherited from [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)\) |
 
+## Extension Methods
+
+| Method | Summary |
+| ------ | ------- |
+| [ExtensionMethod(Foo)](../FooExtensions/ExtensionMethod/README.md) | x |
+| [ExtensionMethod\<T, T2>(T)](../FooExtensions/ExtensionMethod-2/README.md) | |
+| [ExtensionMethod\<T>(T)](../FooExtensions/ExtensionMethod-1/README.md) | |
+
 ## See Also
 
 * [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object)

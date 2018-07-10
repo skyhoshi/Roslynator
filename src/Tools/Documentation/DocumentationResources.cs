@@ -11,6 +11,7 @@ namespace Roslynator.Documentation
 
         public virtual char InheritanceChar { get; } = '\u2192';
 
+        //TODO: char?
         public virtual string CloseParenthesis { get; } = ")";
         public virtual string Colon { get; } = ":";
         public virtual string Comma { get; } = ",";

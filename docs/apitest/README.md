@@ -25,6 +25,7 @@
 | [FooCollection](Roslynator/Documentation/FooCollection/README.md) | |
 | [FooDictionary\<TKey, TValue>](Roslynator/Documentation/FooDictionary-2/README.md) | |
 | [FooEvent](Roslynator/Documentation/FooEvent/README.md) | |
+| [FooExtensions](Roslynator/Documentation/FooExtensions/README.md) | fx |
 
 ### Interfaces
 

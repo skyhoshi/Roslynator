@@ -4,12 +4,12 @@ namespace Roslynator.Documentation
 {
     public enum DocumentationKind
     {
-        None,
-        Root,
-        Namespace,
-        Type,
-        Member,
-        ObjectModel,
-        ExtendedTypes,
+        None = 0,
+        Root = 1,
+        Namespace = 2,
+        Type = 3,
+        Member = 4,
+        ObjectModel = 5,
+        ExtendedTypes = 6,
     }
 }

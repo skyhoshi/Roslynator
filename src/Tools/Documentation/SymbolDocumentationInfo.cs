@@ -11,27 +11,26 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
+    //TODO: struct?
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public sealed class SymbolDocumentationInfo
     {
         private ImmutableArray<ISymbol> _publiclyVisibleMembers;
 
-        private ImmutableArray<ISymbol> _allPubliclyVisibleMembers;
+        private ImmutableArray<ISymbol> _publiclyVisibleMembersIncludingInherited;
 
         private SymbolDocumentationInfo(
             ISymbol symbol,
             string commentId,
-            ImmutableArray<ISymbol> members,
             ImmutableArray<ISymbol> symbols,
             ImmutableArray<string> names,
             CompilationDocumentationInfo compilation)
         {
             Symbol = symbol;
             CommentId = commentId;
-            Members = members;
             Symbols = symbols;
             Names = names;
-            Compilation = compilation;
+            CompilationInfo = compilation;
         }
 
         public ISymbol Symbol { get; }
@@ -40,96 +39,9 @@ namespace Roslynator.Documentation
 
         private ImmutableArray<ISymbol> Symbols { get; }
 
-        internal ImmutableArray<string> Names { get; }
+        private ImmutableArray<string> Names { get; }
 
-        public CompilationDocumentationInfo Compilation { get; }
-
-        public bool IsExternal
-        {
-            get
-            {
-                foreach (AssemblyDocumentationInfo assemblyInfo in Compilation.Assemblies)
-                {
-                    if (Symbol.ContainingAssembly == assemblyInfo.AssemblySymbol)
-                        return false;
-                }
-
-                return true;
-            }
-        }
-
-        public ImmutableArray<ISymbol> Members { get; }
-
-        public ImmutableArray<ISymbol> PubliclyVisibleMembers
-        {
-            get
-            {
-                if (_publiclyVisibleMembers.IsDefault)
-                {
-                    _publiclyVisibleMembers = Members
-                        .Where(f => f.IsPubliclyVisible())
-                        .ToImmutableArray();
-                }
-
-                return _publiclyVisibleMembers;
-            }
-        }
-
-        public ImmutableArray<ISymbol> AllPubliclyVisibleMembers
-        {
-            get
-            {
-                if (Symbol.IsStatic)
-                    return PubliclyVisibleMembers;
-
-                if (_allPubliclyVisibleMembers.IsDefault)
-                {
-                    ImmutableArray<ISymbol>.Builder builder = ImmutableArray.CreateBuilder<ISymbol>();
-
-                    HashSet<ISymbol> overriddenSymbols = null;
-
-                    foreach (ISymbol symbol in PubliclyVisibleMembers)
-                    {
-                        ISymbol overriddenSymbol = symbol.OverriddenSymbol();
-
-                        if (overriddenSymbol != null)
-                        {
-                            (overriddenSymbols ?? (overriddenSymbols = new HashSet<ISymbol>())).Add(overriddenSymbol);
-                        }
-
-                        builder.Add(symbol);
-                    }
-
-                    INamedTypeSymbol baseType = (Symbol as ITypeSymbol)?.BaseType;
-
-                    while (baseType != null)
-                    {
-                        foreach (ISymbol symbol in baseType.GetMembers())
-                        {
-                            if (!symbol.IsStatic
-                                && symbol.IsPubliclyVisible())
-                            {
-                                if (overriddenSymbols?.Remove(symbol) != true)
-                                    builder.Add(symbol);
-
-                                ISymbol overriddenSymbol = symbol.OverriddenSymbol();
-
-                                if (overriddenSymbol != null)
-                                {
-                                    (overriddenSymbols ?? (overriddenSymbols = new HashSet<ISymbol>())).Add(overriddenSymbol);
-                                }
-                            }
-                        }
-
-                        baseType = baseType.BaseType;
-                    }
-
-                    _allPubliclyVisibleMembers = builder.ToImmutableArray();
-                }
-
-                return _allPubliclyVisibleMembers;
-            }
-        }
+        internal CompilationDocumentationInfo CompilationInfo { get; }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string DebuggerDisplay
@@ -137,27 +49,50 @@ namespace Roslynator.Documentation
             get { return $"{Symbol.Kind} {Symbol.ToDisplayString(Roslynator.SymbolDisplayFormats.Test)}"; }
         }
 
+        public ImmutableArray<ISymbol> GetPubliclyVisibleMembers(bool includeInherited = false)
+        {
+            if (includeInherited)
+            {
+                if (_publiclyVisibleMembersIncludingInherited.IsDefault)
+                {
+                    if (Symbol.IsStatic)
+                    {
+                        _publiclyVisibleMembersIncludingInherited = GetPubliclyVisibleMembers();
+                    }
+                    else
+                    {
+                        _publiclyVisibleMembersIncludingInherited = (Symbol is ITypeSymbol typeSymbol)
+                            ? typeSymbol.GetPubliclyVisibleMembers(includeInherited: true)
+                            : ImmutableArray<ISymbol>.Empty;
+                    }
+                }
+
+                return _publiclyVisibleMembersIncludingInherited;
+            }
+            else
+            {
+                if (_publiclyVisibleMembers.IsDefault)
+                {
+                    _publiclyVisibleMembers = (Symbol is ITypeSymbol typeSymbol)
+                        ? typeSymbol.GetPubliclyVisibleMembers()
+                        : ImmutableArray<ISymbol>.Empty;
+                }
+
+                return _publiclyVisibleMembers;
+            }
+        }
+
         internal static SymbolDocumentationInfo Create(CompilationDocumentationInfo compilation)
         {
             return new SymbolDocumentationInfo(
                 symbol: null,
                 commentId: null,
-                ImmutableArray<ISymbol>.Empty,
-                ImmutableArray<ISymbol>.Empty,
-                ImmutableArray<string>.Empty,
-                compilation);
+                symbols: ImmutableArray<ISymbol>.Empty,
+                names: ImmutableArray<string>.Empty,
+                compilation: compilation);
         }
 
         public static SymbolDocumentationInfo Create(ISymbol symbol, CompilationDocumentationInfo compilation)
-        {
-            ImmutableArray<ISymbol> members = (symbol is ITypeSymbol typeSymbol)
-                ? typeSymbol.GetMembers()
-                : ImmutableArray<ISymbol>.Empty;
-
-            return Create(symbol, members, compilation);
-        }
-
-        private static SymbolDocumentationInfo Create(ISymbol symbol, ImmutableArray<ISymbol> members, CompilationDocumentationInfo  compilation)
         {
             ImmutableArray<ISymbol>.Builder symbols = ImmutableArray.CreateBuilder<ISymbol>();
             ImmutableArray<string>.Builder names = ImmutableArray.CreateBuilder<string>();
@@ -165,12 +100,12 @@ namespace Roslynator.Documentation
             if (symbol.Kind == SymbolKind.Namespace
                 && ((INamespaceSymbol)symbol).IsGlobalNamespace)
             {
-                names.Add("_Global");
+                names.Add(WellKnownNames.GlobalNamespaceName);
             }
             else if (symbol.Kind == SymbolKind.Method
                 && ((IMethodSymbol)symbol).MethodKind == MethodKind.Constructor)
             {
-                names.Add("-ctor");
+                names.Add(WellKnownNames.ConstructorName);
             }
             else if (symbol.Kind == SymbolKind.Property
                 && ((IPropertySymbol)symbol).IsIndexer)
@@ -230,7 +165,7 @@ namespace Roslynator.Documentation
                 {
                     if (symbol.Kind != SymbolKind.Namespace)
                     {
-                        names.Add("_Global");
+                        names.Add(WellKnownNames.GlobalNamespaceName);
                         symbols.Add(containingNamespace);
                     }
                 }
@@ -251,16 +186,20 @@ namespace Roslynator.Documentation
             return new SymbolDocumentationInfo(
                 symbol,
                 symbol.GetDocumentationCommentId(),
-                members,
                 symbols.ToImmutableArray(),
                 names.ToImmutableArray(),
                 compilation);
         }
 
+        internal string GetPath(string fileName)
+        {
+            return string.Join(@"\", Names.Reverse()) + @"\" + fileName;
+        }
+
         internal string GetUrl(string fileName, SymbolDocumentationInfo directoryInfo = null, bool useExternalLink = true)
         {
             if (useExternalLink
-                && IsExternal)
+                && CompilationInfo.IsExternal(Symbol))
             {
                 if (Symbols.LastOrDefault()?.Kind == SymbolKind.Namespace)
                 {
@@ -337,18 +276,16 @@ namespace Roslynator.Documentation
 
         public IEnumerable<IFieldSymbol> GetFields(bool includeInherited = false)
         {
-            foreach (ISymbol member in ((includeInherited) ? AllPubliclyVisibleMembers : PubliclyVisibleMembers))
+            foreach (ISymbol member in (GetPubliclyVisibleMembers(includeInherited)))
             {
                 if (member.Kind == SymbolKind.Field)
-                {
                     yield return (IFieldSymbol)member;
-                }
             }
         }
 
         public IEnumerable<IMethodSymbol> GetConstructors()
         {
-            foreach (ISymbol member in PubliclyVisibleMembers)
+            foreach (ISymbol member in GetPubliclyVisibleMembers())
             {
                 if (member.Kind == SymbolKind.Method)
                 {
@@ -368,34 +305,30 @@ namespace Roslynator.Documentation
 
         public IEnumerable<IPropertySymbol> GetProperties(bool includeInherited = false)
         {
-            foreach (ISymbol member in ((includeInherited) ? AllPubliclyVisibleMembers : PubliclyVisibleMembers))
+            foreach (ISymbol member in (GetPubliclyVisibleMembers(includeInherited)))
             {
                 if (member.Kind == SymbolKind.Property)
-                {
                     yield return (IPropertySymbol)member;
-                }
             }
         }
 
         public IEnumerable<IMethodSymbol> GetMethods(bool includeInherited = false)
         {
-            foreach (ISymbol member in ((includeInherited) ? AllPubliclyVisibleMembers : PubliclyVisibleMembers))
+            foreach (ISymbol member in (GetPubliclyVisibleMembers(includeInherited)))
             {
                 if (member.Kind == SymbolKind.Method)
                 {
                     var methodSymbol = (IMethodSymbol)member;
 
                     if (methodSymbol.MethodKind == MethodKind.Ordinary)
-                    {
                         yield return methodSymbol;
-                    }
                 }
             }
         }
 
         public IEnumerable<IMethodSymbol> GetOperators(bool includeInherited = false)
         {
-            foreach (ISymbol member in ((includeInherited) ? AllPubliclyVisibleMembers : PubliclyVisibleMembers))
+            foreach (ISymbol member in (GetPubliclyVisibleMembers(includeInherited)))
             {
                 if (member.Kind == SymbolKind.Method)
                 {
@@ -413,18 +346,19 @@ namespace Roslynator.Documentation
 
         public IEnumerable<IEventSymbol> GetEvents(bool includeInherited = false)
         {
-            foreach (ISymbol member in ((includeInherited) ? AllPubliclyVisibleMembers : PubliclyVisibleMembers))
+            foreach (ISymbol member in (GetPubliclyVisibleMembers(includeInherited)))
             {
                 if (member.Kind == SymbolKind.Event)
-                {
                     yield return (IEventSymbol)member;
-                }
             }
         }
 
         public IEnumerable<ISymbol> GetExplicitInterfaceImplementations()
         {
-            foreach (ISymbol member in Members)
+            if (!(Symbol is ITypeSymbol typeSymbol))
+                yield break;
+
+            foreach (ISymbol member in typeSymbol.GetMembers())
             {
                 switch (member.Kind)
                 {
@@ -482,7 +416,7 @@ namespace Roslynator.Documentation
                 && Symbol.IsStatic
                 && Symbol.ContainingType == null)
             {
-                foreach (ISymbol member in PubliclyVisibleMembers)
+                foreach (ISymbol member in GetPubliclyVisibleMembers())
                 {
                     if (member.Kind == SymbolKind.Method
                         && member.IsStatic)
@@ -490,9 +424,7 @@ namespace Roslynator.Documentation
                         var methodSymbol = (IMethodSymbol)member;
 
                         if (methodSymbol.IsExtensionMethod)
-                        {
                             yield return methodSymbol;
-                        }
                     }
                 }
             }

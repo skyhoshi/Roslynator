@@ -52,9 +52,9 @@ namespace Roslynator.Documentation
             get { return Options.FormatProvider; }
         }
 
-        public CompilationDocumentationInfo Compilation
+        public CompilationDocumentationInfo CompilationInfo
         {
-            get { return SymbolInfo.Compilation; }
+            get { return SymbolInfo.CompilationInfo; }
         }
 
         public DocumentationOptions Options { get; }
@@ -65,6 +65,11 @@ namespace Roslynator.Documentation
         }
 
         public DocumentationResources Resources { get; }
+
+        internal SymbolDocumentationInfo GetSymbolInfo(ISymbol symbol)
+        {
+            return CompilationInfo.GetSymbolInfo(symbol);
+        }
 
         public abstract void WriteStartBold();
 
@@ -264,6 +269,16 @@ namespace Roslynator.Documentation
             WriteString(value.ToString(null, CultureInfo.InvariantCulture));
         }
 
+        public void WriteSpace()
+        {
+            WriteString(" ");
+        }
+
+        public void WriteString(ISymbol symbol, SymbolDisplayFormat format = null)
+        {
+            WriteString(symbol.ToDisplayString(format));
+        }
+
         public abstract string GetLanguageIdentifier(string language);
 
         public void WriteTableCell(string text)
@@ -274,27 +289,14 @@ namespace Roslynator.Documentation
         }
 
         public void WriteLink(
-            SymbolDocumentationInfo symbolInfo,
+            ISymbol symbol,
             SymbolDocumentationInfo directoryInfo,
             SymbolDisplayFormat format,
             SymbolDisplayAdditionalOptions additionalOptions)
         {
-            string url = symbolInfo.GetUrl(FileName, directoryInfo, useExternalLink: CanCreateExternalLink);
+            string url = GetSymbolInfo(symbol).GetUrl(FileName, directoryInfo, useExternalLink: CanCreateExternalLink);
 
-            WriteLinkOrText(symbolInfo.Symbol.ToDisplayString(format, additionalOptions), url);
-        }
-
-        public void WriteNamespace(INamespaceSymbol namespaceSymbol, IEnumerable<ITypeSymbol> typeSymbols)
-        {
-            WriteStartHeading(2);
-
-            SymbolDocumentationInfo info = Compilation.GetSymbolInfo(namespaceSymbol);
-
-            WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), string.Join("/", info.Names.Reverse()) + "/README.md");
-            WriteString(" ");
-            WriteString(Resources.Namespace);
-            WriteEndHeading();
-            WriteNamespaceContentAsTable(typeSymbols, 3);
+            WriteLinkOrText(symbol.ToDisplayString(format, additionalOptions), url);
         }
 
         public virtual void WriteTitle(ISymbol symbol)
@@ -302,7 +304,7 @@ namespace Roslynator.Documentation
             WriteStartHeading(1 + BaseHeadingLevel);
 
             WriteString(symbol.ToDisplayString(FormatProvider.TitleFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName));
-            WriteString(" ");
+            WriteSpace();
             WriteString(KindName);
             WriteEndHeading();
         }
@@ -311,11 +313,8 @@ namespace Roslynator.Documentation
         {
             WriteString(Resources.Namespace);
             WriteString(Resources.Colon);
-            WriteString(" ");
-
-            INamespaceSymbol containingNamespace = symbol.ContainingNamespace;
-
-            WriteLink(Compilation.GetSymbolInfo(containingNamespace), DirectoryInfo, FormatProvider.NamespaceFormat, SymbolDisplayAdditionalOptions.None);
+            WriteSpace();
+            WriteLink(symbol.ContainingNamespace, DirectoryInfo, FormatProvider.NamespaceFormat, SymbolDisplayAdditionalOptions.None);
             WriteLine();
             WriteLine();
         }
@@ -324,9 +323,8 @@ namespace Roslynator.Documentation
         {
             WriteString(Resources.Assembly);
             WriteString(Resources.Colon);
-            WriteString(" ");
+            WriteSpace();
             WriteString(symbol.ContainingAssembly.Name);
-
             WriteString(Resources.Dot);
             WriteString(Resources.DllExtension);
             WriteLine();
@@ -386,10 +384,10 @@ namespace Roslynator.Documentation
 
                     do
                     {
-                        builder.Add(new SymbolDisplayPart(SymbolDisplayPartKind.Punctuation, null, "["));
+                        builder.Add(SymbolDisplayPartFactory.Punctuation("["));
                         builder.AddRange(en.Current.AttributeClass.ToDisplayParts(FormatProvider.TypeFormat));
-                        builder.Add(new SymbolDisplayPart(SymbolDisplayPartKind.Punctuation, null, "]"));
-                        builder.Add(new SymbolDisplayPart(SymbolDisplayPartKind.LineBreak, null, Environment.NewLine));
+                        builder.Add(SymbolDisplayPartFactory.Punctuation("]"));
+                        builder.Add(SymbolDisplayPartFactory.LineBreak());
                     }
                     while (en.MoveNext());
 
@@ -500,12 +498,12 @@ namespace Roslynator.Documentation
 
                 void AddSpace()
                 {
-                    builder.Add(new SymbolDisplayPart(SymbolDisplayPartKind.Space, null, " "));
+                    builder.Add(SymbolDisplayPartFactory.Space());
                 }
 
                 void AddPunctuation(string text)
                 {
-                    builder.Add(new SymbolDisplayPart(SymbolDisplayPartKind.Punctuation, null, text));
+                    builder.Add(SymbolDisplayPartFactory.Punctuation(text));
                 }
             }
         }
@@ -595,10 +593,10 @@ namespace Roslynator.Documentation
                     return;
 
                 WriteHeading(3 + BaseHeadingLevel, heading);
-                WriteLink(Compilation.GetSymbolInfo(returnType), DirectoryInfo, FormatProvider.ReturnValueFormat, SymbolDisplayAdditionalOptions.None);
+                WriteLink(returnType, DirectoryInfo, FormatProvider.ReturnValueFormat, SymbolDisplayAdditionalOptions.None);
                 WriteLine();
 
-                string returns = Compilation.GetDocumentationElement(symbol2, "returns")?.Value;
+                string returns = CompilationInfo.GetDocumentationElement(symbol2, "returns")?.Value;
 
                 if (returns != null)
                 {
@@ -635,9 +633,9 @@ namespace Roslynator.Documentation
 
                     do
                     {
-                        WriteString(" ");
+                        WriteSpace();
                         WriteCharEntity(Resources.InheritanceChar);
-                        WriteString(" ");
+                        WriteSpace();
 
                         symbol = en.Current;
                         isLast = !en.MoveNext();
@@ -654,11 +652,11 @@ namespace Roslynator.Documentation
             {
                 if (isLast)
                 {
-                    WriteString(symbol.ToDisplayString(FormatProvider.InheritanceFormat));
+                    WriteString(symbol, FormatProvider.InheritanceFormat);
                 }
                 else
                 {
-                    WriteLink(Compilation.GetSymbolInfo(symbol), DirectoryInfo, FormatProvider.InheritanceFormat, SymbolDisplayAdditionalOptions.None);
+                    WriteLink(symbol, DirectoryInfo, FormatProvider.InheritanceFormat, SymbolDisplayAdditionalOptions.None);
                 }
             }
         }
@@ -675,14 +673,14 @@ namespace Roslynator.Documentation
                 {
                     WriteHeading(3 + BaseHeadingLevel, Resources.Attributes);
 
-                    WriteLink(Compilation.GetSymbolInfo(en.Current), SymbolDisplayAdditionalOptions.None);
+                    WriteLink(en.Current, SymbolDisplayAdditionalOptions.None);
 
                     while (en.MoveNext())
                     {
                         WriteString(Resources.Comma);
-                        WriteString(" ");
+                        WriteSpace();
 
-                        WriteLink(Compilation.GetSymbolInfo(en.Current), SymbolDisplayAdditionalOptions.None);
+                        WriteLink(en.Current, SymbolDisplayAdditionalOptions.None);
                     }
                 }
             }
@@ -690,6 +688,7 @@ namespace Roslynator.Documentation
             WriteLine();
         }
 
+        //TODO: add to DocumentationOptions
         private static bool ShouldBeExcluded(INamedTypeSymbol attributeSymbol)
         {
             switch (attributeSymbol.MetadataName)
@@ -732,8 +731,8 @@ namespace Roslynator.Documentation
             if (typeKind.Is(TypeKind.Class, TypeKind.Interface)
                 && !typeSymbol.IsStatic)
             {
-                using (IEnumerator<INamedTypeSymbol> en = Compilation
-                    .TypeSymbols
+                using (IEnumerator<INamedTypeSymbol> en = CompilationInfo
+                    .Types
                     .Where(f => f.InheritsFrom(typeSymbol))
                     .OrderBy(f => f.ToDisplayString(FormatProvider.DerivedFormat))
                     .GetEnumerator())
@@ -749,7 +748,7 @@ namespace Roslynator.Documentation
                         do
                         {
                             WriteStartBulletItem();
-                            WriteLink(Compilation.GetSymbolInfo(en.Current), DirectoryInfo, FormatProvider.DerivedFormat, SymbolDisplayAdditionalOptions.None);
+                            WriteLink(en.Current, DirectoryInfo, FormatProvider.DerivedFormat, SymbolDisplayAdditionalOptions.None);
                             WriteEndBulletItem();
 
                             count++;
@@ -778,7 +777,7 @@ namespace Roslynator.Documentation
             if (typeSymbol.TypeKind == TypeKind.Enum)
                 return;
 
-            IEnumerable<INamedTypeSymbol> allInterfaces = (typeSymbol.BaseType?.SpecialType.Is(SpecialType.System_Delegate, SpecialType.System_MulticastDelegate) == true)
+            IEnumerable<INamedTypeSymbol> allInterfaces = (typeSymbol.TypeKind == TypeKind.Delegate)
                 ? typeSymbol.Interfaces
                 : typeSymbol.AllInterfaces;
 
@@ -800,7 +799,7 @@ namespace Roslynator.Documentation
                     do
                     {
                         WriteStartBulletItem();
-                        WriteLink(Compilation.GetSymbolInfo(en.Current), FormatProvider.ImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
+                        WriteLink(en.Current, FormatProvider.ImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
                         WriteEndBulletItem();
                     }
                     while (en.MoveNext());
@@ -818,16 +817,17 @@ namespace Roslynator.Documentation
                 {
                     WriteHeading(3 + BaseHeadingLevel, Resources.Exceptions);
 
-                    WriteException(en.Current.element, en.Current.exceptionSymbol);
-
-                    while (en.MoveNext())
+                    do
+                    {
                         WriteException(en.Current.element, en.Current.exceptionSymbol);
+                    }
+                    while (en.MoveNext());
                 }
             }
 
             void WriteException(XElement element, ISymbol exceptionSymbol)
             {
-                WriteLink(Compilation.GetSymbolInfo(exceptionSymbol), SymbolDisplayAdditionalOptions.None);
+                WriteLink(exceptionSymbol, SymbolDisplayAdditionalOptions.None);
                 WriteLine();
                 WriteLine();
                 WriteElementContent(element);
@@ -837,7 +837,7 @@ namespace Roslynator.Documentation
 
             IEnumerable<(XElement element, ISymbol exceptionSymbol)> GetExceptions()
             {
-                XElement element = Compilation.GetDocumentationElement(symbol);
+                XElement element = CompilationInfo.GetDocumentationElement(symbol);
 
                 if (element != null)
                 {
@@ -847,7 +847,7 @@ namespace Roslynator.Documentation
 
                         if (commentId != null)
                         {
-                            ISymbol exceptionSymbol = DocumentationCommentId.GetFirstSymbolForReferenceId(commentId, Compilation.Compilation);
+                            ISymbol exceptionSymbol = DocumentationCommentId.GetFirstSymbolForReferenceId(commentId, CompilationInfo.Compilation);
 
                             if (exceptionSymbol != null)
                                 yield return (e, exceptionSymbol);
@@ -890,7 +890,7 @@ namespace Roslynator.Documentation
                         WriteStartTableRow();
                         WriteTableCell(fieldSymbol.ToDisplayString(FormatProvider.FieldFormat));
                         WriteTableCell(fieldSymbol.ConstantValue.ToString());
-                        WriteTableCell(Compilation.GetDocumentationElement(fieldSymbol, "summary")?.Value.Trim());
+                        WriteTableCell(CompilationInfo.GetDocumentationElement(fieldSymbol, "summary")?.Value.Trim());
                         WriteEndTableRow();
                     }
                     while (en.MoveNext());
@@ -937,12 +937,8 @@ namespace Roslynator.Documentation
 
         public virtual void WriteExtensionMethods(ITypeSymbol typeSymbol)
         {
-            IEnumerable<IMethodSymbol> extensionMethods = Compilation
-                .ExtensionMethodSymbols
-                .Where(f => f.Parameters[0].Type.OriginalDefinition == typeSymbol);
-
             WriteTable(
-                extensionMethods,
+                CompilationInfo.GetExtensionMethods(typeSymbol),
                 Resources.ExtensionMethods,
                 2,
                 Resources.Method,
@@ -974,13 +970,13 @@ namespace Roslynator.Documentation
             void WriteBulletItem(ISymbol symbol2)
             {
                 WriteStartBulletItem();
-                WriteLink(Compilation.GetSymbolInfo(symbol2), DirectoryInfo, FormatProvider.CrefFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName);
+                WriteLink(symbol2, DirectoryInfo, FormatProvider.CrefFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName);
                 WriteEndBulletItem();
             }
 
             IEnumerable<ISymbol> GetSymbols()
             {
-                XElement element = Compilation.GetDocumentationElement(symbol);
+                XElement element = CompilationInfo.GetDocumentationElement(symbol);
 
                 if (element != null)
                 {
@@ -990,7 +986,7 @@ namespace Roslynator.Documentation
 
                         if (commentId != null)
                         {
-                            ISymbol symbol2 = DocumentationCommentId.GetFirstSymbolForReferenceId(commentId, Compilation.Compilation);
+                            ISymbol symbol2 = DocumentationCommentId.GetFirstSymbolForReferenceId(commentId, CompilationInfo.Compilation);
 
                             if (symbol2 != null)
                                 yield return symbol2;
@@ -1002,7 +998,7 @@ namespace Roslynator.Documentation
 
         private void WriteSection(ISymbol symbol, string heading, string elementName)
         {
-            XElement element = Compilation.GetDocumentationElement(symbol, elementName);
+            XElement element = CompilationInfo.GetDocumentationElement(symbol, elementName);
 
             if (element == null)
                 return;
@@ -1128,7 +1124,7 @@ namespace Roslynator.Documentation
 
                                         if (commentId != null)
                                         {
-                                            ISymbol symbol = DocumentationCommentId.GetFirstSymbolForDeclarationId(commentId, Compilation.Compilation);
+                                            ISymbol symbol = DocumentationCommentId.GetFirstSymbolForDeclarationId(commentId, CompilationInfo.Compilation);
 
                                             //XTODO: repair roslyn documentation
                                             Debug.Assert(symbol != null
@@ -1141,7 +1137,7 @@ namespace Roslynator.Documentation
 
                                             if (symbol != null)
                                             {
-                                                WriteLink(Compilation.GetSymbolInfo(symbol), DirectoryInfo, FormatProvider.CrefFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName);
+                                                WriteLink(symbol, DirectoryInfo, FormatProvider.CrefFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName);
                                             }
                                             else
                                             {
@@ -1389,7 +1385,7 @@ namespace Roslynator.Documentation
                         {
                             case SymbolKind.Parameter:
                                 {
-                                    element = Compilation
+                                    element = CompilationInfo
                                         .GetDocumentationElement(symbol.ContainingSymbol)?
                                         .Elements("param")
                                         .FirstOrDefault(f => f.Attribute("name")?.Value == symbol.Name);
@@ -1398,7 +1394,7 @@ namespace Roslynator.Documentation
                                 }
                             case SymbolKind.TypeParameter:
                                 {
-                                    element = Compilation
+                                    element = CompilationInfo
                                         .GetDocumentationElement(symbol.ContainingSymbol)?
                                         .Elements("typeparam")
                                         .FirstOrDefault(f => f.Attribute("name")?.Value == symbol.Name);
@@ -1407,7 +1403,7 @@ namespace Roslynator.Documentation
                                 }
                             default:
                                 {
-                                    element = Compilation.GetDocumentationElement(symbol, "summary");
+                                    element = CompilationInfo.GetDocumentationElement(symbol, "summary");
                                     break;
                                 }
                         }
@@ -1419,11 +1415,11 @@ namespace Roslynator.Documentation
                             && Symbol != null
                             && symbol.ContainingType != Symbol)
                         {
-                            WriteString(" ");
+                            WriteSpace();
                             WriteString(Resources.OpenParenthesis);
                             WriteString(Resources.InheritedFrom);
-                            WriteString(" ");
-                            WriteLink(Compilation.GetSymbolInfo(symbol.ContainingType.OriginalDefinition), additionalOptions);
+                            WriteSpace();
+                            WriteLink(symbol.ContainingType.OriginalDefinition, additionalOptions);
                             WriteString(Resources.CloseParenthesis);
                         }
 
@@ -1475,15 +1471,13 @@ namespace Roslynator.Documentation
             SymbolDisplayAdditionalOptions additionalOptions,
             bool addLink)
         {
-            SymbolDocumentationInfo info = Compilation.GetSymbolInfo(symbol);
-
             if (symbol.IsKind(SymbolKind.Parameter, SymbolKind.TypeParameter))
             {
                 WriteString(symbol.Name);
             }
             else if (addLink)
             {
-                WriteLink(info, DirectoryInfo, format, additionalOptions);
+                WriteLink(symbol, DirectoryInfo, format, additionalOptions);
             }
             else
             {
@@ -1496,9 +1490,19 @@ namespace Roslynator.Documentation
             WriteLink(symbolInfo, format ?? SymbolDisplayFormats.TypeNameAndContainingTypes, SymbolDisplayAdditionalOptions.None);
         }
 
+        public void WriteLink(ISymbol symbol, SymbolDisplayAdditionalOptions additionalOptions)
+        {
+            WriteLink(GetSymbolInfo(symbol), SymbolDisplayFormats.TypeNameAndContainingTypes, additionalOptions);
+        }
+
         public void WriteLink(SymbolDocumentationInfo symbolInfo, SymbolDisplayAdditionalOptions additionalOptions)
         {
             WriteLink(symbolInfo, SymbolDisplayFormats.TypeNameAndContainingTypes, additionalOptions);
+        }
+
+        public void WriteLink(ISymbol symbol, SymbolDisplayFormat format, SymbolDisplayAdditionalOptions additionalOptions)
+        {
+            WriteLink(GetSymbolInfo(symbol), format, additionalOptions);
         }
 
         public void WriteLink(SymbolDocumentationInfo symbolInfo, SymbolDisplayFormat format, SymbolDisplayAdditionalOptions additionalOptions)
@@ -1506,8 +1510,6 @@ namespace Roslynator.Documentation
             if (symbolInfo.Symbol is INamedTypeSymbol namedTypeSymbol
                 && namedTypeSymbol.TypeArguments.Any(f => f.Kind != SymbolKind.TypeParameter))
             {
-                var sb = new StringBuilder();
-
                 foreach (SymbolDisplayPart part in symbolInfo
                     .Symbol
                     .ToDisplayParts(format, additionalOptions))
@@ -1526,7 +1528,7 @@ namespace Roslynator.Documentation
                             {
                                 ISymbol symbol = part.Symbol;
 
-                                string url = Compilation.GetSymbolInfo(symbol).GetUrl(FileName, DirectoryInfo);
+                                string url = GetSymbolInfo(symbol).GetUrl(FileName, DirectoryInfo);
 
                                 WriteLinkOrText(symbol.Name, url);
 

@@ -93,14 +93,14 @@ namespace Roslynator.Documentation
             }
         }
 
-        public bool IsEnabled(NamespaceDocumentationParts parts)
-        {
-            return (NamespaceParts & parts) != 0;
-        }
-
         public bool IsEnabled(RootDocumentationParts parts)
         {
             return (RootParts & parts) != 0;
+        }
+
+        public bool IsEnabled(NamespaceDocumentationParts parts)
+        {
+            return (NamespaceParts & parts) != 0;
         }
 
         public bool IsEnabled(TypeDocumentationParts parts)

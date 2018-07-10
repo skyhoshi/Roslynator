@@ -39,11 +39,11 @@ namespace Roslynator.Documentation.Markdown
             var methodSymbol = (IMethodSymbol)symbol;
 
             WriteHeading(3 + BaseHeadingLevel, Resources.Returns);
-            WriteLink(Compilation.GetSymbolInfo(methodSymbol.ReturnType), SymbolDisplayAdditionalOptions.None);
+            WriteLink(methodSymbol.ReturnType, SymbolDisplayAdditionalOptions.None);
             WriteLine();
             WriteLine();
 
-            XElement element = Compilation.GetDocumentationElement(methodSymbol, "returns");
+            XElement element = CompilationInfo.GetDocumentationElement(methodSymbol, "returns");
 
             if (element != null)
             {

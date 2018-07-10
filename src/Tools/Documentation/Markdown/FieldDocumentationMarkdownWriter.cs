@@ -36,7 +36,7 @@ namespace Roslynator.Documentation.Markdown
             var fieldSymbol = (IFieldSymbol)Symbol;
 
             WriteHeading(3 + BaseHeadingLevel, Resources.FieldValue);
-            WriteLink(Compilation.GetSymbolInfo(fieldSymbol.Type), SymbolDisplayAdditionalOptions.None);
+            WriteLink(fieldSymbol.Type, SymbolDisplayAdditionalOptions.None);
         }
     }
 }

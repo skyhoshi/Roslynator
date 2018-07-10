@@ -40,11 +40,12 @@ namespace Roslynator.Documentation
                                         if ((additionalOptions & SymbolDisplayAdditionalOptions.UseItemProperty) != 0
                                             && (symbol as IPropertySymbol)?.IsIndexer == true)
                                         {
-                                            parts = parts.Replace(part, new SymbolDisplayPart(SymbolDisplayPartKind.PropertyName, part.Symbol, "Item"));
+                                            parts = parts.Replace(part, SymbolDisplayPartFactory.PropertyName("Item", part.Symbol));
                                         }
 
                                         break;
                                     }
+                                //TODO: 
                                 case "operator":
                                     {
                                         if ((additionalOptions & SymbolDisplayAdditionalOptions.UseOperatorName) != 0
@@ -60,7 +61,7 @@ namespace Roslynator.Documentation
                                                 && parts[i + 1].IsSpace()
                                                 && parts[i + 2].Kind == SymbolDisplayPartKind.MethodName)
                                             {
-                                                parts = parts.Replace(parts[i + 2], new SymbolDisplayPart(SymbolDisplayPartKind.MethodName, parts[i + 2].Symbol, name.Substring(3)));
+                                                parts = parts.Replace(parts[i + 2], SymbolDisplayPartFactory.MethodName(name.Substring(3), parts[i + 2].Symbol));
                                                 parts = parts.RemoveRange(i, 2);
                                                 length -= 2;
                                             }
@@ -86,7 +87,7 @@ namespace Roslynator.Documentation
                                             {
                                                 List<SymbolDisplayPart> list = parts.ToList();
 
-                                                list[i + 2] = new SymbolDisplayPart(SymbolDisplayPartKind.MethodName, list[i + 4].Symbol, name.Substring(3));
+                                                list[i + 2] = SymbolDisplayPartFactory.MethodName(name.Substring(3), list[i + 4].Symbol);
                                                 list.RemoveRange(i, 2);
                                                 length -= 2;
 
@@ -105,7 +106,7 @@ namespace Roslynator.Documentation
                                                     && list[i + 5].IsPunctuation())
                                                 {
                                                     list.Insert(i + 5, list[i + 2]);
-                                                    list.Insert(i + 5, new SymbolDisplayPart(SymbolDisplayPartKind.Text, null, " to "));
+                                                    list.Insert(i + 5, SymbolDisplayPartFactory.Text(" to "));
                                                     list.RemoveRange(i + 1, 2);
                                                     length -= 5;
                                                 }
@@ -204,13 +205,13 @@ namespace Roslynator.Documentation
 
             void AddKeyword(SyntaxKind kind)
             {
-                builder.Add(new SymbolDisplayPart(SymbolDisplayPartKind.Keyword, null, SyntaxFacts.GetText(kind)));
+                builder.Add(SymbolDisplayPartFactory.Keyword(SyntaxFacts.GetText(kind)));
                 AddSpace();
             }
 
             void AddSpace()
             {
-                builder.Add(new SymbolDisplayPart(SymbolDisplayPartKind.Space, null, " "));
+                builder.Add(SymbolDisplayPartFactory.Space());
             }
         }
     }

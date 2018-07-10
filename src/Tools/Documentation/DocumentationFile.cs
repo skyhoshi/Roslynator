@@ -36,7 +36,7 @@ namespace Roslynator.Documentation
 
         internal static DocumentationFile Create(DocumentationWriter writer, SymbolDocumentationInfo info, string fileName, DocumentationKind kind)
         {
-            return new DocumentationFile(writer.ToString(), string.Join(@"\", info.Names.Reverse()) + @"\" + fileName, kind);
+            return new DocumentationFile(writer.ToString(), info.GetPath(fileName), kind);
         }
     }
 }

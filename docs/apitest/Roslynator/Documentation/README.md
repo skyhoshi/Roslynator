@@ -8,6 +8,7 @@
 | [FooCollection](FooCollection/README.md) | |
 | [FooDictionary\<TKey, TValue>](FooDictionary-2/README.md) | |
 | [FooEvent](FooEvent/README.md) | |
+| [FooExtensions](FooExtensions/README.md) | fx |
 
 ## Interfaces
 

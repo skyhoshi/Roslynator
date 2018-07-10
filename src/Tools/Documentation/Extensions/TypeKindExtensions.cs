@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
-    internal static class Extensions
+    internal static class TypeKindExtensions
     {
         public static NamespaceDocumentationParts ToNamespaceDocumentationPart(this TypeKind typeKind)
         {

@@ -14,33 +14,32 @@ namespace Roslynator.Documentation
         private ImmutableArray<INamedTypeSymbol> _typeSymbols;
         private ImmutableArray<IMethodSymbol> _extensionMethodSymbols;
 
-        private readonly Dictionary<ISymbol, SymbolDocumentationInfo> _symbolDocumentationCache;
-        private readonly Dictionary<IAssemblySymbol, XmlDocumentation> _xmlDocumentations;
+        private readonly Dictionary<ISymbol, SymbolDocumentationInfo> _symbolDocumentationInfos;
+        private Dictionary<IAssemblySymbol, XmlDocumentation> _xmlDocumentations;
 
         public CompilationDocumentationInfo(Compilation compilation, ImmutableArray<AssemblyDocumentationInfo> assemblies)
         {
             Compilation = compilation;
             Assemblies = assemblies;
 
-            _xmlDocumentations = Assemblies.ToDictionary(f => f.AssemblySymbol, f => f.GetXmlDocumentation());
-            _symbolDocumentationCache = new Dictionary<ISymbol, SymbolDocumentationInfo>();
+            _symbolDocumentationInfos = new Dictionary<ISymbol, SymbolDocumentationInfo>();
         }
 
         public Compilation Compilation { get; }
 
         public ImmutableArray<AssemblyDocumentationInfo> Assemblies { get; }
 
-        public IEnumerable<INamespaceSymbol> NamespaceSymbols
+        public IEnumerable<INamespaceSymbol> Namespaces
         {
             get
             {
-                return TypeSymbols
+                return Types
                     .Select(f => f.ContainingNamespace)
-                    .Distinct(MetadataNameEqualityComparer.Namespace);
+                    .Distinct(MetadataNameEqualityComparer<INamespaceSymbol>.Instance);
             }
         }
 
-        public ImmutableArray<INamedTypeSymbol> TypeSymbols
+        public ImmutableArray<INamedTypeSymbol> Types
         {
             get
             {
@@ -55,13 +54,13 @@ namespace Roslynator.Documentation
             }
         }
 
-        public ImmutableArray<IMethodSymbol> ExtensionMethodSymbols
+        public ImmutableArray<IMethodSymbol> ExtensionMethods
         {
             get
             {
                 if (_extensionMethodSymbols.IsDefault)
                 {
-                    _extensionMethodSymbols = TypeSymbols
+                    _extensionMethodSymbols = Types
                         .Where(f => f.TypeKind == TypeKind.Class
                             && f.IsStatic
                             && f.ContainingType == null)
@@ -78,27 +77,20 @@ namespace Roslynator.Documentation
             }
         }
 
-        public IEnumerable<INamedTypeSymbol> GetTypeSymbols(INamespaceSymbol namespaceSymbol)
+        public IEnumerable<INamedTypeSymbol> GetTypes(INamespaceSymbol namespaceSymbol)
         {
-            foreach (INamedTypeSymbol typeSymbol in TypeSymbols)
+            foreach (INamedTypeSymbol typeSymbol in Types)
             {
                 if (typeSymbol.ContainingNamespace == namespaceSymbol)
                     yield return typeSymbol;
             }
         }
 
-        public IEnumerable<IMethodSymbol> GetExtensionMethodSymbols(ITypeSymbol typeSymbol)
+        public IEnumerable<IMethodSymbol> GetExtensionMethods(ITypeSymbol typeSymbol)
         {
-            foreach (IMethodSymbol methodSymbol in ExtensionMethodSymbols)
+            foreach (IMethodSymbol methodSymbol in ExtensionMethods)
             {
-                ITypeSymbol typeSymbol2 = methodSymbol.Parameters[0].Type.OriginalDefinition;
-
-                if (typeSymbol.Kind == SymbolKind.TypeParameter)
-                {
-                    var typeParameter = (ITypeParameterSymbol)typeSymbol;
-
-                    typeSymbol = typeParameter.ConstraintTypes.First(f => f.TypeKind == TypeKind.Class);
-                }
+                ITypeSymbol typeSymbol2 = GetExtendedTypeSymbol(methodSymbol);
 
                 if (typeSymbol == typeSymbol2)
                     yield return methodSymbol;
@@ -111,7 +103,7 @@ namespace Roslynator.Documentation
 
             IEnumerable<ITypeSymbol> Iterator()
             {
-                foreach (IMethodSymbol methodSymbol in ExtensionMethodSymbols)
+                foreach (IMethodSymbol methodSymbol in ExtensionMethods)
                 {
                     ITypeSymbol typeSymbol = GetExternalSymbol(methodSymbol);
 
@@ -135,19 +127,19 @@ namespace Roslynator.Documentation
 
                 return type;
             }
+        }
 
-            ITypeSymbol GetExtendedTypeSymbol(IMethodSymbol methodSymbol)
+        private static ITypeSymbol GetExtendedTypeSymbol(IMethodSymbol methodSymbol)
+        {
+            ITypeSymbol type = methodSymbol.Parameters[0].Type.OriginalDefinition;
+
+            if (type.Kind == SymbolKind.TypeParameter)
             {
-                ITypeSymbol type = methodSymbol.Parameters[0].Type.OriginalDefinition;
-
-                if (type.Kind == SymbolKind.TypeParameter)
-                {
-                    return GetTypeParameterConstraintClass((ITypeParameterSymbol)type);
-                }
-                else
-                {
-                    return type;
-                }
+                return GetTypeParameterConstraintClass((ITypeParameterSymbol)type);
+            }
+            else
+            {
+                return type;
             }
 
             ITypeSymbol GetTypeParameterConstraintClass(ITypeParameterSymbol typeParameter)
@@ -168,20 +160,34 @@ namespace Roslynator.Documentation
             }
         }
 
+        public bool IsExternal(ISymbol symbol)
+        {
+            foreach (AssemblyDocumentationInfo assemblyInfo in Assemblies)
+            {
+                if (symbol.ContainingAssembly == assemblyInfo.AssemblySymbol)
+                    return false;
+            }
+
+            return true;
+        }
+
         internal SymbolDocumentationInfo GetSymbolInfo(ISymbol symbol)
         {
-            if (_symbolDocumentationCache.TryGetValue(symbol, out SymbolDocumentationInfo info))
+            if (_symbolDocumentationInfos.TryGetValue(symbol, out SymbolDocumentationInfo info))
                 return info;
 
             info = SymbolDocumentationInfo.Create(symbol, this);
 
-            _symbolDocumentationCache[symbol] = info;
+            _symbolDocumentationInfos[symbol] = info;
 
             return info;
         }
 
         internal XmlDocumentation GetXmlDocumentation(IAssemblySymbol assemblySymbol)
         {
+            if (_xmlDocumentations == null)
+                _xmlDocumentations = Assemblies.ToDictionary(f => f.AssemblySymbol, f => f.GetXmlDocumentation());
+
             if (!_xmlDocumentations.TryGetValue(assemblySymbol, out XmlDocumentation xmlDocumentation))
             {
                 //TODO: find xml documentation file for an assembly

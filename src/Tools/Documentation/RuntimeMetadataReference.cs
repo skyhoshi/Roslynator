@@ -10,22 +10,16 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Roslynator
 {
+    //TODO: rename
     internal static class RuntimeMetadataReference
     {
-        private static MetadataReference _corLibReference;
         private static ImmutableDictionary<string, string> _trustedPlatformAssemblyPaths;
-
-        public static MetadataReference CorLibReference
-        {
-            get { return _corLibReference ?? (_corLibReference = MetadataReference.CreateFromFile(typeof(object).Assembly.Location)); }
-        }
+        private static Compilation _compilation;
 
         public static ImmutableDictionary<string, string> TrustedPlatformAssemblyPaths
         {
-            get { return _trustedPlatformAssemblyPaths ?? (_trustedPlatformAssemblyPaths = CreateTrustedPlatformAssemblies()); }
+            get { return _trustedPlatformAssemblyPaths ?? (_trustedPlatformAssemblyPaths = CreateTrustedPlatformAssemblyPaths()); }
         }
-
-        private static Compilation _compilation;
 
         public static Compilation Compilation
         {
@@ -47,20 +41,13 @@ namespace Roslynator
             }
         }
 
-        private static ImmutableDictionary<string, string> CreateTrustedPlatformAssemblies()
+        private static ImmutableDictionary<string, string> CreateTrustedPlatformAssemblyPaths()
         {
             return AppContext
                 .GetData("TRUSTED_PLATFORM_ASSEMBLIES")
                 .ToString()
                 .Split(';')
                 .ToImmutableDictionary(Path.GetFileName);
-        }
-
-        public static PortableExecutableReference CreateFromAssemblyName(string assemblyName)
-        {
-            string path = TrustedPlatformAssemblyPaths[assemblyName];
-
-            return MetadataReference.CreateFromFile(path);
         }
     }
 }

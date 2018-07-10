@@ -6,7 +6,6 @@ using System;
 
 namespace Roslynator.Documentation
 {
-
     [Flags]
     public enum DocumentationParts
     {

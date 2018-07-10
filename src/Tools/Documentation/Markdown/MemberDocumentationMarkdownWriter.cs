@@ -83,7 +83,7 @@ namespace Roslynator.Documentation.Markdown
                 : FormatProvider.OverloadedMemberTitleFormat;
 
             WriteString(symbol.ToDisplayString(format, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName));
-            WriteString(" ");
+            WriteSpace();
             WriteString(KindName);
             WriteEndHeading();
         }
@@ -107,7 +107,7 @@ namespace Roslynator.Documentation.Markdown
                     do
                     {
                         WriteStartBulletItem();
-                        WriteLink(Compilation.GetSymbolInfo(en.Current), FormatProvider.MemberImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
+                        WriteLink(en.Current, FormatProvider.MemberImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
                         WriteEndBulletItem();
                     }
                     while (en.MoveNext());

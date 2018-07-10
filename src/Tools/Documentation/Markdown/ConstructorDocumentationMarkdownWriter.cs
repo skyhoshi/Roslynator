@@ -39,13 +39,13 @@ namespace Roslynator.Documentation.Markdown
             if (Symbols.Length == 1)
             {
                 WriteString(symbol.ToDisplayString(FormatProvider.ConstructorFormat));
-                WriteString(" ");
+                WriteSpace();
                 WriteString(Resources.Constructor);
             }
             else
             {
                 WriteString(symbol.ToDisplayString(FormatProvider.TitleFormat));
-                WriteString(" ");
+                WriteSpace();
                 WriteString(Resources.Constructors);
             }
 

@@ -40,13 +40,13 @@ namespace Roslynator.Documentation.Markdown
             var propertySymbol = (IPropertySymbol)Symbol;
 
             WriteHeading(3 + BaseHeadingLevel, Resources.PropertyValue);
-            WriteLink(Compilation.GetSymbolInfo(propertySymbol.Type), SymbolDisplayAdditionalOptions.None);
+            WriteLink(propertySymbol.Type, SymbolDisplayAdditionalOptions.None);
             WriteLine();
             WriteLine();
 
             string elementName = (propertySymbol.IsIndexer) ? "returns" : "value";
 
-            XElement element = Compilation.GetDocumentationElement(propertySymbol, elementName);
+            XElement element = CompilationInfo.GetDocumentationElement(propertySymbol, elementName);
 
             if (element != null)
             {

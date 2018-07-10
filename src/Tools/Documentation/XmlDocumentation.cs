@@ -15,7 +15,7 @@ namespace Roslynator.Documentation
         private static readonly XmlReaderSettings _xmlReaderSettings = new XmlReaderSettings() { ConformanceLevel = ConformanceLevel.Fragment };
         private static readonly Regex _indentationRegex = new Regex("(?<=\n)            ");
 
-        private readonly Dictionary<string, XElement> _cache;
+        private readonly Dictionary<string, XElement> _elements;
         private readonly XDocument _document;
         private readonly XElement _members;
 
@@ -23,7 +23,7 @@ namespace Roslynator.Documentation
         {
             _document = document;
             _members = document.Root.Element("members");
-            _cache = new Dictionary<string, XElement>();
+            _elements = new Dictionary<string, XElement>();
         }
 
         public static XmlDocumentation Load(string filePath)
@@ -33,11 +33,6 @@ namespace Roslynator.Documentation
             return new XmlDocumentation(document);
         }
 
-        public string GetElementValue(string id, string name)
-        {
-            return GetElement(id, name).Value;
-        }
-
         internal XElement GetElement(string id, string name)
         {
             return GetElement(id)?.Element(name);
@@ -45,7 +40,7 @@ namespace Roslynator.Documentation
 
         internal XElement GetElement(string id)
         {
-            if (!_cache.TryGetValue(id, out XElement element))
+            if (!_elements.TryGetValue(id, out XElement element))
             {
                 element = _members.Elements().FirstOrDefault(f => f.Attribute("name")?.Value == id);
 
@@ -53,7 +48,7 @@ namespace Roslynator.Documentation
                 {
                     element = Unindent(element);
 
-                    _cache[id] = element;
+                    _elements[id] = element;
                 }
             }
 
