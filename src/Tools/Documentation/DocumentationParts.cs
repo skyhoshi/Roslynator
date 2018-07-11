@@ -13,7 +13,7 @@ namespace Roslynator.Documentation
         Namespace = 1,
         Type = 2,
         Member = 4,
-        ExtendedTypes = 8,
+        ExtendedExternalTypes = 8,
         ObjectModel = 16,
         All = int.MaxValue
     }

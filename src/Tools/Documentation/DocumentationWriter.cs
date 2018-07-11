@@ -6,7 +6,6 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using Roslynator.CSharp;
@@ -44,6 +43,10 @@ namespace Roslynator.Documentation
         }
 
         internal bool CanCreateExternalLink { get; set; } = true;
+
+        internal bool CanCreateTypeLocalLink { get; set; } = true;
+
+        internal bool CanCreateMemberLocalLink { get; set; } = true;
 
         protected internal int BaseHeadingLevel { get; set; }
 
@@ -288,13 +291,35 @@ namespace Roslynator.Documentation
             WriteEndTableCell();
         }
 
+        internal string GetUrl(ISymbol symbol, SymbolDocumentationInfo directoryInfo = null)
+        {
+            return GetUrl(CompilationInfo.GetSymbolInfo(symbol), directoryInfo);
+        }
+
+        internal string GetUrl(SymbolDocumentationInfo symbolInfo, SymbolDocumentationInfo directoryInfo = null)
+        {
+            if (symbolInfo.Symbol is ITypeSymbol typeSymbol)
+            {
+                if (CanCreateTypeLocalLink)
+                {
+                    return symbolInfo.GetUrl(FileName, directoryInfo, useExternalLink: CanCreateExternalLink);
+                }
+            }
+            else if (CanCreateMemberLocalLink)
+            {
+                return symbolInfo.GetUrl(FileName, directoryInfo, useExternalLink: CanCreateExternalLink);
+            }
+
+            return null;
+        }
+
         public void WriteLink(
             ISymbol symbol,
             SymbolDocumentationInfo directoryInfo,
             SymbolDisplayFormat format,
             SymbolDisplayAdditionalOptions additionalOptions)
         {
-            string url = GetSymbolInfo(symbol).GetUrl(FileName, directoryInfo, useExternalLink: CanCreateExternalLink);
+            string url = GetUrl(symbol, directoryInfo);
 
             WriteLinkOrText(symbol.ToDisplayString(format, additionalOptions), url);
         }
@@ -1015,7 +1040,7 @@ namespace Roslynator.Documentation
             WriteElementContent(element);
         }
 
-        protected void WriteElementContent(XElement element, bool isNested = false)
+        protected internal void WriteElementContent(XElement element, bool isNested = false)
         {
             using (IEnumerator<XNode> en = element.Nodes().GetEnumerator())
             {
@@ -1349,7 +1374,7 @@ namespace Roslynator.Documentation
             string header2,
             SymbolDisplayFormat format,
             SymbolDisplayAdditionalOptions additionalOptions,
-            bool addLink = true,
+            bool addLocalLink = true,
             bool addInheritedFrom = false)
         {
             using (IEnumerator<ISymbol> en = symbols
@@ -1375,7 +1400,7 @@ namespace Roslynator.Documentation
                         WriteStartTableRow();
                         WriteStartTableCell();
 
-                        WriteLinkOrText(symbol, format, additionalOptions, addLink);
+                        WriteLinkOrText(symbol, format, additionalOptions, addLocalLink);
 
                         WriteEndTableCell();
                         WriteStartTableCell();
@@ -1439,7 +1464,7 @@ namespace Roslynator.Documentation
             int headingLevel,
             SymbolDisplayFormat format,
             SymbolDisplayAdditionalOptions additionalOptions,
-            bool addLink = true)
+            bool addLocalLink = true)
         {
             using (IEnumerator<ISymbol> en = symbols
                 .OrderBy(f => f.ToDisplayString(format, additionalOptions))
@@ -1455,7 +1480,7 @@ namespace Roslynator.Documentation
                     do
                     {
                         WriteStartBulletItem();
-                        WriteLinkOrText(en.Current, format, additionalOptions, addLink);
+                        WriteLinkOrText(en.Current, format, additionalOptions, addLocalLink);
                         WriteEndBulletItem();
                     }
                     while (en.MoveNext());
@@ -1469,13 +1494,14 @@ namespace Roslynator.Documentation
             ISymbol symbol,
             SymbolDisplayFormat format,
             SymbolDisplayAdditionalOptions additionalOptions,
-            bool addLink)
+            bool addLocalLink)
         {
             if (symbol.IsKind(SymbolKind.Parameter, SymbolKind.TypeParameter))
             {
                 WriteString(symbol.Name);
             }
-            else if (addLink)
+            else if (addLocalLink
+                || CompilationInfo.IsExternal(symbol))
             {
                 WriteLink(symbol, DirectoryInfo, format, additionalOptions);
             }
@@ -1483,6 +1509,11 @@ namespace Roslynator.Documentation
             {
                 WriteString(symbol.ToDisplayString(format, additionalOptions));
             }
+        }
+
+        public void WriteLink(ISymbol symbol, SymbolDisplayFormat format = null)
+        {
+            WriteLink(GetSymbolInfo(symbol), format);
         }
 
         public void WriteLink(SymbolDocumentationInfo symbolInfo, SymbolDisplayFormat format = null)
@@ -1528,7 +1559,7 @@ namespace Roslynator.Documentation
                             {
                                 ISymbol symbol = part.Symbol;
 
-                                string url = GetSymbolInfo(symbol).GetUrl(FileName, DirectoryInfo);
+                                string url = GetUrl(symbol, DirectoryInfo);
 
                                 WriteLinkOrText(symbol.Name, url);
 
@@ -1544,7 +1575,7 @@ namespace Roslynator.Documentation
             }
             else
             {
-                string url = symbolInfo.GetUrl(FileName, DirectoryInfo);
+                string url = GetUrl(symbolInfo, DirectoryInfo);
 
                 WriteLinkOrText(symbolInfo.Symbol.ToDisplayString(format, additionalOptions), url);
             }
@@ -1552,7 +1583,8 @@ namespace Roslynator.Documentation
 
         public void WriteNamespaceContentAsTable(
             IEnumerable<ITypeSymbol> typeSymbols,
-            int headingLevel)
+            int headingLevel,
+            bool addLocalLink = true)
         {
             SymbolDisplayFormat format = FormatProvider.TypeFormat;
 
@@ -1571,14 +1603,15 @@ namespace Roslynator.Documentation
                     Resources.GetName(typeKind),
                     Resources.Summary,
                     format,
-                    SymbolDisplayAdditionalOptions.None);
+                    SymbolDisplayAdditionalOptions.None,
+                    addLocalLink: addLocalLink);
             }
         }
 
         public void WriteNamespaceContentAsList(
             IEnumerable<ITypeSymbol> typeSymbols,
             int headingLevel,
-            bool addLink = true)
+            bool addLocalLink = true)
         {
             SymbolDisplayFormat format = FormatProvider.TypeFormat;
 
@@ -1596,7 +1629,7 @@ namespace Roslynator.Documentation
                     headingLevel,
                     format,
                     SymbolDisplayAdditionalOptions.None,
-                    addLink: addLink);
+                    addLocalLink: addLocalLink);
             }
         }
 

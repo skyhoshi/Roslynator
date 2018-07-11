@@ -2,7 +2,7 @@
 
 #pragma warning disable CA1051, CA1822, RCS1101, RCS1163, RCS1175
 
-namespace Roslynator.Documentation
+namespace Roslynator.Documentation.Test
 {
     /// <summary>
     /// fx
@@ -13,7 +13,7 @@ namespace Roslynator.Documentation
         /// x
         /// </summary>
         /// <param name="foo"></param>
-        public static void ExtensionMethod(this Foo foo)
+        internal static void ExtensionMethod(this Foo foo)
         {
         }
 
@@ -22,11 +22,11 @@ namespace Roslynator.Documentation
         /// </summary>
         /// <typeparam name="T"T></typeparam>
         /// <param name="foo">f</param>
-        public static void ExtensionMethod<T>(this T foo) where T : Foo
+        internal static void ExtensionMethod<T>(this T foo) where T : Foo
         {
         }
 
-        public static void ExtensionMethod<T, T2>(this T foo) where T : T2 where T2 : Foo
+        internal static void ExtensionMethod<T, T2>(this T foo) where T : T2 where T2 : Foo
         {
         }
     }

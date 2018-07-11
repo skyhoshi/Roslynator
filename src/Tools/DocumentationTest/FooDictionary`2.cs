@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 #pragma warning disable CS0618, CS1591, RCS1079 
 
-namespace Roslynator.Documentation
+namespace Roslynator.Documentation.Test
 {
     public interface IFoo
     {

@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Roslynator.Documentation
+namespace Roslynator.Documentation.Test
 {
     /// <summary>
     /// del

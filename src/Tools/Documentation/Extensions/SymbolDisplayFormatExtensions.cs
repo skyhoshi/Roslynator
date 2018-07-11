@@ -45,7 +45,6 @@ namespace Roslynator.Documentation
 
                                         break;
                                     }
-                                //TODO: 
                                 case "operator":
                                     {
                                         if ((additionalOptions & SymbolDisplayAdditionalOptions.UseOperatorName) != 0

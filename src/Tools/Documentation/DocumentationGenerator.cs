@@ -3,18 +3,15 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using DotMarkdown.Linq;
 using Microsoft.CodeAnalysis;
-using Roslynator.Documentation.Markdown;
-using static DotMarkdown.Linq.MFactory;
 
 namespace Roslynator.Documentation
 {
-    public class DocumentationGenerator
+    public abstract class DocumentationGenerator
     {
         private SymbolDocumentationInfo _emptySymbolInfo;
 
-        public DocumentationGenerator(
+        protected DocumentationGenerator(
             CompilationDocumentationInfo compilation,
             DocumentationOptions options = null,
             DocumentationResources resources = null)
@@ -28,6 +25,8 @@ namespace Roslynator.Documentation
 
         public DocumentationOptions Options { get; }
 
+        public DocumentationParts Parts => Options.Parts;
+
         public SymbolDisplayFormatProvider FormatProvider => Options.FormatProvider;
 
         public string FileName => Options.FileName;
@@ -39,6 +38,18 @@ namespace Roslynator.Documentation
             get { return _emptySymbolInfo ?? (_emptySymbolInfo = SymbolDocumentationInfo.Create(CompilationInfo)); }
         }
 
+        private DocumentationWriter CreateWriter(SymbolDocumentationInfo symbolInfo, SymbolDocumentationInfo directoryInfo)
+        {
+            DocumentationWriter writer = CreateWriterCore(symbolInfo, directoryInfo);
+
+            writer.CanCreateMemberLocalLink = (Parts & DocumentationParts.Member) != 0;
+            writer.CanCreateTypeLocalLink = (Parts & DocumentationParts.Type) != 0;
+
+            return writer;
+        }
+
+        protected abstract DocumentationWriter CreateWriterCore(SymbolDocumentationInfo symbolInfo, SymbolDocumentationInfo directoryInfo);
+
         internal SymbolDocumentationInfo GetSymbolInfo(ISymbol symbol)
         {
             return CompilationInfo.GetSymbolInfo(symbol);
@@ -46,48 +57,51 @@ namespace Roslynator.Documentation
 
         public IEnumerable<DocumentationFile> GenerateFiles(
             string heading = null,
-            DocumentationParts documentationParts = DocumentationParts.Namespace | DocumentationParts.Type | DocumentationParts.Member,
             string objectModelHeading = null,
             string extendedTypesHeading = null)
         {
-            using (var writer = new DocumentationMarkdownWriter(symbolInfo: EmptySymbolInfo, directoryInfo: null, Options, Resources))
+            DocumentationParts parts = Parts;
+
+            using (DocumentationWriter writer = CreateWriter(symbolInfo: EmptySymbolInfo, directoryInfo: null))
             {
                 DocumentationFile objectModelFile = default;
                 DocumentationFile extendedTypesFile = default;
 
-                if ((documentationParts & DocumentationParts.ObjectModel) != 0)
+                if ((parts & DocumentationParts.ObjectModel) != 0)
                 {
                     objectModelFile = GenerateObjectModel(objectModelHeading ?? Resources.ObjectModel);
 
                     if (!objectModelFile.HasContent)
-                        documentationParts &= ~DocumentationParts.ObjectModel;
+                        parts &= ~DocumentationParts.ObjectModel;
                 }
 
-                if ((documentationParts & DocumentationParts.ExtendedTypes) != 0)
+                if ((parts & DocumentationParts.ExtendedExternalTypes) != 0)
                 {
-                    extendedTypesFile = GenerateExtendedTypesFile(extendedTypesHeading ?? Resources.ExtendedTypes);
+                    extendedTypesFile = GenerateExtendedExternalTypesFile(extendedTypesHeading ?? Resources.ExtendedExternalTypes);
 
                     if (!extendedTypesFile.HasContent)
-                        documentationParts &= ~DocumentationParts.ExtendedTypes;
+                        parts &= ~DocumentationParts.ExtendedExternalTypes;
                 }
 
-                yield return GenerateRootFile(writer, heading, documentationParts);
+                yield return GenerateRootFile(writer, heading, parts);
 
-                if ((documentationParts & DocumentationParts.Namespace) != 0)
+                bool generateTypes = (parts & DocumentationParts.Type) != 0;
+
+                if ((parts & DocumentationParts.Namespace) != 0)
                 {
-                    foreach (DocumentationFile namespaceFile in GenerateNamespaceFiles())
-                        yield return namespaceFile;
+                    foreach (INamespaceSymbol namespaceSymbol in CompilationInfo.Namespaces)
+                        yield return GenerateNamespaceFile(namespaceSymbol);
                 }
 
-                if ((documentationParts & DocumentationParts.Type) != 0)
+                if (generateTypes)
                 {
-                    bool generateTypes = (documentationParts & DocumentationParts.Member) != 0;
+                    bool generateMembers = (parts & DocumentationParts.Member) != 0;
 
                     foreach (INamedTypeSymbol typeSymbol in CompilationInfo.Types)
                     {
                         yield return GenerateTypeFile(typeSymbol);
 
-                        if (generateTypes)
+                        if (generateMembers)
                         {
                             foreach (DocumentationFile memberFile in GenerateMemberFiles(typeSymbol))
                                 yield return memberFile;
@@ -102,28 +116,16 @@ namespace Roslynator.Documentation
                 {
                     yield return extendedTypesFile;
 
-                    foreach (DocumentationFile typeFile in GenerateExtendedTypeFiles())
-                        yield return typeFile;
+                    foreach (ITypeSymbol typeSymbol in CompilationInfo.GetExtendedExternalTypes())
+                        yield return GenerateExtendedTypeFile(typeSymbol);
                 }
-            }
-        }
-
-        public DocumentationFile GenerateRootFile(string heading = null)
-        {
-            using (var writer = new DocumentationMarkdownWriter(
-                symbolInfo: EmptySymbolInfo,
-                directoryInfo: null,
-                Options,
-                Resources))
-            {
-                return GenerateRootFile(writer, heading);
             }
         }
 
         private DocumentationFile GenerateRootFile(
             DocumentationWriter writer,
             string heading,
-            DocumentationParts documentationParts = DocumentationParts.None)
+            DocumentationParts documentationParts)
         {
             if (heading != null)
                 writer.WriteHeading1(heading);
@@ -136,11 +138,11 @@ namespace Roslynator.Documentation
                 writer.WriteEndBulletItem();
             }
 
-            if ((documentationParts & DocumentationParts.ExtendedTypes) != 0
+            if ((documentationParts & DocumentationParts.ExtendedExternalTypes) != 0
                 && Options.IsEnabled(RootDocumentationParts.ExtendedTypesLink))
             {
                 writer.WriteStartBulletItem();
-                writer.WriteLink(Resources.ExtendedTypes, WellKnownNames.ExtendedTypesFileName);
+                writer.WriteLink(Resources.ExtendedExternalTypes, WellKnownNames.ExtendedExternalTypesFileName);
                 writer.WriteEndBulletItem();
             }
 
@@ -153,7 +155,7 @@ namespace Roslynator.Documentation
                 {
                     writer.WriteStartBulletItem();
 
-                    string url = GetSymbolInfo(namespaceSymbol).GetUrl(FileName, useExternalLink: false);
+                    string url = writer.GetUrl(namespaceSymbol);
 
                     writer.WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), url);
 
@@ -164,40 +166,34 @@ namespace Roslynator.Documentation
             if (Options.IsEnabled(RootDocumentationParts.Namespaces))
             {
                 foreach (IGrouping<INamespaceSymbol, INamedTypeSymbol> grouping in CompilationInfo.Types
-               .GroupBy(f => f.ContainingNamespace, MetadataNameEqualityComparer<INamespaceSymbol>.Instance)
-               .OrderBy(f => f.Key.ToDisplayString(FormatProvider.NamespaceFormat)))
+                   .GroupBy(f => f.ContainingNamespace, MetadataNameEqualityComparer<INamespaceSymbol>.Instance)
+                   .OrderBy(f => f.Key.ToDisplayString(FormatProvider.NamespaceFormat)))
                 {
                     INamespaceSymbol namespaceSymbol = grouping.Key;
 
                     writer.WriteStartHeading(2);
 
-                    string url = GetSymbolInfo(namespaceSymbol).GetUrl(FileName);
+                    string url = writer.GetUrl(namespaceSymbol);
                     writer.WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), url);
 
                     writer.WriteSpace();
                     writer.WriteString(Resources.Namespace);
                     writer.WriteEndHeading();
 
-                    writer.WriteNamespaceContentAsTable(grouping, 3);
+                    bool addLocaLink = (Parts & DocumentationParts.Type) != 0;
+
+                    writer.WriteNamespaceContentAsTable(grouping, 3, addLocalLink: addLocaLink);
                 }
             }
 
             return new DocumentationFile(writer.ToString(), path: FileName, DocumentationKind.Root);
         }
 
-        public IEnumerable<DocumentationFile> GenerateNamespaceFiles()
-        {
-            foreach (INamespaceSymbol namespaceSymbol in CompilationInfo.Namespaces)
-            {
-                yield return GenerateNamespaceFile(namespaceSymbol);
-            }
-        }
-
         private DocumentationFile GenerateNamespaceFile(INamespaceSymbol namespaceSymbol)
         {
             SymbolDocumentationInfo info = GetSymbolInfo(namespaceSymbol);
 
-            using (var writer = new DocumentationMarkdownWriter(symbolInfo: EmptySymbolInfo, info, Options, Resources))
+            using (DocumentationWriter writer = CreateWriter(symbolInfo: EmptySymbolInfo, info))
             {
                 if (Options.IsEnabled(NamespaceDocumentationParts.Heading))
                 {
@@ -208,15 +204,17 @@ namespace Roslynator.Documentation
                     writer.WriteEndHeading();
                 }
 
-                writer.WriteNamespaceContentAsTable(CompilationInfo.GetTypes(namespaceSymbol), 2);
+                bool addLocalLink = (Parts & DocumentationParts.Type) != 0;
+
+                writer.WriteNamespaceContentAsTable(CompilationInfo.GetTypes(namespaceSymbol), 2, addLocalLink: addLocalLink);
 
                 return DocumentationFile.Create(writer, info, FileName, DocumentationKind.Namespace);
             }
         }
 
-        public DocumentationFile GenerateExtendedTypesFile(string heading = null)
+        private DocumentationFile GenerateExtendedExternalTypesFile(string heading = null)
         {
-            using (var writer = new DocumentationMarkdownWriter(symbolInfo: EmptySymbolInfo, directoryInfo: null, Options, Resources))
+            using (DocumentationWriter writer = CreateWriter(symbolInfo: EmptySymbolInfo, directoryInfo: null))
             {
                 using (IEnumerator<INamespaceSymbol> en = CompilationInfo.GetExtendedExternalTypes()
                     .Select(f => f.ContainingNamespace)
@@ -238,7 +236,7 @@ namespace Roslynator.Documentation
                             {
                                 writer.WriteStartBulletItem();
 
-                                string url = GetSymbolInfo(en.Current).GetUrl(FileName);
+                                string url = writer.GetUrl(en.Current);
                                 writer.WriteLink(en.Current.ToDisplayString(FormatProvider.NamespaceFormat), url);
 
                                 writer.WriteEndBulletItem();
@@ -260,7 +258,7 @@ namespace Roslynator.Documentation
 
                             writer.WriteStartHeading(2);
 
-                            string url = info.GetUrl(FileName);
+                            string url = writer.GetUrl(info);
                             writer.WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), url);
 
                             writer.WriteSpace();
@@ -274,21 +272,15 @@ namespace Roslynator.Documentation
                     }
                 }
 
-                return new DocumentationFile(writer.ToString(), WellKnownNames.ExtendedTypesFileName, DocumentationKind.ExtendedTypes);
+                return new DocumentationFile(writer.ToString(), WellKnownNames.ExtendedExternalTypesFileName, DocumentationKind.ExtendedExternalTypes);
             }
-        }
-
-        public IEnumerable<DocumentationFile> GenerateExtendedTypeFiles()
-        {
-            foreach (ITypeSymbol typeSymbol in CompilationInfo.GetExtendedExternalTypes())
-                yield return GenerateExtendedTypeFile(typeSymbol);
         }
 
         private DocumentationFile GenerateExtendedTypeFile(ITypeSymbol typeSymbol)
         {
             SymbolDocumentationInfo symbolInfo = GetSymbolInfo(typeSymbol);
 
-            using (var writer = new DocumentationMarkdownWriter(symbolInfo, symbolInfo, Options, Resources))
+            using (DocumentationWriter writer = CreateWriter(symbolInfo, symbolInfo))
             {
                 writer.WriteStartHeading(1 + writer.BaseHeadingLevel);
                 writer.WriteLink(symbolInfo, FormatProvider.TitleFormat);
@@ -313,14 +305,14 @@ namespace Roslynator.Documentation
             }
         }
 
-        public DocumentationFile GenerateTypeFile(ITypeSymbol typeSymbol)
+        private DocumentationFile GenerateTypeFile(ITypeSymbol typeSymbol)
         {
             TypeKind typeKind = typeSymbol.TypeKind;
             bool isDelegateOrEnum = typeKind.Is(TypeKind.Delegate, TypeKind.Enum);
 
             SymbolDocumentationInfo info = GetSymbolInfo(typeSymbol);
 
-            using (var writer = new DocumentationMarkdownWriter(info, info, Options, Resources))
+            using (DocumentationWriter writer = CreateWriter(info, info))
             {
                 foreach (TypeDocumentationParts part in Options.EnabledAndSortedTypeParts)
                 {
@@ -480,7 +472,7 @@ namespace Roslynator.Documentation
             }
         }
 
-        public IEnumerable<DocumentationFile> GenerateMemberFiles(ITypeSymbol typeSymbol)
+        private IEnumerable<DocumentationFile> GenerateMemberFiles(ITypeSymbol typeSymbol)
         {
             if (typeSymbol.TypeKind.Is(TypeKind.Enum, TypeKind.Delegate))
                 yield break;
@@ -534,140 +526,85 @@ namespace Roslynator.Documentation
         {
             foreach (IGrouping<string, ISymbol> grouping in members.GroupBy(f => f.Name))
             {
-                ImmutableArray<SymbolDocumentationInfo> symbols = grouping
-                    .Select(f => SymbolDocumentationInfo.Create(f, CompilationInfo))
-                    .ToImmutableArray();
+                ImmutableArray<ISymbol> symbols = grouping.ToImmutableArray();
 
-                SymbolDocumentationInfo info = GetSymbolInfo(symbols[0].Symbol);
+                ISymbol symbol = symbols[0];
+                SymbolDocumentationInfo symbolInfo = GetSymbolInfo(symbol);
 
-                using (MemberDocumentationMarkdownWriter writer = MemberDocumentationMarkdownWriter.Create(symbols, info, Options, Resources))
+                using (DocumentationWriter writer = CreateWriter(symbolInfo, symbolInfo))
                 {
-                    writer.WriteMember();
+                    MemberDocumentationWriter memberWriter = MemberDocumentationWriter.Create(symbol, writer);
 
-                    yield return DocumentationFile.Create(writer, info, FileName, DocumentationKind.Member);
+                    memberWriter.WriteMember(symbol, symbols);
+
+                    yield return DocumentationFile.Create(writer, symbolInfo, FileName, DocumentationKind.Member);
                 }
             }
         }
 
-        //TODO: replace linq to markdown with MarkdownWriter
         public DocumentationFile GenerateObjectModel(string heading)
         {
-            var dic = new Dictionary<INamedTypeSymbol, MBulletItem>();
+            INamedTypeSymbol objectType = CompilationInfo.Compilation.ObjectType;
 
-            List<(INamedTypeSymbol symbol, MBulletItem item)> items = CompilationInfo
-                .Types
-                .Where(f => !f.IsStatic && f.TypeKind != TypeKind.Interface && IsBottomType(f))
-                .Select(f => (f, BulletItem(GetBulletItemContent(f))))
-                .ToList();
-
-            do
+            var nodes = new HashSet<ITypeSymbol>(CompilationInfo.Types.Where(f => !f.IsStatic))
             {
-                List<IGrouping<INamedTypeSymbol, (INamedTypeSymbol symbol, MBulletItem item)>> groupingList = items
-                    .OrderBy(f => f.item.ToString())
-                    .GroupBy(f => f.symbol.BaseType?.OriginalDefinition)
-                    .ToList();
+                objectType
+            };
 
-                items.Clear();
+            foreach (INamedTypeSymbol type in CompilationInfo.Types)
+            {
+                INamedTypeSymbol baseType = type.BaseType;
 
-                foreach (IGrouping<INamedTypeSymbol, (INamedTypeSymbol symbol, MBulletItem item)> grouping in groupingList)
+                while (baseType != null)
                 {
-                    INamedTypeSymbol baseType = grouping.Key;
-
-                    bool success = dic.TryGetValue(baseType, out MBulletItem bulletItem);
-
-                    if (!success)
-                    {
-                        bulletItem = BulletItem(GetBulletItemContent(baseType));
-                        dic[baseType] = bulletItem;
-                    }
-
-                    bulletItem.Add(grouping.Select(f => f.item));
-
-                    if (!success
-                        && baseType.SpecialType != SpecialType.System_Object)
-                    {
-                        items.Add((baseType, bulletItem));
-                    }
+                    nodes.Add(baseType.OriginalDefinition);
+                    baseType = baseType.BaseType;
                 }
             }
-            while (items.Count > 0);
 
-            var doc = new MDocument(
-                Heading1(heading),
-                dic[CompilationInfo.Compilation.ObjectType]);
-
-            if (CompilationInfo
-                .Types
-                .Any(f => f.TypeKind == TypeKind.Interface))
+            using (DocumentationWriter writer = CreateWriter(_emptySymbolInfo, null))
             {
-                doc.Add(
-                    Heading2(Resources.GetPluralName(TypeKind.Interface)),
-                    CompilationInfo
-                        .Types
-                        .Where(f => f.TypeKind == TypeKind.Interface)
-                        .OrderBy(f => f.ToDisplayString(FormatProvider.TypeFormat))
-                        .Select(f => BulletItem(GetBulletItemContent(f))));
-            }
+                writer.WriteHeading1(heading);
 
-            return new DocumentationFile(doc.ToString(), WellKnownNames.ObjectModelFileName, DocumentationKind.ObjectModel);
+                WriteBulletItem(objectType, writer);
 
-            bool IsBottomType(ITypeSymbol s)
-            {
-                s = s.OriginalDefinition;
-
-                foreach (INamedTypeSymbol symbol in CompilationInfo.Types)
+                using (IEnumerator<INamedTypeSymbol> en = CompilationInfo.Types
+                    .Where(f => f.TypeKind == TypeKind.Interface)
+                    .OrderBy(f => f.ToDisplayString(FormatProvider.TypeFormat)).GetEnumerator())
                 {
-                    if (symbol.InheritsFrom(s))
-                        return false;
-                }
-
-                return true;
-            }
-
-            object GetBulletItemContent(INamedTypeSymbol namedTypeSymbol)
-            {
-                SymbolDocumentationInfo symbolInfo = GetSymbolInfo(namedTypeSymbol);
-
-                if (namedTypeSymbol.TypeArguments.Any(f => f.Kind != SymbolKind.TypeParameter))
-                {
-                    var content = new List<object>();
-
-                    foreach (SymbolDisplayPart part in symbolInfo
-                        .Symbol
-                        .ToDisplayParts(FormatProvider.TypeFormat))
+                    if (en.MoveNext())
                     {
-                        switch (part.Kind)
+                        writer.WriteHeading2(Resources.Interfaces);
+
+                        do
                         {
-                            case SymbolDisplayPartKind.ClassName:
-                            case SymbolDisplayPartKind.DelegateName:
-                            case SymbolDisplayPartKind.EnumName:
-                            case SymbolDisplayPartKind.InterfaceName:
-                            case SymbolDisplayPartKind.StructName:
-                                {
-                                    ISymbol symbol = part.Symbol;
-
-                                    string url = GetSymbolInfo(symbol).GetUrl(FileName);
-
-                                    content.Add(LinkOrText(symbol.Name, url));
-
-                                    break;
-                                }
-                            default:
-                                {
-                                    content.Add(part);
-                                    break;
-                                }
+                            writer.WriteStartBulletItem();
+                            writer.WriteLink(en.Current, FormatProvider.TypeFormat);
+                            writer.WriteEndBulletItem();
                         }
+                        while (en.MoveNext());
                     }
-
-                    return content;
                 }
-                else
+
+                return new DocumentationFile(writer.ToString(), WellKnownNames.ObjectModelFileName, DocumentationKind.ObjectModel);
+            }
+
+            void WriteBulletItem(ITypeSymbol baseType, DocumentationWriter writer)
+            {
+                writer.WriteStartBulletItem();
+                writer.WriteLink(baseType, FormatProvider.TypeFormat);
+
+                nodes.Remove(baseType);
+
+                foreach (ITypeSymbol derivedType in nodes
+                    .Where(f => f.BaseType?.OriginalDefinition == baseType.OriginalDefinition)
+                    .OrderBy(f => f.ToDisplayString(FormatProvider.TypeFormat))
+                    .ToList())
                 {
-                    string url = symbolInfo.GetUrl(FileName);
-
-                    return LinkOrText(symbolInfo.Symbol.ToDisplayString(FormatProvider.TypeFormat), url);
+                    WriteBulletItem(derivedType, writer);
                 }
+
+                writer.WriteEndBulletItem();
             }
         }
     }

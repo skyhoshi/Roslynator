@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Roslynator.Documentation.Markdown;
 using Roslynator.Utilities;
 
 namespace Roslynator.Documentation
@@ -28,11 +29,12 @@ namespace Roslynator.Documentation
 
             var compilationInfo = new CompilationDocumentationInfo(RuntimeMetadataReference.Compilation, assemblies);
 
-            var generator = new DocumentationGenerator(compilationInfo);
+            var options = new DocumentationOptions(parts: DocumentationParts.All);
+
+            var generator = new DocumentationMarkdownGenerator(compilationInfo, options);
 
             foreach (DocumentationFile documentationFile in generator.GenerateFiles(
                 heading,
-                DocumentationParts.All,
                 objectModelHeading: heading + " Object Model",
                 extendedTypesHeading: "Types Extended by " + heading))
             {

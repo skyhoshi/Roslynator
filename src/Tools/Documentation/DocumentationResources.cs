@@ -40,7 +40,7 @@ namespace Roslynator.Documentation
         public abstract string Exceptions { get; }
         public abstract string ExplicitInterfaceImplementation { get; }
         public abstract string ExplicitInterfaceImplementations { get; }
-        public abstract string ExtendedTypes { get; }
+        public abstract string ExtendedExternalTypes { get; }
         public abstract string ExtensionMethod { get; }
         public abstract string ExtensionMethods { get; }
         public abstract string Extensions { get; }
@@ -210,7 +210,7 @@ namespace Roslynator.Documentation
             public override string Exceptions { get; } = "Exceptions";
             public override string ExplicitInterfaceImplementation { get; } = "Explicit Interface Implementation";
             public override string ExplicitInterfaceImplementations { get; } = "Explicit Interface Implementations";
-            public override string ExtendedTypes { get; } = "Extended Types";
+            public override string ExtendedExternalTypes { get; } = "Extended External Types";
             public override string ExtensionMethod { get; } = "Extension Method";
             public override string ExtensionMethods { get; } = "Extension Methods";
             public override string Extensions { get; } = "Extensions";

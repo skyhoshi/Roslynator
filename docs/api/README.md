@@ -1,7 +1,7 @@
 # Roslynator API
 
 * [Object Model](_ObjectModel.md)
-* [Extended Types](_ExtendedTypes.md)
+* [Extended External Types](_ExtendedExternalTypes.md)
 
 ## Namespaces
 

@@ -2,9 +2,9 @@
 
 using System;
 
-#pragma warning disable CA1051, CA1822, RCS1101, RCS1163
+#pragma warning disable CS1591, CA1051, CA1822, RCS1101, RCS1163
 
-namespace Roslynator.Documentation
+namespace Roslynator.Documentation.Test
 {
     /// <summary>
     /// a &#x2192; &gt; b <see cref="Foo"/>

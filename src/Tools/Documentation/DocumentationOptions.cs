@@ -14,27 +14,55 @@ namespace Roslynator.Documentation
         private ImmutableArray<TypeDocumentationParts> _enabledAndSortedTypeParts;
         private ImmutableArray<MemberDocumentationParts> _enabledAndSortedMemberParts;
 
+        public DocumentationOptions(
+            string fileName = "README.md",
+            int maxDerivedItems = 10,
+            SymbolDisplayFormatProvider formatProvider = null,
+            DocumentationParts parts = DocumentationParts.Namespace | DocumentationParts.Type | DocumentationParts.Member,
+            RootDocumentationParts rootParts = RootDocumentationParts.All,
+            NamespaceDocumentationParts namespaceParts = NamespaceDocumentationParts.All,
+            TypeDocumentationParts typeParts = TypeDocumentationParts.All,
+            MemberDocumentationParts memberParts = MemberDocumentationParts.All,
+            IComparer<NamespaceDocumentationParts> namespacePartComparer = null,
+            IComparer<TypeDocumentationParts> typePartComparer = null,
+            IComparer<MemberDocumentationParts> memberPartComparer = null)
+        {
+            FileName = fileName;
+            MaxDerivedItems = maxDerivedItems;
+            FormatProvider = formatProvider ?? SymbolDisplayFormatProvider.Default;
+            Parts = parts;
+            RootParts = rootParts;
+            NamespaceParts = namespaceParts;
+            TypeParts = typeParts;
+            MemberParts = memberParts;
+            NamespacePartComparer = namespacePartComparer ?? NamespaceDocumentationPartComparer.Instance;
+            TypePartComparer = typePartComparer ?? TypeDocumentationPartComparer.Instance;
+            MemberPartComparer = memberPartComparer ?? MemberDocumentationPartComparer.Instance;
+        }
+
         public static DocumentationOptions Default { get; } = new DocumentationOptions();
 
-        public string FileName { get; } = "README.md";
+        public string FileName { get; }
 
-        public SymbolDisplayFormatProvider FormatProvider { get; } = SymbolDisplayFormatProvider.Default;
+        public int MaxDerivedItems { get; }
 
-        public int MaxDerivedItems { get; } = 10;
+        public SymbolDisplayFormatProvider FormatProvider { get; }
 
-        public RootDocumentationParts RootParts { get; } = RootDocumentationParts.All;
+        public DocumentationParts Parts { get; }
 
-        public NamespaceDocumentationParts NamespaceParts { get; } = NamespaceDocumentationParts.All;
+        public RootDocumentationParts RootParts { get; }
 
-        public TypeDocumentationParts TypeParts { get; } = TypeDocumentationParts.All;
+        public NamespaceDocumentationParts NamespaceParts { get; }
 
-        public MemberDocumentationParts MemberParts { get; } = MemberDocumentationParts.All;
+        public TypeDocumentationParts TypeParts { get; }
 
-        public IComparer<NamespaceDocumentationParts> NamespacePartComparer { get; } = NamespaceDocumentationPartComparer.Instance;
+        public MemberDocumentationParts MemberParts { get; }
 
-        public IComparer<TypeDocumentationParts> TypePartComparer { get; } = TypeDocumentationPartComparer.Instance;
+        public IComparer<NamespaceDocumentationParts> NamespacePartComparer { get; }
 
-        public IComparer<MemberDocumentationParts> MemberPartComparer { get; } = MemberDocumentationPartComparer.Instance;
+        public IComparer<TypeDocumentationParts> TypePartComparer { get; }
+
+        public IComparer<MemberDocumentationParts> MemberPartComparer { get; }
 
         internal ImmutableArray<NamespaceDocumentationParts> EnabledAndSortedNamespaceParts
         {

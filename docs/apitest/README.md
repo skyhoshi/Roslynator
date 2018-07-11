@@ -5,7 +5,7 @@
 ## Namespaces
 
 * [\<global namespace>](_Global/README.md)
-* [Roslynator.Documentation](Roslynator/Documentation/README.md)
+* [Roslynator.Documentation.Test](Roslynator/Documentation/Test/README.md)
 
 ## [\<global namespace>](_Global/README.md) Namespace
 
@@ -15,27 +15,27 @@
 | ----- | ------- |
 | [Bla](_Global/Bla/README.md) | blac |
 
-## [Roslynator.Documentation](Roslynator/Documentation/README.md) Namespace
+## [Roslynator.Documentation.Test](Roslynator/Documentation/Test/README.md) Namespace
 
 ### Classes
 
 | Class | Summary |
 | ----- | ------- |
-| [Foo](Roslynator/Documentation/Foo/README.md) | a → > b [Foo](Roslynator/Documentation/Foo/README.md) |
-| [FooCollection](Roslynator/Documentation/FooCollection/README.md) | |
-| [FooDictionary\<TKey, TValue>](Roslynator/Documentation/FooDictionary-2/README.md) | |
-| [FooEvent](Roslynator/Documentation/FooEvent/README.md) | |
-| [FooExtensions](Roslynator/Documentation/FooExtensions/README.md) | fx |
+| [Foo](Roslynator/Documentation/Test/Foo/README.md) | a → > b [Foo](Roslynator/Documentation/Test/Foo/README.md) |
+| [FooCollection](Roslynator/Documentation/Test/FooCollection/README.md) | |
+| [FooDictionary\<TKey, TValue>](Roslynator/Documentation/Test/FooDictionary-2/README.md) | |
+| [FooEvent](Roslynator/Documentation/Test/FooEvent/README.md) | |
+| [FooExtensions](Roslynator/Documentation/Test/FooExtensions/README.md) | fx |
 
 ### Interfaces
 
 | Interface | Summary |
 | --------- | ------- |
-| [IFoo](Roslynator/Documentation/IFoo/README.md) | |
+| [IFoo](Roslynator/Documentation/Test/IFoo/README.md) | |
 
 ### Delegates
 
 | Delegate | Summary |
 | -------- | ------- |
-| [FooDelegate](Roslynator/Documentation/FooDelegate/README.md) | del |
+| [FooDelegate](Roslynator/Documentation/Test/FooDelegate/README.md) | del |
 
