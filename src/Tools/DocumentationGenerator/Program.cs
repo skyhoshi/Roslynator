@@ -27,7 +27,7 @@ namespace Roslynator.Documentation
                 .Select(AssemblyDocumentationInfo.CreateFromAssemblyName)
                 .ToImmutableArray();
 
-            var compilationInfo = new CompilationDocumentationInfo(RuntimeMetadataReference.Compilation, assemblies);
+            var compilationInfo = new CompilationDocumentationInfo(TrustedPlatformAssemblies.Compilation, assemblies);
 
             var options = new DocumentationOptions(parts: DocumentationParts.All);
 
@@ -36,7 +36,7 @@ namespace Roslynator.Documentation
             foreach (DocumentationFile documentationFile in generator.GenerateFiles(
                 heading,
                 objectModelHeading: heading + " Object Model",
-                extendedTypesHeading: "Types Extended by " + heading))
+                extendedTypesHeading: "External Types Extended by " + heading))
             {
                 string path = directoryPath + documentationFile.Path;
 

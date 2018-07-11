@@ -11,82 +11,81 @@ namespace Roslynator.Documentation
 
         public virtual char InheritanceChar { get; } = '\u2192';
 
-        //TODO: char?
         public virtual string CloseParenthesis { get; } = ")";
         public virtual string Colon { get; } = ":";
         public virtual string Comma { get; } = ",";
-        public virtual string DllExtension { get; } = "dll";
         public virtual string Dot { get; } = ".";
-        public virtual string Ellipsis { get; } = "...";
-        public virtual string False { get; } = "false";
         public virtual string OpenParenthesis { get; } = "(";
-        public virtual string True { get; } = "true";
 
-        //TODO: Class atd.
-        public abstract string Assembly { get; }
-        public abstract string Attributes { get; }
-        public abstract string Class { get; }
-        public abstract string Classes { get; }
-        public abstract string Constructor { get; }
-        public abstract string Constructors { get; }
-        public abstract string Delegate { get; }
-        public abstract string Delegates { get; }
-        public abstract string Derived { get; }
-        public abstract string Enum { get; }
-        public abstract string Enums { get; }
-        public abstract string Event { get; }
-        public abstract string Events { get; }
-        public abstract string Examples { get; }
-        public abstract string Exceptions { get; }
-        public abstract string ExplicitInterfaceImplementation { get; }
-        public abstract string ExplicitInterfaceImplementations { get; }
-        public abstract string ExtendedExternalTypes { get; }
-        public abstract string ExtensionMethod { get; }
-        public abstract string ExtensionMethods { get; }
-        public abstract string Extensions { get; }
-        public abstract string Field { get; }
-        public abstract string Fields { get; }
-        public abstract string FieldValue { get; }
-        public abstract string Implements { get; }
-        public abstract string Inheritance { get; }
+        public virtual string DllExtension { get; } = "dll";
+        public virtual string Ellipsis { get; } = "...";
+        public virtual string FalseValue { get; } = "false";
+        public virtual string TrueValue { get; } = "true";
+
+        public abstract string AssemblyTitle { get; }
+        public abstract string AttributesTitle { get; }
+        public abstract string ClassTitle { get; }
+        public abstract string ClassesTitle { get; }
+        public abstract string ConstructorTitle { get; }
+        public abstract string ConstructorsTitle { get; }
+        public abstract string DelegateTitle { get; }
+        public abstract string DelegatesTitle { get; }
+        public abstract string DerivedTitle { get; }
+        public abstract string EnumTitle { get; }
+        public abstract string EnumsTitle { get; }
+        public abstract string EventTitle { get; }
+        public abstract string EventsTitle { get; }
+        public abstract string ExamplesTitle { get; }
+        public abstract string ExceptionsTitle { get; }
+        public abstract string ExplicitInterfaceImplementationTitle { get; }
+        public abstract string ExplicitInterfaceImplementationsTitle { get; }
+        public abstract string ExtendedExternalTypesTitle { get; }
+        public abstract string ExtensionMethodTitle { get; }
+        public abstract string ExtensionMethodsTitle { get; }
+        public abstract string ExtensionsTitle { get; }
+        public abstract string FieldTitle { get; }
+        public abstract string FieldsTitle { get; }
+        public abstract string FieldValueTitle { get; }
+        public abstract string ImplementsTitle { get; }
+        public abstract string InheritanceTitle { get; }
         public abstract string InheritedFrom { get; }
-        public abstract string Interface { get; }
-        public abstract string Interfaces { get; }
-        public abstract string Member { get; }
-        public abstract string Method { get; }
-        public abstract string Methods { get; }
-        public abstract string Name { get; }
-        public abstract string Namespace { get; }
-        public abstract string Namespaces { get; }
-        public abstract string ObjectModel { get; }
+        public abstract string InterfaceTitle { get; }
+        public abstract string InterfacesTitle { get; }
+        public abstract string MemberTitle { get; }
+        public abstract string MethodTitle { get; }
+        public abstract string MethodsTitle { get; }
+        public abstract string NameTitle { get; }
+        public abstract string NamespaceTitle { get; }
+        public abstract string NamespacesTitle { get; }
+        public abstract string ObjectModelTitle { get; }
         public abstract string ObsoleteWarning { get; }
-        public abstract string Operator { get; }
-        public abstract string Operators { get; }
-        public abstract string Overloads { get; }
-        public abstract string Parameter { get; }
-        public abstract string Parameters { get; }
-        public abstract string Properties { get; }
-        public abstract string Property { get; }
-        public abstract string PropertyValue { get; }
-        public abstract string Remarks { get; }
-        public abstract string Returns { get; }
-        public abstract string ReturnValue { get; }
-        public abstract string SeeAlso { get; }
-        public abstract string Struct { get; }
-        public abstract string Structs { get; }
-        public abstract string Summary { get; }
-        public abstract string TypeParameter { get; }
-        public abstract string TypeParameters { get; }
-        public abstract string Value { get; }
+        public abstract string OperatorTitle { get; }
+        public abstract string OperatorsTitle { get; }
+        public abstract string OverloadsTitle { get; }
+        public abstract string ParameterTitle { get; }
+        public abstract string ParametersTitle { get; }
+        public abstract string PropertiesTitle { get; }
+        public abstract string PropertyTitle { get; }
+        public abstract string PropertyValueTitle { get; }
+        public abstract string RemarksTitle { get; }
+        public abstract string ReturnsTitle { get; }
+        public abstract string ReturnValueTitle { get; }
+        public abstract string SeeAlsoTitle { get; }
+        public abstract string StructTitle { get; }
+        public abstract string StructsTitle { get; }
+        public abstract string SummaryTitle { get; }
+        public abstract string TypeParameterTitle { get; }
+        public abstract string TypeParametersTitle { get; }
+        public abstract string ValueTitle { get; }
 
         public string GetName(ISymbol symbol)
         {
             switch (symbol.Kind)
             {
                 case SymbolKind.Event:
-                    return Event;
+                    return EventTitle;
                 case SymbolKind.Field:
-                    return Field;
+                    return FieldTitle;
                 case SymbolKind.Method:
                     {
                         var methodSymbol = (IMethodSymbol)symbol;
@@ -94,21 +93,21 @@ namespace Roslynator.Documentation
                         switch (methodSymbol.MethodKind)
                         {
                             case MethodKind.Constructor:
-                                return Constructor;
+                                return ConstructorTitle;
                             case MethodKind.Conversion:
                             case MethodKind.UserDefinedOperator:
-                                return Operator;
+                                return OperatorTitle;
                             case MethodKind.ExplicitInterfaceImplementation:
                             case MethodKind.Ordinary:
-                                return Method;
+                                return MethodTitle;
                         }
 
                         throw new InvalidOperationException();
                     }
                 case SymbolKind.Namespace:
-                    return Namespace;
+                    return NamespaceTitle;
                 case SymbolKind.Property:
-                    return Property;
+                    return PropertyTitle;
                 case SymbolKind.NamedType:
                     return GetName(((ITypeSymbol)symbol).TypeKind);
             }
@@ -121,9 +120,9 @@ namespace Roslynator.Documentation
             switch (symbol.Kind)
             {
                 case SymbolKind.Event:
-                    return Events;
+                    return EventsTitle;
                 case SymbolKind.Field:
-                    return Fields;
+                    return FieldsTitle;
                 case SymbolKind.Method:
                     {
                         var methodSymbol = (IMethodSymbol)symbol;
@@ -131,21 +130,21 @@ namespace Roslynator.Documentation
                         switch (methodSymbol.MethodKind)
                         {
                             case MethodKind.Constructor:
-                                return Constructors;
+                                return ConstructorsTitle;
                             case MethodKind.Conversion:
                             case MethodKind.UserDefinedOperator:
-                                return Operators;
+                                return OperatorsTitle;
                             case MethodKind.ExplicitInterfaceImplementation:
                             case MethodKind.Ordinary:
-                                return Methods;
+                                return MethodsTitle;
                         }
 
                         throw new InvalidOperationException();
                     }
                 case SymbolKind.Namespace:
-                    return Namespaces;
+                    return NamespacesTitle;
                 case SymbolKind.Property:
-                    return Properties;
+                    return PropertiesTitle;
                 case SymbolKind.NamedType:
                     return GetPluralName(((ITypeSymbol)symbol).TypeKind);
             }
@@ -158,15 +157,15 @@ namespace Roslynator.Documentation
             switch (typeKind)
             {
                 case TypeKind.Class:
-                    return Class;
+                    return ClassTitle;
                 case TypeKind.Delegate:
-                    return Delegate;
+                    return DelegateTitle;
                 case TypeKind.Enum:
-                    return Enum;
+                    return EnumTitle;
                 case TypeKind.Interface:
-                    return Interface;
+                    return InterfaceTitle;
                 case TypeKind.Struct:
-                    return Struct;
+                    return StructTitle;
             }
 
             throw new InvalidOperationException();
@@ -177,15 +176,15 @@ namespace Roslynator.Documentation
             switch (typeKind)
             {
                 case TypeKind.Class:
-                    return Classes;
+                    return ClassesTitle;
                 case TypeKind.Delegate:
-                    return Delegates;
+                    return DelegatesTitle;
                 case TypeKind.Enum:
-                    return Enums;
+                    return EnumsTitle;
                 case TypeKind.Interface:
-                    return Interfaces;
+                    return InterfacesTitle;
                 case TypeKind.Struct:
-                    return Structs;
+                    return StructsTitle;
             }
 
             throw new InvalidOperationException();
@@ -193,61 +192,61 @@ namespace Roslynator.Documentation
 
         private class DefaultDocumentationResources : DocumentationResources
         {
-            public override string Assembly { get; } = "Assembly";
-            public override string Attributes { get; } = "Attributes";
-            public override string Class { get; } = "Class";
-            public override string Classes { get; } = "Classes";
-            public override string Constructor { get; } = "Constructor";
-            public override string Constructors { get; } = "Constructors";
-            public override string Delegate { get; } = "Delegate";
-            public override string Delegates { get; } = "Delegates";
-            public override string Derived { get; } = "Derived";
-            public override string Enum { get; } = "Enum";
-            public override string Enums { get; } = "Enums";
-            public override string Event { get; } = "Event";
-            public override string Events { get; } = "Events";
-            public override string Examples { get; } = "Examples";
-            public override string Exceptions { get; } = "Exceptions";
-            public override string ExplicitInterfaceImplementation { get; } = "Explicit Interface Implementation";
-            public override string ExplicitInterfaceImplementations { get; } = "Explicit Interface Implementations";
-            public override string ExtendedExternalTypes { get; } = "Extended External Types";
-            public override string ExtensionMethod { get; } = "Extension Method";
-            public override string ExtensionMethods { get; } = "Extension Methods";
-            public override string Extensions { get; } = "Extensions";
-            public override string Field { get; } = "Field";
-            public override string Fields { get; } = "Fields";
-            public override string FieldValue { get; } = "Field Value";
-            public override string Implements { get; } = "Implements";
-            public override string Inheritance { get; } = "Inheritance";
+            public override string AssemblyTitle { get; } = "Assembly";
+            public override string AttributesTitle { get; } = "Attributes";
+            public override string ClassTitle { get; } = "Class";
+            public override string ClassesTitle { get; } = "Classes";
+            public override string ConstructorTitle { get; } = "Constructor";
+            public override string ConstructorsTitle { get; } = "Constructors";
+            public override string DelegateTitle { get; } = "Delegate";
+            public override string DelegatesTitle { get; } = "Delegates";
+            public override string DerivedTitle { get; } = "Derived";
+            public override string EnumTitle { get; } = "Enum";
+            public override string EnumsTitle { get; } = "Enums";
+            public override string EventTitle { get; } = "Event";
+            public override string EventsTitle { get; } = "Events";
+            public override string ExamplesTitle { get; } = "Examples";
+            public override string ExceptionsTitle { get; } = "Exceptions";
+            public override string ExplicitInterfaceImplementationTitle { get; } = "Explicit Interface Implementation";
+            public override string ExplicitInterfaceImplementationsTitle { get; } = "Explicit Interface Implementations";
+            public override string ExtendedExternalTypesTitle { get; } = "Extended External Types";
+            public override string ExtensionMethodTitle { get; } = "Extension Method";
+            public override string ExtensionMethodsTitle { get; } = "Extension Methods";
+            public override string ExtensionsTitle { get; } = "Extensions";
+            public override string FieldTitle { get; } = "Field";
+            public override string FieldsTitle { get; } = "Fields";
+            public override string FieldValueTitle { get; } = "Field Value";
+            public override string ImplementsTitle { get; } = "Implements";
+            public override string InheritanceTitle { get; } = "Inheritance";
             public override string InheritedFrom { get; } = "Inherited from";
-            public override string Interface { get; } = "Interface";
-            public override string Interfaces { get; } = "Interfaces";
-            public override string Member { get; } = "Member";
-            public override string Method { get; } = "Method";
-            public override string Methods { get; } = "Methods";
-            public override string Name { get; } = "Name";
-            public override string Namespace { get; } = "Namespace";
-            public override string Namespaces { get; } = "Namespaces";
-            public override string ObjectModel { get; } = "Object Model";
+            public override string InterfaceTitle { get; } = "Interface";
+            public override string InterfacesTitle { get; } = "Interfaces";
+            public override string MemberTitle { get; } = "Member";
+            public override string MethodTitle { get; } = "Method";
+            public override string MethodsTitle { get; } = "Methods";
+            public override string NameTitle { get; } = "Name";
+            public override string NamespaceTitle { get; } = "Namespace";
+            public override string NamespacesTitle { get; } = "Namespaces";
+            public override string ObjectModelTitle { get; } = "Object Model";
             public override string ObsoleteWarning { get; } = "WARNING: This API is now obsolete.";
-            public override string Operator { get; } = "Operator";
-            public override string Operators { get; } = "Operators";
-            public override string Overloads { get; } = "Overloads";
-            public override string Parameter { get; } = "Parameter";
-            public override string Parameters { get; } = "Parameters";
-            public override string Properties { get; } = "Properties";
-            public override string Property { get; } = "Property";
-            public override string PropertyValue { get; } = "Property Value";
-            public override string Remarks { get; } = "Remarks";
-            public override string Returns { get; } = "Returns";
-            public override string ReturnValue { get; } = "Return Value";
-            public override string SeeAlso { get; } = "See Also";
-            public override string Struct { get; } = "Struct";
-            public override string Structs { get; } = "Structs";
-            public override string Summary { get; } = "Summary";
-            public override string TypeParameter { get; } = "Type Parameter";
-            public override string TypeParameters { get; } = "Type Parameters";
-            public override string Value { get; } = "Value";
+            public override string OperatorTitle { get; } = "Operator";
+            public override string OperatorsTitle { get; } = "Operators";
+            public override string OverloadsTitle { get; } = "Overloads";
+            public override string ParameterTitle { get; } = "Parameter";
+            public override string ParametersTitle { get; } = "Parameters";
+            public override string PropertiesTitle { get; } = "Properties";
+            public override string PropertyTitle { get; } = "Property";
+            public override string PropertyValueTitle { get; } = "Property Value";
+            public override string RemarksTitle { get; } = "Remarks";
+            public override string ReturnsTitle { get; } = "Returns";
+            public override string ReturnValueTitle { get; } = "Return Value";
+            public override string SeeAlsoTitle { get; } = "See Also";
+            public override string StructTitle { get; } = "Struct";
+            public override string StructsTitle { get; } = "Structs";
+            public override string SummaryTitle { get; } = "Summary";
+            public override string TypeParameterTitle { get; } = "Type Parameter";
+            public override string TypeParametersTitle { get; } = "Type Parameters";
+            public override string ValueTitle { get; } = "Value";
         }
     }
 }

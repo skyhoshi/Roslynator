@@ -6,42 +6,44 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
-    //TODO: struct?
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public sealed class SymbolDocumentationInfo
     {
         private ImmutableArray<ISymbol> _publiclyVisibleMembers;
-
         private ImmutableArray<ISymbol> _publiclyVisibleMembersIncludingInherited;
 
         private SymbolDocumentationInfo(
             ISymbol symbol,
             string commentId,
-            ImmutableArray<ISymbol> symbols,
-            ImmutableArray<string> names,
-            CompilationDocumentationInfo compilation)
+            ImmutableArray<ISymbol> symbolAndBaseTypesAndNamespaces,
+            ImmutableArray<string> nameAndBaseNamesAndNamespaceNames,
+            CompilationDocumentationInfo compilationInfo)
         {
             Symbol = symbol;
             CommentId = commentId;
-            Symbols = symbols;
-            Names = names;
-            CompilationInfo = compilation;
+            SymbolAndBaseTypesAndNamespaces = symbolAndBaseTypesAndNamespaces;
+            NameAndBaseNamesAndNamespaceNames = nameAndBaseNamesAndNamespaceNames;
+            CompilationInfo = compilationInfo;
         }
 
         public ISymbol Symbol { get; }
 
         public string CommentId { get; }
 
-        private ImmutableArray<ISymbol> Symbols { get; }
+        internal ImmutableArray<ISymbol> SymbolAndBaseTypesAndNamespaces { get; }
 
-        private ImmutableArray<string> Names { get; }
+        internal ImmutableArray<string> NameAndBaseNamesAndNamespaceNames { get; }
 
         internal CompilationDocumentationInfo CompilationInfo { get; }
+
+        public bool IsExternal
+        {
+            get { return CompilationInfo.IsExternal(Symbol); }
+        }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string DebuggerDisplay
@@ -87,9 +89,9 @@ namespace Roslynator.Documentation
             return new SymbolDocumentationInfo(
                 symbol: null,
                 commentId: null,
-                symbols: ImmutableArray<ISymbol>.Empty,
-                names: ImmutableArray<string>.Empty,
-                compilation: compilation);
+                symbolAndBaseTypesAndNamespaces: ImmutableArray<ISymbol>.Empty,
+                nameAndBaseNamesAndNamespaceNames: ImmutableArray<string>.Empty,
+                compilationInfo: compilation);
         }
 
         public static SymbolDocumentationInfo Create(ISymbol symbol, CompilationDocumentationInfo compilation)
@@ -189,89 +191,6 @@ namespace Roslynator.Documentation
                 symbols.ToImmutableArray(),
                 names.ToImmutableArray(),
                 compilation);
-        }
-
-        internal string GetPath(string fileName)
-        {
-            return string.Join(@"\", Names.Reverse()) + @"\" + fileName;
-        }
-
-        internal string GetUrl(string fileName, SymbolDocumentationInfo directoryInfo = null, bool useExternalLink = true)
-        {
-            if (useExternalLink
-                && CompilationInfo.IsExternal(Symbol))
-            {
-                if (Symbols.LastOrDefault()?.Kind == SymbolKind.Namespace)
-                {
-                    switch (Names.Last())
-                    {
-                        case "System":
-                        case "Microsoft":
-                            return "https://docs.microsoft.com/en-us/dotnet/api/" + string.Join(".", Names.Select(f => f.ToLowerInvariant()).Reverse());
-                    }
-                }
-
-                return null;
-            }
-
-            if (directoryInfo == null)
-                return string.Join("/", Names.Reverse()) + "/" + fileName;
-
-            if (this == directoryInfo)
-                return "./" + fileName;
-
-            int count = 0;
-
-            int i = Symbols.Length - 1;
-            int j = directoryInfo.Symbols.Length - 1;
-
-            while (i >= 0
-                && j >= 0
-                && Symbols[i] == directoryInfo.Symbols[j])
-            {
-                count++;
-                i--;
-                j--;
-            }
-
-            int diff = directoryInfo.Symbols.Length - count;
-
-            var sb = new StringBuilder();
-
-            if (diff > 0)
-            {
-                sb.Append("..");
-                diff--;
-
-                while (diff > 0)
-                {
-                    sb.Append("/..");
-                    diff--;
-                }
-            }
-
-            i = Names.Length - 1 - count;
-
-            if (i >= 0)
-            {
-                if (sb.Length > 0)
-                    sb.Append("/");
-
-                sb.Append(Names[i]);
-                i--;
-
-                while (i >= 0)
-                {
-                    sb.Append("/");
-                    sb.Append(Names[i]);
-                    i--;
-                }
-            }
-
-            sb.Append("/");
-            sb.Append(fileName);
-
-            return sb.ToString();
         }
 
         public IEnumerable<IFieldSymbol> GetFields(bool includeInherited = false)
@@ -406,26 +325,6 @@ namespace Roslynator.Documentation
 
                             break;
                         }
-                }
-            }
-        }
-
-        public IEnumerable<IMethodSymbol> GetExtensionMethods()
-        {
-            if (Symbol.Kind == SymbolKind.NamedType
-                && Symbol.IsStatic
-                && Symbol.ContainingType == null)
-            {
-                foreach (ISymbol member in GetPubliclyVisibleMembers())
-                {
-                    if (member.Kind == SymbolKind.Method
-                        && member.IsStatic)
-                    {
-                        var methodSymbol = (IMethodSymbol)member;
-
-                        if (methodSymbol.IsExtensionMethod)
-                            yield return methodSymbol;
-                    }
                 }
             }
         }

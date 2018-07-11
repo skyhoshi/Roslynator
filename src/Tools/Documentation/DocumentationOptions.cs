@@ -121,6 +121,11 @@ namespace Roslynator.Documentation
             }
         }
 
+        public bool IsEnabled(DocumentationParts parts)
+        {
+            return (Parts & parts) != 0;
+        }
+
         public bool IsEnabled(RootDocumentationParts parts)
         {
             return (RootParts & parts) != 0;

@@ -30,7 +30,7 @@ namespace Roslynator.Documentation
         {
             var fieldSymbol = (IFieldSymbol)symbol;
 
-            Writer.WriteHeading(3 + BaseHeadingLevel, Resources.FieldValue);
+            Writer.WriteHeading(3 + BaseHeadingLevel, Resources.FieldValueTitle);
             Writer.WriteLink(fieldSymbol.Type, SymbolDisplayAdditionalOptions.None);
         }
     }

@@ -194,7 +194,7 @@ namespace Roslynator.Documentation
 
                 string assemblyFileName = assemblySymbol.Name + ".dll";
 
-                if (RuntimeMetadataReference.TrustedPlatformAssemblyPaths.TryGetValue(assemblyFileName, out string path))
+                if (TrustedPlatformAssemblies.Paths.TryGetValue(assemblyFileName, out string path))
                 {
                     string xmlDocPath = Path.ChangeExtension(path, "xml");
 

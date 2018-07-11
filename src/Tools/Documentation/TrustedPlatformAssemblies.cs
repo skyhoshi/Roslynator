@@ -10,13 +10,12 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Roslynator
 {
-    //TODO: rename
-    internal static class RuntimeMetadataReference
+    internal static class TrustedPlatformAssemblies
     {
         private static ImmutableDictionary<string, string> _trustedPlatformAssemblyPaths;
         private static Compilation _compilation;
 
-        public static ImmutableDictionary<string, string> TrustedPlatformAssemblyPaths
+        public static ImmutableDictionary<string, string> Paths
         {
             get { return _trustedPlatformAssemblyPaths ?? (_trustedPlatformAssemblyPaths = CreateTrustedPlatformAssemblyPaths()); }
         }
@@ -27,7 +26,7 @@ namespace Roslynator
             {
                 if (_compilation == null)
                 {
-                    IEnumerable<PortableExecutableReference> references = TrustedPlatformAssemblyPaths
+                    IEnumerable<PortableExecutableReference> references = Paths
                         .Select(f => MetadataReference.CreateFromFile(f.Value));
 
                     _compilation = CSharpCompilation.Create(

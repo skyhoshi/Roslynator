@@ -25,8 +25,6 @@ namespace Roslynator.Documentation
 
         public DocumentationOptions Options { get; }
 
-        public DocumentationParts Parts => Options.Parts;
-
         public SymbolDisplayFormatProvider FormatProvider => Options.FormatProvider;
 
         public string FileName => Options.FileName;
@@ -42,8 +40,8 @@ namespace Roslynator.Documentation
         {
             DocumentationWriter writer = CreateWriterCore(symbolInfo, directoryInfo);
 
-            writer.CanCreateMemberLocalLink = (Parts & DocumentationParts.Member) != 0;
-            writer.CanCreateTypeLocalLink = (Parts & DocumentationParts.Type) != 0;
+            writer.CanCreateMemberLocalUrl = Options.IsEnabled(DocumentationParts.Member);
+            writer.CanCreateTypeLocalUrl = Options.IsEnabled(DocumentationParts.Type);
 
             return writer;
         }
@@ -60,7 +58,7 @@ namespace Roslynator.Documentation
             string objectModelHeading = null,
             string extendedTypesHeading = null)
         {
-            DocumentationParts parts = Parts;
+            DocumentationParts parts = Options.Parts;
 
             using (DocumentationWriter writer = CreateWriter(symbolInfo: EmptySymbolInfo, directoryInfo: null))
             {
@@ -69,7 +67,7 @@ namespace Roslynator.Documentation
 
                 if ((parts & DocumentationParts.ObjectModel) != 0)
                 {
-                    objectModelFile = GenerateObjectModel(objectModelHeading ?? Resources.ObjectModel);
+                    objectModelFile = GenerateObjectModel(objectModelHeading ?? Resources.ObjectModelTitle);
 
                     if (!objectModelFile.HasContent)
                         parts &= ~DocumentationParts.ObjectModel;
@@ -77,7 +75,7 @@ namespace Roslynator.Documentation
 
                 if ((parts & DocumentationParts.ExtendedExternalTypes) != 0)
                 {
-                    extendedTypesFile = GenerateExtendedExternalTypesFile(extendedTypesHeading ?? Resources.ExtendedExternalTypes);
+                    extendedTypesFile = GenerateExtendedExternalTypesFile(extendedTypesHeading ?? Resources.ExtendedExternalTypesTitle);
 
                     if (!extendedTypesFile.HasContent)
                         parts &= ~DocumentationParts.ExtendedExternalTypes;
@@ -134,7 +132,7 @@ namespace Roslynator.Documentation
                 && Options.IsEnabled(RootDocumentationParts.ObjectModelLink))
             {
                 writer.WriteStartBulletItem();
-                writer.WriteLink(Resources.ObjectModel, WellKnownNames.ObjectModelFileName);
+                writer.WriteLink(Resources.ObjectModelTitle, WellKnownNames.ObjectModelFileName);
                 writer.WriteEndBulletItem();
             }
 
@@ -142,23 +140,19 @@ namespace Roslynator.Documentation
                 && Options.IsEnabled(RootDocumentationParts.ExtendedTypesLink))
             {
                 writer.WriteStartBulletItem();
-                writer.WriteLink(Resources.ExtendedExternalTypes, WellKnownNames.ExtendedExternalTypesFileName);
+                writer.WriteLink(Resources.ExtendedExternalTypesTitle, WellKnownNames.ExtendedExternalTypesFileName);
                 writer.WriteEndBulletItem();
             }
 
             if (Options.IsEnabled(RootDocumentationParts.NamespaceList))
             {
-                writer.WriteHeading2(Resources.Namespaces);
+                writer.WriteHeading2(Resources.NamespacesTitle);
 
                 foreach (INamespaceSymbol namespaceSymbol in CompilationInfo.Namespaces
                     .OrderBy(f => f.ToDisplayString(FormatProvider.NamespaceFormat)))
                 {
                     writer.WriteStartBulletItem();
-
-                    string url = writer.GetUrl(namespaceSymbol);
-
-                    writer.WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), url);
-
+                    writer.WriteLink(namespaceSymbol, FormatProvider.NamespaceFormat);
                     writer.WriteEndBulletItem();
                 }
             }
@@ -172,17 +166,12 @@ namespace Roslynator.Documentation
                     INamespaceSymbol namespaceSymbol = grouping.Key;
 
                     writer.WriteStartHeading(2);
-
-                    string url = writer.GetUrl(namespaceSymbol);
-                    writer.WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), url);
-
+                    writer.WriteLink(namespaceSymbol, FormatProvider.NamespaceFormat);
                     writer.WriteSpace();
-                    writer.WriteString(Resources.Namespace);
+                    writer.WriteString(Resources.NamespaceTitle);
                     writer.WriteEndHeading();
 
-                    bool addLocaLink = (Parts & DocumentationParts.Type) != 0;
-
-                    writer.WriteNamespaceContentAsTable(grouping, 3, addLocalLink: addLocaLink);
+                    writer.WriteNamespaceContentAsTable(grouping, 3, addLocalLink: Options.IsEnabled(DocumentationParts.Type));
                 }
             }
 
@@ -200,13 +189,11 @@ namespace Roslynator.Documentation
                     writer.WriteStartHeading(1);
                     writer.WriteString(namespaceSymbol, FormatProvider.NamespaceFormat);
                     writer.WriteSpace();
-                    writer.WriteString(Resources.Namespace);
+                    writer.WriteString(Resources.NamespaceTitle);
                     writer.WriteEndHeading();
                 }
 
-                bool addLocalLink = (Parts & DocumentationParts.Type) != 0;
-
-                writer.WriteNamespaceContentAsTable(CompilationInfo.GetTypes(namespaceSymbol), 2, addLocalLink: addLocalLink);
+                writer.WriteNamespaceContentAsTable(CompilationInfo.GetTypes(namespaceSymbol), 2, addLocalLink: Options.IsEnabled(DocumentationParts.Type));
 
                 return DocumentationFile.Create(writer, info, FileName, DocumentationKind.Namespace);
             }
@@ -229,16 +216,13 @@ namespace Roslynator.Documentation
                         if (Options.IsEnabled(RootDocumentationParts.NamespaceList))
                         {
                             writer.WriteStartHeading(2);
-                            writer.WriteString(Resources.Namespaces);
+                            writer.WriteString(Resources.NamespacesTitle);
                             writer.WriteEndHeading();
 
                             do
                             {
                                 writer.WriteStartBulletItem();
-
-                                string url = writer.GetUrl(en.Current);
-                                writer.WriteLink(en.Current.ToDisplayString(FormatProvider.NamespaceFormat), url);
-
+                                writer.WriteLink(en.Current, FormatProvider.NamespaceFormat);
                                 writer.WriteEndBulletItem();
                             }
                             while (en.MoveNext());
@@ -257,17 +241,14 @@ namespace Roslynator.Documentation
                             SymbolDocumentationInfo info = GetSymbolInfo(namespaceSymbol);
 
                             writer.WriteStartHeading(2);
-
-                            string url = writer.GetUrl(info);
-                            writer.WriteLink(namespaceSymbol.ToDisplayString(FormatProvider.NamespaceFormat), url);
-
+                            writer.WriteLink(namespaceSymbol, FormatProvider.NamespaceFormat);
                             writer.WriteSpace();
-                            writer.WriteString(Resources.Namespace);
+                            writer.WriteString(Resources.NamespaceTitle);
                             writer.WriteEndHeading();
 
-                            writer.CanCreateExternalLink = false;
+                            writer.CreateLocalUrlForExternalType = true;
                             writer.WriteNamespaceContentAsList(grouping, 3);
-                            writer.CanCreateExternalLink = true;
+                            writer.CreateLocalUrlForExternalType = false;
                         }
                     }
                 }
@@ -287,7 +268,7 @@ namespace Roslynator.Documentation
                 writer.WriteSpace();
                 writer.WriteString(Resources.GetName(typeSymbol.TypeKind));
                 writer.WriteSpace();
-                writer.WriteString(Resources.Extensions);
+                writer.WriteString(Resources.ExtensionsTitle);
                 writer.WriteEndHeading();
 
                 IEnumerable<IMethodSymbol> extensionMethods = CompilationInfo.GetExtensionMethods(typeSymbol);
@@ -296,8 +277,8 @@ namespace Roslynator.Documentation
                     extensionMethods,
                     heading: null,
                     2,
-                    Resources.ExtensionMethod,
-                    Resources.Summary,
+                    Resources.ExtensionMethodTitle,
+                    Resources.SummaryTitle,
                     FormatProvider.MethodFormat,
                     SymbolDisplayAdditionalOptions.None);
 
@@ -574,7 +555,7 @@ namespace Roslynator.Documentation
                 {
                     if (en.MoveNext())
                     {
-                        writer.WriteHeading2(Resources.Interfaces);
+                        writer.WriteHeading2(Resources.InterfacesTitle);
 
                         do
                         {

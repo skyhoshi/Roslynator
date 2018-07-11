@@ -35,13 +35,13 @@ namespace Roslynator.Documentation
             {
                 Writer.WriteString(symbol.ToDisplayString(FormatProvider.ConstructorFormat));
                 Writer.WriteSpace();
-                Writer.WriteString(Resources.Constructor);
+                Writer.WriteString(Resources.ConstructorTitle);
             }
             else
             {
                 Writer.WriteString(symbol.ToDisplayString(FormatProvider.TitleFormat));
                 Writer.WriteSpace();
-                Writer.WriteString(Resources.Constructors);
+                Writer.WriteString(Resources.ConstructorsTitle);
             }
 
             Writer.WriteEndHeading();

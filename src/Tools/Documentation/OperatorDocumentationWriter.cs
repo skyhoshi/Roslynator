@@ -34,7 +34,7 @@ namespace Roslynator.Documentation
         {
             var methodSymbol = (IMethodSymbol)symbol;
 
-            Writer.WriteHeading(3 + BaseHeadingLevel, Resources.Returns);
+            Writer.WriteHeading(3 + BaseHeadingLevel, Resources.ReturnsTitle);
             Writer.WriteLink(methodSymbol.ReturnType, SymbolDisplayAdditionalOptions.None);
             Writer.WriteLine();
             Writer.WriteLine();

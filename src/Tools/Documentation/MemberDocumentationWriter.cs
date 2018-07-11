@@ -68,7 +68,7 @@ namespace Roslynator.Documentation
             else
             {
                 //TODO: create link for overloads
-                Writer.WriteTable(Symbols, Resources.Overloads, 2, KindName, Resources.Summary, FormatProvider.ConstructorFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName, addLocalLink: false);
+                Writer.WriteTable(Symbols, Resources.OverloadsTitle, 2, KindName, Resources.SummaryTitle, FormatProvider.ConstructorFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName, addLocalLink: false);
 
                 foreach (ISymbol symbol2 in Symbols)
                 {
@@ -106,7 +106,7 @@ namespace Roslynator.Documentation
             {
                 if (en.MoveNext())
                 {
-                    Writer.WriteHeading(3 + BaseHeadingLevel, Resources.Implements);
+                    Writer.WriteHeading(3 + BaseHeadingLevel, Resources.ImplementsTitle);
 
                     Writer.WriteStartBulletList();
 

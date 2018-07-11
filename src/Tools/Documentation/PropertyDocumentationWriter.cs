@@ -34,7 +34,7 @@ namespace Roslynator.Documentation
         {
             var propertySymbol = (IPropertySymbol)symbol;
 
-            Writer.WriteHeading(3 + BaseHeadingLevel, Resources.PropertyValue);
+            Writer.WriteHeading(3 + BaseHeadingLevel, Resources.PropertyValueTitle);
             Writer.WriteLink(propertySymbol.Type, SymbolDisplayAdditionalOptions.None);
             Writer.WriteLine();
             Writer.WriteLine();

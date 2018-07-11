@@ -1,4 +1,4 @@
-# Types Extended by Roslynator API
+# External Types Extended by Roslynator API
 
 ## Namespaces
 
