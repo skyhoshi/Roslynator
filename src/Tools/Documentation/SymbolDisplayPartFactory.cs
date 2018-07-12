@@ -1,12 +1,15 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
     internal static class SymbolDisplayPartFactory
     {
+        public static ImmutableArray<SymbolDisplayPart> LineBreakAndIndent { get; } = ImmutableArray.Create(LineBreak(), Space("    "));
+
         public static SymbolDisplayPart Text(string text)
         {
             return new SymbolDisplayPart(SymbolDisplayPartKind.Text, null, text);
@@ -22,9 +25,9 @@ namespace Roslynator.Documentation
             return new SymbolDisplayPart(SymbolDisplayPartKind.Punctuation, null, value);
         }
 
-        public static SymbolDisplayPart Space()
+        public static SymbolDisplayPart Space(string text = " ")
         {
-            return new SymbolDisplayPart(SymbolDisplayPartKind.Space, null, " ");
+            return new SymbolDisplayPart(SymbolDisplayPartKind.Space, null, text);
         }
 
         public static SymbolDisplayPart LineBreak()

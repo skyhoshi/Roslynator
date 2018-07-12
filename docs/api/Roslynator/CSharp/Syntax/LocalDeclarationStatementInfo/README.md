@@ -9,7 +9,8 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about local declaration statement\.
 
 ```csharp
-public readonly struct LocalDeclarationStatementInfo : IEquatable<LocalDeclarationStatementInfo>
+public readonly struct LocalDeclarationStatementInfo :
+    System.IEquatable<Roslynator.CSharp.Syntax.LocalDeclarationStatementInfo>
 ```
 
 ### Inheritance

@@ -9,7 +9,8 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about "as" expression\.
 
 ```csharp
-public readonly struct AsExpressionInfo : IEquatable<AsExpressionInfo>
+public readonly struct AsExpressionInfo :
+    System.IEquatable<Roslynator.CSharp.Syntax.AsExpressionInfo>
 ```
 
 ### Inheritance

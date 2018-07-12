@@ -71,7 +71,8 @@ public static Task<Document> ReplaceNodeAsync(this Document document, SyntaxNode
 Creates a new solution with the specified old node replaced with a new node\.
 
 ```csharp
-public static Task<Solution> ReplaceNodeAsync<TNode>(this Solution solution, TNode oldNode, TNode newNode, CancellationToken cancellationToken = default(CancellationToken)) where TNode : SyntaxNode
+public static Task<Solution> ReplaceNodeAsync<TNode>(this Solution solution, TNode oldNode, TNode newNode, CancellationToken cancellationToken = default(CancellationToken)) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters

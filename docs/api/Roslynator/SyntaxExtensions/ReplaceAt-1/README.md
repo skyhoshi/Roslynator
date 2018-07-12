@@ -20,7 +20,8 @@ Assembly: Roslynator\.CSharp\.dll
 Creates a new list with a node at the specified index replaced with a new node\.
 
 ```csharp
-public static SeparatedSyntaxList<TNode> ReplaceAt<TNode>(this SeparatedSyntaxList<TNode> list, int index, TNode newNode) where TNode : SyntaxNode
+public static SeparatedSyntaxList<TNode> ReplaceAt<TNode>(this SeparatedSyntaxList<TNode> list, int index, TNode newNode) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters
@@ -51,7 +52,8 @@ public static SeparatedSyntaxList<TNode> ReplaceAt<TNode>(this SeparatedSyntaxLi
 Creates a new list with the node at the specified index replaced with a new node\.
 
 ```csharp
-public static SyntaxList<TNode> ReplaceAt<TNode>(this SyntaxList<TNode> list, int index, TNode newNode) where TNode : SyntaxNode
+public static SyntaxList<TNode> ReplaceAt<TNode>(this SyntaxList<TNode> list, int index, TNode newNode) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters

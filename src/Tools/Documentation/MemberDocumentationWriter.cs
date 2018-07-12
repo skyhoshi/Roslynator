@@ -4,11 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
-    public abstract partial class MemberDocumentationWriter
+    public abstract class MemberDocumentationWriter
     {
         protected MemberDocumentationWriter(DocumentationWriter writer)
         {
@@ -18,8 +19,6 @@ namespace Roslynator.Documentation
         public DocumentationWriter Writer { get; }
 
         public abstract SymbolDisplayFormat Format { get; }
-
-        public abstract MemberDocumentationParts Parts { get; }
 
         public SymbolDisplayFormatProvider FormatProvider => Writer.FormatProvider;
 
@@ -151,9 +150,9 @@ namespace Roslynator.Documentation
                             Writer.WriteSummary(symbol);
                             break;
                         }
-                    case MemberDocumentationParts.Signature:
+                    case MemberDocumentationParts.Definition:
                         {
-                            Writer.WriteSignature(symbol);
+                            Writer.WriteDefinition(symbol);
                             break;
                         }
                     case MemberDocumentationParts.TypeParameters:
@@ -243,6 +242,147 @@ namespace Roslynator.Documentation
             }
 
             throw new InvalidOperationException();
+        }
+
+        private class ConstructorDocumentationWriter : MemberDocumentationWriter
+        {
+            public ConstructorDocumentationWriter(DocumentationWriter writer) : base(writer)
+            {
+            }
+
+            public override SymbolDisplayFormat Format => FormatProvider.ConstructorFormat;
+
+            public override void WriteTitle(ISymbol symbol, bool hasOverloads)
+            {
+                Writer.WriteStartHeading(1 + BaseHeadingLevel);
+
+                if (!hasOverloads)
+                {
+                    Writer.WriteString(symbol.ToDisplayString(FormatProvider.ConstructorFormat));
+                    Writer.WriteSpace();
+                    Writer.WriteString(Resources.ConstructorTitle);
+                }
+                else
+                {
+                    Writer.WriteString(symbol.ToDisplayString(FormatProvider.TitleFormat));
+                    Writer.WriteSpace();
+                    Writer.WriteString(Resources.ConstructorsTitle);
+                }
+
+                Writer.WriteEndHeading();
+            }
+        }
+
+        private class EventDocumentationWriter : MemberDocumentationWriter
+        {
+            public EventDocumentationWriter(DocumentationWriter writer) : base(writer)
+            {
+            }
+
+            public override SymbolDisplayFormat Format => FormatProvider.EventFormat;
+        }
+
+        private class FieldDocumentationWriter : MemberDocumentationWriter
+        {
+            public FieldDocumentationWriter(DocumentationWriter writer) : base(writer)
+            {
+            }
+
+            public override SymbolDisplayFormat Format => FormatProvider.FieldFormat;
+
+            public override void WriteReturnValue(ISymbol symbol)
+            {
+                var fieldSymbol = (IFieldSymbol)symbol;
+
+                Writer.WriteHeading(3 + BaseHeadingLevel, Resources.FieldValueTitle);
+                Writer.WriteLink(fieldSymbol.Type, FormatProvider.TypeFormat);
+            }
+        }
+
+        private class MethodDocumentationWriter : MemberDocumentationWriter
+        {
+            public MethodDocumentationWriter(DocumentationWriter writer) : base(writer)
+            {
+            }
+
+            public override SymbolDisplayFormat Format => FormatProvider.MethodFormat;
+
+            public override void WriteReturnValue(ISymbol symbol)
+            {
+                var methodSymbol = (IMethodSymbol)symbol;
+
+                Writer.WriteHeading(3 + BaseHeadingLevel, Resources.ReturnsTitle);
+                Writer.WriteLink(methodSymbol.ReturnType, FormatProvider.TypeFormat);
+                Writer.WriteLine();
+                Writer.WriteLine();
+
+                XElement element = CompilationInfo.GetDocumentationElement(methodSymbol, "returns");
+
+                if (element != null)
+                {
+                    Writer.WriteElementContent(element);
+                    Writer.WriteLine();
+                    Writer.WriteLine();
+                }
+            }
+        }
+
+        private class OperatorDocumentationWriter : MemberDocumentationWriter
+        {
+            public OperatorDocumentationWriter(DocumentationWriter writer) : base(writer)
+            {
+            }
+
+            public override SymbolDisplayFormat Format => FormatProvider.MethodFormat;
+
+            public override void WriteReturnValue(ISymbol symbol)
+            {
+                var methodSymbol = (IMethodSymbol)symbol;
+
+                Writer.WriteHeading(3 + BaseHeadingLevel, Resources.ReturnsTitle);
+                Writer.WriteLink(methodSymbol.ReturnType, FormatProvider.TypeFormat);
+                Writer.WriteLine();
+                Writer.WriteLine();
+
+                XElement element = CompilationInfo.GetDocumentationElement(methodSymbol, "returns");
+
+                if (element != null)
+                {
+                    Writer.WriteElementContent(element);
+                    Writer.WriteLine();
+                    Writer.WriteLine();
+                }
+            }
+        }
+
+        private class PropertyDocumentationWriter : MemberDocumentationWriter
+        {
+            public PropertyDocumentationWriter(DocumentationWriter writer) : base(writer)
+            {
+            }
+
+            public override SymbolDisplayFormat Format => FormatProvider.PropertyFormat;
+
+            public override void WriteReturnValue(ISymbol symbol)
+            {
+                var propertySymbol = (IPropertySymbol)symbol;
+
+                Writer.WriteHeading(3 + BaseHeadingLevel, Resources.PropertyValueTitle);
+                Writer.WriteLink(propertySymbol.Type, FormatProvider.TypeFormat);
+                Writer.WriteLine();
+                Writer.WriteLine();
+
+                string elementName = (propertySymbol.IsIndexer) ? "returns" : "value";
+
+                XElement element = CompilationInfo.GetDocumentationElement(propertySymbol, elementName);
+
+                if (element != null)
+                {
+                    Writer.WriteElementContent(element);
+                    Writer.WriteLine();
+                    Writer.WriteLine();
+                }
+            }
         }
     }
 }

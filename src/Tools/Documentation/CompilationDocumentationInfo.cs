@@ -192,6 +192,16 @@ namespace Roslynator.Documentation
             return info;
         }
 
+        internal ISymbol GetFirstSymbolForDeclarationId(string id)
+        {
+            return DocumentationCommentId.GetFirstSymbolForDeclarationId(id, Compilation);
+        }
+
+        internal ISymbol GetFirstSymbolForReferenceId(string id)
+        {
+            return DocumentationCommentId.GetFirstSymbolForReferenceId(id, Compilation);
+        }
+
         internal XmlDocumentation GetXmlDocumentation(IAssemblySymbol assemblySymbol)
         {
             if (_xmlDocumentations == null)

@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Specifies C\# comments\.
 
 ```csharp
-[FlagsAttribute]
+[System.FlagsAttribute]
 public enum CommentKinds
 ```
 

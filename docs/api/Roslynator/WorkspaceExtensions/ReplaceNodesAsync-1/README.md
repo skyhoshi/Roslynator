@@ -18,7 +18,8 @@ Assembly: Roslynator\.CSharp\.Workspaces\.dll
 Creates a new document with the specified old nodes replaced with new nodes\.
 
 ```csharp
-public static Task<Document> ReplaceNodesAsync<TNode>(this Document document, IEnumerable<TNode> nodes, Func<TNode, TNode, SyntaxNode> computeReplacementNode, CancellationToken cancellationToken = default(CancellationToken)) where TNode : SyntaxNode
+public static Task<Document> ReplaceNodesAsync<TNode>(this Document document, IEnumerable<TNode> nodes, Func<TNode, TNode, SyntaxNode> computeReplacementNode, CancellationToken cancellationToken = default(CancellationToken)) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters
@@ -50,7 +51,8 @@ public static Task<Document> ReplaceNodesAsync<TNode>(this Document document, IE
 Creates a new solution with the specified old nodes replaced with new nodes\.
 
 ```csharp
-public static Task<Solution> ReplaceNodesAsync<TNode>(this Solution solution, IEnumerable<TNode> nodes, Func<TNode, TNode, SyntaxNode> computeReplacementNodes, CancellationToken cancellationToken = default(CancellationToken)) where TNode : SyntaxNode
+public static Task<Solution> ReplaceNodesAsync<TNode>(this Solution solution, IEnumerable<TNode> nodes, Func<TNode, TNode, SyntaxNode> computeReplacementNodes, CancellationToken cancellationToken = default(CancellationToken)) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters

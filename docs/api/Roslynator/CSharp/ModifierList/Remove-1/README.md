@@ -18,7 +18,8 @@ Assembly: Roslynator\.CSharp\.dll
 Creates a new node with a modifier of the specified kind removed\.
 
 ```csharp
-public static TNode Remove<TNode>(TNode node, SyntaxKind kind) where TNode : SyntaxNode
+public static TNode Remove<TNode>(TNode node, SyntaxKind kind) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters
@@ -48,7 +49,8 @@ TNode
 Creates a new node with the specified modifier removed\.
 
 ```csharp
-public static TNode Remove<TNode>(TNode node, SyntaxToken modifier) where TNode : SyntaxNode
+public static TNode Remove<TNode>(TNode node, SyntaxToken modifier) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters

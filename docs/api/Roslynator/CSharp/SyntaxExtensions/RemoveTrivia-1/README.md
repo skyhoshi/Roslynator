@@ -9,7 +9,8 @@ Assembly: Roslynator\.CSharp\.dll
 Creates a new node with the trivia removed\.
 
 ```csharp
-public static TNode RemoveTrivia<TNode>(this TNode node, TextSpan? span = null) where TNode : SyntaxNode
+public static TNode RemoveTrivia<TNode>(this TNode node, TextSpan? span = null) 
+    where TNode : SyntaxNode
 ```
 
 ### Type Parameters

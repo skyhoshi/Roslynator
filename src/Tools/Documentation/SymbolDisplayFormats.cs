@@ -47,6 +47,20 @@ namespace Roslynator.Documentation
              kindOptions: DefaultKindOptions,
              miscellaneousOptions: DefaultMiscellaneousOptions);
 
+        public static SymbolDisplayFormat DefinitionTypeFormat { get; } = new SymbolDisplayFormat(
+             globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.OmittedAsContaining,
+             typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
+             genericsOptions: DefaultGenericsOptions
+                | SymbolDisplayGenericsOptions.IncludeTypeParameters,
+             memberOptions: DefaultMemberOptions,
+             delegateStyle: DefaultDelegateStyle,
+             extensionMethodStyle: DefaultExtensionMethodStyle,
+             parameterOptions: DefaultParameterOptions,
+             propertyStyle: DefaultPropertyStyle,
+             localOptions: DefaultLocalOptions,
+             kindOptions: DefaultKindOptions,
+             miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
+
         public static SymbolDisplayFormat OverloadedMemberTitle { get; } = new SymbolDisplayFormat(
              globalNamespaceStyle: DefaultGlobalNamespaceStyle,
              typeQualificationStyle: DefaultTypeQualificationStyle,
@@ -95,7 +109,7 @@ namespace Roslynator.Documentation
              kindOptions: DefaultKindOptions,
              miscellaneousOptions: DefaultMiscellaneousOptions);
 
-        public static SymbolDisplayFormat SimpleSignature { get; } = new SymbolDisplayFormat(
+        public static SymbolDisplayFormat SimpleDefinition { get; } = new SymbolDisplayFormat(
              globalNamespaceStyle: DefaultGlobalNamespaceStyle,
              typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameOnly,
              genericsOptions: DefaultGenericsOptions
@@ -112,7 +126,7 @@ namespace Roslynator.Documentation
              kindOptions: DefaultKindOptions,
              miscellaneousOptions: DefaultMiscellaneousOptions);
 
-        public static SymbolDisplayFormat FullSignature { get; } = new SymbolDisplayFormat(
+        public static SymbolDisplayFormat FullDefinition { get; } = new SymbolDisplayFormat(
              globalNamespaceStyle: DefaultGlobalNamespaceStyle,
              typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameOnly,
              genericsOptions: DefaultGenericsOptions

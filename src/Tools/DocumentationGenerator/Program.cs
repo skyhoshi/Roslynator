@@ -29,7 +29,10 @@ namespace Roslynator.Documentation
 
             var compilationInfo = new CompilationDocumentationInfo(TrustedPlatformAssemblies.Compilation, assemblies);
 
-            var options = new DocumentationOptions(parts: DocumentationParts.All);
+            var options = new DocumentationOptions(
+                parts: DocumentationParts.All,
+                formatBaseList: true,
+                formatConstraints: true);
 
             var generator = new DocumentationMarkdownGenerator(compilationInfo, options);
 

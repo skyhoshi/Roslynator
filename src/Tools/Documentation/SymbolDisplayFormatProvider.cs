@@ -18,7 +18,9 @@ namespace Roslynator.Documentation
 
         public abstract SymbolDisplayFormat TypeFormat { get; }
 
-        public abstract SymbolDisplayFormat SignatureFormat { get; }
+        public abstract SymbolDisplayFormat DefinitionFormat { get; }
+
+        public abstract SymbolDisplayFormat DefinitionTypeFormat { get; }
 
         public abstract SymbolDisplayFormat TypeParameterFormat { get; }
 
@@ -75,9 +77,14 @@ namespace Roslynator.Documentation
                 get { return SymbolDisplayFormats.TypeNameAndContainingTypes; }
             }
 
-            public override SymbolDisplayFormat SignatureFormat
+            public override SymbolDisplayFormat DefinitionFormat
             {
-                get { return SymbolDisplayFormats.FullSignature; }
+                get { return SymbolDisplayFormats.FullDefinition; }
+            }
+
+            public override SymbolDisplayFormat DefinitionTypeFormat
+            {
+                get { return SymbolDisplayFormats.DefinitionTypeFormat; }
             }
 
             public override SymbolDisplayFormat TypeParameterFormat
@@ -122,27 +129,27 @@ namespace Roslynator.Documentation
 
             public override SymbolDisplayFormat ConstructorFormat
             {
-                get { return SymbolDisplayFormats.SimpleSignature; }
+                get { return SymbolDisplayFormats.SimpleDefinition; }
             }
 
             public override SymbolDisplayFormat FieldFormat
             {
-                get { return SymbolDisplayFormats.SimpleSignature; }
+                get { return SymbolDisplayFormats.SimpleDefinition; }
             }
 
             public override SymbolDisplayFormat PropertyFormat
             {
-                get { return SymbolDisplayFormats.SimpleSignature; }
+                get { return SymbolDisplayFormats.SimpleDefinition; }
             }
 
             public override SymbolDisplayFormat MethodFormat
             {
-                get { return SymbolDisplayFormats.SimpleSignature; }
+                get { return SymbolDisplayFormats.SimpleDefinition; }
             }
 
             public override SymbolDisplayFormat EventFormat
             {
-                get { return SymbolDisplayFormats.SimpleSignature; }
+                get { return SymbolDisplayFormats.SimpleDefinition; }
             }
 
             public override SymbolDisplayFormat CrefFormat

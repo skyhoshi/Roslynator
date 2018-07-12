@@ -9,7 +9,8 @@ Assembly: Roslynator\.CSharp\.dll
 Represents an extension method symbol\.
 
 ```csharp
-public readonly struct ExtensionMethodSymbolInfo : IEquatable<ExtensionMethodSymbolInfo>
+public readonly struct ExtensionMethodSymbolInfo :
+    System.IEquatable<Roslynator.ExtensionMethodSymbolInfo>
 ```
 
 ### Inheritance

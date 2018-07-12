@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Specifies C\# preprocessor directives\.
 
 ```csharp
-[FlagsAttribute]
+[System.FlagsAttribute]
 public enum PreprocessorDirectiveKinds
 ```
 

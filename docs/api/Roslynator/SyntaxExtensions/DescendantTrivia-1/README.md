@@ -18,7 +18,8 @@ Assembly: Roslynator\.CSharp\.dll
 Get a list of all the trivia associated with the nodes in the list\.
 
 ```csharp
-public static IEnumerable<SyntaxTrivia> DescendantTrivia<TNode>(this SyntaxList<TNode> list, Func<SyntaxNode, bool> descendIntoChildren = null, bool descendIntoTrivia = false) where TNode : SyntaxNode
+public static IEnumerable<SyntaxTrivia> DescendantTrivia<TNode>(this SyntaxList<TNode> list, Func<SyntaxNode, bool> descendIntoChildren = null, bool descendIntoTrivia = false) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters
@@ -49,7 +50,8 @@ public static IEnumerable<SyntaxTrivia> DescendantTrivia<TNode>(this SyntaxList<
 Get a list of all the trivia associated with the nodes in the list\.
 
 ```csharp
-public static IEnumerable<SyntaxTrivia> DescendantTrivia<TNode>(this SyntaxList<TNode> list, TextSpan span, Func<SyntaxNode, bool> descendIntoChildren = null, bool descendIntoTrivia = false) where TNode : SyntaxNode
+public static IEnumerable<SyntaxTrivia> DescendantTrivia<TNode>(this SyntaxList<TNode> list, TextSpan span, Func<SyntaxNode, bool> descendIntoChildren = null, bool descendIntoTrivia = false) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters

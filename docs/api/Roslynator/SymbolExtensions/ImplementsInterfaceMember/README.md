@@ -69,7 +69,8 @@ public static bool ImplementsInterfaceMember(this ISymbol symbol, INamedTypeSymb
 Returns true if the symbol implements any interface member\.
 
 ```csharp
-public static bool ImplementsInterfaceMember<TSymbol>(this ISymbol symbol, bool allInterfaces = false) where TSymbol : ISymbol
+public static bool ImplementsInterfaceMember<TSymbol>(this ISymbol symbol, bool allInterfaces = false) 
+    where TSymbol : ISymbol
 ```
 
 #### Type Parameters
@@ -99,7 +100,8 @@ public static bool ImplementsInterfaceMember<TSymbol>(this ISymbol symbol, bool 
 Returns true if the symbol implements any member of the specified interface\.
 
 ```csharp
-public static bool ImplementsInterfaceMember<TSymbol>(this ISymbol symbol, INamedTypeSymbol interfaceSymbol, bool allInterfaces = false) where TSymbol : ISymbol
+public static bool ImplementsInterfaceMember<TSymbol>(this ISymbol symbol, INamedTypeSymbol interfaceSymbol, bool allInterfaces = false) 
+    where TSymbol : ISymbol
 ```
 
 #### Type Parameters

@@ -18,7 +18,8 @@ Assembly: Roslynator\.CSharp\.dll
 Searches a list of descendant nodes in prefix document order and returns first descendant of type **TNode**\.
 
 ```csharp
-public static TNode FirstDescendant<TNode>(this SyntaxNode node, Func<SyntaxNode, bool> descendIntoChildren = null, bool descendIntoTrivia = false) where TNode : SyntaxNode
+public static TNode FirstDescendant<TNode>(this SyntaxNode node, Func<SyntaxNode, bool> descendIntoChildren = null, bool descendIntoTrivia = false) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters
@@ -49,7 +50,8 @@ TNode
 Searches a list of descendant nodes in prefix document order and returns first descendant of type **TNode**\.
 
 ```csharp
-public static TNode FirstDescendant<TNode>(this SyntaxNode node, TextSpan span, Func<SyntaxNode, bool> descendIntoChildren = null, bool descendIntoTrivia = false) where TNode : SyntaxNode
+public static TNode FirstDescendant<TNode>(this SyntaxNode node, TextSpan span, Func<SyntaxNode, bool> descendIntoChildren = null, bool descendIntoTrivia = false) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters

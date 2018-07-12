@@ -9,7 +9,8 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about a lambda expression with a single parameter\.
 
 ```csharp
-public readonly struct SingleParameterLambdaExpressionInfo : IEquatable<SingleParameterLambdaExpressionInfo>
+public readonly struct SingleParameterLambdaExpressionInfo :
+    System.IEquatable<Roslynator.CSharp.Syntax.SingleParameterLambdaExpressionInfo>
 ```
 
 ### Inheritance

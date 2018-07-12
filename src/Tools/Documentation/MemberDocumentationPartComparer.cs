@@ -34,7 +34,7 @@ namespace Roslynator.Documentation
                     return 5;
                 case MemberDocumentationParts.Summary:
                     return 6;
-                case MemberDocumentationParts.Signature:
+                case MemberDocumentationParts.Definition:
                     return 7;
                 case MemberDocumentationParts.TypeParameters:
                     return 8;

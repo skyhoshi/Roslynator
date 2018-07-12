@@ -12,8 +12,6 @@ using Roslynator.CSharp;
 
 namespace Roslynator.Documentation
 {
-    //TODO: IFormatProvider
-    //TODO: DocumentationWriter<TSymbol>
     public abstract class DocumentationWriter : IDisposable
     {
         private bool _disposed;
@@ -32,10 +30,11 @@ namespace Roslynator.Documentation
 
         public SymbolDocumentationInfo DirectoryInfo { get; }
 
-        //TODO: del
         public SymbolDocumentationInfo SymbolInfo { get; }
 
         public ISymbol Symbol => SymbolInfo.Symbol;
+
+        public CompilationDocumentationInfo CompilationInfo => SymbolInfo.CompilationInfo;
 
         internal bool CanCreateTypeLocalUrl { get; set; } = true;
 
@@ -44,8 +43,6 @@ namespace Roslynator.Documentation
         protected internal int BaseHeadingLevel { get; set; }
 
         public SymbolDisplayFormatProvider FormatProvider => Options.FormatProvider;
-
-        public CompilationDocumentationInfo CompilationInfo => SymbolInfo.CompilationInfo;
 
         public DocumentationOptions Options { get; }
 
@@ -328,7 +325,7 @@ namespace Roslynator.Documentation
             WriteSection(symbol, heading: Resources.SummaryTitle, "summary");
         }
 
-        public virtual void WriteSignature(ISymbol symbol)
+        public virtual void WriteDefinition(ISymbol symbol)
         {
             ImmutableArray<SymbolDisplayPart> parts;
 
@@ -336,18 +333,20 @@ namespace Roslynator.Documentation
 
             if (typeSymbol != null)
             {
-                parts = typeSymbol.ToDisplayParts(FormatProvider.SignatureFormat, SymbolDisplayTypeDeclarationOptions.IncludeAccessibility | SymbolDisplayTypeDeclarationOptions.IncludeModifiers);
+                parts = typeSymbol.ToDisplayParts(FormatProvider.DefinitionFormat, SymbolDisplayTypeDeclarationOptions.IncludeAccessibility | SymbolDisplayTypeDeclarationOptions.IncludeModifiers);
             }
             else
             {
-                parts = symbol.ToDisplayParts(FormatProvider.SignatureFormat);
+                parts = symbol.ToDisplayParts(FormatProvider.DefinitionFormat);
             }
+
+            SymbolDisplayFormat format = FormatProvider.DefinitionTypeFormat;
 
             ImmutableArray<SymbolDisplayPart>.Builder builder = default;
 
             using (IEnumerator<AttributeData> en = symbol
                 .GetAttributes()
-                .Where(f => !ShouldBeExcluded(f.AttributeClass)).GetEnumerator())
+                .Where(f => !DocumentationUtility.IsHiddenAttribute(f.AttributeClass)).GetEnumerator())
             {
                 if (en.MoveNext())
                 {
@@ -356,7 +355,7 @@ namespace Roslynator.Documentation
                     do
                     {
                         builder.Add(SymbolDisplayPartFactory.Punctuation("["));
-                        builder.AddRange(en.Current.AttributeClass.ToDisplayParts(FormatProvider.TypeFormat));
+                        builder.AddRange(en.Current.AttributeClass.ToDisplayParts(format));
                         builder.Add(SymbolDisplayPartFactory.Punctuation("]"));
                         builder.Add(SymbolDisplayPartFactory.LineBreak());
                     }
@@ -369,6 +368,15 @@ namespace Roslynator.Documentation
 
             if (typeSymbol != null)
                 AddBaseTypes();
+
+            if (Options.FormatConstraints)
+            {
+                for (int i = parts.Length - 1; i >= 0; i--)
+                {
+                    if (parts[i].IsKeyword("where"))
+                        parts = parts.InsertRange(i, SymbolDisplayPartFactory.LineBreakAndIndent);
+                }
+            }
 
             WriteCodeBlock(parts.ToDisplayString(), GetLanguageIdentifier(symbol.Language));
 
@@ -389,8 +397,12 @@ namespace Roslynator.Documentation
                 if (interfaces.Any(f => f.OriginalDefinition.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T))
                     interfaces = interfaces.RemoveAll(f => f.SpecialType == SpecialType.System_Collections_IEnumerable);
 
-                if (baseType != null
-                    || interfaces.Any())
+                int baseListCount = interfaces.Length;
+
+                if (baseType != null)
+                    baseListCount++;
+
+                if (baseListCount > 0)
                 {
                     if (builder == default)
                         builder = ImmutableArray.CreateBuilder<SymbolDisplayPart>();
@@ -405,7 +417,7 @@ namespace Roslynator.Documentation
                             index = i;
 
                             AddPunctuation(":");
-                            AddSpace();
+                            AddSpaceOrNewLine((bool)this.Options.FormatBaseList);
                             break;
                         }
                     }
@@ -416,15 +428,18 @@ namespace Roslynator.Documentation
 
                         AddSpace();
                         AddPunctuation(":");
-                        AddSpace();
+                        AddSpaceOrNewLine((bool)this.Options.FormatBaseList);
                     }
 
                     if (baseType != null)
                     {
-                        builder.AddRange(baseType.ToDisplayParts(FormatProvider.TypeFormat));
+                        builder.AddRange(baseType.ToDisplayParts(format));
 
                         if (interfaces.Any())
+                        {
                             AddPunctuation(",");
+                            AddSpaceOrNewLine((bool)this.Options.FormatBaseList);
+                        }
                     }
 
                     interfaces = interfaces.Sort((x, y) =>
@@ -445,24 +460,21 @@ namespace Roslynator.Documentation
                             return 1;
                         }
 
-                        return string.Compare(x.ToDisplayString(FormatProvider.TypeFormat), y.ToDisplayString(FormatProvider.TypeFormat), StringComparison.Ordinal);
+                        return string.Compare(x.ToDisplayString(format), y.ToDisplayString(format), StringComparison.Ordinal);
                     });
 
                     if (interfaces.Any())
-                        builder.AddRange(interfaces[0].ToDisplayParts(FormatProvider.TypeFormat));
+                        builder.AddRange(interfaces[0].ToDisplayParts(format));
 
                     for (int i = 1; i < interfaces.Length; i++)
                     {
                         AddPunctuation(",");
-                        AddSpace();
-                        builder.AddRange(interfaces[i].ToDisplayParts(FormatProvider.TypeFormat));
+                        AddSpaceOrNewLine((bool)this.Options.FormatBaseList);
+                        builder.AddRange(interfaces[i].ToDisplayParts(format));
                     }
 
                     if (index != -1)
-                    {
-                        AddSpace();
                         builder.AddRange(parts.Skip(index));
-                    }
 
                     parts = builder.ToImmutableArray();
                 }
@@ -475,6 +487,18 @@ namespace Roslynator.Documentation
                 void AddPunctuation(string text)
                 {
                     builder.Add(SymbolDisplayPartFactory.Punctuation(text));
+                }
+
+                void AddSpaceOrNewLine(bool newLine)
+                {
+                    if (newLine)
+                    {
+                        builder.AddRange(SymbolDisplayPartFactory.LineBreakAndIndent);
+                    }
+                    else
+                    {
+                        builder.Add(SymbolDisplayPartFactory.Space());
+                    }
                 }
             }
         }
@@ -648,7 +672,7 @@ namespace Roslynator.Documentation
             using (IEnumerator<ITypeSymbol> en = symbol
                 .GetAttributes()
                 .Select(f => f.AttributeClass)
-                .Where(f => !ShouldBeExcluded(f))
+                .Where(f => !DocumentationUtility.IsHiddenAttribute(f))
                 .GetEnumerator())
             {
                 if (en.MoveNext())
@@ -674,41 +698,6 @@ namespace Roslynator.Documentation
             }
 
             WriteLine();
-        }
-
-        private static bool ShouldBeExcluded(INamedTypeSymbol attributeSymbol)
-        {
-            switch (attributeSymbol.MetadataName)
-            {
-                case "ConditionalAttribute":
-                case "DebuggerBrowsableAttribute":
-                case "DebuggerDisplayAttribute":
-                case "DebuggerHiddenAttribute":
-                case "DebuggerNonUserCodeAttribute":
-                case "DebuggerStepperBoundaryAttribute":
-                case "DebuggerStepThroughAttribute":
-                case "DebuggerTypeProxyAttribute":
-                case "DebuggerVisualizerAttribute":
-                    return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Diagnostics);
-                case "SuppressMessageAttribute":
-                    return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Diagnostics_CodeAnalysis);
-                case "DefaultMemberAttribute":
-                    return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Reflection);
-                case "AsyncStateMachineAttribute":
-                case "IteratorStateMachineAttribute":
-                case "MethodImplAttribute":
-                case "TypeForwardedFromAttribute":
-                case "TypeForwardedToAttribute":
-                    return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Runtime_CompilerServices);
-#if DEBUG
-                case "FlagsAttribute":
-                case "ObsoleteAttribute":
-                    return false;
-#endif
-            }
-
-            Debug.Fail(attributeSymbol.ToDisplayString());
-            return false;
         }
 
         public virtual void WriteDerived(ITypeSymbol typeSymbol)
@@ -825,7 +814,7 @@ namespace Roslynator.Documentation
 
                         if (commentId != null)
                         {
-                            ISymbol exceptionSymbol = DocumentationCommentId.GetFirstSymbolForReferenceId(commentId, CompilationInfo.Compilation);
+                            ISymbol exceptionSymbol = CompilationInfo.GetFirstSymbolForReferenceId(commentId);
 
                             if (exceptionSymbol != null)
                                 yield return (e, exceptionSymbol);
@@ -956,7 +945,7 @@ namespace Roslynator.Documentation
 
                         if (commentId != null)
                         {
-                            ISymbol symbol2 = DocumentationCommentId.GetFirstSymbolForReferenceId(commentId, CompilationInfo.Compilation);
+                            ISymbol symbol2 = CompilationInfo.GetFirstSymbolForReferenceId(commentId);
 
                             if (symbol2 != null)
                                 yield return symbol2;
@@ -1094,7 +1083,7 @@ namespace Roslynator.Documentation
 
                                         if (commentId != null)
                                         {
-                                            ISymbol symbol = DocumentationCommentId.GetFirstSymbolForDeclarationId(commentId, CompilationInfo.Compilation);
+                                            ISymbol symbol = CompilationInfo.GetFirstSymbolForDeclarationId(commentId);
 
                                             //XTODO: repair roslyn documentation
                                             Debug.Assert(symbol != null

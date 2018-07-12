@@ -9,7 +9,8 @@ Assembly: Roslynator\.CSharp\.dll
 Represents a list of modifiers\.
 
 ```csharp
-public abstract class ModifierList<TNode> where TNode : SyntaxNode
+public abstract class ModifierList<TNode> 
+    where TNode : SyntaxNode
 ```
 
 ### Type Parameters

@@ -9,7 +9,8 @@ Assembly: Roslynator\.CSharp\.dll
 Represents selected member declarations in a [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)\.
 
 ```csharp
-public sealed class MemberDeclarationListSelection : SyntaxListSelection<MemberDeclarationSyntax>
+public sealed class MemberDeclarationListSelection :
+    Roslynator.SyntaxListSelection<Microsoft.CodeAnalysis.CSharp.Syntax.MemberDeclarationSyntax>
 ```
 
 ### Inheritance

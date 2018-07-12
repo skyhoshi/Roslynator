@@ -15,7 +15,7 @@ namespace Roslynator.Documentation
         Assembly = 4,
         Obsolete = 8,
         Summary = 16,
-        Signature = 32,
+        Definition = 32,
         TypeParameters = 64,
         Parameters = 128,
         ReturnValue = 256,

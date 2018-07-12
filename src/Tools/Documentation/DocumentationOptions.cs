@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.CodeAnalysis;
-using System;
 
 namespace Roslynator.Documentation
 {
@@ -17,6 +17,8 @@ namespace Roslynator.Documentation
         public DocumentationOptions(
             string fileName = "README.md",
             int maxDerivedItems = 10,
+            bool formatBaseList = false,
+            bool formatConstraints = false,
             SymbolDisplayFormatProvider formatProvider = null,
             DocumentationParts parts = DocumentationParts.Namespace | DocumentationParts.Type | DocumentationParts.Member,
             RootDocumentationParts rootParts = RootDocumentationParts.All,
@@ -29,6 +31,8 @@ namespace Roslynator.Documentation
         {
             FileName = fileName;
             MaxDerivedItems = maxDerivedItems;
+            FormatBaseList = formatBaseList;
+            FormatConstraints = formatConstraints;
             FormatProvider = formatProvider ?? SymbolDisplayFormatProvider.Default;
             Parts = parts;
             RootParts = rootParts;
@@ -47,6 +51,10 @@ namespace Roslynator.Documentation
         public int MaxDerivedItems { get; }
 
         public SymbolDisplayFormatProvider FormatProvider { get; }
+
+        public bool FormatBaseList { get; }
+
+        public bool FormatConstraints { get; }
 
         public DocumentationParts Parts { get; }
 

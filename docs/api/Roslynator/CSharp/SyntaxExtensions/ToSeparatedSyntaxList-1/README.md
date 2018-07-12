@@ -18,7 +18,8 @@ Assembly: Roslynator\.CSharp\.dll
 Creates a separated list of syntax nodes from a sequence of nodes\.
 
 ```csharp
-public static SeparatedSyntaxList<TNode> ToSeparatedSyntaxList<TNode>(this IEnumerable<TNode> nodes) where TNode : SyntaxNode
+public static SeparatedSyntaxList<TNode> ToSeparatedSyntaxList<TNode>(this IEnumerable<TNode> nodes) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters
@@ -47,7 +48,8 @@ public static SeparatedSyntaxList<TNode> ToSeparatedSyntaxList<TNode>(this IEnum
 Creates a separated list of syntax nodes from a sequence of nodes and tokens\.
 
 ```csharp
-public static SeparatedSyntaxList<TNode> ToSeparatedSyntaxList<TNode>(this IEnumerable<SyntaxNodeOrToken> nodesAndTokens) where TNode : SyntaxNode
+public static SeparatedSyntaxList<TNode> ToSeparatedSyntaxList<TNode>(this IEnumerable<SyntaxNodeOrToken> nodesAndTokens) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters

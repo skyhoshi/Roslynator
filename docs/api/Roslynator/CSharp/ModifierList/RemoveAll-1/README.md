@@ -18,7 +18,8 @@ Assembly: Roslynator\.CSharp\.dll
 Creates a new node with modifiers that matches the predicate removed\.
 
 ```csharp
-public static TNode RemoveAll<TNode>(TNode node, Func<SyntaxToken, bool> predicate) where TNode : SyntaxNode
+public static TNode RemoveAll<TNode>(TNode node, Func<SyntaxToken, bool> predicate) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters
@@ -48,7 +49,8 @@ TNode
 Creates a new node with all modifiers removed\.
 
 ```csharp
-public static TNode RemoveAll<TNode>(TNode node) where TNode : SyntaxNode
+public static TNode RemoveAll<TNode>(TNode node) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters

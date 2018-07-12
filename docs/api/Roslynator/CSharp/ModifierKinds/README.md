@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Specifies C\# modifier\.
 
 ```csharp
-[FlagsAttribute]
+[System.FlagsAttribute]
 public enum ModifierKinds
 ```
 

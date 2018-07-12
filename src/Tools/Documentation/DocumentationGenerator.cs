@@ -313,10 +313,10 @@ namespace Roslynator.Documentation
                                 writer.WriteSummary(typeSymbol);
                                 break;
                             }
-                        case TypeDocumentationParts.Signature:
+                        case TypeDocumentationParts.Definition:
                             {
                                 if (typeSymbol.Kind != SymbolKind.Namespace)
-                                    writer.WriteSignature(typeSymbol);
+                                    writer.WriteDefinition(typeSymbol);
 
                                 break;
                             }

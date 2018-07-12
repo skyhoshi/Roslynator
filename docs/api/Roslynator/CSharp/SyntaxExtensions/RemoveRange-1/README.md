@@ -20,7 +20,8 @@ Assembly: Roslynator\.CSharp\.dll
 Creates a new list with elements in the specified range removed\.
 
 ```csharp
-public static SeparatedSyntaxList<TNode> RemoveRange<TNode>(this SeparatedSyntaxList<TNode> list, int index, int count) where TNode : SyntaxNode
+public static SeparatedSyntaxList<TNode> RemoveRange<TNode>(this SeparatedSyntaxList<TNode> list, int index, int count) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters
@@ -51,7 +52,8 @@ public static SeparatedSyntaxList<TNode> RemoveRange<TNode>(this SeparatedSyntax
 Creates a new list with elements in the specified range removed\.
 
 ```csharp
-public static SyntaxList<TNode> RemoveRange<TNode>(this SyntaxList<TNode> list, int index, int count) where TNode : SyntaxNode
+public static SyntaxList<TNode> RemoveRange<TNode>(this SyntaxList<TNode> list, int index, int count) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters

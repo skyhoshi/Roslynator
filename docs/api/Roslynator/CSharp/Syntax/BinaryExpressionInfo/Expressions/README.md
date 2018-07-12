@@ -13,7 +13,7 @@ This method is obsolete\. Use method 'AsChain' instead\.
 Returns expressions of this binary expression, including expressions of nested binary expressions of the same kind as parent binary expression\.
 
 ```csharp
-[ObsoleteAttribute]
+[System.ObsoleteAttribute]
 public IEnumerable<ExpressionSyntax> Expressions(bool leftToRight = false)
 ```
 

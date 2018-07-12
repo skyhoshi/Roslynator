@@ -5,7 +5,13 @@ Namespace: [Roslynator.Documentation.Test](../README.md)
 Assembly: Roslynator\.Documentation\.DocumentationTest\.dll
 
 ```csharp
-public class FooDictionary<TKey, TValue> : IReadOnlyList<KeyValuePair<TKey, TValue>>, IReadOnlyCollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable<TValue>
+public class FooDictionary<TKey, TValue> :
+    System.Collections.Generic.IReadOnlyList<System.Collections.Generic.KeyValuePair<TKey, TValue>>,
+    System.Collections.Generic.IReadOnlyCollection<System.Collections.Generic.KeyValuePair<TKey, TValue>>,
+    System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>>,
+    System.Collections.Generic.IEnumerable<TValue>
+    where TKey : Foo 
+    where TValue : Foo
 ```
 
 ### Type Parameters

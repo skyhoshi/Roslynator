@@ -20,7 +20,8 @@ Assembly: Roslynator\.CSharp\.dll
 Searches for a node of the specified kind and returns the zero\-based index of the first occurrence within the entire [SeparatedSyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.separatedsyntaxlist-1)\.
 
 ```csharp
-public static bool Contains<TNode>(this SeparatedSyntaxList<TNode> list, SyntaxKind kind) where TNode : SyntaxNode
+public static bool Contains<TNode>(this SeparatedSyntaxList<TNode> list, SyntaxKind kind) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters
@@ -50,7 +51,8 @@ public static bool Contains<TNode>(this SeparatedSyntaxList<TNode> list, SyntaxK
 Returns true if a node of the specified kind is in the [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)\.
 
 ```csharp
-public static bool Contains<TNode>(this SyntaxList<TNode> list, SyntaxKind kind) where TNode : SyntaxNode
+public static bool Contains<TNode>(this SyntaxList<TNode> list, SyntaxKind kind) 
+    where TNode : SyntaxNode
 ```
 
 #### Type Parameters
