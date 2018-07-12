@@ -21,7 +21,7 @@ public TNode RemoveAt(TNode node, int index)
 
 ### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

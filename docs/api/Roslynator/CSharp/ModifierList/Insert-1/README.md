@@ -39,7 +39,7 @@ public static TNode Insert<TNode>(TNode node, SyntaxKind kind, IComparer<SyntaxK
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 
@@ -70,7 +70,7 @@ public static TNode Insert<TNode>(TNode node, SyntaxToken modifier, IComparer<Sy
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

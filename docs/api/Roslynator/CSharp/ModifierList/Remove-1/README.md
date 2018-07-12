@@ -36,7 +36,7 @@ public static TNode Remove<TNode>(TNode node, SyntaxKind kind) where TNode : Syn
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 
@@ -66,7 +66,7 @@ public static TNode Remove<TNode>(TNode node, SyntaxToken modifier) where TNode 
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

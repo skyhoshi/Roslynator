@@ -38,7 +38,7 @@ public static TNode AppendToTrailingTrivia<TNode>(this TNode node, IEnumerable<S
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 
@@ -68,7 +68,7 @@ public static TNode AppendToTrailingTrivia<TNode>(this TNode node, SyntaxTrivia 
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

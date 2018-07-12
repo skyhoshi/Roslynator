@@ -30,7 +30,7 @@ public TNode Remove(TNode node, SyntaxKind kind)
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 
@@ -54,7 +54,7 @@ public TNode Remove(TNode node, SyntaxToken modifier)
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

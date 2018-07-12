@@ -27,7 +27,7 @@ public static TNode RemoveTrivia<TNode>(this TNode node, TextSpan? span = null) 
 
 ### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

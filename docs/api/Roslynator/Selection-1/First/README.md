@@ -14,7 +14,7 @@ public T First()
 
 ### Returns
 
-[T](../T/README.md)
+T
 
 
 

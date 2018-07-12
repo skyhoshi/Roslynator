@@ -29,7 +29,7 @@ public TNode RemoveAll(TNode node)
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 
@@ -53,7 +53,7 @@ public TNode RemoveAll(TNode node, Func<SyntaxToken, bool> predicate)
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

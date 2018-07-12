@@ -14,7 +14,7 @@ public T Last()
 
 ### Returns
 
-[T](../T/README.md)
+T
 
 
 

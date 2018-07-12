@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
-    public abstract class MemberDocumentationWriter
+    public abstract partial class MemberDocumentationWriter
     {
         protected MemberDocumentationWriter(DocumentationWriter writer)
         {
@@ -29,15 +29,13 @@ namespace Roslynator.Documentation
 
         public DocumentationResources Resources => Writer.Resources;
 
-        public string KindName => Writer.KindName;
-
         public int BaseHeadingLevel
         {
             get { return Writer.BaseHeadingLevel; }
             set { Writer.BaseHeadingLevel = value; }
         }
 
-        public virtual void WriteMember(ISymbol Symbol, ImmutableArray<ISymbol> Symbols)
+        public virtual void WriteMember(ISymbol symbol, ImmutableArray<ISymbol> symbols)
         {
             foreach (MemberDocumentationParts part in Options.EnabledAndSortedMemberParts)
             {
@@ -45,32 +43,40 @@ namespace Roslynator.Documentation
                 {
                     case MemberDocumentationParts.Namespace:
                         {
-                            Writer.WriteNamespace(Symbol);
+                            Writer.WriteNamespace(symbol);
                             break;
                         }
                     case MemberDocumentationParts.Assembly:
                         {
-                            Writer.WriteAssembly(Symbol);
+                            Writer.WriteAssembly(symbol);
                             break;
                         }
                     case MemberDocumentationParts.Title:
                         {
-                            WriteTitle(Symbol, hasOverloads: Symbols.Length > 1);
+                            WriteTitle(symbol, hasOverloads: symbols.Length > 1);
                             break;
                         }
                 }
             }
 
-            if (Symbols.Length == 1)
+            if (symbols.Length == 1)
             {
-                WriteContent(Symbol);
+                WriteContent(symbol);
             }
             else
             {
                 //TODO: create link for overloads
-                Writer.WriteTable(Symbols, Resources.OverloadsTitle, 2, KindName, Resources.SummaryTitle, FormatProvider.ConstructorFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName, addLocalLink: false);
+                Writer.WriteTable(
+                    symbols,
+                    Resources.OverloadsTitle,
+                    headingLevel: 2,
+                    Resources.GetName(symbol),
+                    Resources.SummaryTitle,
+                    FormatProvider.ConstructorFormat,
+                    SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName,
+                    addLink: false);
 
-                foreach (ISymbol symbol2 in Symbols)
+                foreach (ISymbol symbol2 in symbols)
                 {
                     BaseHeadingLevel++;
 
@@ -94,7 +100,7 @@ namespace Roslynator.Documentation
 
             Writer.WriteString(symbol.ToDisplayString(format, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName));
             Writer.WriteSpace();
-            Writer.WriteString(KindName);
+            Writer.WriteString(Resources.GetName(symbol));
             Writer.WriteEndHeading();
         }
 

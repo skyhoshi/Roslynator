@@ -28,7 +28,7 @@ public static TSymbol GetEnclosingSymbol<TSymbol>(this SemanticModel semanticMod
 
 ### Returns
 
-[TSymbol](../TSymbol/README.md)
+TSymbol
 
 
 

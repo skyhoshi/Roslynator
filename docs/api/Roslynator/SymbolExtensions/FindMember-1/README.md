@@ -36,7 +36,7 @@ public static TSymbol FindMember<TSymbol>(this ITypeSymbol typeSymbol, Func<TSym
 
 #### Returns
 
-[TSymbol](../TSymbol/README.md)
+TSymbol
 
 
 
@@ -67,7 +67,7 @@ public static TSymbol FindMember<TSymbol>(this ITypeSymbol typeSymbol, string na
 
 #### Returns
 
-[TSymbol](../TSymbol/README.md)
+TSymbol
 
 
 

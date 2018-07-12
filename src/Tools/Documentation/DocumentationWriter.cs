@@ -12,6 +12,8 @@ using Roslynator.CSharp;
 
 namespace Roslynator.Documentation
 {
+    //TODO: IFormatProvider
+    //TODO: DocumentationWriter<TSymbol>
     public abstract class DocumentationWriter : IDisposable
     {
         private bool _disposed;
@@ -30,20 +32,10 @@ namespace Roslynator.Documentation
 
         public SymbolDocumentationInfo DirectoryInfo { get; }
 
+        //TODO: del
         public SymbolDocumentationInfo SymbolInfo { get; }
 
-        public ISymbol Symbol
-        {
-            get { return SymbolInfo.Symbol; }
-        }
-
-        public virtual string KindName
-        {
-            get { return Resources.GetName(Symbol); }
-        }
-
-        //TODO: ?
-        internal bool CreateLocalUrlForExternalType { get; set; }
+        public ISymbol Symbol => SymbolInfo.Symbol;
 
         internal bool CanCreateTypeLocalUrl { get; set; } = true;
 
@@ -51,22 +43,13 @@ namespace Roslynator.Documentation
 
         protected internal int BaseHeadingLevel { get; set; }
 
-        public SymbolDisplayFormatProvider FormatProvider
-        {
-            get { return Options.FormatProvider; }
-        }
+        public SymbolDisplayFormatProvider FormatProvider => Options.FormatProvider;
 
-        public CompilationDocumentationInfo CompilationInfo
-        {
-            get { return SymbolInfo.CompilationInfo; }
-        }
+        public CompilationDocumentationInfo CompilationInfo => SymbolInfo.CompilationInfo;
 
         public DocumentationOptions Options { get; }
 
-        internal string FileName
-        {
-            get { return Options.FileName; }
-        }
+        internal string FileName => Options.FileName;
 
         public DocumentationResources Resources { get; }
 
@@ -278,9 +261,9 @@ namespace Roslynator.Documentation
             WriteString(" ");
         }
 
-        public void WriteString(ISymbol symbol, SymbolDisplayFormat format = null)
+        public void WriteSymbol(ISymbol symbol, SymbolDisplayFormat format = null, SymbolDisplayAdditionalOptions additionalOptions = SymbolDisplayAdditionalOptions.None)
         {
-            WriteString(symbol.ToDisplayString(format));
+            WriteString(symbol.ToDisplayString(format, additionalOptions));
         }
 
         public abstract string GetLanguageIdentifier(string language);
@@ -292,50 +275,9 @@ namespace Roslynator.Documentation
             WriteEndTableCell();
         }
 
-        internal string GetUrl(ISymbol symbol, SymbolDocumentationInfo directoryInfo = null)
-        {
-            return GetUrl(CompilationInfo.GetSymbolInfo(symbol), directoryInfo);
-        }
-
-        internal string GetUrl(SymbolDocumentationInfo symbolInfo, SymbolDocumentationInfo directoryInfo = null)
-        {
-            SymbolKind kind = symbolInfo.Symbol.Kind;
-
-            if (kind != SymbolKind.Namespace)
-            {
-                if (kind == SymbolKind.NamedType)
-                {
-                    if (!CanCreateTypeLocalUrl)
-                        return null;
-                }
-                else if (!CanCreateMemberLocalUrl)
-                {
-                    return null;
-                }
-            }
-
-            return UrlProvider.CreateUrl(FileName, symbolInfo, directoryInfo, createLocalUrlForExternalType: CreateLocalUrlForExternalType);
-        }
-
-        public void WriteLink(
-            ISymbol symbol,
-            SymbolDocumentationInfo directoryInfo,
-            SymbolDisplayFormat format,
-            SymbolDisplayAdditionalOptions additionalOptions)
-        {
-            string url = GetUrl(symbol, directoryInfo);
-
-            WriteLinkOrText(symbol.ToDisplayString(format, additionalOptions), url);
-        }
-
         public virtual void WriteTitle(ISymbol symbol)
         {
-            WriteStartHeading(1 + BaseHeadingLevel);
-
-            WriteString(symbol.ToDisplayString(FormatProvider.TitleFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName));
-            WriteSpace();
-            WriteString(KindName);
-            WriteEndHeading();
+            WriteHeading(1, symbol, FormatProvider.TitleFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName, addLink: false);
         }
 
         public virtual void WriteNamespace(ISymbol symbol)
@@ -343,7 +285,7 @@ namespace Roslynator.Documentation
             WriteString(Resources.NamespaceTitle);
             WriteString(Resources.Colon);
             WriteSpace();
-            WriteLink(symbol.ContainingNamespace, DirectoryInfo, FormatProvider.NamespaceFormat, SymbolDisplayAdditionalOptions.None);
+            WriteLink(symbol.ContainingNamespace, FormatProvider.NamespaceFormat);
             WriteLine();
             WriteLine();
         }
@@ -542,7 +484,7 @@ namespace Roslynator.Documentation
             ImmutableArray<ITypeParameterSymbol> typeParameters = symbol.GetTypeParameters();
 
             if (typeParameters.Any())
-                WriteTable(typeParameters, Resources.TypeParametersTitle, 3, Resources.TypeParameterTitle, Resources.SummaryTitle, FormatProvider.TypeParameterFormat, SymbolDisplayAdditionalOptions.None);
+                WriteTable(typeParameters, Resources.TypeParametersTitle, 3, Resources.TypeParameterTitle, Resources.SummaryTitle, FormatProvider.TypeParameterFormat);
         }
 
         public virtual void WriteParameters(ISymbol symbol)
@@ -553,9 +495,14 @@ namespace Roslynator.Documentation
                     {
                         var methodSymbol = (IMethodSymbol)symbol;
 
-                        ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
+                        WriteTable(
+                            methodSymbol.Parameters,
+                            Resources.ParametersTitle,
+                            3,
+                            Resources.ParameterTitle,
+                            Resources.SummaryTitle,
+                            FormatProvider.ParameterFormat);
 
-                        WriteTable(parameters, Resources.ParametersTitle, 3, Resources.ParameterTitle, Resources.SummaryTitle, FormatProvider.ParameterFormat, SymbolDisplayAdditionalOptions.None);
                         break;
                     }
                 case SymbolKind.NamedType:
@@ -566,9 +513,13 @@ namespace Roslynator.Documentation
 
                         if (methodSymbol != null)
                         {
-                            ImmutableArray<IParameterSymbol> parameters = methodSymbol.Parameters;
-
-                            WriteTable(parameters, Resources.ParametersTitle, 3, Resources.ParameterTitle, Resources.SummaryTitle, FormatProvider.ParameterFormat, SymbolDisplayAdditionalOptions.None);
+                            WriteTable(
+                                methodSymbol.Parameters,
+                                Resources.ParametersTitle,
+                                3,
+                                Resources.ParameterTitle,
+                                Resources.SummaryTitle,
+                                FormatProvider.ParameterFormat);
                         }
 
                         break;
@@ -577,9 +528,14 @@ namespace Roslynator.Documentation
                     {
                         var propertySymbol = (IPropertySymbol)symbol;
 
-                        ImmutableArray<IParameterSymbol> parameters = propertySymbol.Parameters;
+                        WriteTable(
+                            propertySymbol.Parameters,
+                            Resources.ParametersTitle,
+                            3,
+                            Resources.ParameterTitle,
+                            Resources.SummaryTitle,
+                            FormatProvider.ParameterFormat);
 
-                        WriteTable(parameters, Resources.ParametersTitle, 3, Resources.ParameterTitle, Resources.SummaryTitle, FormatProvider.ParameterFormat, SymbolDisplayAdditionalOptions.None);
                         break;
                     }
             }
@@ -596,7 +552,7 @@ namespace Roslynator.Documentation
                         IMethodSymbol methodSymbol = namedTypeSymbol.DelegateInvokeMethod;
 
                         if (methodSymbol != null)
-                            WriteReturnValue(Resources.ReturnValueTitle, symbol, methodSymbol.ReturnType);
+                            WriteReturnValue(Resources.ReturnValueTitle, methodSymbol.ReturnType);
 
                         break;
                     }
@@ -604,34 +560,31 @@ namespace Roslynator.Documentation
                     {
                         var methodSymbol = (IMethodSymbol)symbol;
 
-                        WriteReturnValue(Resources.ReturnsTitle, symbol, methodSymbol.ReturnType);
+                        WriteReturnValue(Resources.ReturnsTitle, methodSymbol.ReturnType);
                         break;
                     }
                 case SymbolKind.Property:
                     {
                         var propertySymbol = (IPropertySymbol)symbol;
 
-                        WriteReturnValue(Resources.PropertyValueTitle, symbol, propertySymbol.Type);
+                        WriteReturnValue(Resources.PropertyValueTitle, propertySymbol.Type);
                         break;
                     }
             }
 
-            void WriteReturnValue(string heading, ISymbol symbol2, ITypeSymbol returnType)
+            void WriteReturnValue(string heading, ITypeSymbol returnType)
             {
                 if (returnType.SpecialType == SpecialType.System_Void)
                     return;
 
                 WriteHeading(3 + BaseHeadingLevel, heading);
-                WriteLink(returnType, DirectoryInfo, FormatProvider.ReturnValueFormat, SymbolDisplayAdditionalOptions.None);
+                WriteLink(returnType, FormatProvider.ReturnValueFormat);
                 WriteLine();
 
-                string returns = CompilationInfo.GetDocumentationElement(symbol2, "returns")?.Value;
+                XElement returns = CompilationInfo.GetDocumentationElement(symbol, "returns");
 
                 if (returns != null)
-                {
-                    WriteString(returns.Trim());
-                    WriteLine();
-                }
+                    WriteElementContent(returns);
             }
         }
 
@@ -681,11 +634,11 @@ namespace Roslynator.Documentation
             {
                 if (isLast)
                 {
-                    WriteString(symbol, FormatProvider.InheritanceFormat);
+                    WriteSymbol(symbol, FormatProvider.InheritanceFormat);
                 }
                 else
                 {
-                    WriteLink(symbol, DirectoryInfo, FormatProvider.InheritanceFormat, SymbolDisplayAdditionalOptions.None);
+                    WriteLink(symbol, FormatProvider.InheritanceFormat);
                 }
             }
         }
@@ -702,22 +655,27 @@ namespace Roslynator.Documentation
                 {
                     WriteHeading(3 + BaseHeadingLevel, Resources.AttributesTitle);
 
-                    WriteLink(en.Current, SymbolDisplayAdditionalOptions.None);
+                    bool isNext = false;
 
-                    while (en.MoveNext())
+                    do
                     {
-                        WriteString(Resources.Comma);
-                        WriteSpace();
+                        WriteLink(en.Current, FormatProvider.TypeFormat);
 
-                        WriteLink(en.Current, SymbolDisplayAdditionalOptions.None);
+                        isNext = en.MoveNext();
+
+                        if (isNext)
+                        {
+                            WriteString(Resources.Comma);
+                            WriteSpace();
+                        }
                     }
+                    while (isNext);
                 }
             }
 
             WriteLine();
         }
 
-        //TODO: add to DocumentationOptions
         private static bool ShouldBeExcluded(INamedTypeSymbol attributeSymbol)
         {
             switch (attributeSymbol.MetadataName)
@@ -761,8 +719,7 @@ namespace Roslynator.Documentation
                 && !typeSymbol.IsStatic)
             {
                 using (IEnumerator<INamedTypeSymbol> en = CompilationInfo
-                    .Types
-                    .Where(f => f.InheritsFrom(typeSymbol))
+                    .DerivedTypes(typeSymbol)
                     .OrderBy(f => f.ToDisplayString(FormatProvider.DerivedFormat))
                     .GetEnumerator())
                 {
@@ -776,9 +733,7 @@ namespace Roslynator.Documentation
 
                         do
                         {
-                            WriteStartBulletItem();
-                            WriteLink(en.Current, DirectoryInfo, FormatProvider.DerivedFormat, SymbolDisplayAdditionalOptions.None);
-                            WriteEndBulletItem();
+                            WriteBulletItemLink(en.Current, FormatProvider.DerivedFormat);
 
                             count++;
 
@@ -803,12 +758,10 @@ namespace Roslynator.Documentation
             if (typeSymbol.IsStatic)
                 return;
 
-            if (typeSymbol.TypeKind == TypeKind.Enum)
+            if (typeSymbol.TypeKind.Is(TypeKind.Enum, TypeKind.Delegate))
                 return;
 
-            IEnumerable<INamedTypeSymbol> allInterfaces = (typeSymbol.TypeKind == TypeKind.Delegate)
-                ? typeSymbol.Interfaces
-                : typeSymbol.AllInterfaces;
+            IEnumerable<INamedTypeSymbol> allInterfaces = typeSymbol.AllInterfaces;
 
             if (allInterfaces.Any(f => f.OriginalDefinition.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T))
             {
@@ -827,9 +780,7 @@ namespace Roslynator.Documentation
 
                     do
                     {
-                        WriteStartBulletItem();
-                        WriteLink(en.Current, FormatProvider.ImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
-                        WriteEndBulletItem();
+                        WriteBulletItemLink(en.Current, FormatProvider.ImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
                     }
                     while (en.MoveNext());
 
@@ -848,20 +799,18 @@ namespace Roslynator.Documentation
 
                     do
                     {
-                        WriteException(en.Current.element, en.Current.exceptionSymbol);
+                        XElement element = en.Current.element;
+                        ISymbol exceptionSymbol = en.Current.exceptionSymbol;
+
+                        WriteLink(exceptionSymbol, FormatProvider.TypeFormat);
+                        WriteLine();
+                        WriteLine();
+                        WriteElementContent(element);
+                        WriteLine();
+                        WriteLine();
                     }
                     while (en.MoveNext());
                 }
-            }
-
-            void WriteException(XElement element, ISymbol exceptionSymbol)
-            {
-                WriteLink(exceptionSymbol, SymbolDisplayAdditionalOptions.None);
-                WriteLine();
-                WriteLine();
-                WriteElementContent(element);
-                WriteLine();
-                WriteLine();
             }
 
             IEnumerable<(XElement element, ISymbol exceptionSymbol)> GetExceptions()
@@ -931,12 +880,12 @@ namespace Roslynator.Documentation
 
         public virtual void WriteConstructors(IEnumerable<IMethodSymbol> constructors)
         {
-            WriteTable(constructors, Resources.ConstructorsTitle, 2, Resources.ConstructorTitle, Resources.SummaryTitle, FormatProvider.ConstructorFormat, SymbolDisplayAdditionalOptions.None);
+            WriteTable(constructors, Resources.ConstructorsTitle, 2, Resources.ConstructorTitle, Resources.SummaryTitle, FormatProvider.ConstructorFormat);
         }
 
         public virtual void WriteFields(IEnumerable<IFieldSymbol> fields)
         {
-            WriteTable(fields, Resources.FieldsTitle, 2, Resources.FieldTitle, Resources.SummaryTitle, FormatProvider.FieldFormat, SymbolDisplayAdditionalOptions.None);
+            WriteTable(fields, Resources.FieldsTitle, 2, Resources.FieldTitle, Resources.SummaryTitle, FormatProvider.FieldFormat);
         }
 
         public virtual void WriteProperties(IEnumerable<IPropertySymbol> properties)
@@ -946,7 +895,7 @@ namespace Roslynator.Documentation
 
         public virtual void WriteMethods(IEnumerable<IMethodSymbol> methods)
         {
-            WriteTable(methods, Resources.MethodsTitle, 2, Resources.MethodTitle, Resources.SummaryTitle, FormatProvider.MethodFormat, SymbolDisplayAdditionalOptions.None, addInheritedFrom: true);
+            WriteTable(methods, Resources.MethodsTitle, 2, Resources.MethodTitle, Resources.SummaryTitle, FormatProvider.MethodFormat, addInheritedFrom: true);
         }
 
         public virtual void WriteOperators(IEnumerable<IMethodSymbol> operators)
@@ -956,7 +905,7 @@ namespace Roslynator.Documentation
 
         public virtual void WriteEvents(IEnumerable<IEventSymbol> events)
         {
-            WriteTable(events, Resources.EventsTitle, 2, Resources.EventTitle, Resources.SummaryTitle, FormatProvider.MethodFormat, SymbolDisplayAdditionalOptions.None, addInheritedFrom: true);
+            WriteTable(events, Resources.EventsTitle, 2, Resources.EventTitle, Resources.SummaryTitle, FormatProvider.MethodFormat, addInheritedFrom: true);
         }
 
         public virtual void WriteExplicitInterfaceImplementations(IEnumerable<ISymbol> explicitInterfaceImplementations)
@@ -972,8 +921,7 @@ namespace Roslynator.Documentation
                 2,
                 Resources.MethodTitle,
                 Resources.SummaryTitle,
-                FormatProvider.MethodFormat,
-                SymbolDisplayAdditionalOptions.None);
+                FormatProvider.MethodFormat);
         }
 
         public virtual void WriteSeeAlso(ISymbol symbol)
@@ -988,19 +936,12 @@ namespace Roslynator.Documentation
 
                     do
                     {
-                        WriteBulletItem(en.Current);
+                        WriteBulletItemLink(en.Current, FormatProvider.CrefFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName);
                     }
                     while (en.MoveNext());
 
                     WriteEndBulletList();
                 }
-            }
-
-            void WriteBulletItem(ISymbol symbol2)
-            {
-                WriteStartBulletItem();
-                WriteLink(symbol2, DirectoryInfo, FormatProvider.CrefFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName);
-                WriteEndBulletItem();
             }
 
             IEnumerable<ISymbol> GetSymbols()
@@ -1166,7 +1107,7 @@ namespace Roslynator.Documentation
 
                                             if (symbol != null)
                                             {
-                                                WriteLink(symbol, DirectoryInfo, FormatProvider.CrefFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName);
+                                                WriteLink(symbol, FormatProvider.CrefFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName);
                                             }
                                             else
                                             {
@@ -1377,8 +1318,8 @@ namespace Roslynator.Documentation
             string header1,
             string header2,
             SymbolDisplayFormat format,
-            SymbolDisplayAdditionalOptions additionalOptions,
-            bool addLocalLink = true,
+            SymbolDisplayAdditionalOptions additionalOptions = SymbolDisplayAdditionalOptions.None,
+            bool addLink = true,
             bool addInheritedFrom = false)
         {
             using (IEnumerator<ISymbol> en = symbols
@@ -1404,38 +1345,23 @@ namespace Roslynator.Documentation
                         WriteStartTableRow();
                         WriteStartTableCell();
 
-                        WriteLinkOrText(symbol, format, additionalOptions, addLocalLink);
+                        if (symbol.IsKind(SymbolKind.Parameter, SymbolKind.TypeParameter))
+                        {
+                            WriteString(symbol.Name);
+                        }
+                        else if (addLink)
+                        {
+                            WriteLink(symbol, format, additionalOptions);
+                        }
+                        else
+                        {
+                            WriteString(symbol.ToDisplayString(format, additionalOptions));
+                        }
 
                         WriteEndTableCell();
                         WriteStartTableCell();
 
-                        XElement element = null;
-                        switch (symbol.Kind)
-                        {
-                            case SymbolKind.Parameter:
-                                {
-                                    element = CompilationInfo
-                                        .GetDocumentationElement(symbol.ContainingSymbol)?
-                                        .Elements("param")
-                                        .FirstOrDefault(f => f.Attribute("name")?.Value == symbol.Name);
-
-                                    break;
-                                }
-                            case SymbolKind.TypeParameter:
-                                {
-                                    element = CompilationInfo
-                                        .GetDocumentationElement(symbol.ContainingSymbol)?
-                                        .Elements("typeparam")
-                                        .FirstOrDefault(f => f.Attribute("name")?.Value == symbol.Name);
-
-                                    break;
-                                }
-                            default:
-                                {
-                                    element = CompilationInfo.GetDocumentationElement(symbol, "summary");
-                                    break;
-                                }
-                        }
+                        XElement element = FindElement(symbol);
 
                         if (element != null)
                             WriteElementContent(element, isNested: true);
@@ -1448,7 +1374,7 @@ namespace Roslynator.Documentation
                             WriteString(Resources.OpenParenthesis);
                             WriteString(Resources.InheritedFrom);
                             WriteSpace();
-                            WriteLink(symbol.ContainingType.OriginalDefinition, additionalOptions);
+                            WriteLink(symbol.ContainingType.OriginalDefinition, FormatProvider.TypeFormat, additionalOptions);
                             WriteString(Resources.CloseParenthesis);
                         }
 
@@ -1460,6 +1386,35 @@ namespace Roslynator.Documentation
                     WriteEndTable();
                 }
             }
+
+            XElement FindElement(ISymbol symbol)
+            {
+                switch (symbol.Kind)
+                {
+                    case SymbolKind.Parameter:
+                        return FindElementWithName(symbol, "param");
+                    case SymbolKind.TypeParameter:
+                        return FindElementWithName(symbol, "typeparam");
+                    default:
+                        return CompilationInfo.GetDocumentationElement(symbol, "summary");
+                }
+            }
+
+            XElement FindElementWithName(ISymbol symbol, string name)
+            {
+                XElement element = CompilationInfo.GetDocumentationElement(symbol.ContainingSymbol);
+
+                if (element != null)
+                {
+                    foreach (XElement e in element.Elements(name))
+                    {
+                        if (e.Attribute("name")?.Value == symbol.Name)
+                            return e;
+                    }
+                }
+
+                return null;
+            }
         }
 
         internal void WriteList(
@@ -1467,8 +1422,8 @@ namespace Roslynator.Documentation
             string heading,
             int headingLevel,
             SymbolDisplayFormat format,
-            SymbolDisplayAdditionalOptions additionalOptions,
-            bool addLocalLink = true)
+            SymbolDisplayAdditionalOptions additionalOptions = SymbolDisplayAdditionalOptions.None,
+            bool canCreateExternalUrl = true)
         {
             using (IEnumerator<ISymbol> en = symbols
                 .OrderBy(f => f.ToDisplayString(format, additionalOptions))
@@ -1483,9 +1438,7 @@ namespace Roslynator.Documentation
 
                     do
                     {
-                        WriteStartBulletItem();
-                        WriteLinkOrText(en.Current, format, additionalOptions, addLocalLink);
-                        WriteEndBulletItem();
+                        WriteBulletItemLink(en.Current, format, canCreateExternalUrl: canCreateExternalUrl);
                     }
                     while (en.MoveNext());
 
@@ -1494,147 +1447,127 @@ namespace Roslynator.Documentation
             }
         }
 
-        private void WriteLinkOrText(
+        internal void WriteHeading(
+            int level,
             ISymbol symbol,
             SymbolDisplayFormat format,
-            SymbolDisplayAdditionalOptions additionalOptions,
-            bool addLocalLink)
+            SymbolDisplayAdditionalOptions additionalOptions = SymbolDisplayAdditionalOptions.None,
+            bool addLink = true)
         {
-            if (symbol.IsKind(SymbolKind.Parameter, SymbolKind.TypeParameter))
+            WriteStartHeading(level + BaseHeadingLevel);
+
+            if (addLink)
             {
-                WriteString(symbol.Name);
-            }
-            else if (addLocalLink
-                || CompilationInfo.IsExternal(symbol))
-            {
-                WriteLink(symbol, DirectoryInfo, format, additionalOptions);
+                WriteLink(symbol, format, additionalOptions);
             }
             else
             {
-                WriteString(symbol.ToDisplayString(format, additionalOptions));
+                WriteSymbol(symbol, format, additionalOptions);
             }
+
+            WriteSpace();
+            WriteString(Resources.GetName(symbol));
+
+            WriteEndHeading();
         }
 
-        public void WriteLink(ISymbol symbol, SymbolDisplayFormat format = null)
+        internal void WriteBulletItemLink(
+            ISymbol symbol,
+            SymbolDisplayFormat format,
+            SymbolDisplayAdditionalOptions additionalOptions = SymbolDisplayAdditionalOptions.None,
+            bool canCreateExternalUrl = true)
         {
-            WriteLink(GetSymbolInfo(symbol), format);
+            WriteStartBulletItem();
+            WriteLink(symbol, format, additionalOptions: additionalOptions, canCreateExternalUrl: canCreateExternalUrl);
+            WriteEndBulletItem();
         }
 
-        public void WriteLink(SymbolDocumentationInfo symbolInfo, SymbolDisplayFormat format = null)
+        public void WriteLink(
+            ISymbol symbol,
+            SymbolDisplayFormat format,
+            SymbolDisplayAdditionalOptions additionalOptions = SymbolDisplayAdditionalOptions.None,
+            bool canCreateExternalUrl = true)
         {
-            WriteLink(symbolInfo, format ?? SymbolDisplayFormats.TypeNameAndContainingTypes, SymbolDisplayAdditionalOptions.None);
+            WriteLink(GetSymbolInfo(symbol), format, additionalOptions, canCreateExternalUrl: canCreateExternalUrl);
         }
 
-        public void WriteLink(ISymbol symbol, SymbolDisplayAdditionalOptions additionalOptions)
+        public void WriteLink(
+            SymbolDocumentationInfo symbolInfo,
+            SymbolDisplayFormat format,
+            SymbolDisplayAdditionalOptions additionalOptions = SymbolDisplayAdditionalOptions.None,
+            bool canCreateExternalUrl = true)
         {
-            WriteLink(GetSymbolInfo(symbol), SymbolDisplayFormats.TypeNameAndContainingTypes, additionalOptions);
-        }
+            ISymbol symbol = symbolInfo.Symbol;
 
-        public void WriteLink(SymbolDocumentationInfo symbolInfo, SymbolDisplayAdditionalOptions additionalOptions)
-        {
-            WriteLink(symbolInfo, SymbolDisplayFormats.TypeNameAndContainingTypes, additionalOptions);
-        }
-
-        public void WriteLink(ISymbol symbol, SymbolDisplayFormat format, SymbolDisplayAdditionalOptions additionalOptions)
-        {
-            WriteLink(GetSymbolInfo(symbol), format, additionalOptions);
-        }
-
-        public void WriteLink(SymbolDocumentationInfo symbolInfo, SymbolDisplayFormat format, SymbolDisplayAdditionalOptions additionalOptions)
-        {
-            if (symbolInfo.Symbol is INamedTypeSymbol namedTypeSymbol
-                && namedTypeSymbol.TypeArguments.Any(f => f.Kind != SymbolKind.TypeParameter))
+            if ((symbol as INamedTypeSymbol)?
+                .TypeArguments
+                .Any(f => f.Kind != SymbolKind.TypeParameter) == true)
             {
-                foreach (SymbolDisplayPart part in symbolInfo
-                    .Symbol
-                    .ToDisplayParts(format, additionalOptions))
+                foreach (SymbolDisplayPart part in symbol.ToDisplayParts(format, additionalOptions))
                 {
-                    switch (part.Kind)
+                    if (part.IsTypeNameOrMemberName())
                     {
-                        case SymbolDisplayPartKind.ClassName:
-                        case SymbolDisplayPartKind.DelegateName:
-                        case SymbolDisplayPartKind.EnumName:
-                        case SymbolDisplayPartKind.EventName:
-                        case SymbolDisplayPartKind.FieldName:
-                        case SymbolDisplayPartKind.InterfaceName:
-                        case SymbolDisplayPartKind.MethodName:
-                        case SymbolDisplayPartKind.PropertyName:
-                        case SymbolDisplayPartKind.StructName:
-                            {
-                                ISymbol symbol = part.Symbol;
+                        string url = GetUrl(GetSymbolInfo(part.Symbol), DirectoryInfo, canCreateExternalUrl);
 
-                                string url = GetUrl(symbol, DirectoryInfo);
-
-                                WriteLinkOrText(symbol.Name, url);
-
-                                break;
-                            }
-                        default:
-                            {
-                                WriteString(part.ToString());
-                                break;
-                            }
+                        WriteLinkOrText(part.Symbol.Name, url);
+                    }
+                    else
+                    {
+                        WriteString(part.ToString());
                     }
                 }
             }
             else
             {
-                string url = GetUrl(symbolInfo, DirectoryInfo);
+                string url = GetUrl(symbolInfo, DirectoryInfo, canCreateExternalUrl);
 
-                WriteLinkOrText(symbolInfo.Symbol.ToDisplayString(format, additionalOptions), url);
+                WriteLinkOrText(symbol.ToDisplayString(format, additionalOptions), url);
             }
         }
 
-        public void WriteNamespaceContentAsTable(
-            IEnumerable<ITypeSymbol> typeSymbols,
-            int headingLevel,
-            bool addLocalLink = true)
+        private string GetUrl(
+            SymbolDocumentationInfo symbolInfo,
+            SymbolDocumentationInfo directoryInfo = null,
+            bool canCreateExternalUrl = true)
         {
-            SymbolDisplayFormat format = FormatProvider.TypeFormat;
+            SymbolKind kind = symbolInfo.Symbol.Kind;
 
-            foreach (IGrouping<TypeKind, ITypeSymbol> grouping in typeSymbols
-                .OrderBy(f => f.ToDisplayString(format))
-                .GroupBy(f => f.TypeKind)
-                .Where(f => Options.IsNamespacePartEnabled(f.Key))
-                .OrderBy(f => f.Key.ToNamespaceDocumentationPart(), Options.NamespacePartComparer))
+            switch (kind)
             {
-                TypeKind typeKind = grouping.Key;
+                case SymbolKind.NamedType:
+                    {
+                        if (!CanCreateTypeLocalUrl)
+                            return null;
 
-                WriteTable(
-                    grouping,
-                    Resources.GetPluralName(typeKind),
-                    headingLevel,
-                    Resources.GetName(typeKind),
-                    Resources.SummaryTitle,
-                    format,
-                    SymbolDisplayAdditionalOptions.None,
-                    addLocalLink: addLocalLink);
+                        break;
+                    }
+                case SymbolKind.Namespace:
+                    {
+                        break;
+                    }
+                case SymbolKind.Event:
+                case SymbolKind.Field:
+                case SymbolKind.Method:
+                case SymbolKind.Property:
+                    {
+                        if (!CanCreateMemberLocalUrl)
+                            return null;
+
+                        break;
+                    }
+                case SymbolKind.Parameter:
+                case SymbolKind.TypeParameter:
+                    {
+                        return null;
+                    }
+                default:
+                    {
+                        Debug.Fail(kind.ToString());
+                        return null;
+                    }
             }
-        }
 
-        public void WriteNamespaceContentAsList(
-            IEnumerable<ITypeSymbol> typeSymbols,
-            int headingLevel,
-            bool addLocalLink = true)
-        {
-            SymbolDisplayFormat format = FormatProvider.TypeFormat;
-
-            foreach (IGrouping<TypeKind, ITypeSymbol> grouping in typeSymbols
-                .OrderBy(f => f.ToDisplayString(format))
-                .GroupBy(f => f.TypeKind)
-                .Where(f => Options.IsNamespacePartEnabled(f.Key))
-                .OrderBy(f => f.Key.ToNamespaceDocumentationPart(), Options.NamespacePartComparer))
-            {
-                TypeKind typeKind = grouping.Key;
-
-                WriteList(
-                    grouping,
-                    Resources.GetPluralName(typeKind),
-                    headingLevel,
-                    format,
-                    SymbolDisplayAdditionalOptions.None,
-                    addLocalLink: addLocalLink);
-            }
+            return UrlProvider.CreateUrl(FileName, symbolInfo, directoryInfo, canCreateExternalUrl: canCreateExternalUrl);
         }
 
         public void Dispose()

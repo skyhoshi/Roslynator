@@ -146,15 +146,7 @@ namespace Roslynator.Documentation
 
             if (Options.IsEnabled(RootDocumentationParts.NamespaceList))
             {
-                writer.WriteHeading2(Resources.NamespacesTitle);
-
-                foreach (INamespaceSymbol namespaceSymbol in CompilationInfo.Namespaces
-                    .OrderBy(f => f.ToDisplayString(FormatProvider.NamespaceFormat)))
-                {
-                    writer.WriteStartBulletItem();
-                    writer.WriteLink(namespaceSymbol, FormatProvider.NamespaceFormat);
-                    writer.WriteEndBulletItem();
-                }
+                writer.WriteList(CompilationInfo.Namespaces, Resources.NamespacesTitle, 2, FormatProvider.NamespaceFormat);
             }
 
             if (Options.IsEnabled(RootDocumentationParts.Namespaces))
@@ -163,15 +155,9 @@ namespace Roslynator.Documentation
                    .GroupBy(f => f.ContainingNamespace, MetadataNameEqualityComparer<INamespaceSymbol>.Instance)
                    .OrderBy(f => f.Key.ToDisplayString(FormatProvider.NamespaceFormat)))
                 {
-                    INamespaceSymbol namespaceSymbol = grouping.Key;
+                    writer.WriteHeading(2, grouping.Key, FormatProvider.NamespaceFormat);
 
-                    writer.WriteStartHeading(2);
-                    writer.WriteLink(namespaceSymbol, FormatProvider.NamespaceFormat);
-                    writer.WriteSpace();
-                    writer.WriteString(Resources.NamespaceTitle);
-                    writer.WriteEndHeading();
-
-                    writer.WriteNamespaceContentAsTable(grouping, 3, addLocalLink: Options.IsEnabled(DocumentationParts.Type));
+                    GenerateNamespaceContent(writer, grouping, 3, addLink: Options.IsEnabled(DocumentationParts.Type));
                 }
             }
 
@@ -180,22 +166,44 @@ namespace Roslynator.Documentation
 
         private DocumentationFile GenerateNamespaceFile(INamespaceSymbol namespaceSymbol)
         {
-            SymbolDocumentationInfo info = GetSymbolInfo(namespaceSymbol);
+            SymbolDocumentationInfo symbolInfo = GetSymbolInfo(namespaceSymbol);
 
-            using (DocumentationWriter writer = CreateWriter(symbolInfo: EmptySymbolInfo, info))
+            using (DocumentationWriter writer = CreateWriter(symbolInfo: EmptySymbolInfo, symbolInfo))
             {
                 if (Options.IsEnabled(NamespaceDocumentationParts.Heading))
                 {
-                    writer.WriteStartHeading(1);
-                    writer.WriteString(namespaceSymbol, FormatProvider.NamespaceFormat);
-                    writer.WriteSpace();
-                    writer.WriteString(Resources.NamespaceTitle);
-                    writer.WriteEndHeading();
+                    writer.WriteHeading(1, namespaceSymbol, FormatProvider.NamespaceFormat, addLink: false);
                 }
 
-                writer.WriteNamespaceContentAsTable(CompilationInfo.GetTypes(namespaceSymbol), 2, addLocalLink: Options.IsEnabled(DocumentationParts.Type));
+                GenerateNamespaceContent(writer, CompilationInfo.GetTypes(namespaceSymbol), 2, addLink: Options.IsEnabled(DocumentationParts.Type));
 
-                return DocumentationFile.Create(writer, info, FileName, DocumentationKind.Namespace);
+                return DocumentationFile.Create(writer, symbolInfo, FileName, DocumentationKind.Namespace);
+            }
+        }
+
+        private void GenerateNamespaceContent(
+            DocumentationWriter writer,
+            IEnumerable<ITypeSymbol> typeSymbols,
+            int headingLevel,
+            bool addLink)
+        {
+            SymbolDisplayFormat format = FormatProvider.TypeFormat;
+
+            foreach (IGrouping<TypeKind, ITypeSymbol> grouping in typeSymbols
+                .Where(f => Options.IsNamespacePartEnabled(f.TypeKind))
+                .GroupBy(f => f.TypeKind)
+                .OrderBy(f => f.Key.ToNamespaceDocumentationPart(), Options.NamespacePartComparer))
+            {
+                TypeKind typeKind = grouping.Key;
+
+                writer.WriteTable(
+                    grouping,
+                    Resources.GetPluralName(typeKind),
+                    headingLevel,
+                    Resources.GetName(typeKind),
+                    Resources.SummaryTitle,
+                    format,
+                    addLink: addLink);
             }
         }
 
@@ -203,52 +211,32 @@ namespace Roslynator.Documentation
         {
             using (DocumentationWriter writer = CreateWriter(symbolInfo: EmptySymbolInfo, directoryInfo: null))
             {
-                using (IEnumerator<INamespaceSymbol> en = CompilationInfo.GetExtendedExternalTypes()
+                IEnumerable<INamespaceSymbol> namespaces = CompilationInfo.GetExtendedExternalTypes()
                     .Select(f => f.ContainingNamespace)
-                    .Distinct(MetadataNameEqualityComparer<INamespaceSymbol>.Instance)
-                    .OrderBy(f => f.ToDisplayString(FormatProvider.NamespaceFormat)).GetEnumerator())
+                    .Distinct(MetadataNameEqualityComparer<INamespaceSymbol>.Instance);
+
+                if (namespaces.Any())
+                    writer.WriteHeading1(heading);
+
+                writer.WriteList(namespaces, Resources.NamespacesTitle, 2, FormatProvider.NamespaceFormat);
+
+                if (Options.IsEnabled(RootDocumentationParts.Namespaces))
                 {
-                    if (en.MoveNext())
-                    {
-                        if (heading != null)
-                            writer.WriteHeading1(heading);
-
-                        if (Options.IsEnabled(RootDocumentationParts.NamespaceList))
-                        {
-                            writer.WriteStartHeading(2);
-                            writer.WriteString(Resources.NamespacesTitle);
-                            writer.WriteEndHeading();
-
-                            do
-                            {
-                                writer.WriteStartBulletItem();
-                                writer.WriteLink(en.Current, FormatProvider.NamespaceFormat);
-                                writer.WriteEndBulletItem();
-                            }
-                            while (en.MoveNext());
-                        }
-                    }
-
-                    if (Options.IsEnabled(RootDocumentationParts.Namespaces))
-                    {
-                        foreach (IGrouping<INamespaceSymbol, ITypeSymbol> grouping in CompilationInfo.GetExtendedExternalTypes()
+                    foreach (IGrouping<INamespaceSymbol, ITypeSymbol> grouping in CompilationInfo.GetExtendedExternalTypes()
                        .OrderBy(f => f.ToDisplayString(FormatProvider.TypeFormat))
                        .GroupBy(f => f.ContainingNamespace, MetadataNameEqualityComparer<INamespaceSymbol>.Instance)
                        .OrderBy(f => f.Key.ToDisplayString(FormatProvider.NamespaceFormat)))
+                    {
+                        INamespaceSymbol namespaceSymbol = grouping.Key;
+
+                        writer.WriteHeading(2, namespaceSymbol, FormatProvider.NamespaceFormat);
+
+                        foreach (IGrouping<TypeKind, ITypeSymbol> grouping2 in grouping
+                            .Where(f => Options.IsNamespacePartEnabled(f.TypeKind))
+                            .GroupBy(f => f.TypeKind)
+                            .OrderBy(f => f.Key.ToNamespaceDocumentationPart(), Options.NamespacePartComparer))
                         {
-                            INamespaceSymbol namespaceSymbol = grouping.Key;
-
-                            SymbolDocumentationInfo info = GetSymbolInfo(namespaceSymbol);
-
-                            writer.WriteStartHeading(2);
-                            writer.WriteLink(namespaceSymbol, FormatProvider.NamespaceFormat);
-                            writer.WriteSpace();
-                            writer.WriteString(Resources.NamespaceTitle);
-                            writer.WriteEndHeading();
-
-                            writer.CreateLocalUrlForExternalType = true;
-                            writer.WriteNamespaceContentAsList(grouping, 3);
-                            writer.CreateLocalUrlForExternalType = false;
+                            writer.WriteList(grouping2, Resources.GetPluralName(grouping2.Key), 3, FormatProvider.TypeFormat, canCreateExternalUrl: false);
                         }
                     }
                 }
@@ -276,11 +264,10 @@ namespace Roslynator.Documentation
                 writer.WriteTable(
                     extensionMethods,
                     heading: null,
-                    2,
+                    headingLevel: -1,
                     Resources.ExtensionMethodTitle,
                     Resources.SummaryTitle,
-                    FormatProvider.MethodFormat,
-                    SymbolDisplayAdditionalOptions.None);
+                    FormatProvider.MethodFormat);
 
                 return DocumentationFile.Create(writer, symbolInfo, FileName, DocumentationKind.Type);
             }
@@ -559,9 +546,7 @@ namespace Roslynator.Documentation
 
                         do
                         {
-                            writer.WriteStartBulletItem();
-                            writer.WriteLink(en.Current, FormatProvider.TypeFormat);
-                            writer.WriteEndBulletItem();
+                            writer.WriteBulletItemLink(en.Current, FormatProvider.TypeFormat);
                         }
                         while (en.MoveNext());
                     }

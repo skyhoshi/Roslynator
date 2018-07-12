@@ -35,7 +35,7 @@ public static TNode WithSimplifierAnnotation<TNode>(this TNode node) where TNode
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

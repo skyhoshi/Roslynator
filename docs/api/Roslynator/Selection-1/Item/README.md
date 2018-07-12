@@ -20,7 +20,7 @@ public T this[int index] { get; }
 
 ### Property Value
 
-[T](../T/README.md)
+T
 
 The item at the specified index\.
 

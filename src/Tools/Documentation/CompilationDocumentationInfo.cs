@@ -160,6 +160,15 @@ namespace Roslynator.Documentation
             }
         }
 
+        public IEnumerable<INamedTypeSymbol> DerivedTypes(ITypeSymbol typeSymbol, bool includeInterfaces = false)
+        {
+            foreach (INamedTypeSymbol type in Types)
+            {
+                if (type.InheritsFrom(typeSymbol, includeInterfaces: includeInterfaces))
+                    yield return type;
+            }
+        }
+
         public bool IsExternal(ISymbol symbol)
         {
             foreach (AssemblyDocumentationInfo assemblyInfo in Assemblies)

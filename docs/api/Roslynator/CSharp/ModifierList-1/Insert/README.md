@@ -31,7 +31,7 @@ public TNode Insert(TNode node, SyntaxKind kind, IComparer<SyntaxKind> comparer 
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 
@@ -56,7 +56,7 @@ public TNode Insert(TNode node, SyntaxToken modifier, IComparer<SyntaxToken> com
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

@@ -13,10 +13,10 @@ namespace Roslynator.Documentation
             string fileName,
             SymbolDocumentationInfo symbolInfo,
             SymbolDocumentationInfo directoryInfo = null,
-            bool createLocalUrlForExternalType = false)
+            bool canCreateExternalUrl = true)
         {
             if (symbolInfo.IsExternal
-                && !createLocalUrlForExternalType)
+                && canCreateExternalUrl)
             {
                 return CreateExternalUrl(symbolInfo);
             }

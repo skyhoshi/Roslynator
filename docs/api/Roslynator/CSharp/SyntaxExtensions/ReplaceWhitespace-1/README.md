@@ -28,7 +28,7 @@ public static TNode ReplaceWhitespace<TNode>(this TNode node, SyntaxTrivia repla
 
 ### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

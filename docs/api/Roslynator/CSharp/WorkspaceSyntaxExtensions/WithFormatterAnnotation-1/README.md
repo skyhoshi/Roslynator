@@ -35,7 +35,7 @@ public static TNode WithFormatterAnnotation<TNode>(this TNode node) where TNode 
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

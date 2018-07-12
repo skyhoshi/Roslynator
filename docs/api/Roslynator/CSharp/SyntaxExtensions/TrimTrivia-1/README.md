@@ -37,7 +37,7 @@ public static TNode TrimTrivia<TNode>(this TNode node) where TNode : SyntaxNode
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

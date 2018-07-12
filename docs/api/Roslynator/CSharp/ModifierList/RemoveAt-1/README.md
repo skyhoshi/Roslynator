@@ -27,7 +27,7 @@ public static TNode RemoveAt<TNode>(TNode node, int index) where TNode : SyntaxN
 
 ### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

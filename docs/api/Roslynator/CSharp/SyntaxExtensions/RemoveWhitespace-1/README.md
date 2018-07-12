@@ -27,7 +27,7 @@ public static TNode RemoveWhitespace<TNode>(this TNode node, TextSpan? span = nu
 
 ### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

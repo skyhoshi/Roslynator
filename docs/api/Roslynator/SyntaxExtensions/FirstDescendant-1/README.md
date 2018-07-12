@@ -37,7 +37,7 @@ public static TNode FirstDescendant<TNode>(this SyntaxNode node, Func<SyntaxNode
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 
@@ -69,7 +69,7 @@ public static TNode FirstDescendant<TNode>(this SyntaxNode node, TextSpan span, 
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

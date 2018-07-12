@@ -10,6 +10,6 @@ public TNode Current { get; }
 
 ### Property Value
 
-[TNode](../../TNode/README.md)
+TNode
 
 

@@ -28,7 +28,7 @@ public static TNode WithExplicitAccessibility<TNode>(TNode node, Accessibility n
 
 ### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

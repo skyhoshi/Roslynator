@@ -100,7 +100,7 @@ public static TNode WithTriviaFrom<TNode>(this TNode node, SyntaxToken token) wh
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

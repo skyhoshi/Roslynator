@@ -38,7 +38,7 @@ public static TNode Find<TNode>(this SeparatedSyntaxList<TNode> list, SyntaxKind
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 
@@ -68,7 +68,7 @@ public static TNode Find<TNode>(this SyntaxList<TNode> list, SyntaxKind kind) wh
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 

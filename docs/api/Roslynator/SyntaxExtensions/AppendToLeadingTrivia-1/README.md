@@ -38,7 +38,7 @@ public static TNode AppendToLeadingTrivia<TNode>(this TNode node, IEnumerable<Sy
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 
@@ -68,7 +68,7 @@ public static TNode AppendToLeadingTrivia<TNode>(this TNode node, SyntaxTrivia t
 
 #### Returns
 
-[TNode](../TNode/README.md)
+TNode
 
 
 
