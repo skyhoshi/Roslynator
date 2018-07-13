@@ -28,7 +28,7 @@ namespace Roslynator.Documentation
 
         public DocumentationResources Resources => Writer.Resources;
 
-        public int BaseHeadingLevel
+        protected internal int BaseHeadingLevel
         {
             get { return Writer.BaseHeadingLevel; }
             set { Writer.BaseHeadingLevel = value; }
@@ -79,7 +79,7 @@ namespace Roslynator.Documentation
                 {
                     BaseHeadingLevel++;
 
-                    Writer.WriteStartHeading(1 + BaseHeadingLevel);
+                    Writer.WriteStartHeading(1);
                     Writer.WriteString(symbol2.ToDisplayString(Format, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName));
                     Writer.WriteEndHeading();
                     WriteContent(symbol2);
@@ -91,7 +91,7 @@ namespace Roslynator.Documentation
 
         public virtual void WriteTitle(ISymbol symbol, bool hasOverloads)
         {
-            Writer.WriteStartHeading(1 + BaseHeadingLevel);
+            Writer.WriteStartHeading(1);
 
             SymbolDisplayFormat format = (hasOverloads)
                 ? FormatProvider.OverloadedMemberTitleFormat
@@ -111,7 +111,7 @@ namespace Roslynator.Documentation
             {
                 if (en.MoveNext())
                 {
-                    Writer.WriteHeading(3 + BaseHeadingLevel, Resources.ImplementsTitle);
+                    Writer.WriteHeading(3, Resources.ImplementsTitle);
 
                     Writer.WriteStartBulletList();
 
@@ -254,7 +254,7 @@ namespace Roslynator.Documentation
 
             public override void WriteTitle(ISymbol symbol, bool hasOverloads)
             {
-                Writer.WriteStartHeading(1 + BaseHeadingLevel);
+                Writer.WriteStartHeading(1);
 
                 if (!hasOverloads)
                 {
@@ -294,7 +294,7 @@ namespace Roslynator.Documentation
             {
                 var fieldSymbol = (IFieldSymbol)symbol;
 
-                Writer.WriteHeading(3 + BaseHeadingLevel, Resources.FieldValueTitle);
+                Writer.WriteHeading(3, Resources.FieldValueTitle);
                 Writer.WriteLink(fieldSymbol.Type, FormatProvider.TypeFormat);
             }
         }
@@ -311,7 +311,7 @@ namespace Roslynator.Documentation
             {
                 var methodSymbol = (IMethodSymbol)symbol;
 
-                Writer.WriteHeading(3 + BaseHeadingLevel, Resources.ReturnsTitle);
+                Writer.WriteHeading(3, Resources.ReturnsTitle);
                 Writer.WriteLink(methodSymbol.ReturnType, FormatProvider.TypeFormat);
                 Writer.WriteLine();
                 Writer.WriteLine();
@@ -339,7 +339,7 @@ namespace Roslynator.Documentation
             {
                 var methodSymbol = (IMethodSymbol)symbol;
 
-                Writer.WriteHeading(3 + BaseHeadingLevel, Resources.ReturnsTitle);
+                Writer.WriteHeading(3, Resources.ReturnsTitle);
                 Writer.WriteLink(methodSymbol.ReturnType, FormatProvider.TypeFormat);
                 Writer.WriteLine();
                 Writer.WriteLine();
@@ -367,7 +367,7 @@ namespace Roslynator.Documentation
             {
                 var propertySymbol = (IPropertySymbol)symbol;
 
-                Writer.WriteHeading(3 + BaseHeadingLevel, Resources.PropertyValueTitle);
+                Writer.WriteHeading(3, Resources.PropertyValueTitle);
                 Writer.WriteLink(propertySymbol.Type, FormatProvider.TypeFormat);
                 Writer.WriteLine();
                 Writer.WriteLine();

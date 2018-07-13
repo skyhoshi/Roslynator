@@ -251,7 +251,7 @@ namespace Roslynator.Documentation
 
             using (DocumentationWriter writer = CreateWriter(symbolInfo, symbolInfo))
             {
-                writer.WriteStartHeading(1 + writer.BaseHeadingLevel);
+                writer.WriteStartHeading(1);
                 writer.WriteLink(symbolInfo, FormatProvider.TitleFormat);
                 writer.WriteSpace();
                 writer.WriteString(Resources.GetName(typeSymbol.TypeKind));

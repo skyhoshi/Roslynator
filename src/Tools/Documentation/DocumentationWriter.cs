@@ -442,35 +442,18 @@ namespace Roslynator.Documentation
                         }
                     }
 
-                    interfaces = interfaces.Sort((x, y) =>
-                    {
-                        if (x.InheritsFrom(y.OriginalDefinition, includeInterfaces: true))
-                            return -1;
-
-                        if (y.InheritsFrom(x.OriginalDefinition, includeInterfaces: true))
-                            return 1;
-
-                        if (interfaces.Any(f => x.InheritsFrom(f.OriginalDefinition, includeInterfaces: true)))
-                        {
-                            if (!interfaces.Any(f => y.InheritsFrom(f.OriginalDefinition, includeInterfaces: true)))
-                                return -1;
-                        }
-                        else if (interfaces.Any(f => y.InheritsFrom(f.OriginalDefinition, includeInterfaces: true)))
-                        {
-                            return 1;
-                        }
-
-                        return string.Compare(x.ToDisplayString(format), y.ToDisplayString(format), StringComparison.Ordinal);
-                    });
-
                     if (interfaces.Any())
+                    {
+                        interfaces = DocumentationUtility.SortInterfaces(interfaces, format);
+
                         builder.AddRange(interfaces[0].ToDisplayParts(format));
 
-                    for (int i = 1; i < interfaces.Length; i++)
-                    {
-                        AddPunctuation(",");
-                        AddSpaceOrNewLine((bool)this.Options.FormatBaseList);
-                        builder.AddRange(interfaces[i].ToDisplayParts(format));
+                        for (int i = 1; i < interfaces.Length; i++)
+                        {
+                            AddPunctuation(",");
+                            AddSpaceOrNewLine((bool)this.Options.FormatBaseList);
+                            builder.AddRange(interfaces[i].ToDisplayParts(format));
+                        }
                     }
 
                     if (index != -1)
@@ -601,7 +584,7 @@ namespace Roslynator.Documentation
                 if (returnType.SpecialType == SpecialType.System_Void)
                     return;
 
-                WriteHeading(3 + BaseHeadingLevel, heading);
+                WriteHeading(3, heading);
                 WriteLink(returnType, FormatProvider.ReturnValueFormat);
                 WriteLine();
 
@@ -625,7 +608,7 @@ namespace Roslynator.Documentation
                 return;
             }
 
-            WriteHeading(3 + BaseHeadingLevel, Resources.InheritanceTitle);
+            WriteHeading(3, Resources.InheritanceTitle);
 
             using (IEnumerator<ITypeSymbol> en = typeSymbol.BaseTypesAndSelf().Reverse().GetEnumerator())
             {
@@ -669,21 +652,20 @@ namespace Roslynator.Documentation
 
         public virtual void WriteAttributes(ISymbol symbol)
         {
-            using (IEnumerator<ITypeSymbol> en = symbol
+            using (IEnumerator<AttributeData> en = symbol
                 .GetAttributes()
-                .Select(f => f.AttributeClass)
-                .Where(f => !DocumentationUtility.IsHiddenAttribute(f))
+                .Where(f => !DocumentationUtility.IsHiddenAttribute(f.AttributeClass))
                 .GetEnumerator())
             {
                 if (en.MoveNext())
                 {
-                    WriteHeading(3 + BaseHeadingLevel, Resources.AttributesTitle);
+                    WriteHeading(3, Resources.AttributesTitle);
 
                     bool isNext = false;
 
                     do
                     {
-                        WriteLink(en.Current, FormatProvider.TypeFormat);
+                        WriteLink(en.Current.AttributeClass, FormatProvider.TypeFormat);
 
                         isNext = en.MoveNext();
 
@@ -714,7 +696,7 @@ namespace Roslynator.Documentation
                 {
                     if (en.MoveNext())
                     {
-                        WriteHeading(3 + BaseHeadingLevel, Resources.DerivedTitle);
+                        WriteHeading(3, Resources.DerivedTitle);
 
                         int count = 0;
 
@@ -750,31 +732,30 @@ namespace Roslynator.Documentation
             if (typeSymbol.TypeKind.Is(TypeKind.Enum, TypeKind.Delegate))
                 return;
 
-            IEnumerable<INamedTypeSymbol> allInterfaces = typeSymbol.AllInterfaces;
+            ImmutableArray<INamedTypeSymbol> allInterfaces = typeSymbol.AllInterfaces;
 
             if (allInterfaces.Any(f => f.OriginalDefinition.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T))
             {
-                allInterfaces = allInterfaces.Where(f => f.SpecialType != SpecialType.System_Collections_IEnumerable);
+                allInterfaces = allInterfaces.RemoveAll(f => f.SpecialType == SpecialType.System_Collections_IEnumerable);
             }
 
-            using (IEnumerator<INamedTypeSymbol> en = allInterfaces
-                .OrderBy(f => f.ToDisplayString(FormatProvider.ImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty))
-                .GetEnumerator())
+            allInterfaces = DocumentationUtility.SortInterfaces(allInterfaces, FormatProvider.ImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
+
+            ImmutableArray<INamedTypeSymbol>.Enumerator en = allInterfaces.GetEnumerator();
+
+            if (en.MoveNext())
             {
-                if (en.MoveNext())
+                WriteHeading(3, Resources.ImplementsTitle);
+
+                WriteStartBulletList();
+
+                do
                 {
-                    WriteHeading(3 + BaseHeadingLevel, Resources.ImplementsTitle);
-
-                    WriteStartBulletList();
-
-                    do
-                    {
-                        WriteBulletItemLink(en.Current, FormatProvider.ImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
-                    }
-                    while (en.MoveNext());
-
-                    WriteEndBulletList();
+                    WriteBulletItemLink(en.Current, FormatProvider.ImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
                 }
+                while (en.MoveNext());
+
+                WriteEndBulletList();
             }
         }
 
@@ -784,7 +765,7 @@ namespace Roslynator.Documentation
             {
                 if (en.MoveNext())
                 {
-                    WriteHeading(3 + BaseHeadingLevel, Resources.ExceptionsTitle);
+                    WriteHeading(3, Resources.ExceptionsTitle);
 
                     do
                     {
@@ -840,7 +821,7 @@ namespace Roslynator.Documentation
             {
                 if (en.MoveNext())
                 {
-                    WriteHeading(2 + BaseHeadingLevel, Resources.FieldsTitle);
+                    WriteHeading(2, Resources.FieldsTitle);
 
                     WriteStartTable(3);
                     WriteStartTableRow();
@@ -919,7 +900,7 @@ namespace Roslynator.Documentation
             {
                 if (en.MoveNext())
                 {
-                    WriteHeading(2 + BaseHeadingLevel, Resources.SeeAlsoTitle);
+                    WriteHeading(2, Resources.SeeAlsoTitle);
 
                     WriteStartBulletList();
 
@@ -964,7 +945,7 @@ namespace Roslynator.Documentation
 
             if (heading != null)
             {
-                WriteHeading(2 + BaseHeadingLevel, heading);
+                WriteHeading(2, heading);
             }
             else
             {
@@ -1318,7 +1299,7 @@ namespace Roslynator.Documentation
                 if (en.MoveNext())
                 {
                     if (heading != null)
-                        WriteHeading(headingLevel + BaseHeadingLevel, heading);
+                        WriteHeading(headingLevel, heading);
 
                     WriteStartTable(2);
                     WriteStartTableRow();
@@ -1421,7 +1402,7 @@ namespace Roslynator.Documentation
                 if (en.MoveNext())
                 {
                     if (heading != null)
-                        WriteHeading(headingLevel + BaseHeadingLevel, heading);
+                        WriteHeading(headingLevel, heading);
 
                     WriteStartBulletList();
 
@@ -1443,7 +1424,7 @@ namespace Roslynator.Documentation
             SymbolDisplayAdditionalOptions additionalOptions = SymbolDisplayAdditionalOptions.None,
             bool addLink = true)
         {
-            WriteStartHeading(level + BaseHeadingLevel);
+            WriteStartHeading(level);
 
             if (addLink)
             {

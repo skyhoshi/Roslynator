@@ -17,8 +17,8 @@ public class FooCollection :
 
 ### Implements
 
-* [ICollection](https://docs.microsoft.com/en-us/dotnet/api/system.collections.icollection)
 * [ICollection](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.icollection-1)\<[Foo](../Foo/README.md)>
+* [ICollection](https://docs.microsoft.com/en-us/dotnet/api/system.collections.icollection)
 * [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)\<[Foo](../Foo/README.md)>
 
 ## Constructors

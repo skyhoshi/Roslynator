@@ -35,10 +35,10 @@ public class FooDic<TKey, TValue> :
 
 ### Implements
 
+* [IReadOnlyList](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1)\<[KeyValuePair](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair-2)\<TKey, TValue>>
+* [IReadOnlyCollection](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1)\<[KeyValuePair](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair-2)\<TKey, TValue>>
 * [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)\<[KeyValuePair](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair-2)\<TKey, TValue>>
 * [IEnumerable\<TValue>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)
-* [IReadOnlyCollection](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1)\<[KeyValuePair](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair-2)\<TKey, TValue>>
-* [IReadOnlyList](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1)\<[KeyValuePair](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair-2)\<TKey, TValue>>
 
 ## Constructors
 

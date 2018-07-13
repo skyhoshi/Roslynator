@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
+using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
@@ -41,6 +44,33 @@ namespace Roslynator.Documentation
 
             Debug.Fail(attributeSymbol.ToDisplayString());
             return false;
+        }
+
+        public static ImmutableArray<INamedTypeSymbol> SortInterfaces(
+            ImmutableArray<INamedTypeSymbol> interfaces,
+            SymbolDisplayFormat format,
+            SymbolDisplayAdditionalOptions additionalOptions = SymbolDisplayAdditionalOptions.None)
+        {
+            return interfaces.Sort((x, y) =>
+            {
+                if (x.InheritsFrom(y.OriginalDefinition, includeInterfaces: true))
+                    return -1;
+
+                if (y.InheritsFrom(x.OriginalDefinition, includeInterfaces: true))
+                    return 1;
+
+                if (interfaces.Any(f => x.InheritsFrom(f.OriginalDefinition, includeInterfaces: true)))
+                {
+                    if (!interfaces.Any(f => y.InheritsFrom(f.OriginalDefinition, includeInterfaces: true)))
+                        return -1;
+                }
+                else if (interfaces.Any(f => y.InheritsFrom(f.OriginalDefinition, includeInterfaces: true)))
+                {
+                    return 1;
+                }
+
+                return string.Compare(x.ToDisplayString(format, additionalOptions), y.ToDisplayString(format, additionalOptions), StringComparison.OrdinalIgnoreCase);
+            });
         }
     }
 }

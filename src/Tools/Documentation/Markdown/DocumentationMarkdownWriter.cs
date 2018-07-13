@@ -34,7 +34,7 @@ namespace Roslynator.Documentation.Markdown
 
         public override void WriteInlineCode(string text) => _writer.WriteInlineCode(text);
 
-        public override void WriteStartHeading(int level) => _writer.WriteStartHeading(level);
+        public override void WriteStartHeading(int level) => _writer.WriteStartHeading(level + BaseHeadingLevel);
 
         public override void WriteEndHeading() => _writer.WriteEndHeading();
 
