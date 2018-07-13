@@ -18,8 +18,7 @@ Assembly: Roslynator\.CSharp\.dll
 Returns true if the type contains member that matches the conditions defined by the specified predicate, if any\.
 
 ```csharp
-public static bool ContainsMember<TSymbol>(this ITypeSymbol typeSymbol, Func<TSymbol, bool> predicate = null) 
-    where TSymbol : ISymbol
+public static bool ContainsMember<TSymbol>(this ITypeSymbol typeSymbol, Func<TSymbol, bool> predicate = null) where TSymbol : ISymbol
 ```
 
 #### Type Parameters
@@ -49,8 +48,7 @@ public static bool ContainsMember<TSymbol>(this ITypeSymbol typeSymbol, Func<TSy
 Returns true if the type contains member that has the specified name and matches the conditions defined by the specified predicate, if any\.
 
 ```csharp
-public static bool ContainsMember<TSymbol>(this ITypeSymbol typeSymbol, string name, Func<TSymbol, bool> predicate = null) 
-    where TSymbol : ISymbol
+public static bool ContainsMember<TSymbol>(this ITypeSymbol typeSymbol, string name, Func<TSymbol, bool> predicate = null) where TSymbol : ISymbol
 ```
 
 #### Type Parameters

@@ -10,6 +10,7 @@ namespace Roslynator.Documentation
     public abstract class DocumentationGenerator
     {
         private SymbolDocumentationInfo _emptySymbolInfo;
+        private readonly ImmutableArray<TypeKind> _typeKinds = ImmutableArray.CreateRange(new TypeKind[] { TypeKind.Class, TypeKind.Struct, TypeKind.Interface, TypeKind.Enum, TypeKind.Delegate });
 
         protected DocumentationGenerator(
             CompilationDocumentationInfo compilation,
@@ -512,50 +513,73 @@ namespace Roslynator.Documentation
 
         public DocumentationFile GenerateObjectModel(string heading)
         {
-            INamedTypeSymbol objectType = CompilationInfo.Compilation.ObjectType;
-
-            var nodes = new HashSet<ITypeSymbol>(CompilationInfo.Types.Where(f => !f.IsStatic))
-            {
-                objectType
-            };
-
-            foreach (INamedTypeSymbol type in CompilationInfo.Types)
-            {
-                INamedTypeSymbol baseType = type.BaseType;
-
-                while (baseType != null)
-                {
-                    nodes.Add(baseType.OriginalDefinition);
-                    baseType = baseType.BaseType;
-                }
-            }
-
             using (DocumentationWriter writer = CreateWriter(_emptySymbolInfo, null))
             {
                 writer.WriteHeading1(heading);
 
-                WriteBulletItem(objectType, writer);
-
-                using (IEnumerator<INamedTypeSymbol> en = CompilationInfo.Types
-                    .Where(f => f.TypeKind == TypeKind.Interface)
-                    .OrderBy(f => f.ToDisplayString(FormatProvider.TypeFormat)).GetEnumerator())
+                foreach (TypeKind typeKind in _typeKinds.OrderBy(f => f.ToNamespaceDocumentationPart(), Options.NamespacePartComparer))
                 {
-                    if (en.MoveNext())
+                    switch (typeKind)
                     {
-                        writer.WriteHeading2(Resources.InterfacesTitle);
+                        case TypeKind.Class:
+                            {
+                                if (!CompilationInfo.Types.Any(f => !f.IsStatic && f.TypeKind == TypeKind.Class))
+                                    break;
 
-                        do
-                        {
-                            writer.WriteBulletItemLink(en.Current, FormatProvider.TypeFormat);
-                        }
-                        while (en.MoveNext());
+                                INamedTypeSymbol objectType = CompilationInfo.Compilation.ObjectType;
+
+                                IEnumerable<INamedTypeSymbol> instanceClasses = CompilationInfo.Types.Where(f => !f.IsStatic && f.TypeKind == TypeKind.Class);
+
+                                var nodes = new HashSet<ITypeSymbol>(instanceClasses)
+                                {
+                                    objectType
+                                };
+
+                                foreach (INamedTypeSymbol type in instanceClasses)
+                                {
+                                    INamedTypeSymbol baseType = type.BaseType;
+
+                                    while (baseType != null)
+                                    {
+                                        nodes.Add(baseType.OriginalDefinition);
+                                        baseType = baseType.BaseType;
+                                    }
+                                }
+
+                                writer.WriteHeading2(Resources.GetPluralName(typeKind));
+                                WriteBulletItem(objectType, nodes, writer);
+                                break;
+                            }
+                        case TypeKind.Struct:
+                        case TypeKind.Interface:
+                        case TypeKind.Enum:
+                        case TypeKind.Delegate:
+                            {
+                                using (IEnumerator<INamedTypeSymbol> en = CompilationInfo.Types
+                                    .Where(f => f.TypeKind == typeKind)
+                                    .OrderBy(f => f.ToDisplayString(FormatProvider.TypeFormat)).GetEnumerator())
+                                {
+                                    if (en.MoveNext())
+                                    {
+                                        writer.WriteHeading2(Resources.GetPluralName(typeKind));
+
+                                        do
+                                        {
+                                            writer.WriteBulletItemLink(en.Current, FormatProvider.TypeFormat);
+                                        }
+                                        while (en.MoveNext());
+                                    }
+                                }
+
+                                break;
+                            }
                     }
                 }
 
                 return new DocumentationFile(writer.ToString(), WellKnownNames.ObjectModelFileName, DocumentationKind.ObjectModel);
             }
 
-            void WriteBulletItem(ITypeSymbol baseType, DocumentationWriter writer)
+            void WriteBulletItem(ITypeSymbol baseType, HashSet<ITypeSymbol> nodes, DocumentationWriter writer)
             {
                 writer.WriteStartBulletItem();
                 writer.WriteLink(baseType, FormatProvider.TypeFormat);
@@ -567,7 +591,7 @@ namespace Roslynator.Documentation
                     .OrderBy(f => f.ToDisplayString(FormatProvider.TypeFormat))
                     .ToList())
                 {
-                    WriteBulletItem(derivedType, writer);
+                    WriteBulletItem(derivedType, nodes, writer);
                 }
 
                 writer.WriteEndBulletItem();

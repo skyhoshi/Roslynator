@@ -6,8 +6,7 @@ Assembly: Roslynator\.Documentation\.DocumentationTest\.dll
 
 ```csharp
 [System.AttributeUsageAttribute]
-public sealed class MyAttribute :
-    System.Attribute
+public sealed class MyAttribute : System.Attribute
 ```
 
 ### Inheritance

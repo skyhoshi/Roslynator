@@ -18,8 +18,7 @@ Assembly: Roslynator\.CSharp\.Workspaces\.dll
 Creates a new node with the [Annotation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.formatting.formatter.annotation) attached\.
 
 ```csharp
-public static TNode WithFormatterAnnotation<TNode>(this TNode node) 
-    where TNode : SyntaxNode
+public static TNode WithFormatterAnnotation<TNode>(this TNode node) where TNode : SyntaxNode
 ```
 
 #### Type Parameters

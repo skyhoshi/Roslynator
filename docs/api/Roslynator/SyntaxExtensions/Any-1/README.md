@@ -20,8 +20,7 @@ Assembly: Roslynator\.CSharp\.dll
 Returns true if any node in a list matches the predicate\.
 
 ```csharp
-public static bool Any<TNode>(this SeparatedSyntaxList<TNode> list, Func<TNode, bool> predicate) 
-    where TNode : SyntaxNode
+public static bool Any<TNode>(this SeparatedSyntaxList<TNode> list, Func<TNode, bool> predicate) where TNode : SyntaxNode
 ```
 
 #### Type Parameters
@@ -51,8 +50,7 @@ public static bool Any<TNode>(this SeparatedSyntaxList<TNode> list, Func<TNode, 
 Returns true if any node in a list matches the predicate\.
 
 ```csharp
-public static bool Any<TNode>(this SyntaxList<TNode> list, Func<TNode, bool> predicate) 
-    where TNode : SyntaxNode
+public static bool Any<TNode>(this SyntaxList<TNode> list, Func<TNode, bool> predicate) where TNode : SyntaxNode
 ```
 
 #### Type Parameters

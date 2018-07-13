@@ -20,8 +20,7 @@ Assembly: Roslynator\.CSharp\.dll
 Creates a new list with the elements in the specified range replaced with new nodes\.
 
 ```csharp
-public static SeparatedSyntaxList<TNode> ReplaceRange<TNode>(this SeparatedSyntaxList<TNode> list, int index, int count, IEnumerable<TNode> newNodes) 
-    where TNode : SyntaxNode
+public static SeparatedSyntaxList<TNode> ReplaceRange<TNode>(this SeparatedSyntaxList<TNode> list, int index, int count, IEnumerable<TNode> newNodes) where TNode : SyntaxNode
 ```
 
 #### Type Parameters
@@ -53,8 +52,7 @@ public static SeparatedSyntaxList<TNode> ReplaceRange<TNode>(this SeparatedSynta
 Creates a new list with the elements in the specified range replaced with new nodes\.
 
 ```csharp
-public static SyntaxList<TNode> ReplaceRange<TNode>(this SyntaxList<TNode> list, int index, int count, IEnumerable<TNode> newNodes) 
-    where TNode : SyntaxNode
+public static SyntaxList<TNode> ReplaceRange<TNode>(this SyntaxList<TNode> list, int index, int count, IEnumerable<TNode> newNodes) where TNode : SyntaxNode
 ```
 
 #### Type Parameters

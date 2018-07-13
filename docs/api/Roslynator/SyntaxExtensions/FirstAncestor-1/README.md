@@ -9,8 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Returns the first node of type **TNode** that matches the predicate\.
 
 ```csharp
-public static TNode FirstAncestor<TNode>(this SyntaxNode node, Func<TNode, bool> predicate = null, bool ascendOutOfTrivia = true) 
-    where TNode : SyntaxNode
+public static TNode FirstAncestor<TNode>(this SyntaxNode node, Func<TNode, bool> predicate = null, bool ascendOutOfTrivia = true) where TNode : SyntaxNode
 ```
 
 ### Type Parameters

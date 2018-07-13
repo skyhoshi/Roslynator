@@ -9,8 +9,7 @@ Assembly: Roslynator\.Documentation\.DocumentationTest\.dll
 
 ```csharp
 [System.ObsoleteAttribute]
-public class FooDic<TKey, TValue> :
-    System.Collections.Generic.IReadOnlyList<System.Collections.Generic.KeyValuePair<TKey, TValue>>,
+public class FooDic<TKey, TValue> : System.Collections.Generic.IReadOnlyList<System.Collections.Generic.KeyValuePair<TKey, TValue>>,
     System.Collections.Generic.IReadOnlyCollection<System.Collections.Generic.KeyValuePair<TKey, TValue>>,
     System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>>,
     System.Collections.Generic.IEnumerable<TValue>

@@ -67,12 +67,12 @@ namespace Roslynator.Documentation
                 //TODO: create link for overloads
                 Writer.WriteTable(
                     symbols,
-                    Resources.OverloadsTitle,
+                    heading: Resources.OverloadsTitle,
                     headingLevel: 2,
-                    Resources.GetName(symbol),
-                    Resources.SummaryTitle,
-                    FormatProvider.ConstructorFormat,
-                    SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName,
+                    header1: Resources.GetName(symbol),
+                    header2: Resources.SummaryTitle,
+                    format: FormatProvider.ConstructorFormat,
+                    additionalOptions: SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName,
                     addLink: false);
 
                 foreach (ISymbol symbol2 in symbols)

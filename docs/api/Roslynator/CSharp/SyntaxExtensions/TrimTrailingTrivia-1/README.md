@@ -20,8 +20,7 @@ Removes all trailing whitespace from the trailing trivia and returns a new node 
 Returns the same node if there is nothing to trim\.
 
 ```csharp
-public static TNode TrimTrailingTrivia<TNode>(this TNode node) 
-    where TNode : SyntaxNode
+public static TNode TrimTrailingTrivia<TNode>(this TNode node) where TNode : SyntaxNode
 ```
 
 #### Type Parameters

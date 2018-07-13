@@ -9,8 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about modifier list\.
 
 ```csharp
-public readonly struct ModifierListInfo :
-    System.IEquatable<Roslynator.CSharp.Syntax.ModifierListInfo>
+public readonly struct ModifierListInfo : System.IEquatable<Roslynator.CSharp.Syntax.ModifierListInfo>
 ```
 
 ### Inheritance

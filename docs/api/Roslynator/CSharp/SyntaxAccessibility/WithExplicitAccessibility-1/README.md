@@ -9,8 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Creates a new node with the specified explicit accessibility updated\.
 
 ```csharp
-public static TNode WithExplicitAccessibility<TNode>(TNode node, Accessibility newAccessibility, IComparer<SyntaxKind> comparer = null) 
-    where TNode : SyntaxNode
+public static TNode WithExplicitAccessibility<TNode>(TNode node, Accessibility newAccessibility, IComparer<SyntaxKind> comparer = null) where TNode : SyntaxNode
 ```
 
 ### Type Parameters

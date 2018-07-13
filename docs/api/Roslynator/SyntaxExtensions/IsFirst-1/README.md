@@ -18,8 +18,7 @@ Assembly: Roslynator\.CSharp\.dll
 Returns true if the specified node is a first node in the list\.
 
 ```csharp
-public static bool IsFirst<TNode>(this SeparatedSyntaxList<TNode> list, TNode node) 
-    where TNode : SyntaxNode
+public static bool IsFirst<TNode>(this SeparatedSyntaxList<TNode> list, TNode node) where TNode : SyntaxNode
 ```
 
 #### Type Parameters
@@ -49,8 +48,7 @@ public static bool IsFirst<TNode>(this SeparatedSyntaxList<TNode> list, TNode no
 Returns true if the specified node is a first node in the list\.
 
 ```csharp
-public static bool IsFirst<TNode>(this SyntaxList<TNode> list, TNode node) 
-    where TNode : SyntaxNode
+public static bool IsFirst<TNode>(this SyntaxList<TNode> list, TNode node) where TNode : SyntaxNode
 ```
 
 #### Type Parameters

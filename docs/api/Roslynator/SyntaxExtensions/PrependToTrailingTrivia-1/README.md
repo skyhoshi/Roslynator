@@ -20,8 +20,7 @@ Assembly: Roslynator\.CSharp\.dll
 Creates a new node from this node with the trailing trivia replaced with a new trivia where the specified trivia is inserted at the begining of the trailing trivia\.
 
 ```csharp
-public static TNode PrependToTrailingTrivia<TNode>(this TNode node, IEnumerable<SyntaxTrivia> trivia) 
-    where TNode : SyntaxNode
+public static TNode PrependToTrailingTrivia<TNode>(this TNode node, IEnumerable<SyntaxTrivia> trivia) where TNode : SyntaxNode
 ```
 
 #### Type Parameters
@@ -51,8 +50,7 @@ TNode
 Creates a new node from this node with the trailing trivia replaced with a new trivia where the specified trivia is inserted at the begining of the trailing trivia\.
 
 ```csharp
-public static TNode PrependToTrailingTrivia<TNode>(this TNode node, SyntaxTrivia trivia) 
-    where TNode : SyntaxNode
+public static TNode PrependToTrailingTrivia<TNode>(this TNode node, SyntaxTrivia trivia) where TNode : SyntaxNode
 ```
 
 #### Type Parameters

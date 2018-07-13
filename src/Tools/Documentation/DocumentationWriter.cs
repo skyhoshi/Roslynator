@@ -366,10 +366,15 @@ namespace Roslynator.Documentation
                 }
             }
 
+            int baseListCount = 0;
+            int constraintCount = parts.Count(f => f.IsKeyword("where"));
+
             if (typeSymbol != null)
                 AddBaseTypes();
 
-            if (Options.FormatConstraints)
+            if (Options.FormatConstraints
+                && constraintCount > 0
+                && (baseListCount > 1 || constraintCount > 1))
             {
                 for (int i = parts.Length - 1; i >= 0; i--)
                 {
@@ -397,7 +402,7 @@ namespace Roslynator.Documentation
                 if (interfaces.Any(f => f.OriginalDefinition.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T))
                     interfaces = interfaces.RemoveAll(f => f.SpecialType == SpecialType.System_Collections_IEnumerable);
 
-                int baseListCount = interfaces.Length;
+                baseListCount = interfaces.Length;
 
                 if (baseType != null)
                     baseListCount++;
@@ -417,7 +422,7 @@ namespace Roslynator.Documentation
                             index = i;
 
                             AddPunctuation(":");
-                            AddSpaceOrNewLine((bool)this.Options.FormatBaseList);
+                            AddSpace();
                             break;
                         }
                     }
@@ -428,7 +433,7 @@ namespace Roslynator.Documentation
 
                         AddSpace();
                         AddPunctuation(":");
-                        AddSpaceOrNewLine((bool)this.Options.FormatBaseList);
+                        AddSpace();
                     }
 
                     if (baseType != null)
@@ -438,7 +443,7 @@ namespace Roslynator.Documentation
                         if (interfaces.Any())
                         {
                             AddPunctuation(",");
-                            AddSpaceOrNewLine((bool)this.Options.FormatBaseList);
+                            AddSpaceOrNewLine(this.Options.FormatBaseList);
                         }
                     }
 
@@ -451,13 +456,21 @@ namespace Roslynator.Documentation
                         for (int i = 1; i < interfaces.Length; i++)
                         {
                             AddPunctuation(",");
-                            AddSpaceOrNewLine((bool)this.Options.FormatBaseList);
+                            AddSpaceOrNewLine(this.Options.FormatBaseList);
                             builder.AddRange(interfaces[i].ToDisplayParts(format));
                         }
                     }
 
                     if (index != -1)
+                    {
+                        if (!Options.FormatConstraints
+                            || (baseListCount == 1 && constraintCount == 1))
+                        {
+                            AddSpace();
+                        }
+
                         builder.AddRange(parts.Skip(index));
+                    }
 
                     parts = builder.ToImmutableArray();
                 }
@@ -860,12 +873,12 @@ namespace Roslynator.Documentation
 
         public virtual void WriteProperties(IEnumerable<IPropertySymbol> properties)
         {
-            WriteTable(properties, Resources.PropertiesTitle, 2, Resources.PropertyTitle, Resources.SummaryTitle, FormatProvider.PropertyFormat, SymbolDisplayAdditionalOptions.UseItemProperty, addInheritedFrom: true);
+            WriteTable(properties, Resources.PropertiesTitle, 2, Resources.PropertyTitle, Resources.SummaryTitle, FormatProvider.PropertyFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
         }
 
         public virtual void WriteMethods(IEnumerable<IMethodSymbol> methods)
         {
-            WriteTable(methods, Resources.MethodsTitle, 2, Resources.MethodTitle, Resources.SummaryTitle, FormatProvider.MethodFormat, addInheritedFrom: true);
+            WriteTable(methods, Resources.MethodsTitle, 2, Resources.MethodTitle, Resources.SummaryTitle, FormatProvider.MethodFormat);
         }
 
         public virtual void WriteOperators(IEnumerable<IMethodSymbol> operators)
@@ -875,7 +888,7 @@ namespace Roslynator.Documentation
 
         public virtual void WriteEvents(IEnumerable<IEventSymbol> events)
         {
-            WriteTable(events, Resources.EventsTitle, 2, Resources.EventTitle, Resources.SummaryTitle, FormatProvider.MethodFormat, addInheritedFrom: true);
+            WriteTable(events, Resources.EventsTitle, 2, Resources.EventTitle, Resources.SummaryTitle, FormatProvider.MethodFormat);
         }
 
         public virtual void WriteExplicitInterfaceImplementations(IEnumerable<ISymbol> explicitInterfaceImplementations)
@@ -1289,8 +1302,7 @@ namespace Roslynator.Documentation
             string header2,
             SymbolDisplayFormat format,
             SymbolDisplayAdditionalOptions additionalOptions = SymbolDisplayAdditionalOptions.None,
-            bool addLink = true,
-            bool addInheritedFrom = false)
+            bool addLink = true)
         {
             using (IEnumerator<ISymbol> en = symbols
                 .OrderBy(f => f.ToDisplayString(format, additionalOptions))
@@ -1331,14 +1343,18 @@ namespace Roslynator.Documentation
                         WriteEndTableCell();
                         WriteStartTableCell();
 
-                        XElement element = FindElement(symbol);
+                        bool isInherited = !symbol.IsStatic
+                            && symbol.IsKind(SymbolKind.Event, SymbolKind.Method, SymbolKind.Property)
+                            && symbol.ContainingType?.TypeKind == TypeKind.Class
+                            && symbol.ContainingType != Symbol
+                            && Symbol.Kind == SymbolKind.NamedType;
+
+                        XElement element = FindElement((isInherited) ? symbol.OriginalDefinition : symbol);
 
                         if (element != null)
                             WriteElementContent(element, isNested: true);
 
-                        if (addInheritedFrom
-                            && Symbol != null
-                            && symbol.ContainingType != Symbol)
+                        if (isInherited)
                         {
                             WriteSpace();
                             WriteString(Resources.OpenParenthesis);

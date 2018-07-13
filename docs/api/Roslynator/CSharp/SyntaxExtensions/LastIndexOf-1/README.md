@@ -19,8 +19,7 @@ Assembly: Roslynator\.CSharp\.dll
 Searches for a node of the specified kind and returns the zero\-based index of the last occurrence within the entire [SeparatedSyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.separatedsyntaxlist-1)\.
 
 ```csharp
-public static int LastIndexOf<TNode>(this SeparatedSyntaxList<TNode> list, SyntaxKind kind) 
-    where TNode : SyntaxNode
+public static int LastIndexOf<TNode>(this SeparatedSyntaxList<TNode> list, SyntaxKind kind) where TNode : SyntaxNode
 ```
 
 #### Type Parameters
@@ -50,8 +49,7 @@ public static int LastIndexOf<TNode>(this SeparatedSyntaxList<TNode> list, Synta
 Searches for a node of the specified kind and returns the zero\-based index of the last occurrence within the entire [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)\.
 
 ```csharp
-public static int LastIndexOf<TNode>(this SyntaxList<TNode> list, SyntaxKind kind) 
-    where TNode : SyntaxNode
+public static int LastIndexOf<TNode>(this SyntaxList<TNode> list, SyntaxKind kind) where TNode : SyntaxNode
 ```
 
 #### Type Parameters

@@ -9,8 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about invocation expression in an expression statement\.
 
 ```csharp
-public readonly struct SimpleMemberInvocationStatementInfo :
-    System.IEquatable<Roslynator.CSharp.Syntax.SimpleMemberInvocationStatementInfo>
+public readonly struct SimpleMemberInvocationStatementInfo : System.IEquatable<Roslynator.CSharp.Syntax.SimpleMemberInvocationStatementInfo>
 ```
 
 ### Inheritance
