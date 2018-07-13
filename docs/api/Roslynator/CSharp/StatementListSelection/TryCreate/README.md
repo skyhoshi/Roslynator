@@ -35,7 +35,6 @@ public static bool TryCreate(BlockSyntax block, TextSpan span, out StatementList
 
 True if the specified span contains at least one statement; otherwise, false\.
 
-
 ## TryCreate\(SwitchSectionSyntax, TextSpan, StatementListSelection\)
 
 ### Summary
@@ -59,5 +58,3 @@ public static bool TryCreate(SwitchSectionSyntax switchSection, TextSpan span, o
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 True if the specified span contains at least one statement; otherwise, false\.
-
-

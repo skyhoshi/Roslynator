@@ -33,7 +33,6 @@ public override bool Equals(object obj)
 
 true if **obj** and this instance are the same type and represent the same value; otherwise, false\. 
 
-
 ## Equals\(StringLiteralExpressionInfo\)
 
 ### Summary

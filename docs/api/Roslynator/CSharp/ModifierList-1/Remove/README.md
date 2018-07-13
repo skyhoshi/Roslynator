@@ -33,8 +33,6 @@ public TNode Remove(TNode node, SyntaxKind kind)
 TNode
 
 
-
-
 ## Remove\(TNode, SyntaxToken\)
 
 ### Summary
@@ -55,7 +53,5 @@ public TNode Remove(TNode node, SyntaxToken modifier)
 #### Returns
 
 TNode
-
-
 
 

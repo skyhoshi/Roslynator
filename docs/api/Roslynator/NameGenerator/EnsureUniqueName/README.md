@@ -34,8 +34,6 @@ public abstract string EnsureUniqueName(string baseName, IEnumerable<string> res
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
 
 
-
-
 ## EnsureUniqueName\(String, ImmutableArray\<ISymbol>, Boolean\)
 
 ### Summary
@@ -57,7 +55,5 @@ public abstract string EnsureUniqueName(string baseName, ImmutableArray<ISymbol>
 #### Returns
 
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
-
-
 
 

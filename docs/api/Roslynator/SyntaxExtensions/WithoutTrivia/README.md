@@ -23,5 +23,3 @@ public static SyntaxNodeOrToken WithoutTrivia(this SyntaxNodeOrToken nodeOrToken
 [SyntaxNodeOrToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxnodeortoken)
 
 
-
-

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
@@ -163,7 +162,7 @@ namespace Roslynator.Documentation
             }
         }
 
-        public IEnumerable<INamedTypeSymbol> DerivedTypes(ITypeSymbol typeSymbol, bool includeInterfaces = false)
+        public IEnumerable<INamedTypeSymbol> GetDerivedTypes(ITypeSymbol typeSymbol, bool includeInterfaces = false)
         {
             foreach (INamedTypeSymbol type in Types)
             {
@@ -172,7 +171,7 @@ namespace Roslynator.Documentation
             }
         }
 
-        public bool IsExternal(ISymbol symbol)
+        public bool IsExternalSymbol(ISymbol symbol)
         {
             foreach (AssemblyDocumentationInfo assemblyInfo in Assemblies)
             {
@@ -231,14 +230,9 @@ namespace Roslynator.Documentation
             return xmlDocumentation;
         }
 
-        internal XElement GetDocumentationElement(ISymbol symbol)
+        internal SymbolXmlDocumentation GetDocumentation(ISymbol symbol)
         {
-            return GetXmlDocumentation(symbol.ContainingAssembly)?.GetElement(GetSymbolInfo(symbol).CommentId);
-        }
-
-        internal XElement GetDocumentationElement(ISymbol symbol, string name)
-        {
-            return GetXmlDocumentation(symbol.ContainingAssembly)?.GetElement(GetSymbolInfo(symbol).CommentId, name);
+            return GetXmlDocumentation(symbol.ContainingAssembly)?.GetDocumentation(GetSymbolInfo(symbol).CommentId);
         }
     }
 }

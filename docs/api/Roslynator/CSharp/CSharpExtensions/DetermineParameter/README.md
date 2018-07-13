@@ -37,8 +37,6 @@ public static IParameterSymbol DetermineParameter(this SemanticModel semanticMod
 [IParameterSymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.iparametersymbol)
 
 
-
-
 ## DetermineParameter\(SemanticModel, AttributeArgumentSyntax, Boolean, Boolean, CancellationToken\)
 
 ### Summary
@@ -63,7 +61,5 @@ public static IParameterSymbol DetermineParameter(this SemanticModel semanticMod
 #### Returns
 
 [IParameterSymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.iparametersymbol)
-
-
 
 

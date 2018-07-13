@@ -25,5 +25,3 @@ public static ISymbol GetSymbol(this SemanticModel semanticModel, SyntaxNode nod
 [ISymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.isymbol)
 
 
-
-

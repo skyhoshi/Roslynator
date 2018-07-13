@@ -17,5 +17,3 @@ public ModifierKinds GetKinds()
 [ModifierKinds](../../../ModifierKinds/README.md)
 
 
-
-

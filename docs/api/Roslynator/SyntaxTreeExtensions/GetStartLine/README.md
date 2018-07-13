@@ -25,5 +25,3 @@ public static int GetStartLine(this SyntaxTree syntaxTree, TextSpan span, Cancel
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
 
 
-
-

@@ -24,5 +24,3 @@ public ModifierListInfo WithExplicitAccessibility(Accessibility newAccessibility
 [ModifierListInfo](../README.md)
 
 
-
-

@@ -40,8 +40,6 @@ public static bool Contains<TNode>(this SeparatedSyntaxList<TNode> list, TNode n
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## Contains\<TNode>\(SyntaxList\<TNode>, TNode\)
 
 ### Summary
@@ -70,8 +68,6 @@ public static bool Contains<TNode>(this SyntaxList<TNode> list, TNode node) wher
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## Contains\(SyntaxTokenList, SyntaxToken\)
 
 ### Summary
@@ -92,7 +88,5 @@ public static bool Contains(this SyntaxTokenList tokens, SyntaxToken token)
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 

@@ -41,8 +41,6 @@ public static TNode Find<TNode>(this SeparatedSyntaxList<TNode> list, SyntaxKind
 TNode
 
 
-
-
 ## Find\<TNode>\(SyntaxList\<TNode>, SyntaxKind\)
 
 ### Summary
@@ -71,8 +69,6 @@ public static TNode Find<TNode>(this SyntaxList<TNode> list, SyntaxKind kind) wh
 TNode
 
 
-
-
 ## Find\(SyntaxTokenList, SyntaxKind\)
 
 ### Summary
@@ -95,8 +91,6 @@ public static SyntaxToken Find(this SyntaxTokenList tokenList, SyntaxKind kind)
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
 
 
-
-
 ## Find\(SyntaxTriviaList, SyntaxKind\)
 
 ### Summary
@@ -117,7 +111,5 @@ public static SyntaxTrivia Find(this SyntaxTriviaList triviaList, SyntaxKind kin
 #### Returns
 
 [SyntaxTrivia](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtrivia)
-
-
 
 

@@ -34,8 +34,6 @@ public static bool IsParameterArrayOf(this IParameterSymbol parameterSymbol, Spe
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## IsParameterArrayOf\(IParameterSymbol, SpecialType, SpecialType\)
 
 ### Summary
@@ -57,8 +55,6 @@ public static bool IsParameterArrayOf(this IParameterSymbol parameterSymbol, Spe
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 
 ## IsParameterArrayOf\(IParameterSymbol, SpecialType, SpecialType, SpecialType\)
@@ -83,7 +79,5 @@ public static bool IsParameterArrayOf(this IParameterSymbol parameterSymbol, Spe
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 

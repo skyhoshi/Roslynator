@@ -33,8 +33,6 @@ public static int IndexOf(this SyntaxTokenList tokens, Func<SyntaxToken, bool> p
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
 
 
-
-
 ## IndexOf\(SyntaxTriviaList, Func\<SyntaxTrivia, Boolean>\)
 
 ### Summary
@@ -55,7 +53,5 @@ public static int IndexOf(this SyntaxTriviaList triviaList, Func<SyntaxTrivia, b
 #### Returns
 
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
-
-
 
 

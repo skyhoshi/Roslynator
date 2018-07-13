@@ -39,8 +39,6 @@ public static TNode RemoveAll<TNode>(TNode node, Func<SyntaxToken, bool> predica
 TNode
 
 
-
-
 ## RemoveAll\<TNode>\(TNode\)
 
 ### Summary
@@ -66,7 +64,5 @@ public static TNode RemoveAll<TNode>(TNode node) where TNode : SyntaxNode
 #### Returns
 
 TNode
-
-
 
 

@@ -25,5 +25,3 @@ public static INamedTypeSymbol GetEnclosingNamedType(this SemanticModel semantic
 [INamedTypeSymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.inamedtypesymbol)
 
 
-
-

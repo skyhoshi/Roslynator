@@ -39,8 +39,6 @@ public static bool ContainsMember<TSymbol>(this ITypeSymbol typeSymbol, Func<TSy
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## ContainsMember\<TSymbol>\(ITypeSymbol, String, Func\<TSymbol, Boolean>\)
 
 ### Summary
@@ -68,7 +66,5 @@ public static bool ContainsMember<TSymbol>(this ITypeSymbol typeSymbol, string n
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 

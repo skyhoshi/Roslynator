@@ -23,5 +23,3 @@ public static CSharpSyntaxNode DeclarationOrExpression(this UsingStatementSyntax
 [CSharpSyntaxNode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.csharpsyntaxnode)
 
 
-
-

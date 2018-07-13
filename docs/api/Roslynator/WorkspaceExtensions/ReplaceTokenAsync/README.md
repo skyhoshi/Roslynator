@@ -35,8 +35,6 @@ public static Task<Document> ReplaceTokenAsync(this Document document, SyntaxTok
 [Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)\<[Document](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.document)>
 
 
-
-
 ## ReplaceTokenAsync\(Document, SyntaxToken, IEnumerable\<SyntaxToken>, CancellationToken\)
 
 ### Summary
@@ -59,7 +57,5 @@ public static Task<Document> ReplaceTokenAsync(this Document document, SyntaxTok
 #### Returns
 
 [Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)\<[Document](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.document)>
-
-
 
 

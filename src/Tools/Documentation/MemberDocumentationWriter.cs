@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
@@ -316,14 +315,7 @@ namespace Roslynator.Documentation
                 Writer.WriteLine();
                 Writer.WriteLine();
 
-                XElement element = CompilationInfo.GetDocumentationElement(methodSymbol, "returns");
-
-                if (element != null)
-                {
-                    Writer.WriteElementContent(element);
-                    Writer.WriteLine();
-                    Writer.WriteLine();
-                }
+                CompilationInfo.GetDocumentation(methodSymbol)?.WriteElementContentTo(Writer, "returns");
             }
         }
 
@@ -344,14 +336,7 @@ namespace Roslynator.Documentation
                 Writer.WriteLine();
                 Writer.WriteLine();
 
-                XElement element = CompilationInfo.GetDocumentationElement(methodSymbol, "returns");
-
-                if (element != null)
-                {
-                    Writer.WriteElementContent(element);
-                    Writer.WriteLine();
-                    Writer.WriteLine();
-                }
+                CompilationInfo.GetDocumentation(methodSymbol)?.WriteElementContentTo(Writer, "returns");
             }
         }
 
@@ -374,14 +359,7 @@ namespace Roslynator.Documentation
 
                 string elementName = (propertySymbol.IsIndexer) ? "returns" : "value";
 
-                XElement element = CompilationInfo.GetDocumentationElement(propertySymbol, elementName);
-
-                if (element != null)
-                {
-                    Writer.WriteElementContent(element);
-                    Writer.WriteLine();
-                    Writer.WriteLine();
-                }
+                CompilationInfo.GetDocumentation(propertySymbol)?.WriteElementContentTo(Writer, elementName);
             }
         }
     }

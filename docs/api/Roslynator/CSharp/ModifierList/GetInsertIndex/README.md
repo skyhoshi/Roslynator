@@ -34,8 +34,6 @@ public static int GetInsertIndex(SyntaxTokenList tokens, SyntaxToken token, ICom
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
 
 
-
-
 ## GetInsertIndex\(SyntaxTokenList, SyntaxKind, IComparer\<SyntaxKind>\)
 
 ### Summary
@@ -57,7 +55,5 @@ public static int GetInsertIndex(SyntaxTokenList tokens, SyntaxKind kind, ICompa
 #### Returns
 
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
-
-
 
 

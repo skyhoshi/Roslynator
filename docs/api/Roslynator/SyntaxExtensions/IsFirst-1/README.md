@@ -39,8 +39,6 @@ public static bool IsFirst<TNode>(this SeparatedSyntaxList<TNode> list, TNode no
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## IsFirst\<TNode>\(SyntaxList\<TNode>, TNode\)
 
 ### Summary
@@ -67,7 +65,5 @@ public static bool IsFirst<TNode>(this SyntaxList<TNode> list, TNode node) where
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 

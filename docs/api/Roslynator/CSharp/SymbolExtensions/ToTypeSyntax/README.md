@@ -34,8 +34,6 @@ public static TypeSyntax ToTypeSyntax(this INamespaceOrTypeSymbol namespaceOrTyp
 [TypeSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typesyntax)
 
 
-
-
 ## ToTypeSyntax\(INamespaceSymbol, SymbolDisplayFormat\)
 
 ### Summary
@@ -58,8 +56,6 @@ public static TypeSyntax ToTypeSyntax(this INamespaceSymbol namespaceSymbol, Sym
 [TypeSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typesyntax)
 
 
-
-
 ## ToTypeSyntax\(ITypeSymbol, SymbolDisplayFormat\)
 
 ### Summary
@@ -80,7 +76,5 @@ public static TypeSyntax ToTypeSyntax(this ITypeSymbol typeSymbol, SymbolDisplay
 #### Returns
 
 [TypeSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typesyntax)
-
-
 
 

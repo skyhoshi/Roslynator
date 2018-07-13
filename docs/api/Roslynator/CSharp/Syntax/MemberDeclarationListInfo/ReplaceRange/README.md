@@ -24,5 +24,3 @@ public MemberDeclarationListInfo ReplaceRange(MemberDeclarationSyntax memberInLi
 [MemberDeclarationListInfo](../README.md)
 
 
-
-

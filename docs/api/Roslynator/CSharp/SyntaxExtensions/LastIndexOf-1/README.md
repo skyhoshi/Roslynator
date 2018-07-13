@@ -40,8 +40,6 @@ public static int LastIndexOf<TNode>(this SeparatedSyntaxList<TNode> list, Synta
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
 
 
-
-
 ## LastIndexOf\<TNode>\(SyntaxList\<TNode>, SyntaxKind\)
 
 ### Summary
@@ -70,8 +68,6 @@ public static int LastIndexOf<TNode>(this SyntaxList<TNode> list, SyntaxKind kin
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
 
 
-
-
 ## LastIndexOf\(SyntaxTriviaList, SyntaxKind\)
 
 ### Summary
@@ -92,7 +88,5 @@ public static int LastIndexOf(this SyntaxTriviaList triviaList, SyntaxKind kind)
 #### Returns
 
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
-
-
 
 

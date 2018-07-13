@@ -41,8 +41,6 @@ public static ClassDeclarationSyntax WithMembers(this ClassDeclarationSyntax cla
 [ClassDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.classdeclarationsyntax)
 
 
-
-
 ## WithMembers\(ClassDeclarationSyntax, IEnumerable\<MemberDeclarationSyntax>\)
 
 ### Summary
@@ -63,8 +61,6 @@ public static ClassDeclarationSyntax WithMembers(this ClassDeclarationSyntax cla
 #### Returns
 
 [ClassDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.classdeclarationsyntax)
-
-
 
 
 ## WithMembers\(CompilationUnitSyntax, MemberDeclarationSyntax\)
@@ -89,8 +85,6 @@ public static CompilationUnitSyntax WithMembers(this CompilationUnitSyntax compi
 [CompilationUnitSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.compilationunitsyntax)
 
 
-
-
 ## WithMembers\(CompilationUnitSyntax, IEnumerable\<MemberDeclarationSyntax>\)
 
 ### Summary
@@ -111,8 +105,6 @@ public static CompilationUnitSyntax WithMembers(this CompilationUnitSyntax compi
 #### Returns
 
 [CompilationUnitSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.compilationunitsyntax)
-
-
 
 
 ## WithMembers\(InterfaceDeclarationSyntax, MemberDeclarationSyntax\)
@@ -137,8 +129,6 @@ public static InterfaceDeclarationSyntax WithMembers(this InterfaceDeclarationSy
 [InterfaceDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.interfacedeclarationsyntax)
 
 
-
-
 ## WithMembers\(InterfaceDeclarationSyntax, IEnumerable\<MemberDeclarationSyntax>\)
 
 ### Summary
@@ -159,8 +149,6 @@ public static InterfaceDeclarationSyntax WithMembers(this InterfaceDeclarationSy
 #### Returns
 
 [InterfaceDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.interfacedeclarationsyntax)
-
-
 
 
 ## WithMembers\(NamespaceDeclarationSyntax, MemberDeclarationSyntax\)
@@ -185,8 +173,6 @@ public static NamespaceDeclarationSyntax WithMembers(this NamespaceDeclarationSy
 [NamespaceDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.namespacedeclarationsyntax)
 
 
-
-
 ## WithMembers\(NamespaceDeclarationSyntax, IEnumerable\<MemberDeclarationSyntax>\)
 
 ### Summary
@@ -207,8 +193,6 @@ public static NamespaceDeclarationSyntax WithMembers(this NamespaceDeclarationSy
 #### Returns
 
 [NamespaceDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.namespacedeclarationsyntax)
-
-
 
 
 ## WithMembers\(StructDeclarationSyntax, MemberDeclarationSyntax\)
@@ -233,8 +217,6 @@ public static StructDeclarationSyntax WithMembers(this StructDeclarationSyntax s
 [StructDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.structdeclarationsyntax)
 
 
-
-
 ## WithMembers\(StructDeclarationSyntax, IEnumerable\<MemberDeclarationSyntax>\)
 
 ### Summary
@@ -255,7 +237,5 @@ public static StructDeclarationSyntax WithMembers(this StructDeclarationSyntax s
 #### Returns
 
 [StructDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.structdeclarationsyntax)
-
-
 
 

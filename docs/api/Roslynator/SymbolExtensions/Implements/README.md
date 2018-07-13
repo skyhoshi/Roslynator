@@ -34,8 +34,6 @@ public static bool Implements(this ITypeSymbol typeSymbol, SpecialType interface
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## Implements\(ITypeSymbol, INamedTypeSymbol, Boolean\)
 
 ### Summary
@@ -57,7 +55,5 @@ public static bool Implements(this ITypeSymbol typeSymbol, INamedTypeSymbol inte
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 

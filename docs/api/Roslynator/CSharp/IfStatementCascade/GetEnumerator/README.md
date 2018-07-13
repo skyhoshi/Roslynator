@@ -17,5 +17,3 @@ public Enumerator GetEnumerator()
 [IfStatementCascade.Enumerator](../Enumerator/README.md)
 
 
-
-

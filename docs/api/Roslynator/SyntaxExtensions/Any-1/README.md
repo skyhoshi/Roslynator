@@ -41,8 +41,6 @@ public static bool Any<TNode>(this SeparatedSyntaxList<TNode> list, Func<TNode, 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## Any\<TNode>\(SyntaxList\<TNode>, Func\<TNode, Boolean>\)
 
 ### Summary
@@ -71,8 +69,6 @@ public static bool Any<TNode>(this SyntaxList<TNode> list, Func<TNode, bool> pre
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## Any\(SyntaxTokenList, Func\<SyntaxToken, Boolean>\)
 
 ### Summary
@@ -95,8 +91,6 @@ public static bool Any(this SyntaxTokenList list, Func<SyntaxToken, bool> predic
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## Any\(SyntaxTriviaList, Func\<SyntaxTrivia, Boolean>\)
 
 ### Summary
@@ -117,7 +111,5 @@ public static bool Any(this SyntaxTriviaList list, Func<SyntaxTrivia, bool> pred
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 

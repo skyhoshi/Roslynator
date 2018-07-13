@@ -34,8 +34,6 @@ public static StatementListSelection Create(BlockSyntax block, TextSpan span)
 [StatementListSelection](../README.md)
 
 
-
-
 ## Create\(SwitchSectionSyntax, TextSpan\)
 
 ### Summary
@@ -58,8 +56,6 @@ public static StatementListSelection Create(SwitchSectionSyntax switchSection, T
 [StatementListSelection](../README.md)
 
 
-
-
 ## Create\(StatementListInfo, TextSpan\)
 
 ### Summary
@@ -80,7 +76,5 @@ public static StatementListSelection Create(in StatementListInfo statementsInfo,
 #### Returns
 
 [StatementListSelection](../README.md)
-
-
 
 

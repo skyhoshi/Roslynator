@@ -26,5 +26,3 @@ public static bool TryGetContainingList(this SyntaxTrivia trivia, out SyntaxTriv
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-

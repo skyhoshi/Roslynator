@@ -25,5 +25,3 @@ public static bool TryCreate(TextLineCollection lines, TextSpan span, out TextLi
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 True if the specified span contains at least one line; otherwise, false\.
-
-

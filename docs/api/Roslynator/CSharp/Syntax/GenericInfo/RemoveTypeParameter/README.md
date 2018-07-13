@@ -23,5 +23,3 @@ public GenericInfo RemoveTypeParameter(TypeParameterSyntax typeParameter)
 [GenericInfo](../README.md)
 
 
-
-

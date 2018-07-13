@@ -32,8 +32,6 @@ public static RegionInfo RegionInfo(RegionDirectiveTriviaSyntax regionDirective)
 [RegionInfo](../../Syntax/RegionInfo/README.md)
 
 
-
-
 ## RegionInfo\(EndRegionDirectiveTriviaSyntax\)
 
 ### Summary
@@ -53,7 +51,5 @@ public static RegionInfo RegionInfo(EndRegionDirectiveTriviaSyntax endRegionDire
 #### Returns
 
 [RegionInfo](../../Syntax/RegionInfo/README.md)
-
-
 
 

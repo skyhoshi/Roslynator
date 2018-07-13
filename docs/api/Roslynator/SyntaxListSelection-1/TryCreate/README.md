@@ -25,5 +25,3 @@ public static bool TryCreate(SyntaxList<TNode> list, TextSpan span, out SyntaxLi
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 True if the specified span contains at least one node; otherwise, false\.
-
-

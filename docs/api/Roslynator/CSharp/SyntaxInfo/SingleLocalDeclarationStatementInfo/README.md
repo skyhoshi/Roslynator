@@ -34,8 +34,6 @@ public static SingleLocalDeclarationStatementInfo SingleLocalDeclarationStatemen
 [SingleLocalDeclarationStatementInfo](../../Syntax/SingleLocalDeclarationStatementInfo/README.md)
 
 
-
-
 ## SingleLocalDeclarationStatementInfo\(VariableDeclarationSyntax, Boolean\)
 
 ### Summary
@@ -58,8 +56,6 @@ public static SingleLocalDeclarationStatementInfo SingleLocalDeclarationStatemen
 [SingleLocalDeclarationStatementInfo](../../Syntax/SingleLocalDeclarationStatementInfo/README.md)
 
 
-
-
 ## SingleLocalDeclarationStatementInfo\(ExpressionSyntax\)
 
 ### Summary
@@ -79,7 +75,5 @@ public static SingleLocalDeclarationStatementInfo SingleLocalDeclarationStatemen
 #### Returns
 
 [SingleLocalDeclarationStatementInfo](../../Syntax/SingleLocalDeclarationStatementInfo/README.md)
-
-
 
 

@@ -24,5 +24,3 @@ public static INamedTypeSymbol GetTypeByMetadataName(this SemanticModel semantic
 [INamedTypeSymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.inamedtypesymbol)
 
 
-
-

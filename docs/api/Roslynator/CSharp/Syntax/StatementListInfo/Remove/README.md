@@ -23,5 +23,3 @@ public StatementListInfo Remove(StatementSyntax statement)
 [StatementListInfo](../README.md)
 
 
-
-

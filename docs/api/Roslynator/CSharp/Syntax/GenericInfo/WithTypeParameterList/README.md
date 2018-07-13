@@ -23,5 +23,3 @@ public GenericInfo WithTypeParameterList(TypeParameterListSyntax typeParameterLi
 [GenericInfo](../README.md)
 
 
-
-

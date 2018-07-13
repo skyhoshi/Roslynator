@@ -17,5 +17,3 @@ public static SyntaxTokenList PrivateStatic()
 [SyntaxTokenList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtokenlist)
 
 
-
-

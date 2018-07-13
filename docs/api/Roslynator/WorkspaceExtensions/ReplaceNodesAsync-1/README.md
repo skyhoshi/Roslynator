@@ -41,8 +41,6 @@ public static Task<Document> ReplaceNodesAsync<TNode>(this Document document, IE
 [Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)\<[Document](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.document)>
 
 
-
-
 ## ReplaceNodesAsync\<TNode>\(Solution, IEnumerable\<TNode>, Func\<TNode, TNode, SyntaxNode>, CancellationToken\)
 
 ### Summary
@@ -71,7 +69,5 @@ public static Task<Solution> ReplaceNodesAsync<TNode>(this Solution solution, IE
 #### Returns
 
 [Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)\<[Solution](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.solution)>
-
-
 
 

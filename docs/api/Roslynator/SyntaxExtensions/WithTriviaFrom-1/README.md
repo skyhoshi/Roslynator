@@ -42,8 +42,6 @@ public static SeparatedSyntaxList<TNode> WithTriviaFrom<TNode>(this SeparatedSyn
 [SeparatedSyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.separatedsyntaxlist-1)
 
 
-
-
 ## WithTriviaFrom\<TNode>\(SyntaxList\<TNode>, SyntaxNode\)
 
 ### Summary
@@ -71,8 +69,6 @@ public static SyntaxList<TNode> WithTriviaFrom<TNode>(this SyntaxList<TNode> lis
 #### Returns
 
 [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)
-
-
 
 
 ## WithTriviaFrom\<TNode>\(TNode, SyntaxToken\)
@@ -103,8 +99,6 @@ public static TNode WithTriviaFrom<TNode>(this TNode node, SyntaxToken token) wh
 TNode
 
 
-
-
 ## WithTriviaFrom\(SyntaxToken, SyntaxNode\)
 
 ### Summary
@@ -125,7 +119,5 @@ public static SyntaxToken WithTriviaFrom(this SyntaxToken token, SyntaxNode node
 #### Returns
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
-
-
 
 

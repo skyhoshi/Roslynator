@@ -32,8 +32,6 @@ public static SyntaxTrivia GetPreprocessingMessageTrivia(this EndRegionDirective
 [SyntaxTrivia](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtrivia)
 
 
-
-
 ## GetPreprocessingMessageTrivia\(RegionDirectiveTriviaSyntax\)
 
 ### Summary
@@ -53,7 +51,5 @@ public static SyntaxTrivia GetPreprocessingMessageTrivia(this RegionDirectiveTri
 #### Returns
 
 [SyntaxTrivia](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtrivia)
-
-
 
 

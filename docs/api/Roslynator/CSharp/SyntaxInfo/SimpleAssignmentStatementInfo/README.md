@@ -35,8 +35,6 @@ public static SimpleAssignmentStatementInfo SimpleAssignmentStatementInfo(Statem
 [SimpleAssignmentStatementInfo](../../Syntax/SimpleAssignmentStatementInfo/README.md)
 
 
-
-
 ## SimpleAssignmentStatementInfo\(AssignmentExpressionSyntax, Boolean, Boolean\)
 
 ### Summary
@@ -60,8 +58,6 @@ public static SimpleAssignmentStatementInfo SimpleAssignmentStatementInfo(Assign
 [SimpleAssignmentStatementInfo](../../Syntax/SimpleAssignmentStatementInfo/README.md)
 
 
-
-
 ## SimpleAssignmentStatementInfo\(ExpressionStatementSyntax, Boolean, Boolean\)
 
 ### Summary
@@ -83,7 +79,5 @@ public static SimpleAssignmentStatementInfo SimpleAssignmentStatementInfo(Expres
 #### Returns
 
 [SimpleAssignmentStatementInfo](../../Syntax/SimpleAssignmentStatementInfo/README.md)
-
-
 
 

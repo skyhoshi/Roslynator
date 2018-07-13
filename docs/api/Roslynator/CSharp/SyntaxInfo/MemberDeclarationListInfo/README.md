@@ -36,8 +36,6 @@ public static MemberDeclarationListInfo MemberDeclarationListInfo(SyntaxNode nod
 [MemberDeclarationListInfo](../../Syntax/MemberDeclarationListInfo/README.md)
 
 
-
-
 ## MemberDeclarationListInfo\(CompilationUnitSyntax\)
 
 ### Summary
@@ -57,8 +55,6 @@ public static MemberDeclarationListInfo MemberDeclarationListInfo(CompilationUni
 #### Returns
 
 [MemberDeclarationListInfo](../../Syntax/MemberDeclarationListInfo/README.md)
-
-
 
 
 ## MemberDeclarationListInfo\(NamespaceDeclarationSyntax\)
@@ -82,8 +78,6 @@ public static MemberDeclarationListInfo MemberDeclarationListInfo(NamespaceDecla
 [MemberDeclarationListInfo](../../Syntax/MemberDeclarationListInfo/README.md)
 
 
-
-
 ## MemberDeclarationListInfo\(ClassDeclarationSyntax\)
 
 ### Summary
@@ -103,8 +97,6 @@ public static MemberDeclarationListInfo MemberDeclarationListInfo(ClassDeclarati
 #### Returns
 
 [MemberDeclarationListInfo](../../Syntax/MemberDeclarationListInfo/README.md)
-
-
 
 
 ## MemberDeclarationListInfo\(StructDeclarationSyntax\)
@@ -128,8 +120,6 @@ public static MemberDeclarationListInfo MemberDeclarationListInfo(StructDeclarat
 [MemberDeclarationListInfo](../../Syntax/MemberDeclarationListInfo/README.md)
 
 
-
-
 ## MemberDeclarationListInfo\(InterfaceDeclarationSyntax\)
 
 ### Summary
@@ -149,7 +139,5 @@ public static MemberDeclarationListInfo MemberDeclarationListInfo(InterfaceDecla
 #### Returns
 
 [MemberDeclarationListInfo](../../Syntax/MemberDeclarationListInfo/README.md)
-
-
 
 

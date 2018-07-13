@@ -23,5 +23,3 @@ public GenericInfo WithConstraintClauses(SyntaxList<TypeParameterConstraintClaus
 [GenericInfo](../README.md)
 
 
-
-

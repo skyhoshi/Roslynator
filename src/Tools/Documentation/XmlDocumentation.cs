@@ -15,15 +15,15 @@ namespace Roslynator.Documentation
         private static readonly XmlReaderSettings _xmlReaderSettings = new XmlReaderSettings() { ConformanceLevel = ConformanceLevel.Fragment };
         private static readonly Regex _indentationRegex = new Regex("(?<=\n)            ");
 
-        private readonly Dictionary<string, XElement> _elements;
+        private readonly Dictionary<string, SymbolXmlDocumentation> _symbolXmlDocumentations;
         private readonly XDocument _document;
-        private readonly XElement _members;
+        private readonly XElement _membersElement;
 
         private XmlDocumentation(XDocument document)
         {
             _document = document;
-            _members = document.Root.Element("members");
-            _elements = new Dictionary<string, XElement>();
+            _membersElement = document.Root.Element("members");
+            _symbolXmlDocumentations = new Dictionary<string, SymbolXmlDocumentation>();
         }
 
         public static XmlDocumentation Load(string filePath)
@@ -33,26 +33,24 @@ namespace Roslynator.Documentation
             return new XmlDocumentation(document);
         }
 
-        internal XElement GetElement(string id, string name)
+        public SymbolXmlDocumentation GetDocumentation(string commentId)
         {
-            return GetElement(id)?.Element(name);
-        }
-
-        internal XElement GetElement(string id)
-        {
-            if (!_elements.TryGetValue(id, out XElement element))
+            if (!_symbolXmlDocumentations.TryGetValue(commentId, out SymbolXmlDocumentation documentation))
             {
-                element = _members.Elements().FirstOrDefault(f => f.Attribute("name")?.Value == id);
+                XElement element = _membersElement
+                    .Elements()
+                    .FirstOrDefault(f => f.Attribute("name")?.Value == commentId);
 
                 if (element != null)
                 {
                     element = Unindent(element);
 
-                    _elements[id] = element;
+                    documentation = new SymbolXmlDocumentation(commentId, element);
+                    _symbolXmlDocumentations[commentId] = documentation;
                 }
             }
 
-            return element;
+            return documentation;
         }
 
         private static XElement Unindent(XElement element)

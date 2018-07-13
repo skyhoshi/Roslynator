@@ -23,5 +23,3 @@ public static bool IsAsyncMethod(this ISymbol symbol)
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-

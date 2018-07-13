@@ -25,5 +25,3 @@ public static SimpleIfElseInfo SimpleIfElseInfo(IfStatementSyntax ifStatement, b
 [SimpleIfElseInfo](../../Syntax/SimpleIfElseInfo/README.md)
 
 
-
-

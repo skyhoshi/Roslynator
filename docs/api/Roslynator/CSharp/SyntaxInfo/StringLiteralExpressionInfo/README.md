@@ -33,8 +33,6 @@ public static StringLiteralExpressionInfo StringLiteralExpressionInfo(SyntaxNode
 [StringLiteralExpressionInfo](../../Syntax/StringLiteralExpressionInfo/README.md)
 
 
-
-
 ## StringLiteralExpressionInfo\(LiteralExpressionSyntax\)
 
 ### Summary
@@ -54,7 +52,5 @@ public static StringLiteralExpressionInfo StringLiteralExpressionInfo(LiteralExp
 #### Returns
 
 [StringLiteralExpressionInfo](../../Syntax/StringLiteralExpressionInfo/README.md)
-
-
 
 

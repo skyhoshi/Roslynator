@@ -32,8 +32,6 @@ public MemberDeclarationListInfo WithMembers(IEnumerable<MemberDeclarationSyntax
 [MemberDeclarationListInfo](../README.md)
 
 
-
-
 ## WithMembers\(SyntaxList\<MemberDeclarationSyntax>\)
 
 ### Summary
@@ -53,7 +51,5 @@ public MemberDeclarationListInfo WithMembers(SyntaxList<MemberDeclarationSyntax>
 #### Returns
 
 [MemberDeclarationListInfo](../README.md)
-
-
 
 

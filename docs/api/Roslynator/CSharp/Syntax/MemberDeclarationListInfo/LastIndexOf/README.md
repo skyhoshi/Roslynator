@@ -32,8 +32,6 @@ public int LastIndexOf(Func<MemberDeclarationSyntax, bool> predicate)
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
 
 
-
-
 ## LastIndexOf\(MemberDeclarationSyntax\)
 
 ### Summary
@@ -53,7 +51,5 @@ public int LastIndexOf(MemberDeclarationSyntax member)
 #### Returns
 
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
-
-
 
 

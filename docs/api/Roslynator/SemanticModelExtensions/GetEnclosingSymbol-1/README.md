@@ -31,5 +31,3 @@ public static TSymbol GetEnclosingSymbol<TSymbol>(this SemanticModel semanticMod
 TSymbol
 
 
-
-

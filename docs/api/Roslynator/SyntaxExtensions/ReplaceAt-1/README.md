@@ -42,8 +42,6 @@ public static SeparatedSyntaxList<TNode> ReplaceAt<TNode>(this SeparatedSyntaxLi
 [SeparatedSyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.separatedsyntaxlist-1)
 
 
-
-
 ## ReplaceAt\<TNode>\(SyntaxList\<TNode>, Int32, TNode\)
 
 ### Summary
@@ -73,8 +71,6 @@ public static SyntaxList<TNode> ReplaceAt<TNode>(this SyntaxList<TNode> list, in
 [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)
 
 
-
-
 ## ReplaceAt\(SyntaxTokenList, Int32, SyntaxToken\)
 
 ### Summary
@@ -98,8 +94,6 @@ public static SyntaxTokenList ReplaceAt(this SyntaxTokenList tokenList, int inde
 [SyntaxTokenList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtokenlist)
 
 
-
-
 ## ReplaceAt\(SyntaxTriviaList, Int32, SyntaxTrivia\)
 
 ### Summary
@@ -121,7 +115,5 @@ public static SyntaxTriviaList ReplaceAt(this SyntaxTriviaList triviaList, int i
 #### Returns
 
 [SyntaxTriviaList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtrivialist)
-
-
 
 

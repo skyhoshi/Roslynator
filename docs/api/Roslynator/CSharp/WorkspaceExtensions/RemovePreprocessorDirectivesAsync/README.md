@@ -34,8 +34,6 @@ public static Task<Document> RemovePreprocessorDirectivesAsync(this Document doc
 [Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)\<[Document](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.document)>
 
 
-
-
 ## RemovePreprocessorDirectivesAsync\(Document, TextSpan, PreprocessorDirectiveKinds, CancellationToken\)
 
 ### Summary
@@ -58,7 +56,5 @@ public static Task<Document> RemovePreprocessorDirectivesAsync(this Document doc
 #### Returns
 
 [Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)\<[Document](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.document)>
-
-
 
 

@@ -23,5 +23,3 @@ public static RegionDirectiveTriviaSyntax GetRegionDirective(this EndRegionDirec
 [RegionDirectiveTriviaSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.regiondirectivetriviasyntax)
 
 
-
-

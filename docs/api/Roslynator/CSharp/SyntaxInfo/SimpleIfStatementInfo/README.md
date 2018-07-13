@@ -34,8 +34,6 @@ public static SimpleIfStatementInfo SimpleIfStatementInfo(SyntaxNode node, bool 
 [SimpleIfStatementInfo](../../Syntax/SimpleIfStatementInfo/README.md)
 
 
-
-
 ## SimpleIfStatementInfo\(IfStatementSyntax, Boolean, Boolean\)
 
 ### Summary
@@ -57,7 +55,5 @@ public static SimpleIfStatementInfo SimpleIfStatementInfo(IfStatementSyntax ifSt
 #### Returns
 
 [SimpleIfStatementInfo](../../Syntax/SimpleIfStatementInfo/README.md)
-
-
 
 

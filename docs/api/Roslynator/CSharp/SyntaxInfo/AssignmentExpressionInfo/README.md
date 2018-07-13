@@ -34,8 +34,6 @@ public static AssignmentExpressionInfo AssignmentExpressionInfo(SyntaxNode node,
 [AssignmentExpressionInfo](../../Syntax/AssignmentExpressionInfo/README.md)
 
 
-
-
 ## AssignmentExpressionInfo\(AssignmentExpressionSyntax, Boolean, Boolean\)
 
 ### Summary
@@ -57,7 +55,5 @@ public static AssignmentExpressionInfo AssignmentExpressionInfo(AssignmentExpres
 #### Returns
 
 [AssignmentExpressionInfo](../../Syntax/AssignmentExpressionInfo/README.md)
-
-
 
 

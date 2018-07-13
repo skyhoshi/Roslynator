@@ -25,5 +25,3 @@ public static SyntaxList<StatementSyntax> Add(this SyntaxList<StatementSyntax> s
 [SyntaxList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)\<[StatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.statementsyntax)>
 
 
-
-

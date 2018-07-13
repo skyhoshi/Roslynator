@@ -25,5 +25,3 @@ public static ITypeSymbol GetTypeSymbol(this SemanticModel semanticModel, Syntax
 [ITypeSymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.itypesymbol)
 
 
-
-

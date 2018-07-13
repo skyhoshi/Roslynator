@@ -25,5 +25,3 @@ public static IMethodSymbol GetMethodSymbol(this SemanticModel semanticModel, Ex
 [IMethodSymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.imethodsymbol)
 
 
-
-

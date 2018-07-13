@@ -37,8 +37,6 @@ public static bool Is(this SyntaxKind kind, SyntaxKind kind1, SyntaxKind kind2)
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## Is\(SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind\)
 
 ### Summary
@@ -61,8 +59,6 @@ public static bool Is(this SyntaxKind kind, SyntaxKind kind1, SyntaxKind kind2, 
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 
 ## Is\(SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind\)
@@ -88,8 +84,6 @@ public static bool Is(this SyntaxKind kind, SyntaxKind kind1, SyntaxKind kind2, 
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 
 ## Is\(SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind\)
@@ -118,8 +112,6 @@ public static bool Is(this SyntaxKind kind, SyntaxKind kind1, SyntaxKind kind2, 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## Is\(SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind\)
 
 ### Summary
@@ -145,7 +137,5 @@ public static bool Is(this SyntaxKind kind, SyntaxKind kind1, SyntaxKind kind2, 
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 

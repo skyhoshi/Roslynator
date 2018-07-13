@@ -26,16 +26,16 @@ public enum NullCheckStyles
 | Name | Value | Summary |
 | ---- | ----- | ------- |
 | None | 0 | No null check specified\. |
-| EqualsToNull | 1 | x == null |
-| NotEqualsToNull | 2 | x \!= null |
+| EqualsToNull | 1 | `x == null` |
+| NotEqualsToNull | 2 | `x != null` |
 | ComparisonToNull | 3 | Expression that uses equality/inequality operator\. |
-| IsNull | 4 | x is null |
-| NotIsNull | 8 | \!\(x is null\) |
+| IsNull | 4 | `x is null` |
+| NotIsNull | 8 | `!(x is null)` |
 | IsPattern | 12 | Expression that uses pattern syntax\. |
-| NotHasValue | 16 | \!x\.HasValue |
+| NotHasValue | 16 | `!x.HasValue` |
 | CheckingNull | 21 | Expression that checks whether an expression is null\. |
-| HasValue | 32 | x\.HasValue |
+| HasValue | 32 | `x.HasValue` |
 | CheckingNotNull | 42 | Expression that checks whether an expression is not null\. |
-| HasValueProperty | 48 | Expression that uses  property\. |
+| HasValueProperty | 48 | Expression that uses [HasValue](https://docs.microsoft.com/en-us/dotnet/api/system.nullable-1.hasvalue) property\. |
 | All | 63 | All null check styles\. |
 

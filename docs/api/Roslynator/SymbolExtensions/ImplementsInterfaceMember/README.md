@@ -35,8 +35,6 @@ public static bool ImplementsInterfaceMember(this ISymbol symbol, bool allInterf
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## ImplementsInterfaceMember\(ISymbol, INamedTypeSymbol, Boolean\)
 
 ### Summary
@@ -58,8 +56,6 @@ public static bool ImplementsInterfaceMember(this ISymbol symbol, INamedTypeSymb
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 
 ## ImplementsInterfaceMember\<TSymbol>\(ISymbol, Boolean\)
@@ -90,8 +86,6 @@ public static bool ImplementsInterfaceMember<TSymbol>(this ISymbol symbol, bool 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## ImplementsInterfaceMember\<TSymbol>\(ISymbol, INamedTypeSymbol, Boolean\)
 
 ### Summary
@@ -119,7 +113,5 @@ public static bool ImplementsInterfaceMember<TSymbol>(this ISymbol symbol, IName
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 

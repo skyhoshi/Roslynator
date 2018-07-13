@@ -23,5 +23,3 @@ public static SyntaxTriviaList LeadingAndTrailingTrivia(this SyntaxToken token)
 [SyntaxTriviaList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtrivialist)
 
 
-
-

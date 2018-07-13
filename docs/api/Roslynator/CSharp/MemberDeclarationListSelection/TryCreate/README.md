@@ -35,7 +35,6 @@ public static bool TryCreate(NamespaceDeclarationSyntax namespaceDeclaration, Te
 
 True if the specified span contains at least one member; otherwise, false\.
 
-
 ## TryCreate\(TypeDeclarationSyntax, TextSpan, MemberDeclarationListSelection\)
 
 ### Summary
@@ -59,5 +58,3 @@ public static bool TryCreate(TypeDeclarationSyntax typeDeclaration, TextSpan spa
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 True if the specified span contains at least one member; otherwise, false\.
-
-

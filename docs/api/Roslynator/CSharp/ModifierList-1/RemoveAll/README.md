@@ -32,8 +32,6 @@ public TNode RemoveAll(TNode node)
 TNode
 
 
-
-
 ## RemoveAll\(TNode, Func\<SyntaxToken, Boolean>\)
 
 ### Summary
@@ -54,7 +52,5 @@ public TNode RemoveAll(TNode node, Func<SyntaxToken, bool> predicate)
 #### Returns
 
 TNode
-
-
 
 

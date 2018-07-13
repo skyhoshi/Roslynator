@@ -17,5 +17,3 @@ public Enumerator GetEnumerator()
 [TextLineCollectionSelection.Enumerator](../Enumerator/README.md)
 
 
-
-

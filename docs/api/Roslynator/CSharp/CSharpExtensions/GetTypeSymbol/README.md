@@ -36,8 +36,6 @@ public static ITypeSymbol GetTypeSymbol(this SemanticModel semanticModel, Attrib
 [ITypeSymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.itypesymbol)
 
 
-
-
 ## GetTypeSymbol\(SemanticModel, ConstructorInitializerSyntax, CancellationToken\)
 
 ### Summary
@@ -59,8 +57,6 @@ public static ITypeSymbol GetTypeSymbol(this SemanticModel semanticModel, Constr
 #### Returns
 
 [ITypeSymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.itypesymbol)
-
-
 
 
 ## GetTypeSymbol\(SemanticModel, ExpressionSyntax, CancellationToken\)
@@ -86,8 +82,6 @@ public static ITypeSymbol GetTypeSymbol(this SemanticModel semanticModel, Expres
 [ITypeSymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.itypesymbol)
 
 
-
-
 ## GetTypeSymbol\(SemanticModel, SelectOrGroupClauseSyntax, CancellationToken\)
 
 ### Summary
@@ -109,7 +103,5 @@ public static ITypeSymbol GetTypeSymbol(this SemanticModel semanticModel, Select
 #### Returns
 
 [ITypeSymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.itypesymbol)
-
-
 
 

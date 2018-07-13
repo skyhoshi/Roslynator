@@ -25,5 +25,3 @@ public static Task<Document> RemoveTriviaAsync(this Document document, TextSpan 
 [Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)\<[Document](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.document)>
 
 
-
-

@@ -42,8 +42,6 @@ public static TNode Insert<TNode>(TNode node, SyntaxKind kind, IComparer<SyntaxK
 TNode
 
 
-
-
 ## Insert\<TNode>\(TNode, SyntaxToken, IComparer\<SyntaxToken>\)
 
 ### Summary
@@ -73,8 +71,6 @@ public static TNode Insert<TNode>(TNode node, SyntaxToken modifier, IComparer<Sy
 TNode
 
 
-
-
 ## Insert\(SyntaxTokenList, SyntaxKind, IComparer\<SyntaxKind>\)
 
 ### Summary
@@ -98,8 +94,6 @@ public static SyntaxTokenList Insert(SyntaxTokenList modifiers, SyntaxKind kind,
 [SyntaxTokenList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtokenlist)
 
 
-
-
 ## Insert\(SyntaxTokenList, SyntaxToken, IComparer\<SyntaxToken>\)
 
 ### Summary
@@ -121,7 +115,5 @@ public static SyntaxTokenList Insert(SyntaxTokenList modifiers, SyntaxToken modi
 #### Returns
 
 [SyntaxTokenList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtokenlist)
-
-
 
 

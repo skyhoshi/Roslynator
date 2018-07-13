@@ -32,8 +32,6 @@ public int IndexOf(Func<UsingDirectiveSyntax, bool> predicate)
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
 
 
-
-
 ## IndexOf\(UsingDirectiveSyntax\)
 
 ### Summary
@@ -53,7 +51,5 @@ public int IndexOf(UsingDirectiveSyntax usingDirective)
 #### Returns
 
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
-
-
 
 

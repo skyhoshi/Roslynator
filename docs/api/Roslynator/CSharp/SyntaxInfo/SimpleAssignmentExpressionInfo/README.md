@@ -34,8 +34,6 @@ public static SimpleAssignmentExpressionInfo SimpleAssignmentExpressionInfo(Synt
 [SimpleAssignmentExpressionInfo](../../Syntax/SimpleAssignmentExpressionInfo/README.md)
 
 
-
-
 ## SimpleAssignmentExpressionInfo\(AssignmentExpressionSyntax, Boolean, Boolean\)
 
 ### Summary
@@ -57,7 +55,5 @@ public static SimpleAssignmentExpressionInfo SimpleAssignmentExpressionInfo(Assi
 #### Returns
 
 [SimpleAssignmentExpressionInfo](../../Syntax/SimpleAssignmentExpressionInfo/README.md)
-
-
 
 

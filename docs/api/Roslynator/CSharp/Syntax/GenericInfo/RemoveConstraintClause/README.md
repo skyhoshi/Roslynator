@@ -23,5 +23,3 @@ public GenericInfo RemoveConstraintClause(TypeParameterConstraintClauseSyntax co
 [GenericInfo](../README.md)
 
 
-
-

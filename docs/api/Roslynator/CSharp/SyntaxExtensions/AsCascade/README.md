@@ -23,5 +23,3 @@ public static IfStatementCascade AsCascade(this IfStatementSyntax ifStatement)
 [IfStatementCascade](../../IfStatementCascade/README.md)
 
 
-
-

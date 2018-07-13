@@ -25,5 +25,3 @@ public static CompilationUnitSyntax AddUsings(this CompilationUnitSyntax compila
 [CompilationUnitSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.compilationunitsyntax)
 
 
-
-

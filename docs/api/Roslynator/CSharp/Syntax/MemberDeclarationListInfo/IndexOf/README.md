@@ -32,8 +32,6 @@ public int IndexOf(Func<MemberDeclarationSyntax, bool> predicate)
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
 
 
-
-
 ## IndexOf\(MemberDeclarationSyntax\)
 
 ### Summary
@@ -53,7 +51,5 @@ public int IndexOf(MemberDeclarationSyntax member)
 #### Returns
 
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
-
-
 
 

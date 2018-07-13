@@ -34,8 +34,6 @@ public static Task<Document> WithTextChangesAsync(this Document document, TextCh
 [Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)\<[Document](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.document)>
 
 
-
-
 ## WithTextChangesAsync\(Document, IEnumerable\<TextChange>, CancellationToken\)
 
 ### Summary
@@ -57,7 +55,5 @@ public static Task<Document> WithTextChangesAsync(this Document document, IEnume
 #### Returns
 
 [Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)\<[Document](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.document)>
-
-
 
 

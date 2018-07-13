@@ -27,8 +27,6 @@ public IEnumerable<ExpressionSyntax> Expressions(bool leftToRight = false)
 
 [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)\<[ExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.expressionsyntax)>
 
-
-
 ### Attributes
 
 [ObsoleteAttribute](https://docs.microsoft.com/en-us/dotnet/api/system.obsoleteattribute)

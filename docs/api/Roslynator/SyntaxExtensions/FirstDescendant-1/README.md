@@ -40,8 +40,6 @@ public static TNode FirstDescendant<TNode>(this SyntaxNode node, Func<SyntaxNode
 TNode
 
 
-
-
 ## FirstDescendant\<TNode>\(SyntaxNode, TextSpan, Func\<SyntaxNode, Boolean>, Boolean\)
 
 ### Summary
@@ -70,7 +68,5 @@ public static TNode FirstDescendant<TNode>(this SyntaxNode node, TextSpan span, 
 #### Returns
 
 TNode
-
-
 
 

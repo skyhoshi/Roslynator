@@ -24,5 +24,3 @@ public UsingDirectiveListInfo RemoveNode(SyntaxNode node, SyntaxRemoveOptions op
 [UsingDirectiveListInfo](../README.md)
 
 
-
-

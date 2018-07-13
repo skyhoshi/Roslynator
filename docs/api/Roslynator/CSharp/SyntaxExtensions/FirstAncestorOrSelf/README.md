@@ -36,8 +36,6 @@ public static SyntaxNode FirstAncestorOrSelf(this SyntaxNode node, SyntaxKind ki
 [SyntaxNode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxnode)
 
 
-
-
 ## FirstAncestorOrSelf\(SyntaxNode, SyntaxKind, SyntaxKind, Boolean\)
 
 ### Summary
@@ -60,8 +58,6 @@ public static SyntaxNode FirstAncestorOrSelf(this SyntaxNode node, SyntaxKind ki
 #### Returns
 
 [SyntaxNode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxnode)
-
-
 
 
 ## FirstAncestorOrSelf\(SyntaxNode, SyntaxKind, SyntaxKind, SyntaxKind, Boolean\)
@@ -89,8 +85,6 @@ public static SyntaxNode FirstAncestorOrSelf(this SyntaxNode node, SyntaxKind ki
 [SyntaxNode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxnode)
 
 
-
-
 ## FirstAncestorOrSelf\(SyntaxNode, Func\<SyntaxNode, Boolean>, Boolean\)
 
 ### Summary
@@ -112,7 +106,5 @@ public static SyntaxNode FirstAncestorOrSelf(this SyntaxNode node, Func<SyntaxNo
 #### Returns
 
 [SyntaxNode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxnode)
-
-
 
 

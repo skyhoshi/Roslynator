@@ -17,5 +17,3 @@ public Enumerator GetEnumerator()
 [ExpressionChain.Enumerator](../Enumerator/README.md)
 
 
-
-

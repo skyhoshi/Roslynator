@@ -23,5 +23,3 @@ public static SyntaxTrivia GetSingleLineDocumentationCommentTrivia(this MemberDe
 [SyntaxTrivia](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtrivia)
 
 
-
-

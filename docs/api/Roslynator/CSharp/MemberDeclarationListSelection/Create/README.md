@@ -34,8 +34,6 @@ public static MemberDeclarationListSelection Create(CompilationUnitSyntax compil
 [MemberDeclarationListSelection](../README.md)
 
 
-
-
 ## Create\(NamespaceDeclarationSyntax, TextSpan\)
 
 ### Summary
@@ -58,8 +56,6 @@ public static MemberDeclarationListSelection Create(NamespaceDeclarationSyntax n
 [MemberDeclarationListSelection](../README.md)
 
 
-
-
 ## Create\(TypeDeclarationSyntax, TextSpan\)
 
 ### Summary
@@ -80,7 +76,5 @@ public static MemberDeclarationListSelection Create(TypeDeclarationSyntax typeDe
 #### Returns
 
 [MemberDeclarationListSelection](../README.md)
-
-
 
 

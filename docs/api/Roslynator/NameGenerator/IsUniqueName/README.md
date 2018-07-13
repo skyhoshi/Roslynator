@@ -34,8 +34,6 @@ public static bool IsUniqueName(string name, ImmutableArray<ISymbol> symbols, bo
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## IsUniqueName\(String, IEnumerable\<String>, Boolean\)
 
 ### Summary
@@ -57,7 +55,5 @@ public static bool IsUniqueName(string name, IEnumerable<string> reservedNames, 
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 

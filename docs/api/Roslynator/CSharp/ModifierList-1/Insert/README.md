@@ -34,8 +34,6 @@ public TNode Insert(TNode node, SyntaxKind kind, IComparer<SyntaxKind> comparer 
 TNode
 
 
-
-
 ## Insert\(TNode, SyntaxToken, IComparer\<SyntaxToken>\)
 
 ### Summary
@@ -57,7 +55,5 @@ public TNode Insert(TNode node, SyntaxToken modifier, IComparer<SyntaxToken> com
 #### Returns
 
 TNode
-
-
 
 

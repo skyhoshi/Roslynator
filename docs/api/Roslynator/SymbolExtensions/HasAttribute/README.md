@@ -33,8 +33,6 @@ public static bool HasAttribute(this ISymbol symbol, INamedTypeSymbol attributeC
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## HasAttribute\(ITypeSymbol, INamedTypeSymbol, Boolean\)
 
 ### Summary
@@ -56,7 +54,5 @@ public static bool HasAttribute(this ITypeSymbol typeSymbol, INamedTypeSymbol at
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 

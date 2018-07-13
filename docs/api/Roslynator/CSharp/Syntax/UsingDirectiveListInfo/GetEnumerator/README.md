@@ -17,5 +17,3 @@ public Enumerator GetEnumerator()
 [SyntaxList\<UsingDirectiveSyntax>.Enumerator](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1.enumerator)
 
 
-
-

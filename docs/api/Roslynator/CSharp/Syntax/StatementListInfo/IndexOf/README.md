@@ -32,8 +32,6 @@ public int IndexOf(Func<StatementSyntax, bool> predicate)
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
 
 
-
-
 ## IndexOf\(StatementSyntax\)
 
 ### Summary
@@ -53,7 +51,5 @@ public int IndexOf(StatementSyntax statement)
 #### Returns
 
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
-
-
 
 

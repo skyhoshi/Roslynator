@@ -6,7 +6,6 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using Roslynator.CSharp;
 
@@ -601,10 +600,7 @@ namespace Roslynator.Documentation
                 WriteLink(returnType, FormatProvider.ReturnValueFormat);
                 WriteLine();
 
-                XElement returns = CompilationInfo.GetDocumentationElement(symbol, "returns");
-
-                if (returns != null)
-                    WriteElementContent(returns);
+                CompilationInfo.GetDocumentation(symbol)?.WriteElementContentTo(this, "returns");
             }
         }
 
@@ -703,7 +699,7 @@ namespace Roslynator.Documentation
                 && !typeSymbol.IsStatic)
             {
                 using (IEnumerator<INamedTypeSymbol> en = CompilationInfo
-                    .DerivedTypes(typeSymbol)
+                    .GetDerivedTypes(typeSymbol)
                     .OrderBy(f => f.ToDisplayString(FormatProvider.DerivedFormat))
                     .GetEnumerator())
                 {
@@ -774,48 +770,7 @@ namespace Roslynator.Documentation
 
         public virtual void WriteExceptions(ISymbol symbol)
         {
-            using (IEnumerator<(XElement element, ISymbol exceptionSymbol)> en = GetExceptions().GetEnumerator())
-            {
-                if (en.MoveNext())
-                {
-                    WriteHeading(3, Resources.ExceptionsTitle);
-
-                    do
-                    {
-                        XElement element = en.Current.element;
-                        ISymbol exceptionSymbol = en.Current.exceptionSymbol;
-
-                        WriteLink(exceptionSymbol, FormatProvider.TypeFormat);
-                        WriteLine();
-                        WriteLine();
-                        WriteElementContent(element);
-                        WriteLine();
-                        WriteLine();
-                    }
-                    while (en.MoveNext());
-                }
-            }
-
-            IEnumerable<(XElement element, ISymbol exceptionSymbol)> GetExceptions()
-            {
-                XElement element = CompilationInfo.GetDocumentationElement(symbol);
-
-                if (element != null)
-                {
-                    foreach (XElement e in element.Elements("exception"))
-                    {
-                        string commentId = e.Attribute("cref")?.Value;
-
-                        if (commentId != null)
-                        {
-                            ISymbol exceptionSymbol = CompilationInfo.GetFirstSymbolForReferenceId(commentId);
-
-                            if (exceptionSymbol != null)
-                                yield return (e, exceptionSymbol);
-                        }
-                    }
-                }
-            }
+            CompilationInfo.GetDocumentation(symbol)?.WriteExceptionsTo(this);
         }
 
         public virtual void WriteExamples(ISymbol symbol)
@@ -851,7 +806,16 @@ namespace Roslynator.Documentation
                         WriteStartTableRow();
                         WriteTableCell(fieldSymbol.ToDisplayString(FormatProvider.FieldFormat));
                         WriteTableCell(fieldSymbol.ConstantValue.ToString());
-                        WriteTableCell(CompilationInfo.GetDocumentationElement(fieldSymbol, "summary")?.Value.Trim());
+
+                        SymbolXmlDocumentation xmlDocumentation = CompilationInfo.GetDocumentation(fieldSymbol);
+
+                        if (xmlDocumentation != null)
+                        {
+                            WriteStartTableCell();
+                            xmlDocumentation.WriteElementContentTo(this, "summary", inlineOnly: true);
+                            WriteEndTableCell();
+                        }
+
                         WriteEndTableRow();
                     }
                     while (en.MoveNext());
@@ -909,389 +873,12 @@ namespace Roslynator.Documentation
 
         public virtual void WriteSeeAlso(ISymbol symbol)
         {
-            using (IEnumerator<ISymbol> en = GetSymbols().GetEnumerator())
-            {
-                if (en.MoveNext())
-                {
-                    WriteHeading(2, Resources.SeeAlsoTitle);
-
-                    WriteStartBulletList();
-
-                    do
-                    {
-                        WriteBulletItemLink(en.Current, FormatProvider.CrefFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName);
-                    }
-                    while (en.MoveNext());
-
-                    WriteEndBulletList();
-                }
-            }
-
-            IEnumerable<ISymbol> GetSymbols()
-            {
-                XElement element = CompilationInfo.GetDocumentationElement(symbol);
-
-                if (element != null)
-                {
-                    foreach (XElement e in element.Elements("seealso"))
-                    {
-                        string commentId = e.Attribute("cref")?.Value;
-
-                        if (commentId != null)
-                        {
-                            ISymbol symbol2 = CompilationInfo.GetFirstSymbolForReferenceId(commentId);
-
-                            if (symbol2 != null)
-                                yield return symbol2;
-                        }
-                    }
-                }
-            }
+            CompilationInfo.GetDocumentation(symbol)?.WriteSeeAlsoTo(this);
         }
 
         private void WriteSection(ISymbol symbol, string heading, string elementName)
         {
-            XElement element = CompilationInfo.GetDocumentationElement(symbol, elementName);
-
-            if (element == null)
-                return;
-
-            if (heading != null)
-            {
-                WriteHeading(2, heading);
-            }
-            else
-            {
-                WriteLine();
-            }
-
-            WriteElementContent(element);
-        }
-
-        protected internal void WriteElementContent(XElement element, bool isNested = false)
-        {
-            using (IEnumerator<XNode> en = element.Nodes().GetEnumerator())
-            {
-                if (en.MoveNext())
-                {
-                    XNode node = null;
-
-                    bool isFirst = true;
-                    bool isLast = false;
-
-                    do
-                    {
-                        node = en.Current;
-
-                        isLast = !en.MoveNext();
-
-                        if (node is XText t)
-                        {
-                            string value = t.Value;
-                            value = TextUtility.RemoveLeadingTrailingNewLine(value, isFirst, isLast);
-
-                            if (isNested)
-                                value = TextUtility.ToSingleLine(value);
-
-                            WriteString(value);
-                        }
-                        else if (node is XElement e)
-                        {
-                            switch (XmlElementNameKindMapper.GetKindOrDefault(e.Name.LocalName))
-                            {
-                                case XmlElementKind.C:
-                                    {
-                                        string value = e.Value;
-                                        value = TextUtility.ToSingleLine(value);
-                                        WriteInlineCode(value);
-                                        break;
-                                    }
-                                case XmlElementKind.Code:
-                                    {
-                                        if (isNested)
-                                            break;
-
-                                        string value = e.Value;
-                                        value = TextUtility.RemoveLeadingTrailingNewLine(value);
-                                        WriteCodeBlock(value, GetLanguageIdentifier(Symbol.Language));
-
-                                        break;
-                                    }
-                                case XmlElementKind.List:
-                                    {
-                                        if (isNested)
-                                            break;
-
-                                        string type = e.Attribute("type")?.Value;
-
-                                        if (!string.IsNullOrEmpty(type))
-                                        {
-                                            switch (type)
-                                            {
-                                                case "bullet":
-                                                    {
-                                                        WriteList(e.Elements());
-                                                        break;
-                                                    }
-                                                case "number":
-                                                    {
-                                                        WriteList(e.Elements(), isOrdered: true);
-                                                        break;
-                                                    }
-                                                case "table":
-                                                    {
-                                                        WriteTable(e.Elements());
-                                                        break;
-                                                    }
-                                                default:
-                                                    {
-                                                        Debug.Fail(type);
-                                                        break;
-                                                    }
-                                            }
-                                        }
-
-                                        break;
-                                    }
-                                case XmlElementKind.Para:
-                                    {
-                                        WriteLine();
-                                        WriteLine();
-                                        WriteElementContent(e);
-                                        WriteLine();
-                                        WriteLine();
-                                        break;
-                                    }
-                                case XmlElementKind.ParamRef:
-                                    {
-                                        string parameterName = e.Attribute("name")?.Value;
-
-                                        if (parameterName != null)
-                                            WriteBold(parameterName);
-
-                                        break;
-                                    }
-                                case XmlElementKind.See:
-                                    {
-                                        string commentId = e.Attribute("cref")?.Value;
-
-                                        if (commentId != null)
-                                        {
-                                            ISymbol symbol = CompilationInfo.GetFirstSymbolForDeclarationId(commentId);
-
-                                            //XTODO: repair roslyn documentation
-                                            Debug.Assert(symbol != null
-                                                || commentId == "T:Microsoft.CodeAnalysis.CSharp.SyntaxNode"
-                                                || commentId == "T:Microsoft.CodeAnalysis.CSharp.SyntaxToken"
-                                                || commentId == "T:Microsoft.CodeAnalysis.CSharp.SyntaxTrivia"
-                                                || commentId == "T:Microsoft.CodeAnalysis.VisualBasic.SyntaxNode"
-                                                || commentId == "T:Microsoft.CodeAnalysis.VisualBasic.SyntaxToken"
-                                                || commentId == "T:Microsoft.CodeAnalysis.VisualBasic.SyntaxTrivia", commentId);
-
-                                            if (symbol != null)
-                                            {
-                                                WriteLink(symbol, FormatProvider.CrefFormat, SymbolDisplayAdditionalOptions.UseItemProperty | SymbolDisplayAdditionalOptions.UseOperatorName);
-                                            }
-                                            else
-                                            {
-                                                WriteBold(TextUtility.RemovePrefixFromDocumentationCommentId(commentId));
-                                            }
-                                        }
-
-                                        break;
-                                    }
-                                case XmlElementKind.TypeParamRef:
-                                    {
-                                        string typeParameterName = e.Attribute("name")?.Value;
-
-                                        if (typeParameterName != null)
-                                            WriteBold(typeParameterName);
-
-                                        break;
-                                    }
-                                case XmlElementKind.Example:
-                                case XmlElementKind.Exception:
-                                case XmlElementKind.Exclude:
-                                case XmlElementKind.Include:
-                                case XmlElementKind.InheritDoc:
-                                case XmlElementKind.Param:
-                                case XmlElementKind.Permission:
-                                case XmlElementKind.Remarks:
-                                case XmlElementKind.Returns:
-                                case XmlElementKind.SeeAlso:
-                                case XmlElementKind.Summary:
-                                case XmlElementKind.TypeParam:
-                                case XmlElementKind.Value:
-                                    {
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        Debug.Fail(e.Name.LocalName);
-                                        break;
-                                    }
-                            }
-                        }
-                        else
-                        {
-                            Debug.Fail(node.NodeType.ToString());
-                        }
-
-                        isFirst = false;
-                    }
-                    while (!isLast);
-                }
-            }
-        }
-
-        private void WriteList(IEnumerable<XElement> elements, bool isOrdered = false)
-        {
-            int number = 1;
-
-            using (IEnumerator<XElement> en = Iterator().GetEnumerator())
-            {
-                if (en.MoveNext())
-                {
-                    if (isOrdered)
-                    {
-                        WriteStartOrderedList();
-                    }
-                    else
-                    {
-                        WriteStartBulletList();
-                    }
-
-                    do
-                    {
-                        WriteStartItem();
-                        WriteElementContent(en.Current, isNested: true);
-                        WriteEndItem();
-                    }
-                    while (en.MoveNext());
-
-                    if (isOrdered)
-                    {
-                        WriteEndOrderedList();
-                    }
-                    else
-                    {
-                        WriteEndBulletList();
-                    }
-                }
-            }
-
-            IEnumerable<XElement> Iterator()
-            {
-                foreach (XElement element in elements)
-                {
-                    if (element.Name.LocalName == "item")
-                    {
-                        using (IEnumerator<XElement> en = element.Elements().GetEnumerator())
-                        {
-                            if (en.MoveNext())
-                            {
-                                XElement element2 = en.Current;
-
-                                if (element2.Name.LocalName == "description")
-                                {
-                                    yield return element2;
-                                }
-                            }
-                            else
-                            {
-                                yield return element;
-                            }
-                        }
-                    }
-                }
-            }
-
-            void WriteStartItem()
-            {
-                if (isOrdered)
-                {
-                    WriteStartOrderedItem(number);
-                    number++;
-                }
-                else
-                {
-                    WriteStartBulletItem();
-                }
-            }
-
-            void WriteEndItem()
-            {
-                if (isOrdered)
-                {
-                    WriteEndOrderedItem();
-                }
-                else
-                {
-                    WriteEndBulletItem();
-                }
-            }
-        }
-
-        private void WriteTable(IEnumerable<XElement> elements)
-        {
-            using (IEnumerator<XElement> en = elements.GetEnumerator())
-            {
-                if (en.MoveNext())
-                {
-                    XElement element = en.Current;
-
-                    string name = element.Name.LocalName;
-
-                    if (name == "listheader"
-                        && en.MoveNext())
-                    {
-                        int columnCount = element.Elements().Count();
-
-                        WriteStartTable(columnCount);
-                        WriteStartTableRow();
-
-                        foreach (XElement element2 in element.Elements())
-                        {
-                            WriteStartTableCell();
-                            WriteElementContent(element2, isNested: true);
-                            WriteEndTableCell();
-                        }
-
-                        WriteEndTableRow();
-                        WriteTableHeaderSeparator();
-
-                        do
-                        {
-                            element = en.Current;
-
-                            WriteStartTableRow();
-
-                            int count = 0;
-                            foreach (XElement element2 in element.Elements())
-                            {
-                                WriteStartTableCell();
-                                WriteElementContent(element2, isNested: true);
-                                WriteEndTableCell();
-                                count++;
-
-                                if (count == columnCount)
-                                    break;
-                            }
-
-                            while (count < columnCount)
-                            {
-                                WriteTableCell(null);
-                                count++;
-                            }
-
-                            WriteEndTableRow();
-                        }
-                        while (en.MoveNext());
-
-                        WriteEndTable();
-                    }
-                }
-            }
+            CompilationInfo.GetDocumentation(symbol)?.WriteSectionTo(this, heading, elementName);
         }
 
         internal void WriteTable(
@@ -1349,10 +936,15 @@ namespace Roslynator.Documentation
                             && symbol.ContainingType != Symbol
                             && Symbol.Kind == SymbolKind.NamedType;
 
-                        XElement element = FindElement((isInherited) ? symbol.OriginalDefinition : symbol);
-
-                        if (element != null)
-                            WriteElementContent(element, isNested: true);
+                        if (symbol.IsKind(SymbolKind.Parameter, SymbolKind.TypeParameter))
+                        {
+                            CompilationInfo.GetDocumentation(symbol.ContainingSymbol)?.WriteParamContentTo(this, symbol.Name);
+                        }
+                        else
+                        {
+                            ISymbol symbol2 = (isInherited) ? symbol.OriginalDefinition : symbol;
+                            CompilationInfo.GetDocumentation(symbol2)?.WriteElementContentTo(this, "summary", inlineOnly: true);
+                        }
 
                         if (isInherited)
                         {
@@ -1371,35 +963,6 @@ namespace Roslynator.Documentation
 
                     WriteEndTable();
                 }
-            }
-
-            XElement FindElement(ISymbol symbol)
-            {
-                switch (symbol.Kind)
-                {
-                    case SymbolKind.Parameter:
-                        return FindElementWithName(symbol, "param");
-                    case SymbolKind.TypeParameter:
-                        return FindElementWithName(symbol, "typeparam");
-                    default:
-                        return CompilationInfo.GetDocumentationElement(symbol, "summary");
-                }
-            }
-
-            XElement FindElementWithName(ISymbol symbol, string name)
-            {
-                XElement element = CompilationInfo.GetDocumentationElement(symbol.ContainingSymbol);
-
-                if (element != null)
-                {
-                    foreach (XElement e in element.Elements(name))
-                    {
-                        if (e.Attribute("name")?.Value == symbol.Name)
-                            return e;
-                    }
-                }
-
-                return null;
             }
         }
 

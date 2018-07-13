@@ -23,5 +23,3 @@ public static bool IsWhitespaceOrEndOfLineTrivia(this SyntaxTrivia trivia)
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-

@@ -33,7 +33,6 @@ public Foo this[int index] { get; set; }
 
 v
 
-
 ## Item\[Int32, Int32\]
 
 ### Summary
@@ -56,5 +55,3 @@ public Foo this[int index, int index2] { get; set; }
 [Foo](../README.md)
 
 v
-
-

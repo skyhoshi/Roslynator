@@ -31,5 +31,3 @@ public static TNode FirstAncestor<TNode>(this SyntaxNode node, Func<TNode, bool>
 TNode
 
 
-
-

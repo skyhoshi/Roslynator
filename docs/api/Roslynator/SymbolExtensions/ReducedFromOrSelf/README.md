@@ -23,5 +23,3 @@ public static IMethodSymbol ReducedFromOrSelf(this IMethodSymbol methodSymbol)
 [IMethodSymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.imethodsymbol)
 
 
-
-

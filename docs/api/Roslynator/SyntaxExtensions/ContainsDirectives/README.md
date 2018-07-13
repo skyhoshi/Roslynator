@@ -24,5 +24,3 @@ public static bool ContainsDirectives(this SyntaxNode node, TextSpan span)
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-

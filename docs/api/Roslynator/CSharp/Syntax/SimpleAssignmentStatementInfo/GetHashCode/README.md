@@ -17,5 +17,3 @@ public override int GetHashCode()
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
 
 A 32\-bit signed integer that is the hash code for this instance\.
-
-

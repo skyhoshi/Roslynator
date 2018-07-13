@@ -23,5 +23,3 @@ public static StatementListInfo StatementListInfo(StatementSyntax statement)
 [StatementListInfo](../../Syntax/StatementListInfo/README.md)
 
 
-
-

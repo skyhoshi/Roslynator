@@ -41,8 +41,6 @@ public static bool Contains<TNode>(this SeparatedSyntaxList<TNode> list, SyntaxK
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## Contains\<TNode>\(SyntaxList\<TNode>, SyntaxKind\)
 
 ### Summary
@@ -71,8 +69,6 @@ public static bool Contains<TNode>(this SyntaxList<TNode> list, SyntaxKind kind)
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## Contains\(SyntaxTokenList, SyntaxKind\)
 
 ### Summary
@@ -95,8 +91,6 @@ public static bool Contains(this SyntaxTokenList tokenList, SyntaxKind kind)
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## Contains\(SyntaxTriviaList, SyntaxKind\)
 
 ### Summary
@@ -117,7 +111,5 @@ public static bool Contains(this SyntaxTriviaList triviaList, SyntaxKind kind)
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 

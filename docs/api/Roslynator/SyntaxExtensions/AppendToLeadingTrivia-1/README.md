@@ -41,8 +41,6 @@ public static TNode AppendToLeadingTrivia<TNode>(this TNode node, IEnumerable<Sy
 TNode
 
 
-
-
 ## AppendToLeadingTrivia\<TNode>\(TNode, SyntaxTrivia\)
 
 ### Summary
@@ -71,8 +69,6 @@ public static TNode AppendToLeadingTrivia<TNode>(this TNode node, SyntaxTrivia t
 TNode
 
 
-
-
 ## AppendToLeadingTrivia\(SyntaxToken, IEnumerable\<SyntaxTrivia>\)
 
 ### Summary
@@ -95,8 +91,6 @@ public static SyntaxToken AppendToLeadingTrivia(this SyntaxToken token, IEnumera
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
 
 
-
-
 ## AppendToLeadingTrivia\(SyntaxToken, SyntaxTrivia\)
 
 ### Summary
@@ -117,7 +111,5 @@ public static SyntaxToken AppendToLeadingTrivia(this SyntaxToken token, SyntaxTr
 #### Returns
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
-
-
 
 

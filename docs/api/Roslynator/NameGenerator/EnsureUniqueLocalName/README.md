@@ -27,5 +27,3 @@ public string EnsureUniqueLocalName(string baseName, SemanticModel semanticModel
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
 
 
-
-

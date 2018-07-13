@@ -32,8 +32,6 @@ public StatementListInfo WithStatements(IEnumerable<StatementSyntax> statements)
 [StatementListInfo](../README.md)
 
 
-
-
 ## WithStatements\(SyntaxList\<StatementSyntax>\)
 
 ### Summary
@@ -53,7 +51,5 @@ public StatementListInfo WithStatements(SyntaxList<StatementSyntax> statements)
 #### Returns
 
 [StatementListInfo](../README.md)
-
-
 
 

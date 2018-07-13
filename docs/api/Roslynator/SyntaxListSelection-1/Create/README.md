@@ -24,5 +24,3 @@ public static SyntaxListSelection<TNode> Create(SyntaxList<TNode> list, TextSpan
 [SyntaxListSelection\<TNode>](../README.md)
 
 
-
-

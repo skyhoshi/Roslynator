@@ -35,8 +35,6 @@ public static Task<Document> ReplaceTriviaAsync(this Document document, SyntaxTr
 [Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)\<[Document](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.document)>
 
 
-
-
 ## ReplaceTriviaAsync\(Document, SyntaxTrivia, IEnumerable\<SyntaxTrivia>, CancellationToken\)
 
 ### Summary
@@ -59,7 +57,5 @@ public static Task<Document> ReplaceTriviaAsync(this Document document, SyntaxTr
 #### Returns
 
 [Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)\<[Document](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.document)>
-
-
 
 

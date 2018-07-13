@@ -17,5 +17,3 @@ public Enumerator GetEnumerator()
 [SyntaxListSelection\<TNode>.Enumerator](../Enumerator/README.md)
 
 
-
-

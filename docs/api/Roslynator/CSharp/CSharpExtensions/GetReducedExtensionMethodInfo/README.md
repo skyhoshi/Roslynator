@@ -25,5 +25,3 @@ public static ExtensionMethodSymbolInfo GetReducedExtensionMethodInfo(this Seman
 [ExtensionMethodSymbolInfo](../../../ExtensionMethodSymbolInfo/README.md)
 
 
-
-

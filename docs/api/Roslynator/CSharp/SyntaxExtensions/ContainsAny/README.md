@@ -36,8 +36,6 @@ public static bool ContainsAny(this SyntaxTokenList tokenList, SyntaxKind kind1,
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## ContainsAny\(SyntaxTokenList, SyntaxKind, SyntaxKind, SyntaxKind\)
 
 ### Summary
@@ -60,8 +58,6 @@ public static bool ContainsAny(this SyntaxTokenList tokenList, SyntaxKind kind1,
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 
 ## ContainsAny\(SyntaxTokenList, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind\)
@@ -89,8 +85,6 @@ public static bool ContainsAny(this SyntaxTokenList tokenList, SyntaxKind kind1,
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
 ## ContainsAny\(SyntaxTokenList, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind\)
 
 ### Summary
@@ -115,7 +109,5 @@ public static bool ContainsAny(this SyntaxTokenList tokenList, SyntaxKind kind1,
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
-
 
 

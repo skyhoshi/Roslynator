@@ -25,5 +25,3 @@ public static bool IsLast(this SyntaxList<StatementSyntax> statements, Statement
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-

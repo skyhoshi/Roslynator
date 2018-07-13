@@ -25,5 +25,3 @@ public static bool EqualsOrInheritsFrom(this ITypeSymbol type, ITypeSymbol baseT
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
 
-
-
