@@ -13,8 +13,8 @@ namespace Roslynator.Documentation
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public sealed class SymbolDocumentationInfo
     {
-        private ImmutableArray<ISymbol> _publiclyVisibleMembers;
-        private ImmutableArray<ISymbol> _publiclyVisibleMembersIncludingInherited;
+        private ImmutableArray<ISymbol> _members;
+        private ImmutableArray<ISymbol> _membersIncludingInherited;
 
         private SymbolDocumentationInfo(
             ISymbol symbol,
@@ -51,37 +51,46 @@ namespace Roslynator.Documentation
             get { return $"{Symbol.Kind} {Symbol.ToDisplayString(Roslynator.SymbolDisplayFormats.Test)}"; }
         }
 
-        public ImmutableArray<ISymbol> GetPubliclyVisibleMembers(bool includeInherited = false)
+        public ImmutableArray<ISymbol> Members
         {
-            if (includeInherited)
+            get
             {
-                if (_publiclyVisibleMembersIncludingInherited.IsDefault)
+                if (_members.IsDefault)
+                {
+                    _members = (Symbol is ITypeSymbol typeSymbol)
+                        ? typeSymbol.GetMembers(CompilationInfo.Predicate)
+                        : ImmutableArray<ISymbol>.Empty;
+                }
+
+                return _members;
+            }
+        }
+
+        public ImmutableArray<ISymbol> MembersIncludingInherited
+        {
+            get
+            {
+                if (_membersIncludingInherited.IsDefault)
                 {
                     if (Symbol.IsStatic)
                     {
-                        _publiclyVisibleMembersIncludingInherited = GetPubliclyVisibleMembers();
+                        _membersIncludingInherited = Members;
                     }
                     else
                     {
-                        _publiclyVisibleMembersIncludingInherited = (Symbol is ITypeSymbol typeSymbol)
-                            ? typeSymbol.GetPubliclyVisibleMembers(includeInherited: true)
+                        _membersIncludingInherited = (Symbol is ITypeSymbol typeSymbol)
+                            ? typeSymbol.GetMembers(CompilationInfo.Predicate, includeInherited: true)
                             : ImmutableArray<ISymbol>.Empty;
                     }
                 }
 
-                return _publiclyVisibleMembersIncludingInherited;
+                return _membersIncludingInherited;
             }
-            else
-            {
-                if (_publiclyVisibleMembers.IsDefault)
-                {
-                    _publiclyVisibleMembers = (Symbol is ITypeSymbol typeSymbol)
-                        ? typeSymbol.GetPubliclyVisibleMembers()
-                        : ImmutableArray<ISymbol>.Empty;
-                }
+        }
 
-                return _publiclyVisibleMembers;
-            }
+        public ImmutableArray<ISymbol> GetMembers(bool includeInherited = false)
+        {
+            return (includeInherited) ? MembersIncludingInherited : Members;
         }
 
         internal static SymbolDocumentationInfo Create(CompilationDocumentationInfo compilation)
@@ -195,7 +204,7 @@ namespace Roslynator.Documentation
 
         public IEnumerable<IFieldSymbol> GetFields(bool includeInherited = false)
         {
-            foreach (ISymbol member in (GetPubliclyVisibleMembers(includeInherited)))
+            foreach (ISymbol member in (GetMembers(includeInherited)))
             {
                 if (member.Kind == SymbolKind.Field)
                     yield return (IFieldSymbol)member;
@@ -204,7 +213,7 @@ namespace Roslynator.Documentation
 
         public IEnumerable<IMethodSymbol> GetConstructors()
         {
-            foreach (ISymbol member in GetPubliclyVisibleMembers())
+            foreach (ISymbol member in Members)
             {
                 if (member.Kind == SymbolKind.Method)
                 {
@@ -224,7 +233,7 @@ namespace Roslynator.Documentation
 
         public IEnumerable<IPropertySymbol> GetProperties(bool includeInherited = false)
         {
-            foreach (ISymbol member in (GetPubliclyVisibleMembers(includeInherited)))
+            foreach (ISymbol member in (GetMembers(includeInherited)))
             {
                 if (member.Kind == SymbolKind.Property)
                     yield return (IPropertySymbol)member;
@@ -233,7 +242,7 @@ namespace Roslynator.Documentation
 
         public IEnumerable<IMethodSymbol> GetMethods(bool includeInherited = false)
         {
-            foreach (ISymbol member in (GetPubliclyVisibleMembers(includeInherited)))
+            foreach (ISymbol member in (GetMembers(includeInherited)))
             {
                 if (member.Kind == SymbolKind.Method)
                 {
@@ -247,7 +256,7 @@ namespace Roslynator.Documentation
 
         public IEnumerable<IMethodSymbol> GetOperators(bool includeInherited = false)
         {
-            foreach (ISymbol member in (GetPubliclyVisibleMembers(includeInherited)))
+            foreach (ISymbol member in (GetMembers(includeInherited)))
             {
                 if (member.Kind == SymbolKind.Method)
                 {
@@ -265,7 +274,7 @@ namespace Roslynator.Documentation
 
         public IEnumerable<IEventSymbol> GetEvents(bool includeInherited = false)
         {
-            foreach (ISymbol member in (GetPubliclyVisibleMembers(includeInherited)))
+            foreach (ISymbol member in (GetMembers(includeInherited)))
             {
                 if (member.Kind == SymbolKind.Event)
                     yield return (IEventSymbol)member;

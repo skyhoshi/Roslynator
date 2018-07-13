@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -9,18 +10,18 @@ namespace Roslynator.Documentation
 {
     internal static class SymbolExtensions
     {
-        public static ImmutableArray<INamedTypeSymbol> GetPubliclyVisibleTypes(this IAssemblySymbol assemblySymbol)
+        public static ImmutableArray<INamedTypeSymbol> GetTypes(this IAssemblySymbol assemblySymbol, Func<INamedTypeSymbol, bool> predicate = null)
         {
             ImmutableArray<INamedTypeSymbol>.Builder builder = ImmutableArray.CreateBuilder<INamedTypeSymbol>();
 
-            GetPubliclyVisibleNamespacesAndTypes(assemblySymbol.GlobalNamespace);
+            GetTypes(assemblySymbol.GlobalNamespace);
 
             return builder.ToImmutableArray();
 
-            void GetPubliclyVisibleNamespacesAndTypes(INamespaceOrTypeSymbol namespaceOrTypeSymbol)
+            void GetTypes(INamespaceOrTypeSymbol namespaceOrTypeSymbol)
             {
                 if (namespaceOrTypeSymbol is INamedTypeSymbol namedTypeSymbol
-                    && namedTypeSymbol.IsPubliclyVisible())
+                    && (predicate == null || predicate(namedTypeSymbol)))
                 {
                     builder.Add(namedTypeSymbol);
                 }
@@ -29,34 +30,36 @@ namespace Roslynator.Documentation
                 {
                     if (memberSymbol is INamespaceOrTypeSymbol namespaceOrTypeSymbol2)
                     {
-                        GetPubliclyVisibleNamespacesAndTypes(namespaceOrTypeSymbol2);
+                        GetTypes(namespaceOrTypeSymbol2);
                     }
                 }
             }
         }
 
-        public static ImmutableArray<ISymbol> GetPubliclyVisibleMembers(this ITypeSymbol typeSymbol, bool includeInherited = false)
+        public static ImmutableArray<ISymbol> GetMembers(this ITypeSymbol typeSymbol, Func<ISymbol, bool> predicate, bool includeInherited = false)
         {
             if (includeInherited)
             {
-                return GetPubliclyVisibleMembersIncludingInherited(typeSymbol);
+                return GetMembersIncludingInherited(typeSymbol, predicate);
             }
-            else
+            else if (predicate != null)
             {
                 return typeSymbol
                     .GetMembers()
-                    .Where(f => f.IsPubliclyVisible())
+                    .Where(predicate)
                     .ToImmutableArray();
             }
+
+            return typeSymbol.GetMembers();
         }
 
-        private static ImmutableArray<ISymbol> GetPubliclyVisibleMembersIncludingInherited(ITypeSymbol typeSymbol)
+        private static ImmutableArray<ISymbol> GetMembersIncludingInherited(ITypeSymbol typeSymbol, Func<ISymbol, bool> predicate = null)
         {
             ImmutableArray<ISymbol>.Builder builder = ImmutableArray.CreateBuilder<ISymbol>();
 
             HashSet<ISymbol> overriddenSymbols = null;
 
-            foreach (ISymbol symbol in GetPubliclyVisibleMembers(typeSymbol))
+            foreach (ISymbol symbol in GetMembers(typeSymbol, predicate: predicate))
             {
                 ISymbol overriddenSymbol = symbol.OverriddenSymbol();
 
@@ -75,7 +78,7 @@ namespace Roslynator.Documentation
                 foreach (ISymbol symbol in baseType.GetMembers())
                 {
                     if (!symbol.IsStatic
-                        && symbol.IsPubliclyVisible())
+                        && (predicate == null || predicate(symbol)))
                     {
                         if (overriddenSymbols?.Remove(symbol) != true)
                             builder.Add(symbol);

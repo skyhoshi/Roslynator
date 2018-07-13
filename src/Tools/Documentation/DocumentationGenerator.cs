@@ -513,6 +513,8 @@ namespace Roslynator.Documentation
 
         public DocumentationFile GenerateObjectModel(string heading)
         {
+            SymbolDisplayFormat format = FormatProvider.TypeFormat;
+
             using (DocumentationWriter writer = CreateWriter(_emptySymbolInfo, null))
             {
                 writer.WriteHeading1(heading);
@@ -523,31 +525,45 @@ namespace Roslynator.Documentation
                     {
                         case TypeKind.Class:
                             {
-                                if (!CompilationInfo.Types.Any(f => !f.IsStatic && f.TypeKind == TypeKind.Class))
-                                    break;
-
-                                INamedTypeSymbol objectType = CompilationInfo.Compilation.ObjectType;
-
-                                IEnumerable<INamedTypeSymbol> instanceClasses = CompilationInfo.Types.Where(f => !f.IsStatic && f.TypeKind == TypeKind.Class);
-
-                                var nodes = new HashSet<ITypeSymbol>(instanceClasses)
+                                if (CompilationInfo.Types.Any(f => !f.IsStatic && f.TypeKind == TypeKind.Class))
                                 {
-                                    objectType
-                                };
+                                    INamedTypeSymbol objectType = CompilationInfo.Compilation.ObjectType;
 
-                                foreach (INamedTypeSymbol type in instanceClasses)
-                                {
-                                    INamedTypeSymbol baseType = type.BaseType;
+                                    IEnumerable<INamedTypeSymbol> instanceClasses = CompilationInfo.Types.Where(f => !f.IsStatic && f.TypeKind == TypeKind.Class);
 
-                                    while (baseType != null)
+                                    var nodes = new HashSet<ITypeSymbol>(instanceClasses) { objectType };
+
+                                    foreach (INamedTypeSymbol type in instanceClasses)
                                     {
-                                        nodes.Add(baseType.OriginalDefinition);
-                                        baseType = baseType.BaseType;
+                                        INamedTypeSymbol baseType = type.BaseType;
+
+                                        while (baseType != null)
+                                        {
+                                            nodes.Add(baseType.OriginalDefinition);
+                                            baseType = baseType.BaseType;
+                                        }
+                                    }
+
+                                    writer.WriteHeading2(Resources.GetPluralName(typeKind));
+                                    WriteBulletItem(objectType, nodes, writer);
+                                }
+
+                                using (IEnumerator<INamedTypeSymbol> en = CompilationInfo.Types
+                                    .Where(f => f.IsStatic && f.TypeKind == TypeKind.Class)
+                                    .OrderBy(f => f.ToDisplayString(format)).GetEnumerator())
+                                {
+                                    if (en.MoveNext())
+                                    {
+                                        writer.WriteHeading2(Resources.StaticClassesTitle);
+
+                                        do
+                                        {
+                                            writer.WriteBulletItemLink(en.Current, format);
+                                        }
+                                        while (en.MoveNext());
                                     }
                                 }
 
-                                writer.WriteHeading2(Resources.GetPluralName(typeKind));
-                                WriteBulletItem(objectType, nodes, writer);
                                 break;
                             }
                         case TypeKind.Struct:
@@ -557,7 +573,7 @@ namespace Roslynator.Documentation
                             {
                                 using (IEnumerator<INamedTypeSymbol> en = CompilationInfo.Types
                                     .Where(f => f.TypeKind == typeKind)
-                                    .OrderBy(f => f.ToDisplayString(FormatProvider.TypeFormat)).GetEnumerator())
+                                    .OrderBy(f => f.ToDisplayString(format)).GetEnumerator())
                                 {
                                     if (en.MoveNext())
                                     {
@@ -565,7 +581,7 @@ namespace Roslynator.Documentation
 
                                         do
                                         {
-                                            writer.WriteBulletItemLink(en.Current, FormatProvider.TypeFormat);
+                                            writer.WriteBulletItemLink(en.Current, format);
                                         }
                                         while (en.MoveNext());
                                     }
@@ -582,13 +598,13 @@ namespace Roslynator.Documentation
             void WriteBulletItem(ITypeSymbol baseType, HashSet<ITypeSymbol> nodes, DocumentationWriter writer)
             {
                 writer.WriteStartBulletItem();
-                writer.WriteLink(baseType, FormatProvider.TypeFormat);
+                writer.WriteLink(baseType, format);
 
                 nodes.Remove(baseType);
 
                 foreach (ITypeSymbol derivedType in nodes
                     .Where(f => f.BaseType?.OriginalDefinition == baseType.OriginalDefinition)
-                    .OrderBy(f => f.ToDisplayString(FormatProvider.TypeFormat))
+                    .OrderBy(f => f.ToDisplayString(format))
                     .ToList())
                 {
                     WriteBulletItem(derivedType, nodes, writer);

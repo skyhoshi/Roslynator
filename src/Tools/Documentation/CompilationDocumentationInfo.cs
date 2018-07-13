@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -29,6 +30,8 @@ namespace Roslynator.Documentation
 
         public ImmutableArray<AssemblyDocumentationInfo> Assemblies { get; }
 
+        protected internal Func<ISymbol, bool> Predicate { get; } = f => f.IsPubliclyVisible();
+
         public IEnumerable<INamespaceSymbol> Namespaces
         {
             get
@@ -46,7 +49,7 @@ namespace Roslynator.Documentation
                 if (_typeSymbols.IsDefault)
                 {
                     _typeSymbols = Assemblies
-                        .SelectMany(f => f.AssemblySymbol.GetPubliclyVisibleTypes())
+                        .SelectMany(f => f.AssemblySymbol.GetTypes(Predicate))
                         .ToImmutableArray();
                 }
 
@@ -67,7 +70,7 @@ namespace Roslynator.Documentation
                         .SelectMany(f => f.GetMembers())
                         .Where(f => f.Kind == SymbolKind.Method
                             && f.IsStatic
-                            && f.IsPubliclyVisible())
+                            && Predicate(f))
                         .Cast<IMethodSymbol>()
                         .Where(f => f.IsExtensionMethod)
                         .ToImmutableArray();

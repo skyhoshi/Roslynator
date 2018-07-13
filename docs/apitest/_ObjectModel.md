@@ -11,6 +11,10 @@
   * [FooDic\<TKey, TValue>](Roslynator/Documentation/Test/FooDic-2/README.md)
   * [FooEvent](Roslynator/Documentation/Test/FooEvent/README.md)
 
+## Static Classes
+
+* [FooExtensions](Roslynator/Documentation/Test/FooExtensions/README.md)
+
 ## Interfaces
 
 * [IFoo](Roslynator/Documentation/Test/IFoo/README.md)
