@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Creates a new node with a modifier at the specified index removed\.
 
 ```csharp
-public static TNode RemoveAt<TNode>(TNode node, int index) where TNode : SyntaxNode
+public static TNode RemoveAt<TNode>(TNode node, int index) where TNode : Microsoft.CodeAnalysis.SyntaxNode
 ```
 
 ### Type Parameters

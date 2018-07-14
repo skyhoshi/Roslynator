@@ -685,9 +685,8 @@ namespace Roslynator.Documentation
                         WriteTableCell(fieldSymbol.ToDisplayString(FormatProvider.FieldFormat));
 
                         WriteStartTableCell();
-                        WriteStartInlineCode();
 
-                        List < EnumFieldSymbolInfo > values = en.Current.values;
+                        List<EnumFieldSymbolInfo> values = en.Current.values;
 
                         WriteString(values[0].Name);
 
@@ -697,7 +696,6 @@ namespace Roslynator.Documentation
                             WriteString(values[i].Name);
                         }
 
-                        WriteEndInlineCode();
                         WriteEndTableCell();
 
                         WriteEndTableRow();

@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Returns the innermost symbol of type **TSymbol** that the specified position is considered inside of\.
 
 ```csharp
-public static TSymbol GetEnclosingSymbol<TSymbol>(this SemanticModel semanticModel, int position, CancellationToken cancellationToken = default(CancellationToken)) where TSymbol : ISymbol
+public static TSymbol GetEnclosingSymbol<TSymbol>(this SemanticModel semanticModel, int position, CancellationToken cancellationToken = default(CancellationToken)) where TSymbol : Microsoft.CodeAnalysis.ISymbol
 ```
 
 ### Type Parameters

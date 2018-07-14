@@ -38,7 +38,7 @@ public enum CommentKinds
 
 | Name | Values |
 | ---- | ------ |
-| NonDocumentation | `SingleLine \| MultiLine` |
-| Documentation | `SingleLineDocumentation \| MultiLineDocumentation` |
-| All | `NonDocumentation \| Documentation` |
+| NonDocumentation | SingleLine \| MultiLine |
+| Documentation | SingleLineDocumentation \| MultiLineDocumentation |
+| All | NonDocumentation \| Documentation |
 

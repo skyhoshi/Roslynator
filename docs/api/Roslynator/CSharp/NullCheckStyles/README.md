@@ -43,10 +43,10 @@ public enum NullCheckStyles
 
 | Name | Values |
 | ---- | ------ |
-| ComparisonToNull | `EqualsToNull \| NotEqualsToNull` |
-| IsPattern | `IsNull \| NotIsNull` |
-| CheckingNull | `EqualsToNull \| IsNull \| NotHasValue` |
-| CheckingNotNull | `NotEqualsToNull \| NotIsNull \| HasValue` |
-| HasValueProperty | `NotHasValue \| HasValue` |
-| All | `ComparisonToNull \| IsPattern \| HasValueProperty` |
+| ComparisonToNull | EqualsToNull \| NotEqualsToNull |
+| IsPattern | IsNull \| NotIsNull |
+| CheckingNull | EqualsToNull \| IsNull \| NotHasValue |
+| CheckingNotNull | NotEqualsToNull \| NotIsNull \| HasValue |
+| HasValueProperty | NotHasValue \| HasValue |
+| All | ComparisonToNull \| IsPattern \| HasValueProperty |
 

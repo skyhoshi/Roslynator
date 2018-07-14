@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Represents selected nodes in a [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)\.
 
 ```csharp
-public class SyntaxListSelection<TNode> : Selection<TNode> where TNode : SyntaxNode
+public class SyntaxListSelection<TNode> : Selection<TNode> where TNode : Microsoft.CodeAnalysis.SyntaxNode
 ```
 
 ### Type Parameters

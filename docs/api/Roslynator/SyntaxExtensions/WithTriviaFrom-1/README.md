@@ -21,7 +21,7 @@ Creates a new separated list with both leading and trailing trivia of the specif
 If the list contains more than one item, first item is updated with leading trivia and last item is updated with trailing trivia\.
 
 ```csharp
-public static SeparatedSyntaxList<TNode> WithTriviaFrom<TNode>(this SeparatedSyntaxList<TNode> list, SyntaxNode node) where TNode : SyntaxNode
+public static SeparatedSyntaxList<TNode> WithTriviaFrom<TNode>(this SeparatedSyntaxList<TNode> list, SyntaxNode node) where TNode : Microsoft.CodeAnalysis.SyntaxNode
 ```
 
 #### Type Parameters
@@ -50,7 +50,7 @@ Creates a new list with both leading and trailing trivia of the specified node\.
 If the list contains more than one item, first item is updated with leading trivia and last item is updated with trailing trivia\.
 
 ```csharp
-public static SyntaxList<TNode> WithTriviaFrom<TNode>(this SyntaxList<TNode> list, SyntaxNode node) where TNode : SyntaxNode
+public static SyntaxList<TNode> WithTriviaFrom<TNode>(this SyntaxList<TNode> list, SyntaxNode node) where TNode : Microsoft.CodeAnalysis.SyntaxNode
 ```
 
 #### Type Parameters
@@ -78,7 +78,7 @@ public static SyntaxList<TNode> WithTriviaFrom<TNode>(this SyntaxList<TNode> lis
 Creates a new node from this node with both the leading and trailing trivia of the specified token\.
 
 ```csharp
-public static TNode WithTriviaFrom<TNode>(this TNode node, SyntaxToken token) where TNode : SyntaxNode
+public static TNode WithTriviaFrom<TNode>(this TNode node, SyntaxToken token) where TNode : Microsoft.CodeAnalysis.SyntaxNode
 ```
 
 #### Type Parameters

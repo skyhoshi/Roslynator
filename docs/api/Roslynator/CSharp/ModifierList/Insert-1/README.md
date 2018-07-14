@@ -20,7 +20,7 @@ Assembly: Roslynator\.CSharp\.dll
 Creates a new node with a modifier of the specified kind inserted\.
 
 ```csharp
-public static TNode Insert<TNode>(TNode node, SyntaxKind kind, IComparer<SyntaxKind> comparer = null) where TNode : SyntaxNode
+public static TNode Insert<TNode>(TNode node, SyntaxKind kind, IComparer<SyntaxKind> comparer = null) where TNode : Microsoft.CodeAnalysis.SyntaxNode
 ```
 
 #### Type Parameters
@@ -49,7 +49,7 @@ TNode
 Creates a new node with the specified modifier inserted\.
 
 ```csharp
-public static TNode Insert<TNode>(TNode node, SyntaxToken modifier, IComparer<SyntaxToken> comparer = null) where TNode : SyntaxNode
+public static TNode Insert<TNode>(TNode node, SyntaxToken modifier, IComparer<SyntaxToken> comparer = null) where TNode : Microsoft.CodeAnalysis.SyntaxNode
 ```
 
 #### Type Parameters

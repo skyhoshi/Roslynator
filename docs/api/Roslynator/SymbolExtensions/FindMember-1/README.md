@@ -18,7 +18,7 @@ Assembly: Roslynator\.CSharp\.dll
 Searches for a member that matches the conditions defined by the specified predicate, if any, and returns the first occurrence within the type's members\.
 
 ```csharp
-public static TSymbol FindMember<TSymbol>(this ITypeSymbol typeSymbol, Func<TSymbol, bool> predicate = null) where TSymbol : ISymbol
+public static TSymbol FindMember<TSymbol>(this ITypeSymbol typeSymbol, Func<TSymbol, bool> predicate = null) where TSymbol : Microsoft.CodeAnalysis.ISymbol
 ```
 
 #### Type Parameters
@@ -46,7 +46,7 @@ TSymbol
 Searches for a member that has the specified name and matches the conditions defined by the specified predicate, if any, and returns the first occurrence within the type's members\.
 
 ```csharp
-public static TSymbol FindMember<TSymbol>(this ITypeSymbol typeSymbol, string name, Func<TSymbol, bool> predicate = null) where TSymbol : ISymbol
+public static TSymbol FindMember<TSymbol>(this ITypeSymbol typeSymbol, string name, Func<TSymbol, bool> predicate = null) where TSymbol : Microsoft.CodeAnalysis.ISymbol
 ```
 
 #### Type Parameters

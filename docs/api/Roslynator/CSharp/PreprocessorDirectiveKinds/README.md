@@ -50,6 +50,6 @@ public enum PreprocessorDirectiveKinds
 
 | Name | Values |
 | ---- | ------ |
-| Pragma | `PragmaWarning \| PragmaChecksum` |
-| All | `Pragma \| If \| Elif \| Else \| EndIf \| Region \| EndRegion \| Define \| Undef \| Error \| Warning \| Line \| Reference \| Load \| Bad \| Shebang` |
+| Pragma | PragmaWarning \| PragmaChecksum |
+| All | Pragma \| If \| Elif \| Else \| EndIf \| Region \| EndRegion \| Define \| Undef \| Error \| Warning \| Line \| Reference \| Load \| Bad \| Shebang |
 

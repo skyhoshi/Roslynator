@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Creates a new node with the whitespace removed\.
 
 ```csharp
-public static TNode RemoveWhitespace<TNode>(this TNode node, TextSpan? span = null) where TNode : SyntaxNode
+public static TNode RemoveWhitespace<TNode>(this TNode node, TextSpan? span = null) where TNode : Microsoft.CodeAnalysis.SyntaxNode
 ```
 
 ### Type Parameters

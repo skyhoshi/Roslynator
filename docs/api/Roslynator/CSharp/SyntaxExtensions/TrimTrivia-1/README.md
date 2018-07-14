@@ -20,7 +20,7 @@ Removes all leading whitespace from the leading trivia and all trailing whitespa
 Returns the same node if there is nothing to trim\.
 
 ```csharp
-public static TNode TrimTrivia<TNode>(this TNode node) where TNode : SyntaxNode
+public static TNode TrimTrivia<TNode>(this TNode node) where TNode : Microsoft.CodeAnalysis.SyntaxNode
 ```
 
 #### Type Parameters

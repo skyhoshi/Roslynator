@@ -18,7 +18,7 @@ Assembly: Roslynator\.CSharp\.dll
 Returns true if the specified node is a last node in the list\.
 
 ```csharp
-public static bool IsLast<TNode>(this SeparatedSyntaxList<TNode> list, TNode node) where TNode : SyntaxNode
+public static bool IsLast<TNode>(this SeparatedSyntaxList<TNode> list, TNode node) where TNode : Microsoft.CodeAnalysis.SyntaxNode
 ```
 
 #### Type Parameters
@@ -46,7 +46,7 @@ public static bool IsLast<TNode>(this SeparatedSyntaxList<TNode> list, TNode nod
 Returns true if the specified node is a last node in the list\.
 
 ```csharp
-public static bool IsLast<TNode>(this SyntaxList<TNode> list, TNode node) where TNode : SyntaxNode
+public static bool IsLast<TNode>(this SyntaxList<TNode> list, TNode node) where TNode : Microsoft.CodeAnalysis.SyntaxNode
 ```
 
 #### Type Parameters

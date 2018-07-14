@@ -55,6 +55,6 @@ public enum ModifierKinds
 
 | Name | Values |
 | ---- | ------ |
-| Accessibility | `Public \| Private \| Protected \| Internal` |
-| AbstractVirtualOverride | `Virtual \| Override \| Abstract` |
+| Accessibility | Public \| Private \| Protected \| Internal |
+| AbstractVirtualOverride | Virtual \| Override \| Abstract |
 

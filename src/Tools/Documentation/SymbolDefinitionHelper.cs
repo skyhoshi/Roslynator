@@ -31,7 +31,7 @@ namespace Roslynator.Documentation
                 typeSymbol = null;
             }
 
-            ImmutableArray<SymbolDisplayPart>.Builder builder = default;
+            ImmutableArray<SymbolDisplayPart>.Builder builder = null;
 
             AddAttributes();
 
@@ -41,14 +41,33 @@ namespace Roslynator.Documentation
             if (typeSymbol != null)
                 AddBaseTypes();
 
-            if (options.FormatConstraints
-                && constraintCount > 0
-                && (baseListCount > 1 || constraintCount > 1))
+            if (constraintCount > 0)
             {
-                for (int i = parts.Length - 1; i >= 0; i--)
+                int j = 0;
+                while (j < parts.Length)
+                {
+                    if (parts[j].IsKeyword("where"))
+                        break;
+
+                    j++;
+                }
+
+                for (int i = parts.Length - 1; i >= j; i--)
                 {
                     if (parts[i].IsKeyword("where"))
-                        parts = parts.InsertRange(i, SymbolDisplayPartFactory.LineBreakAndIndent);
+                    {
+                        if (options.FormatConstraints
+                            && (baseListCount > 1 || constraintCount > 1))
+                        {
+                            parts = parts.InsertRange(i, SymbolDisplayPartFactory.LineBreakAndIndent);
+                        }
+                    }
+                    else if (parts[i].IsTypeName()
+                        && parts[i].Symbol is INamedTypeSymbol namedTypeSymbol)
+                    {
+                        parts = parts.RemoveAt(i);
+                        parts = parts.InsertRange(i, GetDisplayParts(namedTypeSymbol, symbol.ContainingNamespace));
+                    }
                 }
             }
 
@@ -153,7 +172,7 @@ namespace Roslynator.Documentation
 
                     if (interfaces.Any())
                     {
-                        ImmutableArray<(INamedTypeSymbol symbol, string displayString)> sortedInterfaces = SortInterfaces(interfaces.Select(f => (f, GetDisplayString(f, symbol.ContainingNamespace))).ToImmutableArray());
+                        ImmutableArray<(INamedTypeSymbol symbol, string displayString)> sortedInterfaces = SortInterfaces(interfaces.Select(f => (f, GetDisplayParts(f, symbol.ContainingNamespace).ToDisplayString())).ToImmutableArray());
 
                         AddDisplayParts(sortedInterfaces[0].symbol, symbol.ContainingNamespace, builder);
 
@@ -190,13 +209,13 @@ namespace Roslynator.Documentation
             }
         }
 
-        private static string GetDisplayString(INamedTypeSymbol symbol, INamespaceSymbol containingNamespace)
+        private static ImmutableArray<SymbolDisplayPart> GetDisplayParts(INamedTypeSymbol symbol, INamespaceSymbol containingNamespace)
         {
             ImmutableArray<SymbolDisplayPart>.Builder builder = ImmutableArray.CreateBuilder<SymbolDisplayPart>();
 
             AddDisplayParts(symbol, containingNamespace, builder);
 
-            return builder.ToImmutableArray().ToDisplayString();
+            return builder.ToImmutableArray();
         }
 
         private static void AddDisplayParts(INamedTypeSymbol symbol, INamespaceSymbol containingNamespace, ImmutableArray<SymbolDisplayPart>.Builder builder)
@@ -228,7 +247,7 @@ namespace Roslynator.Documentation
                     {
                         Debug.Assert(en.Current.Kind == SymbolKind.TypeParameter, en.Current.Kind.ToString());
 
-                        builder.Add(new SymbolDisplayPart(SymbolDisplayPartKind.TypeParameterName, null, en.Current.Name));
+                        builder.Add(new SymbolDisplayPart(SymbolDisplayPartKind.TypeParameterName, en.Current, en.Current.Name));
                     }
 
                     if (en.MoveNext())

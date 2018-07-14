@@ -18,7 +18,7 @@ Assembly: Roslynator\.CSharp\.Workspaces\.dll
 Creates a new node with the [Annotation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.simplification.simplifier.annotation) attached\.
 
 ```csharp
-public static TNode WithSimplifierAnnotation<TNode>(this TNode node) where TNode : SyntaxNode
+public static TNode WithSimplifierAnnotation<TNode>(this TNode node) where TNode : Microsoft.CodeAnalysis.SyntaxNode
 ```
 
 #### Type Parameters
