@@ -12,7 +12,7 @@ Provides information about a list of statements\.
 public readonly struct StatementListInfo : System.Collections.Generic.IReadOnlyList<Microsoft.CodeAnalysis.CSharp.Syntax.StatementSyntax>,
     System.Collections.Generic.IReadOnlyCollection<Microsoft.CodeAnalysis.CSharp.Syntax.StatementSyntax>,
     System.Collections.Generic.IEnumerable<Microsoft.CodeAnalysis.CSharp.Syntax.StatementSyntax>,
-    System.IEquatable<Roslynator.CSharp.Syntax.StatementListInfo>
+    System.IEquatable<StatementListInfo>
 ```
 
 ### Inheritance

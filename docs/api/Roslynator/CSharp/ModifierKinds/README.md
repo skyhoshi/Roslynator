@@ -51,3 +51,10 @@ public enum ModifierKinds
 | Params | 1048576 | A "params" modifier\. |
 | This | 2097152 | A "this" modifier\. |
 
+## Combined Fields
+
+| Name | Values |
+| ---- | ------ |
+| Accessibility | `Public \| Private \| Protected \| Internal` |
+| AbstractVirtualOverride | `Virtual \| Override \| Abstract` |
+

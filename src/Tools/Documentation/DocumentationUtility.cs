@@ -69,7 +69,7 @@ namespace Roslynator.Documentation
                     return 1;
                 }
 
-                return string.Compare(x.ToDisplayString(format, additionalOptions), y.ToDisplayString(format, additionalOptions), StringComparison.OrdinalIgnoreCase);
+                return string.Compare(x.ToDisplayString(format, additionalOptions), y.ToDisplayString(format, additionalOptions), StringComparison.Ordinal);
             });
         }
     }

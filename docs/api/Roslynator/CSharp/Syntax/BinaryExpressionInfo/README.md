@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about binary expression\.
 
 ```csharp
-public readonly struct BinaryExpressionInfo : System.IEquatable<Roslynator.CSharp.Syntax.BinaryExpressionInfo>
+public readonly struct BinaryExpressionInfo : System.IEquatable<BinaryExpressionInfo>
 ```
 
 ### Inheritance

@@ -10,7 +10,7 @@ Provides information about a simple if\-else\.
 Simple if\-else is defined as follows: it is not a child of an else clause and it has an else clause and the else clause does not continue with another if statement\.
 
 ```csharp
-public readonly struct SimpleIfElseInfo : System.IEquatable<Roslynator.CSharp.Syntax.SimpleIfElseInfo>
+public readonly struct SimpleIfElseInfo : System.IEquatable<SimpleIfElseInfo>
 ```
 
 ### Inheritance

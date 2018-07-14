@@ -87,6 +87,10 @@ namespace Roslynator.Documentation
             WriteEndStrikethrough();
         }
 
+        public abstract void WriteStartInlineCode();
+
+        public abstract void WriteEndInlineCode();
+
         public abstract void WriteInlineCode(string text);
 
         public abstract void WriteStartHeading(int level);
@@ -326,176 +330,12 @@ namespace Roslynator.Documentation
 
         public virtual void WriteDefinition(ISymbol symbol)
         {
-            ImmutableArray<SymbolDisplayPart> parts;
-
-            var typeSymbol = symbol as ITypeSymbol;
-
-            if (typeSymbol != null)
-            {
-                parts = typeSymbol.ToDisplayParts(FormatProvider.DefinitionFormat, SymbolDisplayTypeDeclarationOptions.IncludeAccessibility | SymbolDisplayTypeDeclarationOptions.IncludeModifiers);
-            }
-            else
-            {
-                parts = symbol.ToDisplayParts(FormatProvider.DefinitionFormat);
-            }
-
-            SymbolDisplayFormat format = FormatProvider.DefinitionTypeFormat;
-
-            ImmutableArray<SymbolDisplayPart>.Builder builder = default;
-
-            using (IEnumerator<AttributeData> en = symbol
-                .GetAttributes()
-                .Where(f => !DocumentationUtility.IsHiddenAttribute(f.AttributeClass)).GetEnumerator())
-            {
-                if (en.MoveNext())
-                {
-                    builder = ImmutableArray.CreateBuilder<SymbolDisplayPart>();
-
-                    do
-                    {
-                        builder.Add(SymbolDisplayPartFactory.Punctuation("["));
-                        builder.AddRange(en.Current.AttributeClass.ToDisplayParts(format));
-                        builder.Add(SymbolDisplayPartFactory.Punctuation("]"));
-                        builder.Add(SymbolDisplayPartFactory.LineBreak());
-                    }
-                    while (en.MoveNext());
-
-                    parts = parts.InsertRange(0, builder);
-                    builder.Clear();
-                }
-            }
-
-            int baseListCount = 0;
-            int constraintCount = parts.Count(f => f.IsKeyword("where"));
-
-            if (typeSymbol != null)
-                AddBaseTypes();
-
-            if (Options.FormatConstraints
-                && constraintCount > 0
-                && (baseListCount > 1 || constraintCount > 1))
-            {
-                for (int i = parts.Length - 1; i >= 0; i--)
-                {
-                    if (parts[i].IsKeyword("where"))
-                        parts = parts.InsertRange(i, SymbolDisplayPartFactory.LineBreakAndIndent);
-                }
-            }
+            ImmutableArray<SymbolDisplayPart> parts = SymbolDefinitionHelper.GetDisplayParts(
+                symbol,
+                FormatProvider.DefinitionFormat,
+                Options);
 
             WriteCodeBlock(parts.ToDisplayString(), GetLanguageIdentifier(symbol.Language));
-
-            void AddBaseTypes()
-            {
-                INamedTypeSymbol baseType = null;
-
-                if (typeSymbol.TypeKind.Is(TypeKind.Class, TypeKind.Interface))
-                {
-                    baseType = typeSymbol.BaseType;
-
-                    if (baseType?.SpecialType == SpecialType.System_Object)
-                        baseType = null;
-                }
-
-                ImmutableArray<INamedTypeSymbol> interfaces = typeSymbol.Interfaces;
-
-                if (interfaces.Any(f => f.OriginalDefinition.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T))
-                    interfaces = interfaces.RemoveAll(f => f.SpecialType == SpecialType.System_Collections_IEnumerable);
-
-                baseListCount = interfaces.Length;
-
-                if (baseType != null)
-                    baseListCount++;
-
-                if (baseListCount > 0)
-                {
-                    if (builder == default)
-                        builder = ImmutableArray.CreateBuilder<SymbolDisplayPart>();
-
-                    int index = -1;
-
-                    for (int i = 0; i < parts.Length; i++)
-                    {
-                        if (parts[i].IsKeyword("where"))
-                        {
-                            builder.AddRange(parts, i);
-                            index = i;
-
-                            AddPunctuation(":");
-                            AddSpace();
-                            break;
-                        }
-                    }
-
-                    if (index == -1)
-                    {
-                        builder.AddRange(parts);
-
-                        AddSpace();
-                        AddPunctuation(":");
-                        AddSpace();
-                    }
-
-                    if (baseType != null)
-                    {
-                        builder.AddRange(baseType.ToDisplayParts(format));
-
-                        if (interfaces.Any())
-                        {
-                            AddPunctuation(",");
-                            AddSpaceOrNewLine(this.Options.FormatBaseList);
-                        }
-                    }
-
-                    if (interfaces.Any())
-                    {
-                        interfaces = DocumentationUtility.SortInterfaces(interfaces, format);
-
-                        builder.AddRange(interfaces[0].ToDisplayParts(format));
-
-                        for (int i = 1; i < interfaces.Length; i++)
-                        {
-                            AddPunctuation(",");
-                            AddSpaceOrNewLine(this.Options.FormatBaseList);
-                            builder.AddRange(interfaces[i].ToDisplayParts(format));
-                        }
-                    }
-
-                    if (index != -1)
-                    {
-                        if (!Options.FormatConstraints
-                            || (baseListCount == 1 && constraintCount == 1))
-                        {
-                            AddSpace();
-                        }
-
-                        builder.AddRange(parts.Skip(index));
-                    }
-
-                    parts = builder.ToImmutableArray();
-                }
-
-                void AddSpace()
-                {
-                    builder.Add(SymbolDisplayPartFactory.Space());
-                }
-
-                void AddPunctuation(string text)
-                {
-                    builder.Add(SymbolDisplayPartFactory.Punctuation(text));
-                }
-
-                void AddSpaceOrNewLine(bool newLine)
-                {
-                    if (newLine)
-                    {
-                        builder.AddRange(SymbolDisplayPartFactory.LineBreakAndIndent);
-                    }
-                    else
-                    {
-                        builder.Add(SymbolDisplayPartFactory.Space());
-                    }
-                }
-            }
         }
 
         public virtual void WriteTypeParameters(ISymbol symbol)
@@ -821,6 +661,95 @@ namespace Roslynator.Documentation
                     while (en.MoveNext());
 
                     WriteEndTable();
+                }
+            }
+
+            using (IEnumerator<(IFieldSymbol fieldSymbol, List<EnumFieldSymbolInfo> values)> en = GetCombinedValues().GetEnumerator())
+            {
+                if (en.MoveNext())
+                {
+                    WriteHeading(2, Resources.CombinedFieldsTitle);
+
+                    WriteStartTable(2);
+                    WriteStartTableRow();
+                    WriteTableCell(Resources.NameTitle);
+                    WriteTableCell(Resources.ValuesTitle);
+                    WriteEndTableRow();
+                    WriteTableHeaderSeparator();
+
+                    do
+                    {
+                        IFieldSymbol fieldSymbol = en.Current.fieldSymbol;
+
+                        WriteStartTableRow();
+                        WriteTableCell(fieldSymbol.ToDisplayString(FormatProvider.FieldFormat));
+
+                        WriteStartTableCell();
+                        WriteStartInlineCode();
+
+                        List < EnumFieldSymbolInfo > values = en.Current.values;
+
+                        WriteString(values[0].Name);
+
+                        for (int i = 1; i < values.Count; i++)
+                        {
+                            WriteString(" | ");
+                            WriteString(values[i].Name);
+                        }
+
+                        WriteEndInlineCode();
+                        WriteEndTableCell();
+
+                        WriteEndTableRow();
+                    }
+                    while (en.MoveNext());
+
+                    WriteEndTable();
+                }
+            }
+
+            IEnumerable<(IFieldSymbol fieldSymbol, List<EnumFieldSymbolInfo> values)> GetCombinedValues()
+            {
+                using (IEnumerator<IFieldSymbol> en = fields.GetEnumerator())
+                {
+                    if (en.MoveNext())
+                    {
+                        ImmutableArray<EnumFieldSymbolInfo> fieldInfos = EnumFieldSymbolInfo.CreateRange(en.Current.ContainingType);
+
+                        do
+                        {
+                            var fieldInfo = new EnumFieldSymbolInfo(en.Current);
+
+                            List<EnumFieldSymbolInfo> values = fieldInfo.Decompose(fieldInfos);
+
+                            if (values != null)
+                            {
+                                values.Sort((f, g) =>
+                                {
+                                    if (f.IsComposite())
+                                    {
+                                        if (g.IsComposite())
+                                        {
+                                            return ((IComparable)f.Value).CompareTo((IComparable)g.Value);
+                                        }
+                                        else
+                                        {
+                                            return -1;
+                                        }
+                                    }
+                                    else if (g.IsComposite())
+                                    {
+                                        return 1;
+                                    }
+
+                                    return ((IComparable)f.Value).CompareTo((IComparable)g.Value);
+                                });
+
+                                yield return (en.Current, values);
+                            }
+                        }
+                        while (en.MoveNext());
+                    }
                 }
             }
         }

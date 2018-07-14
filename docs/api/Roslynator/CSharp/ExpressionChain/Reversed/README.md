@@ -10,7 +10,7 @@ Enables to enumerate expressions of [ExpressionChain](../README.md) in a reverse
 
 ```csharp
 public readonly struct Reversed : System.Collections.Generic.IEnumerable<Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax>,
-    System.IEquatable<Roslynator.CSharp.ExpressionChain.Reversed>
+    System.IEquatable<ExpressionChain.Reversed>
 ```
 
 ### Inheritance

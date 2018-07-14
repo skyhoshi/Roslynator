@@ -39,3 +39,14 @@ public enum NullCheckStyles
 | HasValueProperty | 48 | Expression that uses [HasValue](https://docs.microsoft.com/en-us/dotnet/api/system.nullable-1.hasvalue) property\. |
 | All | 63 | All null check styles\. |
 
+## Combined Fields
+
+| Name | Values |
+| ---- | ------ |
+| ComparisonToNull | `EqualsToNull \| NotEqualsToNull` |
+| IsPattern | `IsNull \| NotIsNull` |
+| CheckingNull | `EqualsToNull \| IsNull \| NotHasValue` |
+| CheckingNotNull | `NotEqualsToNull \| NotIsNull \| HasValue` |
+| HasValueProperty | `NotHasValue \| HasValue` |
+| All | `ComparisonToNull \| IsPattern \| HasValueProperty` |
+

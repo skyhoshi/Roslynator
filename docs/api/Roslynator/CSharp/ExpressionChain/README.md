@@ -10,7 +10,7 @@ Enables to enumerate expressions of a binary expression and expressions of neste
 
 ```csharp
 public readonly struct ExpressionChain : System.Collections.Generic.IEnumerable<Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax>,
-    System.IEquatable<Roslynator.CSharp.ExpressionChain>
+    System.IEquatable<ExpressionChain>
 ```
 
 ### Inheritance

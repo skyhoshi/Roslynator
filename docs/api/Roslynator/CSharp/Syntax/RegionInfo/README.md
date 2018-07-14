@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about a region\.
 
 ```csharp
-public readonly struct RegionInfo : System.IEquatable<Roslynator.CSharp.Syntax.RegionInfo>
+public readonly struct RegionInfo : System.IEquatable<RegionInfo>
 ```
 
 ### Inheritance

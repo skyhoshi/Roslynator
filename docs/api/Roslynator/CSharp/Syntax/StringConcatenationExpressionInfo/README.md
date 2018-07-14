@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about string concatenation, i\.e\. a binary expression that binds to string '\+' operator\.
 
 ```csharp
-public readonly struct StringConcatenationExpressionInfo : System.IEquatable<Roslynator.CSharp.Syntax.StringConcatenationExpressionInfo>
+public readonly struct StringConcatenationExpressionInfo : System.IEquatable<StringConcatenationExpressionInfo>
 ```
 
 ### Inheritance

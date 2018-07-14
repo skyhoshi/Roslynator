@@ -26,6 +26,7 @@ namespace Roslynator.Documentation
         public abstract string AttributesTitle { get; }
         public abstract string ClassTitle { get; }
         public abstract string ClassesTitle { get; }
+        public abstract string CombinedFieldsTitle { get; }
         public abstract string ConstructorTitle { get; }
         public abstract string ConstructorsTitle { get; }
         public abstract string DelegateTitle { get; }
@@ -78,6 +79,7 @@ namespace Roslynator.Documentation
         public abstract string TypeParameterTitle { get; }
         public abstract string TypeParametersTitle { get; }
         public abstract string ValueTitle { get; }
+        public abstract string ValuesTitle { get; }
 
         public string GetName(ISymbol symbol)
         {
@@ -197,6 +199,7 @@ namespace Roslynator.Documentation
             public override string AttributesTitle { get; } = "Attributes";
             public override string ClassTitle { get; } = "Class";
             public override string ClassesTitle { get; } = "Classes";
+            public override string CombinedFieldsTitle { get; } = "Combined Fields";
             public override string ConstructorTitle { get; } = "Constructor";
             public override string ConstructorsTitle { get; } = "Constructors";
             public override string DelegateTitle { get; } = "Delegate";
@@ -249,6 +252,7 @@ namespace Roslynator.Documentation
             public override string TypeParameterTitle { get; } = "Type Parameter";
             public override string TypeParametersTitle { get; } = "Type Parameters";
             public override string ValueTitle { get; } = "Value";
+            public override string ValuesTitle { get; } = "Values";
         }
     }
 }

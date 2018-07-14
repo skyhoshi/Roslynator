@@ -12,7 +12,7 @@ Provides information about a list of using directives\.
 public readonly struct UsingDirectiveListInfo : System.Collections.Generic.IReadOnlyList<Microsoft.CodeAnalysis.CSharp.Syntax.UsingDirectiveSyntax>,
     System.Collections.Generic.IReadOnlyCollection<Microsoft.CodeAnalysis.CSharp.Syntax.UsingDirectiveSyntax>,
     System.Collections.Generic.IEnumerable<Microsoft.CodeAnalysis.CSharp.Syntax.UsingDirectiveSyntax>,
-    System.IEquatable<Roslynator.CSharp.Syntax.UsingDirectiveListInfo>
+    System.IEquatable<UsingDirectiveListInfo>
 ```
 
 ### Inheritance

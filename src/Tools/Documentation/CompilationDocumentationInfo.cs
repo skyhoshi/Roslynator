@@ -29,7 +29,7 @@ namespace Roslynator.Documentation
 
         public ImmutableArray<AssemblyDocumentationInfo> Assemblies { get; }
 
-        protected internal Func<ISymbol, bool> Predicate { get; } = f => f.IsPubliclyVisible();
+        protected internal Func<ISymbol, bool> IsVisible { get; } = f => f.IsPubliclyVisible();
 
         public IEnumerable<INamespaceSymbol> Namespaces
         {
@@ -48,7 +48,7 @@ namespace Roslynator.Documentation
                 if (_typeSymbols.IsDefault)
                 {
                     _typeSymbols = Assemblies
-                        .SelectMany(f => f.AssemblySymbol.GetTypes(Predicate))
+                        .SelectMany(f => f.AssemblySymbol.GetTypes(IsVisible))
                         .ToImmutableArray();
                 }
 
@@ -69,7 +69,7 @@ namespace Roslynator.Documentation
                         .SelectMany(f => f.GetMembers())
                         .Where(f => f.Kind == SymbolKind.Method
                             && f.IsStatic
-                            && Predicate(f))
+                            && IsVisible(f))
                         .Cast<IMethodSymbol>()
                         .Where(f => f.IsExtensionMethod)
                         .ToImmutableArray();

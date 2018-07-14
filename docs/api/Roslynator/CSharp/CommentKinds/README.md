@@ -34,3 +34,11 @@ public enum CommentKinds
 | Documentation | 12 | Documentation comment \(single\-line or multi\-line\)\. |
 | All | 15 | Documentation or non\-documentation comment\. |
 
+## Combined Fields
+
+| Name | Values |
+| ---- | ------ |
+| NonDocumentation | `SingleLine \| MultiLine` |
+| Documentation | `SingleLineDocumentation \| MultiLineDocumentation` |
+| All | `NonDocumentation \| Documentation` |
+

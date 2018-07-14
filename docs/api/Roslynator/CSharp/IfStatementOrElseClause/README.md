@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 A wrapper for either an [IfStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.ifstatementsyntax) or an [ElseClauseSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.elseclausesyntax)\.
 
 ```csharp
-public readonly struct IfStatementOrElseClause : System.IEquatable<Roslynator.CSharp.IfStatementOrElseClause>
+public readonly struct IfStatementOrElseClause : System.IEquatable<IfStatementOrElseClause>
 ```
 
 ### Inheritance

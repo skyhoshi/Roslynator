@@ -32,6 +32,11 @@ namespace Roslynator.Documentation.Markdown
 
         public override void WriteEndStrikethrough() => _writer.WriteEndStrikethrough();
 
+        //TODO: add method MarkdownWriter.WriteStartInlineCode
+        public override void WriteStartInlineCode() => _writer.WriteRaw("`");
+
+        public override void WriteEndInlineCode() => _writer.WriteRaw("`");
+
         public override void WriteInlineCode(string text) => _writer.WriteInlineCode(text);
 
         public override void WriteStartHeading(int level) => _writer.WriteStartHeading(level + BaseHeadingLevel);

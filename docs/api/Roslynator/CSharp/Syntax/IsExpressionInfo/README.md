@@ -9,7 +9,7 @@ Assembly: Roslynator\.CSharp\.dll
 Provides information about "is" expression\.
 
 ```csharp
-public readonly struct IsExpressionInfo : System.IEquatable<Roslynator.CSharp.Syntax.IsExpressionInfo>
+public readonly struct IsExpressionInfo : System.IEquatable<IsExpressionInfo>
 ```
 
 ### Inheritance

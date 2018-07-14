@@ -46,3 +46,10 @@ public enum PreprocessorDirectiveKinds
 | Shebang | 65536 | Shebang preprocessor directive\. |
 | All | 131071 | All preprocessor directives\. |
 
+## Combined Fields
+
+| Name | Values |
+| ---- | ------ |
+| Pragma | `PragmaWarning \| PragmaChecksum` |
+| All | `Pragma \| If \| Elif \| Else \| EndIf \| Region \| EndRegion \| Define \| Undef \| Error \| Warning \| Line \| Reference \| Load \| Bad \| Shebang` |
+

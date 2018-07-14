@@ -20,8 +20,6 @@ namespace Roslynator.Documentation
 
         public abstract SymbolDisplayFormat DefinitionFormat { get; }
 
-        public abstract SymbolDisplayFormat DefinitionTypeFormat { get; }
-
         public abstract SymbolDisplayFormat TypeParameterFormat { get; }
 
         public abstract SymbolDisplayFormat ParameterFormat { get; }
@@ -80,11 +78,6 @@ namespace Roslynator.Documentation
             public override SymbolDisplayFormat DefinitionFormat
             {
                 get { return SymbolDisplayFormats.FullDefinition; }
-            }
-
-            public override SymbolDisplayFormat DefinitionTypeFormat
-            {
-                get { return SymbolDisplayFormats.DefinitionTypeFormat; }
             }
 
             public override SymbolDisplayFormat TypeParameterFormat
