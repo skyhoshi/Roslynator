@@ -25,14 +25,14 @@ public static TNode PrependToTrailingTrivia<TNode>(this TNode node, IEnumerable<
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | trivia | |
 
@@ -53,14 +53,14 @@ public static TNode PrependToTrailingTrivia<TNode>(this TNode node, SyntaxTrivia
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | trivia | |
 
@@ -81,8 +81,8 @@ public static SyntaxToken PrependToTrailingTrivia(this SyntaxToken token, IEnume
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | token | |
 | trivia | |
 
@@ -103,8 +103,8 @@ public static SyntaxToken PrependToTrailingTrivia(this SyntaxToken token, Syntax
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | token | |
 | trivia | |
 

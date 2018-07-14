@@ -19,8 +19,8 @@ public static ConversionOperatorDeclarationSyntax ExplicitConversionOperatorDecl
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | type | |
 | parameterList | |
@@ -39,8 +39,8 @@ public static ConversionOperatorDeclarationSyntax ExplicitConversionOperatorDecl
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | type | |
 | parameterList | |

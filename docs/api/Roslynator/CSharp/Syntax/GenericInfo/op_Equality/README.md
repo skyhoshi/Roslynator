@@ -10,8 +10,8 @@ public static bool operator ==(in GenericInfo info1, in GenericInfo info2)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

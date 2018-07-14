@@ -23,8 +23,8 @@ public static Task<Document> ReplaceTriviaAsync(this Document document, SyntaxTr
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | oldTrivia | |
 | newTrivia | |
@@ -47,8 +47,8 @@ public static Task<Document> ReplaceTriviaAsync(this Document document, SyntaxTr
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | oldTrivia | |
 | newTrivia | |

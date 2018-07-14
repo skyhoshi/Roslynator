@@ -24,8 +24,8 @@ public static IParameterSymbol DetermineParameter(this SemanticModel semanticMod
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | argument | |
 | allowParams | |
@@ -50,8 +50,8 @@ public static IParameterSymbol DetermineParameter(this SemanticModel semanticMod
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | attributeArgument | |
 | allowParams | |

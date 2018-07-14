@@ -24,8 +24,8 @@ public static AccessorDeclarationSyntax Getter(this AccessorListSyntax accessorL
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | accessorList | |
 
 #### Returns
@@ -45,8 +45,8 @@ public static AccessorDeclarationSyntax Getter(this IndexerDeclarationSyntax ind
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | indexerDeclaration | |
 
 #### Returns
@@ -66,8 +66,8 @@ public static AccessorDeclarationSyntax Getter(this PropertyDeclarationSyntax pr
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | propertyDeclaration | |
 
 #### Returns

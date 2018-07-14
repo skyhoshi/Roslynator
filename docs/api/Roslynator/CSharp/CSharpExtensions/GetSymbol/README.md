@@ -27,8 +27,8 @@ public static ISymbol GetSymbol(this SemanticModel semanticModel, AttributeSynta
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | attribute | |
 | cancellationToken | |
@@ -50,8 +50,8 @@ public static ISymbol GetSymbol(this SemanticModel semanticModel, ConstructorIni
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | constructorInitializer | |
 | cancellationToken | |
@@ -73,8 +73,8 @@ public static ISymbol GetSymbol(this SemanticModel semanticModel, CrefSyntax cre
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | cref | |
 | cancellationToken | |
@@ -96,8 +96,8 @@ public static ISymbol GetSymbol(this SemanticModel semanticModel, ExpressionSynt
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | expression | |
 | cancellationToken | |
@@ -119,8 +119,8 @@ public static ISymbol GetSymbol(this SemanticModel semanticModel, OrderingSyntax
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | ordering | |
 | cancellationToken | |
@@ -142,8 +142,8 @@ public static ISymbol GetSymbol(this SemanticModel semanticModel, SelectOrGroupC
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | selectOrGroupClause | |
 | cancellationToken | |

@@ -10,8 +10,8 @@ public static bool operator !=(in StringLiteralExpressionInfo info1, in StringLi
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

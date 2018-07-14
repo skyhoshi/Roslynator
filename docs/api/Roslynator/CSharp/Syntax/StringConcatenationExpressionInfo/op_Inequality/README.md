@@ -10,8 +10,8 @@ public static bool operator !=(in StringConcatenationExpressionInfo info1, in St
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

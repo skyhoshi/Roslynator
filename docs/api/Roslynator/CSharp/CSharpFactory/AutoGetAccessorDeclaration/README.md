@@ -10,8 +10,8 @@ public static AccessorDeclarationSyntax AutoGetAccessorDeclaration(SyntaxTokenLi
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 
 ### Returns

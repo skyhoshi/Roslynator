@@ -19,8 +19,8 @@ public void CopyTo(Array array, int index)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | array | |
 | index | |
 
@@ -40,8 +40,8 @@ public void CopyTo(Foo[] array, int arrayIndex)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | array | |
 | arrayIndex | |
 

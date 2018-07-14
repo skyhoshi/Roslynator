@@ -14,8 +14,8 @@ public StatementListInfo RemoveAt(int index)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | index | |
 
 ### Returns

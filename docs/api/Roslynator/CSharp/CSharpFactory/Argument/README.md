@@ -10,8 +10,8 @@ public static ArgumentSyntax Argument(NameColonSyntax nameColon, ExpressionSynta
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | nameColon | |
 | expression | |
 

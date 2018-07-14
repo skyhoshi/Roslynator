@@ -14,8 +14,8 @@ public static CompilationUnitSyntax AddUsings(this CompilationUnitSyntax compila
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | compilationUnit | |
 | keepSingleLineCommentsOnTop | |
 | usings | |

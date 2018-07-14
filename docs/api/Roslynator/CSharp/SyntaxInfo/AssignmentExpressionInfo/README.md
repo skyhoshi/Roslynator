@@ -23,8 +23,8 @@ public static AssignmentExpressionInfo AssignmentExpressionInfo(SyntaxNode node,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | walkDownParentheses | |
 | allowMissing | |
@@ -46,8 +46,8 @@ public static AssignmentExpressionInfo AssignmentExpressionInfo(AssignmentExpres
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | assignmentExpression | |
 | walkDownParentheses | |
 | allowMissing | |

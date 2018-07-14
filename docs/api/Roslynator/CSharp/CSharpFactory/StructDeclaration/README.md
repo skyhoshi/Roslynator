@@ -19,8 +19,8 @@ public static StructDeclarationSyntax StructDeclaration(SyntaxTokenList modifier
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | identifier | |
 | members | |
@@ -38,8 +38,8 @@ public static StructDeclarationSyntax StructDeclaration(SyntaxTokenList modifier
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | identifier | |
 | members | |

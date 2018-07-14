@@ -39,8 +39,8 @@ public static Accessibility GetExplicitAccessibility(SyntaxNode declaration)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | declaration | |
 
 #### Returns
@@ -60,8 +60,8 @@ public static Accessibility GetExplicitAccessibility(ClassDeclarationSyntax clas
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | classDeclaration | |
 
 #### Returns
@@ -81,8 +81,8 @@ public static Accessibility GetExplicitAccessibility(ConstructorDeclarationSynta
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | constructorDeclaration | |
 
 #### Returns
@@ -102,8 +102,8 @@ public static Accessibility GetExplicitAccessibility(ConversionOperatorDeclarati
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | conversionOperatorDeclaration | |
 
 #### Returns
@@ -123,8 +123,8 @@ public static Accessibility GetExplicitAccessibility(DelegateDeclarationSyntax d
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | delegateDeclaration | |
 
 #### Returns
@@ -144,8 +144,8 @@ public static Accessibility GetExplicitAccessibility(DestructorDeclarationSyntax
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | destructorDeclaration | |
 
 #### Returns
@@ -165,8 +165,8 @@ public static Accessibility GetExplicitAccessibility(EnumDeclarationSyntax enumD
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | enumDeclaration | |
 
 #### Returns
@@ -186,8 +186,8 @@ public static Accessibility GetExplicitAccessibility(EventDeclarationSyntax even
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | eventDeclaration | |
 
 #### Returns
@@ -207,8 +207,8 @@ public static Accessibility GetExplicitAccessibility(EventFieldDeclarationSyntax
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | eventFieldDeclaration | |
 
 #### Returns
@@ -228,8 +228,8 @@ public static Accessibility GetExplicitAccessibility(FieldDeclarationSyntax fiel
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | fieldDeclaration | |
 
 #### Returns
@@ -249,8 +249,8 @@ public static Accessibility GetExplicitAccessibility(IndexerDeclarationSyntax in
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | indexerDeclaration | |
 
 #### Returns
@@ -270,8 +270,8 @@ public static Accessibility GetExplicitAccessibility(InterfaceDeclarationSyntax 
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | interfaceDeclaration | |
 
 #### Returns
@@ -291,8 +291,8 @@ public static Accessibility GetExplicitAccessibility(MethodDeclarationSyntax met
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | methodDeclaration | |
 
 #### Returns
@@ -312,8 +312,8 @@ public static Accessibility GetExplicitAccessibility(OperatorDeclarationSyntax o
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | operatorDeclaration | |
 
 #### Returns
@@ -333,8 +333,8 @@ public static Accessibility GetExplicitAccessibility(PropertyDeclarationSyntax p
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | propertyDeclaration | |
 
 #### Returns
@@ -354,8 +354,8 @@ public static Accessibility GetExplicitAccessibility(StructDeclarationSyntax str
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | structDeclaration | |
 
 #### Returns
@@ -375,8 +375,8 @@ public static Accessibility GetExplicitAccessibility(IncompleteMemberSyntax inco
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | incompleteMember | |
 
 #### Returns
@@ -396,8 +396,8 @@ public static Accessibility GetExplicitAccessibility(AccessorDeclarationSyntax a
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | accessorDeclaration | |
 
 #### Returns

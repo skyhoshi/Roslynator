@@ -23,8 +23,8 @@ public static SingleParameterLambdaExpressionInfo SingleParameterLambdaExpressio
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | walkDownParentheses | |
 | allowMissing | |
@@ -46,8 +46,8 @@ public static SingleParameterLambdaExpressionInfo SingleParameterLambdaExpressio
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | lambdaExpression | |
 | allowMissing | |
 

@@ -23,8 +23,8 @@ public static bool ImplementsAny(this ITypeSymbol typeSymbol, SpecialType interf
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeSymbol | |
 | interfaceType1 | |
 | interfaceType2 | |
@@ -47,8 +47,8 @@ public static bool ImplementsAny(this ITypeSymbol typeSymbol, SpecialType interf
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeSymbol | |
 | interfaceType1 | |
 | interfaceType2 | |

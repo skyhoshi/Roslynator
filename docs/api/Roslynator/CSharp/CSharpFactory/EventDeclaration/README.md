@@ -19,8 +19,8 @@ public static EventDeclarationSyntax EventDeclaration(SyntaxTokenList modifiers,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | type | |
 | identifier | |
@@ -39,8 +39,8 @@ public static EventDeclarationSyntax EventDeclaration(SyntaxTokenList modifiers,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | type | |
 | identifier | |

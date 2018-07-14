@@ -19,8 +19,8 @@ public static InitializerExpressionSyntax ObjectInitializerExpression(SeparatedS
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | expressions | |
 
 #### Returns
@@ -36,8 +36,8 @@ public static InitializerExpressionSyntax ObjectInitializerExpression(SyntaxToke
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | openBraceToken | |
 | expressions | |
 | closeBraceToken | |

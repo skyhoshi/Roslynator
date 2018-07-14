@@ -14,8 +14,8 @@ public UsingDirectiveListInfo Remove(UsingDirectiveSyntax usingDirective)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | usingDirective | |
 
 ### Returns

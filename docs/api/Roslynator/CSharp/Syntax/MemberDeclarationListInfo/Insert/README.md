@@ -14,8 +14,8 @@ public MemberDeclarationListInfo Insert(int index, MemberDeclarationSyntax membe
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | index | |
 | member | |
 

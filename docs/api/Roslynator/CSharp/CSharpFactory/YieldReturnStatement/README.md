@@ -10,8 +10,8 @@ public static YieldStatementSyntax YieldReturnStatement(ExpressionSyntax express
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | expression | |
 
 ### Returns

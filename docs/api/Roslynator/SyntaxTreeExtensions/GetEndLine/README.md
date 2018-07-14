@@ -14,8 +14,8 @@ public static int GetEndLine(this SyntaxTree syntaxTree, TextSpan span, Cancella
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | syntaxTree | |
 | span | |
 | cancellationToken | |

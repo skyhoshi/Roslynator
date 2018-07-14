@@ -14,8 +14,8 @@ public static bool IsAsyncMethod(this ISymbol symbol)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | symbol | |
 
 ### Returns

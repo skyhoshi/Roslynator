@@ -10,8 +10,8 @@ public static bool operator !=(in UsingDirectiveListInfo info1, in UsingDirectiv
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

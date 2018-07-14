@@ -14,8 +14,8 @@ public static bool ContainsDefaultLabel(this SwitchSectionSyntax switchSection)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | switchSection | |
 
 ### Returns

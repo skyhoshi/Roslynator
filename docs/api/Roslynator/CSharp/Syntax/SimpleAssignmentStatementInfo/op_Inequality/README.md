@@ -10,8 +10,8 @@ public static bool operator !=(in SimpleAssignmentStatementInfo info1, in Simple
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

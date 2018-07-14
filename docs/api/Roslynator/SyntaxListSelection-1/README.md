@@ -14,8 +14,8 @@ public class SyntaxListSelection<TNode> : Selection<TNode> where TNode : Microso
 
 ### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 ### Inheritance

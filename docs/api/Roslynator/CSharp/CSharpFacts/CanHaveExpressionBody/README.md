@@ -14,8 +14,8 @@ public static bool CanHaveExpressionBody(SyntaxKind kind)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | kind | |
 
 ### Returns

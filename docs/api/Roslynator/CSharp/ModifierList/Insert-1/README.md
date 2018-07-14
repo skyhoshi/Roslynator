@@ -25,14 +25,14 @@ public static TNode Insert<TNode>(TNode node, SyntaxKind kind, IComparer<SyntaxK
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | kind | |
 | comparer | |
@@ -54,14 +54,14 @@ public static TNode Insert<TNode>(TNode node, SyntaxToken modifier, IComparer<Sy
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | modifier | |
 | comparer | |
@@ -83,8 +83,8 @@ public static SyntaxTokenList Insert(SyntaxTokenList modifiers, SyntaxKind kind,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | kind | |
 | comparer | |
@@ -106,8 +106,8 @@ public static SyntaxTokenList Insert(SyntaxTokenList modifiers, SyntaxToken modi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | modifier | |
 | comparer | |

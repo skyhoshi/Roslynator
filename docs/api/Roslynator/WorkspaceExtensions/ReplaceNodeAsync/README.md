@@ -24,8 +24,8 @@ public static Task<Document> ReplaceNodeAsync(this Document document, SyntaxNode
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | oldNode | |
 | newNode | |
@@ -48,8 +48,8 @@ public static Task<Document> ReplaceNodeAsync(this Document document, SyntaxNode
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | oldNode | |
 | newNodes | |
@@ -72,14 +72,14 @@ public static Task<Solution> ReplaceNodeAsync<TNode>(this Solution solution, TNo
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | solution | |
 | oldNode | |
 | newNode | |

@@ -14,8 +14,8 @@ public static bool IsIterationStatement(SyntaxKind kind)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | kind | |
 
 ### Returns

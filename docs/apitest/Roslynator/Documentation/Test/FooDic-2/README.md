@@ -19,8 +19,8 @@ public class FooDic<TKey, TValue> : System.Collections.Generic.IReadOnlyList<Sys
 
 ### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TKey | |
 | TValue | |
 

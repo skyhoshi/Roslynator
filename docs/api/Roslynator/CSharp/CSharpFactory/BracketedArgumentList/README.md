@@ -19,8 +19,8 @@ public static BracketedArgumentListSyntax BracketedArgumentList(params ArgumentS
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | arguments | |
 
 #### Returns
@@ -36,8 +36,8 @@ public static BracketedArgumentListSyntax BracketedArgumentList(ArgumentSyntax a
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | argument | |
 
 #### Returns

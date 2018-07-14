@@ -10,8 +10,8 @@ protected TextLineCollectionSelection(TextLineCollection lines, TextSpan span, i
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | lines | |
 | span | |
 | firstIndex | |

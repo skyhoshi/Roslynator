@@ -19,8 +19,8 @@ public static BinaryExpressionSyntax IsExpression(ExpressionSyntax left, Express
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | left | |
 | right | |
 
@@ -37,8 +37,8 @@ public static BinaryExpressionSyntax IsExpression(ExpressionSyntax left, SyntaxT
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | left | |
 | operatorToken | |
 | right | |

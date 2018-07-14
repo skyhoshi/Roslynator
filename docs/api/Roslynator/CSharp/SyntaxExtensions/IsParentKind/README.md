@@ -33,8 +33,8 @@ public static bool IsParentKind(this SyntaxNode node, SyntaxKind kind)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | kind | |
 
@@ -55,8 +55,8 @@ public static bool IsParentKind(this SyntaxNode node, SyntaxKind kind1, SyntaxKi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | kind1 | |
 | kind2 | |
@@ -78,8 +78,8 @@ public static bool IsParentKind(this SyntaxNode node, SyntaxKind kind1, SyntaxKi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | kind1 | |
 | kind2 | |
@@ -102,8 +102,8 @@ public static bool IsParentKind(this SyntaxNode node, SyntaxKind kind1, SyntaxKi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | kind1 | |
 | kind2 | |
@@ -127,8 +127,8 @@ public static bool IsParentKind(this SyntaxNode node, SyntaxKind kind1, SyntaxKi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | kind1 | |
 | kind2 | |
@@ -153,8 +153,8 @@ public static bool IsParentKind(this SyntaxNode node, SyntaxKind kind1, SyntaxKi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | kind1 | |
 | kind2 | |
@@ -180,8 +180,8 @@ public static bool IsParentKind(this SyntaxToken token, SyntaxKind kind)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | token | |
 | kind | |
 
@@ -202,8 +202,8 @@ public static bool IsParentKind(this SyntaxToken token, SyntaxKind kind1, Syntax
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | token | |
 | kind1 | |
 | kind2 | |
@@ -225,8 +225,8 @@ public static bool IsParentKind(this SyntaxToken token, SyntaxKind kind1, Syntax
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | token | |
 | kind1 | |
 | kind2 | |
@@ -249,8 +249,8 @@ public static bool IsParentKind(this SyntaxToken token, SyntaxKind kind1, Syntax
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | token | |
 | kind1 | |
 | kind2 | |
@@ -274,8 +274,8 @@ public static bool IsParentKind(this SyntaxToken token, SyntaxKind kind1, Syntax
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | token | |
 | kind1 | |
 | kind2 | |
@@ -300,8 +300,8 @@ public static bool IsParentKind(this SyntaxToken token, SyntaxKind kind1, Syntax
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | token | |
 | kind1 | |
 | kind2 | |

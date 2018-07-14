@@ -24,8 +24,8 @@ public static SimpleMemberInvocationStatementInfo SimpleMemberInvocationStatemen
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | allowMissing | |
 
@@ -46,8 +46,8 @@ public static SimpleMemberInvocationStatementInfo SimpleMemberInvocationStatemen
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | expressionStatement | |
 | allowMissing | |
 
@@ -68,8 +68,8 @@ public static SimpleMemberInvocationStatementInfo SimpleMemberInvocationStatemen
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | invocationExpression | |
 | allowMissing | |
 

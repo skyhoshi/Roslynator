@@ -25,14 +25,14 @@ public static SeparatedSyntaxList<TNode> ReplaceAt<TNode>(this SeparatedSyntaxLi
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | index | |
 | newNode | |
@@ -54,14 +54,14 @@ public static SyntaxList<TNode> ReplaceAt<TNode>(this SyntaxList<TNode> list, in
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | index | |
 | newNode | |
@@ -83,8 +83,8 @@ public static SyntaxTokenList ReplaceAt(this SyntaxTokenList tokenList, int inde
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | tokenList | |
 | index | |
 | newToken | |
@@ -106,8 +106,8 @@ public static SyntaxTriviaList ReplaceAt(this SyntaxTriviaList triviaList, int i
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | triviaList | |
 | index | |
 | newTrivia | |

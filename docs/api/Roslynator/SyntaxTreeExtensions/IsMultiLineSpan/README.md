@@ -14,8 +14,8 @@ public static bool IsMultiLineSpan(this SyntaxTree syntaxTree, TextSpan span, Ca
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | syntaxTree | |
 | span | |
 | cancellationToken | |

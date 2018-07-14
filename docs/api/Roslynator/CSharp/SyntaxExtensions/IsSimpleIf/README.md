@@ -15,8 +15,8 @@ public static bool IsSimpleIf(this IfStatementSyntax ifStatement)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | ifStatement | |
 
 ### Returns

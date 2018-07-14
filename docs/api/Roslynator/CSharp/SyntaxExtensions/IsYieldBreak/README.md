@@ -14,8 +14,8 @@ public static bool IsYieldBreak(this YieldStatementSyntax yieldStatement)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | yieldStatement | |
 
 ### Returns

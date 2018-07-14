@@ -14,8 +14,8 @@ public static INamedTypeSymbol GetEnclosingNamedType(this SemanticModel semantic
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | position | |
 | cancellationToken | |

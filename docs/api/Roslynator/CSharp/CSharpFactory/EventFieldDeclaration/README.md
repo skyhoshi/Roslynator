@@ -19,8 +19,8 @@ public static EventFieldDeclarationSyntax EventFieldDeclaration(SyntaxTokenList 
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | type | |
 | identifier | |
@@ -38,8 +38,8 @@ public static EventFieldDeclarationSyntax EventFieldDeclaration(SyntaxTokenList 
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | type | |
 | identifier | |

@@ -10,8 +10,8 @@ public static bool operator ==(in MemberDeclarationListInfo info1, in MemberDecl
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

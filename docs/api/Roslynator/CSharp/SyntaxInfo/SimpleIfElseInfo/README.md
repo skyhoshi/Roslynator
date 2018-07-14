@@ -14,8 +14,8 @@ public static SimpleIfElseInfo SimpleIfElseInfo(IfStatementSyntax ifStatement, b
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | ifStatement | |
 | walkDownParentheses | |
 | allowMissing | |

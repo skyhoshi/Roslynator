@@ -14,8 +14,8 @@ public static bool IsFunction(SyntaxKind kind)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | kind | |
 
 ### Returns

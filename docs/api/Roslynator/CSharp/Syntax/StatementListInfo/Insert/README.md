@@ -14,8 +14,8 @@ public StatementListInfo Insert(int index, StatementSyntax statement)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | index | |
 | statement | |
 

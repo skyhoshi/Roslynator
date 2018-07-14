@@ -19,8 +19,8 @@ public static MethodDeclarationSyntax MethodDeclaration(SyntaxTokenList modifier
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | returnType | |
 | identifier | |
@@ -40,8 +40,8 @@ public static MethodDeclarationSyntax MethodDeclaration(SyntaxTokenList modifier
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | returnType | |
 | identifier | |

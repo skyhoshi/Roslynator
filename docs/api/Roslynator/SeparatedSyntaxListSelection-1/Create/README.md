@@ -14,8 +14,8 @@ public static SeparatedSyntaxListSelection<TNode> Create(SeparatedSyntaxList<TNo
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | span | |
 

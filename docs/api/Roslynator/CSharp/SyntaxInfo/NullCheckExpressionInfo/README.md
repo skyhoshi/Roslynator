@@ -23,8 +23,8 @@ public static NullCheckExpressionInfo NullCheckExpressionInfo(SyntaxNode node, N
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | allowedStyles | |
 | walkDownParentheses | |
@@ -47,8 +47,8 @@ public static NullCheckExpressionInfo NullCheckExpressionInfo(SyntaxNode node, S
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | semanticModel | |
 | allowedStyles | |

@@ -23,8 +23,8 @@ public static StringLiteralExpressionInfo StringLiteralExpressionInfo(SyntaxNode
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | walkDownParentheses | |
 
@@ -45,8 +45,8 @@ public static StringLiteralExpressionInfo StringLiteralExpressionInfo(LiteralExp
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | literalExpression | |
 
 #### Returns

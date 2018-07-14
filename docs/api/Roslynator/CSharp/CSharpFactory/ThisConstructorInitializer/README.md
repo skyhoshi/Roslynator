@@ -19,8 +19,8 @@ public static ConstructorInitializerSyntax ThisConstructorInitializer(ArgumentLi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | argumentList | |
 
 #### Returns
@@ -36,8 +36,8 @@ public static ConstructorInitializerSyntax ThisConstructorInitializer(SyntaxToke
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semicolonToken | |
 | argumentList | |
 

@@ -14,8 +14,8 @@ public StatementListInfo ReplaceRange(StatementSyntax statementInList, IEnumerab
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | statementInList | |
 | newStatements | |
 

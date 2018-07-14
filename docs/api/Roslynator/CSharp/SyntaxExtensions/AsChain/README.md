@@ -10,8 +10,8 @@ public static ExpressionChain AsChain(this BinaryExpressionSyntax binaryExpressi
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | binaryExpression | |
 | span | |
 

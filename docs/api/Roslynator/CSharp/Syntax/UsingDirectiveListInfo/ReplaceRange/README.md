@@ -14,8 +14,8 @@ public UsingDirectiveListInfo ReplaceRange(UsingDirectiveSyntax usingInLine, IEn
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | usingInLine | |
 | newUsingDirectives | |
 

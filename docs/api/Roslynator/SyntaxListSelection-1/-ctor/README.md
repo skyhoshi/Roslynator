@@ -14,8 +14,8 @@ protected SyntaxListSelection(SyntaxList<TNode> list, TextSpan span, int firstIn
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | span | |
 | firstIndex | |

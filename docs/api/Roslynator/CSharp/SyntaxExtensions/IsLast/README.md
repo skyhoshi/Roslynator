@@ -14,8 +14,8 @@ public static bool IsLast(this SyntaxList<StatementSyntax> statements, Statement
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | statements | |
 | statement | |
 | ignoreLocalFunctions | Ignore local function statements at the end of the list\. |

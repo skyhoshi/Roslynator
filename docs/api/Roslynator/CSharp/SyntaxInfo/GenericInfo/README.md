@@ -30,8 +30,8 @@ public static GenericInfo GenericInfo(SyntaxNode node)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 
 #### Returns
@@ -51,8 +51,8 @@ public static GenericInfo GenericInfo(TypeParameterConstraintSyntax typeParamete
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeParameterConstraint | |
 
 #### Returns
@@ -72,8 +72,8 @@ public static GenericInfo GenericInfo(TypeParameterConstraintClauseSyntax constr
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | constraintClause | |
 
 #### Returns
@@ -93,8 +93,8 @@ public static GenericInfo GenericInfo(TypeParameterSyntax typeParameter)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeParameter | |
 
 #### Returns
@@ -114,8 +114,8 @@ public static GenericInfo GenericInfo(TypeParameterListSyntax typeParameterList)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeParameterList | |
 
 #### Returns
@@ -135,8 +135,8 @@ public static GenericInfo GenericInfo(TypeDeclarationSyntax typeDeclaration)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeDeclaration | |
 
 #### Returns
@@ -156,8 +156,8 @@ public static GenericInfo GenericInfo(DelegateDeclarationSyntax delegateDeclarat
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | delegateDeclaration | |
 
 #### Returns
@@ -177,8 +177,8 @@ public static GenericInfo GenericInfo(LocalFunctionStatementSyntax localFunction
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | localFunctionStatement | |
 
 #### Returns
@@ -198,8 +198,8 @@ public static GenericInfo GenericInfo(MethodDeclarationSyntax methodDeclaration)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | methodDeclaration | |
 
 #### Returns

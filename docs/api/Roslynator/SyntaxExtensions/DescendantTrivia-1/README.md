@@ -23,14 +23,14 @@ public static IEnumerable<SyntaxTrivia> DescendantTrivia<TNode>(this SyntaxList<
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | descendIntoChildren | |
 | descendIntoTrivia | |
@@ -52,14 +52,14 @@ public static IEnumerable<SyntaxTrivia> DescendantTrivia<TNode>(this SyntaxList<
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | span | |
 | descendIntoChildren | |

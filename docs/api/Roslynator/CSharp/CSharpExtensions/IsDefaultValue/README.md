@@ -14,8 +14,8 @@ public static bool IsDefaultValue(this SemanticModel semanticModel, ITypeSymbol 
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | typeSymbol | |
 | expression | |

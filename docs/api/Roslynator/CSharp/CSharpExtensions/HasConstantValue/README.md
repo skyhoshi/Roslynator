@@ -14,8 +14,8 @@ public static bool HasConstantValue(this SemanticModel semanticModel, Expression
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | expression | |
 | cancellationToken | |

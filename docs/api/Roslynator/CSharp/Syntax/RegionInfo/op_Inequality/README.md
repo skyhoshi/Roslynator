@@ -10,8 +10,8 @@ public static bool operator !=(in RegionInfo info1, in RegionInfo info2)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

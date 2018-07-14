@@ -24,8 +24,8 @@ public static MemberDeclarationListSelection Create(CompilationUnitSyntax compil
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | compilationUnit | |
 | span | |
 
@@ -46,8 +46,8 @@ public static MemberDeclarationListSelection Create(NamespaceDeclarationSyntax n
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | namespaceDeclaration | |
 | span | |
 
@@ -68,8 +68,8 @@ public static MemberDeclarationListSelection Create(TypeDeclarationSyntax typeDe
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeDeclaration | |
 | span | |
 

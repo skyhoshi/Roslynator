@@ -23,8 +23,8 @@ public static SyntaxNodeOrToken WithoutLeadingTrivia(this SyntaxNodeOrToken node
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | nodeOrToken | |
 
 #### Returns
@@ -44,8 +44,8 @@ public static SyntaxToken WithoutLeadingTrivia(this SyntaxToken token)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | token | |
 
 #### Returns

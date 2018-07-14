@@ -10,8 +10,8 @@ public static LiteralExpressionSyntax LiteralExpression(object value)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | value | |
 
 ### Returns

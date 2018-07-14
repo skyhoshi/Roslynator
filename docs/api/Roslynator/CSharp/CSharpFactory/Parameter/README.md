@@ -20,8 +20,8 @@ public static ParameterSyntax Parameter(TypeSyntax type, string identifier, Expr
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | type | |
 | identifier | |
 | default | |
@@ -39,8 +39,8 @@ public static ParameterSyntax Parameter(TypeSyntax type, SyntaxToken identifier,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | type | |
 | identifier | |
 | default | |
@@ -58,8 +58,8 @@ public static ParameterSyntax Parameter(TypeSyntax type, SyntaxToken identifier,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | type | |
 | identifier | |
 | default | |

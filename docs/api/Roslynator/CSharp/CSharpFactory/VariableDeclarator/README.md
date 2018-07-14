@@ -19,8 +19,8 @@ public static VariableDeclaratorSyntax VariableDeclarator(string identifier, Equ
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | identifier | |
 | initializer | |
 
@@ -37,8 +37,8 @@ public static VariableDeclaratorSyntax VariableDeclarator(SyntaxToken identifier
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | identifier | |
 | initializer | |
 

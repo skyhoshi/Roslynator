@@ -19,8 +19,8 @@ public static BinaryExpressionSyntax GreaterThanOrEqualExpression(ExpressionSynt
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | left | |
 | right | |
 
@@ -37,8 +37,8 @@ public static BinaryExpressionSyntax GreaterThanOrEqualExpression(ExpressionSynt
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | left | |
 | operatorToken | |
 | right | |

@@ -14,8 +14,8 @@ public static SyntaxTrivia GetDocumentationCommentTrivia(this MemberDeclarationS
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | member | |
 
 ### Returns

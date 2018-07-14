@@ -19,8 +19,8 @@ public static ArgumentListSyntax ArgumentList(params ArgumentSyntax[] arguments)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | arguments | |
 
 #### Returns
@@ -36,8 +36,8 @@ public static ArgumentListSyntax ArgumentList(ArgumentSyntax argument)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | argument | |
 
 #### Returns

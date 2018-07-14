@@ -21,8 +21,8 @@ public static AccessorDeclarationSyntax AddAccessorDeclaration(BlockSyntax body)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | body | |
 
 #### Returns
@@ -38,8 +38,8 @@ public static AccessorDeclarationSyntax AddAccessorDeclaration(SyntaxTokenList m
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | body | |
 
@@ -56,8 +56,8 @@ public static AccessorDeclarationSyntax AddAccessorDeclaration(ArrowExpressionCl
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | expressionBody | |
 
 #### Returns
@@ -73,8 +73,8 @@ public static AccessorDeclarationSyntax AddAccessorDeclaration(SyntaxTokenList m
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | expressionBody | |
 

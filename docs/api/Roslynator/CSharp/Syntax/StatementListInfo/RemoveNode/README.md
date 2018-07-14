@@ -14,8 +14,8 @@ public StatementListInfo RemoveNode(SyntaxNode node, SyntaxRemoveOptions options
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | options | |
 

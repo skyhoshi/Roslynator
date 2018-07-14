@@ -14,14 +14,14 @@ public static TSymbol GetEnclosingSymbol<TSymbol>(this SemanticModel semanticMod
 
 ### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TSymbol | |
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | position | |
 | cancellationToken | |

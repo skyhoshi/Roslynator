@@ -23,8 +23,8 @@ public MemberDeclarationListInfo WithMembers(IEnumerable<MemberDeclarationSyntax
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | members | |
 
 #### Returns
@@ -44,8 +44,8 @@ public MemberDeclarationListInfo WithMembers(SyntaxList<MemberDeclarationSyntax>
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | members | |
 
 #### Returns

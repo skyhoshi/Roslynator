@@ -19,8 +19,8 @@ public static TypeParameterListSyntax TypeParameterList(TypeParameterSyntax para
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | parameter | |
 
 #### Returns
@@ -36,8 +36,8 @@ public static TypeParameterListSyntax TypeParameterList(params TypeParameterSynt
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | parameters | |
 
 #### Returns

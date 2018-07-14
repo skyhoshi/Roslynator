@@ -14,8 +14,8 @@ public static bool IsOrdinaryExtensionMethod(this IMethodSymbol methodSymbol)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | methodSymbol | |
 
 ### Returns

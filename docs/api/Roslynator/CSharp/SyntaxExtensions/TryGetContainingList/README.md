@@ -15,8 +15,8 @@ public static bool TryGetContainingList(this StatementSyntax statement, out Synt
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | statement | |
 | statements | |
 

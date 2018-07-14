@@ -14,8 +14,8 @@ public static TextLineCollectionSelection Create(TextLineCollection lines, TextS
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | lines | |
 | span | |
 

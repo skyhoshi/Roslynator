@@ -14,8 +14,8 @@ public UsingDirectiveListInfo Replace(UsingDirectiveSyntax usingInLine, UsingDir
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | usingInLine | |
 | newUsingDirective | |
 

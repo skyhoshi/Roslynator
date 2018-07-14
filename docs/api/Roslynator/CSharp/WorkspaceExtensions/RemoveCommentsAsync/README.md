@@ -23,8 +23,8 @@ public static Task<Document> RemoveCommentsAsync(this Document document, Comment
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | kinds | |
 | cancellationToken | |
@@ -46,8 +46,8 @@ public static Task<Document> RemoveCommentsAsync(this Document document, TextSpa
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | span | |
 | kinds | |

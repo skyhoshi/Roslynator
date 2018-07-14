@@ -14,8 +14,8 @@ public static SyntaxListSelection<TNode> Create(SyntaxList<TNode> list, TextSpan
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | span | |
 

@@ -10,8 +10,8 @@ public static bool operator !=(in IsExpressionInfo info1, in IsExpressionInfo in
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

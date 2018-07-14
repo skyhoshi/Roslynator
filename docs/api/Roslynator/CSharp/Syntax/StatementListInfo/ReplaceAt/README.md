@@ -14,8 +14,8 @@ public StatementListInfo ReplaceAt(int index, StatementSyntax newStatement)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | index | |
 | newStatement | |
 

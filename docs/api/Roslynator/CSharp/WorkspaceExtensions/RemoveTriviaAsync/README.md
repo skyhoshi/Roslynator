@@ -14,8 +14,8 @@ public static Task<Document> RemoveTriviaAsync(this Document document, TextSpan 
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | span | |
 | cancellationToken | |

@@ -14,8 +14,8 @@ public static int StartLine(this FileLinePositionSpan fileLinePositionSpan)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | fileLinePositionSpan | |
 
 ### Returns

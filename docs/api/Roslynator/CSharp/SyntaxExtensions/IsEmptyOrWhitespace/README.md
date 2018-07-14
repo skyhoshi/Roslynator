@@ -14,8 +14,8 @@ public static bool IsEmptyOrWhitespace(this SyntaxTriviaList triviaList)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | triviaList | |
 
 ### Returns

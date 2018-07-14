@@ -14,8 +14,8 @@ public MemberDeclarationListInfo ReplaceNode(SyntaxNode oldNode, SyntaxNode newN
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | oldNode | |
 | newNode | |
 

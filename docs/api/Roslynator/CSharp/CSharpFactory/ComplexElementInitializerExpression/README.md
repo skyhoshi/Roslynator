@@ -19,8 +19,8 @@ public static InitializerExpressionSyntax ComplexElementInitializerExpression(Se
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | expressions | |
 
 #### Returns
@@ -36,8 +36,8 @@ public static InitializerExpressionSyntax ComplexElementInitializerExpression(Sy
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | openBraceToken | |
 | expressions | |
 | closeBraceToken | |

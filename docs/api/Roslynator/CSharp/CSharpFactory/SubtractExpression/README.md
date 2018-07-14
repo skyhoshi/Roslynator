@@ -19,8 +19,8 @@ public static BinaryExpressionSyntax SubtractExpression(ExpressionSyntax left, E
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | left | |
 | right | |
 
@@ -37,8 +37,8 @@ public static BinaryExpressionSyntax SubtractExpression(ExpressionSyntax left, S
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | left | |
 | operatorToken | |
 | right | |

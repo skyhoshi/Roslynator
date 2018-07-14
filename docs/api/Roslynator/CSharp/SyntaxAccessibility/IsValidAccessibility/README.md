@@ -14,8 +14,8 @@ public static bool IsValidAccessibility(SyntaxNode node, Accessibility accessibi
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | accessibility | |
 | ignoreOverride | Ignore "override" modifier\. |

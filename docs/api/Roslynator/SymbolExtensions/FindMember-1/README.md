@@ -23,14 +23,14 @@ public static TSymbol FindMember<TSymbol>(this ITypeSymbol typeSymbol, Func<TSym
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TSymbol | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeSymbol | |
 | predicate | |
 
@@ -51,14 +51,14 @@ public static TSymbol FindMember<TSymbol>(this ITypeSymbol typeSymbol, string na
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TSymbol | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeSymbol | |
 | name | |
 | predicate | |

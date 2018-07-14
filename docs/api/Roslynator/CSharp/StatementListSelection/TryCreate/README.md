@@ -23,8 +23,8 @@ public static bool TryCreate(BlockSyntax block, TextSpan span, out StatementList
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | block | |
 | span | |
 | selectedStatements | |
@@ -47,8 +47,8 @@ public static bool TryCreate(SwitchSectionSyntax switchSection, TextSpan span, o
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | switchSection | |
 | span | |
 | selectedStatements | |

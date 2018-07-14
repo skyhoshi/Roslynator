@@ -25,14 +25,14 @@ public static TNode TrimTrailingTrivia<TNode>(this TNode node) where TNode : Mic
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 
 #### Returns
@@ -54,8 +54,8 @@ public static SyntaxToken TrimTrailingTrivia(this SyntaxToken token)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | token | |
 
 #### Returns

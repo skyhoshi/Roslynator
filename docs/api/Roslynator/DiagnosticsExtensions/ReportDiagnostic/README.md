@@ -42,8 +42,8 @@ public static void ReportDiagnostic(this SymbolAnalysisContext context, Diagnost
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | node | |
@@ -66,8 +66,8 @@ public static void ReportDiagnostic(this SymbolAnalysisContext context, Diagnost
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | token | |
@@ -90,8 +90,8 @@ public static void ReportDiagnostic(this SymbolAnalysisContext context, Diagnost
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | trivia | |
@@ -114,8 +114,8 @@ public static void ReportDiagnostic(this SymbolAnalysisContext context, Diagnost
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | A [DiagnosticDescriptor](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.diagnosticdescriptor) describing the diagnostic\. |
 | location | |
@@ -138,8 +138,8 @@ public static void ReportDiagnostic(this SymbolAnalysisContext context, Diagnost
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | location | |
@@ -163,8 +163,8 @@ public static void ReportDiagnostic(this SymbolAnalysisContext context, Diagnost
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | location | |
@@ -188,8 +188,8 @@ public static void ReportDiagnostic(this SymbolAnalysisContext context, Diagnost
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | location | |
@@ -214,8 +214,8 @@ public static void ReportDiagnostic(this SyntaxNodeAnalysisContext context, Diag
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | node | |
@@ -238,8 +238,8 @@ public static void ReportDiagnostic(this SyntaxNodeAnalysisContext context, Diag
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | token | |
@@ -262,8 +262,8 @@ public static void ReportDiagnostic(this SyntaxNodeAnalysisContext context, Diag
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | trivia | |
@@ -286,8 +286,8 @@ public static void ReportDiagnostic(this SyntaxNodeAnalysisContext context, Diag
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | location | |
@@ -310,8 +310,8 @@ public static void ReportDiagnostic(this SyntaxNodeAnalysisContext context, Diag
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | location | |
@@ -335,8 +335,8 @@ public static void ReportDiagnostic(this SyntaxNodeAnalysisContext context, Diag
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | location | |
@@ -360,8 +360,8 @@ public static void ReportDiagnostic(this SyntaxNodeAnalysisContext context, Diag
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | location | |
@@ -386,8 +386,8 @@ public static void ReportDiagnostic(this SyntaxTreeAnalysisContext context, Diag
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | node | |
@@ -410,8 +410,8 @@ public static void ReportDiagnostic(this SyntaxTreeAnalysisContext context, Diag
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | token | |
@@ -434,8 +434,8 @@ public static void ReportDiagnostic(this SyntaxTreeAnalysisContext context, Diag
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | trivia | |
@@ -458,8 +458,8 @@ public static void ReportDiagnostic(this SyntaxTreeAnalysisContext context, Diag
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | location | |
@@ -482,8 +482,8 @@ public static void ReportDiagnostic(this SyntaxTreeAnalysisContext context, Diag
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | location | |
@@ -507,8 +507,8 @@ public static void ReportDiagnostic(this SyntaxTreeAnalysisContext context, Diag
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | location | |
@@ -532,8 +532,8 @@ public static void ReportDiagnostic(this SyntaxTreeAnalysisContext context, Diag
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | context | |
 | descriptor | |
 | location | |

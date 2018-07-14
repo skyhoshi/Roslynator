@@ -14,8 +14,8 @@ public static ITypeSymbol GetTypeSymbol(this SemanticModel semanticModel, Syntax
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | node | |
 | cancellationToken | |

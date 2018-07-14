@@ -14,8 +14,8 @@ public static INamedTypeSymbol GetTypeByMetadataName(this SemanticModel semantic
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | fullyQualifiedMetadataName | |
 

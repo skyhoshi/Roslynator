@@ -26,8 +26,8 @@ public static bool Is(this SyntaxKind kind, SyntaxKind kind1, SyntaxKind kind2)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | kind | |
 | kind1 | |
 | kind2 | |
@@ -49,8 +49,8 @@ public static bool Is(this SyntaxKind kind, SyntaxKind kind1, SyntaxKind kind2, 
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | kind | |
 | kind1 | |
 | kind2 | |
@@ -73,8 +73,8 @@ public static bool Is(this SyntaxKind kind, SyntaxKind kind1, SyntaxKind kind2, 
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | kind | |
 | kind1 | |
 | kind2 | |
@@ -98,8 +98,8 @@ public static bool Is(this SyntaxKind kind, SyntaxKind kind1, SyntaxKind kind2, 
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | kind | |
 | kind1 | |
 | kind2 | |
@@ -124,8 +124,8 @@ public static bool Is(this SyntaxKind kind, SyntaxKind kind1, SyntaxKind kind2, 
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | kind | |
 | kind1 | |
 | kind2 | |

@@ -14,14 +14,14 @@ public static TNode RemoveAt<TNode>(TNode node, int index) where TNode : Microso
 
 ### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | index | |
 

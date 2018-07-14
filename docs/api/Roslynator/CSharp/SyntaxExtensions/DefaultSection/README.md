@@ -14,8 +14,8 @@ public static SwitchSectionSyntax DefaultSection(this SwitchStatementSyntax swit
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | switchStatement | |
 
 ### Returns

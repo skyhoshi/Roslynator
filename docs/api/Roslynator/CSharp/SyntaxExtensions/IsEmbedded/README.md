@@ -14,8 +14,8 @@ public static bool IsEmbedded(this StatementSyntax statement, bool canBeBlock = 
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | statement | |
 | canBeBlock | Block can be considered as embedded statement |
 | canBeIfInsideElse | If statement that is a child of an else statement can be considered as an embedded statement\. |

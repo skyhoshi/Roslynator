@@ -14,8 +14,8 @@ public class SeparatedSyntaxListSelection<TNode> : Selection<TNode> where TNode 
 
 ### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 ### Inheritance

@@ -10,8 +10,8 @@ public static LiteralExpressionSyntax BooleanLiteralExpression(bool value)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | value | |
 
 ### Returns

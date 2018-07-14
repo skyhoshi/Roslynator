@@ -14,8 +14,8 @@ public static SyntaxTokenList ToSyntaxTokenList(this IEnumerable<SyntaxToken> to
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | tokens | |
 
 ### Returns

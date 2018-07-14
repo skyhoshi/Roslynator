@@ -14,8 +14,8 @@ public ModifierListInfo WithExplicitAccessibility(Accessibility newAccessibility
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | newAccessibility | |
 | comparer | |
 

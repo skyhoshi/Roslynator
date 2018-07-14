@@ -14,8 +14,8 @@ public static bool IsYieldReturn(this YieldStatementSyntax yieldStatement)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | yieldStatement | |
 
 ### Returns

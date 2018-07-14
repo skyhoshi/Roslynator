@@ -23,8 +23,8 @@ public TNode Insert(TNode node, SyntaxKind kind, IComparer<SyntaxKind> comparer 
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | kind | |
 | comparer | |
@@ -46,8 +46,8 @@ public TNode Insert(TNode node, SyntaxToken modifier, IComparer<SyntaxToken> com
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | modifier | |
 | comparer | |

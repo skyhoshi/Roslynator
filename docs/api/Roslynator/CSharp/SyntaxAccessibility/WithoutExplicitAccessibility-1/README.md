@@ -14,14 +14,14 @@ public static TNode WithoutExplicitAccessibility<TNode>(TNode node) where TNode 
 
 ### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 
 ### Returns

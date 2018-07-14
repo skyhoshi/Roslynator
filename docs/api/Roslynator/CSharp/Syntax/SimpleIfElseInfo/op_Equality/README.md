@@ -10,8 +10,8 @@ public static bool operator ==(in SimpleIfElseInfo info1, in SimpleIfElseInfo in
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

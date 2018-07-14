@@ -23,8 +23,8 @@ public string EnsureUniqueMemberName(string baseName, SemanticModel semanticMode
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | baseName | |
 | semanticModel | |
 | position | |
@@ -44,8 +44,8 @@ public string EnsureUniqueMemberName(string baseName, INamedTypeSymbol typeSymbo
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | baseName | |
 | typeSymbol | |
 | isCaseSensitive | |

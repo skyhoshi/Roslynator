@@ -21,8 +21,8 @@ public static LocalDeclarationStatementSyntax LocalDeclarationStatement(TypeSynt
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | type | |
 | identifier | |
 | value | |
@@ -40,8 +40,8 @@ public static LocalDeclarationStatementSyntax LocalDeclarationStatement(TypeSynt
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | type | |
 | identifier | |
 | value | |
@@ -59,8 +59,8 @@ public static LocalDeclarationStatementSyntax LocalDeclarationStatement(TypeSynt
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | type | |
 | identifier | |
 | initializer | |
@@ -78,8 +78,8 @@ public static LocalDeclarationStatementSyntax LocalDeclarationStatement(TypeSynt
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | type | |
 | identifier | |
 | initializer | |

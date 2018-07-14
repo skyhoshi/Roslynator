@@ -14,8 +14,8 @@ public StatementListInfo Add(StatementSyntax statement)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | statement | |
 
 ### Returns

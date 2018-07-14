@@ -19,8 +19,8 @@ public static UsingDirectiveSyntax UsingStaticDirective(NameSyntax name)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | name | |
 
 #### Returns
@@ -36,8 +36,8 @@ public static UsingDirectiveSyntax UsingStaticDirective(SyntaxToken usingKeyword
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | usingKeyword | |
 | staticKeyword | |
 | name | |

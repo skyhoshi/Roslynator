@@ -14,8 +14,8 @@ public static DocumentationCommentTriviaSyntax GetDocumentationComment(this Memb
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | member | |
 
 ### Returns

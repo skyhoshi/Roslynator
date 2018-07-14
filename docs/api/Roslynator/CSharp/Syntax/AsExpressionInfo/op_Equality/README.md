@@ -10,8 +10,8 @@ public static bool operator ==(in AsExpressionInfo info1, in AsExpressionInfo in
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

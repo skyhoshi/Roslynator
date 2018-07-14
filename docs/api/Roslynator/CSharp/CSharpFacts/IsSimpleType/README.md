@@ -14,8 +14,8 @@ public static bool IsSimpleType(SpecialType specialType)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | specialType | |
 
 ### Returns

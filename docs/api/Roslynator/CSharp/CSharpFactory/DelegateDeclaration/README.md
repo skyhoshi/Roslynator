@@ -19,8 +19,8 @@ public static DelegateDeclarationSyntax DelegateDeclaration(SyntaxTokenList modi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | returnType | |
 | identifier | |
@@ -39,8 +39,8 @@ public static DelegateDeclarationSyntax DelegateDeclaration(SyntaxTokenList modi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | returnType | |
 | identifier | |

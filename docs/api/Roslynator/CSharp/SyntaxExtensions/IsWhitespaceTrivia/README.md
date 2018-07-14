@@ -14,8 +14,8 @@ public static bool IsWhitespaceTrivia(this SyntaxTrivia trivia)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | trivia | |
 
 ### Returns

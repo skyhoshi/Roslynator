@@ -14,8 +14,8 @@ public static ISymbol GetSymbol(this SemanticModel semanticModel, SyntaxNode nod
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | node | |
 | cancellationToken | |

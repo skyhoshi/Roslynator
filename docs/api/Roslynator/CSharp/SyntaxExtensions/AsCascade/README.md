@@ -14,8 +14,8 @@ public static IfStatementCascade AsCascade(this IfStatementSyntax ifStatement)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | ifStatement | |
 
 ### Returns

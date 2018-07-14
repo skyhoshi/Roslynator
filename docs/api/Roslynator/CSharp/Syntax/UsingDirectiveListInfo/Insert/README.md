@@ -14,8 +14,8 @@ public UsingDirectiveListInfo Insert(int index, UsingDirectiveSyntax usingDirect
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | index | |
 | usingDirective | |
 

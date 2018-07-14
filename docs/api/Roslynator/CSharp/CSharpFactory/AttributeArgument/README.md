@@ -19,8 +19,8 @@ public static AttributeArgumentSyntax AttributeArgument(NameEqualsSyntax nameEqu
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | nameEquals | |
 | expression | |
 
@@ -37,8 +37,8 @@ public static AttributeArgumentSyntax AttributeArgument(NameColonSyntax nameColo
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | nameColon | |
 | expression | |
 

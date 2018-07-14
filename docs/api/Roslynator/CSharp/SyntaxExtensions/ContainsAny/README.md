@@ -25,8 +25,8 @@ public static bool ContainsAny(this SyntaxTokenList tokenList, SyntaxKind kind1,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | tokenList | |
 | kind1 | |
 | kind2 | |
@@ -48,8 +48,8 @@ public static bool ContainsAny(this SyntaxTokenList tokenList, SyntaxKind kind1,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | tokenList | |
 | kind1 | |
 | kind2 | |
@@ -72,8 +72,8 @@ public static bool ContainsAny(this SyntaxTokenList tokenList, SyntaxKind kind1,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | tokenList | |
 | kind1 | |
 | kind2 | |
@@ -97,8 +97,8 @@ public static bool ContainsAny(this SyntaxTokenList tokenList, SyntaxKind kind1,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | tokenList | |
 | kind1 | |
 | kind2 | |

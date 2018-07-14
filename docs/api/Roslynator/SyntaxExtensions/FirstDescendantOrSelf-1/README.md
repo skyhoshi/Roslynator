@@ -23,14 +23,14 @@ public static TNode FirstDescendantOrSelf<TNode>(this SyntaxNode node, Func<Synt
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | descendIntoChildren | |
 | descendIntoTrivia | |
@@ -52,14 +52,14 @@ public static TNode FirstDescendantOrSelf<TNode>(this SyntaxNode node, TextSpan 
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | span | |
 | descendIntoChildren | |

@@ -14,8 +14,8 @@ public static bool SpanContainsDirectives(this SyntaxNode node)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 
 ### Returns

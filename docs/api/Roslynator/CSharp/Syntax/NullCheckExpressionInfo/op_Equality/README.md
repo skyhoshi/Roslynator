@@ -10,8 +10,8 @@ public static bool operator ==(in NullCheckExpressionInfo info1, in NullCheckExp
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

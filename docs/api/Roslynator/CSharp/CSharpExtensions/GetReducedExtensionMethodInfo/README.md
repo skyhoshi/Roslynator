@@ -14,8 +14,8 @@ public static ExtensionMethodSymbolInfo GetReducedExtensionMethodInfo(this Seman
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | expression | |
 | cancellationToken | |

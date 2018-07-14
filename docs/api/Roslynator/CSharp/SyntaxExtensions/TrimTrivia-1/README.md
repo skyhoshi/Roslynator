@@ -25,14 +25,14 @@ public static TNode TrimTrivia<TNode>(this TNode node) where TNode : Microsoft.C
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 
 #### Returns
@@ -54,8 +54,8 @@ public static SyntaxToken TrimTrivia(this SyntaxToken token)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | token | |
 
 #### Returns

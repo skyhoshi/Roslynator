@@ -25,14 +25,14 @@ public static SeparatedSyntaxList<TNode> ReplaceRange<TNode>(this SeparatedSynta
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | index | |
 | count | |
@@ -55,14 +55,14 @@ public static SyntaxList<TNode> ReplaceRange<TNode>(this SyntaxList<TNode> list,
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | index | |
 | count | |
@@ -85,8 +85,8 @@ public static SyntaxTokenList ReplaceRange(this SyntaxTokenList list, int index,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | index | |
 | count | |
@@ -109,8 +109,8 @@ public static SyntaxTriviaList ReplaceRange(this SyntaxTriviaList list, int inde
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | index | |
 | count | |

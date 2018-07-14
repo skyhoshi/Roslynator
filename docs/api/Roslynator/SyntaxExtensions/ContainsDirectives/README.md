@@ -14,8 +14,8 @@ public static bool ContainsDirectives(this SyntaxNode node, TextSpan span)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | span | |
 

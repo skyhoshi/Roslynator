@@ -19,8 +19,8 @@ public override bool Equals(object obj)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | obj | |
 
 #### Returns
@@ -36,8 +36,8 @@ public bool Equals(ExtensionMethodSymbolInfo other)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | other | |
 
 #### Returns

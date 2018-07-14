@@ -23,8 +23,8 @@ public static Task<Document> RemovePreprocessorDirectivesAsync(this Document doc
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | directiveKinds | |
 | cancellationToken | |
@@ -46,8 +46,8 @@ public static Task<Document> RemovePreprocessorDirectivesAsync(this Document doc
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | span | |
 | directiveKinds | |

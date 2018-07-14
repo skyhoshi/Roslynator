@@ -21,8 +21,8 @@ public static FieldDeclarationSyntax FieldDeclaration(SyntaxTokenList modifiers,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | type | |
 | identifier | |
@@ -41,8 +41,8 @@ public static FieldDeclarationSyntax FieldDeclaration(SyntaxTokenList modifiers,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | type | |
 | identifier | |
@@ -61,8 +61,8 @@ public static FieldDeclarationSyntax FieldDeclaration(SyntaxTokenList modifiers,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | type | |
 | identifier | |
@@ -81,8 +81,8 @@ public static FieldDeclarationSyntax FieldDeclaration(SyntaxTokenList modifiers,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | type | |
 | identifier | |

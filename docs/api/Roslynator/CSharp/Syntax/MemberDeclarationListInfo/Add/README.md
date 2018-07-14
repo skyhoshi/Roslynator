@@ -14,8 +14,8 @@ public MemberDeclarationListInfo Add(MemberDeclarationSyntax member)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | member | |
 
 ### Returns

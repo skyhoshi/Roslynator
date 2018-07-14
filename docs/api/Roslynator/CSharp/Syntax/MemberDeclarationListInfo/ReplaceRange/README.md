@@ -14,8 +14,8 @@ public MemberDeclarationListInfo ReplaceRange(MemberDeclarationSyntax memberInLi
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | memberInList | |
 | newMembers | |
 

@@ -26,14 +26,14 @@ public static SeparatedSyntaxList<TNode> WithTriviaFrom<TNode>(this SeparatedSyn
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | node | |
 
@@ -55,14 +55,14 @@ public static SyntaxList<TNode> WithTriviaFrom<TNode>(this SyntaxList<TNode> lis
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | node | |
 
@@ -83,14 +83,14 @@ public static TNode WithTriviaFrom<TNode>(this TNode node, SyntaxToken token) wh
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | token | |
 
@@ -111,8 +111,8 @@ public static SyntaxToken WithTriviaFrom(this SyntaxToken token, SyntaxNode node
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | token | |
 | node | |
 

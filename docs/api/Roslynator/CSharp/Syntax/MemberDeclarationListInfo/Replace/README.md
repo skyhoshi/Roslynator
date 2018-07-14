@@ -14,8 +14,8 @@ public MemberDeclarationListInfo Replace(MemberDeclarationSyntax memberInList, M
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | memberInList | |
 | newMember | |
 

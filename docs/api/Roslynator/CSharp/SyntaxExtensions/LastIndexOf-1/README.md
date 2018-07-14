@@ -24,14 +24,14 @@ public static int LastIndexOf<TNode>(this SeparatedSyntaxList<TNode> list, Synta
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | kind | |
 
@@ -52,14 +52,14 @@ public static int LastIndexOf<TNode>(this SyntaxList<TNode> list, SyntaxKind kin
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | kind | |
 
@@ -80,8 +80,8 @@ public static int LastIndexOf(this SyntaxTriviaList triviaList, SyntaxKind kind)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | triviaList | |
 | kind | |
 

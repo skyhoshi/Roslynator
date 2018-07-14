@@ -23,8 +23,8 @@ public static SimpleAssignmentExpressionInfo SimpleAssignmentExpressionInfo(Synt
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | walkDownParentheses | |
 | allowMissing | |
@@ -46,8 +46,8 @@ public static SimpleAssignmentExpressionInfo SimpleAssignmentExpressionInfo(Assi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | assignmentExpression | |
 | walkDownParentheses | |
 | allowMissing | |

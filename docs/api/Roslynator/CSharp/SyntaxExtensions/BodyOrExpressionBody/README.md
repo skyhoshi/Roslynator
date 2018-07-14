@@ -28,8 +28,8 @@ public static CSharpSyntaxNode BodyOrExpressionBody(this AccessorDeclarationSynt
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | accessorDeclaration | |
 
 #### Returns
@@ -49,8 +49,8 @@ public static CSharpSyntaxNode BodyOrExpressionBody(this ConstructorDeclarationS
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | constructorDeclaration | |
 
 #### Returns
@@ -70,8 +70,8 @@ public static CSharpSyntaxNode BodyOrExpressionBody(this ConversionOperatorDecla
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | conversionOperatorDeclaration | |
 
 #### Returns
@@ -91,8 +91,8 @@ public static CSharpSyntaxNode BodyOrExpressionBody(this DestructorDeclarationSy
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | destructorDeclaration | |
 
 #### Returns
@@ -112,8 +112,8 @@ public static CSharpSyntaxNode BodyOrExpressionBody(this LocalFunctionStatementS
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | localFunctionStatement | |
 
 #### Returns
@@ -133,8 +133,8 @@ public static CSharpSyntaxNode BodyOrExpressionBody(this MethodDeclarationSyntax
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | methodDeclaration | |
 
 #### Returns
@@ -154,8 +154,8 @@ public static CSharpSyntaxNode BodyOrExpressionBody(this OperatorDeclarationSynt
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | operatorDeclaration | |
 
 #### Returns

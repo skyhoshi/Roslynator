@@ -19,8 +19,8 @@ public static TypeParameterConstraintClauseSyntax TypeParameterConstraintClause(
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | name | |
 | typeParameterConstraint | |
 
@@ -37,8 +37,8 @@ public static TypeParameterConstraintClauseSyntax TypeParameterConstraintClause(
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | identifierName | |
 | typeParameterConstraint | |
 

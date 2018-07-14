@@ -10,8 +10,8 @@ public static bool operator ==(in IfStatementCascade info1, in IfStatementCascad
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

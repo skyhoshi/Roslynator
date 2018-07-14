@@ -10,8 +10,8 @@ public static LiteralExpressionSyntax CharacterLiteralExpression(char value)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | value | |
 
 ### Returns

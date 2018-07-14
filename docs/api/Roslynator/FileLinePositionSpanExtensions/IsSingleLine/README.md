@@ -14,8 +14,8 @@ public static bool IsSingleLine(this FileLinePositionSpan fileLinePositionSpan)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | fileLinePositionSpan | |
 
 ### Returns

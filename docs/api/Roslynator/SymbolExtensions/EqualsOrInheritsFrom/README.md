@@ -14,8 +14,8 @@ public static bool EqualsOrInheritsFrom(this ITypeSymbol type, ITypeSymbol baseT
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | type | |
 | baseType | |
 | includeInterfaces | |

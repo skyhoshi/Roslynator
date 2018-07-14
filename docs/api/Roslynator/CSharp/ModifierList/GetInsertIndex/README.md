@@ -23,8 +23,8 @@ public static int GetInsertIndex(SyntaxTokenList tokens, SyntaxToken token, ICom
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | tokens | |
 | token | |
 | comparer | |
@@ -46,8 +46,8 @@ public static int GetInsertIndex(SyntaxTokenList tokens, SyntaxKind kind, ICompa
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | tokens | |
 | kind | |
 | comparer | |

@@ -25,8 +25,8 @@ public static bool IsKind(this ISymbol symbol, SymbolKind kind1, SymbolKind kind
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | symbol | |
 | kind1 | |
 | kind2 | |
@@ -48,8 +48,8 @@ public static bool IsKind(this ISymbol symbol, SymbolKind kind1, SymbolKind kind
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | symbol | |
 | kind1 | |
 | kind2 | |
@@ -72,8 +72,8 @@ public static bool IsKind(this ISymbol symbol, SymbolKind kind1, SymbolKind kind
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | symbol | |
 | kind1 | |
 | kind2 | |
@@ -97,8 +97,8 @@ public static bool IsKind(this ISymbol symbol, SymbolKind kind1, SymbolKind kind
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | symbol | |
 | kind1 | |
 | kind2 | |

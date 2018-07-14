@@ -14,14 +14,14 @@ public static TNode RemoveWhitespace<TNode>(this TNode node, TextSpan? span = nu
 
 ### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | span | |
 

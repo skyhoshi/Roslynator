@@ -19,8 +19,8 @@ public static InitializerExpressionSyntax CollectionInitializerExpression(Separa
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | expressions | |
 
 #### Returns
@@ -36,8 +36,8 @@ public static InitializerExpressionSyntax CollectionInitializerExpression(Syntax
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | openBraceToken | |
 | expressions | |
 | closeBraceToken | |

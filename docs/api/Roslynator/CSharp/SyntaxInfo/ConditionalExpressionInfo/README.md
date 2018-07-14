@@ -23,8 +23,8 @@ public static ConditionalExpressionInfo ConditionalExpressionInfo(SyntaxNode nod
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | walkDownParentheses | |
 | allowMissing | |
@@ -46,8 +46,8 @@ public static ConditionalExpressionInfo ConditionalExpressionInfo(ConditionalExp
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | conditionalExpression | |
 | walkDownParentheses | |
 | allowMissing | |

@@ -14,14 +14,14 @@ public static TNode ReplaceWhitespace<TNode>(this TNode node, SyntaxTrivia repla
 
 ### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | replacement | |
 | span | |

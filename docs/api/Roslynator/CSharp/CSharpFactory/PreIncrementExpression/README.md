@@ -19,8 +19,8 @@ public static PrefixUnaryExpressionSyntax PreIncrementExpression(ExpressionSynta
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | operand | |
 
 #### Returns
@@ -36,8 +36,8 @@ public static PrefixUnaryExpressionSyntax PreIncrementExpression(ExpressionSynta
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | operand | |
 | operatorToken | |
 

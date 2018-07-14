@@ -19,8 +19,8 @@ public static ClassDeclarationSyntax ClassDeclaration(SyntaxTokenList modifiers,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | identifier | |
 | members | |
@@ -38,8 +38,8 @@ public static ClassDeclarationSyntax ClassDeclaration(SyntaxTokenList modifiers,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | identifier | |
 | members | |

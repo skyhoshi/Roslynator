@@ -10,8 +10,8 @@ public static TryStatementSyntax TryStatement(BlockSyntax block, CatchClauseSynt
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | block | |
 | catch | |
 | finally | |

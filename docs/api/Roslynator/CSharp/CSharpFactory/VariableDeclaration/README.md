@@ -21,8 +21,8 @@ public static VariableDeclarationSyntax VariableDeclaration(TypeSyntax type, str
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | type | |
 | identifier | |
 | value | |
@@ -40,8 +40,8 @@ public static VariableDeclarationSyntax VariableDeclaration(TypeSyntax type, Syn
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | type | |
 | identifier | |
 | value | |
@@ -59,8 +59,8 @@ public static VariableDeclarationSyntax VariableDeclaration(TypeSyntax type, Syn
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | type | |
 | identifier | |
 | initializer | |
@@ -78,8 +78,8 @@ public static VariableDeclarationSyntax VariableDeclaration(TypeSyntax type, Var
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | type | |
 | variable | |
 

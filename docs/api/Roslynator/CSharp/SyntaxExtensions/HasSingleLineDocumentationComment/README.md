@@ -14,8 +14,8 @@ public static bool HasSingleLineDocumentationComment(this MemberDeclarationSynta
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | member | |
 
 ### Returns

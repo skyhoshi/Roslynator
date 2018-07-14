@@ -23,8 +23,8 @@ public static Task<Document> ReplaceTokenAsync(this Document document, SyntaxTok
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | oldToken | |
 | newToken | |
@@ -47,8 +47,8 @@ public static Task<Document> ReplaceTokenAsync(this Document document, SyntaxTok
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | oldToken | |
 | newTokens | |

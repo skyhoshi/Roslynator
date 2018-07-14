@@ -14,8 +14,8 @@ public MemberDeclarationListInfo ReplaceAt(int index, MemberDeclarationSyntax ne
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | index | |
 | newMember | |
 

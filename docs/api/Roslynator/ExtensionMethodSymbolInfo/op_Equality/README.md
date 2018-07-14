@@ -10,8 +10,8 @@ public static bool operator ==(in ExtensionMethodSymbolInfo info1, in ExtensionM
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

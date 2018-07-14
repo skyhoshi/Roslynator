@@ -24,8 +24,8 @@ public static StringConcatenationExpressionInfo StringConcatenationExpressionInf
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | semanticModel | |
 | walkDownParentheses | |
@@ -48,8 +48,8 @@ public static StringConcatenationExpressionInfo StringConcatenationExpressionInf
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | binaryExpression | |
 | semanticModel | |
 | cancellationToken | |
@@ -71,8 +71,8 @@ public static StringConcatenationExpressionInfo StringConcatenationExpressionInf
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | expressionChain | |
 | semanticModel | |
 | cancellationToken | |

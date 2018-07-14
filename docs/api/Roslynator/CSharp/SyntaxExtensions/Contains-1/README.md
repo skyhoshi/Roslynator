@@ -25,14 +25,14 @@ public static bool Contains<TNode>(this SeparatedSyntaxList<TNode> list, SyntaxK
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | kind | |
 
@@ -53,14 +53,14 @@ public static bool Contains<TNode>(this SyntaxList<TNode> list, SyntaxKind kind)
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | kind | |
 
@@ -81,8 +81,8 @@ public static bool Contains(this SyntaxTokenList tokenList, SyntaxKind kind)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | tokenList | |
 | kind | |
 
@@ -103,8 +103,8 @@ public static bool Contains(this SyntaxTriviaList triviaList, SyntaxKind kind)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | triviaList | |
 | kind | |
 

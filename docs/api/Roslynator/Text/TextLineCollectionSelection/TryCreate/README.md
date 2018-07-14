@@ -14,8 +14,8 @@ public static bool TryCreate(TextLineCollection lines, TextSpan span, out TextLi
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | lines | |
 | span | |
 | selectedLines | |

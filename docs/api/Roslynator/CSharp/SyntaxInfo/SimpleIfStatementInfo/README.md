@@ -23,8 +23,8 @@ public static SimpleIfStatementInfo SimpleIfStatementInfo(SyntaxNode node, bool 
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | walkDownParentheses | |
 | allowMissing | |
@@ -46,8 +46,8 @@ public static SimpleIfStatementInfo SimpleIfStatementInfo(IfStatementSyntax ifSt
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | ifStatement | |
 | walkDownParentheses | |
 | allowMissing | |

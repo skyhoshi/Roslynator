@@ -23,8 +23,8 @@ public static Task<Document> WithTextChangesAsync(this Document document, TextCh
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | textChanges | |
 | cancellationToken | |
@@ -46,8 +46,8 @@ public static Task<Document> WithTextChangesAsync(this Document document, IEnume
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | textChanges | |
 | cancellationToken | |

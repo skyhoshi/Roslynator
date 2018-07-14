@@ -23,8 +23,8 @@ public int IndexOf(Func<StatementSyntax, bool> predicate)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | predicate | |
 
 #### Returns
@@ -44,8 +44,8 @@ public int IndexOf(StatementSyntax statement)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | statement | |
 
 #### Returns

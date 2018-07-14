@@ -10,8 +10,8 @@ public static bool operator ==(in SimpleMemberInvocationExpressionInfo info1, in
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

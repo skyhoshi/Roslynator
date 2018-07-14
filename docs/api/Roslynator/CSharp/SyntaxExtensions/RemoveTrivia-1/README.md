@@ -14,14 +14,14 @@ public static TNode RemoveTrivia<TNode>(this TNode node, TextSpan? span = null) 
 
 ### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | span | |
 

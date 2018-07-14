@@ -14,14 +14,14 @@ public static SyntaxList<TNode> ToSyntaxList<TNode>(this IEnumerable<TNode> node
 
 ### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | nodes | |
 
 ### Returns

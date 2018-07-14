@@ -14,8 +14,8 @@ public string EnsureUniqueLocalName(string baseName, SemanticModel semanticModel
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | baseName | |
 | semanticModel | |
 | position | |

@@ -23,8 +23,8 @@ public static bool HasAttribute(this ISymbol symbol, INamedTypeSymbol attributeC
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | symbol | |
 | attributeClass | |
 
@@ -45,8 +45,8 @@ public static bool HasAttribute(this ITypeSymbol typeSymbol, INamedTypeSymbol at
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeSymbol | |
 | attributeClass | |
 | includeBaseTypes | |

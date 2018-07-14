@@ -19,8 +19,8 @@ public static BinaryExpressionSyntax DivideExpression(ExpressionSyntax left, Exp
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | left | |
 | right | |
 
@@ -37,8 +37,8 @@ public static BinaryExpressionSyntax DivideExpression(ExpressionSyntax left, Syn
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | left | |
 | operatorToken | |
 | right | |

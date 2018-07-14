@@ -10,8 +10,8 @@ public static bool operator !=(in BinaryExpressionInfo info1, in BinaryExpressio
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

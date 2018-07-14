@@ -19,8 +19,8 @@ public static MemberAccessExpressionSyntax SimpleMemberAccessExpression(Expressi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | expression | |
 | name | |
 
@@ -37,8 +37,8 @@ public static MemberAccessExpressionSyntax SimpleMemberAccessExpression(Expressi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | expression | |
 | operatorToken | |
 | name | |

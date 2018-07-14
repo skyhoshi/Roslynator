@@ -25,14 +25,14 @@ public static TNode Find<TNode>(this SeparatedSyntaxList<TNode> list, SyntaxKind
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | kind | |
 
@@ -53,14 +53,14 @@ public static TNode Find<TNode>(this SyntaxList<TNode> list, SyntaxKind kind) wh
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | kind | |
 
@@ -81,8 +81,8 @@ public static SyntaxToken Find(this SyntaxTokenList tokenList, SyntaxKind kind)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | tokenList | |
 | kind | |
 
@@ -103,8 +103,8 @@ public static SyntaxTrivia Find(this SyntaxTriviaList triviaList, SyntaxKind kin
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | triviaList | |
 | kind | |
 

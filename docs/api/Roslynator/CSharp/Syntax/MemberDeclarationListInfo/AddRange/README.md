@@ -14,8 +14,8 @@ public MemberDeclarationListInfo AddRange(IEnumerable<MemberDeclarationSyntax> m
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | members | |
 
 ### Returns

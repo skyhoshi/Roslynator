@@ -14,8 +14,8 @@ public static bool IsPubliclyVisible(MemberDeclarationSyntax declaration)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | declaration | |
 
 ### Returns

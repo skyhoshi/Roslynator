@@ -19,8 +19,8 @@ public IEnumerable<ExpressionSyntax> Expressions(bool leftToRight = false)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | leftToRight | If true expressions are enumerated as they are displayed in the source code\. |
 
 ### Returns

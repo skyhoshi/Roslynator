@@ -37,8 +37,8 @@ public static bool Is(this Accessibility accessibility, Accessibility accessibil
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | accessibility | |
 | accessibility1 | |
 | accessibility2 | |
@@ -60,8 +60,8 @@ public static bool Is(this Accessibility accessibility, Accessibility accessibil
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | accessibility | |
 | accessibility1 | |
 | accessibility2 | |
@@ -84,8 +84,8 @@ public static bool Is(this Accessibility accessibility, Accessibility accessibil
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | accessibility | |
 | accessibility1 | |
 | accessibility2 | |
@@ -109,8 +109,8 @@ public static bool Is(this Accessibility accessibility, Accessibility accessibil
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | accessibility | |
 | accessibility1 | |
 | accessibility2 | |
@@ -135,8 +135,8 @@ public static bool Is(this MethodKind methodKind, MethodKind methodKind1, Method
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | methodKind | |
 | methodKind1 | |
 | methodKind2 | |
@@ -158,8 +158,8 @@ public static bool Is(this MethodKind methodKind, MethodKind methodKind1, Method
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | methodKind | |
 | methodKind1 | |
 | methodKind2 | |
@@ -182,8 +182,8 @@ public static bool Is(this MethodKind methodKind, MethodKind methodKind1, Method
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | methodKind | |
 | methodKind1 | |
 | methodKind2 | |
@@ -207,8 +207,8 @@ public static bool Is(this MethodKind methodKind, MethodKind methodKind1, Method
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | methodKind | |
 | methodKind1 | |
 | methodKind2 | |
@@ -233,8 +233,8 @@ public static bool Is(this SpecialType specialType, SpecialType specialType1, Sp
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | specialType | |
 | specialType1 | |
 | specialType2 | |
@@ -256,8 +256,8 @@ public static bool Is(this SpecialType specialType, SpecialType specialType1, Sp
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | specialType | |
 | specialType1 | |
 | specialType2 | |
@@ -280,8 +280,8 @@ public static bool Is(this SpecialType specialType, SpecialType specialType1, Sp
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | specialType | |
 | specialType1 | |
 | specialType2 | |
@@ -305,8 +305,8 @@ public static bool Is(this SpecialType specialType, SpecialType specialType1, Sp
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | specialType | |
 | specialType1 | |
 | specialType2 | |
@@ -331,8 +331,8 @@ public static bool Is(this TypeKind typeKind, TypeKind typeKind1, TypeKind typeK
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeKind | |
 | typeKind1 | |
 | typeKind2 | |
@@ -354,8 +354,8 @@ public static bool Is(this TypeKind typeKind, TypeKind typeKind1, TypeKind typeK
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeKind | |
 | typeKind1 | |
 | typeKind2 | |
@@ -378,8 +378,8 @@ public static bool Is(this TypeKind typeKind, TypeKind typeKind1, TypeKind typeK
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeKind | |
 | typeKind1 | |
 | typeKind2 | |
@@ -403,8 +403,8 @@ public static bool Is(this TypeKind typeKind, TypeKind typeKind1, TypeKind typeK
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeKind | |
 | typeKind1 | |
 | typeKind2 | |

@@ -14,8 +14,8 @@ public static Task<Document> RemoveNodeAsync(this Document document, SyntaxNode 
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | node | |
 | options | |

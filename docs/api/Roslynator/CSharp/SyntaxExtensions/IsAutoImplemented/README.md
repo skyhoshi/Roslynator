@@ -14,8 +14,8 @@ public static bool IsAutoImplemented(this AccessorDeclarationSyntax accessorDecl
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | accessorDeclaration | |
 
 ### Returns

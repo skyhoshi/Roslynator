@@ -23,8 +23,8 @@ public override bool Equals(object obj)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | obj | The object to compare with the current instance\.  |
 
 #### Returns
@@ -45,8 +45,8 @@ public bool Equals(SimpleIfElseInfo other)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | other | An object to compare with this object\. |
 
 #### Returns

@@ -10,8 +10,8 @@ public bool Remove(Foo item)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | item | |
 
 ### Returns

@@ -25,14 +25,14 @@ public static TNode AppendToLeadingTrivia<TNode>(this TNode node, IEnumerable<Sy
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | trivia | |
 
@@ -53,14 +53,14 @@ public static TNode AppendToLeadingTrivia<TNode>(this TNode node, SyntaxTrivia t
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | trivia | |
 
@@ -81,8 +81,8 @@ public static SyntaxToken AppendToLeadingTrivia(this SyntaxToken token, IEnumera
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | token | |
 | trivia | |
 
@@ -103,8 +103,8 @@ public static SyntaxToken AppendToLeadingTrivia(this SyntaxToken token, SyntaxTr
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | token | |
 | trivia | |
 

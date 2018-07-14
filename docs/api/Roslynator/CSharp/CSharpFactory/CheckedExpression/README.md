@@ -19,8 +19,8 @@ public static CheckedExpressionSyntax CheckedExpression(ExpressionSyntax express
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | expression | |
 
 #### Returns
@@ -36,8 +36,8 @@ public static CheckedExpressionSyntax CheckedExpression(SyntaxToken openParenTok
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | openParenToken | |
 | expression | |
 | closeParenToken | |

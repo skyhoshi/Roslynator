@@ -23,14 +23,14 @@ public static SeparatedSyntaxList<TNode> ToSeparatedSyntaxList<TNode>(this IEnum
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | nodes | |
 
 #### Returns
@@ -50,14 +50,14 @@ public static SeparatedSyntaxList<TNode> ToSeparatedSyntaxList<TNode>(this IEnum
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | nodesAndTokens | |
 
 #### Returns

@@ -10,8 +10,8 @@ public static bool operator !=(in LocalDeclarationStatementInfo info1, in LocalD
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

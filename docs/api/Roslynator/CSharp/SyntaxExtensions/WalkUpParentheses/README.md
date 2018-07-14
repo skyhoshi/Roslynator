@@ -14,8 +14,8 @@ public static ExpressionSyntax WalkUpParentheses(this ExpressionSyntax expressio
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | expression | |
 
 ### Returns

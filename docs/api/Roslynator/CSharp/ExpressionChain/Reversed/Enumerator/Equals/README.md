@@ -10,8 +10,8 @@ public override bool Equals(object obj)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | obj | |
 
 ### Returns

@@ -23,8 +23,8 @@ public static bool IsUniqueName(string name, ImmutableArray<ISymbol> symbols, bo
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | name | |
 | symbols | |
 | isCaseSensitive | |
@@ -46,8 +46,8 @@ public static bool IsUniqueName(string name, IEnumerable<string> reservedNames, 
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | name | |
 | reservedNames | |
 | isCaseSensitive | |

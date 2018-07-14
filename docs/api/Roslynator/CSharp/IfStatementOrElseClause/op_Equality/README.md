@@ -10,8 +10,8 @@ public static bool operator ==(in IfStatementOrElseClause left, in IfStatementOr
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | left | |
 | right | |
 

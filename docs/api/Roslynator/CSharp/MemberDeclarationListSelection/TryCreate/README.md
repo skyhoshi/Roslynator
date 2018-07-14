@@ -23,8 +23,8 @@ public static bool TryCreate(NamespaceDeclarationSyntax namespaceDeclaration, Te
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | namespaceDeclaration | |
 | span | |
 | selectedMembers | |
@@ -47,8 +47,8 @@ public static bool TryCreate(TypeDeclarationSyntax typeDeclaration, TextSpan spa
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeDeclaration | |
 | span | |
 | selectedMembers | |

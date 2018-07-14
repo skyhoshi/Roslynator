@@ -23,8 +23,8 @@ public static SimpleMemberInvocationExpressionInfo SimpleMemberInvocationExpress
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | walkDownParentheses | |
 | allowMissing | |
@@ -46,8 +46,8 @@ public static SimpleMemberInvocationExpressionInfo SimpleMemberInvocationExpress
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | invocationExpression | |
 | allowMissing | |
 

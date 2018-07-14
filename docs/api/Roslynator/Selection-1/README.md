@@ -16,8 +16,8 @@ public abstract class Selection<T> : System.Collections.Generic.IReadOnlyList<T>
 
 ### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | T | |
 
 ### Inheritance

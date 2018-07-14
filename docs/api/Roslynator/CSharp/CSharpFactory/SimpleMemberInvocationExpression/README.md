@@ -20,8 +20,8 @@ public static InvocationExpressionSyntax SimpleMemberInvocationExpression(Expres
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | expression | |
 | name | |
 
@@ -38,8 +38,8 @@ public static InvocationExpressionSyntax SimpleMemberInvocationExpression(Expres
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | expression | |
 | name | |
 | argument | |
@@ -57,8 +57,8 @@ public static InvocationExpressionSyntax SimpleMemberInvocationExpression(Expres
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | expression | |
 | name | |
 | argumentList | |

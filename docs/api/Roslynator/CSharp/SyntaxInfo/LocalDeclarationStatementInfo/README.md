@@ -23,8 +23,8 @@ public static LocalDeclarationStatementInfo LocalDeclarationStatementInfo(LocalD
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | localDeclarationStatement | |
 | allowMissing | |
 
@@ -45,8 +45,8 @@ public static LocalDeclarationStatementInfo LocalDeclarationStatementInfo(Expres
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | value | |
 | allowMissing | |
 

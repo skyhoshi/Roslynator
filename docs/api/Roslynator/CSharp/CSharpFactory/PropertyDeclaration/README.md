@@ -19,8 +19,8 @@ public static PropertyDeclarationSyntax PropertyDeclaration(SyntaxTokenList modi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | type | |
 | identifier | |
@@ -40,8 +40,8 @@ public static PropertyDeclarationSyntax PropertyDeclaration(SyntaxTokenList modi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | type | |
 | identifier | |

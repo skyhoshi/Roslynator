@@ -14,8 +14,8 @@ public TNode RemoveAt(TNode node, int index)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | index | |
 

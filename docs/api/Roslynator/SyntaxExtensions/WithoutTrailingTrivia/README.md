@@ -23,8 +23,8 @@ public static SyntaxNodeOrToken WithoutTrailingTrivia(this SyntaxNodeOrToken nod
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | nodeOrToken | |
 
 #### Returns
@@ -44,8 +44,8 @@ public static SyntaxToken WithoutTrailingTrivia(this SyntaxToken token)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | token | |
 
 #### Returns

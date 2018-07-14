@@ -14,8 +14,8 @@ public StatementListInfo Replace(StatementSyntax statementInList, StatementSynta
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | statementInList | |
 | newStatement | |
 

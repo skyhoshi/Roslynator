@@ -23,8 +23,8 @@ public static RegionInfo RegionInfo(RegionDirectiveTriviaSyntax regionDirective)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | regionDirective | |
 
 #### Returns
@@ -44,8 +44,8 @@ public static RegionInfo RegionInfo(EndRegionDirectiveTriviaSyntax endRegionDire
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | endRegionDirective | |
 
 #### Returns

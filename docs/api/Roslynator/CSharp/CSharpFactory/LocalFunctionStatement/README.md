@@ -19,8 +19,8 @@ public static LocalFunctionStatementSyntax LocalFunctionStatement(SyntaxTokenLis
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | returnType | |
 | identifier | |
@@ -40,8 +40,8 @@ public static LocalFunctionStatementSyntax LocalFunctionStatement(SyntaxTokenLis
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | returnType | |
 | identifier | |

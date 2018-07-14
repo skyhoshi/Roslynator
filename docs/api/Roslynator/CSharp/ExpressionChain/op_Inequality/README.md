@@ -10,8 +10,8 @@ public static bool operator !=(in ExpressionChain info1, in ExpressionChain info
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

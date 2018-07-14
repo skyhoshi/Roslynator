@@ -24,8 +24,8 @@ public static SimpleAssignmentStatementInfo SimpleAssignmentStatementInfo(Statem
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | statement | |
 | walkDownParentheses | |
 | allowMissing | |
@@ -47,8 +47,8 @@ public static SimpleAssignmentStatementInfo SimpleAssignmentStatementInfo(Assign
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | assignmentExpression | |
 | walkDownParentheses | |
 | allowMissing | |
@@ -70,8 +70,8 @@ public static SimpleAssignmentStatementInfo SimpleAssignmentStatementInfo(Expres
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | expressionStatement | |
 | walkDownParentheses | |
 | allowMissing | |

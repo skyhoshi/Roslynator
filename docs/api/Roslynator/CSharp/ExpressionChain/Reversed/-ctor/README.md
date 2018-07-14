@@ -10,8 +10,8 @@ public Reversed(in ExpressionChain chain)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | chain | |
 
 

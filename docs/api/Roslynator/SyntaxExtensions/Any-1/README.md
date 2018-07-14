@@ -25,14 +25,14 @@ public static bool Any<TNode>(this SeparatedSyntaxList<TNode> list, Func<TNode, 
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | predicate | |
 
@@ -53,14 +53,14 @@ public static bool Any<TNode>(this SyntaxList<TNode> list, Func<TNode, bool> pre
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | predicate | |
 
@@ -81,8 +81,8 @@ public static bool Any(this SyntaxTokenList list, Func<SyntaxToken, bool> predic
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | predicate | |
 
@@ -103,8 +103,8 @@ public static bool Any(this SyntaxTriviaList list, Func<SyntaxTrivia, bool> pred
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | predicate | |
 

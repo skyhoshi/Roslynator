@@ -19,8 +19,8 @@ public static PrefixUnaryExpressionSyntax BitwiseNotExpression(ExpressionSyntax 
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | operand | |
 
 #### Returns
@@ -36,8 +36,8 @@ public static PrefixUnaryExpressionSyntax BitwiseNotExpression(ExpressionSyntax 
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | operand | |
 | operatorToken | |
 

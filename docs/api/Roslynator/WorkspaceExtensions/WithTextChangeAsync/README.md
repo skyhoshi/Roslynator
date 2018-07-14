@@ -14,8 +14,8 @@ public static Task<Document> WithTextChangeAsync(this Document document, TextCha
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | textChange | |
 | cancellationToken | |

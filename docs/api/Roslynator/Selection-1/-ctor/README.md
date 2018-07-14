@@ -14,8 +14,8 @@ protected Selection(TextSpan span, int firstIndex, int lastIndex)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | span | |
 | firstIndex | |
 | lastIndex | |

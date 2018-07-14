@@ -10,8 +10,8 @@ public static bool operator ==(in SimpleAssignmentExpressionInfo info1, in Simpl
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

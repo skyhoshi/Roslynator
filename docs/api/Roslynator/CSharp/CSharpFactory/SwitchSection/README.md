@@ -20,8 +20,8 @@ public static SwitchSectionSyntax SwitchSection(SwitchLabelSyntax switchLabel, S
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | switchLabel | |
 | statement | |
 
@@ -38,8 +38,8 @@ public static SwitchSectionSyntax SwitchSection(SwitchLabelSyntax switchLabel, S
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | switchLabel | |
 | statements | |
 
@@ -56,8 +56,8 @@ public static SwitchSectionSyntax SwitchSection(SyntaxList<SwitchLabelSyntax> sw
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | switchLabels | |
 | statement | |
 

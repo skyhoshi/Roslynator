@@ -23,8 +23,8 @@ public static ExpressionSyntax GetDefaultValueSyntax(this ITypeSymbol typeSymbol
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeSymbol | |
 | type | |
 
@@ -45,8 +45,8 @@ public static ExpressionSyntax GetDefaultValueSyntax(this ITypeSymbol typeSymbol
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeSymbol | |
 | semanticModel | |
 | position | |

@@ -14,8 +14,8 @@ public static ExtensionMethodSymbolInfo GetExtensionMethodInfo(this SemanticMode
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | semanticModel | |
 | expression | |
 | cancellationToken | |

@@ -14,8 +14,8 @@ public TypeParameterSyntax FindTypeParameter(string name)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | name | |
 
 ### Returns

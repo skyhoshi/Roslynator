@@ -10,8 +10,8 @@ public static bool operator !=(in XmlElementInfo info1, in XmlElementInfo info2)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

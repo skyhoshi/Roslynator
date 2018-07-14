@@ -14,8 +14,8 @@ public UsingDirectiveListInfo ReplaceAt(int index, UsingDirectiveSyntax newUsing
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | index | |
 | newUsingDirective | |
 

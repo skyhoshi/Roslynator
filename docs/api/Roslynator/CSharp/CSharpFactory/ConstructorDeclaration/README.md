@@ -19,8 +19,8 @@ public static ConstructorDeclarationSyntax ConstructorDeclaration(SyntaxTokenLis
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | identifier | |
 | parameterList | |
@@ -39,8 +39,8 @@ public static ConstructorDeclarationSyntax ConstructorDeclaration(SyntaxTokenLis
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | identifier | |
 | parameterList | |

@@ -24,8 +24,8 @@ public static StatementListSelection Create(BlockSyntax block, TextSpan span)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | block | |
 | span | |
 
@@ -46,8 +46,8 @@ public static StatementListSelection Create(SwitchSectionSyntax switchSection, T
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | switchSection | |
 | span | |
 
@@ -68,8 +68,8 @@ public static StatementListSelection Create(in StatementListInfo statementsInfo,
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | statementsInfo | |
 | span | |
 

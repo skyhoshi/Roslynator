@@ -343,7 +343,7 @@ namespace Roslynator.Documentation
             ImmutableArray<ITypeParameterSymbol> typeParameters = symbol.GetTypeParameters();
 
             if (typeParameters.Any())
-                WriteTable(typeParameters, Resources.TypeParametersTitle, 3, Resources.TypeParameterTitle, Resources.SummaryTitle, FormatProvider.TypeParameterFormat);
+                WriteTable(typeParameters, Resources.TypeParametersTitle, 3, Resources.NameTitle, Resources.SummaryTitle, FormatProvider.TypeParameterFormat);
         }
 
         public virtual void WriteParameters(ISymbol symbol)
@@ -358,7 +358,7 @@ namespace Roslynator.Documentation
                             methodSymbol.Parameters,
                             Resources.ParametersTitle,
                             3,
-                            Resources.ParameterTitle,
+                            Resources.NameTitle,
                             Resources.SummaryTitle,
                             FormatProvider.ParameterFormat);
 

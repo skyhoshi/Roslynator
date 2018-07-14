@@ -20,8 +20,8 @@ public static CompilationUnitSyntax CompilationUnit(MemberDeclarationSyntax memb
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | member | |
 
 #### Returns
@@ -37,8 +37,8 @@ public static CompilationUnitSyntax CompilationUnit(SyntaxList<UsingDirectiveSyn
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | usings | |
 | member | |
 
@@ -55,8 +55,8 @@ public static CompilationUnitSyntax CompilationUnit(SyntaxList<UsingDirectiveSyn
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | usings | |
 | members | |
 

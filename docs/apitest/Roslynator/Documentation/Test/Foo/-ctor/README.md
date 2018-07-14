@@ -23,8 +23,8 @@ public Foo(string s)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | s | qqq |
 
 
@@ -50,8 +50,8 @@ public Foo(string s, string s2)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | s | |
 | s2 | |
 

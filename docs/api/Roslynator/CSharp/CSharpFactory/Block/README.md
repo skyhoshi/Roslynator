@@ -19,8 +19,8 @@ public static BlockSyntax Block(StatementSyntax statement)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | statement | |
 
 #### Returns
@@ -36,8 +36,8 @@ public static BlockSyntax Block(SyntaxToken openBrace, StatementSyntax statement
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | openBrace | |
 | statement | |
 | closeBrace | |

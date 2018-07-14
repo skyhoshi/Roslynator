@@ -19,8 +19,8 @@ public static TypeArgumentListSyntax TypeArgumentList(TypeSyntax argument)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | argument | |
 
 #### Returns
@@ -36,8 +36,8 @@ public static TypeArgumentListSyntax TypeArgumentList(params TypeSyntax[] argume
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | arguments | |
 
 #### Returns

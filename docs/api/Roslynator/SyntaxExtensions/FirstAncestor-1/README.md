@@ -14,14 +14,14 @@ public static TNode FirstAncestor<TNode>(this SyntaxNode node, Func<TNode, bool>
 
 ### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | predicate | |
 | ascendOutOfTrivia | |

@@ -14,8 +14,8 @@ public static Task<Document> RemoveNodesAsync(this Document document, IEnumerabl
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | nodes | |
 | options | |

@@ -10,8 +10,8 @@ public static bool operator !=(in SingleParameterLambdaExpressionInfo info1, in 
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

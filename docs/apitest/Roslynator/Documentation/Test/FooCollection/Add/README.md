@@ -10,8 +10,8 @@ public void Add(Foo item)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | item | |
 
 ### Returns

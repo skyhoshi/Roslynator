@@ -21,8 +21,8 @@ public static EnumMemberDeclarationSyntax EnumMemberDeclaration(string name, Exp
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | name | |
 | value | |
 
@@ -39,8 +39,8 @@ public static EnumMemberDeclarationSyntax EnumMemberDeclaration(SyntaxToken iden
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | identifier | |
 | value | |
 
@@ -57,8 +57,8 @@ public static EnumMemberDeclarationSyntax EnumMemberDeclaration(string name, Equ
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | name | |
 | value | |
 
@@ -75,8 +75,8 @@ public static EnumMemberDeclarationSyntax EnumMemberDeclaration(SyntaxToken iden
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | identifier | |
 | value | |
 

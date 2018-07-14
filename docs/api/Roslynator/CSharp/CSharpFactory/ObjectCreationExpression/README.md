@@ -10,8 +10,8 @@ public static ObjectCreationExpressionSyntax ObjectCreationExpression(TypeSyntax
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | type | |
 | argumentList | |
 

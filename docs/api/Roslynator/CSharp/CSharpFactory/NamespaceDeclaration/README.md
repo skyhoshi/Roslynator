@@ -19,8 +19,8 @@ public static NamespaceDeclarationSyntax NamespaceDeclaration(NameSyntax name, M
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | name | |
 | member | |
 
@@ -37,8 +37,8 @@ public static NamespaceDeclarationSyntax NamespaceDeclaration(NameSyntax name, S
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | name | |
 | members | |
 

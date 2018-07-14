@@ -42,8 +42,8 @@ public static ModifierListInfo ModifierListInfo(SyntaxNode node)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 
 #### Returns
@@ -63,8 +63,8 @@ public static ModifierListInfo ModifierListInfo(ClassDeclarationSyntax classDecl
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | classDeclaration | |
 
 #### Returns
@@ -84,8 +84,8 @@ public static ModifierListInfo ModifierListInfo(ConstructorDeclarationSyntax con
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | constructorDeclaration | |
 
 #### Returns
@@ -105,8 +105,8 @@ public static ModifierListInfo ModifierListInfo(ConversionOperatorDeclarationSyn
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | conversionOperatorDeclaration | |
 
 #### Returns
@@ -126,8 +126,8 @@ public static ModifierListInfo ModifierListInfo(DelegateDeclarationSyntax delega
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | delegateDeclaration | |
 
 #### Returns
@@ -147,8 +147,8 @@ public static ModifierListInfo ModifierListInfo(DestructorDeclarationSyntax dest
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | destructorDeclaration | |
 
 #### Returns
@@ -168,8 +168,8 @@ public static ModifierListInfo ModifierListInfo(EnumDeclarationSyntax enumDeclar
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | enumDeclaration | |
 
 #### Returns
@@ -189,8 +189,8 @@ public static ModifierListInfo ModifierListInfo(EventDeclarationSyntax eventDecl
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | eventDeclaration | |
 
 #### Returns
@@ -210,8 +210,8 @@ public static ModifierListInfo ModifierListInfo(EventFieldDeclarationSyntax even
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | eventFieldDeclaration | |
 
 #### Returns
@@ -231,8 +231,8 @@ public static ModifierListInfo ModifierListInfo(FieldDeclarationSyntax fieldDecl
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | fieldDeclaration | |
 
 #### Returns
@@ -252,8 +252,8 @@ public static ModifierListInfo ModifierListInfo(IndexerDeclarationSyntax indexer
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | indexerDeclaration | |
 
 #### Returns
@@ -273,8 +273,8 @@ public static ModifierListInfo ModifierListInfo(InterfaceDeclarationSyntax inter
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | interfaceDeclaration | |
 
 #### Returns
@@ -294,8 +294,8 @@ public static ModifierListInfo ModifierListInfo(MethodDeclarationSyntax methodDe
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | methodDeclaration | |
 
 #### Returns
@@ -315,8 +315,8 @@ public static ModifierListInfo ModifierListInfo(OperatorDeclarationSyntax operat
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | operatorDeclaration | |
 
 #### Returns
@@ -336,8 +336,8 @@ public static ModifierListInfo ModifierListInfo(PropertyDeclarationSyntax proper
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | propertyDeclaration | |
 
 #### Returns
@@ -357,8 +357,8 @@ public static ModifierListInfo ModifierListInfo(StructDeclarationSyntax structDe
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | structDeclaration | |
 
 #### Returns
@@ -378,8 +378,8 @@ public static ModifierListInfo ModifierListInfo(IncompleteMemberSyntax incomplet
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | incompleteMember | |
 
 #### Returns
@@ -399,8 +399,8 @@ public static ModifierListInfo ModifierListInfo(AccessorDeclarationSyntax access
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | accessorDeclaration | |
 
 #### Returns
@@ -420,8 +420,8 @@ public static ModifierListInfo ModifierListInfo(LocalDeclarationStatementSyntax 
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | localDeclarationStatement | |
 
 #### Returns
@@ -441,8 +441,8 @@ public static ModifierListInfo ModifierListInfo(LocalFunctionStatementSyntax loc
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | localFunctionStatement | |
 
 #### Returns
@@ -462,8 +462,8 @@ public static ModifierListInfo ModifierListInfo(ParameterSyntax parameter)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | parameter | |
 
 #### Returns

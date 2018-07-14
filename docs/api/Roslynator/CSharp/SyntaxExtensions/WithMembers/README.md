@@ -31,8 +31,8 @@ public static ClassDeclarationSyntax WithMembers(this ClassDeclarationSyntax cla
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | classDeclaration | |
 | member | |
 
@@ -53,8 +53,8 @@ public static ClassDeclarationSyntax WithMembers(this ClassDeclarationSyntax cla
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | classDeclaration | |
 | members | |
 
@@ -75,8 +75,8 @@ public static CompilationUnitSyntax WithMembers(this CompilationUnitSyntax compi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | compilationUnit | |
 | member | |
 
@@ -97,8 +97,8 @@ public static CompilationUnitSyntax WithMembers(this CompilationUnitSyntax compi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | compilationUnit | |
 | members | |
 
@@ -119,8 +119,8 @@ public static InterfaceDeclarationSyntax WithMembers(this InterfaceDeclarationSy
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | interfaceDeclaration | |
 | member | |
 
@@ -141,8 +141,8 @@ public static InterfaceDeclarationSyntax WithMembers(this InterfaceDeclarationSy
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | interfaceDeclaration | |
 | members | |
 
@@ -163,8 +163,8 @@ public static NamespaceDeclarationSyntax WithMembers(this NamespaceDeclarationSy
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | namespaceDeclaration | |
 | member | |
 
@@ -185,8 +185,8 @@ public static NamespaceDeclarationSyntax WithMembers(this NamespaceDeclarationSy
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | namespaceDeclaration | |
 | members | |
 
@@ -207,8 +207,8 @@ public static StructDeclarationSyntax WithMembers(this StructDeclarationSyntax s
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | structDeclaration | |
 | member | |
 
@@ -229,8 +229,8 @@ public static StructDeclarationSyntax WithMembers(this StructDeclarationSyntax s
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | structDeclaration | |
 | members | |
 

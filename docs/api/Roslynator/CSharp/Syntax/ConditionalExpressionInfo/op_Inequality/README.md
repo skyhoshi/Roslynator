@@ -10,8 +10,8 @@ public static bool operator !=(in ConditionalExpressionInfo info1, in Conditiona
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | info1 | |
 | info2 | |
 

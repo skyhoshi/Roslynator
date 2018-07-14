@@ -14,8 +14,8 @@ public TypeParameterConstraintClauseSyntax FindConstraintClause(string typeParam
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeParameterName | |
 
 ### Returns

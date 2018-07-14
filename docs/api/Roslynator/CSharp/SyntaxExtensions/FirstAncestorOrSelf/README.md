@@ -25,8 +25,8 @@ public static SyntaxNode FirstAncestorOrSelf(this SyntaxNode node, SyntaxKind ki
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | kind | |
 | ascendOutOfTrivia | |
@@ -48,8 +48,8 @@ public static SyntaxNode FirstAncestorOrSelf(this SyntaxNode node, SyntaxKind ki
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | kind1 | |
 | kind2 | |
@@ -72,8 +72,8 @@ public static SyntaxNode FirstAncestorOrSelf(this SyntaxNode node, SyntaxKind ki
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | kind1 | |
 | kind2 | |
@@ -97,8 +97,8 @@ public static SyntaxNode FirstAncestorOrSelf(this SyntaxNode node, Func<SyntaxNo
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | predicate | |
 | ascendOutOfTrivia | |

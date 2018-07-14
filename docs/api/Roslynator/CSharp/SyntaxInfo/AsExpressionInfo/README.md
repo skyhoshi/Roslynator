@@ -23,8 +23,8 @@ public static AsExpressionInfo AsExpressionInfo(SyntaxNode node, bool walkDownPa
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | walkDownParentheses | |
 | allowMissing | |
@@ -46,8 +46,8 @@ public static AsExpressionInfo AsExpressionInfo(BinaryExpressionSyntax binaryExp
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | binaryExpression | |
 | walkDownParentheses | |
 | allowMissing | |

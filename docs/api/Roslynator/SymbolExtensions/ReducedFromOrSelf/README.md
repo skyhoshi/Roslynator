@@ -14,8 +14,8 @@ public static IMethodSymbol ReducedFromOrSelf(this IMethodSymbol methodSymbol)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | methodSymbol | |
 
 ### Returns

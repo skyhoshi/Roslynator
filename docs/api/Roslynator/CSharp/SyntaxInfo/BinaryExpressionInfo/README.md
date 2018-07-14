@@ -23,8 +23,8 @@ public static BinaryExpressionInfo BinaryExpressionInfo(SyntaxNode node, bool wa
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | walkDownParentheses | |
 | allowMissing | |
@@ -46,8 +46,8 @@ public static BinaryExpressionInfo BinaryExpressionInfo(BinaryExpressionSyntax b
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | binaryExpression | |
 | walkDownParentheses | |
 | allowMissing | |

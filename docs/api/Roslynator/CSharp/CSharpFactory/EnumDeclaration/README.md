@@ -10,8 +10,8 @@ public static EnumDeclarationSyntax EnumDeclaration(SyntaxTokenList modifiers, S
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | identifier | |
 | members | |

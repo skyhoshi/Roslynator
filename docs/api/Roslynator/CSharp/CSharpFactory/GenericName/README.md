@@ -19,8 +19,8 @@ public static GenericNameSyntax GenericName(string identifier, TypeSyntax typeAr
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | identifier | |
 | typeArgument | |
 
@@ -37,8 +37,8 @@ public static GenericNameSyntax GenericName(SyntaxToken identifier, TypeSyntax t
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | identifier | |
 | typeArgument | |
 

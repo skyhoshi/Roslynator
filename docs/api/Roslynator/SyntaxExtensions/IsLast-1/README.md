@@ -23,14 +23,14 @@ public static bool IsLast<TNode>(this SeparatedSyntaxList<TNode> list, TNode nod
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | node | |
 
@@ -51,14 +51,14 @@ public static bool IsLast<TNode>(this SyntaxList<TNode> list, TNode node) where 
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | node | |
 

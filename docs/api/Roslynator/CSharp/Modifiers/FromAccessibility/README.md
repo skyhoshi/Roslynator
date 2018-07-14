@@ -14,8 +14,8 @@ public static SyntaxTokenList FromAccessibility(Accessibility accessibility)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | accessibility | |
 
 ### Returns

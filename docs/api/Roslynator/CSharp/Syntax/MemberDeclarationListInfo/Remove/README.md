@@ -14,8 +14,8 @@ public MemberDeclarationListInfo Remove(MemberDeclarationSyntax member)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | member | |
 
 ### Returns

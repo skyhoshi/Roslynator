@@ -19,8 +19,8 @@ public static AttributeArgumentListSyntax AttributeArgumentList(params Attribute
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | attributeArguments | |
 
 #### Returns
@@ -36,8 +36,8 @@ public static AttributeArgumentListSyntax AttributeArgumentList(AttributeArgumen
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | attributeArgument | |
 
 #### Returns

@@ -23,8 +23,8 @@ public TNode Remove(TNode node, SyntaxKind kind)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | kind | |
 
@@ -45,8 +45,8 @@ public TNode Remove(TNode node, SyntaxToken modifier)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | modifier | |
 

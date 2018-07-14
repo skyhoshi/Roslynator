@@ -24,14 +24,14 @@ public static bool Contains<TNode>(this SeparatedSyntaxList<TNode> list, TNode n
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | node | |
 
@@ -52,14 +52,14 @@ public static bool Contains<TNode>(this SyntaxList<TNode> list, TNode node) wher
 
 #### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | list | |
 | node | |
 
@@ -80,8 +80,8 @@ public static bool Contains(this SyntaxTokenList tokens, SyntaxToken token)
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | tokens | |
 | token | |
 

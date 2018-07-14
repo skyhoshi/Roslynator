@@ -14,8 +14,8 @@ public GenericInfo WithTypeParameterList(TypeParameterListSyntax typeParameterLi
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeParameterList | |
 
 ### Returns

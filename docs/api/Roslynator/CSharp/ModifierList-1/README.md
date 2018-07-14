@@ -14,8 +14,8 @@ public abstract class ModifierList<TNode> where TNode : Microsoft.CodeAnalysis.S
 
 ### Type Parameters
 
-| Type Parameter | Summary |
-| -------------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | TNode | |
 
 ### Inheritance

@@ -14,8 +14,8 @@ public static Task<Document> InsertNodesAfterAsync(this Document document, Synta
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | document | |
 | nodeInList | |
 | newNodes | |

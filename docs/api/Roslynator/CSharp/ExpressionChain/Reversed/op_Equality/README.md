@@ -10,8 +10,8 @@ public static bool operator ==(in Reversed reversed1, in Reversed reversed2)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | reversed1 | |
 | reversed2 | |
 

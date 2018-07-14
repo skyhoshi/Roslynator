@@ -15,8 +15,8 @@ public static StatementSyntax PreviousStatement(this StatementSyntax statement)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | statement | |
 
 ### Returns

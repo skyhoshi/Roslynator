@@ -14,8 +14,8 @@ public static bool IsVoid(this TypeSyntax type)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | type | |
 
 ### Returns

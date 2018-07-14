@@ -14,8 +14,8 @@ public static bool IsReferenceTypeOrNullableType(this ITypeSymbol typeSymbol)
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | typeSymbol | |
 
 ### Returns

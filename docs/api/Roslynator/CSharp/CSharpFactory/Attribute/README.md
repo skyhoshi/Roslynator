@@ -10,8 +10,8 @@ public static AttributeSyntax Attribute(NameSyntax name, AttributeArgumentSyntax
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | name | |
 | argument | |
 

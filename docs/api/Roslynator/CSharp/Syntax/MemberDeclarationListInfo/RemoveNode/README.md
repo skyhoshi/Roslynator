@@ -14,8 +14,8 @@ public MemberDeclarationListInfo RemoveNode(SyntaxNode node, SyntaxRemoveOptions
 
 ### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | node | |
 | options | |
 

@@ -19,8 +19,8 @@ public static OperatorDeclarationSyntax OperatorDeclaration(SyntaxTokenList modi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | returnType | |
 | operatorToken | |
@@ -40,8 +40,8 @@ public static OperatorDeclarationSyntax OperatorDeclaration(SyntaxTokenList modi
 
 #### Parameters
 
-| Parameter | Summary |
-| --------- | ------- |
+| Name | Summary |
+| ---- | ------- |
 | modifiers | |
 | returnType | |
 | operatorToken | |
