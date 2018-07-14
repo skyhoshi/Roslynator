@@ -15,11 +15,13 @@ namespace Roslynator.Documentation
         protected DocumentationGenerator(
             CompilationDocumentationInfo compilation,
             DocumentationOptions options = null,
-            DocumentationResources resources = null)
+            DocumentationResources resources = null,
+            DocumentationUrlProvider urlProvider = null)
         {
             CompilationInfo = compilation;
             Options = options ?? DocumentationOptions.Default;
             Resources = resources ?? DocumentationResources.Default;
+            UrlProvider = urlProvider ?? DocumentationUrlProvider.Default;
         }
 
         public CompilationDocumentationInfo CompilationInfo { get; }
@@ -31,6 +33,8 @@ namespace Roslynator.Documentation
         public string FileName => Options.FileName;
 
         public DocumentationResources Resources { get; }
+
+        public DocumentationUrlProvider UrlProvider { get; }
 
         private SymbolDocumentationInfo EmptySymbolInfo
         {
@@ -61,63 +65,63 @@ namespace Roslynator.Documentation
         {
             DocumentationParts parts = Options.Parts;
 
+            DocumentationFile objectModelFile = default;
+            DocumentationFile extendedTypesFile = default;
+
+            if ((parts & DocumentationParts.ObjectModel) != 0)
+            {
+                objectModelFile = GenerateObjectModel(objectModelHeading ?? Resources.ObjectModelTitle);
+
+                if (!objectModelFile.HasContent)
+                    parts &= ~DocumentationParts.ObjectModel;
+            }
+
+            if ((parts & DocumentationParts.ExtendedExternalTypes) != 0)
+            {
+                extendedTypesFile = GenerateExtendedExternalTypesFile(extendedTypesHeading ?? Resources.ExtendedExternalTypesTitle);
+
+                if (!extendedTypesFile.HasContent)
+                    parts &= ~DocumentationParts.ExtendedExternalTypes;
+            }
+
             using (DocumentationWriter writer = CreateWriter(symbolInfo: EmptySymbolInfo, directoryInfo: null))
             {
-                DocumentationFile objectModelFile = default;
-                DocumentationFile extendedTypesFile = default;
-
-                if ((parts & DocumentationParts.ObjectModel) != 0)
-                {
-                    objectModelFile = GenerateObjectModel(objectModelHeading ?? Resources.ObjectModelTitle);
-
-                    if (!objectModelFile.HasContent)
-                        parts &= ~DocumentationParts.ObjectModel;
-                }
-
-                if ((parts & DocumentationParts.ExtendedExternalTypes) != 0)
-                {
-                    extendedTypesFile = GenerateExtendedExternalTypesFile(extendedTypesHeading ?? Resources.ExtendedExternalTypesTitle);
-
-                    if (!extendedTypesFile.HasContent)
-                        parts &= ~DocumentationParts.ExtendedExternalTypes;
-                }
-
                 yield return GenerateRootFile(writer, heading, parts);
+            }
 
-                bool generateTypes = (parts & DocumentationParts.Type) != 0;
+            bool generateTypes = (parts & DocumentationParts.Type) != 0;
 
-                if ((parts & DocumentationParts.Namespace) != 0)
+            if ((parts & DocumentationParts.Namespace) != 0)
+            {
+                foreach (INamespaceSymbol namespaceSymbol in CompilationInfo.Namespaces)
+                    yield return GenerateNamespaceFile(namespaceSymbol);
+            }
+
+            if (generateTypes)
+            {
+                bool generateMembers = (parts & DocumentationParts.Member) != 0;
+
+                foreach (INamedTypeSymbol typeSymbol in CompilationInfo.Types)
                 {
-                    foreach (INamespaceSymbol namespaceSymbol in CompilationInfo.Namespaces)
-                        yield return GenerateNamespaceFile(namespaceSymbol);
-                }
+                    yield return GenerateTypeFile(typeSymbol);
 
-                if (generateTypes)
-                {
-                    bool generateMembers = (parts & DocumentationParts.Member) != 0;
-
-                    foreach (INamedTypeSymbol typeSymbol in CompilationInfo.Types)
+                    if (generateMembers)
                     {
-                        yield return GenerateTypeFile(typeSymbol);
-
-                        if (generateMembers)
-                        {
-                            foreach (DocumentationFile memberFile in GenerateMemberFiles(typeSymbol))
-                                yield return memberFile;
-                        }
+                        foreach (DocumentationFile memberFile in GenerateMemberFiles(typeSymbol))
+                            yield return memberFile;
                     }
                 }
+            }
 
-                if (objectModelFile.HasContent)
-                    yield return objectModelFile;
+            if (objectModelFile.HasContent)
+                yield return objectModelFile;
 
-                if (extendedTypesFile.HasContent)
-                {
-                    yield return extendedTypesFile;
+            if (extendedTypesFile.HasContent)
+            {
+                yield return extendedTypesFile;
 
-                    foreach (ITypeSymbol typeSymbol in CompilationInfo.GetExtendedExternalTypes())
-                        yield return GenerateExtendedTypeFile(typeSymbol);
-                }
+                foreach (ITypeSymbol typeSymbol in CompilationInfo.GetExtendedExternalTypes())
+                    yield return GenerateExtendedTypeFile(typeSymbol);
             }
         }
 
@@ -126,6 +130,8 @@ namespace Roslynator.Documentation
             string heading,
             DocumentationParts documentationParts)
         {
+            writer.WriteStartDocument();
+
             if (heading != null)
                 writer.WriteHeading1(heading);
 
@@ -162,6 +168,8 @@ namespace Roslynator.Documentation
                 }
             }
 
+            writer.WriteEndDocument();
+
             return new DocumentationFile(writer.ToString(), path: FileName, DocumentationKind.Root);
         }
 
@@ -171,12 +179,16 @@ namespace Roslynator.Documentation
 
             using (DocumentationWriter writer = CreateWriter(symbolInfo: EmptySymbolInfo, symbolInfo))
             {
+                writer.WriteStartDocument();
+
                 if (Options.IsEnabled(NamespaceDocumentationParts.Heading))
                 {
                     writer.WriteHeading(1, namespaceSymbol, FormatProvider.NamespaceFormat, addLink: false);
                 }
 
                 GenerateNamespaceContent(writer, CompilationInfo.GetTypes(namespaceSymbol), 2, addLink: Options.IsEnabled(DocumentationParts.Type));
+
+                writer.WriteEndDocument();
 
                 return DocumentationFile.Create(writer, symbolInfo, FileName, DocumentationKind.Namespace);
             }
@@ -212,6 +224,8 @@ namespace Roslynator.Documentation
         {
             using (DocumentationWriter writer = CreateWriter(symbolInfo: EmptySymbolInfo, directoryInfo: null))
             {
+                writer.WriteStartDocument();
+
                 IEnumerable<INamespaceSymbol> namespaces = CompilationInfo.GetExtendedExternalTypes()
                     .Select(f => f.ContainingNamespace)
                     .Distinct(MetadataNameEqualityComparer<INamespaceSymbol>.Instance);
@@ -242,6 +256,8 @@ namespace Roslynator.Documentation
                     }
                 }
 
+                writer.WriteEndDocument();
+
                 return new DocumentationFile(writer.ToString(), WellKnownNames.ExtendedExternalTypesFileName, DocumentationKind.ExtendedExternalTypes);
             }
         }
@@ -252,6 +268,7 @@ namespace Roslynator.Documentation
 
             using (DocumentationWriter writer = CreateWriter(symbolInfo, symbolInfo))
             {
+                writer.WriteStartDocument();
                 writer.WriteStartHeading(1);
                 writer.WriteLink(symbolInfo, FormatProvider.TitleFormat);
                 writer.WriteSpace();
@@ -270,6 +287,8 @@ namespace Roslynator.Documentation
                     Resources.SummaryTitle,
                     FormatProvider.MethodFormat);
 
+                writer.WriteEndDocument();
+
                 return DocumentationFile.Create(writer, symbolInfo, FileName, DocumentationKind.Type);
             }
         }
@@ -283,6 +302,8 @@ namespace Roslynator.Documentation
 
             using (DocumentationWriter writer = CreateWriter(info, info))
             {
+                writer.WriteStartDocument();
+
                 foreach (TypeDocumentationParts part in Options.EnabledAndSortedTypeParts)
                 {
                     switch (part)
@@ -437,6 +458,8 @@ namespace Roslynator.Documentation
                     }
                 }
 
+                writer.WriteEndDocument();
+
                 return DocumentationFile.Create(writer, info, FileName, DocumentationKind.Type);
             }
         }
@@ -502,9 +525,13 @@ namespace Roslynator.Documentation
 
                 using (DocumentationWriter writer = CreateWriter(symbolInfo, symbolInfo))
                 {
+                    writer.WriteStartDocument();
+
                     MemberDocumentationWriter memberWriter = MemberDocumentationWriter.Create(symbol, writer);
 
                     memberWriter.WriteMember(symbol, symbols);
+
+                    writer.WriteEndDocument();
 
                     yield return DocumentationFile.Create(writer, symbolInfo, FileName, DocumentationKind.Member);
                 }
@@ -515,8 +542,9 @@ namespace Roslynator.Documentation
         {
             SymbolDisplayFormat format = FormatProvider.TypeFormat;
 
-            using (DocumentationWriter writer = CreateWriter(_emptySymbolInfo, null))
+            using (DocumentationWriter writer = CreateWriter(EmptySymbolInfo, null))
             {
+                writer.WriteStartDocument();
                 writer.WriteHeading1(heading);
 
                 foreach (TypeKind typeKind in _typeKinds.OrderBy(f => f.ToNamespaceDocumentationPart(), Options.NamespacePartComparer))
@@ -591,6 +619,8 @@ namespace Roslynator.Documentation
                             }
                     }
                 }
+
+                writer.WriteEndDocument();
 
                 return new DocumentationFile(writer.ToString(), WellKnownNames.ObjectModelFileName, DocumentationKind.ObjectModel);
             }

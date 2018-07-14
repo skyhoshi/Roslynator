@@ -14,10 +14,19 @@ namespace Roslynator.Documentation.Markdown
         public DocumentationMarkdownWriter(
             SymbolDocumentationInfo symbolInfo,
             SymbolDocumentationInfo directoryInfo,
-            DocumentationOptions options,
-            DocumentationResources resources) : base(symbolInfo, directoryInfo, options, resources)
+            DocumentationOptions options = null,
+            DocumentationResources resources = null,
+            DocumentationUrlProvider urlProvider = null) : base(symbolInfo, directoryInfo, options, resources, urlProvider)
         {
             _writer = MarkdownWriter.Create(new StringBuilder());
+        }
+
+        public override void WriteStartDocument()
+        {
+        }
+
+        public override void WriteEndDocument()
+        {
         }
 
         public override void WriteStartBold() => _writer.WriteStartBold();
@@ -31,11 +40,6 @@ namespace Roslynator.Documentation.Markdown
         public override void WriteStartStrikethrough() => _writer.WriteStartStrikethrough();
 
         public override void WriteEndStrikethrough() => _writer.WriteEndStrikethrough();
-
-        //TODO: add method MarkdownWriter.WriteStartInlineCode
-        public override void WriteStartInlineCode() => _writer.WriteRaw("`");
-
-        public override void WriteEndInlineCode() => _writer.WriteRaw("`");
 
         public override void WriteInlineCode(string text) => _writer.WriteInlineCode(text);
 

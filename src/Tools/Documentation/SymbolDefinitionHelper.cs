@@ -31,6 +31,8 @@ namespace Roslynator.Documentation
                 typeSymbol = null;
             }
 
+            INamespaceSymbol containingNamespace = symbol.ContainingNamespace;
+
             ImmutableArray<SymbolDisplayPart>.Builder builder = null;
 
             AddAttributes();
@@ -66,7 +68,7 @@ namespace Roslynator.Documentation
                         && parts[i].Symbol is INamedTypeSymbol namedTypeSymbol)
                     {
                         parts = parts.RemoveAt(i);
-                        parts = parts.InsertRange(i, GetDisplayParts(namedTypeSymbol, symbol.ContainingNamespace));
+                        parts = parts.InsertRange(i, GetDisplayParts(namedTypeSymbol, containingNamespace));
                     }
                 }
             }
@@ -87,7 +89,7 @@ namespace Roslynator.Documentation
                         {
                             builder.Add(SymbolDisplayPartFactory.Punctuation("["));
 
-                            AddDisplayParts(en.Current.AttributeClass, symbol.ContainingNamespace, builder);
+                            AddDisplayParts(en.Current.AttributeClass, containingNamespace, builder);
 
                             builder.Add(SymbolDisplayPartFactory.Punctuation("]"));
                             builder.Add(SymbolDisplayPartFactory.LineBreak());
@@ -153,7 +155,7 @@ namespace Roslynator.Documentation
 
                     if (baseType != null)
                     {
-                        AddDisplayParts(baseType, symbol.ContainingNamespace, builder);
+                        AddDisplayParts(baseType, containingNamespace, builder);
 
                         if (interfaces.Any())
                         {
@@ -172,9 +174,9 @@ namespace Roslynator.Documentation
 
                     if (interfaces.Any())
                     {
-                        ImmutableArray<(INamedTypeSymbol symbol, string displayString)> sortedInterfaces = SortInterfaces(interfaces.Select(f => (f, GetDisplayParts(f, symbol.ContainingNamespace).ToDisplayString())).ToImmutableArray());
+                        ImmutableArray<(INamedTypeSymbol symbol, string displayString)> sortedInterfaces = SortInterfaces(interfaces.Select(f => ((f, GetDisplayParts(f, containingNamespace).ToDisplayString()))).ToImmutableArray());
 
-                        AddDisplayParts(sortedInterfaces[0].symbol, symbol.ContainingNamespace, builder);
+                        AddDisplayParts(sortedInterfaces[0].symbol, containingNamespace, builder);
 
                         for (int i = 1; i < sortedInterfaces.Length; i++)
                         {
@@ -189,7 +191,7 @@ namespace Roslynator.Documentation
                                 builder.Add(SymbolDisplayPartFactory.Space());
                             }
 
-                            AddDisplayParts(sortedInterfaces[i].symbol, symbol.ContainingNamespace, builder);
+                            AddDisplayParts(sortedInterfaces[i].symbol, containingNamespace, builder);
                         }
                     }
 

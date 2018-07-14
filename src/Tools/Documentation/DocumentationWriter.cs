@@ -19,12 +19,14 @@ namespace Roslynator.Documentation
             SymbolDocumentationInfo symbolInfo,
             SymbolDocumentationInfo directoryInfo,
             DocumentationOptions options = null,
-            DocumentationResources resources = null)
+            DocumentationResources resources = null,
+            DocumentationUrlProvider urlProvider = null)
         {
             SymbolInfo = symbolInfo;
             DirectoryInfo = directoryInfo;
             Options = options ?? DocumentationOptions.Default;
             Resources = resources ?? DocumentationResources.Default;
+            UrlProvider = urlProvider ?? DocumentationUrlProvider.Default;
         }
 
         public SymbolDocumentationInfo DirectoryInfo { get; }
@@ -49,10 +51,16 @@ namespace Roslynator.Documentation
 
         public DocumentationResources Resources { get; }
 
+        public DocumentationUrlProvider UrlProvider { get; }
+
         internal SymbolDocumentationInfo GetSymbolInfo(ISymbol symbol)
         {
             return CompilationInfo.GetSymbolInfo(symbol);
         }
+
+        public abstract void WriteStartDocument();
+
+        public abstract void WriteEndDocument();
 
         public abstract void WriteStartBold();
 
@@ -86,10 +94,6 @@ namespace Roslynator.Documentation
             WriteString(text);
             WriteEndStrikethrough();
         }
-
-        public abstract void WriteStartInlineCode();
-
-        public abstract void WriteEndInlineCode();
 
         public abstract void WriteInlineCode(string text);
 
@@ -1043,7 +1047,13 @@ namespace Roslynator.Documentation
                     }
             }
 
-            return UrlProvider.CreateUrl(FileName, symbolInfo, directoryInfo, canCreateExternalUrl: canCreateExternalUrl);
+            if (symbolInfo.IsExternal
+                && canCreateExternalUrl)
+            {
+                return UrlProvider.CreateExternalUrl(symbolInfo).Url;
+            }
+
+            return UrlProvider.CreateLocalUrl(FileName, symbolInfo, directoryInfo).Url;
         }
 
         public void Dispose()
