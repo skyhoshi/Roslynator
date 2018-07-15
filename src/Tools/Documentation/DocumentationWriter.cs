@@ -704,7 +704,8 @@ namespace Roslynator.Documentation
 
                                 for (int i = 1; i < values.Count; i++)
                                 {
-                                    WriteString(" | ");
+                                    WriteString(" |");
+                                    WriteEntityRef("nbsp");
                                     WriteString(values[i].Name);
                                 }
                             }

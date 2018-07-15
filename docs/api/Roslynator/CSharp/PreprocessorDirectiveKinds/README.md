@@ -39,10 +39,10 @@ public enum PreprocessorDirectiveKinds
 | Line | 1024 | | \#line preprocessor directive\. |
 | PragmaWarning | 2048 | | \#pragma warning preprocessor directive\. |
 | PragmaChecksum | 4096 | | \#pragma checksum preprocessor directive\. |
-| Pragma | 6144 | PragmaWarning \| PragmaChecksum | \#pragma preprocessor directive\. |
+| Pragma | 6144 | PragmaWarning \|&nbsp;PragmaChecksum | \#pragma preprocessor directive\. |
 | Reference | 8192 | | \#r preprocessor directive\. |
 | Load | 16384 | | \#load preprocessor directive\. |
 | Bad | 32768 | | Bad preprocessor directive\. |
 | Shebang | 65536 | | Shebang preprocessor directive\. |
-| All | 131071 | Pragma \| If \| Elif \| Else \| EndIf \| Region \| EndRegion \| Define \| Undef \| Error \| Warning \| Line \| Reference \| Load \| Bad \| Shebang | All preprocessor directives\. |
+| All | 131071 | Pragma \|&nbsp;If \|&nbsp;Elif \|&nbsp;Else \|&nbsp;EndIf \|&nbsp;Region \|&nbsp;EndRegion \|&nbsp;Define \|&nbsp;Undef \|&nbsp;Error \|&nbsp;Warning \|&nbsp;Line \|&nbsp;Reference \|&nbsp;Load \|&nbsp;Bad \|&nbsp;Shebang | All preprocessor directives\. |
 

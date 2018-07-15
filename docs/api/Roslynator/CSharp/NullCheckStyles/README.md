@@ -28,14 +28,14 @@ public enum NullCheckStyles
 | None | 0 | | No null check specified\. |
 | EqualsToNull | 1 | | `x == null` |
 | NotEqualsToNull | 2 | | `x != null` |
-| ComparisonToNull | 3 | EqualsToNull \| NotEqualsToNull | Expression that uses equality/inequality operator\. |
+| ComparisonToNull | 3 | EqualsToNull \|&nbsp;NotEqualsToNull | Expression that uses equality/inequality operator\. |
 | IsNull | 4 | | `x is null` |
 | NotIsNull | 8 | | `!(x is null)` |
-| IsPattern | 12 | IsNull \| NotIsNull | Expression that uses pattern syntax\. |
+| IsPattern | 12 | IsNull \|&nbsp;NotIsNull | Expression that uses pattern syntax\. |
 | NotHasValue | 16 | | `!x.HasValue` |
-| CheckingNull | 21 | EqualsToNull \| IsNull \| NotHasValue | Expression that checks whether an expression is null\. |
+| CheckingNull | 21 | EqualsToNull \|&nbsp;IsNull \|&nbsp;NotHasValue | Expression that checks whether an expression is null\. |
 | HasValue | 32 | | `x.HasValue` |
-| CheckingNotNull | 42 | NotEqualsToNull \| NotIsNull \| HasValue | Expression that checks whether an expression is not null\. |
-| HasValueProperty | 48 | NotHasValue \| HasValue | Expression that uses [HasValue](https://docs.microsoft.com/en-us/dotnet/api/system.nullable-1.hasvalue) property\. |
-| All | 63 | ComparisonToNull \| IsPattern \| HasValueProperty | All null check styles\. |
+| CheckingNotNull | 42 | NotEqualsToNull \|&nbsp;NotIsNull \|&nbsp;HasValue | Expression that checks whether an expression is not null\. |
+| HasValueProperty | 48 | NotHasValue \|&nbsp;HasValue | Expression that uses [HasValue](https://docs.microsoft.com/en-us/dotnet/api/system.nullable-1.hasvalue) property\. |
+| All | 63 | ComparisonToNull \|&nbsp;IsPattern \|&nbsp;HasValueProperty | All null check styles\. |
 
