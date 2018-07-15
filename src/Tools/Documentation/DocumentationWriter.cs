@@ -18,15 +18,15 @@ namespace Roslynator.Documentation
         protected DocumentationWriter(
             SymbolDocumentationInfo symbolInfo,
             SymbolDocumentationInfo directoryInfo,
+            DocumentationUriProvider uriProvider,
             DocumentationOptions options = null,
-            DocumentationResources resources = null,
-            DocumentationUrlProvider urlProvider = null)
+            DocumentationResources resources = null)
         {
             SymbolInfo = symbolInfo;
             DirectoryInfo = directoryInfo;
+            UriProvider = uriProvider;
             Options = options ?? DocumentationOptions.Default;
             Resources = resources ?? DocumentationResources.Default;
-            UrlProvider = urlProvider ?? DocumentationUrlProvider.Default;
         }
 
         public SymbolDocumentationInfo DirectoryInfo { get; }
@@ -47,11 +47,9 @@ namespace Roslynator.Documentation
 
         public DocumentationOptions Options { get; }
 
-        internal string FileName => Options.FileName;
-
         public DocumentationResources Resources { get; }
 
-        public DocumentationUrlProvider UrlProvider { get; }
+        public DocumentationUriProvider UriProvider { get; }
 
         internal SymbolDocumentationInfo GetSymbolInfo(ISymbol symbol)
         {
@@ -334,7 +332,7 @@ namespace Roslynator.Documentation
 
         public virtual void WriteDefinition(ISymbol symbol)
         {
-            ImmutableArray<SymbolDisplayPart> parts = SymbolDefinitionHelper.GetDisplayParts(
+            ImmutableArray<SymbolDisplayPart> parts = SymbolDefinitionBuilder.GetDisplayParts(
                 symbol,
                 FormatProvider.DefinitionFormat,
                 Options);
@@ -505,16 +503,13 @@ namespace Roslynator.Documentation
 
         public virtual void WriteAttributes(ISymbol symbol)
         {
-            if (symbol.Name == "MyAttribute")
-            {
-            }
-
             ImmutableArray<AttributeData> attributes = symbol.GetAttributes();
 
             if (!attributes.Any())
                 return;
 
-            IEnumerable<(ISymbol symbol, INamedTypeSymbol attributeSymbol)> enumerableAttributes = attributes
+            IEnumerable<(ISymbol symbol, INamedTypeSymbol attributeSymbol)> symbolsAttributes = attributes
+                .Where(f => !DocumentationUtility.ShouldBeExcluded(f.AttributeClass))
                 .Select(f => ((symbol, attributeClass: f.AttributeClass)));
 
             if (symbol is ITypeSymbol typeSymbol)
@@ -522,11 +517,10 @@ namespace Roslynator.Documentation
                 List<(ISymbol symbol, INamedTypeSymbol attributeSymbol)> inheritedAttributes = GetInheritedAttributes();
 
                 if (inheritedAttributes != null)
-                    enumerableAttributes = enumerableAttributes.Concat(inheritedAttributes);
+                    symbolsAttributes = symbolsAttributes.Concat(inheritedAttributes);
             }
 
-            using (IEnumerator<(ISymbol symbol, INamedTypeSymbol attributeSymbol)> en = enumerableAttributes
-                .Where(f => !DocumentationUtility.IsHiddenAttribute(f.attributeSymbol))
+            using (IEnumerator<(ISymbol symbol, INamedTypeSymbol attributeSymbol)> en = symbolsAttributes
                 .OrderBy(f => f.attributeSymbol.ToDisplayString(FormatProvider.TypeFormat))
                 .GetEnumerator())
             {
@@ -584,6 +578,9 @@ namespace Roslynator.Documentation
                                 continue;
                             }
                         }
+
+                        if (DocumentationUtility.ShouldBeExcluded(attribute.AttributeClass))
+                            continue;
 
                         if (AttributesContains(attribute))
                             continue;
@@ -1145,10 +1142,10 @@ namespace Roslynator.Documentation
             if (symbolInfo.IsExternal
                 && canCreateExternalUrl)
             {
-                return UrlProvider.CreateExternalUrl(symbolInfo).Url;
+                return UriProvider.GetExternalUrl(symbolInfo).Url;
             }
 
-            return UrlProvider.CreateLocalUrl(FileName, symbolInfo, directoryInfo).Url;
+            return UriProvider.GetLocalUrl(symbolInfo, directoryInfo).Url;
         }
 
         public void Dispose()

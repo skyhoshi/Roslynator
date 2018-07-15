@@ -1,40 +1,42 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
-    public class DocumentationUrlProvider
+    public class GitHubDocumentationUriProvider : DocumentationUriProvider
     {
-        public DocumentationUrlProvider(IEnumerable<ExternalDocumentationUrlProvider> externalProviders = null)
+        public const string ReadMeFileName = "README.md";
+
+        public GitHubDocumentationUriProvider(IEnumerable<ExternalDocumentationUrlProvider> externalProviders = null)
+            : base(externalProviders)
         {
-            ExternalProviders = (externalProviders != null)
-                ? ImmutableArray.CreateRange(externalProviders)
-                : ImmutableArray<ExternalDocumentationUrlProvider>.Empty;
         }
 
-        public static DocumentationUrlProvider Default { get; } = new DocumentationUrlProvider(ImmutableArray.Create(ExternalDocumentationUrlProvider.MicrosoftDocs));
-
-        public ImmutableArray<ExternalDocumentationUrlProvider> ExternalProviders { get; }
-
-        public DocumentationUrlInfo CreateExternalUrl(SymbolDocumentationInfo symbolInfo)
+        public override string GetFilePath(DocumentationKind kind, SymbolDocumentationInfo symbolInfo)
         {
-            foreach (ExternalDocumentationUrlProvider provider in ExternalProviders)
+            switch (kind)
             {
-                DocumentationUrlInfo urlInfo = provider.CreateUrl(symbolInfo);
-
-                if (urlInfo.Url != null)
-                    return urlInfo;
+                case DocumentationKind.Root:
+                    return ReadMeFileName;
+                case DocumentationKind.Namespace:
+                case DocumentationKind.Type:
+                case DocumentationKind.Member:
+                    return GetFullUri(ReadMeFileName, symbolInfo.NameAndBaseNamesAndNamespaceNames, '\\');
+                case DocumentationKind.ObjectModel:
+                    return WellKnownNames.ObjectModelFileName;
+                case DocumentationKind.ExtendedExternalTypes:
+                    return WellKnownNames.ExtendedExternalTypesFileName;
+                default:
+                    throw new ArgumentException("", nameof(kind));
             }
-
-            return default;
         }
 
-        public virtual DocumentationUrlInfo CreateLocalUrl(string fileName, SymbolDocumentationInfo symbolInfo, SymbolDocumentationInfo directoryInfo)
+        public override DocumentationUrlInfo GetLocalUrl(SymbolDocumentationInfo symbolInfo, SymbolDocumentationInfo directoryInfo)
         {
             string url = CreateLocalUrl();
 
@@ -43,10 +45,10 @@ namespace Roslynator.Documentation
             string CreateLocalUrl()
             {
                 if (directoryInfo == null)
-                    return CreateFullUrl(fileName, symbolInfo.NameAndBaseNamesAndNamespaceNames, '/');
+                    return GetFullUri(ReadMeFileName, symbolInfo.NameAndBaseNamesAndNamespaceNames, '/');
 
                 if (symbolInfo == directoryInfo)
-                    return "./" + fileName;
+                    return "./" + ReadMeFileName;
 
                 int count = 0;
 
@@ -101,35 +103,10 @@ namespace Roslynator.Documentation
                 }
 
                 sb.Append("/");
-                sb.Append(fileName);
+                sb.Append(ReadMeFileName);
 
                 return StringBuilderCache.GetStringAndFree(sb);
             }
-        }
-
-        internal static string CreateFullUrl(string fileName, ImmutableArray<string> names, char separator)
-        {
-            int capacity = fileName.Length + 1;
-
-            foreach (string name in names)
-                capacity += name.Length;
-
-            capacity += names.Length - 1;
-
-            StringBuilder sb = StringBuilderCache.GetInstance(capacity);
-
-            sb.Append(names.Last());
-
-            for (int i = names.Length - 2; i >= 0; i--)
-            {
-                sb.Append(separator);
-                sb.Append(names[i]);
-            }
-
-            sb.Append(separator);
-            sb.Append(fileName);
-
-            return StringBuilderCache.GetStringAndFree(sb);
         }
     }
 }

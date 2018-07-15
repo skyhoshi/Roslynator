@@ -2,8 +2,6 @@
 
 using System;
 
-#pragma warning disable CA2217, RCS1157
-
 namespace Roslynator.Documentation
 {
     [Flags]
@@ -14,6 +12,6 @@ namespace Roslynator.Documentation
         ExtendedTypesLink = 2,
         NamespaceList = 4,
         Namespaces = 8,
-        All = int.MaxValue
+        All = ObjectModelLink | ExtendedTypesLink | NamespaceList | Namespaces,
     }
 }

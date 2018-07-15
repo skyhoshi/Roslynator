@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
-    internal static class SymbolDefinitionHelper
+    internal static class SymbolDefinitionBuilder
     {
         private static readonly SymbolDisplayFormat _nameAndContainingNames = new SymbolDisplayFormat(typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypes, genericsOptions: SymbolDisplayGenericsOptions.None);
         private static readonly SymbolDisplayFormat _nameAndContainingNamesAndNameSpaces = new SymbolDisplayFormat(typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces, genericsOptions: SymbolDisplayGenericsOptions.None);
@@ -79,7 +79,7 @@ namespace Roslynator.Documentation
             {
                 using (IEnumerator<AttributeData> en = symbol
                     .GetAttributes()
-                    .Where(f => !DocumentationUtility.IsHiddenAttribute(f.AttributeClass)).GetEnumerator())
+                    .Where(f => !DocumentationUtility.ShouldBeExcluded(f.AttributeClass)).GetEnumerator())
                 {
                     if (en.MoveNext())
                     {

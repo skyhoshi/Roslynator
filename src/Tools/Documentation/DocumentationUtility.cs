@@ -10,7 +10,7 @@ namespace Roslynator.Documentation
 {
     internal static class DocumentationUtility
     {
-        public static bool IsHiddenAttribute(INamedTypeSymbol attributeSymbol)
+        public static bool ShouldBeExcluded(INamedTypeSymbol attributeSymbol)
         {
             switch (attributeSymbol.MetadataName)
             {

@@ -6,14 +6,20 @@ namespace Roslynator.Documentation.Markdown
     {
         public DocumentationMarkdownGenerator(
             CompilationDocumentationInfo compilationInfo,
+            DocumentationUriProvider uriProvider,
             DocumentationOptions options = null,
-            DocumentationResources resources = null) : base(compilationInfo, options, resources)
+            DocumentationResources resources = null) : base(compilationInfo, uriProvider: uriProvider, options: options, resources: resources)
         {
         }
 
         protected override DocumentationWriter CreateWriterCore(SymbolDocumentationInfo symbolInfo, SymbolDocumentationInfo directoryInfo)
         {
-            return new DocumentationMarkdownWriter(symbolInfo, directoryInfo, Options, Resources);
+            return new DocumentationMarkdownWriter(
+                symbolInfo,
+                directoryInfo,
+                uriProvider: UriProvider,
+                options: Options,
+                resources: Resources);
         }
     }
 }

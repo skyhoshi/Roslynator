@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Roslynator.Documentation
 {
@@ -17,10 +17,10 @@ namespace Roslynator.Documentation
         private readonly Dictionary<ISymbol, SymbolDocumentationInfo> _symbolDocumentationInfos;
         private Dictionary<IAssemblySymbol, XmlDocumentation> _xmlDocumentations;
 
-        public CompilationDocumentationInfo(Compilation compilation, ImmutableArray<AssemblyDocumentationInfo> assemblies)
+        public CompilationDocumentationInfo(Compilation compilation, IEnumerable<AssemblyDocumentationInfo> assemblies)
         {
             Compilation = compilation;
-            Assemblies = assemblies;
+            Assemblies = ImmutableArray.CreateRange(assemblies);
 
             _symbolDocumentationInfos = new Dictionary<ISymbol, SymbolDocumentationInfo>();
         }
@@ -29,7 +29,10 @@ namespace Roslynator.Documentation
 
         public ImmutableArray<AssemblyDocumentationInfo> Assemblies { get; }
 
-        protected internal Func<ISymbol, bool> IsVisible { get; } = f => f.IsPubliclyVisible();
+        public virtual bool IsVisible(ISymbol symbol)
+        {
+            return symbol.IsPubliclyVisible();
+        }
 
         public IEnumerable<INamespaceSymbol> Namespaces
         {
@@ -48,7 +51,7 @@ namespace Roslynator.Documentation
                 if (_typeSymbols.IsDefault)
                 {
                     _typeSymbols = Assemblies
-                        .SelectMany(f => f.AssemblySymbol.GetTypes(IsVisible))
+                        .SelectMany(f => f.AssemblySymbol.GetTypes(typeSymbol => IsVisible(typeSymbol)))
                         .ToImmutableArray();
                 }
 
@@ -77,6 +80,29 @@ namespace Roslynator.Documentation
 
                 return _extensionMethodSymbols;
             }
+        }
+
+        internal static CompilationDocumentationInfo CreateFromTrustedPlatformAssemblies(string[] assemblyNames)
+        {
+            List<PortableExecutableReference> references = assemblyNames
+                .Select(f => MetadataReference.CreateFromFile(TrustedPlatformAssemblies.Paths[f]))
+                .ToList();
+
+            IEnumerable<PortableExecutableReference> compilationReferences = TrustedPlatformAssemblies.Paths
+                .Values
+                .Where(path => !references.Any(reference => reference.FilePath == path))
+                .Select(f => MetadataReference.CreateFromFile(f))
+                .Concat(references);
+
+            CSharpCompilation compilation = CSharpCompilation.Create(
+                "",
+                syntaxTrees: default(IEnumerable<SyntaxTree>),
+                references: compilationReferences,
+                options: default(CSharpCompilationOptions));
+
+            return new CompilationDocumentationInfo(
+                compilation,
+                references.Select(f => new AssemblyDocumentationInfo((IAssemblySymbol)compilation.GetAssemblyOrModuleSymbol(f), f)));
         }
 
         public IEnumerable<INamedTypeSymbol> GetTypes(INamespaceSymbol namespaceSymbol)

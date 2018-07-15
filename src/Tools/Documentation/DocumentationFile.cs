@@ -1,13 +1,12 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Roslynator.Documentation
 {
-    [SuppressMessage("Performance", "CA1815:Override equals and operator equals on value types", Justification = "<Pending>")]
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
-    public readonly struct DocumentationFile
+    public readonly struct DocumentationFile : IEquatable<DocumentationFile>
     {
         public DocumentationFile(string content, string path, DocumentationKind kind)
         {
@@ -33,9 +32,37 @@ namespace Roslynator.Documentation
             get { return $"{Kind} {Path} {Content}"; }
         }
 
-        internal static DocumentationFile Create(DocumentationWriter writer, SymbolDocumentationInfo info, string fileName, DocumentationKind kind)
+        internal static DocumentationFile Create(DocumentationWriter writer, DocumentationUriProvider uriProvider, DocumentationKind kind, SymbolDocumentationInfo symbolInfo = null)
         {
-            return new DocumentationFile(writer.ToString(), DocumentationUrlProvider.CreateFullUrl(fileName, info.NameAndBaseNamesAndNamespaceNames, '\\'), kind);
+            return new DocumentationFile(writer.ToString(), uriProvider.GetFilePath(kind, symbolInfo), kind);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is DocumentationFile other && Equals(other);
+        }
+
+        public bool Equals(DocumentationFile other)
+        {
+            return Kind == other.Kind
+                && Path == other.Path
+                && Content == other.Content;
+        }
+
+        public override int GetHashCode()
+        {
+            return Hash.Combine(StringComparer.Ordinal.GetHashCode(Content),
+                Hash.Combine(StringComparer.OrdinalIgnoreCase.GetHashCode(Path), (int)Kind));
+        }
+
+        public static bool operator ==(in DocumentationFile file1, in DocumentationFile file2)
+        {
+            return file1.Equals(file2);
+        }
+
+        public static bool operator !=(in DocumentationFile file1, in DocumentationFile file2)
+        {
+            return !(file1 == file2);
         }
     }
 }

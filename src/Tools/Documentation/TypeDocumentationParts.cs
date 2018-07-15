@@ -2,8 +2,6 @@
 
 using System;
 
-#pragma warning disable CA2217, RCS1157
-
 namespace Roslynator.Documentation
 {
     [Flags]
@@ -34,6 +32,6 @@ namespace Roslynator.Documentation
         ExplicitInterfaceImplementations = 2097152,
         ExtensionMethods = 4194304,
         SeeAlso = 8388608,
-        All = int.MaxValue
+        All = Title | Namespace | Assembly | Obsolete | Summary | Definition | TypeParameters | Parameters | ReturnValue | Inheritance | Attributes | Derived | Implements | Examples | Remarks | Constructors | Fields | Properties | Methods | Operators | Events | ExplicitInterfaceImplementations | ExtensionMethods | SeeAlso,
     }
 }

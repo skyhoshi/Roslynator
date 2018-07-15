@@ -2,8 +2,6 @@
 
 using System;
 
-#pragma warning disable CA2217, RCS1157
-
 namespace Roslynator.Documentation
 {
     [Flags]
@@ -16,6 +14,6 @@ namespace Roslynator.Documentation
         Interfaces = 8,
         Enums = 16,
         Delegates = 32,
-        All = int.MaxValue
+        All = Heading | Classes | Structs | Interfaces | Enums | Delegates,
     }
 }

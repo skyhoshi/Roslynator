@@ -2,8 +2,6 @@
 
 using System;
 
-#pragma warning disable CA2217, RCS1157
-
 namespace Roslynator.Documentation
 {
     [Flags]
@@ -15,6 +13,6 @@ namespace Roslynator.Documentation
         Member = 4,
         ExtendedExternalTypes = 8,
         ObjectModel = 16,
-        All = int.MaxValue
+        All = Namespace | Type | Member | ExtendedExternalTypes | ObjectModel,
     }
 }

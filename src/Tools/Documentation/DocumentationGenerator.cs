@@ -14,14 +14,14 @@ namespace Roslynator.Documentation
 
         protected DocumentationGenerator(
             CompilationDocumentationInfo compilation,
+            DocumentationUriProvider uriProvider,
             DocumentationOptions options = null,
-            DocumentationResources resources = null,
-            DocumentationUrlProvider urlProvider = null)
+            DocumentationResources resources = null)
         {
             CompilationInfo = compilation;
+            UriProvider = uriProvider;
             Options = options ?? DocumentationOptions.Default;
             Resources = resources ?? DocumentationResources.Default;
-            UrlProvider = urlProvider ?? DocumentationUrlProvider.Default;
         }
 
         public CompilationDocumentationInfo CompilationInfo { get; }
@@ -30,11 +30,9 @@ namespace Roslynator.Documentation
 
         public SymbolDisplayFormatProvider FormatProvider => Options.FormatProvider;
 
-        public string FileName => Options.FileName;
-
         public DocumentationResources Resources { get; }
 
-        public DocumentationUrlProvider UrlProvider { get; }
+        public DocumentationUriProvider UriProvider { get; }
 
         private SymbolDocumentationInfo EmptySymbolInfo
         {
@@ -170,7 +168,7 @@ namespace Roslynator.Documentation
 
             writer.WriteEndDocument();
 
-            return new DocumentationFile(writer.ToString(), path: FileName, DocumentationKind.Root);
+            return DocumentationFile.Create(writer, UriProvider, DocumentationKind.Root);
         }
 
         private DocumentationFile GenerateNamespaceFile(INamespaceSymbol namespaceSymbol)
@@ -190,7 +188,7 @@ namespace Roslynator.Documentation
 
                 writer.WriteEndDocument();
 
-                return DocumentationFile.Create(writer, symbolInfo, FileName, DocumentationKind.Namespace);
+                return DocumentationFile.Create(writer, UriProvider, DocumentationKind.Namespace, symbolInfo);
             }
         }
 
@@ -258,7 +256,7 @@ namespace Roslynator.Documentation
 
                 writer.WriteEndDocument();
 
-                return new DocumentationFile(writer.ToString(), WellKnownNames.ExtendedExternalTypesFileName, DocumentationKind.ExtendedExternalTypes);
+                return DocumentationFile.Create(writer, UriProvider, DocumentationKind.ExtendedExternalTypes);
             }
         }
 
@@ -289,7 +287,7 @@ namespace Roslynator.Documentation
 
                 writer.WriteEndDocument();
 
-                return DocumentationFile.Create(writer, symbolInfo, FileName, DocumentationKind.Type);
+                return DocumentationFile.Create(writer, UriProvider, DocumentationKind.Type, symbolInfo);
             }
         }
 
@@ -298,9 +296,9 @@ namespace Roslynator.Documentation
             TypeKind typeKind = typeSymbol.TypeKind;
             bool isDelegateOrEnum = typeKind.Is(TypeKind.Delegate, TypeKind.Enum);
 
-            SymbolDocumentationInfo info = GetSymbolInfo(typeSymbol);
+            SymbolDocumentationInfo symbolInfo = GetSymbolInfo(typeSymbol);
 
-            using (DocumentationWriter writer = CreateWriter(info, info))
+            using (DocumentationWriter writer = CreateWriter(symbolInfo, symbolInfo))
             {
                 writer.WriteStartDocument();
 
@@ -390,7 +388,7 @@ namespace Roslynator.Documentation
                         case TypeDocumentationParts.Constructors:
                             {
                                 if (!isDelegateOrEnum)
-                                    writer.WriteConstructors(info.GetConstructors());
+                                    writer.WriteConstructors(symbolInfo.GetConstructors());
 
                                 break;
                             }
@@ -400,11 +398,11 @@ namespace Roslynator.Documentation
                                 {
                                     if (typeKind == TypeKind.Enum)
                                     {
-                                        writer.WriteEnumFields(info.GetFields());
+                                        writer.WriteEnumFields(symbolInfo.GetFields());
                                     }
                                     else
                                     {
-                                        writer.WriteFields(info.GetFields(includeInherited: true));
+                                        writer.WriteFields(symbolInfo.GetFields(includeInherited: true));
                                     }
                                 }
 
@@ -413,35 +411,35 @@ namespace Roslynator.Documentation
                         case TypeDocumentationParts.Properties:
                             {
                                 if (!isDelegateOrEnum)
-                                    writer.WriteProperties(info.GetProperties(includeInherited: true));
+                                    writer.WriteProperties(symbolInfo.GetProperties(includeInherited: true));
 
                                 break;
                             }
                         case TypeDocumentationParts.Methods:
                             {
                                 if (!isDelegateOrEnum)
-                                    writer.WriteMethods(info.GetMethods(includeInherited: true));
+                                    writer.WriteMethods(symbolInfo.GetMethods(includeInherited: true));
 
                                 break;
                             }
                         case TypeDocumentationParts.Operators:
                             {
                                 if (!isDelegateOrEnum)
-                                    writer.WriteOperators(info.GetOperators(includeInherited: true));
+                                    writer.WriteOperators(symbolInfo.GetOperators(includeInherited: true));
 
                                 break;
                             }
                         case TypeDocumentationParts.Events:
                             {
                                 if (!isDelegateOrEnum)
-                                    writer.WriteEvents(info.GetEvents(includeInherited: true));
+                                    writer.WriteEvents(symbolInfo.GetEvents(includeInherited: true));
 
                                 break;
                             }
                         case TypeDocumentationParts.ExplicitInterfaceImplementations:
                             {
                                 if (!isDelegateOrEnum)
-                                    writer.WriteExplicitInterfaceImplementations(info.GetExplicitInterfaceImplementations());
+                                    writer.WriteExplicitInterfaceImplementations(symbolInfo.GetExplicitInterfaceImplementations());
 
                                 break;
                             }
@@ -460,7 +458,7 @@ namespace Roslynator.Documentation
 
                 writer.WriteEndDocument();
 
-                return DocumentationFile.Create(writer, info, FileName, DocumentationKind.Type);
+                return DocumentationFile.Create(writer, UriProvider, DocumentationKind.Type, symbolInfo);
             }
         }
 
@@ -533,7 +531,7 @@ namespace Roslynator.Documentation
 
                     writer.WriteEndDocument();
 
-                    yield return DocumentationFile.Create(writer, symbolInfo, FileName, DocumentationKind.Member);
+                    yield return DocumentationFile.Create(writer, UriProvider, DocumentationKind.Member, symbolInfo);
                 }
             }
         }
@@ -622,7 +620,7 @@ namespace Roslynator.Documentation
 
                 writer.WriteEndDocument();
 
-                return new DocumentationFile(writer.ToString(), WellKnownNames.ObjectModelFileName, DocumentationKind.ObjectModel);
+                return DocumentationFile.Create(writer, UriProvider, DocumentationKind.ObjectModel);
             }
 
             void WriteBulletItem(ITypeSymbol baseType, HashSet<ITypeSymbol> nodes, DocumentationWriter writer)

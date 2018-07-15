@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text;
 using Roslynator.Documentation.Markdown;
 using Roslynator.Utilities;
@@ -23,18 +21,14 @@ namespace Roslynator.Documentation
 
         private static void GenerateDocumentation(string directoryPath, string heading, params string[] assemblyNames)
         {
-            ImmutableArray<AssemblyDocumentationInfo> assemblies = assemblyNames
-                .Select(AssemblyDocumentationInfo.CreateFromAssemblyName)
-                .ToImmutableArray();
-
-            var compilationInfo = new CompilationDocumentationInfo(TrustedPlatformAssemblies.Compilation, assemblies);
+            CompilationDocumentationInfo compilationInfo = CompilationDocumentationInfo.CreateFromTrustedPlatformAssemblies(assemblyNames);
 
             var options = new DocumentationOptions(
                 parts: DocumentationParts.All,
                 formatBaseList: true,
                 formatConstraints: true);
 
-            var generator = new DocumentationMarkdownGenerator(compilationInfo, options);
+            var generator = new DocumentationMarkdownGenerator(compilationInfo, DocumentationUriProvider.GitHub, options);
 
             foreach (DocumentationFile documentationFile in generator.GenerateFiles(
                 heading,

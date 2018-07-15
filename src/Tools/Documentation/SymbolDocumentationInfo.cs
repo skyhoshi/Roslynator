@@ -58,7 +58,7 @@ namespace Roslynator.Documentation
                 if (_members.IsDefault)
                 {
                     _members = (Symbol is ITypeSymbol typeSymbol)
-                        ? typeSymbol.GetMembers(CompilationInfo.IsVisible)
+                        ? typeSymbol.GetMembers(f => CompilationInfo.IsVisible(f))
                         : ImmutableArray<ISymbol>.Empty;
                 }
 
@@ -79,7 +79,7 @@ namespace Roslynator.Documentation
                     else
                     {
                         _membersIncludingInherited = (Symbol is ITypeSymbol typeSymbol)
-                            ? typeSymbol.GetMembers(CompilationInfo.IsVisible, includeInherited: true)
+                            ? typeSymbol.GetMembers(f => CompilationInfo.IsVisible(f), includeInherited: true)
                             : ImmutableArray<ISymbol>.Empty;
                     }
                 }

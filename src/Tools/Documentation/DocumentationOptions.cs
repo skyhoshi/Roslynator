@@ -15,7 +15,6 @@ namespace Roslynator.Documentation
         private ImmutableArray<MemberDocumentationParts> _enabledAndSortedMemberParts;
 
         public DocumentationOptions(
-            string fileName = "README.md",
             int maxDerivedItems = 10,
             bool formatBaseList = false,
             bool formatConstraints = false,
@@ -29,7 +28,6 @@ namespace Roslynator.Documentation
             IComparer<TypeDocumentationParts> typePartComparer = null,
             IComparer<MemberDocumentationParts> memberPartComparer = null)
         {
-            FileName = fileName;
             MaxDerivedItems = maxDerivedItems;
             FormatBaseList = formatBaseList;
             FormatConstraints = formatConstraints;
@@ -45,8 +43,6 @@ namespace Roslynator.Documentation
         }
 
         public static DocumentationOptions Default { get; } = new DocumentationOptions();
-
-        public string FileName { get; }
 
         public int MaxDerivedItems { get; }
 
