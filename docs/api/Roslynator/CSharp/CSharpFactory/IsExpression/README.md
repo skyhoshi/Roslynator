@@ -28,7 +28,6 @@ public static BinaryExpressionSyntax IsExpression(ExpressionSyntax left, Express
 
 [BinaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.binaryexpressionsyntax)
 
-
 ## IsExpression\(ExpressionSyntax, SyntaxToken, ExpressionSyntax\)
 
 ```csharp
@@ -46,5 +45,4 @@ public static BinaryExpressionSyntax IsExpression(ExpressionSyntax left, SyntaxT
 #### Returns
 
 [BinaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.binaryexpressionsyntax)
-
 

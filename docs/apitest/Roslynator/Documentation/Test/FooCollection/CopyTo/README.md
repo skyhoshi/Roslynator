@@ -52,4 +52,3 @@ public void CopyTo(Foo[] array, int arrayIndex)
 #### Implements
 
 * [ICollection\<Foo>.CopyTo](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.icollection-1.copyto)
-

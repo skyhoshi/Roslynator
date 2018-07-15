@@ -15,4 +15,3 @@ private IEnumerator<TValue> IEnumerable<TValue>.GetEnumerator()
 ### Implements
 
 * [IEnumerable\<TValue>.GetEnumerator](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1.getenumerator)
-

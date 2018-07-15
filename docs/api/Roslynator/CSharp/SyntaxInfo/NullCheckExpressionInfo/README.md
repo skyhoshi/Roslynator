@@ -34,7 +34,6 @@ public static NullCheckExpressionInfo NullCheckExpressionInfo(SyntaxNode node, N
 
 [NullCheckExpressionInfo](../../Syntax/NullCheckExpressionInfo/README.md)
 
-
 ## NullCheckExpressionInfo\(SyntaxNode, SemanticModel, NullCheckStyles, Boolean, Boolean, CancellationToken\)
 
 ### Summary
@@ -59,5 +58,4 @@ public static NullCheckExpressionInfo NullCheckExpressionInfo(SyntaxNode node, S
 #### Returns
 
 [NullCheckExpressionInfo](../../Syntax/NullCheckExpressionInfo/README.md)
-
 

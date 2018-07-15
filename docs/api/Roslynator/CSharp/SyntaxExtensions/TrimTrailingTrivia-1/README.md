@@ -39,7 +39,6 @@ public static TNode TrimTrailingTrivia<TNode>(this TNode node) where TNode : Mic
 
 TNode
 
-
 ## TrimTrailingTrivia\(SyntaxToken\)
 
 ### Summary
@@ -61,5 +60,4 @@ public static SyntaxToken TrimTrailingTrivia(this SyntaxToken token)
 #### Returns
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
-
 

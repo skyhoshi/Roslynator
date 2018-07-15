@@ -27,7 +27,6 @@ public Foo(string s)
 | ---- | ------- |
 | s | qqq |
 
-
 #### Exceptions
 
 [ArgumentException](https://docs.microsoft.com/en-us/dotnet/api/system.argumentexception)
@@ -54,5 +53,4 @@ public Foo(string s, string s2)
 | ---- | ------- |
 | s | |
 | s2 | |
-
 

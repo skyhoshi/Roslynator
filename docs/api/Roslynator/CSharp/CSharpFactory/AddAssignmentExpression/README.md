@@ -28,7 +28,6 @@ public static AssignmentExpressionSyntax AddAssignmentExpression(ExpressionSynta
 
 [AssignmentExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.assignmentexpressionsyntax)
 
-
 ## AddAssignmentExpression\(ExpressionSyntax, SyntaxToken, ExpressionSyntax\)
 
 ```csharp
@@ -46,5 +45,4 @@ public static AssignmentExpressionSyntax AddAssignmentExpression(ExpressionSynta
 #### Returns
 
 [AssignmentExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.assignmentexpressionsyntax)
-
 

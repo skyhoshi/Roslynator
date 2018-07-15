@@ -16,4 +16,3 @@ public SyntaxList<TNode> UnderlyingList { get; }
 
 [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)
 
-

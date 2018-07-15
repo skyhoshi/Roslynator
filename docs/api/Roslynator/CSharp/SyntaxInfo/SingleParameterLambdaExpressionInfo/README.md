@@ -33,7 +33,6 @@ public static SingleParameterLambdaExpressionInfo SingleParameterLambdaExpressio
 
 [SingleParameterLambdaExpressionInfo](../../Syntax/SingleParameterLambdaExpressionInfo/README.md)
 
-
 ## SingleParameterLambdaExpressionInfo\(LambdaExpressionSyntax, Boolean\)
 
 ### Summary
@@ -54,5 +53,4 @@ public static SingleParameterLambdaExpressionInfo SingleParameterLambdaExpressio
 #### Returns
 
 [SingleParameterLambdaExpressionInfo](../../Syntax/SingleParameterLambdaExpressionInfo/README.md)
-
 

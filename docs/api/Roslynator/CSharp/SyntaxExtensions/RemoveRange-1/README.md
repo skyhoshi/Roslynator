@@ -41,7 +41,6 @@ public static SeparatedSyntaxList<TNode> RemoveRange<TNode>(this SeparatedSyntax
 
 [SeparatedSyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.separatedsyntaxlist-1)
 
-
 ## RemoveRange\<TNode>\(SyntaxList\<TNode>, Int32, Int32\)
 
 ### Summary
@@ -70,7 +69,6 @@ public static SyntaxList<TNode> RemoveRange<TNode>(this SyntaxList<TNode> list, 
 
 [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)
 
-
 ## RemoveRange\(SyntaxTokenList, Int32, Int32\)
 
 ### Summary
@@ -93,7 +91,6 @@ public static SyntaxTokenList RemoveRange(this SyntaxTokenList list, int index, 
 
 [SyntaxTokenList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtokenlist)
 
-
 ## RemoveRange\(SyntaxTriviaList, Int32, Int32\)
 
 ### Summary
@@ -115,5 +112,4 @@ public static SyntaxTriviaList RemoveRange(this SyntaxTriviaList list, int index
 #### Returns
 
 [SyntaxTriviaList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtrivialist)
-
 

@@ -22,4 +22,3 @@ public static bool ContainsDefaultLabel(this SwitchSectionSyntax switchSection)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

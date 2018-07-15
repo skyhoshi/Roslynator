@@ -47,7 +47,6 @@ public static bool Is(this Accessibility accessibility, Accessibility accessibil
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## Is\(Accessibility, Accessibility, Accessibility, Accessibility\)
 
 ### Summary
@@ -70,7 +69,6 @@ public static bool Is(this Accessibility accessibility, Accessibility accessibil
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## Is\(Accessibility, Accessibility, Accessibility, Accessibility, Accessibility\)
 
@@ -95,7 +93,6 @@ public static bool Is(this Accessibility accessibility, Accessibility accessibil
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## Is\(Accessibility, Accessibility, Accessibility, Accessibility, Accessibility, Accessibility\)
 
@@ -122,7 +119,6 @@ public static bool Is(this Accessibility accessibility, Accessibility accessibil
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## Is\(MethodKind, MethodKind, MethodKind\)
 
 ### Summary
@@ -144,7 +140,6 @@ public static bool Is(this MethodKind methodKind, MethodKind methodKind1, Method
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## Is\(MethodKind, MethodKind, MethodKind, MethodKind\)
 
@@ -169,7 +164,6 @@ public static bool Is(this MethodKind methodKind, MethodKind methodKind1, Method
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## Is\(MethodKind, MethodKind, MethodKind, MethodKind, MethodKind\)
 
 ### Summary
@@ -193,7 +187,6 @@ public static bool Is(this MethodKind methodKind, MethodKind methodKind1, Method
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## Is\(MethodKind, MethodKind, MethodKind, MethodKind, MethodKind, MethodKind\)
 
@@ -220,7 +213,6 @@ public static bool Is(this MethodKind methodKind, MethodKind methodKind1, Method
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## Is\(SpecialType, SpecialType, SpecialType\)
 
 ### Summary
@@ -242,7 +234,6 @@ public static bool Is(this SpecialType specialType, SpecialType specialType1, Sp
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## Is\(SpecialType, SpecialType, SpecialType, SpecialType\)
 
@@ -267,7 +258,6 @@ public static bool Is(this SpecialType specialType, SpecialType specialType1, Sp
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## Is\(SpecialType, SpecialType, SpecialType, SpecialType, SpecialType\)
 
 ### Summary
@@ -291,7 +281,6 @@ public static bool Is(this SpecialType specialType, SpecialType specialType1, Sp
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## Is\(SpecialType, SpecialType, SpecialType, SpecialType, SpecialType, SpecialType\)
 
@@ -318,7 +307,6 @@ public static bool Is(this SpecialType specialType, SpecialType specialType1, Sp
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## Is\(TypeKind, TypeKind, TypeKind\)
 
 ### Summary
@@ -340,7 +328,6 @@ public static bool Is(this TypeKind typeKind, TypeKind typeKind1, TypeKind typeK
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## Is\(TypeKind, TypeKind, TypeKind, TypeKind\)
 
@@ -364,7 +351,6 @@ public static bool Is(this TypeKind typeKind, TypeKind typeKind1, TypeKind typeK
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## Is\(TypeKind, TypeKind, TypeKind, TypeKind, TypeKind\)
 
@@ -390,7 +376,6 @@ public static bool Is(this TypeKind typeKind, TypeKind typeKind1, TypeKind typeK
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## Is\(TypeKind, TypeKind, TypeKind, TypeKind, TypeKind, TypeKind\)
 
 ### Summary
@@ -415,5 +400,4 @@ public static bool Is(this TypeKind typeKind, TypeKind typeKind1, TypeKind typeK
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 

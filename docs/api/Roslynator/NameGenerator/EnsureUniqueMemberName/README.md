@@ -35,7 +35,6 @@ public string EnsureUniqueMemberName(string baseName, SemanticModel semanticMode
 
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
 
-
 ## EnsureUniqueMemberName\(String, INamedTypeSymbol, Boolean\)
 
 ```csharp
@@ -53,5 +52,4 @@ public string EnsureUniqueMemberName(string baseName, INamedTypeSymbol typeSymbo
 #### Returns
 
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
-
 

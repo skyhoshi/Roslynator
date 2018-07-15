@@ -16,4 +16,3 @@ public SyntaxKind Kind { get; }
 
 [SyntaxKind](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntaxkind)
 
-

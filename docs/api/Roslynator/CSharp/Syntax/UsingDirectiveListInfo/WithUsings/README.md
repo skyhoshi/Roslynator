@@ -31,7 +31,6 @@ public UsingDirectiveListInfo WithUsings(IEnumerable<UsingDirectiveSyntax> using
 
 [UsingDirectiveListInfo](../README.md)
 
-
 ## WithUsings\(SyntaxList\<UsingDirectiveSyntax>\)
 
 ### Summary
@@ -51,5 +50,4 @@ public UsingDirectiveListInfo WithUsings(SyntaxList<UsingDirectiveSyntax> usings
 #### Returns
 
 [UsingDirectiveListInfo](../README.md)
-
 

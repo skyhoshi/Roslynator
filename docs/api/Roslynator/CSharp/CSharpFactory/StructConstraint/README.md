@@ -12,4 +12,3 @@ public static ClassOrStructConstraintSyntax StructConstraint()
 
 [ClassOrStructConstraintSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.classorstructconstraintsyntax)
 
-

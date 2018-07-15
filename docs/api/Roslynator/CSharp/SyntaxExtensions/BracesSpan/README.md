@@ -34,7 +34,6 @@ public static TextSpan BracesSpan(this ClassDeclarationSyntax classDeclaration)
 
 [TextSpan](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textspan)
 
-
 ## BracesSpan\(EnumDeclarationSyntax\)
 
 ### Summary
@@ -54,7 +53,6 @@ public static TextSpan BracesSpan(this EnumDeclarationSyntax enumDeclaration)
 #### Returns
 
 [TextSpan](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textspan)
-
 
 ## BracesSpan\(InterfaceDeclarationSyntax\)
 
@@ -76,7 +74,6 @@ public static TextSpan BracesSpan(this InterfaceDeclarationSyntax interfaceDecla
 
 [TextSpan](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textspan)
 
-
 ## BracesSpan\(NamespaceDeclarationSyntax\)
 
 ### Summary
@@ -97,7 +94,6 @@ public static TextSpan BracesSpan(this NamespaceDeclarationSyntax namespaceDecla
 
 [TextSpan](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textspan)
 
-
 ## BracesSpan\(StructDeclarationSyntax\)
 
 ### Summary
@@ -117,5 +113,4 @@ public static TextSpan BracesSpan(this StructDeclarationSyntax structDeclaration
 #### Returns
 
 [TextSpan](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textspan)
-
 

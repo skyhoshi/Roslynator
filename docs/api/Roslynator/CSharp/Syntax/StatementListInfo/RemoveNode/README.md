@@ -23,4 +23,3 @@ public StatementListInfo RemoveNode(SyntaxNode node, SyntaxRemoveOptions options
 
 [StatementListInfo](../README.md)
 
-

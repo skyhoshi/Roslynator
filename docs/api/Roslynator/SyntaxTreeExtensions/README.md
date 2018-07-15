@@ -12,7 +12,6 @@ A set of extension methods for [SyntaxTree](https://docs.microsoft.com/en-us/dot
 public static class SyntaxTreeExtensions
 ```
 
-
 ## Methods
 
 | Method | Summary |

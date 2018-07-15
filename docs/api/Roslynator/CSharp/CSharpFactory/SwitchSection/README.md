@@ -29,7 +29,6 @@ public static SwitchSectionSyntax SwitchSection(SwitchLabelSyntax switchLabel, S
 
 [SwitchSectionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.switchsectionsyntax)
 
-
 ## SwitchSection\(SwitchLabelSyntax, SyntaxList\<StatementSyntax>\)
 
 ```csharp
@@ -47,7 +46,6 @@ public static SwitchSectionSyntax SwitchSection(SwitchLabelSyntax switchLabel, S
 
 [SwitchSectionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.switchsectionsyntax)
 
-
 ## SwitchSection\(SyntaxList\<SwitchLabelSyntax>, StatementSyntax\)
 
 ```csharp
@@ -64,5 +62,4 @@ public static SwitchSectionSyntax SwitchSection(SyntaxList<SwitchLabelSyntax> sw
 #### Returns
 
 [SwitchSectionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.switchsectionsyntax)
-
 

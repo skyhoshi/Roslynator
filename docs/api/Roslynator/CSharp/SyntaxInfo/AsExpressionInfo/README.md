@@ -33,7 +33,6 @@ public static AsExpressionInfo AsExpressionInfo(SyntaxNode node, bool walkDownPa
 
 [AsExpressionInfo](../../Syntax/AsExpressionInfo/README.md)
 
-
 ## AsExpressionInfo\(BinaryExpressionSyntax, Boolean, Boolean\)
 
 ### Summary
@@ -55,5 +54,4 @@ public static AsExpressionInfo AsExpressionInfo(BinaryExpressionSyntax binaryExp
 #### Returns
 
 [AsExpressionInfo](../../Syntax/AsExpressionInfo/README.md)
-
 

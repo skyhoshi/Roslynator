@@ -23,4 +23,3 @@ public MemberDeclarationListInfo Replace(MemberDeclarationSyntax memberInList, M
 
 [MemberDeclarationListInfo](../README.md)
 
-

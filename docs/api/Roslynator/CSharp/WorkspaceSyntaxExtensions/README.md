@@ -12,7 +12,6 @@ A set of extension methods for syntax\. These methods are dependent on the works
 public static class WorkspaceSyntaxExtensions
 ```
 
-
 ## Methods
 
 | Method | Summary |

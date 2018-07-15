@@ -22,4 +22,3 @@ public static bool IsSwitchLabel(SyntaxKind kind)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

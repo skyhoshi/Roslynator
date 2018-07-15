@@ -25,4 +25,3 @@ public static bool IsDefaultValue(this SemanticModel semanticModel, ITypeSymbol 
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

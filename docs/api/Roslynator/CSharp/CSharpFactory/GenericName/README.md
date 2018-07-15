@@ -28,7 +28,6 @@ public static GenericNameSyntax GenericName(string identifier, TypeSyntax typeAr
 
 [GenericNameSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.genericnamesyntax)
 
-
 ## GenericName\(SyntaxToken, TypeSyntax\)
 
 ```csharp
@@ -45,5 +44,4 @@ public static GenericNameSyntax GenericName(SyntaxToken identifier, TypeSyntax t
 #### Returns
 
 [GenericNameSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.genericnamesyntax)
-
 

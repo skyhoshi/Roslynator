@@ -27,7 +27,6 @@ public static AttributeArgumentListSyntax AttributeArgumentList(params Attribute
 
 [AttributeArgumentListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.attributeargumentlistsyntax)
 
-
 ## AttributeArgumentList\(AttributeArgumentSyntax\)
 
 ```csharp
@@ -43,5 +42,4 @@ public static AttributeArgumentListSyntax AttributeArgumentList(AttributeArgumen
 #### Returns
 
 [AttributeArgumentListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.attributeargumentlistsyntax)
-
 

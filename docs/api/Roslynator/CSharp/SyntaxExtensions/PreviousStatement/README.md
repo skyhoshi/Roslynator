@@ -23,4 +23,3 @@ public static StatementSyntax PreviousStatement(this StatementSyntax statement)
 
 [StatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.statementsyntax)
 
-

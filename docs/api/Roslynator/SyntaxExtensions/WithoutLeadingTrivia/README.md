@@ -31,7 +31,6 @@ public static SyntaxNodeOrToken WithoutLeadingTrivia(this SyntaxNodeOrToken node
 
 [SyntaxNodeOrToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxnodeortoken)
 
-
 ## WithoutLeadingTrivia\(SyntaxToken\)
 
 ### Summary
@@ -51,5 +50,4 @@ public static SyntaxToken WithoutLeadingTrivia(this SyntaxToken token)
 #### Returns
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
-
 

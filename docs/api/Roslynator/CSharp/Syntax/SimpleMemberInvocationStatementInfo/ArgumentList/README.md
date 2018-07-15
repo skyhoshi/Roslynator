@@ -16,4 +16,3 @@ public ArgumentListSyntax ArgumentList { get; }
 
 [ArgumentListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.argumentlistsyntax)
 
-

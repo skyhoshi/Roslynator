@@ -32,7 +32,6 @@ public static bool ReturnsVoid(this DelegateDeclarationSyntax delegateDeclaratio
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## ReturnsVoid\(LocalFunctionStatementSyntax\)
 
 ### Summary
@@ -53,7 +52,6 @@ public static bool ReturnsVoid(this LocalFunctionStatementSyntax localFunctionSt
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## ReturnsVoid\(MethodDeclarationSyntax\)
 
 ### Summary
@@ -73,5 +71,4 @@ public static bool ReturnsVoid(this MethodDeclarationSyntax methodDeclaration)
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 

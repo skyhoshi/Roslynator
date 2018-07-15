@@ -19,4 +19,3 @@ public static bool operator ==(in RegionInfo info1, in RegionInfo info2)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

@@ -22,4 +22,3 @@ public static DocumentationCommentTriviaSyntax GetSingleLineDocumentationComment
 
 [DocumentationCommentTriviaSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.documentationcommenttriviasyntax)
 
-

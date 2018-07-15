@@ -23,4 +23,3 @@ public StatementListInfo ReplaceRange(StatementSyntax statementInList, IEnumerab
 
 [StatementListInfo](../README.md)
 
-

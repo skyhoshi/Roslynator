@@ -28,7 +28,6 @@ public static BinaryExpressionSyntax DivideExpression(ExpressionSyntax left, Exp
 
 [BinaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.binaryexpressionsyntax)
 
-
 ## DivideExpression\(ExpressionSyntax, SyntaxToken, ExpressionSyntax\)
 
 ```csharp
@@ -46,5 +45,4 @@ public static BinaryExpressionSyntax DivideExpression(ExpressionSyntax left, Syn
 #### Returns
 
 [BinaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.binaryexpressionsyntax)
-
 

@@ -16,4 +16,3 @@ public string Text { get; }
 
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
 
-

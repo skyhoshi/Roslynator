@@ -12,4 +12,3 @@ public void Reset()
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
 
-

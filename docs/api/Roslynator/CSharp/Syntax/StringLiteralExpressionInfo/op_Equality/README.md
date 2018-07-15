@@ -19,4 +19,3 @@ public static bool operator ==(in StringLiteralExpressionInfo info1, in StringLi
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

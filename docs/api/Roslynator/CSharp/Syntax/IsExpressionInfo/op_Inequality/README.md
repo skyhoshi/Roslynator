@@ -19,4 +19,3 @@ public static bool operator !=(in IsExpressionInfo info1, in IsExpressionInfo in
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

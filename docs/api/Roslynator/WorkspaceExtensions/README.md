@@ -12,7 +12,6 @@ A set of extension methods for the workspace layer\.
 public static class WorkspaceExtensions
 ```
 
-
 ## Methods
 
 | Method | Summary |

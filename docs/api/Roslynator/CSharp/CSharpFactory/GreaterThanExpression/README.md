@@ -28,7 +28,6 @@ public static BinaryExpressionSyntax GreaterThanExpression(ExpressionSyntax left
 
 [BinaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.binaryexpressionsyntax)
 
-
 ## GreaterThanExpression\(ExpressionSyntax, SyntaxToken, ExpressionSyntax\)
 
 ```csharp
@@ -46,5 +45,4 @@ public static BinaryExpressionSyntax GreaterThanExpression(ExpressionSyntax left
 #### Returns
 
 [BinaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.binaryexpressionsyntax)
-
 

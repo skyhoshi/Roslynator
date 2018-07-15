@@ -16,4 +16,3 @@ public LiteralExpressionSyntax Expression { get; }
 
 [LiteralExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.literalexpressionsyntax)
 
-

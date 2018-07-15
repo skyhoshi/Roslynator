@@ -16,4 +16,3 @@ public CSharpSyntaxNode Body { get; }
 
 [CSharpSyntaxNode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.csharpsyntaxnode)
 
-

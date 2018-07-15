@@ -21,4 +21,3 @@ public sealed delegate FooDelegate(object p)
 ### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; [Delegate](https://docs.microsoft.com/en-us/dotnet/api/system.delegate) &#x2192; [MulticastDelegate](https://docs.microsoft.com/en-us/dotnet/api/system.multicastdelegate) &#x2192; FooDelegate
-

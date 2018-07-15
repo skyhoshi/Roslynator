@@ -29,7 +29,6 @@ public static AccessorDeclarationSyntax AddAccessorDeclaration(BlockSyntax body)
 
 [AccessorDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.accessordeclarationsyntax)
 
-
 ## AddAccessorDeclaration\(SyntaxTokenList, BlockSyntax\)
 
 ```csharp
@@ -47,7 +46,6 @@ public static AccessorDeclarationSyntax AddAccessorDeclaration(SyntaxTokenList m
 
 [AccessorDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.accessordeclarationsyntax)
 
-
 ## AddAccessorDeclaration\(ArrowExpressionClauseSyntax\)
 
 ```csharp
@@ -63,7 +61,6 @@ public static AccessorDeclarationSyntax AddAccessorDeclaration(ArrowExpressionCl
 #### Returns
 
 [AccessorDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.accessordeclarationsyntax)
-
 
 ## AddAccessorDeclaration\(SyntaxTokenList, ArrowExpressionClauseSyntax\)
 
@@ -81,5 +78,4 @@ public static AccessorDeclarationSyntax AddAccessorDeclaration(SyntaxTokenList m
 #### Returns
 
 [AccessorDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.accessordeclarationsyntax)
-
 

@@ -16,4 +16,3 @@ public TypeSyntax Type { get; }
 
 [TypeSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typesyntax)
 
-

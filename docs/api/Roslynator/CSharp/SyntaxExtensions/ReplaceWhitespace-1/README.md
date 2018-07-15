@@ -30,4 +30,3 @@ public static TNode ReplaceWhitespace<TNode>(this TNode node, SyntaxTrivia repla
 
 TNode
 
-

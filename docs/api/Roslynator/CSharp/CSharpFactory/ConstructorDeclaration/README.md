@@ -30,7 +30,6 @@ public static ConstructorDeclarationSyntax ConstructorDeclaration(SyntaxTokenLis
 
 [ConstructorDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.constructordeclarationsyntax)
 
-
 ## ConstructorDeclaration\(SyntaxTokenList, SyntaxToken, ParameterListSyntax, ArrowExpressionClauseSyntax\)
 
 ```csharp
@@ -49,5 +48,4 @@ public static ConstructorDeclarationSyntax ConstructorDeclaration(SyntaxTokenLis
 #### Returns
 
 [ConstructorDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.constructordeclarationsyntax)
-
 

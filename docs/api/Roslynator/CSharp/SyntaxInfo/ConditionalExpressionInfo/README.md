@@ -33,7 +33,6 @@ public static ConditionalExpressionInfo ConditionalExpressionInfo(SyntaxNode nod
 
 [ConditionalExpressionInfo](../../Syntax/ConditionalExpressionInfo/README.md)
 
-
 ## ConditionalExpressionInfo\(ConditionalExpressionSyntax, Boolean, Boolean\)
 
 ### Summary
@@ -55,5 +54,4 @@ public static ConditionalExpressionInfo ConditionalExpressionInfo(ConditionalExp
 #### Returns
 
 [ConditionalExpressionInfo](../../Syntax/ConditionalExpressionInfo/README.md)
-
 

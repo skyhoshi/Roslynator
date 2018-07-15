@@ -27,7 +27,6 @@ public static BracketedArgumentListSyntax BracketedArgumentList(params ArgumentS
 
 [BracketedArgumentListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.bracketedargumentlistsyntax)
 
-
 ## BracketedArgumentList\(ArgumentSyntax\)
 
 ```csharp
@@ -43,5 +42,4 @@ public static BracketedArgumentListSyntax BracketedArgumentList(ArgumentSyntax a
 #### Returns
 
 [BracketedArgumentListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.bracketedargumentlistsyntax)
-
 

@@ -32,7 +32,6 @@ public static FieldDeclarationSyntax FieldDeclaration(SyntaxTokenList modifiers,
 
 [FieldDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.fielddeclarationsyntax)
 
-
 ## FieldDeclaration\(SyntaxTokenList, TypeSyntax, String, EqualsValueClauseSyntax\)
 
 ```csharp
@@ -51,7 +50,6 @@ public static FieldDeclarationSyntax FieldDeclaration(SyntaxTokenList modifiers,
 #### Returns
 
 [FieldDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.fielddeclarationsyntax)
-
 
 ## FieldDeclaration\(SyntaxTokenList, TypeSyntax, SyntaxToken, ExpressionSyntax\)
 
@@ -72,7 +70,6 @@ public static FieldDeclarationSyntax FieldDeclaration(SyntaxTokenList modifiers,
 
 [FieldDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.fielddeclarationsyntax)
 
-
 ## FieldDeclaration\(SyntaxTokenList, TypeSyntax, SyntaxToken, EqualsValueClauseSyntax\)
 
 ```csharp
@@ -91,5 +88,4 @@ public static FieldDeclarationSyntax FieldDeclaration(SyntaxTokenList modifiers,
 #### Returns
 
 [FieldDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.fielddeclarationsyntax)
-
 

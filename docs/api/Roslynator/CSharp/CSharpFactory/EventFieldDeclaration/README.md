@@ -29,7 +29,6 @@ public static EventFieldDeclarationSyntax EventFieldDeclaration(SyntaxTokenList 
 
 [EventFieldDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.eventfielddeclarationsyntax)
 
-
 ## EventFieldDeclaration\(SyntaxTokenList, TypeSyntax, SyntaxToken\)
 
 ```csharp
@@ -47,5 +46,4 @@ public static EventFieldDeclarationSyntax EventFieldDeclaration(SyntaxTokenList 
 #### Returns
 
 [EventFieldDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.eventfielddeclarationsyntax)
-
 

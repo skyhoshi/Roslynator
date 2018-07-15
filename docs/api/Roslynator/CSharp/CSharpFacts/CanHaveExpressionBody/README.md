@@ -22,4 +22,3 @@ public static bool CanHaveExpressionBody(SyntaxKind kind)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

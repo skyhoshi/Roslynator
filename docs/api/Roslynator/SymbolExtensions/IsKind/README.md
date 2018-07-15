@@ -35,7 +35,6 @@ public static bool IsKind(this ISymbol symbol, SymbolKind kind1, SymbolKind kind
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## IsKind\(ISymbol, SymbolKind, SymbolKind, SymbolKind\)
 
 ### Summary
@@ -58,7 +57,6 @@ public static bool IsKind(this ISymbol symbol, SymbolKind kind1, SymbolKind kind
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## IsKind\(ISymbol, SymbolKind, SymbolKind, SymbolKind, SymbolKind\)
 
@@ -84,7 +82,6 @@ public static bool IsKind(this ISymbol symbol, SymbolKind kind1, SymbolKind kind
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## IsKind\(ISymbol, SymbolKind, SymbolKind, SymbolKind, SymbolKind, SymbolKind\)
 
 ### Summary
@@ -109,5 +106,4 @@ public static bool IsKind(this ISymbol symbol, SymbolKind kind1, SymbolKind kind
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 

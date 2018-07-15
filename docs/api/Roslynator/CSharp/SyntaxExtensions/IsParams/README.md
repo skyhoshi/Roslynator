@@ -22,4 +22,3 @@ public static bool IsParams(this ParameterSyntax parameter)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

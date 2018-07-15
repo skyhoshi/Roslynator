@@ -12,7 +12,6 @@ A set of extension methods for [FileLinePositionSpan](https://docs.microsoft.com
 public static class FileLinePositionSpanExtensions
 ```
 
-
 ## Methods
 
 | Method | Summary |

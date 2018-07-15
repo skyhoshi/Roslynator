@@ -22,4 +22,3 @@ public static bool IsIEnumerableOfT(this ITypeSymbol typeSymbol)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

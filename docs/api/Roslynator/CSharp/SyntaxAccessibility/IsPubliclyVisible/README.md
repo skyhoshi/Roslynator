@@ -22,4 +22,3 @@ public static bool IsPubliclyVisible(MemberDeclarationSyntax declaration)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

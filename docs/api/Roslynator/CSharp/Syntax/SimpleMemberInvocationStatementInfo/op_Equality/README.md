@@ -19,4 +19,3 @@ public static bool operator ==(in SimpleMemberInvocationStatementInfo info1, in 
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

@@ -27,7 +27,6 @@ public static PostfixUnaryExpressionSyntax PostDecrementExpression(ExpressionSyn
 
 [PostfixUnaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.postfixunaryexpressionsyntax)
 
-
 ## PostDecrementExpression\(ExpressionSyntax, SyntaxToken\)
 
 ```csharp
@@ -44,5 +43,4 @@ public static PostfixUnaryExpressionSyntax PostDecrementExpression(ExpressionSyn
 #### Returns
 
 [PostfixUnaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.postfixunaryexpressionsyntax)
-
 

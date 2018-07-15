@@ -22,4 +22,3 @@ public ModifierListInfo WithModifiers(SyntaxTokenList modifiers)
 
 [ModifierListInfo](../README.md)
 
-

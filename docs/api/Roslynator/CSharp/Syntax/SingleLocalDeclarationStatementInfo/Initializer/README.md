@@ -16,4 +16,3 @@ public EqualsValueClauseSyntax Initializer { get; }
 
 [EqualsValueClauseSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.equalsvalueclausesyntax)
 
-

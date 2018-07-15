@@ -12,4 +12,3 @@ public IfStatementOrElseClause Current { get; }
 
 [IfStatementOrElseClause](../../../IfStatementOrElseClause/README.md)
 
-

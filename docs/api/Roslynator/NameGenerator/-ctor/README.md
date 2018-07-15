@@ -8,4 +8,3 @@ Assembly: Roslynator\.CSharp\.dll
 protected NameGenerator()
 ```
 
-

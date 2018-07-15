@@ -23,4 +23,3 @@ public MemberDeclarationListInfo ReplaceNode(SyntaxNode oldNode, SyntaxNode newN
 
 [MemberDeclarationListInfo](../README.md)
 
-

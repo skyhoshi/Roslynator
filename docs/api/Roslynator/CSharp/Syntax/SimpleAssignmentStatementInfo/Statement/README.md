@@ -16,4 +16,3 @@ public ExpressionStatementSyntax Statement { get; }
 
 [ExpressionStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.expressionstatementsyntax)
 
-

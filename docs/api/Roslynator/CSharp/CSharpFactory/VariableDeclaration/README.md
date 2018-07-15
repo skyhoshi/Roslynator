@@ -31,7 +31,6 @@ public static VariableDeclarationSyntax VariableDeclaration(TypeSyntax type, str
 
 [VariableDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.variabledeclarationsyntax)
 
-
 ## VariableDeclaration\(TypeSyntax, SyntaxToken, ExpressionSyntax\)
 
 ```csharp
@@ -49,7 +48,6 @@ public static VariableDeclarationSyntax VariableDeclaration(TypeSyntax type, Syn
 #### Returns
 
 [VariableDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.variabledeclarationsyntax)
-
 
 ## VariableDeclaration\(TypeSyntax, SyntaxToken, EqualsValueClauseSyntax\)
 
@@ -69,7 +67,6 @@ public static VariableDeclarationSyntax VariableDeclaration(TypeSyntax type, Syn
 
 [VariableDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.variabledeclarationsyntax)
 
-
 ## VariableDeclaration\(TypeSyntax, VariableDeclaratorSyntax\)
 
 ```csharp
@@ -86,5 +83,4 @@ public static VariableDeclarationSyntax VariableDeclaration(TypeSyntax type, Var
 #### Returns
 
 [VariableDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.variabledeclarationsyntax)
-
 

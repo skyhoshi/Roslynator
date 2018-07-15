@@ -28,4 +28,3 @@ public static SyntaxList<TNode> ToSyntaxList<TNode>(this IEnumerable<TNode> node
 
 [SyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)
 
-

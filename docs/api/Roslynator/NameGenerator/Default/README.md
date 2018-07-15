@@ -16,4 +16,3 @@ public static NameGenerator Default { get; }
 
 [NameGenerator](../README.md)
 
-

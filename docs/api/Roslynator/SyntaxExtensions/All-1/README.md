@@ -40,7 +40,6 @@ public static bool All<TNode>(this SeparatedSyntaxList<TNode> list, Func<TNode, 
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## All\<TNode>\(SyntaxList\<TNode>, Func\<TNode, Boolean>\)
 
 ### Summary
@@ -68,7 +67,6 @@ public static bool All<TNode>(this SyntaxList<TNode> list, Func<TNode, bool> pre
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## All\(SyntaxTokenList, Func\<SyntaxToken, Boolean>\)
 
 ### Summary
@@ -90,7 +88,6 @@ public static bool All(this SyntaxTokenList list, Func<SyntaxToken, bool> predic
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## All\(SyntaxTriviaList, Func\<SyntaxTrivia, Boolean>\)
 
 ### Summary
@@ -111,5 +108,4 @@ public static bool All(this SyntaxTriviaList list, Func<SyntaxTrivia, bool> pred
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 

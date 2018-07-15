@@ -19,4 +19,3 @@ public static bool operator !=(in StringConcatenationExpressionInfo info1, in St
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

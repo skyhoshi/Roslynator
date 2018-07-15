@@ -19,4 +19,3 @@ public static bool operator !=(in StatementListInfo info1, in StatementListInfo 
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

@@ -19,4 +19,3 @@ public static ObjectCreationExpressionSyntax ObjectCreationExpression(TypeSyntax
 
 [ObjectCreationExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.objectcreationexpressionsyntax)
 
-

@@ -32,7 +32,6 @@ public static UsingDirectiveListInfo UsingDirectiveListInfo(SyntaxNode node)
 
 [UsingDirectiveListInfo](../../Syntax/UsingDirectiveListInfo/README.md)
 
-
 ## UsingDirectiveListInfo\(CompilationUnitSyntax\)
 
 ### Summary
@@ -53,7 +52,6 @@ public static UsingDirectiveListInfo UsingDirectiveListInfo(CompilationUnitSynta
 
 [UsingDirectiveListInfo](../../Syntax/UsingDirectiveListInfo/README.md)
 
-
 ## UsingDirectiveListInfo\(NamespaceDeclarationSyntax\)
 
 ### Summary
@@ -73,5 +71,4 @@ public static UsingDirectiveListInfo UsingDirectiveListInfo(NamespaceDeclaration
 #### Returns
 
 [UsingDirectiveListInfo](../../Syntax/UsingDirectiveListInfo/README.md)
-
 

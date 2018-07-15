@@ -12,4 +12,3 @@ public static SyntaxToken InterfaceKeyword()
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
 
-

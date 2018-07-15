@@ -8,7 +8,6 @@ Assembly: Roslynator\.Documentation\.DocumentationTest\.dll
 public abstract interface IFoo
 ```
 
-
 ## Events
 
 | Event | Summary |

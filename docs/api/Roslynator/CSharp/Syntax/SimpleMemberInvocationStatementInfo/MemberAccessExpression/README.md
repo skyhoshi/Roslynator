@@ -16,4 +16,3 @@ public MemberAccessExpressionSyntax MemberAccessExpression { get; }
 
 [MemberAccessExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.memberaccessexpressionsyntax)
 
-

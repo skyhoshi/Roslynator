@@ -6,7 +6,7 @@
   * [Attribute](https://docs.microsoft.com/en-us/dotnet/api/system.attribute)
     * [MyAttribute](Roslynator/Documentation/Test/MyAttribute/README.md)
   * [Bla](_Global/Bla/README.md)
-  * [Foo](Roslynator/Documentation/Test/Foo/README.md)
+    * [Foo](Roslynator/Documentation/Test/Foo/README.md)
   * [FooCollection](Roslynator/Documentation/Test/FooCollection/README.md)
   * [FooDic\<TKey, TValue>](Roslynator/Documentation/Test/FooDic-2/README.md)
   * [FooEvent](Roslynator/Documentation/Test/FooEvent/README.md)

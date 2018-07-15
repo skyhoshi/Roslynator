@@ -33,7 +33,6 @@ public static BinaryExpressionInfo BinaryExpressionInfo(SyntaxNode node, bool wa
 
 [BinaryExpressionInfo](../../Syntax/BinaryExpressionInfo/README.md)
 
-
 ## BinaryExpressionInfo\(BinaryExpressionSyntax, Boolean, Boolean\)
 
 ### Summary
@@ -55,5 +54,4 @@ public static BinaryExpressionInfo BinaryExpressionInfo(BinaryExpressionSyntax b
 #### Returns
 
 [BinaryExpressionInfo](../../Syntax/BinaryExpressionInfo/README.md)
-
 

@@ -16,4 +16,3 @@ public TypeParameterListSyntax TypeParameterList { get; }
 
 [TypeParameterListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typeparameterlistsyntax)
 
-

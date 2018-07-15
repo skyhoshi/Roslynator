@@ -22,4 +22,3 @@ public static bool IsVoid(this TypeSyntax type)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

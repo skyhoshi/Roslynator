@@ -53,7 +53,6 @@ public static void ReportDiagnostic(this SymbolAnalysisContext context, Diagnost
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
 
-
 ## ReportDiagnostic\(SymbolAnalysisContext, DiagnosticDescriptor, SyntaxToken, Object\[\]\)
 
 ### Summary
@@ -76,7 +75,6 @@ public static void ReportDiagnostic(this SymbolAnalysisContext context, Diagnost
 #### Returns
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
-
 
 ## ReportDiagnostic\(SymbolAnalysisContext, DiagnosticDescriptor, SyntaxTrivia, Object\[\]\)
 
@@ -101,7 +99,6 @@ public static void ReportDiagnostic(this SymbolAnalysisContext context, Diagnost
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
 
-
 ## ReportDiagnostic\(SymbolAnalysisContext, DiagnosticDescriptor, Location, Object\[\]\)
 
 ### Summary
@@ -124,7 +121,6 @@ public static void ReportDiagnostic(this SymbolAnalysisContext context, Diagnost
 #### Returns
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
-
 
 ## ReportDiagnostic\(SymbolAnalysisContext, DiagnosticDescriptor, Location, IEnumerable\<Location>, Object\[\]\)
 
@@ -150,7 +146,6 @@ public static void ReportDiagnostic(this SymbolAnalysisContext context, Diagnost
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
 
-
 ## ReportDiagnostic\(SymbolAnalysisContext, DiagnosticDescriptor, Location, ImmutableDictionary\<String, String>, Object\[\]\)
 
 ### Summary
@@ -174,7 +169,6 @@ public static void ReportDiagnostic(this SymbolAnalysisContext context, Diagnost
 #### Returns
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
-
 
 ## ReportDiagnostic\(SymbolAnalysisContext, DiagnosticDescriptor, Location, IEnumerable\<Location>, ImmutableDictionary\<String, String>, Object\[\]\)
 
@@ -201,7 +195,6 @@ public static void ReportDiagnostic(this SymbolAnalysisContext context, Diagnost
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
 
-
 ## ReportDiagnostic\(SyntaxNodeAnalysisContext, DiagnosticDescriptor, SyntaxNode, Object\[\]\)
 
 ### Summary
@@ -224,7 +217,6 @@ public static void ReportDiagnostic(this SyntaxNodeAnalysisContext context, Diag
 #### Returns
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
-
 
 ## ReportDiagnostic\(SyntaxNodeAnalysisContext, DiagnosticDescriptor, SyntaxToken, Object\[\]\)
 
@@ -249,7 +241,6 @@ public static void ReportDiagnostic(this SyntaxNodeAnalysisContext context, Diag
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
 
-
 ## ReportDiagnostic\(SyntaxNodeAnalysisContext, DiagnosticDescriptor, SyntaxTrivia, Object\[\]\)
 
 ### Summary
@@ -273,7 +264,6 @@ public static void ReportDiagnostic(this SyntaxNodeAnalysisContext context, Diag
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
 
-
 ## ReportDiagnostic\(SyntaxNodeAnalysisContext, DiagnosticDescriptor, Location, Object\[\]\)
 
 ### Summary
@@ -296,7 +286,6 @@ public static void ReportDiagnostic(this SyntaxNodeAnalysisContext context, Diag
 #### Returns
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
-
 
 ## ReportDiagnostic\(SyntaxNodeAnalysisContext, DiagnosticDescriptor, Location, IEnumerable\<Location>, Object\[\]\)
 
@@ -322,7 +311,6 @@ public static void ReportDiagnostic(this SyntaxNodeAnalysisContext context, Diag
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
 
-
 ## ReportDiagnostic\(SyntaxNodeAnalysisContext, DiagnosticDescriptor, Location, ImmutableDictionary\<String, String>, Object\[\]\)
 
 ### Summary
@@ -346,7 +334,6 @@ public static void ReportDiagnostic(this SyntaxNodeAnalysisContext context, Diag
 #### Returns
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
-
 
 ## ReportDiagnostic\(SyntaxNodeAnalysisContext, DiagnosticDescriptor, Location, IEnumerable\<Location>, ImmutableDictionary\<String, String>, Object\[\]\)
 
@@ -373,7 +360,6 @@ public static void ReportDiagnostic(this SyntaxNodeAnalysisContext context, Diag
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
 
-
 ## ReportDiagnostic\(SyntaxTreeAnalysisContext, DiagnosticDescriptor, SyntaxNode, Object\[\]\)
 
 ### Summary
@@ -396,7 +382,6 @@ public static void ReportDiagnostic(this SyntaxTreeAnalysisContext context, Diag
 #### Returns
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
-
 
 ## ReportDiagnostic\(SyntaxTreeAnalysisContext, DiagnosticDescriptor, SyntaxToken, Object\[\]\)
 
@@ -421,7 +406,6 @@ public static void ReportDiagnostic(this SyntaxTreeAnalysisContext context, Diag
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
 
-
 ## ReportDiagnostic\(SyntaxTreeAnalysisContext, DiagnosticDescriptor, SyntaxTrivia, Object\[\]\)
 
 ### Summary
@@ -445,7 +429,6 @@ public static void ReportDiagnostic(this SyntaxTreeAnalysisContext context, Diag
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
 
-
 ## ReportDiagnostic\(SyntaxTreeAnalysisContext, DiagnosticDescriptor, Location, Object\[\]\)
 
 ### Summary
@@ -468,7 +451,6 @@ public static void ReportDiagnostic(this SyntaxTreeAnalysisContext context, Diag
 #### Returns
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
-
 
 ## ReportDiagnostic\(SyntaxTreeAnalysisContext, DiagnosticDescriptor, Location, IEnumerable\<Location>, Object\[\]\)
 
@@ -494,7 +476,6 @@ public static void ReportDiagnostic(this SyntaxTreeAnalysisContext context, Diag
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
 
-
 ## ReportDiagnostic\(SyntaxTreeAnalysisContext, DiagnosticDescriptor, Location, ImmutableDictionary\<String, String>, Object\[\]\)
 
 ### Summary
@@ -518,7 +499,6 @@ public static void ReportDiagnostic(this SyntaxTreeAnalysisContext context, Diag
 #### Returns
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
-
 
 ## ReportDiagnostic\(SyntaxTreeAnalysisContext, DiagnosticDescriptor, Location, IEnumerable\<Location>, ImmutableDictionary\<String, String>, Object\[\]\)
 
@@ -544,5 +524,4 @@ public static void ReportDiagnostic(this SyntaxTreeAnalysisContext context, Diag
 #### Returns
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
-
 

@@ -16,4 +16,3 @@ public NullCheckStyles Style { get; }
 
 [NullCheckStyles](../../../NullCheckStyles/README.md)
 
-

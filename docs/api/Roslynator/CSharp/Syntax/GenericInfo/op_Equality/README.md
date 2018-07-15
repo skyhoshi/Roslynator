@@ -19,4 +19,3 @@ public static bool operator ==(in GenericInfo info1, in GenericInfo info2)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

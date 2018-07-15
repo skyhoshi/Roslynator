@@ -27,7 +27,6 @@ public override bool Equals(object obj)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## Equals\(Reversed\)
 
 ```csharp
@@ -47,4 +46,3 @@ public bool Equals(Reversed other)
 #### Implements
 
 * [IEquatable\<Reversed>.Equals](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1.equals)
-

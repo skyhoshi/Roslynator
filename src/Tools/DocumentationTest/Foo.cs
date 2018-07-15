@@ -59,7 +59,7 @@ namespace Roslynator.Documentation.Test
     /// <exception cref="ArgumentException">a</exception>
     /// <exception cref="ArgumentNullException">b</exception>
     [Obsolete("Foo is obsolete.")]
-    public class Foo
+    public class Foo : Bla
     {
         /// <summary>
         /// f

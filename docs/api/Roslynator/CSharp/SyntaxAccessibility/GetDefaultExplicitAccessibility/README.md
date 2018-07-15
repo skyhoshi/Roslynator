@@ -48,7 +48,6 @@ public static Accessibility GetDefaultExplicitAccessibility(MemberDeclarationSyn
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
 
-
 ## GetDefaultExplicitAccessibility\(ClassDeclarationSyntax\)
 
 ### Summary
@@ -68,7 +67,6 @@ public static Accessibility GetDefaultExplicitAccessibility(ClassDeclarationSynt
 #### Returns
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
-
 
 ## GetDefaultExplicitAccessibility\(ConstructorDeclarationSyntax\)
 
@@ -90,7 +88,6 @@ public static Accessibility GetDefaultExplicitAccessibility(ConstructorDeclarati
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
 
-
 ## GetDefaultExplicitAccessibility\(ConversionOperatorDeclarationSyntax\)
 
 ### Summary
@@ -110,7 +107,6 @@ public static Accessibility GetDefaultExplicitAccessibility(ConversionOperatorDe
 #### Returns
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
-
 
 ## GetDefaultExplicitAccessibility\(DelegateDeclarationSyntax\)
 
@@ -132,7 +128,6 @@ public static Accessibility GetDefaultExplicitAccessibility(DelegateDeclarationS
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
 
-
 ## GetDefaultExplicitAccessibility\(DestructorDeclarationSyntax\)
 
 ### Summary
@@ -152,7 +147,6 @@ public static Accessibility GetDefaultExplicitAccessibility(DestructorDeclaratio
 #### Returns
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
-
 
 ## GetDefaultExplicitAccessibility\(EnumDeclarationSyntax\)
 
@@ -174,7 +168,6 @@ public static Accessibility GetDefaultExplicitAccessibility(EnumDeclarationSynta
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
 
-
 ## GetDefaultExplicitAccessibility\(EnumMemberDeclarationSyntax\)
 
 ### Summary
@@ -194,7 +187,6 @@ public static Accessibility GetDefaultExplicitAccessibility(EnumMemberDeclaratio
 #### Returns
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
-
 
 ## GetDefaultExplicitAccessibility\(EventDeclarationSyntax\)
 
@@ -216,7 +208,6 @@ public static Accessibility GetDefaultExplicitAccessibility(EventDeclarationSynt
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
 
-
 ## GetDefaultExplicitAccessibility\(EventFieldDeclarationSyntax\)
 
 ### Summary
@@ -236,7 +227,6 @@ public static Accessibility GetDefaultExplicitAccessibility(EventFieldDeclaratio
 #### Returns
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
-
 
 ## GetDefaultExplicitAccessibility\(FieldDeclarationSyntax\)
 
@@ -258,7 +248,6 @@ public static Accessibility GetDefaultExplicitAccessibility(FieldDeclarationSynt
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
 
-
 ## GetDefaultExplicitAccessibility\(IndexerDeclarationSyntax\)
 
 ### Summary
@@ -278,7 +267,6 @@ public static Accessibility GetDefaultExplicitAccessibility(IndexerDeclarationSy
 #### Returns
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
-
 
 ## GetDefaultExplicitAccessibility\(InterfaceDeclarationSyntax\)
 
@@ -300,7 +288,6 @@ public static Accessibility GetDefaultExplicitAccessibility(InterfaceDeclaration
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
 
-
 ## GetDefaultExplicitAccessibility\(MethodDeclarationSyntax\)
 
 ### Summary
@@ -320,7 +307,6 @@ public static Accessibility GetDefaultExplicitAccessibility(MethodDeclarationSyn
 #### Returns
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
-
 
 ## GetDefaultExplicitAccessibility\(NamespaceDeclarationSyntax\)
 
@@ -342,7 +328,6 @@ public static Accessibility GetDefaultExplicitAccessibility(NamespaceDeclaration
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
 
-
 ## GetDefaultExplicitAccessibility\(OperatorDeclarationSyntax\)
 
 ### Summary
@@ -362,7 +347,6 @@ public static Accessibility GetDefaultExplicitAccessibility(OperatorDeclarationS
 #### Returns
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
-
 
 ## GetDefaultExplicitAccessibility\(PropertyDeclarationSyntax\)
 
@@ -384,7 +368,6 @@ public static Accessibility GetDefaultExplicitAccessibility(PropertyDeclarationS
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
 
-
 ## GetDefaultExplicitAccessibility\(StructDeclarationSyntax\)
 
 ### Summary
@@ -405,7 +388,6 @@ public static Accessibility GetDefaultExplicitAccessibility(StructDeclarationSyn
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
 
-
 ## GetDefaultExplicitAccessibility\(BaseTypeDeclarationSyntax\)
 
 ### Summary
@@ -425,5 +407,4 @@ public static Accessibility GetDefaultExplicitAccessibility(BaseTypeDeclarationS
 #### Returns
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
-
 

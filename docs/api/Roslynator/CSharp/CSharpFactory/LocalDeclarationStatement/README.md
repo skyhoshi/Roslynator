@@ -31,7 +31,6 @@ public static LocalDeclarationStatementSyntax LocalDeclarationStatement(TypeSynt
 
 [LocalDeclarationStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.localdeclarationstatementsyntax)
 
-
 ## LocalDeclarationStatement\(TypeSyntax, SyntaxToken, ExpressionSyntax\)
 
 ```csharp
@@ -49,7 +48,6 @@ public static LocalDeclarationStatementSyntax LocalDeclarationStatement(TypeSynt
 #### Returns
 
 [LocalDeclarationStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.localdeclarationstatementsyntax)
-
 
 ## LocalDeclarationStatement\(TypeSyntax, String, EqualsValueClauseSyntax\)
 
@@ -69,7 +67,6 @@ public static LocalDeclarationStatementSyntax LocalDeclarationStatement(TypeSynt
 
 [LocalDeclarationStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.localdeclarationstatementsyntax)
 
-
 ## LocalDeclarationStatement\(TypeSyntax, SyntaxToken, EqualsValueClauseSyntax\)
 
 ```csharp
@@ -87,5 +84,4 @@ public static LocalDeclarationStatementSyntax LocalDeclarationStatement(TypeSynt
 #### Returns
 
 [LocalDeclarationStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.localdeclarationstatementsyntax)
-
 

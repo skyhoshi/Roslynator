@@ -12,4 +12,3 @@ public static PredefinedTypeSyntax PredefinedUIntType()
 
 [PredefinedTypeSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.predefinedtypesyntax)
 
-

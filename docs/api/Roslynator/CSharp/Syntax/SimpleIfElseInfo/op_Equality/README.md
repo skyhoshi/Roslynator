@@ -19,4 +19,3 @@ public static bool operator ==(in SimpleIfElseInfo info1, in SimpleIfElseInfo in
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

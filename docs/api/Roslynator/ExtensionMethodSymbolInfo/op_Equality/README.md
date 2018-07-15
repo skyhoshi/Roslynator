@@ -19,4 +19,3 @@ public static bool operator ==(in ExtensionMethodSymbolInfo info1, in ExtensionM
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

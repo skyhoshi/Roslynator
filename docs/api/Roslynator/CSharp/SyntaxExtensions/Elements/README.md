@@ -23,4 +23,3 @@ public static IEnumerable<XmlElementSyntax> Elements(this DocumentationCommentTr
 
 [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)\<[XmlElementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.xmlelementsyntax)>
 
-

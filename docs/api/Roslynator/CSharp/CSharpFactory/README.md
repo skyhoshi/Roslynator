@@ -12,7 +12,6 @@ A factory for syntax nodes, tokens and trivia\. This class is built on top of [S
 public static class CSharpFactory
 ```
 
-
 ## Methods
 
 | Method | Summary |

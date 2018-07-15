@@ -16,4 +16,3 @@ public SyntaxTokenList Modifiers { get; }
 
 [SyntaxTokenList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtokenlist)
 
-

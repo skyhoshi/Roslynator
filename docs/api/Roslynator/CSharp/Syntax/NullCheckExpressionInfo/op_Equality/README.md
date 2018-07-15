@@ -19,4 +19,3 @@ public static bool operator ==(in NullCheckExpressionInfo info1, in NullCheckExp
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

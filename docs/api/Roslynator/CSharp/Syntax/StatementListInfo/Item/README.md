@@ -27,4 +27,3 @@ The statement at the specified index in the list\.
 ### Implements
 
 * [IReadOnlyList\<StatementSyntax>.Item](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1.item)
-

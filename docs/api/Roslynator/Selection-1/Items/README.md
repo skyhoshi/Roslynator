@@ -16,4 +16,3 @@ protected abstract IReadOnlyList<T> Items { get; }
 
 [IReadOnlyList\<T>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1)
 
-

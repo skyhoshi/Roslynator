@@ -12,7 +12,6 @@ A set of extension method for a syntax\.
 public static class SyntaxExtensions
 ```
 
-
 ## Methods
 
 | Method | Summary |

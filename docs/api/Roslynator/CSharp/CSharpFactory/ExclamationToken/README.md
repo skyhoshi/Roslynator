@@ -12,4 +12,3 @@ public static SyntaxToken ExclamationToken()
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
 
-

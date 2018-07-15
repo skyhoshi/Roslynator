@@ -39,7 +39,6 @@ public static TNode TrimTrivia<TNode>(this TNode node) where TNode : Microsoft.C
 
 TNode
 
-
 ## TrimTrivia\(SyntaxToken\)
 
 ### Summary
@@ -61,5 +60,4 @@ public static SyntaxToken TrimTrivia(this SyntaxToken token)
 #### Returns
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
-
 

@@ -22,4 +22,3 @@ public UsingDirectiveListInfo AddRange(IEnumerable<UsingDirectiveSyntax> usings)
 
 [UsingDirectiveListInfo](../README.md)
 
-

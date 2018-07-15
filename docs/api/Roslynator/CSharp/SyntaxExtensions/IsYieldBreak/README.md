@@ -22,4 +22,3 @@ public static bool IsYieldBreak(this YieldStatementSyntax yieldStatement)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

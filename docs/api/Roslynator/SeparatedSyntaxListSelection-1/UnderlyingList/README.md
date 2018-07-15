@@ -16,4 +16,3 @@ public SeparatedSyntaxList<TNode> UnderlyingList { get; }
 
 [SeparatedSyntaxList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.separatedsyntaxlist-1)
 
-

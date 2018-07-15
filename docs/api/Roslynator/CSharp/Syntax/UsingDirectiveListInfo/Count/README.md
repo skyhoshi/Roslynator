@@ -19,4 +19,3 @@ public int Count { get; }
 ### Implements
 
 * [IReadOnlyCollection\<UsingDirectiveSyntax>.Count](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1.count)
-

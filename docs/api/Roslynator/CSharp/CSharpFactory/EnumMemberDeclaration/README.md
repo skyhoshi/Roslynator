@@ -30,7 +30,6 @@ public static EnumMemberDeclarationSyntax EnumMemberDeclaration(string name, Exp
 
 [EnumMemberDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.enummemberdeclarationsyntax)
 
-
 ## EnumMemberDeclaration\(SyntaxToken, ExpressionSyntax\)
 
 ```csharp
@@ -47,7 +46,6 @@ public static EnumMemberDeclarationSyntax EnumMemberDeclaration(SyntaxToken iden
 #### Returns
 
 [EnumMemberDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.enummemberdeclarationsyntax)
-
 
 ## EnumMemberDeclaration\(String, EqualsValueClauseSyntax\)
 
@@ -66,7 +64,6 @@ public static EnumMemberDeclarationSyntax EnumMemberDeclaration(string name, Equ
 
 [EnumMemberDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.enummemberdeclarationsyntax)
 
-
 ## EnumMemberDeclaration\(SyntaxToken, EqualsValueClauseSyntax\)
 
 ```csharp
@@ -83,5 +80,4 @@ public static EnumMemberDeclarationSyntax EnumMemberDeclaration(SyntaxToken iden
 #### Returns
 
 [EnumMemberDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.enummemberdeclarationsyntax)
-
 

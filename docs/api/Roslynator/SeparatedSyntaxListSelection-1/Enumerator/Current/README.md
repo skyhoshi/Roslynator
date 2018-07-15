@@ -12,4 +12,3 @@ public TNode Current { get; }
 
 TNode
 
-

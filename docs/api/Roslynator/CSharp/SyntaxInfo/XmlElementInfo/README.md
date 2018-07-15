@@ -22,4 +22,3 @@ public static XmlElementInfo XmlElementInfo(XmlNodeSyntax xmlNode)
 
 [XmlElementInfo](../../Syntax/XmlElementInfo/README.md)
 
-

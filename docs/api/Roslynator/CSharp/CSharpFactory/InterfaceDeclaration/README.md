@@ -29,7 +29,6 @@ public static InterfaceDeclarationSyntax InterfaceDeclaration(SyntaxTokenList mo
 
 [InterfaceDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.interfacedeclarationsyntax)
 
-
 ## InterfaceDeclaration\(SyntaxTokenList, SyntaxToken, SyntaxList\<MemberDeclarationSyntax>\)
 
 ```csharp
@@ -47,5 +46,4 @@ public static InterfaceDeclarationSyntax InterfaceDeclaration(SyntaxTokenList mo
 #### Returns
 
 [InterfaceDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.interfacedeclarationsyntax)
-
 

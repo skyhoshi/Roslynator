@@ -37,7 +37,6 @@ public static ISymbol GetSymbol(this SemanticModel semanticModel, AttributeSynta
 
 [ISymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.isymbol)
 
-
 ## GetSymbol\(SemanticModel, ConstructorInitializerSyntax, CancellationToken\)
 
 ### Summary
@@ -59,7 +58,6 @@ public static ISymbol GetSymbol(this SemanticModel semanticModel, ConstructorIni
 #### Returns
 
 [ISymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.isymbol)
-
 
 ## GetSymbol\(SemanticModel, CrefSyntax, CancellationToken\)
 
@@ -83,7 +81,6 @@ public static ISymbol GetSymbol(this SemanticModel semanticModel, CrefSyntax cre
 
 [ISymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.isymbol)
 
-
 ## GetSymbol\(SemanticModel, ExpressionSyntax, CancellationToken\)
 
 ### Summary
@@ -105,7 +102,6 @@ public static ISymbol GetSymbol(this SemanticModel semanticModel, ExpressionSynt
 #### Returns
 
 [ISymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.isymbol)
-
 
 ## GetSymbol\(SemanticModel, OrderingSyntax, CancellationToken\)
 
@@ -129,7 +125,6 @@ public static ISymbol GetSymbol(this SemanticModel semanticModel, OrderingSyntax
 
 [ISymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.isymbol)
 
-
 ## GetSymbol\(SemanticModel, SelectOrGroupClauseSyntax, CancellationToken\)
 
 ### Summary
@@ -151,5 +146,4 @@ public static ISymbol GetSymbol(this SemanticModel semanticModel, SelectOrGroupC
 #### Returns
 
 [ISymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.isymbol)
-
 

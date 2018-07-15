@@ -27,7 +27,6 @@ public static PrefixUnaryExpressionSyntax BitwiseNotExpression(ExpressionSyntax 
 
 [PrefixUnaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.prefixunaryexpressionsyntax)
 
-
 ## BitwiseNotExpression\(ExpressionSyntax, SyntaxToken\)
 
 ```csharp
@@ -44,5 +43,4 @@ public static PrefixUnaryExpressionSyntax BitwiseNotExpression(ExpressionSyntax 
 #### Returns
 
 [PrefixUnaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.prefixunaryexpressionsyntax)
-
 

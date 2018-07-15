@@ -37,7 +37,6 @@ public static TNode WithSimplifierAnnotation<TNode>(this TNode node) where TNode
 
 TNode
 
-
 ## WithSimplifierAnnotation\(SyntaxToken\)
 
 ### Summary
@@ -58,5 +57,4 @@ public static SyntaxToken WithSimplifierAnnotation(this SyntaxToken token)
 #### Returns
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
-
 

@@ -19,4 +19,3 @@ public static bool operator ==(in LocalDeclarationStatementInfo info1, in LocalD
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

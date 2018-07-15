@@ -23,4 +23,3 @@ public static TextLineCollectionSelection Create(TextLineCollection lines, TextS
 
 [TextLineCollectionSelection](../README.md)
 
-

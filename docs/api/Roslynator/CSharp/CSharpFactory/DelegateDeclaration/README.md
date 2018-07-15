@@ -30,7 +30,6 @@ public static DelegateDeclarationSyntax DelegateDeclaration(SyntaxTokenList modi
 
 [DelegateDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.delegatedeclarationsyntax)
 
-
 ## DelegateDeclaration\(SyntaxTokenList, TypeSyntax, SyntaxToken, ParameterListSyntax\)
 
 ```csharp
@@ -49,5 +48,4 @@ public static DelegateDeclarationSyntax DelegateDeclaration(SyntaxTokenList modi
 #### Returns
 
 [DelegateDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.delegatedeclarationsyntax)
-
 

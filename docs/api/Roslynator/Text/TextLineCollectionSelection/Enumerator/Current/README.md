@@ -12,4 +12,3 @@ public TextLine Current { get; }
 
 [TextLine](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textline)
 
-

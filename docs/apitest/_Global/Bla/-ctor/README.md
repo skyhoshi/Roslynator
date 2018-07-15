@@ -8,4 +8,3 @@ Assembly: Roslynator\.Documentation\.DocumentationTest\.dll
 public Bla()
 ```
 
-

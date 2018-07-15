@@ -58,4 +58,3 @@ true if the current object is equal to the **other** parameter; otherwise, false
 #### Implements
 
 * [IEquatable\<NullCheckExpressionInfo>.Equals](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1.equals)
-

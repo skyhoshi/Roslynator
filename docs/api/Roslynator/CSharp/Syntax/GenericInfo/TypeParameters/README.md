@@ -16,4 +16,3 @@ public SeparatedSyntaxList<TypeParameterSyntax> TypeParameters { get; }
 
 [SeparatedSyntaxList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.separatedsyntaxlist-1)\<[TypeParameterSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typeparametersyntax)>
 
-

@@ -12,4 +12,3 @@ fx
 public static class FooExtensions
 ```
 
-

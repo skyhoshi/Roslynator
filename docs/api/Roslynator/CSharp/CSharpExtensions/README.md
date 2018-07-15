@@ -12,7 +12,6 @@ A set of extension methods for a [SemanticModel](https://docs.microsoft.com/en-u
 public static class CSharpExtensions
 ```
 
-
 ## Methods
 
 | Method | Summary |

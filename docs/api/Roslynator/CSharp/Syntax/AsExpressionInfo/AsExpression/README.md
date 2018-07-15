@@ -16,4 +16,3 @@ public BinaryExpressionSyntax AsExpression { get; }
 
 [BinaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.binaryexpressionsyntax)
 
-

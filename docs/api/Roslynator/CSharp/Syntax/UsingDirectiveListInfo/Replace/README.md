@@ -23,4 +23,3 @@ public UsingDirectiveListInfo Replace(UsingDirectiveSyntax usingInLine, UsingDir
 
 [UsingDirectiveListInfo](../README.md)
 
-

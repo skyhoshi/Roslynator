@@ -12,4 +12,3 @@ protected abstract IEnumerator<T> GetEnumeratorCore()
 
 [IEnumerator\<T>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1)
 
-

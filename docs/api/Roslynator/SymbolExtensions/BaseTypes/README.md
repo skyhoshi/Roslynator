@@ -22,4 +22,3 @@ public static IEnumerable<INamedTypeSymbol> BaseTypes(this ITypeSymbol type)
 
 [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)\<[INamedTypeSymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.inamedtypesymbol)>
 
-

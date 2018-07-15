@@ -19,4 +19,3 @@ public static bool operator !=(in Reversed reversed1, in Reversed reversed2)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

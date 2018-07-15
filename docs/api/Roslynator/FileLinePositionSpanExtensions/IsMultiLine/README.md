@@ -22,4 +22,3 @@ public static bool IsMultiLine(this FileLinePositionSpan fileLinePositionSpan)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

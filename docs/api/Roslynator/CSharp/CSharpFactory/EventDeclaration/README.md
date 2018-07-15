@@ -30,7 +30,6 @@ public static EventDeclarationSyntax EventDeclaration(SyntaxTokenList modifiers,
 
 [EventDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.eventdeclarationsyntax)
 
-
 ## EventDeclaration\(SyntaxTokenList, TypeSyntax, SyntaxToken, AccessorListSyntax\)
 
 ```csharp
@@ -49,5 +48,4 @@ public static EventDeclarationSyntax EventDeclaration(SyntaxTokenList modifiers,
 #### Returns
 
 [EventDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.eventdeclarationsyntax)
-
 

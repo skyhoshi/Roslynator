@@ -28,7 +28,6 @@ public static AssignmentExpressionSyntax SimpleAssignmentExpression(ExpressionSy
 
 [AssignmentExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.assignmentexpressionsyntax)
 
-
 ## SimpleAssignmentExpression\(ExpressionSyntax, SyntaxToken, ExpressionSyntax\)
 
 ```csharp
@@ -46,5 +45,4 @@ public static AssignmentExpressionSyntax SimpleAssignmentExpression(ExpressionSy
 #### Returns
 
 [AssignmentExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.assignmentexpressionsyntax)
-
 

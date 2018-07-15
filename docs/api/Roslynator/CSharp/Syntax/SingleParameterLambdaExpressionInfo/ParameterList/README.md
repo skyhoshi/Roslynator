@@ -16,4 +16,3 @@ public ParameterListSyntax ParameterList { get; }
 
 [ParameterListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.parameterlistsyntax)
 
-

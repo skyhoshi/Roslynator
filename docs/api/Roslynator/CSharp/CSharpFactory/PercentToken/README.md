@@ -12,4 +12,3 @@ public static SyntaxToken PercentToken()
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
 
-

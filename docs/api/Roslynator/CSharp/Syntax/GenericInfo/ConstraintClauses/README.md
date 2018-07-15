@@ -16,4 +16,3 @@ public SyntaxList<TypeParameterConstraintClauseSyntax> ConstraintClauses { get; 
 
 [SyntaxList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxlist-1)\<[TypeParameterConstraintClauseSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typeparameterconstraintclausesyntax)>
 
-

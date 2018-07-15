@@ -371,6 +371,66 @@ namespace Roslynator
                 .GetSyntax(cancellationToken);
         }
 
+        //TODO: make public
+        internal static ImmutableArray<AttributeData> GetAttributes(this ITypeSymbol typeSymbol, bool includeInherited)
+        {
+            if (typeSymbol == null)
+                throw new ArgumentNullException(nameof(typeSymbol));
+
+            ImmutableArray<AttributeData> attributes = typeSymbol.GetAttributes();
+
+            if (!includeInherited)
+                return attributes;
+
+            INamedTypeSymbol baseType = typeSymbol.BaseType;
+
+            if (baseType == null)
+                return attributes;
+
+            ImmutableArray<AttributeData>.Builder builder = null;
+
+            do
+            {
+                foreach (AttributeData attribute in baseType.GetAttributes())
+                {
+                    AttributeData attributeUsage = attribute.AttributeClass.GetAttribute(MetadataNames.System_AttributeUsageAttribute);
+
+                    if (attributeUsage != null)
+                    {
+                        TypedConstant typedConstant = attributeUsage.NamedArguments.FirstOrDefault(f => f.Key == "Inherited").Value;
+
+                        if (typedConstant.Type?.SpecialType == SpecialType.System_Boolean
+                            && (!(bool)typedConstant.Value))
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (builder == null)
+                    {
+                        if (attributes.Contains(attribute))
+                            continue;
+
+                        builder = (attributes.Any())
+                            ? attributes.ToBuilder()
+                            : ImmutableArray.CreateBuilder<AttributeData>();
+                    }
+                    else if (builder.Contains(attribute))
+                    {
+                        continue;
+                    }
+
+                    builder.Add(attribute);
+                }
+
+                baseType = baseType.BaseType;
+            }
+            while (baseType != null
+                && baseType.SpecialType != SpecialType.System_Object);
+
+            return builder?.ToImmutableArray() ?? attributes;
+        }
+
         /// <summary>
         /// Returns the attribute for the symbol that matches the specified attribute class, or null if the symbol does not have the specified attribute.
         /// </summary>

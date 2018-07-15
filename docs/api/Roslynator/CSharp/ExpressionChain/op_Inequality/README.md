@@ -19,4 +19,3 @@ public static bool operator !=(in ExpressionChain info1, in ExpressionChain info
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

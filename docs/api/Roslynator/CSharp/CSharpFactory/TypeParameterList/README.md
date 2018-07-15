@@ -27,7 +27,6 @@ public static TypeParameterListSyntax TypeParameterList(TypeParameterSyntax para
 
 [TypeParameterListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typeparameterlistsyntax)
 
-
 ## TypeParameterList\(TypeParameterSyntax\[\]\)
 
 ```csharp
@@ -43,5 +42,4 @@ public static TypeParameterListSyntax TypeParameterList(params TypeParameterSynt
 #### Returns
 
 [TypeParameterListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typeparameterlistsyntax)
-
 

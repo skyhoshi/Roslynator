@@ -22,4 +22,3 @@ public static IEnumerable<ITypeSymbol> BaseTypesAndSelf(this ITypeSymbol typeSym
 
 [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)\<[ITypeSymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.itypesymbol)>
 
-

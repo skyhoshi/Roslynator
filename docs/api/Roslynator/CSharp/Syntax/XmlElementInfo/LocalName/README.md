@@ -16,4 +16,3 @@ public string LocalName { get; }
 
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
 
-

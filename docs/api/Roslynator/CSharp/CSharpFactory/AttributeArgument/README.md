@@ -28,7 +28,6 @@ public static AttributeArgumentSyntax AttributeArgument(NameEqualsSyntax nameEqu
 
 [AttributeArgumentSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.attributeargumentsyntax)
 
-
 ## AttributeArgument\(NameColonSyntax, ExpressionSyntax\)
 
 ```csharp
@@ -45,5 +44,4 @@ public static AttributeArgumentSyntax AttributeArgument(NameColonSyntax nameColo
 #### Returns
 
 [AttributeArgumentSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.attributeargumentsyntax)
-
 

@@ -16,4 +16,3 @@ public ParameterSyntax Parameter { get; }
 
 [ParameterSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.parametersyntax)
 
-

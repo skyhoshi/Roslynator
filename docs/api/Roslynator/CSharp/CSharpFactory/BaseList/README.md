@@ -29,7 +29,6 @@ public static BaseListSyntax BaseList(BaseTypeSyntax type)
 
 [BaseListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.baselistsyntax)
 
-
 ## BaseList\(BaseTypeSyntax\[\]\)
 
 ```csharp
@@ -45,7 +44,6 @@ public static BaseListSyntax BaseList(params BaseTypeSyntax[] types)
 #### Returns
 
 [BaseListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.baselistsyntax)
-
 
 ## BaseList\(SyntaxToken, BaseTypeSyntax\)
 
@@ -64,7 +62,6 @@ public static BaseListSyntax BaseList(SyntaxToken colonToken, BaseTypeSyntax bas
 
 [BaseListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.baselistsyntax)
 
-
 ## BaseList\(SyntaxToken, BaseTypeSyntax\[\]\)
 
 ```csharp
@@ -81,5 +78,4 @@ public static BaseListSyntax BaseList(SyntaxToken colonToken, params BaseTypeSyn
 #### Returns
 
 [BaseListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.baselistsyntax)
-
 

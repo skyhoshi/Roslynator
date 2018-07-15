@@ -12,4 +12,3 @@ public static SyntaxToken NamespaceKeyword()
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
 
-

@@ -16,4 +16,3 @@ public Accessibility ExplicitAccessibility { get; }
 
 [Accessibility](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.accessibility)
 
-

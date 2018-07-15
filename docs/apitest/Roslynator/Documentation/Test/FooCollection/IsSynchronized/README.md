@@ -15,4 +15,3 @@ public bool IsSynchronized { get; }
 ### Implements
 
 * [ICollection.IsSynchronized](https://docs.microsoft.com/en-us/dotnet/api/system.collections.icollection.issynchronized)
-

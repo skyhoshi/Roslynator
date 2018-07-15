@@ -18,4 +18,3 @@ public static AccessorDeclarationSyntax AutoGetAccessorDeclaration(SyntaxTokenLi
 
 [AccessorDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.accessordeclarationsyntax)
 
-

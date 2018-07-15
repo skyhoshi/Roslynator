@@ -35,7 +35,6 @@ public static StringConcatenationExpressionInfo StringConcatenationExpressionInf
 
 [StringConcatenationExpressionInfo](../../Syntax/StringConcatenationExpressionInfo/README.md)
 
-
 ## StringConcatenationExpressionInfo\(BinaryExpressionSyntax, SemanticModel, CancellationToken\)
 
 ### Summary
@@ -58,7 +57,6 @@ public static StringConcatenationExpressionInfo StringConcatenationExpressionInf
 
 [StringConcatenationExpressionInfo](../../Syntax/StringConcatenationExpressionInfo/README.md)
 
-
 ## StringConcatenationExpressionInfo\(ExpressionChain, SemanticModel, CancellationToken\)
 
 ### Summary
@@ -80,5 +78,4 @@ public static StringConcatenationExpressionInfo StringConcatenationExpressionInf
 #### Returns
 
 [StringConcatenationExpressionInfo](../../Syntax/StringConcatenationExpressionInfo/README.md)
-
 

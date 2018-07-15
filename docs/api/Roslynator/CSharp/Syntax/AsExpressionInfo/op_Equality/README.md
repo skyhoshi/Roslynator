@@ -19,4 +19,3 @@ public static bool operator ==(in AsExpressionInfo info1, in AsExpressionInfo in
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

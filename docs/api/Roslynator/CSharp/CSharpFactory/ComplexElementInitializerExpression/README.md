@@ -27,7 +27,6 @@ public static InitializerExpressionSyntax ComplexElementInitializerExpression(Se
 
 [InitializerExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.initializerexpressionsyntax)
 
-
 ## ComplexElementInitializerExpression\(SyntaxToken, SeparatedSyntaxList\<ExpressionSyntax>, SyntaxToken\)
 
 ```csharp
@@ -45,5 +44,4 @@ public static InitializerExpressionSyntax ComplexElementInitializerExpression(Sy
 #### Returns
 
 [InitializerExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.initializerexpressionsyntax)
-
 

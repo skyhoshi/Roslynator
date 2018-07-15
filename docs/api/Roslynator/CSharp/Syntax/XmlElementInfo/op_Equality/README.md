@@ -19,4 +19,3 @@ public static bool operator ==(in XmlElementInfo info1, in XmlElementInfo info2)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

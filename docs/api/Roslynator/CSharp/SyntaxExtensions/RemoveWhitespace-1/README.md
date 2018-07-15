@@ -29,4 +29,3 @@ public static TNode RemoveWhitespace<TNode>(this TNode node, TextSpan? span = nu
 
 TNode
 
-

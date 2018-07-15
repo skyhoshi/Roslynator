@@ -27,7 +27,6 @@ public static ConstructorInitializerSyntax BaseConstructorInitializer(ArgumentLi
 
 [ConstructorInitializerSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.constructorinitializersyntax)
 
-
 ## BaseConstructorInitializer\(SyntaxToken, ArgumentListSyntax\)
 
 ```csharp
@@ -44,5 +43,4 @@ public static ConstructorInitializerSyntax BaseConstructorInitializer(SyntaxToke
 #### Returns
 
 [ConstructorInitializerSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.constructorinitializersyntax)
-
 

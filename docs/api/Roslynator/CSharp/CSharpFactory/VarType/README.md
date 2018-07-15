@@ -12,4 +12,3 @@ public static IdentifierNameSyntax VarType()
 
 [IdentifierNameSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.identifiernamesyntax)
 
-

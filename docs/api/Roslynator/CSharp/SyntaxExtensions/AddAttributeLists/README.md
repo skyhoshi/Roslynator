@@ -34,7 +34,6 @@ public static ClassDeclarationSyntax AddAttributeLists(this ClassDeclarationSynt
 
 [ClassDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.classdeclarationsyntax)
 
-
 ## AddAttributeLists\(InterfaceDeclarationSyntax, Boolean, AttributeListSyntax\[\]\)
 
 ### Summary
@@ -57,7 +56,6 @@ public static InterfaceDeclarationSyntax AddAttributeLists(this InterfaceDeclara
 
 [InterfaceDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.interfacedeclarationsyntax)
 
-
 ## AddAttributeLists\(StructDeclarationSyntax, Boolean, AttributeListSyntax\[\]\)
 
 ### Summary
@@ -79,5 +77,4 @@ public static StructDeclarationSyntax AddAttributeLists(this StructDeclarationSy
 #### Returns
 
 [StructDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.structdeclarationsyntax)
-
 

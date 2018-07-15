@@ -22,4 +22,3 @@ public static bool IsReducedExtensionMethod(this IMethodSymbol methodSymbol)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

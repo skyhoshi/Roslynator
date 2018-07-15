@@ -27,7 +27,6 @@ public static InitializerExpressionSyntax ArrayInitializerExpression(SeparatedSy
 
 [InitializerExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.initializerexpressionsyntax)
 
-
 ## ArrayInitializerExpression\(SyntaxToken, SeparatedSyntaxList\<ExpressionSyntax>, SyntaxToken\)
 
 ```csharp
@@ -45,5 +44,4 @@ public static InitializerExpressionSyntax ArrayInitializerExpression(SyntaxToken
 #### Returns
 
 [InitializerExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.initializerexpressionsyntax)
-
 

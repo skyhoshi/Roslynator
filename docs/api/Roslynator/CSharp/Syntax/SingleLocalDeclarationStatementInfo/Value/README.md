@@ -16,4 +16,3 @@ public ExpressionSyntax Value { get; }
 
 [ExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.expressionsyntax)
 
-

@@ -22,4 +22,3 @@ public static bool IsHexNumericLiteral(this LiteralExpressionSyntax literalExpre
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

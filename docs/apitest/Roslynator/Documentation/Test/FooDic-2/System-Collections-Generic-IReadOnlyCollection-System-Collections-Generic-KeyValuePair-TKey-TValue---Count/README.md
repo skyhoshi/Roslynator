@@ -15,4 +15,3 @@ private int IReadOnlyCollection<KeyValuePair<TKey, TValue>>.Count { get; }
 ### Implements
 
 * [IReadOnlyCollection\<KeyValuePair\<TKey, TValue>>.Count](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1.count)
-

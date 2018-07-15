@@ -37,7 +37,6 @@ public static TNode WithFormatterAnnotation<TNode>(this TNode node) where TNode 
 
 TNode
 
-
 ## WithFormatterAnnotation\(SyntaxToken\)
 
 ### Summary
@@ -57,5 +56,4 @@ public static SyntaxToken WithFormatterAnnotation(this SyntaxToken token)
 #### Returns
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
-
 

@@ -12,7 +12,6 @@ A set of extension methods for enumerations\.
 public static class EnumExtensions
 ```
 
-
 ## Methods
 
 | Method | Summary |

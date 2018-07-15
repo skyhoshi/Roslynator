@@ -31,7 +31,6 @@ public static PropertyDeclarationSyntax PropertyDeclaration(SyntaxTokenList modi
 
 [PropertyDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.propertydeclarationsyntax)
 
-
 ## PropertyDeclaration\(SyntaxTokenList, TypeSyntax, SyntaxToken, ArrowExpressionClauseSyntax\)
 
 ```csharp
@@ -50,5 +49,4 @@ public static PropertyDeclarationSyntax PropertyDeclaration(SyntaxTokenList modi
 #### Returns
 
 [PropertyDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.propertydeclarationsyntax)
-
 

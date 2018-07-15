@@ -15,4 +15,3 @@ private IEnumerator<StatementSyntax> IEnumerable<StatementSyntax>.GetEnumerator(
 ### Implements
 
 * [IEnumerable\<StatementSyntax>.GetEnumerator](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1.getenumerator)
-

@@ -23,4 +23,3 @@ public static bool IsMoreRestrictiveThan(this Accessibility accessibility, Acces
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

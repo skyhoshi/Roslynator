@@ -30,7 +30,6 @@ public static IndexerDeclarationSyntax IndexerDeclaration(SyntaxTokenList modifi
 
 [IndexerDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.indexerdeclarationsyntax)
 
-
 ## IndexerDeclaration\(SyntaxTokenList, TypeSyntax, BracketedParameterListSyntax, ArrowExpressionClauseSyntax\)
 
 ```csharp
@@ -49,5 +48,4 @@ public static IndexerDeclarationSyntax IndexerDeclaration(SyntaxTokenList modifi
 #### Returns
 
 [IndexerDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.indexerdeclarationsyntax)
-
 

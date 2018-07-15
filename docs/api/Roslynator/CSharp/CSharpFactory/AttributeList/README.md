@@ -27,7 +27,6 @@ public static AttributeListSyntax AttributeList(AttributeSyntax attribute)
 
 [AttributeListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.attributelistsyntax)
 
-
 ## AttributeList\(AttributeSyntax\[\]\)
 
 ```csharp
@@ -43,5 +42,4 @@ public static AttributeListSyntax AttributeList(params AttributeSyntax[] attribu
 #### Returns
 
 [AttributeListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.attributelistsyntax)
-
 

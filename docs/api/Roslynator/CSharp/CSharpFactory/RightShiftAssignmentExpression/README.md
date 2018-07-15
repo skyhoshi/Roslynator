@@ -28,7 +28,6 @@ public static AssignmentExpressionSyntax RightShiftAssignmentExpression(Expressi
 
 [AssignmentExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.assignmentexpressionsyntax)
 
-
 ## RightShiftAssignmentExpression\(ExpressionSyntax, SyntaxToken, ExpressionSyntax\)
 
 ```csharp
@@ -46,5 +45,4 @@ public static AssignmentExpressionSyntax RightShiftAssignmentExpression(Expressi
 #### Returns
 
 [AssignmentExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.assignmentexpressionsyntax)
-
 

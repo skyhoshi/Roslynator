@@ -12,7 +12,6 @@ A set of extension methods for syntax \(types derived from [CSharpSyntaxNode](ht
 public static class SyntaxExtensions
 ```
 
-
 ## Methods
 
 | Method | Summary |

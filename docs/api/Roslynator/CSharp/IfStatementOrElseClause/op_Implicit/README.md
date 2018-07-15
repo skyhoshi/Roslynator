@@ -29,7 +29,6 @@ public static implicit operator IfStatementOrElseClause(IfStatementSyntax ifStat
 
 [IfStatementOrElseClause](../README.md)
 
-
 ## Implicit\(IfStatementOrElseClause to IfStatementSyntax\)
 
 ```csharp
@@ -45,7 +44,6 @@ public static implicit operator IfStatementSyntax(in IfStatementOrElseClause ifO
 #### Returns
 
 [IfStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.ifstatementsyntax)
-
 
 ## Implicit\(ElseClauseSyntax to IfStatementOrElseClause\)
 
@@ -63,7 +61,6 @@ public static implicit operator IfStatementOrElseClause(ElseClauseSyntax elseCla
 
 [IfStatementOrElseClause](../README.md)
 
-
 ## Implicit\(IfStatementOrElseClause to ElseClauseSyntax\)
 
 ```csharp
@@ -79,5 +76,4 @@ public static implicit operator ElseClauseSyntax(in IfStatementOrElseClause ifOr
 #### Returns
 
 [ElseClauseSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.elseclausesyntax)
-
 

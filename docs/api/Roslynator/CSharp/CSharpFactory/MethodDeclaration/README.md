@@ -31,7 +31,6 @@ public static MethodDeclarationSyntax MethodDeclaration(SyntaxTokenList modifier
 
 [MethodDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.methoddeclarationsyntax)
 
-
 ## MethodDeclaration\(SyntaxTokenList, TypeSyntax, SyntaxToken, ParameterListSyntax, ArrowExpressionClauseSyntax\)
 
 ```csharp
@@ -51,5 +50,4 @@ public static MethodDeclarationSyntax MethodDeclaration(SyntaxTokenList modifier
 #### Returns
 
 [MethodDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.methoddeclarationsyntax)
-
 

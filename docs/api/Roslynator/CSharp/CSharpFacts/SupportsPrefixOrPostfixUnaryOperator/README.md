@@ -22,4 +22,3 @@ public static bool SupportsPrefixOrPostfixUnaryOperator(SpecialType specialType)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

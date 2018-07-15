@@ -22,4 +22,3 @@ public MemberDeclarationListInfo AddRange(IEnumerable<MemberDeclarationSyntax> m
 
 [MemberDeclarationListInfo](../README.md)
 
-

@@ -22,4 +22,3 @@ public MemberDeclarationListInfo Remove(MemberDeclarationSyntax member)
 
 [MemberDeclarationListInfo](../README.md)
 
-

@@ -27,7 +27,6 @@ public static ArgumentListSyntax ArgumentList(params ArgumentSyntax[] arguments)
 
 [ArgumentListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.argumentlistsyntax)
 
-
 ## ArgumentList\(ArgumentSyntax\)
 
 ```csharp
@@ -43,5 +42,4 @@ public static ArgumentListSyntax ArgumentList(ArgumentSyntax argument)
 #### Returns
 
 [ArgumentListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.argumentlistsyntax)
-
 

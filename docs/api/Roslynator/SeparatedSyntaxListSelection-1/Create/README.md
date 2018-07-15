@@ -23,4 +23,3 @@ public static SeparatedSyntaxListSelection<TNode> Create(SeparatedSyntaxList<TNo
 
 [SeparatedSyntaxListSelection\<TNode>](../README.md)
 
-

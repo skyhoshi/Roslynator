@@ -12,7 +12,6 @@ Serves as a factory for a modifier list\.
 public static class Modifiers
 ```
 
-
 ## Methods
 
 | Method | Summary |

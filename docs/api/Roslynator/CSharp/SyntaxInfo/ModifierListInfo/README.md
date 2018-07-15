@@ -50,7 +50,6 @@ public static ModifierListInfo ModifierListInfo(SyntaxNode node)
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
 
-
 ## ModifierListInfo\(ClassDeclarationSyntax\)
 
 ### Summary
@@ -70,7 +69,6 @@ public static ModifierListInfo ModifierListInfo(ClassDeclarationSyntax classDecl
 #### Returns
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
-
 
 ## ModifierListInfo\(ConstructorDeclarationSyntax\)
 
@@ -92,7 +90,6 @@ public static ModifierListInfo ModifierListInfo(ConstructorDeclarationSyntax con
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
 
-
 ## ModifierListInfo\(ConversionOperatorDeclarationSyntax\)
 
 ### Summary
@@ -112,7 +109,6 @@ public static ModifierListInfo ModifierListInfo(ConversionOperatorDeclarationSyn
 #### Returns
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
-
 
 ## ModifierListInfo\(DelegateDeclarationSyntax\)
 
@@ -134,7 +130,6 @@ public static ModifierListInfo ModifierListInfo(DelegateDeclarationSyntax delega
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
 
-
 ## ModifierListInfo\(DestructorDeclarationSyntax\)
 
 ### Summary
@@ -154,7 +149,6 @@ public static ModifierListInfo ModifierListInfo(DestructorDeclarationSyntax dest
 #### Returns
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
-
 
 ## ModifierListInfo\(EnumDeclarationSyntax\)
 
@@ -176,7 +170,6 @@ public static ModifierListInfo ModifierListInfo(EnumDeclarationSyntax enumDeclar
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
 
-
 ## ModifierListInfo\(EventDeclarationSyntax\)
 
 ### Summary
@@ -196,7 +189,6 @@ public static ModifierListInfo ModifierListInfo(EventDeclarationSyntax eventDecl
 #### Returns
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
-
 
 ## ModifierListInfo\(EventFieldDeclarationSyntax\)
 
@@ -218,7 +210,6 @@ public static ModifierListInfo ModifierListInfo(EventFieldDeclarationSyntax even
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
 
-
 ## ModifierListInfo\(FieldDeclarationSyntax\)
 
 ### Summary
@@ -238,7 +229,6 @@ public static ModifierListInfo ModifierListInfo(FieldDeclarationSyntax fieldDecl
 #### Returns
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
-
 
 ## ModifierListInfo\(IndexerDeclarationSyntax\)
 
@@ -260,7 +250,6 @@ public static ModifierListInfo ModifierListInfo(IndexerDeclarationSyntax indexer
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
 
-
 ## ModifierListInfo\(InterfaceDeclarationSyntax\)
 
 ### Summary
@@ -280,7 +269,6 @@ public static ModifierListInfo ModifierListInfo(InterfaceDeclarationSyntax inter
 #### Returns
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
-
 
 ## ModifierListInfo\(MethodDeclarationSyntax\)
 
@@ -302,7 +290,6 @@ public static ModifierListInfo ModifierListInfo(MethodDeclarationSyntax methodDe
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
 
-
 ## ModifierListInfo\(OperatorDeclarationSyntax\)
 
 ### Summary
@@ -322,7 +309,6 @@ public static ModifierListInfo ModifierListInfo(OperatorDeclarationSyntax operat
 #### Returns
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
-
 
 ## ModifierListInfo\(PropertyDeclarationSyntax\)
 
@@ -344,7 +330,6 @@ public static ModifierListInfo ModifierListInfo(PropertyDeclarationSyntax proper
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
 
-
 ## ModifierListInfo\(StructDeclarationSyntax\)
 
 ### Summary
@@ -364,7 +349,6 @@ public static ModifierListInfo ModifierListInfo(StructDeclarationSyntax structDe
 #### Returns
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
-
 
 ## ModifierListInfo\(IncompleteMemberSyntax\)
 
@@ -386,7 +370,6 @@ public static ModifierListInfo ModifierListInfo(IncompleteMemberSyntax incomplet
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
 
-
 ## ModifierListInfo\(AccessorDeclarationSyntax\)
 
 ### Summary
@@ -406,7 +389,6 @@ public static ModifierListInfo ModifierListInfo(AccessorDeclarationSyntax access
 #### Returns
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
-
 
 ## ModifierListInfo\(LocalDeclarationStatementSyntax\)
 
@@ -428,7 +410,6 @@ public static ModifierListInfo ModifierListInfo(LocalDeclarationStatementSyntax 
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
 
-
 ## ModifierListInfo\(LocalFunctionStatementSyntax\)
 
 ### Summary
@@ -449,7 +430,6 @@ public static ModifierListInfo ModifierListInfo(LocalFunctionStatementSyntax loc
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
 
-
 ## ModifierListInfo\(ParameterSyntax\)
 
 ### Summary
@@ -469,5 +449,4 @@ public static ModifierListInfo ModifierListInfo(ParameterSyntax parameter)
 #### Returns
 
 [ModifierListInfo](../../Syntax/ModifierListInfo/README.md)
-
 

@@ -40,7 +40,6 @@ public static TNode AppendToTrailingTrivia<TNode>(this TNode node, IEnumerable<S
 
 TNode
 
-
 ## AppendToTrailingTrivia\<TNode>\(TNode, SyntaxTrivia\)
 
 ### Summary
@@ -68,7 +67,6 @@ public static TNode AppendToTrailingTrivia<TNode>(this TNode node, SyntaxTrivia 
 
 TNode
 
-
 ## AppendToTrailingTrivia\(SyntaxToken, IEnumerable\<SyntaxTrivia>\)
 
 ### Summary
@@ -90,7 +88,6 @@ public static SyntaxToken AppendToTrailingTrivia(this SyntaxToken token, IEnumer
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
 
-
 ## AppendToTrailingTrivia\(SyntaxToken, SyntaxTrivia\)
 
 ### Summary
@@ -111,5 +108,4 @@ public static SyntaxToken AppendToTrailingTrivia(this SyntaxToken token, SyntaxT
 #### Returns
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
-
 

@@ -12,4 +12,3 @@ public Enumerator GetEnumerator()
 
 [ExpressionChain.Reversed.Enumerator](../Enumerator/README.md)
 
-

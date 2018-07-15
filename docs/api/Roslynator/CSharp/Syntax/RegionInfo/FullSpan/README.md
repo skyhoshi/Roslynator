@@ -16,4 +16,3 @@ public TextSpan FullSpan { get; }
 
 [TextSpan](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textspan)
 
-

@@ -19,4 +19,3 @@ public static bool operator !=(in BinaryExpressionInfo info1, in BinaryExpressio
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

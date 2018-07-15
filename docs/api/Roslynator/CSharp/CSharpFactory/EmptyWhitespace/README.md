@@ -12,4 +12,3 @@ public static SyntaxTrivia EmptyWhitespace()
 
 [SyntaxTrivia](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtrivia)
 
-

@@ -21,4 +21,3 @@ public bool Remove(Foo item)
 ### Implements
 
 * [ICollection\<Foo>.Remove](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.icollection-1.remove)
-

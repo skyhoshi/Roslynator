@@ -21,4 +21,3 @@ public bool Contains(Foo item)
 ### Implements
 
 * [ICollection\<Foo>.Contains](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.icollection-1.contains)
-

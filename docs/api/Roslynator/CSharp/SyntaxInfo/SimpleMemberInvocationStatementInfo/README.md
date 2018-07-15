@@ -33,7 +33,6 @@ public static SimpleMemberInvocationStatementInfo SimpleMemberInvocationStatemen
 
 [SimpleMemberInvocationStatementInfo](../../Syntax/SimpleMemberInvocationStatementInfo/README.md)
 
-
 ## SimpleMemberInvocationStatementInfo\(ExpressionStatementSyntax, Boolean\)
 
 ### Summary
@@ -55,7 +54,6 @@ public static SimpleMemberInvocationStatementInfo SimpleMemberInvocationStatemen
 
 [SimpleMemberInvocationStatementInfo](../../Syntax/SimpleMemberInvocationStatementInfo/README.md)
 
-
 ## SimpleMemberInvocationStatementInfo\(InvocationExpressionSyntax, Boolean\)
 
 ### Summary
@@ -76,5 +74,4 @@ public static SimpleMemberInvocationStatementInfo SimpleMemberInvocationStatemen
 #### Returns
 
 [SimpleMemberInvocationStatementInfo](../../Syntax/SimpleMemberInvocationStatementInfo/README.md)
-
 

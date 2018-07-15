@@ -23,4 +23,3 @@ public static SyntaxToken WithRenameAnnotation(this SyntaxToken token)
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
 
-

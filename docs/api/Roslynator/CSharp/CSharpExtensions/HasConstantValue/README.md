@@ -24,4 +24,3 @@ public static bool HasConstantValue(this SemanticModel semanticModel, Expression
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

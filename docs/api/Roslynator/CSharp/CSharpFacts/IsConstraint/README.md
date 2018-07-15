@@ -22,4 +22,3 @@ public static bool IsConstraint(SyntaxKind kind)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

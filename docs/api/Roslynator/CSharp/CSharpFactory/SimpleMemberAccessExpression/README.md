@@ -28,7 +28,6 @@ public static MemberAccessExpressionSyntax SimpleMemberAccessExpression(Expressi
 
 [MemberAccessExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.memberaccessexpressionsyntax)
 
-
 ## SimpleMemberAccessExpression\(ExpressionSyntax, SyntaxToken, SimpleNameSyntax\)
 
 ```csharp
@@ -46,5 +45,4 @@ public static MemberAccessExpressionSyntax SimpleMemberAccessExpression(Expressi
 #### Returns
 
 [MemberAccessExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.memberaccessexpressionsyntax)
-
 

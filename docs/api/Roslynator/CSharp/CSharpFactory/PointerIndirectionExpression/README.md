@@ -27,7 +27,6 @@ public static PrefixUnaryExpressionSyntax PointerIndirectionExpression(Expressio
 
 [PrefixUnaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.prefixunaryexpressionsyntax)
 
-
 ## PointerIndirectionExpression\(ExpressionSyntax, SyntaxToken\)
 
 ```csharp
@@ -44,5 +43,4 @@ public static PrefixUnaryExpressionSyntax PointerIndirectionExpression(Expressio
 #### Returns
 
 [PrefixUnaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.prefixunaryexpressionsyntax)
-
 

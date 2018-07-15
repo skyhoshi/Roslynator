@@ -27,7 +27,6 @@ public static TypeArgumentListSyntax TypeArgumentList(TypeSyntax argument)
 
 [TypeArgumentListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typeargumentlistsyntax)
 
-
 ## TypeArgumentList\(TypeSyntax\[\]\)
 
 ```csharp
@@ -43,5 +42,4 @@ public static TypeArgumentListSyntax TypeArgumentList(params TypeSyntax[] argume
 #### Returns
 
 [TypeArgumentListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typeargumentlistsyntax)
-
 

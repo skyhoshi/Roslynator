@@ -28,7 +28,6 @@ public static AssignmentExpressionSyntax ModuloAssignmentExpression(ExpressionSy
 
 [AssignmentExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.assignmentexpressionsyntax)
 
-
 ## ModuloAssignmentExpression\(ExpressionSyntax, SyntaxToken, ExpressionSyntax\)
 
 ```csharp
@@ -46,5 +45,4 @@ public static AssignmentExpressionSyntax ModuloAssignmentExpression(ExpressionSy
 #### Returns
 
 [AssignmentExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.assignmentexpressionsyntax)
-
 

@@ -27,7 +27,6 @@ public static UsingDirectiveSyntax UsingStaticDirective(NameSyntax name)
 
 [UsingDirectiveSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.usingdirectivesyntax)
 
-
 ## UsingStaticDirective\(SyntaxToken, SyntaxToken, NameSyntax, SyntaxToken\)
 
 ```csharp
@@ -46,5 +45,4 @@ public static UsingDirectiveSyntax UsingStaticDirective(SyntaxToken usingKeyword
 #### Returns
 
 [UsingDirectiveSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.usingdirectivesyntax)
-
 

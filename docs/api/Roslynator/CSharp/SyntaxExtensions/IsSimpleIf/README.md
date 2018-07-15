@@ -23,4 +23,3 @@ public static bool IsSimpleIf(this IfStatementSyntax ifStatement)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

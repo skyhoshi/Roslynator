@@ -12,7 +12,6 @@ A set of static methods that allows manipulation with modifiers\.
 public static class ModifierList
 ```
 
-
 ## Methods
 
 | Method | Summary |

@@ -16,4 +16,3 @@ public TextLineCollection UnderlyingLines { get; }
 
 [TextLineCollection](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textlinecollection)
 
-

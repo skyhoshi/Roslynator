@@ -17,4 +17,3 @@ public void Bar2()
 
 [Void](https://docs.microsoft.com/en-us/dotnet/api/system.void)
 
-

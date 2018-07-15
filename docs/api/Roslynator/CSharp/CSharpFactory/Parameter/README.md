@@ -30,7 +30,6 @@ public static ParameterSyntax Parameter(TypeSyntax type, string identifier, Expr
 
 [ParameterSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.parametersyntax)
 
-
 ## Parameter\(TypeSyntax, SyntaxToken, ExpressionSyntax\)
 
 ```csharp
@@ -49,7 +48,6 @@ public static ParameterSyntax Parameter(TypeSyntax type, SyntaxToken identifier,
 
 [ParameterSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.parametersyntax)
 
-
 ## Parameter\(TypeSyntax, SyntaxToken, EqualsValueClauseSyntax\)
 
 ```csharp
@@ -67,5 +65,4 @@ public static ParameterSyntax Parameter(TypeSyntax type, SyntaxToken identifier,
 #### Returns
 
 [ParameterSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.parametersyntax)
-
 

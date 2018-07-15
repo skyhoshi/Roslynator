@@ -27,7 +27,6 @@ public static InvocationExpressionSyntax NameOfExpression(string identifier)
 
 [InvocationExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.invocationexpressionsyntax)
 
-
 ## NameOfExpression\(ExpressionSyntax\)
 
 ```csharp
@@ -43,5 +42,4 @@ public static InvocationExpressionSyntax NameOfExpression(ExpressionSyntax expre
 #### Returns
 
 [InvocationExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.invocationexpressionsyntax)
-
 

@@ -16,4 +16,3 @@ protected override IReadOnlyList<TNode> Items { get; }
 
 [IReadOnlyList\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1)
 
-

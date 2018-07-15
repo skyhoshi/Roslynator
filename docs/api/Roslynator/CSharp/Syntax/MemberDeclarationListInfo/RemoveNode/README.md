@@ -23,4 +23,3 @@ public MemberDeclarationListInfo RemoveNode(SyntaxNode node, SyntaxRemoveOptions
 
 [MemberDeclarationListInfo](../README.md)
 
-

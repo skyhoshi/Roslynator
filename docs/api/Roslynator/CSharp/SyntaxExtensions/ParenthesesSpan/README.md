@@ -32,7 +32,6 @@ public static TextSpan ParenthesesSpan(this CastExpressionSyntax castExpression)
 
 [TextSpan](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textspan)
 
-
 ## ParenthesesSpan\(CommonForEachStatementSyntax\)
 
 ### Summary
@@ -53,7 +52,6 @@ public static TextSpan ParenthesesSpan(this CommonForEachStatementSyntax forEach
 
 [TextSpan](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textspan)
 
-
 ## ParenthesesSpan\(ForStatementSyntax\)
 
 ### Summary
@@ -73,5 +71,4 @@ public static TextSpan ParenthesesSpan(this ForStatementSyntax forStatement)
 #### Returns
 
 [TextSpan](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.text.textspan)
-
 

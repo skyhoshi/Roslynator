@@ -38,7 +38,6 @@ public static bool IsLast<TNode>(this SeparatedSyntaxList<TNode> list, TNode nod
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## IsLast\<TNode>\(SyntaxList\<TNode>, TNode\)
 
 ### Summary
@@ -65,5 +64,4 @@ public static bool IsLast<TNode>(this SyntaxList<TNode> list, TNode node) where 
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 

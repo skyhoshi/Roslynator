@@ -19,4 +19,3 @@ public int Count { get; }
 ### Implements
 
 * [IReadOnlyCollection\<MemberDeclarationSyntax>.Count](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1.count)
-

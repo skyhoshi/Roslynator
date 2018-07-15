@@ -19,4 +19,3 @@ public static bool operator ==(in IfStatementOrElseClause left, in IfStatementOr
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

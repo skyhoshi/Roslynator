@@ -38,7 +38,6 @@ public static TNode Remove<TNode>(TNode node, SyntaxKind kind) where TNode : Mic
 
 TNode
 
-
 ## Remove\<TNode>\(TNode, SyntaxToken\)
 
 ### Summary
@@ -65,5 +64,4 @@ public static TNode Remove<TNode>(TNode node, SyntaxToken modifier) where TNode 
 #### Returns
 
 TNode
-
 

@@ -27,7 +27,6 @@ public static PrefixUnaryExpressionSyntax PreIncrementExpression(ExpressionSynta
 
 [PrefixUnaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.prefixunaryexpressionsyntax)
 
-
 ## PreIncrementExpression\(ExpressionSyntax, SyntaxToken\)
 
 ```csharp
@@ -44,5 +43,4 @@ public static PrefixUnaryExpressionSyntax PreIncrementExpression(ExpressionSynta
 #### Returns
 
 [PrefixUnaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.prefixunaryexpressionsyntax)
-
 

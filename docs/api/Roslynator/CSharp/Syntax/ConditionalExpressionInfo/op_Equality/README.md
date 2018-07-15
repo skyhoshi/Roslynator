@@ -19,4 +19,3 @@ public static bool operator ==(in ConditionalExpressionInfo info1, in Conditiona
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

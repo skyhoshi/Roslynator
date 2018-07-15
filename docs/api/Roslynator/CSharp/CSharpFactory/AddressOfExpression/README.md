@@ -27,7 +27,6 @@ public static PrefixUnaryExpressionSyntax AddressOfExpression(ExpressionSyntax o
 
 [PrefixUnaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.prefixunaryexpressionsyntax)
 
-
 ## AddressOfExpression\(ExpressionSyntax, SyntaxToken\)
 
 ```csharp
@@ -44,5 +43,4 @@ public static PrefixUnaryExpressionSyntax AddressOfExpression(ExpressionSyntax o
 #### Returns
 
 [PrefixUnaryExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.prefixunaryexpressionsyntax)
-
 

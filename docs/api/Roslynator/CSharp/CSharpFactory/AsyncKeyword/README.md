@@ -12,4 +12,3 @@ public static SyntaxToken AsyncKeyword()
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
 
-

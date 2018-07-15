@@ -27,7 +27,6 @@ public static BlockSyntax Block(StatementSyntax statement)
 
 [BlockSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.blocksyntax)
 
-
 ## Block\(SyntaxToken, StatementSyntax, SyntaxToken\)
 
 ```csharp
@@ -45,5 +44,4 @@ public static BlockSyntax Block(SyntaxToken openBrace, StatementSyntax statement
 #### Returns
 
 [BlockSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.blocksyntax)
-
 

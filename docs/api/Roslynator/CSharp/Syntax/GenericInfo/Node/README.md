@@ -16,4 +16,3 @@ public SyntaxNode Node { get; }
 
 [SyntaxNode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxnode)
 
-

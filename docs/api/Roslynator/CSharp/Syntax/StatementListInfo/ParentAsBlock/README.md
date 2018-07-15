@@ -16,4 +16,3 @@ public BlockSyntax ParentAsBlock { get; }
 
 [BlockSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.blocksyntax)
 
-

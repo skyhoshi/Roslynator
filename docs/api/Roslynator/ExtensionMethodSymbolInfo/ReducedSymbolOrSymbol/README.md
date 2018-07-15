@@ -16,4 +16,3 @@ public IMethodSymbol ReducedSymbolOrSymbol { get; }
 
 [IMethodSymbol](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.imethodsymbol)
 
-

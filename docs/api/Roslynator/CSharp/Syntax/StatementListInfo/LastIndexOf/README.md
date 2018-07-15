@@ -31,7 +31,6 @@ public int LastIndexOf(Func<StatementSyntax, bool> predicate)
 
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
 
-
 ## LastIndexOf\(StatementSyntax\)
 
 ### Summary
@@ -51,5 +50,4 @@ public int LastIndexOf(StatementSyntax statement)
 #### Returns
 
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
-
 

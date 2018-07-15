@@ -12,7 +12,6 @@ A set of extension methods for [ISymbol](https://docs.microsoft.com/en-us/dotnet
 public static class SymbolExtensions
 ```
 
-
 ## Methods
 
 | Method | Summary |

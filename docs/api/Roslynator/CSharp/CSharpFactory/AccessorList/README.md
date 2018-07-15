@@ -27,7 +27,6 @@ public static AccessorListSyntax AccessorList(params AccessorDeclarationSyntax[]
 
 [AccessorListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.accessorlistsyntax)
 
-
 ## AccessorList\(AccessorDeclarationSyntax\)
 
 ```csharp
@@ -43,5 +42,4 @@ public static AccessorListSyntax AccessorList(AccessorDeclarationSyntax accessor
 #### Returns
 
 [AccessorListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.accessorlistsyntax)
-
 

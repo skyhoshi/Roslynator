@@ -21,4 +21,3 @@ protected SyntaxListSelection(SyntaxList<TNode> list, TextSpan span, int firstIn
 | firstIndex | |
 | lastIndex | |
 
-

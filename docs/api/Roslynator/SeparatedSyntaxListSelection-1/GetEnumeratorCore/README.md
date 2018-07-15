@@ -12,4 +12,3 @@ protected override IEnumerator<TNode> GetEnumeratorCore()
 
 [IEnumerator\<TNode>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1)
 
-

@@ -15,4 +15,3 @@ private IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, T
 ### Implements
 
 * [IEnumerable\<KeyValuePair\<TKey, TValue>>.GetEnumerator](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1.getenumerator)
-

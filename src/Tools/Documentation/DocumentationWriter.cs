@@ -505,34 +505,128 @@ namespace Roslynator.Documentation
 
         public virtual void WriteAttributes(ISymbol symbol)
         {
-            using (IEnumerator<AttributeData> en = symbol
-                .GetAttributes()
-                .Where(f => !DocumentationUtility.IsHiddenAttribute(f.AttributeClass))
+            if (symbol.Name == "MyAttribute")
+            {
+            }
+
+            ImmutableArray<AttributeData> attributes = symbol.GetAttributes();
+
+            if (!attributes.Any())
+                return;
+
+            IEnumerable<(ISymbol symbol, INamedTypeSymbol attributeSymbol)> enumerableAttributes = attributes
+                .Select(f => ((symbol, attributeClass: f.AttributeClass)));
+
+            if (symbol is ITypeSymbol typeSymbol)
+            {
+                List<(ISymbol symbol, INamedTypeSymbol attributeSymbol)> inheritedAttributes = GetInheritedAttributes();
+
+                if (inheritedAttributes != null)
+                    enumerableAttributes = enumerableAttributes.Concat(inheritedAttributes);
+            }
+
+            using (IEnumerator<(ISymbol symbol, INamedTypeSymbol attributeSymbol)> en = enumerableAttributes
+                .Where(f => !DocumentationUtility.IsHiddenAttribute(f.attributeSymbol))
+                .OrderBy(f => f.attributeSymbol.ToDisplayString(FormatProvider.TypeFormat))
                 .GetEnumerator())
             {
                 if (en.MoveNext())
                 {
                     WriteHeading(3, Resources.AttributesTitle);
 
-                    bool isNext = false;
-
-                    do
+                    while (true)
                     {
-                        WriteLink(en.Current.AttributeClass, FormatProvider.TypeFormat);
+                        WriteLink(en.Current.attributeSymbol, FormatProvider.TypeFormat);
 
-                        isNext = en.MoveNext();
+                        if (symbol != en.Current.symbol)
+                        {
+                            WriteInheritedFrom(en.Current.symbol.OriginalDefinition, FormatProvider.TypeFormat);
+                        }
 
-                        if (isNext)
+                        if (en.MoveNext())
                         {
                             WriteString(Resources.Comma);
                             WriteSpace();
                         }
+                        else
+                        {
+                            break;
+                        }
                     }
-                    while (isNext);
                 }
             }
 
             WriteLine();
+
+            List<(ISymbol symbol, INamedTypeSymbol attributeSymbol)> GetInheritedAttributes()
+            {
+                if (typeSymbol == null)
+                    return null;
+
+                List<(ISymbol typeSymbol, INamedTypeSymbol attributeSymbol)> inheritedAttributes = null;
+
+                INamedTypeSymbol baseType = typeSymbol.BaseType;
+
+                while (baseType != null
+                    && baseType.SpecialType != SpecialType.System_Object)
+                {
+                    foreach (AttributeData attribute in baseType.GetAttributes())
+                    {
+                        AttributeData attributeUsage = attribute.AttributeClass.GetAttribute(MetadataNames.System_AttributeUsageAttribute);
+
+                        if (attributeUsage != null)
+                        {
+                            TypedConstant typedConstant = attributeUsage.NamedArguments.FirstOrDefault(f => f.Key == "Inherited").Value;
+
+                            if (typedConstant.Type?.SpecialType == SpecialType.System_Boolean
+                                && (!(bool)typedConstant.Value))
+                            {
+                                continue;
+                            }
+                        }
+
+                        if (AttributesContains(attribute))
+                            continue;
+
+                        if (inheritedAttributes == null)
+                        {
+                            inheritedAttributes = new List<(ISymbol typeSymbol, INamedTypeSymbol attributeSymbol)>();
+                        }
+                        else if (InheritedAttributesContains(attribute))
+                        {
+                            continue;
+                        }
+
+                        inheritedAttributes.Add((baseType, attribute.AttributeClass));
+                    }
+
+                    baseType = baseType.BaseType;
+                }
+
+                return inheritedAttributes;
+
+                bool AttributesContains(AttributeData attribute)
+                {
+                    foreach (AttributeData f in attributes)
+                    {
+                        if (f.AttributeClass == attribute.AttributeClass)
+                            return true;
+                    }
+
+                    return false;
+                }
+
+                bool InheritedAttributesContains(AttributeData attribute)
+                {
+                    foreach ((ISymbol typeSymbol, INamedTypeSymbol attributeSymbol) f in inheritedAttributes)
+                    {
+                        if (f.attributeSymbol == attribute.AttributeClass)
+                            return true;
+                    }
+
+                    return false;
+                }
+            }
         }
 
         public virtual void WriteDerived(ITypeSymbol typeSymbol)
@@ -876,14 +970,7 @@ namespace Roslynator.Documentation
                         }
 
                         if (isInherited)
-                        {
-                            WriteSpace();
-                            WriteString(Resources.OpenParenthesis);
-                            WriteString(Resources.InheritedFrom);
-                            WriteSpace();
-                            WriteLink(symbol.ContainingType.OriginalDefinition, FormatProvider.TypeFormat, additionalOptions);
-                            WriteString(Resources.CloseParenthesis);
-                        }
+                            WriteInheritedFrom(symbol.ContainingType.OriginalDefinition, FormatProvider.TypeFormat, additionalOptions);
 
                         WriteEndTableCell();
                         WriteEndTableRow();
@@ -893,6 +980,16 @@ namespace Roslynator.Documentation
                     WriteEndTable();
                 }
             }
+        }
+
+        private void WriteInheritedFrom(ISymbol symbol, SymbolDisplayFormat format, SymbolDisplayAdditionalOptions additionalOptions = SymbolDisplayAdditionalOptions.None)
+        {
+            WriteSpace();
+            WriteString(Resources.OpenParenthesis);
+            WriteString(Resources.InheritedFrom);
+            WriteSpace();
+            WriteLink(symbol, format, additionalOptions);
+            WriteString(Resources.CloseParenthesis);
         }
 
         internal void WriteList(

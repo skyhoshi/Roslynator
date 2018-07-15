@@ -16,4 +16,3 @@ public MemberDeclarationSyntax First()
 
 [MemberDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.memberdeclarationsyntax)
 
-

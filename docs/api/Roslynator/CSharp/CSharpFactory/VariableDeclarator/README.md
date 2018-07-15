@@ -28,7 +28,6 @@ public static VariableDeclaratorSyntax VariableDeclarator(string identifier, Equ
 
 [VariableDeclaratorSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.variabledeclaratorsyntax)
 
-
 ## VariableDeclarator\(SyntaxToken, EqualsValueClauseSyntax\)
 
 ```csharp
@@ -45,5 +44,4 @@ public static VariableDeclaratorSyntax VariableDeclarator(SyntaxToken identifier
 #### Returns
 
 [VariableDeclaratorSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.variabledeclaratorsyntax)
-
 

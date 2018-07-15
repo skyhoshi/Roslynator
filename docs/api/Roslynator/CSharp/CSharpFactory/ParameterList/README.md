@@ -27,7 +27,6 @@ public static ParameterListSyntax ParameterList(ParameterSyntax parameter)
 
 [ParameterListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.parameterlistsyntax)
 
-
 ## ParameterList\(ParameterSyntax\[\]\)
 
 ```csharp
@@ -43,5 +42,4 @@ public static ParameterListSyntax ParameterList(params ParameterSyntax[] paramet
 #### Returns
 
 [ParameterListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.parameterlistsyntax)
-
 

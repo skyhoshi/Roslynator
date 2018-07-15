@@ -31,7 +31,6 @@ public static bool ContainsYield(this LocalFunctionStatementSyntax localFunction
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## ContainsYield\(MethodDeclarationSyntax\)
 
 ### Summary
@@ -51,5 +50,4 @@ public static bool ContainsYield(this MethodDeclarationSyntax methodDeclaration)
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 

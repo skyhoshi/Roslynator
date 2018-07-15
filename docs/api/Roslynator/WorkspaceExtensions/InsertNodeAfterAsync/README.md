@@ -25,4 +25,3 @@ public static Task<Document> InsertNodeAfterAsync(this Document document, Syntax
 
 [Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)\<[Document](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.document)>
 
-

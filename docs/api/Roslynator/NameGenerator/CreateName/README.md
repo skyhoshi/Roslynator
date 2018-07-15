@@ -23,4 +23,3 @@ public static string CreateName(ITypeSymbol typeSymbol, bool firstCharToLower = 
 
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
 
-

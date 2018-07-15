@@ -21,4 +21,3 @@ protected SeparatedSyntaxListSelection(SeparatedSyntaxList<TNode> list, TextSpan
 | firstIndex | |
 | lastIndex | |
 
-

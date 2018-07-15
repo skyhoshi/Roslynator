@@ -16,4 +16,3 @@ public Reversed Reverse()
 
 [ExpressionChain.Reversed](../Reversed/README.md)
 
-

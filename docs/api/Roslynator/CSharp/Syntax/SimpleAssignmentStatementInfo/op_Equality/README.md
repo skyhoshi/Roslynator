@@ -19,4 +19,3 @@ public static bool operator ==(in SimpleAssignmentStatementInfo info1, in Simple
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

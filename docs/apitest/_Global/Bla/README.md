@@ -9,12 +9,21 @@ Assembly: Roslynator\.Documentation\.DocumentationTest\.dll
 blac
 
 ```csharp
+[System.CLSCompliantAttribute]
 public class Bla
 ```
 
 ### Inheritance
 
 [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) &#x2192; Bla
+
+### Attributes
+
+[CLSCompliantAttribute](https://docs.microsoft.com/en-us/dotnet/api/system.clscompliantattribute)
+
+### Derived
+
+* [Roslynator.Documentation.Test.Foo](../../Roslynator/Documentation/Test/Foo/README.md)
 
 ## Constructors
 

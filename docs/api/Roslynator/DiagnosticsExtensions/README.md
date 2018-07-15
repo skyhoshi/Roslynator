@@ -12,7 +12,6 @@ A set of extension methods for [SymbolAnalysisContext](https://docs.microsoft.co
 public static class DiagnosticsExtensions
 ```
 
-
 ## Methods
 
 | Method | Summary |

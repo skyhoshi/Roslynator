@@ -23,4 +23,3 @@ public StatementListInfo ReplaceNode(SyntaxNode oldNode, SyntaxNode newNode)
 
 [StatementListInfo](../README.md)
 
-

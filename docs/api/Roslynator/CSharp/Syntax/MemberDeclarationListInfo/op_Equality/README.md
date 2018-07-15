@@ -19,4 +19,3 @@ public static bool operator ==(in MemberDeclarationListInfo info1, in MemberDecl
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

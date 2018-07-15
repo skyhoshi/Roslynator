@@ -30,7 +30,6 @@ public static ConversionOperatorDeclarationSyntax ExplicitConversionOperatorDecl
 
 [ConversionOperatorDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.conversionoperatordeclarationsyntax)
 
-
 ## ExplicitConversionOperatorDeclaration\(SyntaxTokenList, TypeSyntax, ParameterListSyntax, ArrowExpressionClauseSyntax\)
 
 ```csharp
@@ -49,5 +48,4 @@ public static ConversionOperatorDeclarationSyntax ExplicitConversionOperatorDecl
 #### Returns
 
 [ConversionOperatorDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.conversionoperatordeclarationsyntax)
-
 

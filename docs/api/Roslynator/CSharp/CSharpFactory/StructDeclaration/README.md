@@ -29,7 +29,6 @@ public static StructDeclarationSyntax StructDeclaration(SyntaxTokenList modifier
 
 [StructDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.structdeclarationsyntax)
 
-
 ## StructDeclaration\(SyntaxTokenList, SyntaxToken, SyntaxList\<MemberDeclarationSyntax>\)
 
 ```csharp
@@ -47,5 +46,4 @@ public static StructDeclarationSyntax StructDeclaration(SyntaxTokenList modifier
 #### Returns
 
 [StructDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.structdeclarationsyntax)
-
 

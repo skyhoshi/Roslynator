@@ -29,7 +29,6 @@ public static InvocationExpressionSyntax SimpleMemberInvocationExpression(Expres
 
 [InvocationExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.invocationexpressionsyntax)
 
-
 ## SimpleMemberInvocationExpression\(ExpressionSyntax, SimpleNameSyntax, ArgumentSyntax\)
 
 ```csharp
@@ -48,7 +47,6 @@ public static InvocationExpressionSyntax SimpleMemberInvocationExpression(Expres
 
 [InvocationExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.invocationexpressionsyntax)
 
-
 ## SimpleMemberInvocationExpression\(ExpressionSyntax, SimpleNameSyntax, ArgumentListSyntax\)
 
 ```csharp
@@ -66,5 +64,4 @@ public static InvocationExpressionSyntax SimpleMemberInvocationExpression(Expres
 #### Returns
 
 [InvocationExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.invocationexpressionsyntax)
-
 

@@ -28,7 +28,6 @@ public static ExpressionStatementSyntax SimpleAssignmentStatement(ExpressionSynt
 
 [ExpressionStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.expressionstatementsyntax)
 
-
 ## SimpleAssignmentStatement\(ExpressionSyntax, SyntaxToken, ExpressionSyntax\)
 
 ```csharp
@@ -46,5 +45,4 @@ public static ExpressionStatementSyntax SimpleAssignmentStatement(ExpressionSynt
 #### Returns
 
 [ExpressionStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.expressionstatementsyntax)
-
 

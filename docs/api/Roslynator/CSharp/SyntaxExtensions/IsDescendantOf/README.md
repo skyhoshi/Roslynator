@@ -24,4 +24,3 @@ public static bool IsDescendantOf(this SyntaxNode node, SyntaxKind kind, bool as
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

@@ -19,4 +19,3 @@ public static ArgumentSyntax Argument(NameColonSyntax nameColon, ExpressionSynta
 
 [ArgumentSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.argumentsyntax)
 
-

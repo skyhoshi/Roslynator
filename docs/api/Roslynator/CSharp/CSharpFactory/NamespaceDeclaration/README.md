@@ -28,7 +28,6 @@ public static NamespaceDeclarationSyntax NamespaceDeclaration(NameSyntax name, M
 
 [NamespaceDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.namespacedeclarationsyntax)
 
-
 ## NamespaceDeclaration\(NameSyntax, SyntaxList\<MemberDeclarationSyntax>\)
 
 ```csharp
@@ -45,5 +44,4 @@ public static NamespaceDeclarationSyntax NamespaceDeclaration(NameSyntax name, S
 #### Returns
 
 [NamespaceDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.namespacedeclarationsyntax)
-
 

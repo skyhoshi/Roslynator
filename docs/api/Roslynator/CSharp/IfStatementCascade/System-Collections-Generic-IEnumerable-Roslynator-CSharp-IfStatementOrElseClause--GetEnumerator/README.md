@@ -15,4 +15,3 @@ private IEnumerator<IfStatementOrElseClause> IEnumerable<IfStatementOrElseClause
 ### Implements
 
 * [IEnumerable\<IfStatementOrElseClause>.GetEnumerator](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1.getenumerator)
-

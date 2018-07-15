@@ -16,4 +16,3 @@ public SwitchSectionSyntax ParentAsSwitchSection { get; }
 
 [SwitchSectionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.switchsectionsyntax)
 
-

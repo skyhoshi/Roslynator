@@ -20,4 +20,3 @@ protected Selection(TextSpan span, int firstIndex, int lastIndex)
 | firstIndex | |
 | lastIndex | |
 
-

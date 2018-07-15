@@ -16,4 +16,3 @@ public LambdaExpressionSyntax LambdaExpression { get; }
 
 [LambdaExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.lambdaexpressionsyntax)
 
-

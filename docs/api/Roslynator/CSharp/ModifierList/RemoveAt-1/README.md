@@ -29,4 +29,3 @@ public static TNode RemoveAt<TNode>(TNode node, int index) where TNode : Microso
 
 TNode
 
-

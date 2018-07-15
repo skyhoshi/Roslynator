@@ -32,7 +32,6 @@ public static LocalDeclarationStatementInfo LocalDeclarationStatementInfo(LocalD
 
 [LocalDeclarationStatementInfo](../../Syntax/LocalDeclarationStatementInfo/README.md)
 
-
 ## LocalDeclarationStatementInfo\(ExpressionSyntax, Boolean\)
 
 ### Summary
@@ -53,5 +52,4 @@ public static LocalDeclarationStatementInfo LocalDeclarationStatementInfo(Expres
 #### Returns
 
 [LocalDeclarationStatementInfo](../../Syntax/LocalDeclarationStatementInfo/README.md)
-
 

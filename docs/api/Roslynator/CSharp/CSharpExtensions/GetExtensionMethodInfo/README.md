@@ -24,4 +24,3 @@ public static ExtensionMethodSymbolInfo GetExtensionMethodInfo(this SemanticMode
 
 [ExtensionMethodSymbolInfo](../../../ExtensionMethodSymbolInfo/README.md)
 
-

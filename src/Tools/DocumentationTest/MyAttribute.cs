@@ -6,7 +6,7 @@ using System;
 
 namespace Roslynator.Documentation.Test
 {
-    [AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = false)]
     public sealed class MyAttribute : Attribute
     {
     }

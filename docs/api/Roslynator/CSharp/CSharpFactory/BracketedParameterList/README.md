@@ -27,7 +27,6 @@ public static BracketedParameterListSyntax BracketedParameterList(ParameterSynta
 
 [BracketedParameterListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.bracketedparameterlistsyntax)
 
-
 ## BracketedParameterList\(ParameterSyntax\[\]\)
 
 ```csharp
@@ -43,5 +42,4 @@ public static BracketedParameterListSyntax BracketedParameterList(params Paramet
 #### Returns
 
 [BracketedParameterListSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.bracketedparameterlistsyntax)
-
 

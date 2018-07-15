@@ -12,7 +12,6 @@ Serves as a factory for types in Roslynator\.CSharp\.Syntax namespace\.
 public static class SyntaxInfo
 ```
 
-
 ## Methods
 
 | Method | Summary |

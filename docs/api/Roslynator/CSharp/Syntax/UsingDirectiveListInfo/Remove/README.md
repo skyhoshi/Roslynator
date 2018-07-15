@@ -22,4 +22,3 @@ public UsingDirectiveListInfo Remove(UsingDirectiveSyntax usingDirective)
 
 [UsingDirectiveListInfo](../README.md)
 
-

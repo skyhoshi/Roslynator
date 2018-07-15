@@ -16,4 +16,3 @@ public bool IsRegular { get; }
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

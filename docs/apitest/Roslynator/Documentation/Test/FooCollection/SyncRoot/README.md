@@ -15,4 +15,3 @@ public object SyncRoot { get; }
 ### Implements
 
 * [ICollection.SyncRoot](https://docs.microsoft.com/en-us/dotnet/api/system.collections.icollection.syncroot)
-

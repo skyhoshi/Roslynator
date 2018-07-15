@@ -27,4 +27,3 @@ The item at the specified index\.
 ### Implements
 
 * [IReadOnlyList\<T>.Item](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1.item)
-

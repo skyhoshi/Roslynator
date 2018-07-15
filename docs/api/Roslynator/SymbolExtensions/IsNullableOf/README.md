@@ -34,7 +34,6 @@ public static bool IsNullableOf(this INamedTypeSymbol namedTypeSymbol, SpecialTy
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## IsNullableOf\(INamedTypeSymbol, ITypeSymbol\)
 
 ### Summary
@@ -55,7 +54,6 @@ public static bool IsNullableOf(this INamedTypeSymbol namedTypeSymbol, ITypeSymb
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## IsNullableOf\(ITypeSymbol, SpecialType\)
 
@@ -78,7 +76,6 @@ public static bool IsNullableOf(this ITypeSymbol typeSymbol, SpecialType special
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## IsNullableOf\(ITypeSymbol, ITypeSymbol\)
 
 ### Summary
@@ -99,5 +96,4 @@ public static bool IsNullableOf(this ITypeSymbol typeSymbol, ITypeSymbol typeArg
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 

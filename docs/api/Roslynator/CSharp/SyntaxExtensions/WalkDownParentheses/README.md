@@ -22,4 +22,3 @@ public static ExpressionSyntax WalkDownParentheses(this ExpressionSyntax express
 
 [ExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.expressionsyntax)
 
-

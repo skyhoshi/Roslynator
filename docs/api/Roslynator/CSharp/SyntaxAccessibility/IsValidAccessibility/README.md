@@ -24,4 +24,3 @@ public static bool IsValidAccessibility(SyntaxNode node, Accessibility accessibi
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

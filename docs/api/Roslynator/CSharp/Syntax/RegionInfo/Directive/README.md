@@ -16,4 +16,3 @@ public RegionDirectiveTriviaSyntax Directive { get; }
 
 [RegionDirectiveTriviaSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.regiondirectivetriviasyntax)
 
-

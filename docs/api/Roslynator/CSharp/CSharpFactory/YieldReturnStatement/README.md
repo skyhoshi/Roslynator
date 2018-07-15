@@ -18,4 +18,3 @@ public static YieldStatementSyntax YieldReturnStatement(ExpressionSyntax express
 
 [YieldStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.yieldstatementsyntax)
 
-

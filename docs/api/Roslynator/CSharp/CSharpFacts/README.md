@@ -8,7 +8,6 @@ Assembly: Roslynator\.CSharp\.dll
 public static class CSharpFacts
 ```
 
-
 ## Methods
 
 | Method | Summary |

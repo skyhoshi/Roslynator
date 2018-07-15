@@ -19,4 +19,3 @@ public static ExpressionChain AsChain(this BinaryExpressionSyntax binaryExpressi
 
 [ExpressionChain](../../ExpressionChain/README.md)
 
-

@@ -28,7 +28,6 @@ public static TypeParameterConstraintClauseSyntax TypeParameterConstraintClause(
 
 [TypeParameterConstraintClauseSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typeparameterconstraintclausesyntax)
 
-
 ## TypeParameterConstraintClause\(IdentifierNameSyntax, TypeParameterConstraintSyntax\)
 
 ```csharp
@@ -45,5 +44,4 @@ public static TypeParameterConstraintClauseSyntax TypeParameterConstraintClause(
 #### Returns
 
 [TypeParameterConstraintClauseSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typeparameterconstraintclausesyntax)
-
 

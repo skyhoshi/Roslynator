@@ -8,6 +8,7 @@ namespace Roslynator
     {
         public static readonly MetadataName System_ArgumentException = new MetadataName(Namespaces.System, "ArgumentException");
         public static readonly MetadataName System_ArgumentNullException = new MetadataName(Namespaces.System, "ArgumentNullException");
+        public static readonly MetadataName System_AttributeUsageAttribute = new MetadataName(Namespaces.System, "AttributeUsageAttribute");
         public static readonly MetadataName System_Collections_Generic = new MetadataName(Namespaces.System_Collections, "Generic");
         public static readonly MetadataName System_Collections_Generic_List_T = new MetadataName(Namespaces.System_Collections_Generic, "List`1");
         public static readonly MetadataName System_Collections_IDictionary = new MetadataName(Namespaces.System_Collections, "IDictionary");

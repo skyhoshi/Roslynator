@@ -22,4 +22,3 @@ public static bool IsVerbatim(this InterpolatedStringExpressionSyntax interpolat
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

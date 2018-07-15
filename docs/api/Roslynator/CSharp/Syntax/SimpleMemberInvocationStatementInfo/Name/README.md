@@ -16,4 +16,3 @@ public SimpleNameSyntax Name { get; }
 
 [SimpleNameSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.simplenamesyntax)
 
-

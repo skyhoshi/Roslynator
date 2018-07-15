@@ -35,6 +35,7 @@ namespace Roslynator.Documentation
                 case "TypeForwardedToAttribute":
                     return attributeSymbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Runtime_CompilerServices);
 #if DEBUG
+                case "CLSCompliantAttribute":
                 case "FlagsAttribute":
                 case "AttributeUsageAttribute":
                 case "ObsoleteAttribute":

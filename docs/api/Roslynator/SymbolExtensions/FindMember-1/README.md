@@ -38,7 +38,6 @@ public static TSymbol FindMember<TSymbol>(this ITypeSymbol typeSymbol, Func<TSym
 
 TSymbol
 
-
 ## FindMember\<TSymbol>\(ITypeSymbol, String, Func\<TSymbol, Boolean>\)
 
 ### Summary
@@ -66,5 +65,4 @@ public static TSymbol FindMember<TSymbol>(this ITypeSymbol typeSymbol, string na
 #### Returns
 
 TSymbol
-
 

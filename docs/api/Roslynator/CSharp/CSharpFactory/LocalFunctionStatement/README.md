@@ -31,7 +31,6 @@ public static LocalFunctionStatementSyntax LocalFunctionStatement(SyntaxTokenLis
 
 [LocalFunctionStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.localfunctionstatementsyntax)
 
-
 ## LocalFunctionStatement\(SyntaxTokenList, TypeSyntax, SyntaxToken, ParameterListSyntax, ArrowExpressionClauseSyntax\)
 
 ```csharp
@@ -51,5 +50,4 @@ public static LocalFunctionStatementSyntax LocalFunctionStatement(SyntaxTokenLis
 #### Returns
 
 [LocalFunctionStatementSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.localfunctionstatementsyntax)
-
 

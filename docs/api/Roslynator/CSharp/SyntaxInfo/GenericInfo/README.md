@@ -38,7 +38,6 @@ public static GenericInfo GenericInfo(SyntaxNode node)
 
 [GenericInfo](../../Syntax/GenericInfo/README.md)
 
-
 ## GenericInfo\(TypeParameterConstraintSyntax\)
 
 ### Summary
@@ -58,7 +57,6 @@ public static GenericInfo GenericInfo(TypeParameterConstraintSyntax typeParamete
 #### Returns
 
 [GenericInfo](../../Syntax/GenericInfo/README.md)
-
 
 ## GenericInfo\(TypeParameterConstraintClauseSyntax\)
 
@@ -80,7 +78,6 @@ public static GenericInfo GenericInfo(TypeParameterConstraintClauseSyntax constr
 
 [GenericInfo](../../Syntax/GenericInfo/README.md)
 
-
 ## GenericInfo\(TypeParameterSyntax\)
 
 ### Summary
@@ -100,7 +97,6 @@ public static GenericInfo GenericInfo(TypeParameterSyntax typeParameter)
 #### Returns
 
 [GenericInfo](../../Syntax/GenericInfo/README.md)
-
 
 ## GenericInfo\(TypeParameterListSyntax\)
 
@@ -122,7 +118,6 @@ public static GenericInfo GenericInfo(TypeParameterListSyntax typeParameterList)
 
 [GenericInfo](../../Syntax/GenericInfo/README.md)
 
-
 ## GenericInfo\(TypeDeclarationSyntax\)
 
 ### Summary
@@ -142,7 +137,6 @@ public static GenericInfo GenericInfo(TypeDeclarationSyntax typeDeclaration)
 #### Returns
 
 [GenericInfo](../../Syntax/GenericInfo/README.md)
-
 
 ## GenericInfo\(DelegateDeclarationSyntax\)
 
@@ -164,7 +158,6 @@ public static GenericInfo GenericInfo(DelegateDeclarationSyntax delegateDeclarat
 
 [GenericInfo](../../Syntax/GenericInfo/README.md)
 
-
 ## GenericInfo\(LocalFunctionStatementSyntax\)
 
 ### Summary
@@ -185,7 +178,6 @@ public static GenericInfo GenericInfo(LocalFunctionStatementSyntax localFunction
 
 [GenericInfo](../../Syntax/GenericInfo/README.md)
 
-
 ## GenericInfo\(MethodDeclarationSyntax\)
 
 ### Summary
@@ -205,5 +197,4 @@ public static GenericInfo GenericInfo(MethodDeclarationSyntax methodDeclaration)
 #### Returns
 
 [GenericInfo](../../Syntax/GenericInfo/README.md)
-
 

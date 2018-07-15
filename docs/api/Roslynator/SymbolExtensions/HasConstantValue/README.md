@@ -44,7 +44,6 @@ public static bool HasConstantValue(this IFieldSymbol fieldSymbol, bool value)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## HasConstantValue\(IFieldSymbol, Char\)
 
 ### Summary
@@ -65,7 +64,6 @@ public static bool HasConstantValue(this IFieldSymbol fieldSymbol, char value)
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## HasConstantValue\(IFieldSymbol, SByte\)
 
@@ -88,7 +86,6 @@ public static bool HasConstantValue(this IFieldSymbol fieldSymbol, sbyte value)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## HasConstantValue\(IFieldSymbol, Byte\)
 
 ### Summary
@@ -109,7 +106,6 @@ public static bool HasConstantValue(this IFieldSymbol fieldSymbol, byte value)
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## HasConstantValue\(IFieldSymbol, Int16\)
 
@@ -132,7 +128,6 @@ public static bool HasConstantValue(this IFieldSymbol fieldSymbol, short value)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## HasConstantValue\(IFieldSymbol, UInt16\)
 
 ### Summary
@@ -153,7 +148,6 @@ public static bool HasConstantValue(this IFieldSymbol fieldSymbol, ushort value)
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## HasConstantValue\(IFieldSymbol, Int32\)
 
@@ -176,7 +170,6 @@ public static bool HasConstantValue(this IFieldSymbol fieldSymbol, int value)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## HasConstantValue\(IFieldSymbol, UInt32\)
 
 ### Summary
@@ -197,7 +190,6 @@ public static bool HasConstantValue(this IFieldSymbol fieldSymbol, uint value)
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## HasConstantValue\(IFieldSymbol, Int64\)
 
@@ -220,7 +212,6 @@ public static bool HasConstantValue(this IFieldSymbol fieldSymbol, long value)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## HasConstantValue\(IFieldSymbol, UInt64\)
 
 ### Summary
@@ -241,7 +232,6 @@ public static bool HasConstantValue(this IFieldSymbol fieldSymbol, ulong value)
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## HasConstantValue\(IFieldSymbol, Decimal\)
 
@@ -264,7 +254,6 @@ public static bool HasConstantValue(this IFieldSymbol fieldSymbol, decimal value
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## HasConstantValue\(IFieldSymbol, Single\)
 
 ### Summary
@@ -285,7 +274,6 @@ public static bool HasConstantValue(this IFieldSymbol fieldSymbol, float value)
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## HasConstantValue\(IFieldSymbol, Double\)
 
@@ -308,7 +296,6 @@ public static bool HasConstantValue(this IFieldSymbol fieldSymbol, double value)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## HasConstantValue\(IFieldSymbol, String\)
 
 ### Summary
@@ -329,5 +316,4 @@ public static bool HasConstantValue(this IFieldSymbol fieldSymbol, string value)
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 

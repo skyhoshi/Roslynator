@@ -42,7 +42,6 @@ public static bool IsParentKind(this SyntaxNode node, SyntaxKind kind)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## IsParentKind\(SyntaxNode, SyntaxKind, SyntaxKind\)
 
 ### Summary
@@ -64,7 +63,6 @@ public static bool IsParentKind(this SyntaxNode node, SyntaxKind kind1, SyntaxKi
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## IsParentKind\(SyntaxNode, SyntaxKind, SyntaxKind, SyntaxKind\)
 
@@ -88,7 +86,6 @@ public static bool IsParentKind(this SyntaxNode node, SyntaxKind kind1, SyntaxKi
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## IsParentKind\(SyntaxNode, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind\)
 
@@ -114,7 +111,6 @@ public static bool IsParentKind(this SyntaxNode node, SyntaxKind kind1, SyntaxKi
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## IsParentKind\(SyntaxNode, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind\)
 
 ### Summary
@@ -139,7 +135,6 @@ public static bool IsParentKind(this SyntaxNode node, SyntaxKind kind1, SyntaxKi
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## IsParentKind\(SyntaxNode, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind\)
 
@@ -167,7 +162,6 @@ public static bool IsParentKind(this SyntaxNode node, SyntaxKind kind1, SyntaxKi
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## IsParentKind\(SyntaxToken, SyntaxKind\)
 
 ### Summary
@@ -188,7 +182,6 @@ public static bool IsParentKind(this SyntaxToken token, SyntaxKind kind)
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## IsParentKind\(SyntaxToken, SyntaxKind, SyntaxKind\)
 
@@ -211,7 +204,6 @@ public static bool IsParentKind(this SyntaxToken token, SyntaxKind kind1, Syntax
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## IsParentKind\(SyntaxToken, SyntaxKind, SyntaxKind, SyntaxKind\)
 
@@ -236,7 +228,6 @@ public static bool IsParentKind(this SyntaxToken token, SyntaxKind kind1, Syntax
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## IsParentKind\(SyntaxToken, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind\)
 
 ### Summary
@@ -260,7 +251,6 @@ public static bool IsParentKind(this SyntaxToken token, SyntaxKind kind1, Syntax
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 
 ## IsParentKind\(SyntaxToken, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind\)
 
@@ -287,7 +277,6 @@ public static bool IsParentKind(this SyntaxToken token, SyntaxKind kind1, Syntax
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## IsParentKind\(SyntaxToken, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind, SyntaxKind\)
 
 ### Summary
@@ -313,5 +302,4 @@ public static bool IsParentKind(this SyntaxToken token, SyntaxKind kind1, Syntax
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 

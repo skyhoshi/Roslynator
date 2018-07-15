@@ -34,7 +34,6 @@ public static bool ImplementsAny(this ITypeSymbol typeSymbol, SpecialType interf
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-
 ## ImplementsAny\(ITypeSymbol, SpecialType, SpecialType, SpecialType, Boolean\)
 
 ### Summary
@@ -58,5 +57,4 @@ public static bool ImplementsAny(this ITypeSymbol typeSymbol, SpecialType interf
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
-
 

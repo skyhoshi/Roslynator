@@ -24,4 +24,3 @@ public static int GetEndLine(this SyntaxTree syntaxTree, TextSpan span, Cancella
 
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)
 
-

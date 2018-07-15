@@ -22,4 +22,3 @@ public static bool IsErrorType(this ISymbol symbol)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

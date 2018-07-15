@@ -19,4 +19,3 @@ public static bool operator !=(in AssignmentExpressionInfo info1, in AssignmentE
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

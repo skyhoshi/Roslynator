@@ -24,4 +24,3 @@ public static ParenthesizedExpressionSyntax Parenthesize(this ExpressionSyntax e
 
 [ParenthesizedExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.parenthesizedexpressionsyntax)
 
-

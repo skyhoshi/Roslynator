@@ -22,4 +22,3 @@ public TypeParameterSyntax FindTypeParameter(string name)
 
 [TypeParameterSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.typeparametersyntax)
 
-

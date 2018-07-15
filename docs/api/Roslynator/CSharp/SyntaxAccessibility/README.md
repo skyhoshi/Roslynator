@@ -12,7 +12,6 @@ A set of static methods that are related to C\# accessibility\.
 public static class SyntaxAccessibility
 ```
 
-
 ## Methods
 
 | Method | Summary |

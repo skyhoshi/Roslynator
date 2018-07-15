@@ -16,4 +16,3 @@ public static SyntaxTokenList ProtectedConst()
 
 [SyntaxTokenList](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtokenlist)
 
-

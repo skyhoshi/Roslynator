@@ -22,4 +22,3 @@ public static bool IsEmptyOrWhitespace(this SyntaxTriviaList triviaList)
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)
 
-

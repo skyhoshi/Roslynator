@@ -16,4 +16,3 @@ public VariableDeclaratorSyntax Declarator { get; }
 
 [VariableDeclaratorSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.variabledeclaratorsyntax)
 
-

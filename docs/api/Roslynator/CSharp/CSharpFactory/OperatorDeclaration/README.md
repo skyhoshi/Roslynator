@@ -31,7 +31,6 @@ public static OperatorDeclarationSyntax OperatorDeclaration(SyntaxTokenList modi
 
 [OperatorDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.operatordeclarationsyntax)
 
-
 ## OperatorDeclaration\(SyntaxTokenList, TypeSyntax, SyntaxToken, ParameterListSyntax, ArrowExpressionClauseSyntax\)
 
 ```csharp
@@ -51,5 +50,4 @@ public static OperatorDeclarationSyntax OperatorDeclaration(SyntaxTokenList modi
 #### Returns
 
 [OperatorDeclarationSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.operatordeclarationsyntax)
-
 

@@ -18,4 +18,3 @@ public static LiteralExpressionSyntax LiteralExpression(object value)
 
 [LiteralExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.literalexpressionsyntax)
 
-

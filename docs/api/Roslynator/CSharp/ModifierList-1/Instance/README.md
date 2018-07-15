@@ -16,4 +16,3 @@ public static ModifierList<TNode> Instance { get; }
 
 [ModifierList\<TNode>](../README.md)
 
-

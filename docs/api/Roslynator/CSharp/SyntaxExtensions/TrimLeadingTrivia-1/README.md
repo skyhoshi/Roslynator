@@ -39,7 +39,6 @@ public static TNode TrimLeadingTrivia<TNode>(this TNode node) where TNode : Micr
 
 TNode
 
-
 ## TrimLeadingTrivia\(SyntaxToken\)
 
 ### Summary
@@ -61,5 +60,4 @@ public static SyntaxToken TrimLeadingTrivia(this SyntaxToken token)
 #### Returns
 
 [SyntaxToken](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.syntaxtoken)
-
 

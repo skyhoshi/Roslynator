@@ -27,7 +27,6 @@ public static CheckedExpressionSyntax UncheckedExpression(ExpressionSyntax expre
 
 [CheckedExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.checkedexpressionsyntax)
 
-
 ## UncheckedExpression\(SyntaxToken, ExpressionSyntax, SyntaxToken\)
 
 ```csharp
@@ -45,5 +44,4 @@ public static CheckedExpressionSyntax UncheckedExpression(SyntaxToken openParenT
 #### Returns
 
 [CheckedExpressionSyntax](https://docs.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.csharp.syntax.checkedexpressionsyntax)
-
 
