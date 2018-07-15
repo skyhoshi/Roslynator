@@ -23,22 +23,14 @@ public enum CommentKinds
 
 ## Fields
 
-| Name | Value | Summary |
-| ---- | ----- | ------- |
-| None | 0 | None comment specified\. |
-| SingleLine | 1 | Single\-line comment\. |
-| MultiLine | 2 | Multi\-line comment\. |
-| NonDocumentation | 3 | Non\-documentation comment \(single\-line or multi\-line\)\. |
-| SingleLineDocumentation | 4 | Single\-line documentation comment\. |
-| MultiLineDocumentation | 8 | Multi\-line documentation comment\. |
-| Documentation | 12 | Documentation comment \(single\-line or multi\-line\)\. |
-| All | 15 | Documentation or non\-documentation comment\. |
-
-## Combined Fields
-
-| Name | Values |
-| ---- | ------ |
-| NonDocumentation | SingleLine \| MultiLine |
-| Documentation | SingleLineDocumentation \| MultiLineDocumentation |
-| All | NonDocumentation \| Documentation |
+| Name | Value | Combination of | Summary |
+| ---- | ----- | -------------- | ------- |
+| None | 0 | | None comment specified\. |
+| SingleLine | 1 | | Single\-line comment\. |
+| MultiLine | 2 | | Multi\-line comment\. |
+| NonDocumentation | 3 | SingleLine \| MultiLine | Non\-documentation comment \(single\-line or multi\-line\)\. |
+| SingleLineDocumentation | 4 | | Single\-line documentation comment\. |
+| MultiLineDocumentation | 8 | | Multi\-line documentation comment\. |
+| Documentation | 12 | SingleLineDocumentation \| MultiLineDocumentation | Documentation comment \(single\-line or multi\-line\)\. |
+| All | 15 | NonDocumentation \| Documentation | Documentation or non\-documentation comment\. |
 

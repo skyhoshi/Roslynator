@@ -23,30 +23,19 @@ public enum NullCheckStyles
 
 ## Fields
 
-| Name | Value | Summary |
-| ---- | ----- | ------- |
-| None | 0 | No null check specified\. |
-| EqualsToNull | 1 | `x == null` |
-| NotEqualsToNull | 2 | `x != null` |
-| ComparisonToNull | 3 | Expression that uses equality/inequality operator\. |
-| IsNull | 4 | `x is null` |
-| NotIsNull | 8 | `!(x is null)` |
-| IsPattern | 12 | Expression that uses pattern syntax\. |
-| NotHasValue | 16 | `!x.HasValue` |
-| CheckingNull | 21 | Expression that checks whether an expression is null\. |
-| HasValue | 32 | `x.HasValue` |
-| CheckingNotNull | 42 | Expression that checks whether an expression is not null\. |
-| HasValueProperty | 48 | Expression that uses [HasValue](https://docs.microsoft.com/en-us/dotnet/api/system.nullable-1.hasvalue) property\. |
-| All | 63 | All null check styles\. |
-
-## Combined Fields
-
-| Name | Values |
-| ---- | ------ |
-| ComparisonToNull | EqualsToNull \| NotEqualsToNull |
-| IsPattern | IsNull \| NotIsNull |
-| CheckingNull | EqualsToNull \| IsNull \| NotHasValue |
-| CheckingNotNull | NotEqualsToNull \| NotIsNull \| HasValue |
-| HasValueProperty | NotHasValue \| HasValue |
-| All | ComparisonToNull \| IsPattern \| HasValueProperty |
+| Name | Value | Combination of | Summary |
+| ---- | ----- | -------------- | ------- |
+| None | 0 | | No null check specified\. |
+| EqualsToNull | 1 | | `x == null` |
+| NotEqualsToNull | 2 | | `x != null` |
+| ComparisonToNull | 3 | EqualsToNull \| NotEqualsToNull | Expression that uses equality/inequality operator\. |
+| IsNull | 4 | | `x is null` |
+| NotIsNull | 8 | | `!(x is null)` |
+| IsPattern | 12 | IsNull \| NotIsNull | Expression that uses pattern syntax\. |
+| NotHasValue | 16 | | `!x.HasValue` |
+| CheckingNull | 21 | EqualsToNull \| IsNull \| NotHasValue | Expression that checks whether an expression is null\. |
+| HasValue | 32 | | `x.HasValue` |
+| CheckingNotNull | 42 | NotEqualsToNull \| NotIsNull \| HasValue | Expression that checks whether an expression is not null\. |
+| HasValueProperty | 48 | NotHasValue \| HasValue | Expression that uses [HasValue](https://docs.microsoft.com/en-us/dotnet/api/system.nullable-1.hasvalue) property\. |
+| All | 63 | ComparisonToNull \| IsPattern \| HasValueProperty | All null check styles\. |
 

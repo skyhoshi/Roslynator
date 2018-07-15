@@ -633,12 +633,30 @@ namespace Roslynator.Documentation
             {
                 if (en.MoveNext())
                 {
+                    INamedTypeSymbol enumSymbol = en.Current.ContainingType;
+
+                    bool hasCombinedValue = false;
+
+                    ImmutableArray<EnumFieldSymbolInfo> fieldInfos = default;
+
+                    if (enumSymbol.HasAttribute(MetadataNames.System_FlagsAttribute))
+                    {
+                        fieldInfos = EnumFieldSymbolInfo.CreateRange(en.Current.ContainingType);
+
+                        if (HasCombinedValue(fieldInfos))
+                            hasCombinedValue = true;
+                    }
+
                     WriteHeading(2, Resources.FieldsTitle);
 
-                    WriteStartTable(3);
+                    WriteStartTable((hasCombinedValue) ? 4 : 3);
                     WriteStartTableRow();
                     WriteTableCell(Resources.NameTitle);
                     WriteTableCell(Resources.ValueTitle);
+
+                    if (hasCombinedValue)
+                        WriteTableCell(Resources.CombinationOfTitle);
+
                     WriteTableCell(Resources.SummaryTitle);
                     WriteEndTableRow();
                     WriteTableHeaderSeparator();
@@ -651,75 +669,10 @@ namespace Roslynator.Documentation
                         WriteTableCell(fieldSymbol.ToDisplayString(FormatProvider.FieldFormat));
                         WriteTableCell(fieldSymbol.ConstantValue.ToString());
 
-                        SymbolXmlDocumentation xmlDocumentation = CompilationInfo.GetDocumentation(fieldSymbol);
-
-                        if (xmlDocumentation != null)
+                        if (hasCombinedValue)
                         {
                             WriteStartTableCell();
-                            xmlDocumentation.WriteElementContentTo(this, "summary", inlineOnly: true);
-                            WriteEndTableCell();
-                        }
 
-                        WriteEndTableRow();
-                    }
-                    while (en.MoveNext());
-
-                    WriteEndTable();
-                }
-            }
-
-            using (IEnumerator<(IFieldSymbol fieldSymbol, List<EnumFieldSymbolInfo> values)> en = GetCombinedValues().GetEnumerator())
-            {
-                if (en.MoveNext())
-                {
-                    WriteHeading(2, Resources.CombinedFieldsTitle);
-
-                    WriteStartTable(2);
-                    WriteStartTableRow();
-                    WriteTableCell(Resources.NameTitle);
-                    WriteTableCell(Resources.ValuesTitle);
-                    WriteEndTableRow();
-                    WriteTableHeaderSeparator();
-
-                    do
-                    {
-                        IFieldSymbol fieldSymbol = en.Current.fieldSymbol;
-
-                        WriteStartTableRow();
-                        WriteTableCell(fieldSymbol.ToDisplayString(FormatProvider.FieldFormat));
-
-                        WriteStartTableCell();
-
-                        List<EnumFieldSymbolInfo> values = en.Current.values;
-
-                        WriteString(values[0].Name);
-
-                        for (int i = 1; i < values.Count; i++)
-                        {
-                            WriteString(" | ");
-                            WriteString(values[i].Name);
-                        }
-
-                        WriteEndTableCell();
-
-                        WriteEndTableRow();
-                    }
-                    while (en.MoveNext());
-
-                    WriteEndTable();
-                }
-            }
-
-            IEnumerable<(IFieldSymbol fieldSymbol, List<EnumFieldSymbolInfo> values)> GetCombinedValues()
-            {
-                using (IEnumerator<IFieldSymbol> en = fields.GetEnumerator())
-                {
-                    if (en.MoveNext())
-                    {
-                        ImmutableArray<EnumFieldSymbolInfo> fieldInfos = EnumFieldSymbolInfo.CreateRange(en.Current.ContainingType);
-
-                        do
-                        {
                             var fieldInfo = new EnumFieldSymbolInfo(en.Current);
 
                             List<EnumFieldSymbolInfo> values = fieldInfo.Decompose(fieldInfos);
@@ -747,12 +700,57 @@ namespace Roslynator.Documentation
                                     return ((IComparable)f.Value).CompareTo((IComparable)g.Value);
                                 });
 
-                                yield return (en.Current, values);
+                                WriteString(values[0].Name);
+
+                                for (int i = 1; i < values.Count; i++)
+                                {
+                                    WriteString(" | ");
+                                    WriteString(values[i].Name);
+                                }
+                            }
+
+                            WriteEndTableCell();
+                        }
+
+                        SymbolXmlDocumentation xmlDocumentation = CompilationInfo.GetDocumentation(fieldSymbol);
+
+                        if (xmlDocumentation != null)
+                        {
+                            WriteStartTableCell();
+                            xmlDocumentation.WriteElementContentTo(this, "summary", inlineOnly: true);
+                            WriteEndTableCell();
+                        }
+
+                        WriteEndTableRow();
+                    }
+                    while (en.MoveNext());
+
+                    WriteEndTable();
+                }
+            }
+
+            bool HasCombinedValue(ImmutableArray<EnumFieldSymbolInfo> fieldInfos)
+            {
+                using (IEnumerator<IFieldSymbol> en = fields.GetEnumerator())
+                {
+                    if (en.MoveNext())
+                    {
+                        do
+                        {
+                            var fieldInfo = new EnumFieldSymbolInfo(en.Current);
+
+                            List<EnumFieldSymbolInfo> values = fieldInfo.Decompose(fieldInfos);
+
+                            if (values != null)
+                            {
+                                return true;
                             }
                         }
                         while (en.MoveNext());
                     }
                 }
+
+                return false;
             }
         }
 
