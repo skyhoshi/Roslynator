@@ -28,9 +28,9 @@ public enum CommentKinds
 | None | 0 | | None comment specified\. |
 | SingleLine | 1 | | Single\-line comment\. |
 | MultiLine | 2 | | Multi\-line comment\. |
-| NonDocumentation | 3 | SingleLine \|&nbsp;MultiLine | Non\-documentation comment \(single\-line or multi\-line\)\. |
+| NonDocumentation | 3 | SingleLine \| MultiLine | Non\-documentation comment \(single\-line or multi\-line\)\. |
 | SingleLineDocumentation | 4 | | Single\-line documentation comment\. |
 | MultiLineDocumentation | 8 | | Multi\-line documentation comment\. |
-| Documentation | 12 | SingleLineDocumentation \|&nbsp;MultiLineDocumentation | Documentation comment \(single\-line or multi\-line\)\. |
-| All | 15 | NonDocumentation \|&nbsp;Documentation | Documentation or non\-documentation comment\. |
+| Documentation | 12 | SingleLineDocumentation \| MultiLineDocumentation | Documentation comment \(single\-line or multi\-line\)\. |
+| All | 15 | NonDocumentation \| Documentation | Documentation or non\-documentation comment\. |
 
