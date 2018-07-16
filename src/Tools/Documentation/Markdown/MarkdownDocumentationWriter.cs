@@ -7,11 +7,11 @@ using Microsoft.CodeAnalysis;
 
 namespace Roslynator.Documentation.Markdown
 {
-    public class DocumentationMarkdownWriter : DocumentationWriter
+    public class MarkdownDocumentationWriter : DocumentationWriter
     {
         private readonly MarkdownWriter _writer;
 
-        public DocumentationMarkdownWriter(
+        public MarkdownDocumentationWriter(
             SymbolDocumentationInfo symbolInfo,
             SymbolDocumentationInfo directoryInfo,
             DocumentationUriProvider uriProvider,

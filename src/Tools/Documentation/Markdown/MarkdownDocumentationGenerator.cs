@@ -2,9 +2,9 @@
 
 namespace Roslynator.Documentation.Markdown
 {
-    public class DocumentationMarkdownGenerator : DocumentationGenerator
+    public class MarkdownDocumentationGenerator : DocumentationGenerator
     {
-        public DocumentationMarkdownGenerator(
+        public MarkdownDocumentationGenerator(
             CompilationDocumentationInfo compilationInfo,
             DocumentationUriProvider uriProvider,
             DocumentationOptions options = null,
@@ -14,7 +14,7 @@ namespace Roslynator.Documentation.Markdown
 
         protected override DocumentationWriter CreateWriterCore(SymbolDocumentationInfo symbolInfo, SymbolDocumentationInfo directoryInfo)
         {
-            return new DocumentationMarkdownWriter(
+            return new MarkdownDocumentationWriter(
                 symbolInfo,
                 directoryInfo,
                 uriProvider: UriProvider,

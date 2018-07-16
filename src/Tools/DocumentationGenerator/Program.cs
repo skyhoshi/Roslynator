@@ -1,8 +1,14 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Text;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Roslynator.Documentation.Markdown;
 using Roslynator.Utilities;
 
@@ -21,19 +27,19 @@ namespace Roslynator.Documentation
 
         private static void GenerateDocumentation(string directoryPath, string heading, params string[] assemblyNames)
         {
-            CompilationDocumentationInfo compilationInfo = CompilationDocumentationInfo.CreateFromTrustedPlatformAssemblies(assemblyNames);
+            CompilationDocumentationInfo compilationInfo = CreateFromTrustedPlatformAssemblies(assemblyNames);
 
             var options = new DocumentationOptions(
                 parts: DocumentationParts.All,
                 formatBaseList: true,
                 formatConstraints: true);
 
-            var generator = new DocumentationMarkdownGenerator(compilationInfo, DocumentationUriProvider.GitHub, options);
+            var generator = new MarkdownDocumentationGenerator(compilationInfo, DocumentationUriProvider.GitHub, options);
 
             foreach (DocumentationFile documentationFile in generator.GenerateFiles(
                 heading,
                 objectModelHeading: heading + " Object Model",
-                extendedTypesHeading: "External Types Extended by " + heading))
+                extendedExternalTypesHeading: "External Types Extended by " + heading))
             {
                 string path = directoryPath + documentationFile.Path;
 
@@ -41,6 +47,35 @@ namespace Roslynator.Documentation
 
                 FileHelper.WriteAllText(path, documentationFile.Content, _utf8NoBom, onlyIfChanges: true, fileMustExists: false);
             }
+        }
+
+        internal static CompilationDocumentationInfo CreateFromTrustedPlatformAssemblies(string[] assemblyNames)
+        {
+            ImmutableDictionary<string, string> paths = AppContext
+                .GetData("TRUSTED_PLATFORM_ASSEMBLIES")
+                .ToString()
+                .Split(';')
+                .ToImmutableDictionary(Path.GetFileName, StringComparer.OrdinalIgnoreCase);
+
+            List<PortableExecutableReference> references = assemblyNames
+                .Select(f => MetadataReference.CreateFromFile(paths[f]))
+                .ToList();
+
+            IEnumerable<PortableExecutableReference> compilationReferences = paths
+                .Values
+                .Where(path => !references.Any(reference => reference.FilePath == path))
+                .Select(f => MetadataReference.CreateFromFile(f))
+                .Concat(references);
+
+            CSharpCompilation compilation = CSharpCompilation.Create(
+                "",
+                syntaxTrees: default(IEnumerable<SyntaxTree>),
+                references: compilationReferences,
+                options: default(CSharpCompilationOptions));
+
+            return new CompilationDocumentationInfo(
+                compilation,
+                references.Select(f => new AssemblyDocumentationInfo((IAssemblySymbol)compilation.GetAssemblyOrModuleSymbol(f), f)));
         }
     }
 }

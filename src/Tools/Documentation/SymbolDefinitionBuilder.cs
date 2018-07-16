@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
@@ -16,96 +15,32 @@ namespace Roslynator.Documentation
 
         public static ImmutableArray<SymbolDisplayPart> GetDisplayParts(
             ISymbol symbol,
-            SymbolDisplayFormat definitionFormat,
-            DocumentationOptions options)
+            SymbolDisplayFormat format,
+            bool formatBaseList = false,
+            bool formatConstraints = false)
         {
             ImmutableArray<SymbolDisplayPart> parts;
 
             if (symbol is INamedTypeSymbol typeSymbol)
             {
-                parts = typeSymbol.ToDisplayParts(definitionFormat, SymbolDisplayTypeDeclarationOptions.IncludeAccessibility | SymbolDisplayTypeDeclarationOptions.IncludeModifiers);
+                parts = typeSymbol.ToDisplayParts(format, SymbolDisplayTypeDeclarationOptions.IncludeAccessibility | SymbolDisplayTypeDeclarationOptions.IncludeModifiers);
             }
             else
             {
-                parts = symbol.ToDisplayParts(definitionFormat);
+                parts = symbol.ToDisplayParts(format);
                 typeSymbol = null;
             }
 
-            INamespaceSymbol containingNamespace = symbol.ContainingNamespace;
+            ImmutableArray<AttributeData> attributes = symbol.GetAttributes();
 
-            ImmutableArray<SymbolDisplayPart>.Builder builder = null;
-
-            AddAttributes();
+            bool hasAttributes = attributes.Any(f => !DocumentationUtility.ShouldBeExcluded(f.AttributeClass));
 
             int baseListCount = 0;
-            int constraintCount = parts.Count(f => f.IsKeyword("where"));
+            INamedTypeSymbol baseType = null;
+            ImmutableArray<INamedTypeSymbol> interfaces = default;
 
             if (typeSymbol != null)
-                AddBaseTypes();
-
-            if (constraintCount > 0)
             {
-                int j = 0;
-                while (j < parts.Length)
-                {
-                    if (parts[j].IsKeyword("where"))
-                        break;
-
-                    j++;
-                }
-
-                for (int i = parts.Length - 1; i >= j; i--)
-                {
-                    if (parts[i].IsKeyword("where"))
-                    {
-                        if (options.FormatConstraints
-                            && (baseListCount > 1 || constraintCount > 1))
-                        {
-                            parts = parts.InsertRange(i, SymbolDisplayPartFactory.LineBreakAndIndent);
-                        }
-                    }
-                    else if (parts[i].IsTypeName()
-                        && parts[i].Symbol is INamedTypeSymbol namedTypeSymbol)
-                    {
-                        parts = parts.RemoveAt(i);
-                        parts = parts.InsertRange(i, GetDisplayParts(namedTypeSymbol, containingNamespace));
-                    }
-                }
-            }
-
-            return parts;
-
-            void AddAttributes()
-            {
-                using (IEnumerator<AttributeData> en = symbol
-                    .GetAttributes()
-                    .Where(f => !DocumentationUtility.ShouldBeExcluded(f.AttributeClass)).GetEnumerator())
-                {
-                    if (en.MoveNext())
-                    {
-                        builder = ImmutableArray.CreateBuilder<SymbolDisplayPart>();
-
-                        do
-                        {
-                            builder.Add(SymbolDisplayPartFactory.Punctuation("["));
-
-                            AddDisplayParts(en.Current.AttributeClass, containingNamespace, builder);
-
-                            builder.Add(SymbolDisplayPartFactory.Punctuation("]"));
-                            builder.Add(SymbolDisplayPartFactory.LineBreak());
-                        }
-                        while (en.MoveNext());
-
-                        parts = parts.InsertRange(0, builder);
-                        builder.Clear();
-                    }
-                }
-            }
-
-            void AddBaseTypes()
-            {
-                INamedTypeSymbol baseType = null;
-
                 if (typeSymbol.TypeKind.Is(TypeKind.Class, TypeKind.Interface))
                 {
                     baseType = typeSymbol.BaseType;
@@ -114,7 +49,7 @@ namespace Roslynator.Documentation
                         baseType = null;
                 }
 
-                ImmutableArray<INamedTypeSymbol> interfaces = typeSymbol.Interfaces;
+                interfaces = typeSymbol.Interfaces;
 
                 if (interfaces.Any(f => f.OriginalDefinition.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T))
                     interfaces = interfaces.RemoveAll(f => f.SpecialType == SpecialType.System_Collections_IEnumerable);
@@ -123,104 +58,168 @@ namespace Roslynator.Documentation
 
                 if (baseType != null)
                     baseListCount++;
+            }
 
-                if (baseListCount > 0)
+            int constraintCount = 0;
+            int whereIndex = -1;
+
+            for (int i = 0; i < parts.Length; i++)
+            {
+                if (parts[i].IsKeyword("where"))
                 {
-                    if (builder == default)
-                        builder = ImmutableArray.CreateBuilder<SymbolDisplayPart>();
+                    if (whereIndex == -1)
+                        whereIndex = i;
 
-                    int index = -1;
+                    constraintCount++;
+                }
+            }
 
-                    for (int i = 0; i < parts.Length; i++)
-                    {
-                        if (parts[i].IsKeyword("where"))
-                        {
-                            builder.AddRange(parts, i);
-                            index = i;
+            if (!hasAttributes
+                && baseListCount == 0
+                && constraintCount == 0)
+            {
+                return parts;
+            }
 
-                            builder.AddPunctuation(":");
-                            builder.AddSpace();
-                            break;
-                        }
-                    }
+            INamespaceSymbol containingNamespace = symbol.ContainingNamespace;
 
-                    if (index == -1)
-                    {
-                        builder.AddRange(parts);
+            ImmutableArray<SymbolDisplayPart>.Builder builder = ImmutableArray.CreateBuilder<SymbolDisplayPart>(parts.Length);
 
-                        builder.AddSpace();
-                        builder.AddPunctuation(":");
-                        builder.AddSpace();
-                    }
+            foreach (AttributeData attribute in attributes)
+            {
+                if (DocumentationUtility.ShouldBeExcluded(attribute.AttributeClass))
+                    continue;
 
-                    if (baseType != null)
-                    {
-                        AddDisplayParts(baseType, containingNamespace, builder);
+                builder.AddPunctuation("[");
+                builder.AddDisplayParts(attribute.AttributeClass, containingNamespace);
+                builder.AddPunctuation("]");
+                builder.AddLineBreak();
+            }
 
-                        if (interfaces.Any())
-                        {
-                            builder.AddPunctuation(",");
+            if (baseListCount == 0
+                && constraintCount == 0)
+            {
+                builder.AddRange(parts);
+                return builder.ToImmutableArray();
+            }
 
-                            if (options.FormatBaseList)
-                            {
-                                builder.AddRange(SymbolDisplayPartFactory.LineBreakAndIndent);
-                            }
-                            else
-                            {
-                                builder.Add(SymbolDisplayPartFactory.Space());
-                            }
-                        }
-                    }
+            if (baseListCount > 0)
+            {
+                if (whereIndex != -1)
+                {
+                    builder.AddRange(parts, whereIndex);
+                }
+                else
+                {
+                    builder.AddRange(parts);
+                    builder.AddSpace();
+                }
+
+                builder.AddPunctuation(":");
+                builder.AddSpace();
+
+                if (baseType != null)
+                {
+                    builder.AddDisplayParts(baseType, containingNamespace);
 
                     if (interfaces.Any())
                     {
-                        ImmutableArray<(INamedTypeSymbol symbol, string displayString)> sortedInterfaces = SortInterfaces(interfaces.Select(f => ((f, GetDisplayParts(f, containingNamespace).ToDisplayString()))).ToImmutableArray());
+                        builder.AddPunctuation(",");
 
-                        AddDisplayParts(sortedInterfaces[0].symbol, containingNamespace, builder);
-
-                        for (int i = 1; i < sortedInterfaces.Length; i++)
+                        if (formatBaseList)
                         {
-                            builder.AddPunctuation(",");
-
-                            if (options.FormatBaseList)
-                            {
-                                builder.AddRange(SymbolDisplayPartFactory.LineBreakAndIndent);
-                            }
-                            else
-                            {
-                                builder.Add(SymbolDisplayPartFactory.Space());
-                            }
-
-                            AddDisplayParts(sortedInterfaces[i].symbol, containingNamespace, builder);
+                            builder.AddLineBreak();
+                            builder.AddIndentation();
+                        }
+                        else
+                        {
+                            builder.AddSpace();
                         }
                     }
+                }
 
-                    if (index != -1)
+                if (interfaces.Any())
+                {
+                    ImmutableArray<(INamedTypeSymbol symbol, string displayString)> sortedInterfaces = SortInterfaces(interfaces.Select(f => ((f, GetDisplayParts(f, containingNamespace).ToDisplayString()))).ToImmutableArray());
+
+                    builder.AddDisplayParts(sortedInterfaces[0].symbol, containingNamespace);
+
+                    for (int i = 1; i < sortedInterfaces.Length; i++)
                     {
-                        if (!options.FormatConstraints
-                            || (baseListCount == 1 && constraintCount == 1))
+                        builder.AddPunctuation(",");
+
+                        if (formatBaseList)
+                        {
+                            builder.AddLineBreak();
+                            builder.AddIndentation();
+                        }
+                        else
                         {
                             builder.AddSpace();
                         }
 
-                        builder.AddRange(parts.Skip(index));
+                        builder.AddDisplayParts(sortedInterfaces[i].symbol, containingNamespace);
                     }
+                }
 
-                    parts = builder.ToImmutableArray();
+                if (whereIndex != -1)
+                {
+                    if (!formatConstraints
+                        || (baseListCount == 1 && constraintCount == 1))
+                    {
+                        builder.AddSpace();
+                    }
                 }
             }
+            else if (whereIndex != -1)
+            {
+                builder.AddRange(parts, whereIndex);
+            }
+            else
+            {
+                builder.AddRange(parts);
+            }
+
+            if (whereIndex != -1)
+            {
+                for (int i = whereIndex; i < parts.Length; i++)
+                {
+                    if (parts[i].IsKeyword("where"))
+                    {
+                        if (formatConstraints
+                            && (baseListCount > 1 || constraintCount > 1))
+                        {
+                            builder.AddLineBreak();
+                            builder.AddIndentation();
+                        }
+
+                        builder.Add(parts[i]);
+                    }
+                    else if (parts[i].IsTypeName()
+                        && parts[i].Symbol is INamedTypeSymbol namedTypeSymbol)
+                    {
+                        builder.AddDisplayParts(namedTypeSymbol, containingNamespace);
+                    }
+                    else
+                    {
+                        builder.Add(parts[i]);
+                    }
+                }
+            }
+
+            return builder.ToImmutableArray();
         }
 
         private static ImmutableArray<SymbolDisplayPart> GetDisplayParts(INamedTypeSymbol symbol, INamespaceSymbol containingNamespace)
         {
             ImmutableArray<SymbolDisplayPart>.Builder builder = ImmutableArray.CreateBuilder<SymbolDisplayPart>();
 
-            AddDisplayParts(symbol, containingNamespace, builder);
+            builder.AddDisplayParts(symbol, containingNamespace);
 
             return builder.ToImmutableArray();
         }
 
-        private static void AddDisplayParts(INamedTypeSymbol symbol, INamespaceSymbol containingNamespace, ImmutableArray<SymbolDisplayPart>.Builder builder)
+        private static void AddDisplayParts(this ImmutableArray<SymbolDisplayPart>.Builder builder, INamedTypeSymbol symbol, INamespaceSymbol containingNamespace)
         {
             if (symbol.ContainingNamespace == containingNamespace)
             {
@@ -243,7 +242,7 @@ namespace Roslynator.Documentation
                 {
                     if (en.Current.Kind == SymbolKind.NamedType)
                     {
-                        AddDisplayParts((INamedTypeSymbol)en.Current, containingNamespace, builder);
+                        builder.AddDisplayParts((INamedTypeSymbol)en.Current, containingNamespace);
                     }
                     else
                     {
@@ -295,6 +294,16 @@ namespace Roslynator.Documentation
         private static void AddSpace(this ImmutableArray<SymbolDisplayPart>.Builder builder)
         {
             builder.Add(SymbolDisplayPartFactory.Space());
+        }
+
+        private static void AddIndentation(this ImmutableArray<SymbolDisplayPart>.Builder builder)
+        {
+            builder.Add(SymbolDisplayPartFactory.Indentation());
+        }
+
+        private static void AddLineBreak(this ImmutableArray<SymbolDisplayPart>.Builder builder)
+        {
+            builder.Add(SymbolDisplayPartFactory.LineBreak());
         }
 
         private static void AddPunctuation(this ImmutableArray<SymbolDisplayPart>.Builder builder, string text)

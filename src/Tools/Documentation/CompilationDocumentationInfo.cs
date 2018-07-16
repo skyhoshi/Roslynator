@@ -2,10 +2,8 @@
 
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 
 namespace Roslynator.Documentation
 {
@@ -80,29 +78,6 @@ namespace Roslynator.Documentation
 
                 return _extensionMethodSymbols;
             }
-        }
-
-        internal static CompilationDocumentationInfo CreateFromTrustedPlatformAssemblies(string[] assemblyNames)
-        {
-            List<PortableExecutableReference> references = assemblyNames
-                .Select(f => MetadataReference.CreateFromFile(TrustedPlatformAssemblies.Paths[f]))
-                .ToList();
-
-            IEnumerable<PortableExecutableReference> compilationReferences = TrustedPlatformAssemblies.Paths
-                .Values
-                .Where(path => !references.Any(reference => reference.FilePath == path))
-                .Select(f => MetadataReference.CreateFromFile(f))
-                .Concat(references);
-
-            CSharpCompilation compilation = CSharpCompilation.Create(
-                "",
-                syntaxTrees: default(IEnumerable<SyntaxTree>),
-                references: compilationReferences,
-                options: default(CSharpCompilationOptions));
-
-            return new CompilationDocumentationInfo(
-                compilation,
-                references.Select(f => new AssemblyDocumentationInfo((IAssemblySymbol)compilation.GetAssemblyOrModuleSymbol(f), f)));
         }
 
         public IEnumerable<INamedTypeSymbol> GetTypes(INamespaceSymbol namespaceSymbol)
@@ -238,19 +213,6 @@ namespace Roslynator.Documentation
             if (!_xmlDocumentations.TryGetValue(assemblySymbol, out XmlDocumentation xmlDocumentation))
             {
                 //TODO: find xml documentation file for an assembly
-
-                string assemblyFileName = assemblySymbol.Name + ".dll";
-
-                if (TrustedPlatformAssemblies.Paths.TryGetValue(assemblyFileName, out string path))
-                {
-                    string xmlDocPath = Path.ChangeExtension(path, "xml");
-
-                    if (File.Exists(xmlDocPath))
-                    {
-                        xmlDocumentation = XmlDocumentation.Load(xmlDocPath);
-                        _xmlDocumentations[assemblySymbol] = xmlDocumentation;
-                    }
-                }
             }
 
             return xmlDocumentation;

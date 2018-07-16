@@ -8,8 +8,6 @@ namespace Roslynator.Documentation
 {
     internal static class SymbolDisplayPartFactory
     {
-        public static ImmutableArray<SymbolDisplayPart> LineBreakAndIndent { get; } = ImmutableArray.Create(LineBreak(), Space("    "));
-
         public static SymbolDisplayPart Text(string text)
         {
             return new SymbolDisplayPart(SymbolDisplayPartKind.Text, null, text);
@@ -28,6 +26,11 @@ namespace Roslynator.Documentation
         public static SymbolDisplayPart Space(string text = " ")
         {
             return new SymbolDisplayPart(SymbolDisplayPartKind.Space, null, text);
+        }
+
+        public static SymbolDisplayPart Indentation(string text = "    ")
+        {
+            return Space(text);
         }
 
         public static SymbolDisplayPart LineBreak()

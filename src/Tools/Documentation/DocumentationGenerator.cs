@@ -59,7 +59,7 @@ namespace Roslynator.Documentation
         public IEnumerable<DocumentationFile> GenerateFiles(
             string heading = null,
             string objectModelHeading = null,
-            string extendedTypesHeading = null)
+            string extendedExternalTypesHeading = null)
         {
             DocumentationParts parts = Options.Parts;
 
@@ -76,7 +76,7 @@ namespace Roslynator.Documentation
 
             if ((parts & DocumentationParts.ExtendedExternalTypes) != 0)
             {
-                extendedTypesFile = GenerateExtendedExternalTypesFile(extendedTypesHeading ?? Resources.ExtendedExternalTypesTitle);
+                extendedTypesFile = GenerateExtendedExternalTypesFile(extendedExternalTypesHeading ?? Resources.ExtendedExternalTypesTitle);
 
                 if (!extendedTypesFile.HasContent)
                     parts &= ~DocumentationParts.ExtendedExternalTypes;

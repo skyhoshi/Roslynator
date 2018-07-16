@@ -335,7 +335,8 @@ namespace Roslynator.Documentation
             ImmutableArray<SymbolDisplayPart> parts = SymbolDefinitionBuilder.GetDisplayParts(
                 symbol,
                 FormatProvider.DefinitionFormat,
-                Options);
+                Options.FormatBaseList,
+                Options.FormatConstraints);
 
             WriteCodeBlock(parts.ToDisplayString(), GetLanguageIdentifier(symbol.Language));
         }
