@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 
@@ -10,12 +11,11 @@ namespace Roslynator.Documentation
     public class CompilationDocumentationInfo
     {
         private ImmutableArray<INamedTypeSymbol> _typeSymbols;
-        private ImmutableArray<IMethodSymbol> _extensionMethodSymbols;
 
         private readonly Dictionary<ISymbol, SymbolDocumentationInfo> _symbolDocumentationInfos;
         private Dictionary<IAssemblySymbol, XmlDocumentation> _xmlDocumentations;
 
-        public CompilationDocumentationInfo(Compilation compilation, IEnumerable<AssemblyDocumentationInfo> assemblies)
+        public CompilationDocumentationInfo(Compilation compilation, IEnumerable<IAssemblySymbol> assemblies)
         {
             Compilation = compilation;
             Assemblies = ImmutableArray.CreateRange(assemblies);
@@ -25,12 +25,7 @@ namespace Roslynator.Documentation
 
         public Compilation Compilation { get; }
 
-        public ImmutableArray<AssemblyDocumentationInfo> Assemblies { get; }
-
-        public virtual bool IsVisible(ISymbol symbol)
-        {
-            return symbol.IsPubliclyVisible();
-        }
+        public ImmutableArray<IAssemblySymbol> Assemblies { get; }
 
         public IEnumerable<INamespaceSymbol> Namespaces
         {
@@ -49,7 +44,7 @@ namespace Roslynator.Documentation
                 if (_typeSymbols.IsDefault)
                 {
                     _typeSymbols = Assemblies
-                        .SelectMany(f => f.AssemblySymbol.GetTypes(typeSymbol => IsVisible(typeSymbol)))
+                        .SelectMany(f => f.GetTypes(typeSymbol => IsVisible(typeSymbol)))
                         .ToImmutableArray();
                 }
 
@@ -57,26 +52,32 @@ namespace Roslynator.Documentation
             }
         }
 
-        public ImmutableArray<IMethodSymbol> ExtensionMethods
+        public virtual bool IsVisible(ISymbol symbol)
         {
-            get
-            {
-                if (_extensionMethodSymbols.IsDefault)
-                {
-                    _extensionMethodSymbols = Types
-                        .Where(f => f.TypeKind == TypeKind.Class
-                            && f.IsStatic
-                            && f.ContainingType == null)
-                        .SelectMany(f => f.GetMembers())
-                        .Where(f => f.Kind == SymbolKind.Method
-                            && f.IsStatic
-                            && IsVisible(f))
-                        .Cast<IMethodSymbol>()
-                        .Where(f => f.IsExtensionMethod)
-                        .ToImmutableArray();
-                }
+            return symbol.IsPubliclyVisible();
+        }
 
-                return _extensionMethodSymbols;
+        public IEnumerable<IMethodSymbol> GetExtensionMethods()
+        {
+            foreach (INamedTypeSymbol type in Types)
+            {
+                if (type.TypeKind == TypeKind.Class
+                    && type.IsStatic
+                    && type.ContainingType == null)
+                {
+                    foreach (ISymbol member in type.GetMembers())
+                    {
+                        if (member.Kind == SymbolKind.Method
+                            && member.IsStatic
+                            && IsVisible(member))
+                        {
+                            var methodSymbol = (IMethodSymbol)member;
+
+                            if (methodSymbol.IsExtensionMethod)
+                                yield return methodSymbol;
+                        }
+                    }
+                }
             }
         }
 
@@ -91,7 +92,7 @@ namespace Roslynator.Documentation
 
         public IEnumerable<IMethodSymbol> GetExtensionMethods(ITypeSymbol typeSymbol)
         {
-            foreach (IMethodSymbol methodSymbol in ExtensionMethods)
+            foreach (IMethodSymbol methodSymbol in GetExtensionMethods())
             {
                 ITypeSymbol typeSymbol2 = GetExtendedTypeSymbol(methodSymbol);
 
@@ -106,7 +107,7 @@ namespace Roslynator.Documentation
 
             IEnumerable<ITypeSymbol> Iterator()
             {
-                foreach (IMethodSymbol methodSymbol in ExtensionMethods)
+                foreach (IMethodSymbol methodSymbol in GetExtensionMethods())
                 {
                     ITypeSymbol typeSymbol = GetExternalSymbol(methodSymbol);
 
@@ -122,9 +123,9 @@ namespace Roslynator.Documentation
                 if (type == null)
                     return null;
 
-                foreach (AssemblyDocumentationInfo assemblyInfo in Assemblies)
+                foreach (IAssemblySymbol assembly in Assemblies)
                 {
-                    if (type.ContainingAssembly == assemblyInfo.AssemblySymbol)
+                    if (type.ContainingAssembly == assembly)
                         return null;
                 }
 
@@ -172,11 +173,11 @@ namespace Roslynator.Documentation
             }
         }
 
-        public bool IsExternalSymbol(ISymbol symbol)
+        public bool IsExternal(ISymbol symbol)
         {
-            foreach (AssemblyDocumentationInfo assemblyInfo in Assemblies)
+            foreach (IAssemblySymbol assembly in Assemblies)
             {
-                if (symbol.ContainingAssembly == assemblyInfo.AssemblySymbol)
+                if (symbol.ContainingAssembly == assembly)
                     return false;
             }
 
@@ -208,11 +209,21 @@ namespace Roslynator.Documentation
         internal XmlDocumentation GetXmlDocumentation(IAssemblySymbol assemblySymbol)
         {
             if (_xmlDocumentations == null)
-                _xmlDocumentations = Assemblies.ToDictionary(f => f.AssemblySymbol, f => f.GetXmlDocumentation());
+                _xmlDocumentations = new Dictionary<IAssemblySymbol, XmlDocumentation>();
 
             if (!_xmlDocumentations.TryGetValue(assemblySymbol, out XmlDocumentation xmlDocumentation))
             {
-                //TODO: find xml documentation file for an assembly
+                if (Assemblies.Contains(assemblySymbol))
+                {
+                    var reference = Compilation.GetMetadataReference(assemblySymbol) as PortableExecutableReference;
+
+                    string xmlDocPath = Path.ChangeExtension(reference.FilePath, "xml");
+
+                    if (File.Exists(xmlDocPath))
+                        xmlDocumentation = XmlDocumentation.Load(xmlDocPath);
+                }
+
+                _xmlDocumentations[assemblySymbol] = xmlDocumentation;
             }
 
             return xmlDocumentation;

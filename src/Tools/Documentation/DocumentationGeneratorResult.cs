@@ -6,9 +6,9 @@ using System.Diagnostics;
 namespace Roslynator.Documentation
 {
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
-    public readonly struct DocumentationFile : IEquatable<DocumentationFile>
+    public readonly struct DocumentationGeneratorResult : IEquatable<DocumentationGeneratorResult>
     {
-        public DocumentationFile(string content, string path, DocumentationKind kind)
+        public DocumentationGeneratorResult(string content, string path, DocumentationKind kind)
         {
             Content = content;
             Path = path;
@@ -32,17 +32,17 @@ namespace Roslynator.Documentation
             get { return $"{Kind} {Path} {Content}"; }
         }
 
-        internal static DocumentationFile Create(DocumentationWriter writer, DocumentationUriProvider uriProvider, DocumentationKind kind, SymbolDocumentationInfo symbolInfo = null)
+        internal static DocumentationGeneratorResult Create(DocumentationWriter writer, DocumentationUriProvider uriProvider, DocumentationKind kind, SymbolDocumentationInfo symbolInfo = null)
         {
-            return new DocumentationFile(writer.ToString(), uriProvider.GetFilePath(kind, symbolInfo), kind);
+            return new DocumentationGeneratorResult(writer.ToString(), uriProvider.GetFilePath(kind, symbolInfo), kind);
         }
 
         public override bool Equals(object obj)
         {
-            return obj is DocumentationFile other && Equals(other);
+            return obj is DocumentationGeneratorResult other && Equals(other);
         }
 
-        public bool Equals(DocumentationFile other)
+        public bool Equals(DocumentationGeneratorResult other)
         {
             return Kind == other.Kind
                 && Path == other.Path
@@ -55,12 +55,12 @@ namespace Roslynator.Documentation
                 Hash.Combine(StringComparer.OrdinalIgnoreCase.GetHashCode(Path), (int)Kind));
         }
 
-        public static bool operator ==(in DocumentationFile file1, in DocumentationFile file2)
+        public static bool operator ==(in DocumentationGeneratorResult file1, in DocumentationGeneratorResult file2)
         {
             return file1.Equals(file2);
         }
 
-        public static bool operator !=(in DocumentationFile file1, in DocumentationFile file2)
+        public static bool operator !=(in DocumentationGeneratorResult file1, in DocumentationGeneratorResult file2)
         {
             return !(file1 == file2);
         }

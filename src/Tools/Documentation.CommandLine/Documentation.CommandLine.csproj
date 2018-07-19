@@ -6,7 +6,7 @@
       Lines="@(_ResolveAssemblyReferenceResolvedFiles)"  
       Overwrite="true"  
       Encoding="Unicode"/>  
-    <Exec Command="dotnet &quot;$(OutDir)Roslynator.Documentation.CommandLine.dll&quot; --assemblyReferencesPath &quot;$(OutDir)$(TargetName).assemblyreferences.txt&quot; --assemblyNames &quot;Roslynator.Documentation.DocumentationTest.dll&quot; --outputDirectory &quot;$(OutDir)api&quot; --heading &quot;Test API&quot; --environment github --documentationParts namespace type member" LogStandardErrorAsError="true" ConsoleToMSBuild="true">
+    <Exec Command="dotnet &quot;$(OutDir)Roslynator.Documentation.CommandLine.dll&quot; --assemblyReferences &quot;$(OutDir)$(TargetName).assemblyreferences.txt&quot; --assemblies &quot;Roslynator.Documentation.DocumentationTest&quot; --outputDirectory &quot;$(OutDir)api&quot; --heading &quot;Test API&quot; --environment github --documentationParts namespace type member" LogStandardErrorAsError="true" ConsoleToMSBuild="true">
       <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
     </Exec>
   </Target>

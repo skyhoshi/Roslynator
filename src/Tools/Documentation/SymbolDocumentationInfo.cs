@@ -42,7 +42,7 @@ namespace Roslynator.Documentation
 
         public bool IsExternal
         {
-            get { return CompilationInfo.IsExternalSymbol(Symbol); }
+            get { return CompilationInfo.IsExternal(Symbol); }
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

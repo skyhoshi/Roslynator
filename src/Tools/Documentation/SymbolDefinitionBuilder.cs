@@ -16,6 +16,7 @@ namespace Roslynator.Documentation
         public static ImmutableArray<SymbolDisplayPart> GetDisplayParts(
             ISymbol symbol,
             SymbolDisplayFormat format,
+            Func<INamedTypeSymbol, bool> attributePredicate,
             bool formatBaseList = false,
             bool formatConstraints = false)
         {
@@ -33,7 +34,7 @@ namespace Roslynator.Documentation
 
             ImmutableArray<AttributeData> attributes = symbol.GetAttributes();
 
-            bool hasAttributes = attributes.Any(f => !DocumentationUtility.ShouldBeExcluded(f.AttributeClass));
+            bool hasAttributes = attributes.Any(f => !attributePredicate(f.AttributeClass));
 
             int baseListCount = 0;
             INamedTypeSymbol baseType = null;
@@ -87,7 +88,7 @@ namespace Roslynator.Documentation
 
             foreach (AttributeData attribute in attributes)
             {
-                if (DocumentationUtility.ShouldBeExcluded(attribute.AttributeClass))
+                if (attributePredicate(attribute.AttributeClass))
                     continue;
 
                 builder.AddPunctuation("[");

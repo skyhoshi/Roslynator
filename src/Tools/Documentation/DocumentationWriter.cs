@@ -335,6 +335,7 @@ namespace Roslynator.Documentation
             ImmutableArray<SymbolDisplayPart> parts = SymbolDefinitionBuilder.GetDisplayParts(
                 symbol,
                 FormatProvider.DefinitionFormat,
+                ShouldBeHidden,
                 Options.FormatBaseList,
                 Options.FormatConstraints);
 
@@ -510,7 +511,7 @@ namespace Roslynator.Documentation
                 return;
 
             IEnumerable<(ISymbol symbol, INamedTypeSymbol attributeSymbol)> symbolsAttributes = attributes
-                .Where(f => !DocumentationUtility.ShouldBeExcluded(f.AttributeClass))
+                .Where(f => !ShouldBeHidden(f.AttributeClass))
                 .Select(f => ((symbol, attributeClass: f.AttributeClass)));
 
             if (symbol is ITypeSymbol typeSymbol)
@@ -580,7 +581,7 @@ namespace Roslynator.Documentation
                             }
                         }
 
-                        if (DocumentationUtility.ShouldBeExcluded(attribute.AttributeClass))
+                        if (ShouldBeHidden(attribute.AttributeClass))
                             continue;
 
                         if (AttributesContains(attribute))
@@ -684,7 +685,10 @@ namespace Roslynator.Documentation
                 allInterfaces = allInterfaces.RemoveAll(f => f.SpecialType == SpecialType.System_Collections_IEnumerable);
             }
 
-            allInterfaces = DocumentationUtility.SortInterfaces(allInterfaces, FormatProvider.ImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
+            const SymbolDisplayAdditionalOptions additionalOptions = SymbolDisplayAdditionalOptions.UseItemProperty;
+            SymbolDisplayFormat format = FormatProvider.ImplementsFormat;
+
+            allInterfaces = SortInterfaces(allInterfaces);
 
             ImmutableArray<INamedTypeSymbol>.Enumerator en = allInterfaces.GetEnumerator();
 
@@ -696,11 +700,35 @@ namespace Roslynator.Documentation
 
                 do
                 {
-                    WriteBulletItemLink(en.Current, FormatProvider.ImplementsFormat, SymbolDisplayAdditionalOptions.UseItemProperty);
+                    WriteBulletItemLink(en.Current, format, additionalOptions);
                 }
                 while (en.MoveNext());
 
                 WriteEndBulletList();
+            }
+
+            ImmutableArray<INamedTypeSymbol> SortInterfaces(ImmutableArray<INamedTypeSymbol> interfaces)
+            {
+                return interfaces.Sort((x, y) =>
+                {
+                    if (x.InheritsFrom(y.OriginalDefinition, includeInterfaces: true))
+                        return -1;
+
+                    if (y.InheritsFrom(x.OriginalDefinition, includeInterfaces: true))
+                        return 1;
+
+                    if (interfaces.Any(f => x.InheritsFrom(f.OriginalDefinition, includeInterfaces: true)))
+                    {
+                        if (!interfaces.Any(f => y.InheritsFrom(f.OriginalDefinition, includeInterfaces: true)))
+                            return -1;
+                    }
+                    else if (interfaces.Any(f => y.InheritsFrom(f.OriginalDefinition, includeInterfaces: true)))
+                    {
+                        return 1;
+                    }
+
+                    return string.Compare(x.ToDisplayString(format, additionalOptions), y.ToDisplayString(format, additionalOptions), StringComparison.Ordinal);
+                });
             }
         }
 
@@ -1147,6 +1175,43 @@ namespace Roslynator.Documentation
             }
 
             return UriProvider.GetLocalUrl(symbolInfo, directoryInfo).Url;
+        }
+
+        public virtual bool ShouldBeHidden(ISymbol symbol)
+        {
+            switch (symbol.MetadataName)
+            {
+                case "ConditionalAttribute":
+                case "DebuggerBrowsableAttribute":
+                case "DebuggerDisplayAttribute":
+                case "DebuggerHiddenAttribute":
+                case "DebuggerNonUserCodeAttribute":
+                case "DebuggerStepperBoundaryAttribute":
+                case "DebuggerStepThroughAttribute":
+                case "DebuggerTypeProxyAttribute":
+                case "DebuggerVisualizerAttribute":
+                    return symbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Diagnostics);
+                case "SuppressMessageAttribute":
+                    return symbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Diagnostics_CodeAnalysis);
+                case "DefaultMemberAttribute":
+                    return symbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Reflection);
+                case "AsyncStateMachineAttribute":
+                case "IteratorStateMachineAttribute":
+                case "MethodImplAttribute":
+                case "TypeForwardedFromAttribute":
+                case "TypeForwardedToAttribute":
+                    return symbol.ContainingNamespace.HasMetadataName(MetadataNames.System_Runtime_CompilerServices);
+#if DEBUG
+                case "CLSCompliantAttribute":
+                case "FlagsAttribute":
+                case "AttributeUsageAttribute":
+                case "ObsoleteAttribute":
+                    return false;
+#endif
+            }
+
+            Debug.Fail(symbol.ToDisplayString());
+            return false;
         }
 
         public void Dispose()

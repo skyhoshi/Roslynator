@@ -36,7 +36,7 @@ namespace Roslynator.Documentation
 
             var generator = new MarkdownDocumentationGenerator(compilationInfo, DocumentationUriProvider.GitHub, options);
 
-            foreach (DocumentationFile documentationFile in generator.GenerateFiles(
+            foreach (DocumentationGeneratorResult documentationFile in generator.Generate(
                 heading,
                 objectModelHeading: heading + " Object Model",
                 extendedExternalTypesHeading: "External Types Extended by " + heading))
@@ -75,7 +75,7 @@ namespace Roslynator.Documentation
 
             return new CompilationDocumentationInfo(
                 compilation,
-                references.Select(f => new AssemblyDocumentationInfo((IAssemblySymbol)compilation.GetAssemblyOrModuleSymbol(f), f)));
+                references.Select(f => (IAssemblySymbol)compilation.GetAssemblyOrModuleSymbol(f)));
         }
     }
 }

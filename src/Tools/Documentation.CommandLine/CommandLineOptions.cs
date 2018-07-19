@@ -7,11 +7,11 @@ namespace Roslynator.Documentation
 {
     public class CommandLineOptions
     {
-        [Option(longName: "assemblyReferencesPath", Required = true)]
-        public string AssemblyReferencesPath { get; set; }
+        [Option(longName: "assemblyReferences", Required = true)]
+        public string AssemblyReferences { get; set; }
 
-        [Option(longName: "assemblyNames", Separator = ';', Required = true)]
-        public IEnumerable<string> AssemblyNames { get; set; }
+        [Option(longName: "assemblies", Separator = ';', Required = true)]
+        public IEnumerable<string> Assemblies { get; set; }
 
         [Option(longName: "outputDirectory", Required = true)]
         public string OutputDirectory { get; set; }
@@ -25,6 +25,15 @@ namespace Roslynator.Documentation
         [Option(longName: "documentationParts")]
         public IEnumerable<string> DocumentationParts { get; set; }
 
+        [Option(longName: "namespaceParts")]
+        public IEnumerable<string> NamespaceParts { get; set; }
+
+        [Option(longName: "typeParts")]
+        public IEnumerable<string> TypeParts { get; set; }
+
+        [Option(longName: "memberParts")]
+        public IEnumerable<string> MemberParts { get; set; }
+
         [Option(longName: "objectModelHeading")]
         public string ObjectModelHeading { get; set; }
 
@@ -36,5 +45,8 @@ namespace Roslynator.Documentation
 
         [Option(longName: "formatConstraints")]
         public bool FormatConstraints { get; set; }
+
+        [Option(longName: "maxDerivedItems", Default = -1)]
+        public int MaxDerivedItems { get; set; }
     }
 }
