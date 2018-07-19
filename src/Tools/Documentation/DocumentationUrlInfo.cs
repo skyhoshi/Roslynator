@@ -23,8 +23,8 @@ namespace Roslynator.Documentation
 
         public bool Equals(DocumentationUrlInfo other)
         {
-            return Url == other.Url
-                && Kind == other.Kind;
+            return Kind == other.Kind
+                && Url == other.Url;
         }
 
         public override int GetHashCode()
